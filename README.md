@@ -25,7 +25,7 @@ A comprehensive, interactive single-page guide that documents best practices for
 Open the latest version directly in a browser:
 
 ```bash
-open "fsad-playbook - v7.html"
+open "fsad-playbook.html"
 ```
 
 Or serve locally for development:
@@ -40,7 +40,7 @@ python -m http.server 8000
 |-------|-------|
 | **Current version** | v7 |
 | **Date updated** | 2026-03-16 |
-| **File** | `fsad-playbook - v7.html` |
+| **File** | `fsad-playbook.html` |
 
 ---
 
