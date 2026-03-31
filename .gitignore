@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
+.planning/
+.remember/
+
+# Worktrees
+.worktrees/
+
+# Cleanup tracking
+delete.md

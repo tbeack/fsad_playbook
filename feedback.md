@@ -1,0 +1,11 @@
+# FSAD Playbook — Feedback
+
+## JZ — 2026-03-12
+
+### Task Tracking in Multi-Engineer Scenarios
+
+Dejan and I were discussing the "parallel task execution" and "task tracking" aspects of this new workflow. Theo currently suggests using a single markdown file for tracking tasks and task progress; we also saw him manage work this way in his live demo. I think this can work if a single engineer is managing the entire process; however, this may run into issues in the multi-engineer scenario. The reason is that each parallel git workflow could have a different state of the local markdown file. A solution exists with MCP; the developer agents could create/update tasks in Jira to track their progress. The status values that any agent sees in Jira are not dependent on the state of a local markdown file that may vary among parallel git workflows. Another benefit is that the humans managing the project can see updates in real time, using the existing project management and summarization functionality already present in Jira.
+
+### Outcomes Mindset vs. Outputs Mindset
+
+Pre-LLMs, the ideal version of agile already existed. The agile manifesto was always based on collaborative design rather than high-friction handoffs. The main issue is that it depends on mindset. As a positive internal example, we see collaboration fluidity happen often between Mihajlo (PM) and Yogesh (dev). Yogesh has invested in learning the business logic, and so the two of them can have productive front-loaded clarification sessions. However, not all teams do this. Often times, perhaps due to disinterest in the business domain or an overemphasis on the technical domain, developers tend to receive discrete tasks focused on system behavior. This leads to developers being oriented around receiving tasks to generate "outputs" rather than discussing problems to generate "outcomes". Overall, the spirit of agile does not require Theo's process overhaul. Teams with an "outcomes mindset" tend to be collaborative and productive, whereas teams with an "outputs mindset" tend to have handoff friction. Introducing a new process or a new technology will not fix a bad mindset. Therefore, the composition of that 2-4 person team is critically important.
