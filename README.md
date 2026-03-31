@@ -9,7 +9,7 @@ A comprehensive, interactive single-page guide that documents best practices for
 - **Claude Best Practices** — getting started guides, project anatomy, CLAUDE.md configuration, integrations (MCP), code review agents, custom skills, cheat sheet, and power usage
 - **Codex Best Practices** — equivalent coverage for OpenAI's Codex CLI: AGENTS.md setup, TOML-based MCP config, approval modes, sandbox security, multi-agent workflows, and more
 - **KPIs to Measure Impact** — metrics framework for measuring FSAD adoption, productivity, and ROI
-- **Interactive UI** — 5-page navigation, collapsible sections, searchable content, code blocks with copy buttons, and a dark premium theme
+- **Interactive UI** — 5-page navigation, collapsible sections, searchable content, code blocks with copy buttons, dark/light/auto theme toggle
 
 ## Tech Stack
 
@@ -38,13 +38,24 @@ python -m http.server 8000
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v7 |
-| **Date updated** | 2026-03-16 |
+| **Current version** | v8 |
+| **Date updated** | 2026-03-31 |
 | **File** | `fsad-playbook.html` |
 
 ---
 
 ## Changes in This Version
+
+### v8 — 2026-03-31
+
+**Light mode + auto theme detection (CBP-007)**
+- Added full light mode theme with darker/more saturated purple accents for contrast on white backgrounds
+- Auto-detects OS preference via `prefers-color-scheme` media query — no manual setup needed
+- Theme toggle button (top-right) cycles Auto → Light → Dark with sun/moon/auto icons
+- User preference persists in `localStorage` across sessions; auto mode follows OS changes
+- Extracted ~70 hardcoded rgba/hex color values into named CSS variables for full theme support
+- Light mode palette: white/light gray backgrounds, dark text, deeper purple (#5b3fd4) accents
+- All 5 pages, search overlay, collapsibles, code blocks, tables, and pod explorer are themed
 
 ### v7 — 2026-03-16
 

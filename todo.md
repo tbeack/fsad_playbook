@@ -8,6 +8,7 @@
   - [ ] `CBP-005a` Task tracking: discuss Jira MCP as alternative to local markdown for multi-engineer scenarios
   - [ ] `CBP-005b` Outcomes vs. outputs mindset: add framing that FSAD amplifies good team culture but doesn't fix bad mindset; pod composition matters
 - [x] `CBP-006` Bug: Left sidebar nav doesn't follow scroll on Best Practices page
+- [ ] `CBP-007` Add light mode theme and auto mode detection (respect `prefers-color-scheme`)
 
 ## Bug Details: CBP-006
 
