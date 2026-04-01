@@ -15,7 +15,7 @@ A comprehensive, interactive single-page guide that documents best practices for
 
 - HTML5 single-page application
 - Inter + IBM Plex Mono fonts
-- Custom CSS (dark theme, purple/violet accent palette)
+- Custom CSS (dark/light/auto theme, purple/violet accent palette, CSS custom properties)
 - Mermaid.js for flowcharts and diagrams
 - Highlight.js for code syntax highlighting
 - Vanilla JavaScript (no framework)

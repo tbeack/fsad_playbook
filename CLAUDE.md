@@ -2,47 +2,55 @@
 
 ## Project Overview
 
-FSAD Playbook — a single-file interactive HTML guide documenting Full Stack Agentic Development best practices. Shared with engineering teams to accelerate Claude Code adoption.
+FSAD Playbook — a single-file interactive HTML guide documenting Full Stack Agentic Development best practices. Shared with engineering teams to accelerate Claude Code and Codex CLI adoption.
 
 ## Tech Stack
 
-- **HTML5** — Single-file application (`fsad-playbook - v6.html`)
-- **Custom CSS** — Dark theme, purple/violet accent palette, Inter + IBM Plex Mono fonts
+- **HTML5** — Single-file application (`fsad-playbook.html`)
+- **Custom CSS** — Dark/light theme with purple/violet accent palette, Inter + IBM Plex Mono fonts
+- **CSS Variables** — Full theming via `:root` custom properties with `prefers-color-scheme` auto-detection
 - **Mermaid.js** — Flowcharts and diagrams
 - **Highlight.js** — Code syntax highlighting
-- **Vanilla JavaScript** — Navigation, search, collapsibles, scroll spy (no framework)
+- **Vanilla JavaScript** — Navigation, search, collapsibles, scroll spy, theme toggle (no framework)
 
 ## Project Structure
 
 ```
-/claude_best_practices
-├── fsad-playbook - v6.html   # Current version (single self-contained file)
-├── fsad-playbook - v5.html   # Previous version (backup)
+/fsad_playbook
+├── fsad-playbook.html        # Current version (v8, single self-contained file)
 ├── CLAUDE.md                 # This file
+├── README.md                 # Project readme with version history
+├── .gitignore                # Git config
+├── LICENSE                   # Project license
 ├── todo.md                   # Task tracking with CBP-### identifiers
-├── task-cbp-###.md           # Detailed plans for specific tasks
 ├── feedback.md               # Stakeholder feedback (JZ, etc.)
-├── example_claude.md         # Example CLAUDE.md for embedding in the app
-├── README.md                 # Project readme
-├── dist/bundle.html          # Legacy bundled output
-├── sections/                 # Legacy modular sections (not actively used)
-├── components/               # Legacy header, nav, footer (not actively used)
-├── css/styles.css            # Legacy shared styles
-└── js/app.js                 # Legacy shared JS
+├── example_claude.md         # Example CLAUDE.md embedded in the app
+├── delete.md                 # Cleanup tracking (gitignored)
+├── markdown/                 # Local reference docs (gitignored)
+│   ├── design/               # Design plans, UX reviews, specs
+│   ├── research/             # Research notes
+│   └── to do/                # Completed task plans
+├── .claude/                  # Claude Code config (gitignored)
+├── .planning/                # GSD planning state (gitignored)
+├── .remember/                # Session memory (gitignored)
+└── .worktrees/               # Git worktrees (gitignored)
 ```
 
-## App Architecture (v6)
+## App Architecture (v8)
 
-The app has **3 pages** toggled via `display: none/block`:
+The app has **5 pages** toggled via `display: none/block`:
 - **FSAD** (`page-fsad`) — Methodology overview, workflow, comparisons
 - **Pod Compositions** (`page-pods`) — Team structures, pod explorer, anti-patterns
-- **Best Practices** (`page-practices`) — Getting started, project anatomy, integrations, skills, guidelines, cheat sheet
+- **Claude Best Practices** (`page-practices`) — Getting started, project anatomy, integrations, skills, guidelines, cheat sheet
+- **Codex Best Practices** (`page-codex`) — Equivalent coverage for OpenAI's Codex CLI
+- **KPIs to Measure Impact** (`page-kpis`) — Metrics framework for measuring FSAD adoption
 
 Key JS systems:
 - **Router** — Hash-based (`#page/section`), `switchPage()` handles page transitions
 - **Scroll Spy** — `IntersectionObserver` (`sectionObserver`) updates sidebar + indicator pills
 - **Search** — Full-text search overlay with keyboard navigation
 - **Collapsibles** — CSS grid animation with `visibility` toggle
+- **Theme Toggle** — Cycles auto/light/dark, persists in `localStorage`, respects `prefers-color-scheme`
 
 ## Task Management
 
@@ -51,7 +59,7 @@ Detailed plans go in separate `task-cbp-###.md` files linked from `todo.md`.
 
 When picking up a task:
 1. Read `todo.md` to identify the next open item
-2. Read its `task-cbp-###.md` plan if one exists
+2. Read its task plan if one exists
 3. Implement following the plan
 4. Mark complete in `todo.md`
 5. Update `README.md` with what changed
@@ -60,19 +68,16 @@ When picking up a task:
 
 ```bash
 # Open the current version
-open "fsad-playbook - v6.html"
+open "fsad-playbook.html"
 ```
 
-All edits happen directly in `fsad-playbook - v6.html`. When making a new version:
-1. Copy current file to `fsad-playbook - v7.html` (or next version)
-2. Make changes in the new file
-3. Update `README.md` version table
+All edits happen directly in `fsad-playbook.html`. The file is versioned internally (title tag) and tracked in `README.md`.
 
-## Research → Plan → Implement
+## Research > Plan > Implement
 
 **Never jump straight to coding.** Always:
 1. **Research** — Explore the file, understand existing patterns and styles
-2. **Plan** — Write a task plan (`task-cbp-###.md`) and verify with the user
+2. **Plan** — Write a task plan and verify with the user
 3. **Implement** — Execute the plan, then verify in browser
 
 ## Working Together
