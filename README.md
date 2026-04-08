@@ -38,13 +38,24 @@ python -m http.server 8000
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v8 |
+| **Current version** | v9 |
 | **Date updated** | 2026-04-08 |
 | **File** | `fsad-playbook.html` |
 
 ---
 
 ## Changes in This Version
+
+### v9 — 2026-04-08
+
+**Config Cascade sub-section (CBP-011)**
+- Added new section "09.5 — The Claude Configuration Cascade" to Claude Best Practices, directly after Project Anatomy
+- Covers project `.claude/` layer (CLAUDE.md, settings.json, rules/, commands/, skills/, agents/) and user `~/.claude/` layer (global CLAUDE.md, auto-memory, personal commands/skills)
+- Explains cascading rules, precedence order (system → user → project), and path-scoped rules via the `paths:` field
+- Two file-tree examples: single-project layout and a generic multi-project org cascade (org → product → developer layers)
+- 8 team recommendations and 6 anti-patterns
+- Codex cross-reference callout linking to the Codex Best Practices page equivalent (`AGENTS.md`, `.rules/`, `.agents/skills/`)
+- Added sidebar nav entry and `sectionToPageMap` wiring to prevent CBP-009-class regressions
 
 ### v8 — 2026-04-08
 

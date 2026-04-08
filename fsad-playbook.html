@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v8)</title>
+<title>FSAD — Full Stack Agentic Development (v9)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -365,7 +365,7 @@
   }
   .sidebar-brand {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 1.44rem;
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -1518,7 +1518,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD</span>
+    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v9</span></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1575,6 +1575,7 @@
       <div class="nav-sub-items" data-group="practices">
         <a class="nav-sub-item" href="#practices/getting-started" onclick="scrollToSection('getting-started')">Getting Started</a>
         <a class="nav-sub-item" href="#practices/claude-setup" onclick="scrollToSection('claude-setup')">Project Anatomy</a>
+        <a class="nav-sub-item" href="#practices/config-cascade" onclick="scrollToSection('config-cascade')">Config Cascade</a>
         <a class="nav-sub-item" href="#practices/integrations" onclick="scrollToSection('integrations')">Integrations (MCP)</a>
         <a class="nav-sub-item" href="#practices/code-review" onclick="scrollToSection('code-review')">Code Review Agent</a>
         <a class="nav-sub-item" href="#practices/security-review" onclick="scrollToSection('security-review')">Security Review</a>
@@ -2518,6 +2519,220 @@ description: Structured code review with security and quality checks
 └── spec.md                      # Feature specification</code></pre>
     </div>
   </section>
+
+<hr class="divider">
+
+<section id="config-cascade">
+    <span class="section-label">09.5 — The Claude Configuration Cascade</span>
+    <h2 class="section-title">How Teams Structure <code>.claude/</code> Across Org, Project &amp; Developer Layers</h2>
+    <p class="section-subtitle">CLAUDE.md and <code>.claude/</code> aren't just one file in one folder — they cascade. Org-wide rules, project-specific context, and personal preferences compose automatically as Claude walks up the directory tree. Here's how to architect the layers so team-shared rules stay in git, personal preferences stay local, and nothing gets duplicated.</p>
+
+    <!-- Project layer -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:0.3rem;">The <code>.claude/</code> directory (project layer)</h3>
+    <p style="color:var(--text-muted); font-size:0.82rem; margin-bottom:1rem; font-family:var(--font-mono);">.claude/ at project root · committed to git · shared with team</p>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">The project-level <code>.claude/</code> folder is the control center for Claude Code. It defines instructions, custom commands, permission rules, and specialized agent behaviors for everyone working in the repo.</p>
+
+    <div class="card-grid" style="gap:1rem; margin-bottom:1.5rem;">
+      <div class="card">
+        <h3><code>CLAUDE.md</code></h3>
+        <p>Central instruction manual. Claude reads it at session start for project context, architecture, and coding standards.</p>
+      </div>
+      <div class="card">
+        <h3><code>settings.json</code></h3>
+        <p>Permission controls — which tools (bash, read, write) are allowed, which files or commands are denied, which MCP servers are available.</p>
+      </div>
+      <div class="card">
+        <h3><code>rules/</code></h3>
+        <p>Modular, markdown-based instructions. Rules without a <code>paths</code> field apply globally; others only when working in designated directories.</p>
+      </div>
+      <div class="card">
+        <h3><code>commands/</code></h3>
+        <p>Custom slash commands (e.g. <code>/project:review</code>). Each markdown file becomes a command, with shell support via the <code>!</code> prefix.</p>
+      </div>
+      <div class="card">
+        <h3><code>skills/</code></h3>
+        <p>Reusable, context-aware workflows. More advanced than commands — auto-invoked by Claude when relevant, not just triggered manually.</p>
+      </div>
+      <div class="card">
+        <h3><code>agents/</code></h3>
+        <p>Specialized subagents with defined personas and restricted tool access. Run risky tasks (reviews, audits) in isolated sessions.</p>
+      </div>
+    </div>
+
+    <!-- User layer -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:0.3rem;">The <code>~/.claude/</code> directory (user layer)</h3>
+    <p style="color:var(--text-muted); font-size:0.82rem; margin-bottom:1rem; font-family:var(--font-mono);">~/.claude/ · personal to each developer · never committed to git</p>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">The global folder holds personal preferences that apply across every project on your machine. It's yours alone — never mandate its contents across a team.</p>
+
+    <div class="card-grid" style="gap:1rem; margin-bottom:1.5rem;">
+      <div class="card">
+        <h3><code>~/.claude/CLAUDE.md</code></h3>
+        <p>Global coding preferences — "always use TypeScript", "prefer functional style", personal workflow quirks.</p>
+      </div>
+      <div class="card">
+        <h3><code>~/.claude/projects/</code></h3>
+        <p>Auto-memory store. Claude persists <code>MEMORY.md</code> per project so knowledge survives across sessions.</p>
+      </div>
+      <div class="card">
+        <h3><code>commands/</code> &amp; <code>skills/</code></h3>
+        <p>Personal commands and skills available everywhere, not scoped to one project. Your personal toolbox.</p>
+      </div>
+    </div>
+
+    <!-- Cascading + precedence -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Cascading rules &amp; precedence</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">CLAUDE.md files are loaded by walking up the directory tree from the current working directory. Multiple CLAUDE.md files combine — each layer adds context without requiring duplication. When rules conflict, precedence flows:</p>
+
+    <div class="code-block" style="margin-bottom:1rem;">
+      <pre><code>System policy  ─▶  User (~/.claude/)  ─▶  Project (.claude/)   ← wins
+   (floor)         (personal prefs)        (team-shared, highest)</code></pre>
+    </div>
+
+    <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:1rem;">Project-level configuration takes highest precedence, ensuring team-shared rules always apply. System policy sets the safety floor. User preferences sit in between.</p>
+
+    <div class="callout callout-tip" style="margin-bottom:1.5rem;">
+      <div class="callout-title">Path-Scoped Rules</div>
+      <p>Rules inside <code>.claude/rules/</code> can declare a <code>paths:</code> field to apply only when Claude works in specific subdirectories (e.g. <code>src/api/</code>). Rules without <code>paths</code> apply project-wide. Use this to keep CLAUDE.md lean instead of overloading it with conditionals.</p>
+    </div>
+
+    <!-- Single-project example -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Single-project layout</h3>
+    <div class="code-block">
+      <pre><code class="language-text">.claude/
+├── settings.json            # Permissions (allow bash, read files)
+├── CLAUDE.md                # High-level rules &amp; project context
+├── rules/
+│   ├── api.md               # Rules scoped to src/api/
+│   └── tests.md             # Testing conventions
+├── commands/
+│   └── review.md            # /project:review slash command
+├── skills/
+│   └── secure-commit/
+│       └── SKILL.md         # Auto-invoked commit workflow
+└── agents/
+    └── code-reviewer.md     # Isolated review subagent</code></pre>
+    </div>
+
+    <!-- Multi-project org cascade -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Multi-project org cascade</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">Three layers — <strong>org</strong> (shared defaults), <strong>product</strong> (domain context), <strong>developer</strong> (personal). Org and product layers live in git; the developer layer stays local.</p>
+    <div class="code-block">
+      <pre><code class="language-text">my-org/                          # Monorepo or org config repo
+├── .claude/                     # ━━ ORG LAYER ━━ shared defaults
+│   ├── CLAUDE.md                # Org-wide tone, security, standards
+│   ├── settings.json            # Default model, shared MCP servers
+│   ├── rules/
+│   │   └── security.md          # Non-negotiable security rules
+│   ├── commands/
+│   │   └── review.md            # Org-standard code review
+│   ├── skills/
+│   │   └── code-style/SKILL.md  # Org coding conventions
+│   └── agents/
+│       └── sec-audit.md         # Security audit subagent
+│
+├── product-a/                   # ━━ PRODUCT LAYER ━━ domain context
+│   ├── .claude/
+│   │   ├── CLAUDE.md            # Architecture, stack, glossary
+│   │   ├── rules/
+│   │   │   ├── api.md           # REST patterns (paths: src/api/)
+│   │   │   └── migrations.md    # DB migration rules
+│   │   ├── commands/
+│   │   │   └── deploy.md        # Product-specific deploy
+│   │   ├── skills/
+│   │   │   └── workflow/SKILL.md
+│   │   └── agents/
+│   │       └── reviewer.md      # Domain-aware reviewer
+│   └── src/
+│
+├── product-b/                   # Different product, own .claude/
+│   └── .claude/
+│       ├── CLAUDE.md
+│       └── ...
+│
+# ━━ DEVELOPER LAYER ━━ personal (not in git)
+~/.claude/
+├── CLAUDE.md                    # "Always use TypeScript"
+├── projects/
+│   ├── product-a/MEMORY.md      # Auto-persisted session memory
+│   └── product-b/MEMORY.md
+├── commands/
+│   └── standup.md               # Personal shortcut
+└── skills/
+    └── my-workflow/SKILL.md</code></pre>
+    </div>
+
+    <!-- 8 Recommendations -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">8 Recommendations for Teams</h3>
+    <div class="card-grid" style="gap:1rem;">
+      <div class="card">
+        <h3>1. CLAUDE.md is your contract</h3>
+        <p>Org-level sets non-negotiable rules. Project-level extends with domain context. The directory tree walk combines them automatically — never duplicate.</p>
+      </div>
+      <div class="card">
+        <h3>2. Use <code>rules/</code> for path scoping</h3>
+        <p>Don't overload CLAUDE.md with conditional logic. Put API rules in <code>rules/api.md</code> scoped to <code>src/api/</code>, test rules in <code>rules/tests.md</code>. Modular and clean.</p>
+      </div>
+      <div class="card">
+        <h3>3. Skills are portable packages</h3>
+        <p>Encode repeatable workflows as <code>SKILL.md</code> directories. Any methodology becomes a mountable package any project can adopt. Skills auto-invoke — commands don't.</p>
+      </div>
+      <div class="card">
+        <h3>4. Agents isolate risky tasks</h3>
+        <p>Define subagents for sensitive operations — code reviews, security audits, dependency checks. They run in isolated sessions with restricted tool access.</p>
+      </div>
+      <div class="card">
+        <h3>5. Commands are the team API</h3>
+        <p>Slash commands (<code>/project:review</code>, <code>/project:deploy</code>) make workflows discoverable. Org commands set the floor; projects add domain-specific ones.</p>
+      </div>
+      <div class="card">
+        <h3>6. Let <code>MEMORY.md</code> accumulate</h3>
+        <p>Claude auto-persists session knowledge to <code>~/.claude/projects/*/MEMORY.md</code>. Let it build context over time and review periodically for accuracy.</p>
+      </div>
+      <div class="card">
+        <h3>7. Version-control shared layers</h3>
+        <p>Org and project <code>.claude/</code> live in git. Only <code>~/.claude/</code> stays local. Skills and agents are versioned and distributed like code.</p>
+      </div>
+      <div class="card">
+        <h3>8. Scope MCP servers per layer</h3>
+        <p>Org <code>settings.json</code> defines shared servers (Slack, Drive). Projects add domain-specific ones. Users add personal tools. Servers compose additively.</p>
+      </div>
+    </div>
+
+    <!-- Anti-patterns -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Patterns &amp; Anti-Patterns</h3>
+    <div class="card-grid" style="gap:1rem;">
+      <div class="bp-anti-card ">
+        <h4>✕ Copying CLAUDE.md into every repo</h4>
+        <p>Write once at the org level and inherit via the directory tree walk. Duplication guarantees drift.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>✕ Domain rules at the org level</h4>
+        <p>Keep domain context at the project level. Org level is for cross-cutting standards only.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>✕ One 2000-line CLAUDE.md</h4>
+        <p>Factor into <code>rules/</code> with path scoping for modularity. Bloated CLAUDE.md files lose important rules in the noise.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>✕ Mandating personal <code>~/.claude/</code></h4>
+        <p>Let developers own their personal layer entirely. Enforcement belongs in the project <code>.claude/</code>, not the user's home.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>✕ Running sensitive tasks in the main session</h4>
+        <p>Define isolated <code>agents/</code> with restricted permissions for audits, deploys, and anything touching credentials.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>✕ Ignoring <code>MEMORY.md</code></h4>
+        <p>Stale auto-memory poisons future sessions. Periodically review for accuracy and prune drift.</p>
+      </div>
+    </div>
+
+    <!-- Codex cross-reference -->
+    <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">Codex Equivalent</div>
+      <p>OpenAI's Codex CLI uses the same layered architecture with different filenames: <code>AGENTS.md</code> instead of <code>CLAUDE.md</code>, <code>.rules/</code> for guardrails, and <code>.agents/skills/</code> for reusable workflows. The cascade model (org → project → user) is identical. See the <strong>Codex Best Practices</strong> page for the full mapping.</p>
+    </div>
+</section>
 
 <hr class="divider">
 
@@ -4902,7 +5117,7 @@ codex app</code></pre>
   const sectionToPageMap = {
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
-    'practices-hero': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'open-source': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
   };
