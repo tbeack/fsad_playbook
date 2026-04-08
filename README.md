@@ -48,6 +48,17 @@ python -m http.server 8000
 
 ### v8 — 2026-04-08
 
+**Sidebar search redesign (CBP-010)**
+- Replaced the full-screen search overlay with a permanent inline search bar in the left sidebar, under the "Methodology Guide" header
+- Results render as a popover anchored to the input, overlaying only the sidebar nav (main content stays visible)
+- Selecting a result clears the input, dismisses the popover, and routes to the target section
+- Dismissal: `Esc`, outside click, or clearing the input
+- Keyboard: `/` or `Cmd/Ctrl+K` focuses the input; `↑ ↓` navigate results; `Enter` selects
+- Removed the old full-screen overlay markup, CSS, and `toggleSearch` / `handleSearch` / `trapSearchFocus` functions
+
+**Search navigation fix for Security Review (CBP-009)**
+- Added `'security-review': 'practices'` to `sectionToPageMap` so search results for the new section route to Claude Best Practices instead of falling through to the FSAD page
+
 **Security Review sub-section (CBP-008)**
 - Added new section 10.6 "Security Review" to the Claude Best Practices page, between Code Review Agent and Building Skills
 - Introduces a reusable multi-agent security review team pattern: 6 specialists (auth/authz, input validation, secrets/crypto, dependency/supply chain, silent failures, data exposure) spawned in parallel, each writing findings to its own file, consolidated by a lead agent into a single report

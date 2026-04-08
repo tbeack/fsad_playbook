@@ -224,39 +224,96 @@
     padding-top: 62px;
   }
 
-  /* Search Overlay */
-  .search-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--overlay-bg-heavy);
-    z-index: 1000; display: none; align-items: flex-start; justify-content: center;
-    padding-top: 10vh; backdrop-filter: blur(8px);
+  /* Sidebar Search */
+  .sidebar-search {
+    position: relative;
+    margin-top: 0.85rem;
   }
-  .search-modal {
-    width: 90%; max-width: 600px; background: var(--bg-surface);
-    border: 1px solid var(--border-accent); border-radius: 12px;
-    box-shadow: 0 20px 50px var(--shadow-modal); overflow: hidden;
+  .sidebar-search-input-wrap {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 0.7rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .search-input-wrap {
-    padding: 1.5rem; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 1rem;
+  .sidebar-search-input-wrap:focus-within {
+    border-color: var(--accent-violet);
+    box-shadow: 0 0 0 2px var(--glow-purple);
   }
-  .search-input {
-    flex: 1; background: none; border: none; outline: none;
-    color: var(--text-primary); font-size: 1.2rem; font-family: var(--font-body);
+  .sidebar-search-icon {
+    font-size: 0.85rem; opacity: 0.55; flex-shrink: 0;
   }
-  .search-results {
-    max-height: 60vh; overflow-y: auto; padding: 0.5rem;
+  .sidebar-search-input {
+    flex: 1; min-width: 0;
+    background: none; border: none; outline: none;
+    color: var(--text-primary);
+    font-size: 0.82rem;
+    font-family: var(--font-body);
   }
+  .sidebar-search-input::placeholder { color: var(--text-muted); }
+  .sidebar-search-kbd {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    padding: 0.1rem 0.35rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .sidebar-search-popover {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-accent);
+    border-radius: 10px;
+    box-shadow: 0 18px 40px var(--shadow-modal);
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    padding: 0.4rem;
+    z-index: 300;
+    display: none;
+  }
+  .sidebar-search-popover.open { display: block; }
   .search-result-item {
-    display: block; padding: 1rem; border-radius: 8px;
-    color: var(--text-secondary); text-decoration: none;
-    transition: all 0.2s;
+    display: block;
+    padding: 0.65rem 0.75rem;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
   }
   .search-result-item:hover, .search-result-item.selected {
-    background: var(--search-result-hover); color: var(--text-primary);
+    background: var(--search-result-hover);
+    color: var(--text-primary);
   }
-  .search-result-item h4 { font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--accent-cyan); }
-  .search-result-item p { font-size: 0.8rem; opacity: 0.7; }
+  .search-result-item h4 {
+    font-size: 0.78rem;
+    margin-bottom: 0.15rem;
+    color: var(--accent-violet);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .search-result-item h4 span { color: var(--text-muted); font-weight: 500; }
+  .search-result-item p {
+    font-size: 0.72rem;
+    opacity: 0.7;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .search-no-results {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
 
   /* Back to Top */
   .back-to-top {
@@ -287,14 +344,6 @@
     flex-direction: column;
     position: relative;
   }
-  .search-btn-trigger {
-    position: absolute; right: 1rem; top: 1.5rem;
-    background: none; border: 1px solid var(--border);
-    color: var(--text-muted); padding: 0.3rem 0.5rem;
-    border-radius: 6px; cursor: pointer; font-size: 0.8rem;
-    transition: all 0.2s;
-  }
-  .search-btn-trigger:hover { color: var(--text-primary); border-color: var(--accent-blue); }
 
   /* ═══════════════════════════════════════
      SIDEBAR
@@ -1471,7 +1520,14 @@
   <div class="sidebar-header">
     <span class="sidebar-brand">FSAD</span>
     <span class="sidebar-tagline">Methodology Guide</span>
-    <button class="search-btn-trigger" onclick="toggleSearch(true)" title="Search (/)">🔍</button>
+    <div class="sidebar-search">
+      <div class="sidebar-search-input-wrap">
+        <span class="sidebar-search-icon" aria-hidden="true">🔍</span>
+        <input type="search" class="sidebar-search-input" id="sidebarSearchInput" placeholder="Search…" autocomplete="off" spellcheck="false" oninput="handleSidebarSearch(this.value)" onfocus="handleSidebarSearch(this.value)">
+        <span class="sidebar-search-kbd">/</span>
+      </div>
+      <div class="sidebar-search-popover" id="sidebarSearchPopover" role="listbox"></div>
+    </div>
   </div>
 
   <nav class="sidebar-nav">
@@ -4975,34 +5031,33 @@ codex app</code></pre>
     });
   }
 
-  function toggleSearch(show) {
-    const overlay = document.getElementById('searchOverlay');
-    overlay.style.display = show ? 'flex' : 'none';
-    if (show) {
-      document.getElementById('searchInput').focus();
-      document.body.style.overflow = 'hidden';
-      document.addEventListener('keydown', handleSearchKeydown);
-    } else {
-      document.body.style.overflow = 'auto';
-      document.removeEventListener('keydown', handleSearchKeydown);
-      selectedResultIndex = -1;
-    }
+  function closeSidebarSearch() {
+    const popover = document.getElementById('sidebarSearchPopover');
+    if (popover) popover.classList.remove('open');
+    selectedResultIndex = -1;
   }
 
-  function handleSearch(query) {
+  function handleSidebarSearch(query) {
+    const popover = document.getElementById('sidebarSearchPopover');
+    if (!popover) return;
     selectedResultIndex = -1;
-    const resultsContainer = document.getElementById('searchResults');
-    resultsContainer.innerHTML = '';
-    if (!query || query.length < 2) return;
+    popover.innerHTML = '';
 
-    const filtered = searchIndex.filter(item => 
-      item.title.toLowerCase().includes(query.toLowerCase()) || 
-      item.text.toLowerCase().includes(query.toLowerCase()) ||
-      item.label.toLowerCase().includes(query.toLowerCase())
+    if (!query || query.trim().length < 2) {
+      popover.classList.remove('open');
+      return;
+    }
+
+    const q = query.toLowerCase();
+    const filtered = searchIndex.filter(item =>
+      item.title.toLowerCase().includes(q) ||
+      item.text.toLowerCase().includes(q) ||
+      item.label.toLowerCase().includes(q)
     ).slice(0, 8);
 
     if (filtered.length === 0) {
-      resultsContainer.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No results for "' + query.replace(/[<>"'&]/g, '') + '"</div>';
+      popover.innerHTML = '<div class="search-no-results">No results for "' + query.replace(/[<>"'&]/g, '') + '"</div>';
+      popover.classList.add('open');
       return;
     }
 
@@ -5012,20 +5067,24 @@ codex app</code></pre>
       a.href = `#${sectionToPageMap[item.id]}/${item.id}`;
       a.onclick = (e) => {
         e.preventDefault();
-        toggleSearch(false);
         const targetPage = sectionToPageMap[item.id];
         const navBtn = document.querySelector(`.nav-group-toggle[data-page="${targetPage}"]`);
         switchPage(targetPage, navBtn);
         setTimeout(() => scrollToId(item.id), 150);
+        const input = document.getElementById('sidebarSearchInput');
+        if (input) { input.value = ''; input.blur(); }
+        closeSidebarSearch();
       };
-      a.innerHTML = `<h4>${item.label ? '<span>' + item.label + '</span> — ' : ''}${item.title}</h4><p>${item.text.substring(0, 100)}...</p>`;
-      resultsContainer.appendChild(a);
+      a.innerHTML = `<h4>${item.label ? '<span>' + item.label + '</span> — ' : ''}${item.title}</h4><p>${item.text.substring(0, 120)}...</p>`;
+      popover.appendChild(a);
     });
+    popover.classList.add('open');
   }
 
-  function handleSearchKeydown(e) {
-    trapSearchFocus(e);
-    const results = document.querySelectorAll('.search-result-item');
+  function handleSidebarSearchKeydown(e) {
+    const popover = document.getElementById('sidebarSearchPopover');
+    if (!popover || !popover.classList.contains('open')) return;
+    const results = popover.querySelectorAll('.search-result-item');
     if (!results.length) return;
 
     if (e.key === 'ArrowDown') {
@@ -5045,22 +5104,6 @@ codex app</code></pre>
   function updateSelectedResult(results) {
     results.forEach((r, i) => r.classList.toggle('selected', i === selectedResultIndex));
     if (results[selectedResultIndex]) results[selectedResultIndex].scrollIntoView({ block: 'nearest' });
-  }
-
-  function trapSearchFocus(e) {
-    if (e.key !== 'Tab') return;
-    const modal = document.querySelector('.search-modal');
-    const focusable = modal.querySelectorAll('input, a, button, [tabindex]:not([tabindex="-1"])');
-    if (!focusable.length) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
   }
 
   // ─── UTILITIES & SCROLL ───
@@ -5200,11 +5243,45 @@ codex app</code></pre>
   // ─── INITIALIZATION ───
   window.addEventListener('scroll', updateScrollProgress);
   window.addEventListener('keydown', (e) => {
-    if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    const tag = document.activeElement.tagName;
+    const isTyping = tag === 'INPUT' || tag === 'TEXTAREA';
+    if (e.key === '/' && !isTyping) {
       e.preventDefault();
-      toggleSearch(true);
+      const input = document.getElementById('sidebarSearchInput');
+      if (input) { input.focus(); input.select(); }
+      return;
     }
-    if (e.key === 'Escape') toggleSearch(false);
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      const input = document.getElementById('sidebarSearchInput');
+      if (input) { input.focus(); input.select(); }
+      return;
+    }
+    if (e.key === 'Escape') {
+      const input = document.getElementById('sidebarSearchInput');
+      if (input && document.activeElement === input) {
+        input.value = '';
+        closeSidebarSearch();
+        input.blur();
+      } else {
+        closeSidebarSearch();
+      }
+    }
+  });
+
+  // Sidebar search keyboard nav (scoped to input)
+  document.addEventListener('keydown', (e) => {
+    if (document.activeElement && document.activeElement.id === 'sidebarSearchInput') {
+      handleSidebarSearchKeydown(e);
+    }
+  });
+
+  // Dismiss popover on outside click
+  document.addEventListener('mousedown', (e) => {
+    const searchWrap = document.querySelector('.sidebar-search');
+    if (searchWrap && !searchWrap.contains(e.target)) {
+      closeSidebarSearch();
+    }
   });
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -5226,18 +5303,6 @@ codex app</code></pre>
     initialLoadComplete = true;
   });
 </script>
-<!-- SEARCH OVERLAY -->
-<div class="search-overlay" id="searchOverlay" onclick="if(event.target === this) toggleSearch(false)">
-  <div class="search-modal">
-    <div class="search-input-wrap">
-      <span style="font-size: 1.2rem; opacity: 0.5;">🔍</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="Search methodology, commands, skills..." oninput="handleSearch(this.value)">
-      <span class="kbd-hint">ESC</span>
-    </div>
-    <div class="search-results" id="searchResults"></div>
-  </div>
-</div>
-
 <!-- BACK TO TOP -->
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to top">↑</button>
 
