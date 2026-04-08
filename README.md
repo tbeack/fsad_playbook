@@ -39,12 +39,21 @@ python -m http.server 8000
 | Field | Value |
 |-------|-------|
 | **Current version** | v8 |
-| **Date updated** | 2026-03-31 |
+| **Date updated** | 2026-04-08 |
 | **File** | `fsad-playbook.html` |
 
 ---
 
 ## Changes in This Version
+
+### v8 — 2026-04-08
+
+**Security Review sub-section (CBP-008)**
+- Added new section 10.6 "Security Review" to the Claude Best Practices page, between Code Review Agent and Building Skills
+- Introduces a reusable multi-agent security review team pattern: 6 specialists (auth/authz, input validation, secrets/crypto, dependency/supply chain, silent failures, data exposure) spawned in parallel, each writing findings to its own file, consolidated by a lead agent into a single report
+- Full verbatim team prompt embedded as a copy-pasteable markdown code block with `<PATH>` and scope placeholders
+- "How to Adapt" callout explains how to swap specialists for different stacks (static sites, IaC repos, etc.)
+- Added corresponding sidebar nav entry
 
 ### v8 — 2026-03-31
 
