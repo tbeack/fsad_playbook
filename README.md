@@ -66,8 +66,6 @@ python -m http.server 8000
 - "How to Adapt" callout explains how to swap specialists for different stacks (static sites, IaC repos, etc.)
 - Added corresponding sidebar nav entry
 
-### v8 — 2026-03-31
-
 **Light mode + auto theme detection (CBP-007)**
 - Added full light mode theme with darker/more saturated purple accents for contrast on white backgrounds
 - Auto-detects OS preference via `prefers-color-scheme` media query — no manual setup needed
