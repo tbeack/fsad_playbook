@@ -1521,6 +1521,7 @@
         <a class="nav-sub-item" href="#practices/claude-setup" onclick="scrollToSection('claude-setup')">Project Anatomy</a>
         <a class="nav-sub-item" href="#practices/integrations" onclick="scrollToSection('integrations')">Integrations (MCP)</a>
         <a class="nav-sub-item" href="#practices/code-review" onclick="scrollToSection('code-review')">Code Review Agent</a>
+        <a class="nav-sub-item" href="#practices/security-review" onclick="scrollToSection('security-review')">Security Review</a>
         <a class="nav-sub-item" href="#practices/building-skills" onclick="scrollToSection('building-skills')">Building Skills</a>
         <a class="nav-sub-item" href="#practices/best-practices" onclick="scrollToSection('best-practices')">Guidelines</a>
         <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="scrollToSection('cheat-sheet')">Cheat Sheet</a>
@@ -2862,6 +2863,62 @@ Use a structured format: file, line, severity, description.</code></pre>
     <div class="callout callout-best-practice" style="margin-top:1.5rem;">
       <div class="callout-title">Pro Tips</div>
       <p>Write specific rules in <code>REVIEW.md</code> for targeted findings. Start with one repo and evaluate quality. Use Claude for the first pass, humans for architectural and design decisions. Monitor spend at <code>claude.ai/analytics/code-review</code> — reviews average $15–25 each.</p>
+    </div>
+</section>
+
+<hr class="divider">
+
+<section id="security-review">
+    <span class="section-label">10.6 — Security Review</span>
+    <h2 class="section-title">Multi-Agent Security Review Team</h2>
+    <p class="section-subtitle">Orchestrate a team of specialized review agents in parallel for a pre-merge or pre-release hardening pass. Each specialist writes findings to its own file; a lead agent consolidates them into a single report. Review only — no fixes.</p>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialists</h3>
+    <ul style="color:var(--text-secondary); line-height:1.9; margin-bottom:1.5rem; padding-left:1.2rem;">
+      <li><strong style="color:var(--text-primary);">auth-authz-auditor</strong> — Auth flows, sessions, JWT/OAuth, RBAC, privilege boundaries, endpoint auth mapping.</li>
+      <li><strong style="color:var(--text-primary);">input-validation-auditor</strong> — Injection vectors: SQLi, command injection, SSRF, path traversal, XSS, deserialization, prompt injection.</li>
+      <li><strong style="color:var(--text-primary);">secrets-crypto-auditor</strong> — Hardcoded secrets, weak crypto, insecure random, improper key/token storage, leaked credentials.</li>
+      <li><strong style="color:var(--text-primary);">dependency-supplychain-auditor</strong> — Known CVEs, pinned versions, lockfile integrity, suspicious packages, CI/CD trust boundaries.</li>
+      <li><strong style="color:var(--text-primary);">silent-failure-hunter</strong> — Swallowed exceptions, fallbacks that mask security failures, error handling that fails open.</li>
+      <li><strong style="color:var(--text-primary);">data-exposure-auditor</strong> — PII handling, log redaction, response shapes, IDOR, tenant isolation, overly broad CORS.</li>
+    </ul>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Example Prompt</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">Paste this into Claude Code, replace <code>&lt;PATH&gt;</code> and the scope placeholder, and adjust the agent roster to match your stack:</p>
+
+    <div class="code-block">
+      <pre><code class="language-markdown">Spin up a security review team for the codebase at &lt;PATH&gt;. Scope: &lt;all backend services | specific dirs | recent diff vs main&gt;.
+
+1. Create a team via TeamCreate named "sec-review" with a task list.
+
+2. Spawn these specialists in parallel via the Agent tool, each with one focused task and writing findings to .planning/security-review/&lt;agent&gt;.md:
+
+   - **auth-authz-auditor** (security-auditor): Review all auth flows, session handling, JWT/OAuth, RBAC, and privilege boundaries. Map every endpoint to its auth requirement.
+
+   - **input-validation-auditor** (pr-review-toolkit:code-reviewer): Hunt injection vectors — SQLi, command injection, SSRF, path traversal, XSS, deserialization, prompt injection in LLM calls. Trace every external input to its sink.
+
+   - **secrets-crypto-auditor** (feature-dev:code-reviewer): Find hardcoded secrets, weak crypto, insecure random, improper key/token storage, logged credentials, secrets in error messages.
+
+   - **dependency-supplychain-auditor** (general-purpose): Audit dependencies for known CVEs (pip-audit / npm audit), pinned versions, lockfile integrity, suspicious packages, and CI/CD trust boundaries.
+
+   - **silent-failure-hunter** (pr-review-toolkit:silent-failure-hunter): Catch swallowed exceptions, fallback paths that mask security failures, and error handling that fails open instead of closed.
+
+   - **data-exposure-auditor** (code-reviewer): PII handling, log redaction, response shapes that leak internals, IDOR, missing tenant isolation, overly broad CORS.
+
+3. Each agent must:
+   - Read only files in scope
+   - Produce findings as: [SEVERITY: critical/high/medium/low] file:line — issue — exploit scenario — recommended fix
+   - Cite concrete evidence; no speculation
+   - Mark its task complete via TaskUpdate when done
+
+4. After all agents finish, you (lead) consolidate into .planning/security-review/REPORT.md grouped by severity, dedupe overlaps, and propose a fix order. Then shut down the team.
+
+Use the code-review skill to frame the consolidation. Do NOT fix anything in this pass — review only.</code></pre>
+    </div>
+
+    <div class="callout callout-best-practice" style="margin-top:1.5rem;">
+      <div class="callout-title">How to Adapt</div>
+      <p>Swap in your stack's auditors (e.g., drop <code>dependency-supplychain-auditor</code> for a pure static site, add a Terraform/IaC auditor for infra repos). Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take much longer and cost more.</p>
     </div>
 </section>
 
