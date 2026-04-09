@@ -38,13 +38,49 @@ python -m http.server 8000
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v9 |
-| **Date updated** | 2026-04-08 |
+| **Current version** | v10 |
+| **Date updated** | 2026-04-09 |
 | **File** | `fsad-playbook.html` |
 
 ---
 
 ## Changes in This Version
+
+### v10 — 2026-04-09
+
+**Building Skills overhaul (CBP-016)**
+- Rewrote the Building Skills section (section 11) to reflect the current directory-based skills system
+- Updated all file paths from flat `skill-name.md` to directory format `skill-name/SKILL.md`
+- Rewrote Skill File Anatomy with side-by-side directory structure and comprehensive frontmatter example
+- Added collapsible Frontmatter Reference table covering all 12+ fields (`argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`, `paths`)
+- Added third skill level card: Plugin Skills with namespace explanation and priority order
+- Added Skill Invocation sub-section with 3 cards (Manual, Automatic, Programmatic) and auto-invocation tip
+- Added Advanced Skill Patterns collapsible (shell injection, context fork, tool pre-approval, extended thinking, supporting files)
+- Added Skills vs Commands vs Agents comparison table
+- Updated example skills with advanced frontmatter (`argument-hint`, `allowed-tools`, `disable-model-invocation`)
+- Updated Skill Creator: `/help`→`/skills`, added `/reload-plugins`, fixed paths to directory format
+
+**Power Usage overhaul (CBP-015)**
+- Rewrote and expanded the Power Usage section (section 14) from 7 to 13 collapsibles
+- **Fixed inaccuracies:** Worktree flag `-r`→`-w`, replaced fabricated hooks example with real-world patterns (auto-lint, read-before-edit, status line), updated model names to Opus 4.6/Sonnet 4.6/Haiku 4.5
+- **Enhanced existing:** Agent Teams (added teammate spawning, tmux mode, named agents), Work Trees (added `--tmux`, lifecycle hooks), Model section renamed to "Model & Effort Control" (added `/effort`, `/fast`, `--fallback-model`), Hooks renamed to "Hooks in Practice" (3 real examples), Session Logs (added `/export`, transcript viewer), /loop (added `/schedule` for persistence)
+- **6 new collapsibles:** Remote Control & Cross-Device (`/remote-control`, `/teleport`, `/desktop`, `/mobile`), Chrome Integration (`--chrome`), Batch Operations (`/batch` with parallel agents), Plugins (`/plugin`, marketplace), Voice Input (push-to-talk, 20+ languages), Context Management (`/context`, `/compact`)
+
+**Cheat Sheet overhaul (CBP-014)**
+- Rewrote the entire Cheat Sheet section (section 13) with current Claude Code reference
+- **Keyboard Shortcuts:** Fixed 4 wrong shortcuts (`Ctrl+J`→`Ctrl+T`, `Ctrl+X`→`Option+T`, etc.), added 8 new (`Ctrl+O`, `Ctrl+B`, `Option+P`, `Option+O`, voice push-to-talk, multiline keys)
+- **Slash Commands:** Removed 3 deprecated (`/vim`, `/pr_comments`, `/history`), added ~26 new commands organized into 6 categories (session, model, automation, config, cross-device, info). Now covers `/effort`, `/fast`, `/loop`, `/schedule`, `/batch`, `/remote-control`, `/teleport`, `/voice`, `/context`, `/diff`, and more
+- **CLI Flags:** Fixed 3 incorrect flags (`-r`→`-w` for worktree, `--budget`→`--max-budget-usd`, `--conversation-mode`→`--permission-mode`), added ~14 new flags organized into 5 categories. Now covers `--effort`, `--system-prompt`, `--mcp-config`, `--json-schema`, `--remote`, `--agent`, `--bare`
+- **Permission Modes:** Expanded from 3 to 5 modes — added Accept Edits and Bypass Permissions, updated cycle description
+- **Hooks:** Expanded from 6 to 26 hook events organized into 4 categories. Renamed `PreUserInput`→`UserPromptSubmit`, added agent/task hooks, environment hooks, context hooks, MCP elicitation hooks
+- **Input Superpowers:** Fixed Multi-Dir (`-w`→`--add-dir`), added `!bash` prefix, `/commands` autocomplete, and Voice cards. Updated paste image shortcut
+- **File Structure Map:** Added `rules/` to project tree, added `commands/` and `plugins/` to global tree, removed outdated `.mcprc`
+- **Quick Reference Combos:** Fixed worktree command, added 4 new combos (resume session, effort level, remote control, voice)
+
+**OpenSpec framework reference (CBP-012)**
+- Added OpenSpec to the "Open Source Frameworks" section on the Claude Best Practices page
+- OpenSpec is a lightweight, spec-driven development framework that helps AI coding assistants and humans align on requirements before writing code
+- Links to https://github.com/Fission-AI/OpenSpec
 
 ### v9 — 2026-04-08
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v9)</title>
+<title>FSAD — Full Stack Agentic Development (v10)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1518,7 +1518,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v9</span></span>
+    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v10</span></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3198,48 +3198,110 @@ Use the code-review skill to frame the consolidation. Do NOT fix anything in thi
 <section id="building-skills">
     <span class="section-label">11 — Building Your Own Skills</span>
     <h2 class="section-title">Turn Repeatable Workflows into Reusable Expert Modes</h2>
-    <p class="section-subtitle">Skills are markdown files that define specialized workflows. Claude loads them on demand via slash commands, providing consistency across sessions and team members.</p>
+    <p class="section-subtitle">Skills are markdown directories that define specialized workflows. Claude loads them on demand — via slash commands or automatically by matching your task — providing consistency across sessions and team members.</p>
 
     <div class="card" style="margin-bottom:1.5rem;">
       <h3>What are Skills?</h3>
-      <p>Skills are markdown instructions stored in <code>.claude/skills/</code> that Claude follows when invoked. They turn tribal knowledge — code review checklists, deployment procedures, estimation frameworks — into repeatable, shareable workflows.</p>
+      <p>Skills are directories in <code>.claude/skills/</code> containing a <code>SKILL.md</code> file plus optional supporting files (templates, scripts, reference docs). They turn tribal knowledge — code review checklists, deployment procedures, estimation frameworks — into repeatable, shareable workflows. Claude can auto-load skills by matching your task to skill descriptions, or you invoke them manually with <code>/skill-name</code>. Plugin skills use a namespace: <code>/plugin:skill-name</code>.</p>
     </div>
 
     <!-- Skill File Anatomy -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Skill File Anatomy</h3>
-    <div class="code-block">
-      <pre><code class="language-markdown"><span class="cm">---</span>
+    <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-bottom:1.25rem;">
+      <div class="code-block" style="flex:1; min-width:220px;">
+        <pre><code class="language-text">my-skill/
+├── SKILL.md          # Required — skill content
+├── reference.md      # Optional — detailed docs
+├── examples.md       # Optional — usage examples
+└── scripts/
+    └── helper.py     # Optional — executable scripts</code></pre>
+      </div>
+      <div class="code-block" style="flex:1; min-width:300px;">
+        <pre><code class="language-markdown"><span class="cm">---</span>
 <span class="kw">name</span>: <span class="val">my-skill</span>
-<span class="kw">description</span>: <span class="val">What this skill does (shown in /help)</span>
+<span class="kw">description</span>: <span class="val">Reviews code for security issues. Use when auditing code.</span>
+<span class="kw">argument-hint</span>: <span class="val">[file-or-directory]</span>
+<span class="kw">allowed-tools</span>: <span class="val">Read Grep Bash(git *)</span>
+<span class="kw">disable-model-invocation</span>: <span class="val">false</span>
 <span class="cm">---</span>
 
-<span class="hd"># Skill Name</span>
+<span class="hd"># My Skill</span>
 
-<span class="hd">## Overview</span>
-[What this skill accomplishes and when to use it]
+Review <span class="val">$ARGUMENTS</span> for security issues.
+Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
 
 <span class="hd">## Process</span>
-[Step-by-step instructions Claude follows]
-
 1. First, do this
 2. Then, check that
-3. Finally, verify this
+3. Finally, verify this</code></pre>
+      </div>
+    </div>
 
-<span class="hd">## Checklist</span>
-- [ ] Step 1 complete
-- [ ] Step 2 verified
-- [ ] Output reviewed</code></pre>
+    <!-- Frontmatter Reference -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Frontmatter Reference (All Fields)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>name</code></td><td>string</td><td>Display name and <code>/slash-command</code>. Defaults to directory name.</td></tr>
+              <tr><td><code>description</code></td><td>string</td><td>What the skill does. Claude uses this for auto-invocation matching. Front-load the key use case. Truncated at 250 chars.</td></tr>
+              <tr><td><code>argument-hint</code></td><td>string</td><td>Hint shown in autocomplete (e.g. <code>[filename]</code>, <code>[issue-number]</code>).</td></tr>
+              <tr><td><code>disable-model-invocation</code></td><td>boolean</td><td>If <code>true</code>, only you can invoke via <code>/name</code> — Claude won't auto-load. Use for side effects (deploy, send).</td></tr>
+              <tr><td><code>user-invocable</code></td><td>boolean</td><td>If <code>false</code>, hidden from <code>/</code> menu. Claude can still auto-load. Use for background knowledge.</td></tr>
+              <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Grep Bash(git *)</code>).</td></tr>
+              <tr><td><code>model</code></td><td>string</td><td>Override model when skill is active (e.g. <code>claude-opus-4-6</code>).</td></tr>
+              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>.</td></tr>
+              <tr><td><code>context</code></td><td>string</td><td>Set to <code>fork</code> to run in isolated subagent context with fresh context window.</td></tr>
+              <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
+              <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.).</td></tr>
+              <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>String substitutions:</strong> <code>$ARGUMENTS</code> (all args), <code>$0</code> / <code>$1</code> (specific args), <code>${CLAUDE_SKILL_DIR}</code> (skill directory), <code>${CLAUDE_SESSION_ID}</code> (session ID).</p>
+      </div></div>
     </div>
 
     <div style="display:flex; gap:1rem; margin:1.5rem 0; flex-wrap:wrap;">
-      <div class="card" style="flex:1; min-width:200px;">
+      <div class="card" style="flex:1; min-width:180px;">
         <h3>Project-Level</h3>
-        <p><code>.claude/skills/skill-name.md</code><br>Committed to repo. Shared with team.</p>
+        <p><code>.claude/skills/skill-name/SKILL.md</code><br>Committed to repo. Shared with team.</p>
       </div>
-      <div class="card" style="flex:1; min-width:200px;">
+      <div class="card" style="flex:1; min-width:180px;">
         <h3>Global</h3>
-        <p><code>~/.claude/skills/skill-name.md</code><br>Personal. Available across all projects.</p>
+        <p><code>~/.claude/skills/skill-name/SKILL.md</code><br>Personal. Available across all projects.</p>
       </div>
+      <div class="card" style="flex:1; min-width:180px;">
+        <h3>Plugin Skills</h3>
+        <p>Installed via <code>/plugin</code>. Namespaced as <code>/plugin:skill-name</code>.</p>
+      </div>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.5rem;">Priority order: managed (enterprise) &gt; user (global) &gt; project &gt; plugin</p>
+
+    <!-- Skill Invocation -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Skill Invocation</h3>
+    <div class="card-grid-3">
+      <div class="card">
+        <h3>Manual</h3>
+        <p>Type <code>/skill-name [args]</code> to invoke explicitly. Arguments available via <code>$ARGUMENTS</code>, <code>$0</code>, <code>$1</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Automatic</h3>
+        <p>Claude matches your task to skill descriptions and auto-loads the relevant skill. Control with <code>disable-model-invocation</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Programmatic</h3>
+        <p>Subagents and API integrations invoke skills via the Skill tool. Skills can also run in isolated context with <code>context: fork</code>.</p>
+      </div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:1rem;">
+      <div class="callout-title">Auto-Invocation Tip</div>
+      <p>Front-load your <code>description</code> with the key use case in the first 50 characters. Claude uses this to decide when to auto-load the skill. Vague descriptions = poor triggering.</p>
     </div>
 
     <!-- Example Skills -->
@@ -3255,7 +3317,9 @@ Use the code-review skill to frame the consolidation. Do NOT fix anything in thi
         <div class="code-block" style="margin-top:0.75rem;">
           <pre><code class="language-markdown">---
 name: generate-docs
-description: Generate project documentation from codebase
+description: Generate project documentation from codebase analysis
+argument-hint: [module-or-directory]
+allowed-tools: Read Grep Glob
 ---
 
 # Documentation Generator
@@ -3362,7 +3426,9 @@ For each story:
         <div class="code-block" style="margin-top:0.75rem;">
           <pre><code class="language-markdown"><span class="cm">---</span>
 <span class="kw">name</span>: <span class="val">code-review</span>
-<span class="kw">description</span>: <span class="val">Structured code review for PRs</span>
+<span class="kw">description</span>: <span class="val">Structured code review for PRs and code changes</span>
+<span class="kw">disable-model-invocation</span>: <span class="val">true</span>
+<span class="kw">allowed-tools</span>: <span class="val">Read Grep Glob</span>
 <span class="cm">---</span>
 
 <span class="hd"># Code Review</span>
@@ -3390,6 +3456,53 @@ For each story:
 Provide: ✅ Approve, 🔄 Request Changes, or 🚫 Block
 With specific line-level feedback for each issue.</code></pre>
         </div>
+      </div></div>
+    </div>
+
+    <!-- Advanced Patterns -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Advanced Skill Patterns</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem;"><strong>Shell injection</strong> — embed live data in skills with <code>!`command`</code> syntax:</p>
+        <div class="code-block" style="margin-bottom:1rem;">
+          <pre><code class="language-markdown">---
+name: pr-summary
+description: Summarize the current PR diff and comments
+disable-model-invocation: true
+---
+
+PR diff: !`gh pr diff`
+Comments: !`gh pr view --comments`
+
+Summarize the changes and highlight any concerns.</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem;"><strong>Context fork</strong> — run a skill in an isolated subagent context:</p>
+        <div class="code-block" style="margin-bottom:1rem;">
+          <pre><code class="language-markdown">---
+name: security-audit
+description: Audit codebase for security vulnerabilities
+context: fork
+agent: Explore
+---
+
+Audit $ARGUMENTS for:
+1. Injection vulnerabilities
+2. Authentication bypasses
+3. Data exposure risks</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem;"><strong>Tool pre-approval</strong> — skip permission prompts for expected operations:</p>
+        <div class="code-block" style="margin-bottom:1rem;">
+          <pre><code class="language-yaml">allowed-tools: Read Grep Bash(git *) Bash(npm test)</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem;"><strong>Extended thinking</strong> — include "ultrathink" in skill content to enable deep reasoning.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem;"><strong>Supporting files</strong> — organize templates, scripts, and reference docs alongside SKILL.md. Access the skill's directory with <code>${CLAUDE_SKILL_DIR}</code>.</p>
       </div></div>
     </div>
 
@@ -3431,13 +3544,16 @@ smoke tests against the staging URL."</code></pre>
     <div class="step-card">
       <span class="step-number">4</span>
       <h3>Save and Test</h3>
-      <p>The skill creator saves the file to <code>.claude/skills/</code>. Test it immediately by invoking the slash command.</p>
+      <p>The skill creator saves the directory to <code>.claude/skills/</code>. Test it immediately by invoking the slash command.</p>
       <div class="code-block" style="margin-top:0.75rem;">
         <pre><code class="language-bash"># Your new skill is ready to use
 /deploy-staging
 
 # List all available skills
-/help</code></pre>
+/skills
+
+# Iterate on changes without restarting
+/reload-plugins</code></pre>
       </div>
     </div>
 
@@ -3448,14 +3564,28 @@ smoke tests against the staging URL."</code></pre>
       <div style="display:flex; gap:1rem; margin-top:0.75rem; flex-wrap:wrap;">
         <div class="card" style="flex:1; min-width:180px; margin-bottom:0;">
           <h3>Project-Level (Shared)</h3>
-          <p><code>.claude/skills/deploy-staging.md</code><br>Committed to repo. Whole team benefits.</p>
+          <p><code>.claude/skills/deploy-staging/SKILL.md</code><br>Committed to repo. Whole team benefits.</p>
         </div>
         <div class="card" style="flex:1; min-width:180px; margin-bottom:0;">
           <h3>Global (Personal)</h3>
-          <p><code>~/.claude/skills/my-utils.md</code><br>Available across all your projects.</p>
+          <p><code>~/.claude/skills/my-utils/SKILL.md</code><br>Available across all your projects.</p>
         </div>
       </div>
     </div>
+
+    <!-- Skills vs Commands vs Agents -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Skills vs Commands vs Agents</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Type</th><th>What It Is</th><th>When to Use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Skill</strong></td><td>Markdown directory with <code>SKILL.md</code>. Loaded on demand or auto-invoked.</td><td>Reusable workflows, checklists, domain knowledge. The default choice.</td></tr>
+          <tr><td><strong>Agent</strong></td><td>Isolated worker with its own context window and tool access.</td><td>Parallel work, research, tasks that need context isolation.</td></tr>
+          <tr><td><strong>Command</strong> (legacy)</td><td>File in <code>.claude/commands/</code>. Replaced by skills.</td><td>Migrate to <code>.claude/skills/</code> — commands still work but skills are the standard.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem;">Skills can run in agent context with <code>context: fork</code> — giving you the reusability of skills with the isolation of agents.</p>
 
     <div class="callout callout-best-practice" style="margin-top:1.5rem;">
       <div class="callout-title">Best Practice</div>
@@ -3585,50 +3715,134 @@ smoke tests against the staging URL."</code></pre>
         <tbody>
           <tr><td><kbd>Enter</kbd></td><td>Send message / submit</td></tr>
           <tr><td><kbd>Esc</kbd></td><td>Interrupt / stop generation</td></tr>
-          <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Open recent items (go back in conversation or history)</td></tr>
-          <tr><td><kbd>Shift+Tab</kbd></td><td>Cycle permission mode: Normal > Auto-Accept > Plan</td></tr>
-          <tr><td><kbd>Ctrl+L</kbd></td><td>Clear screen</td></tr>
+          <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Rewind / restore previous state</td></tr>
+          <tr><td><kbd>Shift+Tab</kbd></td><td>Cycle permission mode: default &#8594; acceptEdits &#8594; plan &#8594; auto</td></tr>
+          <tr><td><kbd>Ctrl+L</kbd></td><td>Clear prompt input</td></tr>
           <tr><td><kbd>Ctrl+C</kbd></td><td>Cancel current operation (hard stop)</td></tr>
           <tr><td><kbd>Ctrl+R</kbd></td><td>Search command history</td></tr>
-          <tr><td><kbd>Ctrl+J</kbd></td><td>Toggle task list</td></tr>
+          <tr><td><kbd>Ctrl+T</kbd></td><td>Toggle task list</td></tr>
+          <tr><td><kbd>Ctrl+O</kbd></td><td>Toggle transcript viewer</td></tr>
+          <tr><td><kbd>Ctrl+B</kbd></td><td>Background running tasks</td></tr>
+          <tr><td><kbd>Ctrl+D</kbd></td><td>Exit Claude Code</td></tr>
+          <tr><td><kbd>Ctrl+G</kbd></td><td>Open prompt in external text editor</td></tr>
           <tr><td><kbd>Tab</kbd></td><td>Accept autocomplete suggestion</td></tr>
-          <tr><td><kbd>Ctrl+E</kbd></td><td>Toggle editor mode (multi-line editing)</td></tr>
-          <tr><td><kbd>Ctrl+X</kbd></td><td>Toggle extended thinking mode</td></tr>
-          <tr><td><kbd>Ctrl+S</kbd></td><td>Stash current prompt (save for later)</td></tr>
-          <tr><td><kbd>Ctrl+P</kbd></td><td>Paste image (screenshots, diagrams)</td></tr>
+          <tr><td><kbd>Option+T</kbd> / <kbd>Alt+T</kbd></td><td>Toggle extended thinking mode</td></tr>
+          <tr><td><kbd>Option+P</kbd> / <kbd>Alt+P</kbd></td><td>Switch model</td></tr>
+          <tr><td><kbd>Option+O</kbd> / <kbd>Alt+O</kbd></td><td>Toggle fast mode</td></tr>
+          <tr><td><kbd>Ctrl+V</kbd> / <kbd>Cmd+V</kbd></td><td>Paste image (screenshots, diagrams)</td></tr>
           <tr><td><kbd>&#8593;</kbd> / <kbd>&#8595;</kbd></td><td>Navigate through command history</td></tr>
+          <tr><td><kbd>\</kbd> + <kbd>Enter</kbd></td><td>Multiline input (quick escape)</td></tr>
+          <tr><td><kbd>Option+Enter</kbd></td><td>Multiline input (macOS)</td></tr>
+          <tr><td><kbd>Space</kbd> (hold)</td><td>Push-to-talk voice dictation</td></tr>
           <tr><td><kbd>Ctrl+A</kbd> / <kbd>Ctrl+E</kbd></td><td>Jump to start / end of line</td></tr>
           <tr><td><kbd>Ctrl+W</kbd></td><td>Delete word backward</td></tr>
           <tr><td><kbd>Ctrl+K</kbd></td><td>Delete from cursor to end of line</td></tr>
-          <tr><td><kbd>Ctrl+Z</kbd></td><td>Undo last action</td></tr>
+          <tr><td><kbd>Ctrl+U</kbd></td><td>Delete from cursor to line start</td></tr>
         </tbody>
       </table>
     </div>
 
     <!-- Slash Commands -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Slash Commands</h3>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;">Session, context &amp; history</p>
     <div class="table-wrap">
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/history</code></td><td>View conversation history (fresh start)</td></tr>
           <tr><td><code>/compact</code> <code>[focus]</code></td><td>Compress context to save tokens. Optional: tell it what to keep.</td></tr>
+          <tr><td><code>/context</code></td><td>Visualize context usage with optimization suggestions</td></tr>
+          <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
+          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>)</td></tr>
+          <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
           <tr><td><code>/undo</code></td><td>Undo last action</td></tr>
+          <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (alias: <code>/checkpoint</code>)</td></tr>
           <tr><td><code>/export</code></td><td>Export conversation to file or clipboard</td></tr>
-          <tr><td><code>/cost</code></td><td>Show session cost & token usage</td></tr>
-          <tr><td><code>/usage</code></td><td>Show usage & rate info</td></tr>
-          <tr><td><code>/model</code></td><td>Open settings panel (Sonnet / Opus / Haiku)</td></tr>
-          <tr><td><code>/permissions</code></td><td>View & edit permissions</td></tr>
-          <tr><td><code>/vim</code></td><td>Toggle vim mode for input</td></tr>
-          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input</td></tr>
-          <tr><td><code>/theme</code></td><td>Toggle theme (dark/light)</td></tr>
-          <tr><td><code>/doctor</code></td><td>Environment diagnostics & health check</td></tr>
-          <tr><td><code>/mcp</code></td><td>Manage MCP servers</td></tr>
-          <tr><td><code>/keys</code></td><td>Manage API keys</td></tr>
-          <tr><td><code>/memory</code></td><td>View auto-memory files</td></tr>
+          <tr><td><code>/copy</code> <code>[N]</code></td><td>Copy last response to clipboard (or Nth-last)</td></tr>
+          <tr><td><code>/diff</code></td><td>Open interactive diff viewer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Model, mode &amp; usage</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Command</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>/model</code></td><td>Select or change AI model (Sonnet / Opus / Haiku)</td></tr>
+          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code> | <code>auto</code></td></tr>
+          <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
+          <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
+          <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>)</td></tr>
+          <tr><td><code>/cost</code></td><td>Show session cost &amp; token usage</td></tr>
+          <tr><td><code>/usage</code></td><td>Show plan usage &amp; rate limits</td></tr>
+          <tr><td><code>/stats</code></td><td>Visualize daily usage and streaks</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Automation &amp; agents</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Command</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>/loop</code> <code>[interval] &lt;prompt&gt;</code></td><td>Run prompt on recurring interval (e.g. <code>/loop 5m check tests</code>)</td></tr>
+          <tr><td><code>/schedule</code></td><td>Create / manage cloud scheduled tasks</td></tr>
+          <tr><td><code>/batch</code> <code>&lt;instruction&gt;</code></td><td>Orchestrate large-scale changes (5–30 parallel agents)</td></tr>
+          <tr><td><code>/tasks</code></td><td>List and manage background tasks (alias: <code>/bashes</code>)</td></tr>
+          <tr><td><code>/security-review</code></td><td>Analyze pending changes for security issues</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Configuration &amp; setup</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Command</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>/config</code></td><td>Open settings interface (alias: <code>/settings</code>)</td></tr>
           <tr><td><code>/init</code></td><td>Create CLAUDE.md for your project</td></tr>
-          <tr><td><code>/pr_comments</code></td><td>View GitHub PR feedback</td></tr>
+          <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
+          <tr><td><code>/theme</code></td><td>Change color theme (dark / light)</td></tr>
+          <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
+          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input</td></tr>
+          <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
+          <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
+          <tr><td><code>/mcp</code></td><td>Manage MCP server connections</td></tr>
+          <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
+          <tr><td><code>/skills</code></td><td>List available skills</td></tr>
+          <tr><td><code>/plugin</code></td><td>Manage Claude Code plugins</td></tr>
+          <tr><td><code>/reload-plugins</code></td><td>Reload plugins without restart</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Cross-device &amp; integrations</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Command</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>/remote-control</code></td><td>Enable remote control from claude.ai (alias: <code>/rc</code>)</td></tr>
+          <tr><td><code>/teleport</code></td><td>Pull web session into terminal (alias: <code>/tp</code>)</td></tr>
+          <tr><td><code>/desktop</code></td><td>Continue in Claude Code Desktop app</td></tr>
+          <tr><td><code>/mobile</code></td><td>Show QR code for mobile app (aliases: <code>/ios</code>, <code>/android</code>)</td></tr>
+          <tr><td><code>/voice</code></td><td>Toggle push-to-talk voice dictation</td></tr>
+          <tr><td><code>/ide</code></td><td>Manage IDE integrations and status</td></tr>
           <tr><td><code>/install-github-app</code></td><td>Setup automated PR reviews</td></tr>
+          <tr><td><code>/install-slack-app</code></td><td>Install Claude Slack app</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Info &amp; account</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Command</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>/help</code></td><td>Show help and available commands</td></tr>
+          <tr><td><code>/release-notes</code></td><td>View changelog with version picker</td></tr>
+          <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
+          <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
+          <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
           <tr><td><code>/logout</code></td><td>Sign out</td></tr>
         </tbody>
       </table>
@@ -3636,58 +3850,168 @@ smoke tests against the staging URL."</code></pre>
 
     <!-- CLI Launch Flags -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">CLI Launch Flags</h3>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;">Session &amp; startup</p>
     <div class="table-wrap">
       <table class="styled-table">
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>claude</code></td><td>Start interactive session</td></tr>
           <tr><td><code>claude "query"</code></td><td>Start with an initial prompt</td></tr>
-          <tr><td><code>claude -p "query"</code></td><td>Print mode — answer & exit (for scripting)</td></tr>
-          <tr><td><code>--output-format json</code></td><td>JSON output (details by name or ID)</td></tr>
-          <tr><td><code>claude -r</code></td><td>Start in isolated git worktree</td></tr>
-          <tr><td><code>--model</code></td><td>Select specific model</td></tr>
           <tr><td><code>--continue</code> / <code>-c</code></td><td>Resume last conversation</td></tr>
-          <tr><td><code>--conversation-mode plan</code></td><td>Start in plan mode (read-only)</td></tr>
-          <tr><td><code>--budget</code></td><td>Limit conversation budget ($)</td></tr>
-          <tr><td><code>--max-turns</code></td><td>Limit number of turns</td></tr>
-          <tr><td><code>--allowedTools</code></td><td>Whitelist specific tools</td></tr>
-          <tr><td><code>--disallowedTools</code></td><td>Blacklist specific tools</td></tr>
+          <tr><td><code>--resume</code> / <code>-r</code></td><td>Resume specific session by ID or name</td></tr>
+          <tr><td><code>--name</code> / <code>-n</code></td><td>Set session display name</td></tr>
+          <tr><td><code>--fork-session</code></td><td>Create new session ID when resuming</td></tr>
+          <tr><td><code>--worktree</code> / <code>-w</code></td><td>Start in isolated git worktree</td></tr>
+          <tr><td><code>--tmux</code></td><td>Create tmux session with worktree</td></tr>
+          <tr><td><code>--add-dir</code></td><td>Add additional working directories</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Model &amp; effort</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--model</code></td><td>Select specific model (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>)</td></tr>
+          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>)</td></tr>
+          <tr><td><code>--fallback-model</code></td><td>Auto-fallback model when overloaded (print mode)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Permissions &amp; tools</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--permission-mode</code></td><td>Start in specific mode (<code>plan</code>, <code>auto</code>, <code>acceptEdits</code>)</td></tr>
+          <tr><td><code>--allowedTools</code></td><td>Tools that execute without prompting</td></tr>
+          <tr><td><code>--disallowedTools</code></td><td>Tools unavailable to model</td></tr>
+          <tr><td><code>--dangerously-skip-permissions</code></td><td>Skip all permission prompts (requires opt-in flag)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Print / programmatic mode</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>-p</code> / <code>--print</code></td><td>Print mode — answer &amp; exit (for scripting)</td></tr>
+          <tr><td><code>--output-format json</code></td><td>JSON output</td></tr>
           <tr><td><code>--output-format stream-json</code></td><td>Streaming JSON output</td></tr>
-          <tr><td><code>--verbose</code></td><td>Show detailed logging</td></tr>
+          <tr><td><code>--json-schema</code></td><td>Get JSON output matching a specific schema</td></tr>
+          <tr><td><code>--max-turns</code></td><td>Limit number of agentic turns</td></tr>
+          <tr><td><code>--max-budget-usd</code></td><td>Maximum spend before stopping ($)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">System prompt &amp; config</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--system-prompt</code></td><td>Replace entire system prompt</td></tr>
+          <tr><td><code>--append-system-prompt</code></td><td>Append to the default system prompt</td></tr>
+          <tr><td><code>--mcp-config</code></td><td>Load MCP servers from JSON file</td></tr>
+          <tr><td><code>--agent</code></td><td>Specify agent for session</td></tr>
+          <tr><td><code>--chrome</code></td><td>Enable Chrome browser integration</td></tr>
+          <tr><td><code>--remote</code></td><td>Create web session on claude.ai</td></tr>
+          <tr><td><code>--bare</code></td><td>Minimal mode — skip auto-discovery</td></tr>
+          <tr><td><code>--verbose</code></td><td>Enable verbose logging</td></tr>
+          <tr><td><code>--debug</code></td><td>Enable debug logging</td></tr>
         </tbody>
       </table>
     </div>
 
     <!-- Permission Modes -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Permission Modes</h3>
-    <div class="card-grid-3">
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:1rem;">
       <div class="card">
-        <h3>Normal</h3>
+        <h3>Default</h3>
         <p>Claude asks permission for every tool use. Safest mode. Good for unfamiliar codebases.</p>
+      </div>
+      <div class="card">
+        <h3>Accept Edits</h3>
+        <p>Auto-accepts file reads and edits. Still prompts for shell commands. Good middle ground.</p>
+      </div>
+      <div class="card">
+        <h3>Plan Mode</h3>
+        <p>Read-only. Claude ONLY reads &amp; plans. Won't write or edit files. Perfect for spec creation and analysis.</p>
       </div>
       <div class="card">
         <h3>Auto-Accept</h3>
         <p>No prompts. Fastest execution. Use when you trust the agent and want maximum speed.</p>
       </div>
       <div class="card">
-        <h3>Plan Mode</h3>
-        <p>Read-only. Claude ONLY reads & plans. Won't write or edit files. Perfect for spec creation and analysis.</p>
+        <h3>Bypass Permissions</h3>
+        <p>Requires <code>--allow-dangerously-skip-permissions</code> flag. Zero guardrails. CI/CD and trusted automation only.</p>
       </div>
     </div>
-    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem;">Cycle between modes: <kbd>Shift+Tab</kbd> &mdash; Normal &#8594; Auto-Accept &#8594; Plan &#8594; Normal</p>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem;">Cycle with <kbd>Shift+Tab</kbd>: default &#8594; acceptEdits &#8594; plan &#8594; auto &#8594; (bypassPermissions if enabled)</p>
 
     <!-- Hooks Reference -->
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Hooks — Event Automation</h3>
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Hooks — Event Automation (26 Events)</h3>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;">Core hooks</p>
     <div class="table-wrap">
       <table class="styled-table">
         <thead><tr><th>Hook</th><th>When It Fires</th></tr></thead>
         <tbody>
-          <tr><td><code>PreToolUse</code></td><td>Before EVERY Claude tool use — check models, audit changes</td></tr>
-          <tr><td><code>PostToolUse</code></td><td>After EVERY tool use — lint, format, auto-fix</td></tr>
-          <tr><td><code>PreUserInput</code></td><td>Before your message is processed</td></tr>
-          <tr><td><code>Stop</code></td><td>When Claude finishes its complete response</td></tr>
           <tr><td><code>SessionStart</code></td><td>When a session begins</td></tr>
           <tr><td><code>SessionEnd</code></td><td>When a session ends</td></tr>
+          <tr><td><code>InstructionsLoaded</code></td><td>After CLAUDE.md and settings are loaded</td></tr>
+          <tr><td><code>UserPromptSubmit</code></td><td>Before your message is processed</td></tr>
+          <tr><td><code>Stop</code></td><td>When Claude finishes its complete response</td></tr>
+          <tr><td><code>StopFailure</code></td><td>When Claude's response fails</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Tool &amp; permission hooks</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Hook</th><th>When It Fires</th></tr></thead>
+        <tbody>
+          <tr><td><code>PreToolUse</code></td><td>Before EVERY tool use — check, audit, intercept</td></tr>
+          <tr><td><code>PostToolUse</code></td><td>After EVERY tool use — lint, format, auto-fix</td></tr>
+          <tr><td><code>PostToolUseFailure</code></td><td>After a tool call fails</td></tr>
+          <tr><td><code>PermissionRequest</code></td><td>When a permission prompt is shown</td></tr>
+          <tr><td><code>PermissionDenied</code></td><td>After a permission is denied in auto mode</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Agent &amp; task hooks</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Hook</th><th>When It Fires</th></tr></thead>
+        <tbody>
+          <tr><td><code>SubagentStart</code></td><td>When a subagent is spawned</td></tr>
+          <tr><td><code>SubagentStop</code></td><td>When a subagent finishes</td></tr>
+          <tr><td><code>TaskCreated</code></td><td>When a task is created via TaskCreate</td></tr>
+          <tr><td><code>TaskCompleted</code></td><td>When a task finishes</td></tr>
+          <tr><td><code>TeammateIdle</code></td><td>When a teammate agent is idle</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:1rem;">Environment &amp; context hooks</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Hook</th><th>When It Fires</th></tr></thead>
+        <tbody>
+          <tr><td><code>ConfigChange</code></td><td>When settings or config changes</td></tr>
+          <tr><td><code>CwdChanged</code></td><td>When the working directory changes</td></tr>
+          <tr><td><code>FileChanged</code></td><td>When a file is modified</td></tr>
+          <tr><td><code>WorktreeCreate</code></td><td>When a git worktree is created</td></tr>
+          <tr><td><code>WorktreeRemove</code></td><td>When a git worktree is removed</td></tr>
+          <tr><td><code>PreCompact</code></td><td>Before context compaction</td></tr>
+          <tr><td><code>PostCompact</code></td><td>After context compaction</td></tr>
+          <tr><td><code>Elicitation</code></td><td>When an MCP elicitation dialog is shown</td></tr>
+          <tr><td><code>ElicitationResult</code></td><td>After an MCP elicitation completes</td></tr>
+          <tr><td><code>Notification</code></td><td>When a notification event fires</td></tr>
         </tbody>
       </table>
     </div>
@@ -3697,15 +4021,19 @@ smoke tests against the staging URL."</code></pre>
     <div class="card-grid">
       <div class="card">
         <h3>@mention</h3>
-        <p>Type <code>@</code> to reference files & folders. Claude includes file contents.</p>
+        <p>Type <code>@</code> to reference files, folders, or named subagents. Claude includes file contents automatically.</p>
       </div>
       <div class="card">
-        <h3>#prefix</h3>
-        <p>Type <code>#</code> for available commands (like <code>#fix-bug</code>).</p>
+        <h3>/commands</h3>
+        <p>Type <code>/</code> for slash command and skill autocomplete.</p>
+      </div>
+      <div class="card">
+        <h3>!bash</h3>
+        <p>Type <code>!</code> to run a shell command directly from the prompt (e.g. <code>! git status</code>).</p>
       </div>
       <div class="card">
         <h3>Paste Images</h3>
-        <p><kbd>Ctrl+P</kbd> or paste screenshots, diagrams, error messages directly.</p>
+        <p><kbd>Ctrl+V</kbd> / <kbd>Cmd+V</kbd> to paste screenshots, diagrams, error messages directly.</p>
       </div>
       <div class="card">
         <h3>Pipe Input</h3>
@@ -3713,11 +4041,15 @@ smoke tests against the staging URL."</code></pre>
       </div>
       <div class="card">
         <h3>Multi-Dir</h3>
-        <p><code>claude -w src/ -w tests/</code> — work across multiple directories.</p>
+        <p><code>claude --add-dir src/ --add-dir tests/</code> — work across multiple directories.</p>
+      </div>
+      <div class="card">
+        <h3>Voice</h3>
+        <p>Hold <kbd>Space</kbd> for push-to-talk voice dictation. Supports 20+ languages.</p>
       </div>
       <div class="card">
         <h3>Background</h3>
-        <p><code>Ctrl+Z</code> sends a task to background so you can start another.</p>
+        <p><kbd>Ctrl+B</kbd> backgrounds running tasks so you can start another.</p>
       </div>
     </div>
 
@@ -3726,20 +4058,22 @@ smoke tests against the staging URL."</code></pre>
     <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
       <div class="code-block" style="flex:1; min-width:280px;">
         <pre><code class="language-text">PROJECT (.claude/)
-├── CLAUDE.md         # Project memory
+├── CLAUDE.md         # Project instructions
 ├── settings.json     # Shared project settings
+├── rules/            # Path-scoped rules
 ├── commands/         # Custom slash commands
 ├── skills/           # Reusable expert modes
 └── agents/           # Project sub-agents</code></pre>
       </div>
       <div class="code-block" style="flex:1; min-width:280px;">
         <pre><code class="language-text">GLOBAL (~/.claude/)
-├── CLAUDE.md         # Global memory
+├── CLAUDE.md         # Global instructions
 ├── settings.json     # Personal settings
+├── commands/         # Personal global commands
 ├── skills/           # Personal global skills
 ├── todos/            # Task management
-├── .mcprc            # MCP server configs
-└── keybindings.json  # Custom keybindings</code></pre>
+├── keybindings.json  # Custom keybindings
+└── plugins/          # Installed plugins</code></pre>
       </div>
     </div>
 
@@ -3749,13 +4083,17 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Action</th><th>Command</th></tr></thead>
         <tbody>
-          <tr><td>Start project</td><td><code>cd project && claude</code></td></tr>
+          <tr><td>Start project</td><td><code>cd project &amp;&amp; claude</code></td></tr>
           <tr><td>Continue where I left off</td><td><code>claude -c</code></td></tr>
+          <tr><td>Resume named session</td><td><code>claude -r my-feature</code></td></tr>
           <tr><td>Quick question, no session</td><td><code>claude -p "how do I..."</code></td></tr>
-          <tr><td>Review & fix this file</td><td><code>claude "review @file.ts"</code></td></tr>
+          <tr><td>Review &amp; fix this file</td><td><code>claude "review @file.ts"</code></td></tr>
           <tr><td>Explore error</td><td><code>cat error.log | claude -p "fix"</code></td></tr>
-          <tr><td>Parallel sessions</td><td><code>claude -r</code> (each gets own worktree)</td></tr>
+          <tr><td>Parallel sessions</td><td><code>claude -w</code> (each gets own worktree)</td></tr>
           <tr><td>Force model</td><td><code>claude --model opus</code></td></tr>
+          <tr><td>Set effort level</td><td><code>/effort max</code> or <code>claude --effort high</code></td></tr>
+          <tr><td>Remote control from web</td><td><code>/remote-control</code> or <code>claude --remote</code></td></tr>
+          <tr><td>Voice dictation</td><td><code>/voice</code> then hold <kbd>Space</kbd> to talk</td></tr>
           <tr><td>Scriptable automation</td><td><code>claude -p --output-format json "task"</code></td></tr>
         </tbody>
       </table>
@@ -3767,7 +4105,7 @@ smoke tests against the staging URL."</code></pre>
 <section id="power-usage">
     <span class="section-label">14 — Claude Power Usage</span>
     <h2 class="section-title">Advanced Features for Power Users</h2>
-    <p class="section-subtitle">Agent teams, worktrees, model selection, monitoring hooks, and scheduling.</p>
+    <p class="section-subtitle">Agent teams, worktrees, remote control, batch operations, voice, plugins, and more.</p>
 
     <!-- Agent Teams -->
     <div class="collapsible open">
@@ -3782,6 +4120,16 @@ smoke tests against the staging URL."</code></pre>
           <li>Writer + reviewer pattern: one implements, another reviews</li>
           <li>Research agent gathers context while implementation agent builds</li>
         </ul>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Spawn a teammate in its own worktree + tmux pane</span>
+<span class="kw">claude</span> <span class="val">-w</span> feature-auth <span class="val">--tmux</span>
+
+<span class="cm"># Or run teammates in-process (no tmux needed)</span>
+<span class="kw">claude</span> <span class="val">--teammate-mode</span> in-process
+
+<span class="cm"># Reference named agents with @ in your prompt</span>
+<span class="cm"># Team leader's model and permissions cascade to teammates</span></code></pre>
+        </div>
         <a href="https://code.claude.com/docs/en/agent-teams" target="_blank" rel="noopener" class="resource-link" style="margin-top:1rem;">
           <span class="resource-icon">&#128279;</span>
           <div>
@@ -3802,7 +4150,10 @@ smoke tests against the staging URL."</code></pre>
         <p>Isolated git worktrees for parallel work. Each agent gets its own branch and working directory. Changes merge back when complete.</p>
         <div class="code-block" style="margin-top:0.75rem;">
           <pre><code class="language-bash"><span class="cm"># Start Claude in a new worktree</span>
-<span class="kw">claude</span> <span class="val">-r</span> feature-name
+<span class="kw">claude</span> <span class="val">-w</span> feature-name
+
+<span class="cm"># Pair with tmux for side-by-side terminals</span>
+<span class="kw">claude</span> <span class="val">-w</span> feature-name <span class="val">--tmux</span>
 
 <span class="cm"># Each worktree is a full repo checkout</span>
 <span class="cm"># Agents can work simultaneously without conflicts</span>
@@ -3810,47 +4161,88 @@ smoke tests against the staging URL."</code></pre>
         </div>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">Tip</div>
-          <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned.</p>
+          <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events.</p>
         </div>
       </div></div>
     </div>
 
-    <!-- Model Auto Selection -->
+    <!-- Model & Effort Control -->
     <div class="collapsible">
       <div class="collapsible-header">
-        <h3>Model Auto Selection</h3>
+        <h3>Model &amp; Effort Control</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Claude picks the right model for the task. Sonnet for routine operations (file reads, simple edits). Opus for complex reasoning (architecture, debugging, multi-step plans).</p>
+        <p>Claude auto-selects the right model for the task, but you have full control over model choice and reasoning depth.</p>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
-          <li><strong>Haiku:</strong> Quick lookups, simple questions, file navigation</li>
-          <li><strong>Sonnet:</strong> Standard coding, refactoring, test writing</li>
-          <li><strong>Opus:</strong> Complex architecture, debugging, multi-file changes</li>
+          <li><strong>Haiku 4.5:</strong> Quick lookups, simple questions, file navigation</li>
+          <li><strong>Sonnet 4.6:</strong> Standard coding, refactoring, test writing</li>
+          <li><strong>Opus 4.6:</strong> Complex architecture, debugging, multi-file changes</li>
         </ul>
-        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Force a specific model with <code>--model opus</code> or <code>--model sonnet</code> when you know the task complexity.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Force a specific model</span>
+<span class="kw">claude</span> <span class="val">--model</span> opus
+
+<span class="cm"># Set effort level (controls reasoning depth)</span>
+/effort max          <span class="cm"># Deep thinking — best for complex tasks</span>
+/effort low          <span class="cm"># Quick responses — best for simple tasks</span>
+<span class="kw">claude</span> <span class="val">--effort</span> high  <span class="cm"># Set via CLI flag</span>
+
+<span class="cm"># Toggle fast mode (same model, faster output)</span>
+/fast on
+
+<span class="cm"># Auto-fallback in print mode when overloaded</span>
+<span class="kw">claude</span> <span class="val">-p</span> <span class="val">--fallback-model</span> sonnet <span class="str">"query"</span></code></pre>
+        </div>
       </div></div>
     </div>
 
-    <!-- Hooks for Context Monitoring -->
+    <!-- Hooks in Practice -->
     <div class="collapsible">
       <div class="collapsible-header">
-        <h3>Hooks for Context Monitoring</h3>
+        <h3>Hooks in Practice</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Show context window usage in the status line. Auto-compact when approaching limits.</p>
-        <div class="code-block" style="margin-top:0.75rem;">
+        <p>Real-world hook examples you can add to <code>.claude/settings.json</code>. Hooks support a conditional <code>if</code> field for filtering by tool name or permission rule syntax.</p>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem; margin-bottom:0.5rem;"><strong>Auto-lint after file edits:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
           <pre><code class="language-json">{
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "*",
-        "command": "echo 'Context: ~$(du -sh ~/.claude/context 2>/dev/null | cut -f1)'"
+        "matcher": "Edit|Write",
+        "command": "npx eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null || true"
       }
     ]
   }
 }</code></pre>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Read-before-edit reminder:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "command": "echo 'READ-BEFORE-EDIT REMINDER: Read the file first before editing.'"
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Custom status line (context monitor):</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "statusLine": {
+    "type": "command",
+    "command": "node ~/.claude/hooks/my-statusline.js"
+  }
+}</code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:0;">
+          <div class="callout-title">26 Hook Events</div>
+          <p>See the Cheat Sheet above for the full list of hook events — from <code>SessionStart</code> to <code>WorktreeRemove</code>. Use the <code>if</code> field to conditionally fire hooks based on tool names or patterns.</p>
         </div>
       </div></div>
     </div>
@@ -3864,10 +4256,12 @@ smoke tests against the staging URL."</code></pre>
       <div class="collapsible-body"><div class="collapsible-content">
         <p>Review what Claude did in past sessions. Useful for auditing agent behavior and learning from successful patterns.</p>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
-          <li>Location: <code>~/.claude/logs/</code></li>
+          <li>Location: <code>~/.claude/projects/</code> (session transcripts)</li>
           <li>Each session is logged with timestamps</li>
           <li>Includes tool calls, file changes, and conversation flow</li>
           <li>Useful for debugging "what did the agent do while I was away?"</li>
+          <li>Use <code>/export</code> to save a conversation to file or clipboard</li>
+          <li>Press <kbd>Ctrl+O</kbd> to open the transcript viewer mid-session</li>
         </ul>
       </div></div>
     </div>
@@ -3915,10 +4309,158 @@ smoke tests against the staging URL."</code></pre>
         </div>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">For Persistence</div>
-          <p>Session-scoped loops stop when the terminal closes. For persistent scheduling, use GitHub Actions, cron jobs, or <a href="https://claudefa.st/blog/guide/development/scheduled-tasks" target="_blank" rel="noopener" style="color:var(--accent-blue);">scheduled tasks</a>.</p>
+          <p>Session-scoped loops stop when the terminal closes. For persistent cloud scheduling, use <code>/schedule</code> to create cron-based tasks that run without an active terminal.</p>
         </div>
       </div></div>
     </div>
+
+    <!-- Remote Control & Cross-Device -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Remote Control &amp; Cross-Device</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Control your terminal Claude session from the web, or move sessions between devices seamlessly.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Enable remote control from claude.ai</span>
+/remote-control
+/remote-control <span class="str">"My Project"</span>   <span class="cm"># With custom name</span>
+
+<span class="cm"># Create a web session directly</span>
+<span class="kw">claude</span> <span class="val">--remote</span> <span class="str">"Fix the login bug"</span>
+
+<span class="cm"># Pull a web session into your terminal</span>
+/teleport</code></pre>
+        </div>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li><code>/desktop</code> &mdash; continue session in the Claude Code desktop app (macOS/Windows)</li>
+          <li><code>/mobile</code> &mdash; show QR code to continue on mobile</li>
+          <li>Bridge sessions display your local git repo, branch, and working directory</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Chrome Integration -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Chrome Integration</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Claude can interact with web pages in a Chrome browser — navigate, fill forms, click buttons, extract data, and take screenshots.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Enable Chrome integration</span>
+<span class="kw">claude</span> <span class="val">--chrome</span>
+
+<span class="cm"># Or configure via slash command</span>
+/chrome
+
+<span class="cm"># Disable when not needed</span>
+<span class="kw">claude</span> <span class="val">--no-chrome</span></code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Use Cases</div>
+          <p>Debug frontend issues by viewing the page directly, verify UI changes after edits, scrape documentation, or test form flows end-to-end.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Batch Operations -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Batch Operations</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Orchestrate large-scale changes across your entire codebase with 5&ndash;30 parallel agents working simultaneously.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Rename a function across the entire codebase</span>
+/batch rename all instances of getUserData to fetchUserProfile
+
+<span class="cm"># Add error handling to all API endpoints</span>
+/batch add try-catch error handling to every Express route handler
+
+<span class="cm"># Migrate imports across hundreds of files</span>
+/batch update all imports from lodash to lodash-es</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Each agent works on a subset of files independently. Changes are coordinated and merged back. Best for mechanical, repetitive changes across many files.</p>
+      </div></div>
+    </div>
+
+    <!-- Plugins -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Plugins</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Extend Claude Code with community and first-party plugins that add skills, commands, tools, and integrations.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Browse and install plugins</span>
+/plugin
+
+<span class="cm"># Reload plugins without restarting Claude</span>
+/reload-plugins
+
+<span class="cm"># Load plugins from a custom directory</span>
+<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins</code></pre>
+        </div>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li>Plugins add skills invokable via <code>/skill-name</code></li>
+          <li>Executables under <code>bin/</code> are invokable as bare commands</li>
+          <li>Plugin marketplace for discovery and one-click install</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Voice Input -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Voice Input</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Dictate prompts instead of typing. Push-to-talk voice input with support for 20+ languages.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Enable voice mode</span>
+/voice
+
+<span class="cm"># Then hold Space to talk, release to send</span>
+<span class="cm"># Rebind the key in ~/.claude/keybindings.json:</span>
+<span class="cm"># { "voice:pushToTalk": "ctrl+space" }</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Supports English, Spanish, French, German, Japanese, Korean, Chinese, Russian, Polish, Turkish, Dutch, Ukrainian, Greek, Czech, Danish, Swedish, Norwegian, and more.</p>
+      </div></div>
+    </div>
+
+    <!-- Context Management -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Context Management</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Monitor and optimize your context window to keep sessions productive as they grow.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Visualize context usage with optimization tips</span>
+/context
+
+<span class="cm"># Compress context — keep only what matters</span>
+/compact
+/compact <span class="str">"focus on the auth module"</span>
+
+<span class="cm"># Auto-compact via hooks when context gets large</span>
+<span class="cm"># PreCompact and PostCompact hooks fire around compaction</span></code></pre>
+        </div>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li><code>/context</code> shows token counts, heavy tools, and memory bloat analysis</li>
+          <li><code>/compact</code> with a focus string preserves relevant context while trimming the rest</li>
+          <li>Status line can display live context usage with a color-coded progress bar</li>
+        </ul>
+      </div></div>
+    </div>
+
   </section>
 
 <hr class="divider">
@@ -3999,6 +4541,15 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
         <div class="framework-stats">
           <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">Curated directory</span>
           <span class="badge" style="background:rgba(16,185,129,0.15); color:var(--accent-emerald);">Ecosystem overview</span>
+        </div>
+      </div>
+
+      <div class="framework-card ">
+        <h3><a href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener">OpenSpec</a></h3>
+        <p class="framework-desc">A lightweight, spec-driven development framework that helps AI coding assistants and humans align on requirements before writing code. Organizes each feature into structured artifacts — proposals, specifications, design docs, and task lists — enabling fluid iteration without rigid phase gates.</p>
+        <div class="framework-stats">
+          <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">Spec-driven</span>
+          <span class="badge" style="background:rgba(16,185,129,0.15); color:var(--accent-emerald);">20+ AI tools</span>
         </div>
       </div>
 
