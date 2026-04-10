@@ -23,6 +23,7 @@
 - [x] `CBP-019` Add --exclude-dynamic-system-prompt-sections flag to Cheat Sheet → [task-cbp-019.md](task-cbp-019.md)
 - [x] `CBP-020` Add subprocess sandboxing env vars to Power Usage → [task-cbp-020.md](task-cbp-020.md)
 - [x] `CBP-021` Add Vertex AI/Bedrock interactive setup wizard note → [task-cbp-021.md](task-cbp-021.md)
+- [x] `CBP-022` Add a "Claude Monitoring" section to Claude Best Practices covering usage tracking & cost management → [task-cbp-022.md](task-cbp-022.md)
 
 ## Bug Details: CBP-006
 
