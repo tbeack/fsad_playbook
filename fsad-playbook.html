@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v10)</title>
+<title>FSAD — Full Stack Agentic Development (v11)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1518,7 +1518,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v10</span></span>
+    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v11</span></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -2741,6 +2741,11 @@ description: Structured code review with security and quality checks
     <h2 class="section-title">Connect Claude to Your Tools via MCP</h2>
     <p class="section-subtitle">Model Context Protocol (MCP) is the universal adapter between AI models and your existing tools — databases, APIs, design tools, project management.</p>
 
+    <div class="callout callout-tip" style="margin-bottom:1.5rem;">
+      <div class="callout-title">3rd-Party Model Providers</div>
+      <p>Running Claude Code with <strong>Amazon Bedrock</strong> or <strong>Google Vertex AI</strong>? Use the interactive setup wizard: run <code>claude</code>, select <strong>"3rd-party platform"</strong> from the login screen, and follow the guided setup for authentication, region, and model pinning — no manual env var configuration needed.</p>
+    </div>
+
     <div class="code-block"><pre><code>Claude Code ──▶ MCP Protocol ──▶ JIRA
                               ──▶ Figma
                               ──▶ Notion
@@ -3789,6 +3794,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/schedule</code></td><td>Create / manage cloud scheduled tasks</td></tr>
           <tr><td><code>/batch</code> <code>&lt;instruction&gt;</code></td><td>Orchestrate large-scale changes (5–30 parallel agents)</td></tr>
           <tr><td><code>/tasks</code></td><td>List and manage background tasks (alias: <code>/bashes</code>)</td></tr>
+          <tr><td><code>/agents</code></td><td>Browse agent library and manage live subagents (Running + Library tabs)</td></tr>
           <tr><td><code>/security-review</code></td><td>Analyze pending changes for security issues</td></tr>
         </tbody>
       </table>
@@ -3904,6 +3910,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>--json-schema</code></td><td>Get JSON output matching a specific schema</td></tr>
           <tr><td><code>--max-turns</code></td><td>Limit number of agentic turns</td></tr>
           <tr><td><code>--max-budget-usd</code></td><td>Maximum spend before stopping ($)</td></tr>
+          <tr><td><code>--exclude-dynamic-system-prompt-sections</code></td><td>Strip dynamic prompt sections to enable cross-user prompt cache sharing</td></tr>
         </tbody>
       </table>
     </div>
@@ -4458,6 +4465,52 @@ smoke tests against the staging URL."</code></pre>
           <li><code>/compact</code> with a focus string preserves relevant context while trimming the rest</li>
           <li>Status line can display live context usage with a color-coded progress bar</li>
         </ul>
+      </div></div>
+    </div>
+
+    <!-- Monitor Tool -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Monitor Tool — Background Script Streaming</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>The <code>Monitor</code> tool streams stdout events from a script started with <code>Bash(run_in_background: true)</code>. Each line of output arrives as a notification, letting Claude observe long-running processes without blocking the conversation.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Ask Claude to run tests in the background and watch them</span>
+<span class="str">"Run the test suite in the background and tell me when done"</span>
+<span class="cm"># Claude uses Bash(run_in_background: true) to launch tests,</span>
+<span class="cm"># then Monitor streams each stdout line back as it arrives</span></code></pre>
+        </div>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li>Observe CI pipelines, build scripts, and dev servers without blocking</li>
+          <li>React to output in real time — fail fast on errors, summarize on completion</li>
+          <li>Pairs with <kbd>Ctrl+B</kbd> for manually backgrounded tasks</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Subprocess Sandboxing -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Subprocess Sandboxing</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Two env vars harden Claude Code's Bash tool for shared environments and CI/CD:</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Env Var</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code></td><td>Enables PID namespace isolation on Linux — sandboxed commands can't see or signal processes outside their namespace</td></tr>
+              <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Use Case</div>
+          <p>Set these in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Prevents one session from interfering with another.</p>
+        </div>
       </div></div>
     </div>
 

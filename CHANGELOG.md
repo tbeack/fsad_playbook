@@ -1,5 +1,32 @@
 ## Changes in This Version
 
+### v11 — 2026-04-10
+
+**Auto-update for Claude Code v2.1.98 (CBP-017 through CBP-021)**
+
+**Monitor Tool collapsible in Power Usage (CBP-017)**
+- Added new "Monitor Tool — Background Script Streaming" collapsible to Power Usage section (section 14)
+- Explains `Monitor` as a built-in tool that streams stdout from background scripts started with `Bash(run_in_background: true)`
+- Includes a practical example and three use-case bullets (CI pipelines, dev servers, pairing with Ctrl+B)
+
+**`/agents` command added to Cheat Sheet (CBP-018)**
+- Added `/agents` to the "Automation & agents" slash commands table in the Cheat Sheet
+- Description reflects the new tabbed UI: Running tab (live subagents) + Library tab (browse/run agents)
+
+**`--exclude-dynamic-system-prompt-sections` flag in Cheat Sheet (CBP-019)**
+- Added new flag to the "Print / programmatic mode" CLI flags table
+- Strips dynamic prompt sections to enable cross-user prompt cache sharing in scripted/CI workflows
+
+**Subprocess Sandboxing collapsible in Power Usage (CBP-020)**
+- Added new "Subprocess Sandboxing" collapsible to Power Usage section
+- Documents `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` (PID namespace isolation on Linux) and `CLAUDE_CODE_SCRIPT_CAPS=N` (per-session script invocation limit)
+- Includes a use-case callout for CI/CD and shared environments
+
+**Vertex AI / Bedrock setup wizard callout in Integrations (CBP-021)**
+- Added a tip callout at the top of the Integrations section (section 10)
+- Notes the interactive login-screen wizard for configuring Amazon Bedrock and Google Vertex AI as model providers
+- Guides users to "3rd-party platform" option in the Claude login screen
+
 ### v10 — 2026-04-09
 
 **Building Skills overhaul (CBP-016)**
