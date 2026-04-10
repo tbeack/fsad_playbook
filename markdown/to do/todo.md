@@ -18,6 +18,11 @@
 - [x] `CBP-014` Review the Claude commands shown in the "Cheat Sheet" section and update → [task-cbp-014.md](task-cbp-014.md)
 - [x] `CBP-015` Review and update the "Power Usage" section with latest Claude Code features → [task-cbp-015.md](task-cbp-015.md)
 - [x] `CBP-016` Review and update the "Building Skills" section → [task-cbp-016.md](task-cbp-016.md)
+- [x] `CBP-017` Add Monitor tool to Power Usage section → [task-cbp-017.md](task-cbp-017.md)
+- [x] `CBP-018` Add /agents command to Cheat Sheet automation table → [task-cbp-018.md](task-cbp-018.md)
+- [x] `CBP-019` Add --exclude-dynamic-system-prompt-sections flag to Cheat Sheet → [task-cbp-019.md](task-cbp-019.md)
+- [x] `CBP-020` Add subprocess sandboxing env vars to Power Usage → [task-cbp-020.md](task-cbp-020.md)
+- [x] `CBP-021` Add Vertex AI/Bedrock interactive setup wizard note → [task-cbp-021.md](task-cbp-021.md)
 
 ## Bug Details: CBP-006
 
