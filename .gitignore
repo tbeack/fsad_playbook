@@ -16,5 +16,6 @@ delete.md
 Claude_Things_to_try.md
 
 # Local reference docs
-markdown/
+markdown/*
+!markdown/to do/
 docs/
