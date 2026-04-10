@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v13 — 2026-04-10
+
+**Phase 3 rename (CBP-023)**
+- Renamed Phase 3 from "Spec Validation" to "Implementation Planning" in the FSAD workflow diagram
+- Updated both the phase card title and the detail panel heading
+
+**Task tracking cleanup**
+- Extracted CBP-006 bug details from `todo.md` into its own `task-cbp-006.md` file, matching the convention used by all other tasks
+
 ### v12 — 2026-04-10
 
 **Claude Monitoring section (CBP-022)**
