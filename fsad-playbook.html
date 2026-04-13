@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v11)</title>
+<title>FSAD — Full Stack Agentic Development (v13)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1518,7 +1518,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v11</span></span>
+    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v13</span></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1583,6 +1583,7 @@
         <a class="nav-sub-item" href="#practices/best-practices" onclick="scrollToSection('best-practices')">Guidelines</a>
         <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="scrollToSection('cheat-sheet')">Cheat Sheet</a>
         <a class="nav-sub-item" href="#practices/power-usage" onclick="scrollToSection('power-usage')">Power Usage</a>
+        <a class="nav-sub-item" href="#practices/monitoring" onclick="scrollToSection('monitoring')">Monitoring</a>
         <a class="nav-sub-item" href="#practices/open-source" onclick="scrollToSection('open-source')">Open Source</a>
       </div>
     </div>
@@ -1686,13 +1687,13 @@
     <div class="workflow-phases">
       <div class="workflow-phase active" data-phase="0" onclick="showPhase(0)"><div class="phase-number">Phase 1</div><div class="phase-title">Intent & Discovery</div><div class="phase-who"><span class="role-pm">PM</span><span class="role-ux">UX</span></div><div class="phase-output">→ problem.md</div></div>
       <div class="workflow-phase" data-phase="1" onclick="showPhase(1)"><div class="phase-number">Phase 2</div><div class="phase-title">Live Spec Session</div><div class="phase-who"><span class="role-pm">PM</span><span class="role-ux">UX</span><span class="role-eng">Eng</span></div><div class="phase-output">→ spec.md</div></div>
-      <div class="workflow-phase" data-phase="2" onclick="showPhase(2)"><div class="phase-number">Phase 3</div><div class="phase-title">Spec Validation</div><div class="phase-who"><span class="role-eng">Eng</span><span class="role-agent">Agent</span></div><div class="phase-output">→ plan.md + tasks/</div></div>
+      <div class="workflow-phase" data-phase="2" onclick="showPhase(2)"><div class="phase-number">Phase 3</div><div class="phase-title">Implementation Planning</div><div class="phase-who"><span class="role-eng">Eng</span><span class="role-agent">Agent</span></div><div class="phase-output">→ plan.md + tasks/</div></div>
       <div class="workflow-phase" data-phase="3" onclick="showPhase(3)"><div class="phase-number">Phase 4</div><div class="phase-title">Agent Execution</div><div class="phase-who"><span class="role-agent">Agent</span><span class="role-agent">Agent</span><span class="role-agent">Agent</span></div><div class="phase-output">→ code + tests</div></div>
       <div class="workflow-phase" data-phase="4" onclick="showPhase(4)"><div class="phase-number">Phase 5</div><div class="phase-title">Human Review & Ship</div><div class="phase-who"><span class="role-eng">Eng</span><span class="role-ux">UX</span><span class="role-pm">PM</span></div><div class="phase-output">→ deploy</div></div>
     </div>
     <div class="workflow-detail visible" id="detail-0"><h4>Phase 1 — Intent & Discovery</h4><p>The PM and UX designer define the problem space and user outcomes. They collaborate — often with an AI research assistant — to surface user needs, competitive landscape, and constraints. The output is a concise problem statement in markdown that frames <em>what</em> we're solving and <em>for whom</em>. No solutions yet.</p><div class="detail-artifacts"><span class="artifact-tag">problem.md</span><span class="artifact-tag">user-stories.md</span><span class="artifact-tag">constraints.md</span></div></div>
     <div class="workflow-detail" id="detail-1"><h4>Phase 2 — Live Spec Session</h4><p>The entire pod convenes in a real-time collaborative session. The PM contributes business requirements, UX contributes interaction patterns and design decisions, and the Engineer contributes technical feasibility and architecture. They co-author the spec in markdown together — design decisions are embedded inline, not deferred to a separate Figma-to-Jira handoff. This is where FSAD breaks the handoff chain.</p><div class="detail-artifacts"><span class="artifact-tag">spec.md</span><span class="artifact-tag">design-decisions.md</span><span class="artifact-tag">AGENTS.md</span></div></div>
-    <div class="workflow-detail" id="detail-2"><h4>Phase 3 — Spec Validation & Task Decomposition</h4><p>The Engineer feeds the spec to an AI agent in "plan mode" (read-only). The agent analyzes the codebase, generates an implementation plan, and decomposes work into discrete, parallelizable tasks. The human reviews the plan against the spec — catching hallucinations, missed edge cases, and architectural misalignment before any code is written.</p><div class="detail-artifacts"><span class="artifact-tag">plan.md</span><span class="artifact-tag">tasks/*.md</span><span class="artifact-tag">test-plan.md</span></div></div>
+    <div class="workflow-detail" id="detail-2"><h4>Phase 3 — Implementation Planning & Task Decomposition</h4><p>The Engineer feeds the spec to an AI agent in "plan mode" (read-only). The agent analyzes the codebase, generates an implementation plan, and decomposes work into discrete, parallelizable tasks. The human reviews the plan against the spec — catching hallucinations, missed edge cases, and architectural misalignment before any code is written.</p><div class="detail-artifacts"><span class="artifact-tag">plan.md</span><span class="artifact-tag">tasks/*.md</span><span class="artifact-tag">test-plan.md</span></div></div>
     <div class="workflow-detail" id="detail-3"><h4>Phase 4 — Parallel Agent Execution</h4><p>Multiple AI agents execute tasks simultaneously in isolated git worktrees. Each agent works against the spec as its source of truth. A Coordinator agent (or human) routes tasks, and a Verifier agent checks each output against the spec's acceptance criteria. The engineer monitors, steers, and intervenes only when agents get stuck or drift.</p><div class="detail-artifacts"><span class="artifact-tag">src/**</span><span class="artifact-tag">tests/**</span><span class="artifact-tag">agent-logs/</span></div></div>
     <div class="workflow-detail" id="detail-4"><h4>Phase 5 — Human Review & Ship</h4><p>The full pod reviews the implementation. The Engineer checks code quality, architecture adherence, and test coverage. UX validates the interface against design decisions in the spec. The PM validates against user stories and acceptance criteria. Reviews focus on spec compliance, not syntax — because agents produce consistent code from living specs. Then ship.</p><div class="detail-artifacts"><span class="artifact-tag">PR review</span><span class="artifact-tag">spec-diff.md</span><span class="artifact-tag">deploy</span></div></div>
   </div>
@@ -2740,6 +2741,11 @@ description: Structured code review with security and quality checks
     <span class="section-label">10 — Integrations</span>
     <h2 class="section-title">Connect Claude to Your Tools via MCP</h2>
     <p class="section-subtitle">Model Context Protocol (MCP) is the universal adapter between AI models and your existing tools — databases, APIs, design tools, project management.</p>
+
+    <div class="callout callout-tip" style="margin-bottom:1.5rem;">
+      <div class="callout-title">3rd-Party Model Providers</div>
+      <p>Running Claude Code with <strong>Amazon Bedrock</strong> or <strong>Google Vertex AI</strong>? Use the interactive setup wizard: run <code>claude</code>, select <strong>"3rd-party platform"</strong> from the login screen, and follow the guided setup for authentication, region, and model pinning — no manual env var configuration needed.</p>
+    </div>
 
     <div class="code-block"><pre><code>Claude Code ──▶ MCP Protocol ──▶ JIRA
                               ──▶ Figma
@@ -3789,6 +3795,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/schedule</code></td><td>Create / manage cloud scheduled tasks</td></tr>
           <tr><td><code>/batch</code> <code>&lt;instruction&gt;</code></td><td>Orchestrate large-scale changes (5–30 parallel agents)</td></tr>
           <tr><td><code>/tasks</code></td><td>List and manage background tasks (alias: <code>/bashes</code>)</td></tr>
+          <tr><td><code>/agents</code></td><td>Browse agent library and manage live subagents (Running + Library tabs)</td></tr>
           <tr><td><code>/security-review</code></td><td>Analyze pending changes for security issues</td></tr>
         </tbody>
       </table>
@@ -3905,6 +3912,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>--json-schema</code></td><td>Get JSON output matching a specific schema</td></tr>
           <tr><td><code>--max-turns</code></td><td>Limit number of agentic turns</td></tr>
           <tr><td><code>--max-budget-usd</code></td><td>Maximum spend before stopping ($)</td></tr>
+          <tr><td><code>--exclude-dynamic-system-prompt-sections</code></td><td>Strip dynamic prompt sections to enable cross-user prompt cache sharing</td></tr>
         </tbody>
       </table>
     </div>
@@ -4462,12 +4470,248 @@ smoke tests against the staging URL."</code></pre>
       </div></div>
     </div>
 
+    <!-- Monitor Tool -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Monitor Tool — Background Script Streaming</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>The <code>Monitor</code> tool streams stdout events from a script started with <code>Bash(run_in_background: true)</code>. Each line of output arrives as a notification, letting Claude observe long-running processes without blocking the conversation.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Ask Claude to run tests in the background and watch them</span>
+<span class="str">"Run the test suite in the background and tell me when done"</span>
+<span class="cm"># Claude uses Bash(run_in_background: true) to launch tests,</span>
+<span class="cm"># then Monitor streams each stdout line back as it arrives</span></code></pre>
+        </div>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li>Observe CI pipelines, build scripts, and dev servers without blocking</li>
+          <li>React to output in real time — fail fast on errors, summarize on completion</li>
+          <li>Pairs with <kbd>Ctrl+B</kbd> for manually backgrounded tasks</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Subprocess Sandboxing -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Subprocess Sandboxing</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Two env vars harden Claude Code's Bash tool for shared environments and CI/CD:</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Env Var</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code></td><td>Enables PID namespace isolation on Linux — sandboxed commands can't see or signal processes outside their namespace</td></tr>
+              <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Use Case</div>
+          <p>Set these in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Prevents one session from interfering with another.</p>
+        </div>
+      </div></div>
+    </div>
+
+  </section>
+
+<hr class="divider">
+
+<section id="monitoring">
+    <span class="section-label">15 — Claude Monitoring</span>
+    <h2 class="section-title">Track Usage, Costs &amp; Tool Activity</h2>
+    <p class="section-subtitle">Monitor Claude Code across your organization with OpenTelemetry. Track token spend, session activity, tool usage, and developer productivity — then pipe it into the observability stack you already use.</p>
+
+    <!-- Quick Start -->
+    <div class="collapsible open">
+      <div class="collapsible-header">
+        <h3>Quick Start</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Enable OpenTelemetry export with a handful of environment variables. Set these before running <code>claude</code>:</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># 1. Enable telemetry (required)</span>
+<span class="kw">export</span> CLAUDE_CODE_ENABLE_TELEMETRY=1
+
+<span class="cm"># 2. Choose exporters (both optional — configure what you need)</span>
+<span class="kw">export</span> OTEL_METRICS_EXPORTER=otlp       <span class="cm"># otlp | prometheus | console | none</span>
+<span class="kw">export</span> OTEL_LOGS_EXPORTER=otlp          <span class="cm"># otlp | console | none</span>
+
+<span class="cm"># 3. Point at your collector</span>
+<span class="kw">export</span> OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+<span class="kw">export</span> OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+
+<span class="cm"># 4. Auth header (if your collector requires it)</span>
+<span class="kw">export</span> OTEL_EXPORTER_OTLP_HEADERS=<span class="str">"Authorization=Bearer your-token"</span>
+
+<span class="cm"># 5. Run Claude Code</span>
+claude</code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Debugging Tip</div>
+          <p>Use <code>OTEL_METRICS_EXPORTER=console</code> with <code>OTEL_METRIC_EXPORT_INTERVAL=1000</code> to see metrics printed to stdout every second while you verify your setup.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Available Metrics -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Available Metrics</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Claude Code exports 8 time-series metrics. The cost and token counters are the ones most teams start with.</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Metric</th><th>Description</th><th>Unit</th></tr></thead>
+            <tbody>
+              <tr><td><code>claude_code.cost.usage</code></td><td>Session cost (approximation &mdash; use API console for billing)</td><td>USD</td></tr>
+              <tr><td><code>claude_code.token.usage</code></td><td>Tokens used, broken down by <code>type</code>: input, output, cacheRead, cacheCreation</td><td>tokens</td></tr>
+              <tr><td><code>claude_code.session.count</code></td><td>CLI sessions started</td><td>count</td></tr>
+              <tr><td><code>claude_code.active_time.total</code></td><td>Active time (user interactions + CLI processing)</td><td>seconds</td></tr>
+              <tr><td><code>claude_code.lines_of_code.count</code></td><td>Lines added or removed</td><td>count</td></tr>
+              <tr><td><code>claude_code.commit.count</code></td><td>Git commits created via Claude</td><td>count</td></tr>
+              <tr><td><code>claude_code.pull_request.count</code></td><td>PRs created via Claude</td><td>count</td></tr>
+              <tr><td><code>claude_code.code_edit_tool.decision</code></td><td>Tool permission accept/reject decisions</td><td>count</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">All metrics carry standard attributes: <code>session.id</code>, <code>organization.id</code>, <code>user.account_uuid</code>, and <code>terminal.type</code>. Token and cost metrics also include <code>model</code>.</p>
+      </div></div>
+    </div>
+
+    <!-- Events & Logs -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Events &amp; Logs</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>When <code>OTEL_LOGS_EXPORTER</code> is configured, Claude Code emits structured events for every prompt, tool call, and API request. Events share a <code>prompt.id</code> so you can trace all activity back to the prompt that triggered it.</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Event</th><th>Fires When</th><th>Key Attributes</th></tr></thead>
+            <tbody>
+              <tr><td><code>claude_code.user_prompt</code></td><td>User submits a prompt</td><td>prompt_length, prompt (opt-in)</td></tr>
+              <tr><td><code>claude_code.tool_result</code></td><td>Tool finishes executing</td><td>tool_name, success, duration_ms</td></tr>
+              <tr><td><code>claude_code.api_request</code></td><td>API call to Claude completes</td><td>model, cost_usd, input/output tokens</td></tr>
+              <tr><td><code>claude_code.api_error</code></td><td>API call fails (after retries)</td><td>error, status_code, attempt count</td></tr>
+              <tr><td><code>claude_code.tool_decision</code></td><td>Tool permission accept/reject</td><td>tool_name, decision, source</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Opt-in Detail Levels</div>
+          <p><code>OTEL_LOG_USER_PROMPTS=1</code> includes prompt text. <code>OTEL_LOG_TOOL_DETAILS=1</code> adds tool parameters (bash commands, MCP names, file paths). Both are redacted by default for privacy.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Enterprise Configuration -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Enterprise Configuration</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Admins can push OTel settings to all users via managed settings (MDM-distributed) so individual developers don't need to configure anything.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-json"><span class="cm">// Managed settings file — distributed via MDM</span>
+{
+  <span class="str">"env"</span>: {
+    <span class="str">"CLAUDE_CODE_ENABLE_TELEMETRY"</span>: <span class="str">"1"</span>,
+    <span class="str">"OTEL_METRICS_EXPORTER"</span>: <span class="str">"otlp"</span>,
+    <span class="str">"OTEL_LOGS_EXPORTER"</span>: <span class="str">"otlp"</span>,
+    <span class="str">"OTEL_EXPORTER_OTLP_ENDPOINT"</span>: <span class="str">"http://collector.example.com:4317"</span>
+  }
+}</code></pre>
+        </div>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li><strong>Multi-team segmentation</strong> &mdash; use <code>OTEL_RESOURCE_ATTRIBUTES="department=eng,team.id=platform,cost_center=123"</code> to tag metrics by team</li>
+          <li><strong>Dynamic auth</strong> &mdash; set <code>"otelHeadersHelper": "/path/to/script.sh"</code> in settings.json to auto-refresh tokens (runs every 29 min)</li>
+          <li><strong>Cardinality control</strong> &mdash; toggle <code>OTEL_METRICS_INCLUDE_SESSION_ID</code>, <code>OTEL_METRICS_INCLUDE_VERSION</code>, and <code>OTEL_METRICS_INCLUDE_ACCOUNT_UUID</code> to tune storage vs. granularity</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Traces (Beta) -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Distributed Traces (Beta)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Link every user prompt to the API requests and tool executions it triggers as a single distributed trace. Requires both telemetry flags:</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="kw">export</span> CLAUDE_CODE_ENABLE_TELEMETRY=1
+<span class="kw">export</span> CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1
+<span class="kw">export</span> OTEL_TRACES_EXPORTER=otlp</code></pre>
+        </div>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li>Bash subprocesses inherit a <code>TRACEPARENT</code> env var for W3C trace context propagation</li>
+          <li>Span content redacted by default &mdash; set <code>OTEL_LOG_TOOL_CONTENT=1</code> to include tool I/O (truncated at 60 KB)</li>
+          <li>Visualize in Jaeger, Zipkin, Grafana Tempo, or any OTel-compatible backend</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Backend Options -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recommended Backends</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="table-wrap" style="margin-top:0;">
+          <table class="styled-table">
+            <thead><tr><th>Signal</th><th>Options</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Metrics</strong></td><td>Prometheus, ClickHouse, Datadog, Honeycomb</td></tr>
+              <tr><td><strong>Logs / Events</strong></td><td>Elasticsearch, Loki, ClickHouse, Datadog</td></tr>
+              <tr><td><strong>Traces</strong></td><td>Jaeger, Zipkin, Grafana Tempo, Honeycomb</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">For DAU/WAU/MAU metrics, choose a backend that supports efficient unique-value queries (e.g., ClickHouse, Honeycomb).</p>
+      </div></div>
+    </div>
+
+    <!-- Privacy & Security -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Privacy &amp; Security</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0;">
+          <li><strong>Opt-in only</strong> &mdash; telemetry requires explicit <code>CLAUDE_CODE_ENABLE_TELEMETRY=1</code></li>
+          <li><strong>No code content</strong> &mdash; raw file contents and code snippets are never included in metrics or events</li>
+          <li><strong>Prompts redacted</strong> &mdash; only prompt length is recorded unless <code>OTEL_LOG_USER_PROMPTS=1</code> is set</li>
+          <li><strong>Tool inputs redacted</strong> &mdash; tool parameters excluded unless <code>OTEL_LOG_TOOL_DETAILS=1</code> is set</li>
+          <li><strong>Trace content redacted</strong> &mdash; span I/O excluded unless <code>OTEL_LOG_TOOL_CONTENT=1</code> (truncated at 60 KB)</li>
+          <li><strong>Email included with OAuth</strong> &mdash; <code>user.email</code> is sent when authenticated via OAuth; configure your backend to filter if needed</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- ROI Measurement -->
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
+      <div class="callout-title">ROI Measurement Guide</div>
+      <p>Anthropic provides a ready-to-use monitoring starter kit with Docker Compose configs, Prometheus + OTel setup, and Linear integration templates for automated productivity reports.</p>
+      <p style="margin-top:0.5rem;"><a href="https://github.com/anthropics/claude-code-monitoring-guide" target="_blank" rel="noopener" style="color:var(--accent-violet); text-decoration:underline;">github.com/anthropics/claude-code-monitoring-guide</a></p>
+    </div>
+
   </section>
 
 <hr class="divider">
 
 <section id="open-source">
-    <span class="section-label">15 — Open Source Frameworks</span>
+    <span class="section-label">16 — Open Source Frameworks</span>
     <h2 class="section-title">Community Meta-Frameworks for Claude Code</h2>
     <p class="section-subtitle">These open source projects use combinations of hooks, skills, commands, agents, and workflow orchestration to extend Claude Code's capabilities.</p>
 
@@ -5669,7 +5913,7 @@ codex app</code></pre>
   const sectionToPageMap = {
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
-    'practices-hero': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
   };

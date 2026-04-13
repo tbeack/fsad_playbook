@@ -1,10 +1,56 @@
 ## Changes in This Version
 
-### v11 — 2026-04-13
+### v13 — 2026-04-10
 
-**Claude Code v2.1.104 sync (CBP-017)**
-- Added `/team-onboarding` to the Cheat Sheet "Info & account" slash commands table
-- Command generates a teammate ramp-up guide from your local Claude Code usage history (added in Claude Code v2.1.101)
+**Phase 3 rename (CBP-023)**
+- Renamed Phase 3 from "Spec Validation" to "Implementation Planning" in the FSAD workflow diagram
+- Updated both the phase card title and the detail panel heading
+
+**Task tracking cleanup**
+- Extracted CBP-006 bug details from `todo.md` into its own `task-cbp-006.md` file, matching the convention used by all other tasks
+
+### v12 — 2026-04-10
+
+**Claude Monitoring section (CBP-022)**
+- Added new section 15 "Claude Monitoring" to Claude Best Practices page, between Power Usage and Open Source Frameworks
+- Covers OpenTelemetry-based monitoring for tracking usage, costs, and tool activity across organizations
+- **Quick Start** — copy-paste environment variable setup for enabling OTel export (OTLP, Prometheus, console)
+- **Available Metrics** — reference table of all 8 exported metrics: cost, tokens, sessions, active time, LOC, commits, PRs, tool decisions
+- **Events & Logs** — 5 structured event types (user_prompt, tool_result, api_request, api_error, tool_decision) with opt-in detail levels
+- **Enterprise Configuration** — managed settings via MDM, multi-team segmentation with OTEL_RESOURCE_ATTRIBUTES, dynamic auth header scripts
+- **Distributed Traces (Beta)** — setup guide with TRACEPARENT propagation and backend recommendations
+- **Recommended Backends** — comparison table for metrics (Prometheus, Datadog), logs (Elasticsearch, Loki), and traces (Jaeger, Tempo)
+- **Privacy & Security** — opt-in controls, redaction defaults, and content logging toggles
+- **ROI Measurement Guide** — callout linking to Anthropic's official monitoring starter kit (github.com/anthropics/claude-code-monitoring-guide)
+- Open Source Frameworks renumbered from section 15 to section 16
+- Added sidebar nav entry and sectionToPageMap wiring for "monitoring"
+
+### v11 — 2026-04-10
+
+**Auto-update for Claude Code v2.1.98 (CBP-017 through CBP-021)**
+
+**Monitor Tool collapsible in Power Usage (CBP-017)**
+- Added new "Monitor Tool — Background Script Streaming" collapsible to Power Usage section (section 14)
+- Explains `Monitor` as a built-in tool that streams stdout from background scripts started with `Bash(run_in_background: true)`
+- Includes a practical example and three use-case bullets (CI pipelines, dev servers, pairing with Ctrl+B)
+
+**`/agents` command added to Cheat Sheet (CBP-018)**
+- Added `/agents` to the "Automation & agents" slash commands table in the Cheat Sheet
+- Description reflects the new tabbed UI: Running tab (live subagents) + Library tab (browse/run agents)
+
+**`--exclude-dynamic-system-prompt-sections` flag in Cheat Sheet (CBP-019)**
+- Added new flag to the "Print / programmatic mode" CLI flags table
+- Strips dynamic prompt sections to enable cross-user prompt cache sharing in scripted/CI workflows
+
+**Subprocess Sandboxing collapsible in Power Usage (CBP-020)**
+- Added new "Subprocess Sandboxing" collapsible to Power Usage section
+- Documents `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` (PID namespace isolation on Linux) and `CLAUDE_CODE_SCRIPT_CAPS=N` (per-session script invocation limit)
+- Includes a use-case callout for CI/CD and shared environments
+
+**Vertex AI / Bedrock setup wizard callout in Integrations (CBP-021)**
+- Added a tip callout at the top of the Integrations section (section 10)
+- Notes the interactive login-screen wizard for configuring Amazon Bedrock and Google Vertex AI as model providers
+- Guides users to "3rd-party platform" option in the Claude login screen
 
 ### v10 — 2026-04-09
 
