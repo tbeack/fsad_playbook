@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v11 — 2026-04-13
+
+**Claude Code v2.1.104 sync (CBP-017)**
+- Added `/team-onboarding` to the Cheat Sheet "Info & account" slash commands table
+- Command generates a teammate ramp-up guide from your local Claude Code usage history (added in Claude Code v2.1.101)
+
 ### v10 — 2026-04-09
 
 **Building Skills overhaul (CBP-016)**
