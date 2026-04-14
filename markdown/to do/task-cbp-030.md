@@ -25,5 +25,5 @@ Insert after:
 ```
 
 ## Acceptance Criteria
-- [ ] Frontmatter reference table includes `monitors` field
-- [ ] Description accurately reflects auto-arm behavior
+- [x] Frontmatter reference table includes `monitors` field
+- [x] Description accurately reflects auto-arm behavior

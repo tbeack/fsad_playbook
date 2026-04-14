@@ -32,5 +32,5 @@ Change to:
 ```
 
 ## Acceptance Criteria
-- [ ] Cheat Sheet /loop row mentions /proactive alias
-- [ ] /loop collapsible header shows alias
+- [x] Cheat Sheet /loop row mentions /proactive alias
+- [x] /loop collapsible header shows alias

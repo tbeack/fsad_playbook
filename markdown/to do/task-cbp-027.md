@@ -20,5 +20,5 @@ What the skill does. Claude uses this for auto-invocation matching. Front-load t
 1. Edit line 3259: change "Truncated at 250 chars." → "Truncated at 1,536 chars (startup warning shown when exceeded)."
 
 ## Acceptance Criteria
-- [ ] Frontmatter table shows "Truncated at 1,536 chars" for the `description` field
-- [ ] No other content changed
+- [x] Frontmatter table shows "Truncated at 1,536 chars" for the `description` field
+- [x] No other content changed

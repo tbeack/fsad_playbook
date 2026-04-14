@@ -43,6 +43,6 @@ Add a new paragraph below the "When multiple hooks fire..." line:
 ```
 
 ## Acceptance Criteria
-- [ ] Exit code 2 description mentions blocking compaction
-- [ ] PreCompact blocking section appears in Exit Codes & Decision Control collapsible
-- [ ] Both methods (exit 2 and JSON decision) are documented
+- [x] Exit code 2 description mentions blocking compaction
+- [x] PreCompact blocking section appears in Exit Codes & Decision Control collapsible
+- [x] Both methods (exit 2 and JSON decision) are documented
