@@ -3,9 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v16)</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<title>FSAD — Full Stack Agentic Development (v21)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
+  /* ═══════════════════════════════════════════════════════
+   VISUAL HIERARCHY CONTRACT (Phase 2)
+   ─────────────────────────────────────────────────────
+   Tier 1 — QUIET DEFAULT: prose, body text, inline code.
+           Neutral colors. No borders. No backgrounds. No glow.
+   Tier 2 — STRUCTURED EXCEPTIONS: callouts, code blocks, tables.
+           Muted 1px borders. Subtle background tints only.
+   Tier 3 — RARE PUNCTUATION: pull-quotes, diagrams, hero.
+           Accent color permitted. Still no glow shadows.
+
+   COLOR SEMANTIC CONTRACT
+   ─────────────────────────────────────────────────────
+   --accent-blue / --accent-violet  → links, active nav, primary buttons
+   --accent-emerald                 → success / positive examples / best-practice
+   --accent-amber                   → caution / warnings / deprecated
+   --accent-rose                    → anti-patterns only (single semantic role)
+   --accent-pink                    → RETIRED (decorative). Use neutral grey.
+   ═══════════════════════════════════════════════════════ */
   :root {
     --bg: #08080c;
     --bg-surface: #0f0f14;
@@ -16,24 +34,25 @@
     --text-primary: #f0f0f5;
     --text-secondary: #8a8a9a;
     --text-muted: #5a5a6e;
-    --accent-blue: #7c5cfc;
-    --accent-cyan: #a78bfa;
+    --accent-blue: #6f6fb5;
+    --accent-cyan: #6f6fb5;    /* alias — same identity as --accent-blue; kept for legacy references */
     --accent-emerald: #34d399;
     --accent-amber: #fbbf24;
     --accent-rose: #fb7185;
-    --accent-violet: #a78bfa;
+    --accent-violet: #6f6fb5;  /* alias — same identity as --accent-blue; kept for legacy references */
     --accent-pink: #f472b6;
-    --gradient-brand: linear-gradient(135deg, #7c5cfc, #a78bfa);
+    --gradient-brand: linear-gradient(135deg, #6f6fb5, #9595c5);
     --gradient-warm: linear-gradient(135deg, #fbbf24, #fb7185);
-    --gradient-cool: linear-gradient(135deg, #a78bfa, #7c5cfc);
+    --gradient-cool: linear-gradient(135deg, #9595c5, #6f6fb5);
+    --font-hero: 'Source Serif 4', Georgia, serif;  /* Phase 5: hero h1 only */
     --font-display: 'Inter', -apple-system, sans-serif;
     --font-body: 'Inter', -apple-system, sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
     --radius: 14px;
     --radius-lg: 22px;
     --sidebar-w: 290px;
-    --glow-purple: rgba(124,92,252,0.08);
-    --glow-pink: rgba(244,114,182,0.06);
+    --glow-purple: rgba(111,111,181,0.04);
+    --glow-pink: rgba(244,114,182,0.03);
 
     /* Sidebar */
     --sidebar-bg: #0b0b10;
@@ -45,39 +64,24 @@
     --backdrop-bg: rgba(8, 8, 12, 0.8);
     --shadow-modal: rgba(0,0,0,0.5);
 
-    /* Card pink accent borders */
-    --card-border: rgba(255,0,200,0.4);
-    --card-border-hover: rgba(255,0,200,0.65);
-    --card-glow: rgba(255,0,200,0.06);
-    --card-glow-hover: rgba(255,0,200,0.12);
-    --card-glow-accent: rgba(124,92,252,0.06);
+    /* Card borders — neutral grey (retired pink decorative accent per Phase 2) */
+    --card-border: rgba(255,255,255,0.08);
+    --card-border-hover: rgba(255,255,255,0.16);
+    --card-glow: rgba(0,0,0,0);
+    --card-glow-hover: rgba(0,0,0,0);
+    --card-glow-accent: rgba(0,0,0,0);
 
-    /* Nav flow nodes (blue) */
-    --nav-node-border: rgba(100,160,255,0.3);
-    --nav-node-glow: rgba(100,160,255,0.06);
-    --nav-node-border-hover: rgba(100,160,255,0.55);
-    --nav-node-glow-hover: rgba(100,160,255,0.12);
-    --nav-node-bg-hover: rgba(100,160,255,0.04);
-    --nav-node-border-active: rgba(100,180,255,0.6);
-    --nav-node-bg-active: rgba(100,160,255,0.08);
-    --nav-node-glow-active: rgba(100,160,255,0.15);
-    --nav-connector: rgba(100,160,255,0.25);
-    --nav-connector-dot: rgba(100,160,255,0.3);
-    --nav-connector-active: rgba(100,180,255,0.5);
-    --nav-connector-dot-active: rgba(100,180,255,0.6);
-    --nav-connector-dot-active-glow: rgba(100,180,255,0.4);
+    /* Accent glows (consolidated from 6 variants to 3) */
+    --accent-glow-subtle: rgba(111,111,181,0.02);
+    --accent-glow-light: rgba(111,111,181,0.02);
+    --accent-glow-soft: rgba(111,111,181,0.04);
+    --accent-glow-medium: rgba(111,111,181,0.05);
+    --accent-glow-border: rgba(111,111,181,0.12);
+    --accent-glow-strong: rgba(111,111,181,0.08);
 
-    /* Purple accent glows */
-    --accent-glow-subtle: rgba(124,92,252,0.03);
-    --accent-glow-light: rgba(124,92,252,0.05);
-    --accent-glow-soft: rgba(124,92,252,0.08);
-    --accent-glow-medium: rgba(124,92,252,0.1);
-    --accent-glow-border: rgba(124,92,252,0.2);
-    --accent-glow-strong: rgba(124,92,252,0.15);
-
-    /* Hero */
-    --hero-glow: radial-gradient(circle, rgba(124,92,252,0.12) 0%, rgba(167,139,250,0.05) 35%, transparent 70%);
-    --hero-badge-border: rgba(167,139,250,0.3);
+    /* Hero (radial glow removed per Phase 1) */
+    --hero-glow: none;
+    --hero-badge-border: rgba(111,111,181,0.25);
 
     /* Nav coming soon */
     --nav-coming-soon-bg: rgba(255,255,255,0.06);
@@ -91,20 +95,20 @@
 
     /* Role badges */
     --role-pm-bg: rgba(245,158,11,0.12);
-    --role-ux-bg: rgba(139,92,246,0.12);
+    --role-ux-bg: rgba(111,111,181,0.12);
     --role-eng-bg: rgba(16,185,129,0.12);
     --role-eng2-bg: rgba(6,182,212,0.12);
     --role-agents-bg: rgba(59,130,246,0.12);
 
     /* Role pills (workflow) */
     --role-pm-pill: rgba(245,158,11,0.15);
-    --role-ux-pill: rgba(139,92,246,0.15);
+    --role-ux-pill: rgba(111,111,181,0.15);
     --role-eng-pill: rgba(16,185,129,0.15);
     --role-agent-pill: rgba(59,130,246,0.15);
 
-    /* Callouts */
-    --callout-tip-bg: rgba(124,92,252,0.08);
-    --callout-tip-border: rgba(124,92,252,0.2);
+    /* Callouts (retuned to desaturated palette — Phase 4) */
+    --callout-tip-bg: rgba(111,111,181,0.08);
+    --callout-tip-border: rgba(111,111,181,0.2);
     --callout-warning-bg: rgba(245,158,11,0.08);
     --callout-warning-border: rgba(245,158,11,0.2);
     --callout-best-bg: rgba(16,185,129,0.08);
@@ -114,10 +118,10 @@
     --anti-card-border: rgba(244,63,94,0.15);
 
     /* Search result hover */
-    --search-result-hover: rgba(124, 92, 252, 0.1);
+    --search-result-hover: rgba(111,111,181,0.1);
 
     /* Table row hover */
-    --table-row-hover: rgba(124,92,252,0.03);
+    --table-row-hover: rgba(111,111,181,0.03);
 
     /* Collapsible header hover bg */
     --collapsible-hover-bg: rgba(124, 92, 252, 0.03);
@@ -153,7 +157,6 @@
     left: var(--sidebar-w);
     right: 0;
     background: var(--overlay-bg);
-    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     z-index: 100;
     font-size: 0.78rem;
@@ -175,16 +178,8 @@
     color: var(--text-primary);
     font-weight: 500;
   }
-  .page-indicator-pills {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0 1.5rem 0.5rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .page-indicator-pills::-webkit-scrollbar { display: none; }
+  /* Page indicator pills row retired (Phase 2) — sidebar is the sole section nav */
+  .page-indicator-pills { display: none !important; }
   .page-indicator-pill {
     padding: 0.28rem 0.75rem;
     background: var(--bg-surface);
@@ -455,34 +450,36 @@
   }
 
   /* Sub-items — flow node style */
+  /* Docs-tree sidebar (Phase 2: retired node-graph pills + connector lines) */
   .nav-sub-items {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     padding: 0;
   }
   .nav-sub-items.open {
-    max-height: 800px;
-    padding: 0.5rem 0 0.6rem;
+    max-height: 1200px;
+    padding: 0.3rem 0 0.6rem;
   }
   .nav-sub-item {
     display: block;
-    width: calc(100% - 2.8rem);
-    padding: 0.45rem 0.75rem;
+    width: 100%;
+    padding: 0.35rem 1.4rem 0.35rem 2rem;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.72rem;
-    font-weight: 500;
-    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 400;
+    text-align: left;
     cursor: pointer;
-    background: var(--sidebar-node-bg);
-    border: 1px solid var(--nav-node-border);
-    border-radius: 10px;
-    box-shadow: 0 0 8px var(--nav-node-glow);
-    transition: all 0.25s;
+    background: transparent;
+    border: none;
+    border-left: 2px solid transparent;
+    border-radius: 0;
+    box-shadow: none;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -490,53 +487,13 @@
   }
   .nav-sub-item:hover {
     color: var(--text-primary);
-    border-color: var(--nav-node-border-hover);
-    box-shadow: 0 0 16px var(--nav-node-glow-hover);
-    background: var(--nav-node-bg-hover);
-    transform: scale(1.02);
+    background: var(--bg-elevated);
   }
   .nav-sub-item.active {
-    color: #fff;
+    color: var(--accent-blue);
     font-weight: 600;
-    border-color: var(--nav-node-border-active);
-    background: var(--nav-node-bg-active);
-    box-shadow: 0 0 20px var(--nav-node-glow-active);
-  }
-  /* Connector lines between sub-items */
-  .nav-sub-item + .nav-sub-item {
-    margin-top: 10px;
-  }
-  .nav-sub-item + .nav-sub-item::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 10px;
-    background: var(--nav-connector);
-  }
-  .nav-sub-item + .nav-sub-item::after {
-    content: '';
-    position: absolute;
-    top: -7px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--nav-connector-dot);
-  }
-  .nav-sub-item.active + .nav-sub-item::before,
-  .nav-sub-item.active + .nav-sub-item::after {
-    background: var(--nav-connector-active);
-  }
-  .nav-sub-item + .nav-sub-item.active::before {
-    background: var(--nav-connector-active);
-  }
-  .nav-sub-item + .nav-sub-item.active::after {
-    background: var(--nav-connector-dot-active);
-    box-shadow: 0 0 6px var(--nav-connector-dot-active-glow);
+    background: transparent;
+    border-left-color: var(--accent-blue);
   }
 
   /* Sidebar footer */
@@ -574,6 +531,81 @@
   }
   .sidebar-backdrop.visible {
     display: block;
+  }
+
+  /* Changelog modal (Phase 3) */
+  .changelog-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--backdrop-bg);
+    z-index: 400;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .changelog-modal.open { display: flex; }
+  .changelog-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-width: 620px;
+    width: 100%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px var(--shadow-modal);
+  }
+  .changelog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .changelog-header h2 { font-size: 1rem; font-weight: 600; margin: 0; }
+  .changelog-close {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0.4rem;
+  }
+  .changelog-close:hover { color: var(--text-primary); }
+  .changelog-body {
+    padding: 1rem 1.4rem 1.4rem;
+    overflow-y: auto;
+  }
+  .changelog-body section { margin-bottom: 0.25rem; }
+  .changelog-body section + section { padding-top: 0.25rem; border-top: 1px solid var(--border); }
+  .changelog-body h3 { margin: 0 0 0.15rem !important; }
+  .changelog-body h3 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+    color: var(--text-primary);
+  }
+  .changelog-body .changelog-date {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    margin-left: 0.4rem;
+  }
+  .changelog-body p {
+    font-size: 0.86rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .changelog-body .changelog-foot {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
   }
 
   /* ═══════════════════════════════════════
@@ -659,19 +691,18 @@
     display: inline-block;
   }
   .hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    line-height: 1.1;
-    max-width: 800px;
+    font-family: var(--font-hero);
+    font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+    line-height: 1.08;
+    max-width: 820px;
     margin: 0 auto 1.2rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
   .hero h1 em {
     font-style: italic;
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--accent-blue);
+    font-weight: 400;
   }
   .hero p {
     font-size: 1.05rem;
@@ -680,27 +711,29 @@
     margin: 0 auto 2.5rem;
     font-weight: 300;
   }
-  .hero-stats {
+  .hero-thesis {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 620px;
+    text-align: left;
     display: flex;
-    gap: 2.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    gap: 0.6rem;
   }
-  .hero-stat { text-align: center; }
-  .hero-stat .number {
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: block;
+  .hero-thesis li {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding-left: 1.25rem;
+    position: relative;
   }
-  .hero-stat .label {
-    font-size: 0.72rem;
+  .hero-thesis li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 500;
   }
 
   /* ─── OVERVIEW CARDS ─── */
@@ -826,6 +859,7 @@
   .pod-principle { display: flex; align-items: flex-start; gap: 0.7rem; margin-bottom: 0.8rem; }
   .pod-principle .bullet {
     width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 0.5rem;
+    background: var(--text-muted);
   }
   .pod-principle p { font-size: 0.85rem; margin-bottom: 0; }
   .pod-principle strong { color: var(--text-primary); }
@@ -885,7 +919,10 @@
   .timeline-row h4 {
     font-size: 0.78rem; font-weight: 600; margin-bottom: 0.8rem;
     letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--text-secondary);
   }
+  .timeline-heading--traditional { color: var(--accent-amber); }
+  .timeline-heading--fsad { color: var(--accent-blue); }
   .timeline-bar-container {
     display: flex; gap: 2px; height: 44px;
     border-radius: 8px; overflow: hidden;
@@ -900,30 +937,89 @@
   .legend-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
   .timeline-duration { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; }
 
-  /* ─── ADVANTAGE CARDS ─── */
-  .adv-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem;
+  /* Pull-quote component (Phase 6: voice punctuation) */
+  .pullquote {
+    font-family: var(--font-hero);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+    line-height: 1.4;
+    color: var(--text-primary);
+    max-width: 640px;
+    margin: 2.5rem 0;
+    padding: 0.8rem 0 0.8rem 1.5rem;
+    border-left: 2px solid var(--accent-blue);
+    font-weight: 400;
   }
-  .adv-card {
-    background: var(--bg-card); border: 1px solid var(--card-border);
-    border-radius: var(--radius); padding: 1.8rem;
-    position: relative; overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 12px var(--card-glow);
+  .pullquote-attribution {
+    display: block;
+    margin-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
-  .adv-card:hover { border-color: var(--card-border-hover); transform: translateY(-2px); box-shadow: 0 0 24px var(--card-glow-hover), 0 8px 32px var(--card-glow-accent); }
-  .adv-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+
+  /* KPI card rhythm (Phase 6: small-multiples treatment for cited metrics) */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
-  .adv-card:nth-child(1)::before { background: var(--gradient-brand); }
-  .adv-card:nth-child(2)::before { background: var(--gradient-warm); }
-  .adv-card:nth-child(3)::before { background: var(--gradient-cool); }
-  .adv-card:nth-child(4)::before { background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan)); }
-  .adv-card:nth-child(5)::before { background: linear-gradient(135deg, var(--accent-amber), var(--accent-violet)); }
-  .adv-card:nth-child(6)::before { background: linear-gradient(135deg, var(--accent-rose), var(--accent-amber)); }
-  .adv-card .adv-metric { font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.4rem; }
-  .adv-card h3 { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.4rem; }
-  .adv-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+  .kpi-card { display: flex; flex-direction: column; gap: 0.5rem; }
+  .kpi-card .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .kpi-card .kpi-figure {
+    font-family: var(--font-hero);
+    font-size: clamp(2rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--text-primary);
+  }
+  .kpi-card .kpi-figure--positive { color: var(--accent-emerald); }
+  .kpi-card .kpi-figure--warning  { color: var(--accent-amber); }
+  .kpi-card .kpi-context {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .kpi-card .kpi-source {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+  }
+
+  /* Typography: extend Source Serif 4 italic into section subtitle + hero p emphasis */
+  .section-subtitle em,
+  .hero p em {
+    font-family: var(--font-hero);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ─── ADVANTAGE LIST (Phase 5: single-column prose rhythm) ─── */
+  .adv-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    max-width: 680px;
+    margin: 1.75rem 0 0;
+  }
+  .adv-item { padding: 0; }
+  .adv-item h3 {
+    font-weight: 600; font-size: 1rem;
+    margin-bottom: 0.35rem; color: var(--text-primary);
+  }
+  .adv-item p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; }
 
   /* ─── PROS/CONS ─── */
   .proscons { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
@@ -1165,8 +1261,6 @@
     section { padding: 2rem 1rem; }
     .hero { padding: 3rem 1rem 2rem; }
     .hero h1 { font-size: 1.8rem; }
-    .hero-stats { gap: 1.5rem; }
-    .hero-stat .number { font-size: 1.6rem; }
     .workflow-container { padding: 1rem; }
   }
 
@@ -1197,7 +1291,7 @@
   .callout-best-practice .callout-title { color: var(--accent-emerald); }
 
   .step-card { background: var(--bg-card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.3rem 1.3rem 1.3rem 3.8rem; margin-bottom: 0.8rem; position: relative; box-shadow: 0 0 12px var(--card-glow); }
-  .step-number { position: absolute; left: 1.1rem; top: 1.3rem; width: 30px; height: 30px; border-radius: 50%; background: var(--gradient-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 600; font-family: var(--font-mono); }
+  .step-number { position: absolute; left: 1.1rem; top: 1.3rem; width: 30px; height: 30px; border-radius: 50%; background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 600; font-family: var(--font-mono); }
   .step-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
   .step-card p { font-size: 0.84rem; color: var(--text-secondary); line-height: 1.65; }
 
@@ -1292,18 +1386,18 @@
     --text-primary: #1a1a2e;
     --text-secondary: #4a4a5e;
     --text-muted: #7a7a8e;
-    --accent-blue: #5b3fd4;
-    --accent-cyan: #6d4fc7;
+    --accent-blue: #5555a0;
+    --accent-cyan: #6b6fb5;
     --accent-emerald: #059669;
     --accent-amber: #d97706;
     --accent-rose: #e11d48;
-    --accent-violet: #6d4fc7;
+    --accent-violet: #6b6fb5;
     --accent-pink: #db2777;
-    --gradient-brand: linear-gradient(135deg, #5b3fd4, #7c5cfc);
+    --gradient-brand: linear-gradient(135deg, #5555a0, #6b6fb5);
     --gradient-warm: linear-gradient(135deg, #d97706, #e11d48);
-    --gradient-cool: linear-gradient(135deg, #7c5cfc, #5b3fd4);
-    --glow-purple: rgba(91,63,212,0.06);
-    --glow-pink: rgba(219,39,119,0.04);
+    --gradient-cool: linear-gradient(135deg, #6b6fb5, #5555a0);
+    --glow-purple: rgba(85,85,160,0.03);
+    --glow-pink: rgba(219,39,119,0.02);
 
     --sidebar-bg: #f0f0f5;
     --sidebar-node-bg: #ffffff;
@@ -1313,35 +1407,21 @@
     --backdrop-bg: rgba(0, 0, 0, 0.3);
     --shadow-modal: rgba(0,0,0,0.15);
 
-    --card-border: rgba(91,63,212,0.2);
-    --card-border-hover: rgba(91,63,212,0.4);
-    --card-glow: rgba(91,63,212,0.04);
-    --card-glow-hover: rgba(91,63,212,0.08);
-    --card-glow-accent: rgba(91,63,212,0.04);
+    --card-border: rgba(0,0,0,0.1);
+    --card-border-hover: rgba(0,0,0,0.18);
+    --card-glow: rgba(0,0,0,0);
+    --card-glow-hover: rgba(0,0,0,0);
+    --card-glow-accent: rgba(0,0,0,0);
 
-    --nav-node-border: rgba(91,63,212,0.25);
-    --nav-node-glow: rgba(91,63,212,0.04);
-    --nav-node-border-hover: rgba(91,63,212,0.45);
-    --nav-node-glow-hover: rgba(91,63,212,0.08);
-    --nav-node-bg-hover: rgba(91,63,212,0.04);
-    --nav-node-border-active: rgba(91,63,212,0.6);
-    --nav-node-bg-active: rgba(91,63,212,0.08);
-    --nav-node-glow-active: rgba(91,63,212,0.12);
-    --nav-connector: rgba(91,63,212,0.2);
-    --nav-connector-dot: rgba(91,63,212,0.25);
-    --nav-connector-active: rgba(91,63,212,0.4);
-    --nav-connector-dot-active: rgba(91,63,212,0.5);
-    --nav-connector-dot-active-glow: rgba(91,63,212,0.3);
+    --accent-glow-subtle: rgba(74,74,138,0.02);
+    --accent-glow-light: rgba(74,74,138,0.02);
+    --accent-glow-soft: rgba(74,74,138,0.03);
+    --accent-glow-medium: rgba(74,74,138,0.05);
+    --accent-glow-border: rgba(74,74,138,0.1);
+    --accent-glow-strong: rgba(74,74,138,0.06);
 
-    --accent-glow-subtle: rgba(91,63,212,0.03);
-    --accent-glow-light: rgba(91,63,212,0.05);
-    --accent-glow-soft: rgba(91,63,212,0.07);
-    --accent-glow-medium: rgba(91,63,212,0.1);
-    --accent-glow-border: rgba(91,63,212,0.18);
-    --accent-glow-strong: rgba(91,63,212,0.12);
-
-    --hero-glow: radial-gradient(circle, rgba(91,63,212,0.08) 0%, rgba(124,92,252,0.03) 35%, transparent 70%);
-    --hero-badge-border: rgba(91,63,212,0.25);
+    --hero-glow: none;
+    --hero-badge-border: rgba(74,74,138,0.2);
 
     --nav-coming-soon-bg: rgba(0,0,0,0.05);
     --tab-size-bg: rgba(0,0,0,0.1);
@@ -1359,17 +1439,17 @@
     --role-eng-pill: rgba(5,150,105,0.12);
     --role-agent-pill: rgba(91,63,212,0.12);
 
-    --callout-tip-bg: rgba(91,63,212,0.06);
-    --callout-tip-border: rgba(91,63,212,0.18);
+    --callout-tip-bg: rgba(85,85,160,0.06);
+    --callout-tip-border: rgba(85,85,160,0.18);
     --callout-warning-bg: rgba(217,119,6,0.06);
     --callout-warning-border: rgba(217,119,6,0.18);
     --callout-best-bg: rgba(5,150,105,0.06);
     --callout-best-border: rgba(5,150,105,0.18);
 
     --anti-card-border: rgba(225,29,72,0.15);
-    --search-result-hover: rgba(91,63,212,0.08);
-    --table-row-hover: rgba(91,63,212,0.03);
-    --collapsible-hover-bg: rgba(91,63,212,0.03);
+    --search-result-hover: rgba(85,85,160,0.08);
+    --table-row-hover: rgba(85,85,160,0.03);
+    --collapsible-hover-bg: rgba(85,85,160,0.03);
   }
 
   /* Light mode overrides for specific elements */
@@ -1392,50 +1472,37 @@
       --text-primary: #1a1a2e;
       --text-secondary: #4a4a5e;
       --text-muted: #7a7a8e;
-      --accent-blue: #5b3fd4;
-      --accent-cyan: #6d4fc7;
+      --accent-blue: #5555a0;
+      --accent-cyan: #6b6fb5;
       --accent-emerald: #059669;
       --accent-amber: #d97706;
       --accent-rose: #e11d48;
-      --accent-violet: #6d4fc7;
+      --accent-violet: #6b6fb5;
       --accent-pink: #db2777;
-      --gradient-brand: linear-gradient(135deg, #5b3fd4, #7c5cfc);
+      --gradient-brand: linear-gradient(135deg, #5555a0, #6b6fb5);
       --gradient-warm: linear-gradient(135deg, #d97706, #e11d48);
-      --gradient-cool: linear-gradient(135deg, #7c5cfc, #5b3fd4);
-      --glow-purple: rgba(91,63,212,0.06);
-      --glow-pink: rgba(219,39,119,0.04);
+      --gradient-cool: linear-gradient(135deg, #6b6fb5, #5555a0);
+      --glow-purple: rgba(85,85,160,0.03);
+      --glow-pink: rgba(219,39,119,0.02);
       --sidebar-bg: #f0f0f5;
       --sidebar-node-bg: #ffffff;
       --overlay-bg: rgba(248, 248, 252, 0.92);
       --overlay-bg-heavy: rgba(248, 248, 252, 0.96);
       --backdrop-bg: rgba(0, 0, 0, 0.3);
       --shadow-modal: rgba(0,0,0,0.15);
-      --card-border: rgba(91,63,212,0.2);
-      --card-border-hover: rgba(91,63,212,0.4);
-      --card-glow: rgba(91,63,212,0.04);
-      --card-glow-hover: rgba(91,63,212,0.08);
-      --card-glow-accent: rgba(91,63,212,0.04);
-      --nav-node-border: rgba(91,63,212,0.25);
-      --nav-node-glow: rgba(91,63,212,0.04);
-      --nav-node-border-hover: rgba(91,63,212,0.45);
-      --nav-node-glow-hover: rgba(91,63,212,0.08);
-      --nav-node-bg-hover: rgba(91,63,212,0.04);
-      --nav-node-border-active: rgba(91,63,212,0.6);
-      --nav-node-bg-active: rgba(91,63,212,0.08);
-      --nav-node-glow-active: rgba(91,63,212,0.12);
-      --nav-connector: rgba(91,63,212,0.2);
-      --nav-connector-dot: rgba(91,63,212,0.25);
-      --nav-connector-active: rgba(91,63,212,0.4);
-      --nav-connector-dot-active: rgba(91,63,212,0.5);
-      --nav-connector-dot-active-glow: rgba(91,63,212,0.3);
-      --accent-glow-subtle: rgba(91,63,212,0.03);
-      --accent-glow-light: rgba(91,63,212,0.05);
-      --accent-glow-soft: rgba(91,63,212,0.07);
-      --accent-glow-medium: rgba(91,63,212,0.1);
-      --accent-glow-border: rgba(91,63,212,0.18);
-      --accent-glow-strong: rgba(91,63,212,0.12);
-      --hero-glow: radial-gradient(circle, rgba(91,63,212,0.08) 0%, rgba(124,92,252,0.03) 35%, transparent 70%);
-      --hero-badge-border: rgba(91,63,212,0.25);
+      --card-border: rgba(0,0,0,0.1);
+      --card-border-hover: rgba(0,0,0,0.18);
+      --card-glow: rgba(0,0,0,0);
+      --card-glow-hover: rgba(0,0,0,0);
+      --card-glow-accent: rgba(0,0,0,0);
+      --accent-glow-subtle: rgba(74,74,138,0.02);
+      --accent-glow-light: rgba(74,74,138,0.02);
+      --accent-glow-soft: rgba(74,74,138,0.03);
+      --accent-glow-medium: rgba(74,74,138,0.05);
+      --accent-glow-border: rgba(74,74,138,0.1);
+      --accent-glow-strong: rgba(74,74,138,0.06);
+      --hero-glow: none;
+      --hero-badge-border: rgba(74,74,138,0.2);
       --nav-coming-soon-bg: rgba(0,0,0,0.05);
       --tab-size-bg: rgba(0,0,0,0.1);
       --tab-size-bg-active: rgba(255,255,255,0.3);
@@ -1449,16 +1516,16 @@
       --role-ux-pill: rgba(109,79,199,0.12);
       --role-eng-pill: rgba(5,150,105,0.12);
       --role-agent-pill: rgba(91,63,212,0.12);
-      --callout-tip-bg: rgba(91,63,212,0.06);
-      --callout-tip-border: rgba(91,63,212,0.18);
+      --callout-tip-bg: rgba(85,85,160,0.06);
+      --callout-tip-border: rgba(85,85,160,0.18);
       --callout-warning-bg: rgba(217,119,6,0.06);
       --callout-warning-border: rgba(217,119,6,0.18);
       --callout-best-bg: rgba(5,150,105,0.06);
       --callout-best-border: rgba(5,150,105,0.18);
       --anti-card-border: rgba(225,29,72,0.15);
-      --search-result-hover: rgba(91,63,212,0.08);
-      --table-row-hover: rgba(91,63,212,0.03);
-      --collapsible-hover-bg: rgba(91,63,212,0.03);
+      --search-result-hover: rgba(85,85,160,0.08);
+      --table-row-hover: rgba(85,85,160,0.03);
+      --collapsible-hover-bg: rgba(85,85,160,0.03);
     }
     :root:not([data-theme]) .page-indicator-pill.active { color: #fff; }
     :root:not([data-theme]) .pod-tab.active { color: #fff; }
@@ -1504,6 +1571,184 @@
     }
     html { scroll-behavior: auto; }
   }
+
+  /* ─── Claude page: Hub + Topic views ─── */
+  .topic-view[hidden] { display: none; }
+  .practices-hub { margin-top: 1rem; }
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .hub-card {
+    text-align: left;
+    background: var(--card-bg, rgba(255,255,255,0.02));
+    border: 1px solid var(--border, rgba(255,255,255,0.08));
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  }
+  .hub-card:hover {
+    border-color: var(--accent-violet, #8b5cf6);
+    transform: translateY(-2px);
+    background: rgba(111,111,181,0.04);
+  }
+  .hub-card-icon { font-size: 1.75rem; line-height: 1; }
+  .hub-card h3 { margin: 0.25rem 0 0.25rem; font-family: var(--font-display); font-size: 1.15rem; }
+  .hub-card p { margin: 0 0 0.5rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.55; }
+  .hub-card-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
+  .hub-card-chips span {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(111,111,181,0.1);
+    color: var(--accent-violet, #8b5cf6);
+    border: 1px solid rgba(111,111,181,0.25);
+    font-family: var(--font-mono, monospace);
+  }
+  .hub-card-depth { display: inline-flex; gap: 4px; margin-top: 0.5rem; }
+  .hub-card-depth .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted, rgba(255,255,255,0.2)); }
+  .hub-card-depth .dot.on { background: var(--accent-emerald, #10b981); }
+  .hub-depth-legend {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin: 0.5rem 0 1rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .hub-depth-legend .depth-sample { display: inline-flex; gap: 3px; align-items: center; }
+  .hub-depth-legend .depth-sample .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); }
+  .hub-depth-legend .depth-sample .dot.on { background: var(--accent-emerald, #10b981); }
+
+  /* Topic footer (prev / next) — differentiated direction + weight */
+  .topic-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2.5rem 0 1rem;
+    flex-wrap: wrap;
+  }
+  .topic-footer .topic-footer-back {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.4rem 0;
+    cursor: pointer;
+  }
+  .topic-footer .topic-footer-back:hover { color: var(--text-primary); }
+  .topic-footer .topic-footer-next {
+    color: var(--accent-blue);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.4rem 0;
+    cursor: pointer;
+  }
+  .topic-footer .topic-footer-next:hover { text-decoration: underline; }
+
+  /* Breadcrumb link in page indicator */
+  .page-indicator-crumb {
+    color: var(--accent-violet, #8b5cf6);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .page-indicator-crumb:hover { text-decoration: underline; }
+
+  /* Sidebar two-level nested sections */
+  .nav-sub-items .nav-topic-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.4rem 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 6px;
+  }
+  .nav-sub-items .nav-topic-header:hover { color: var(--text-primary); background: var(--bg-elevated); }
+  .nav-sub-items .nav-topic-header.active { color: var(--accent-blue); }
+  .nav-sub-items .nav-topic-header .nav-chevron { margin-left: auto; transition: transform 0.15s ease; font-size: 0.75rem; opacity: 0.6; }
+  .nav-sub-items .nav-topic-header.open .nav-chevron { transform: rotate(90deg); }
+  .nav-topic-sections {
+    display: none;
+    padding: 0.1rem 0 0.35rem 0.75rem;
+    margin: 0.15rem 0 0.35rem 0.5rem;
+    border-left: 1px solid var(--border, rgba(255,255,255,0.08));
+    align-items: stretch;
+  }
+  .nav-topic-sections.open { display: flex; flex-direction: column; }
+  /* Nested sections: demote pill styling to plain text links */
+  .nav-topic-sections .nav-sub-item {
+    width: 100%;
+    padding: 0.35rem 0.6rem 0.35rem 0.65rem;
+    text-align: left;
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-left: 2px solid transparent;
+    border-radius: 0;
+    box-shadow: none;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    transform: none !important;
+  }
+  .nav-topic-sections .nav-sub-item:hover {
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+  .nav-topic-sections .nav-sub-item.active {
+    color: var(--accent-blue);
+    background: transparent;
+    border-left-color: var(--accent-blue);
+    box-shadow: none;
+  }
+  /* Remove connector-line motif inside nested group */
+  .nav-topic-sections .nav-sub-item + .nav-sub-item { margin-top: 0; }
+  .nav-topic-sections .nav-sub-item + .nav-sub-item::before,
+  .nav-topic-sections .nav-sub-item + .nav-sub-item::after { display: none; }
+
+  /* Hub entry: lightweight row, not a primary pill */
+  .nav-sub-items[data-group="practices"] > .nav-sub-item[href="#practices"] {
+    width: calc(100% - 1.5rem);
+    padding: 0.4rem 0.75rem;
+    font-size: 0.78rem;
+    background: transparent;
+    box-shadow: none;
+  }
+  .nav-sub-items[data-group="practices"] > .nav-sub-item[href="#practices"]:hover {
+    background: var(--bg-elevated);
+    transform: none;
+    box-shadow: none;
+  }
+  .nav-sub-items[data-group="practices"] > .nav-sub-item[href="#practices"] + .nav-topic-header { margin-top: 0.3rem; }
+  /* Suppress connector lines that would appear above the first topic header */
+  .nav-sub-items[data-group="practices"] .nav-sub-item + .nav-topic-header::before,
+  .nav-sub-items[data-group="practices"] .nav-sub-item + .nav-topic-header::after { display: none; }
+
+  @media (max-width: 960px) {
+    .hub-grid { grid-template-columns: 1fr; }
+    .topic-footer { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
@@ -1518,7 +1763,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v16</span></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v21</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1573,19 +1818,35 @@
         <span class="nav-chevron">›</span>
       </button>
       <div class="nav-sub-items" data-group="practices">
-        <a class="nav-sub-item" href="#practices/getting-started" onclick="scrollToSection('getting-started')">Getting Started</a>
-        <a class="nav-sub-item" href="#practices/claude-setup" onclick="scrollToSection('claude-setup')">Project Anatomy</a>
-        <a class="nav-sub-item" href="#practices/config-cascade" onclick="scrollToSection('config-cascade')">Config Cascade</a>
-        <a class="nav-sub-item" href="#practices/integrations" onclick="scrollToSection('integrations')">Integrations (MCP)</a>
-        <a class="nav-sub-item" href="#practices/code-review" onclick="scrollToSection('code-review')">Code Review Agent</a>
-        <a class="nav-sub-item" href="#practices/security-review" onclick="scrollToSection('security-review')">Security Review</a>
-        <a class="nav-sub-item" href="#practices/building-skills" onclick="scrollToSection('building-skills')">Building Skills</a>
-        <a class="nav-sub-item" href="#practices/best-practices" onclick="scrollToSection('best-practices')">Guidelines</a>
-        <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="scrollToSection('cheat-sheet')">Cheat Sheet</a>
-        <a class="nav-sub-item" href="#practices/power-usage" onclick="scrollToSection('power-usage')">Power Usage</a>
-        <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')">Hooks</a>
-        <a class="nav-sub-item" href="#practices/monitoring" onclick="scrollToSection('monitoring')">Monitoring</a>
-        <a class="nav-sub-item" href="#practices/open-source" onclick="scrollToSection('open-source')">Open Source</a>
+        <a class="nav-sub-item" href="#practices" onclick="event.preventDefault(); showTopic('hub')">Hub</a>
+        <button type="button" class="nav-topic-header" data-topic="foundations" onclick="toggleTopicNav(this, 'foundations')">Foundations<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="foundations">
+          <a class="nav-sub-item" href="#practices/getting-started" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('getting-started'),120)">Getting Started</a>
+          <a class="nav-sub-item" href="#practices/claude-setup" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('claude-setup'),120)">Project Anatomy</a>
+          <a class="nav-sub-item" href="#practices/config-cascade" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('config-cascade'),120)">Config Cascade</a>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="integrations" onclick="toggleTopicNav(this, 'integrations')">Integrations &amp; Review<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="integrations">
+          <a class="nav-sub-item" href="#practices/integrations" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('integrations'),120)">Integrations (MCP)</a>
+          <a class="nav-sub-item" href="#practices/code-review" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('code-review'),120)">Code Review Agent</a>
+          <a class="nav-sub-item" href="#practices/security-review" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('security-review'),120)">Security Review</a>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="skills-hooks" onclick="toggleTopicNav(this, 'skills-hooks')">Skills &amp; Hooks<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="skills-hooks">
+          <a class="nav-sub-item" href="#practices/building-skills" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('building-skills'),120)">Building Skills</a>
+          <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="operations" onclick="toggleTopicNav(this, 'operations')">Operations<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="operations">
+          <a class="nav-sub-item" href="#practices/monitoring" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('monitoring'),120)">Monitoring</a>
+          <a class="nav-sub-item" href="#practices/best-practices" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('best-practices'),120)">Guidelines</a>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="reference" onclick="toggleTopicNav(this, 'reference')">Reference<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="reference">
+          <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('cheat-sheet'),120)">Cheat Sheet</a>
+          <a class="nav-sub-item" href="#practices/power-usage" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('power-usage'),120)">Power Usage</a>
+          <a class="nav-sub-item" href="#practices/open-source" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('open-source'),120)">Open Source</a>
+        </div>
       </div>
     </div>
 
@@ -1658,12 +1919,11 @@
   <div class="hero-badge">Methodology for R&D Teams</div>
   <h1>Full Stack <em>Agentic</em> Development</h1>
   <p>A spec-driven, agentic-first methodology where small cross-functional pods use markdown as a common language to direct teams of AI agents — collapsing cycle times from weeks to hours.</p>
-  <div class="hero-stats">
-    <div class="hero-stat"><span class="number">2–4</span><span class="label">People per Pod</span></div>
-    <div class="hero-stat"><span class="number">10×</span><span class="label">Cycle Time Reduction</span></div>
-    <div class="hero-stat"><span class="number">.md</span><span class="label">Common Language</span></div>
-    <div class="hero-stat"><span class="number">∞</span><span class="label">Agent Parallelism</span></div>
-  </div>
+  <ul class="hero-thesis">
+    <li>Humans write markdown specs. Agents write the code.</li>
+    <li>Structure is permanent; prompting is temporary.</li>
+    <li>Models forget. Hooks don't.</li>
+  </ul>
 </div>
 <hr class="divider">
 
@@ -1673,10 +1933,15 @@
   <p class="section-subtitle">FSAD replaces the traditional handoff-heavy SDLC with a tight feedback loop where humans define <em>what</em> and <em>why</em> in markdown — and AI agents handle the <em>how</em>.</p>
   <div class="overview-grid">
     <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(245,158,11,0.12);">🎯</div><h3>Spec-Driven, Not Code-Driven</h3><p>The specification — written in markdown — is the primary artifact. It's a living document that evolves in real-time during collaborative sessions. Code is a compilation target, not the source of truth.</p></div>
-    <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(139,92,246,0.12);">🤝</div><h3>Cross-Functional Pods</h3><p>Small teams of 2–4 (PM + UX + Engineer, or PM + 2 Engineers) sit together — physically or virtually — and co-author the spec in real-time. No handoffs. No waiting for the next sprint.</p></div>
+    <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(111,111,181,0.12);">🤝</div><h3>Cross-Functional Pods</h3><p>Small teams of 2–4 (PM + UX + Engineer, or PM + 2 Engineers) sit together — physically or virtually — and co-author the spec in real-time. No handoffs. No waiting for the next sprint.</p></div>
     <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(59,130,246,0.12);">📝</div><h3>Markdown as Common Language</h3><p>Markdown is lightweight, version-controlled, diff-friendly, and — critically — the native instruction format for AI agents. Every role can read and write it. It bridges the gap between human intent and machine execution.</p></div>
     <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(16,185,129,0.12);">🤖</div><h3>Agent-Delegated Execution</h3><p>Once the spec is validated, teams of AI agents — running in parallel via tools like Claude Code, Codex, or Gemini CLI — implement the code. The human role shifts from writing code to reviewing, steering, and verifying agent output.</p></div>
   </div>
+
+  <blockquote class="pullquote">
+    Models forget. Hooks don't.
+    <span class="pullquote-attribution">The Hooks principle — see Claude Best Practices › Hooks</span>
+  </blockquote>
 </section>
 <hr class="divider">
 
@@ -1698,6 +1963,11 @@
     <div class="workflow-detail" id="detail-3"><h4>Phase 4 — Parallel Agent Execution</h4><p>Multiple AI agents execute tasks simultaneously in isolated git worktrees. Each agent works against the spec as its source of truth. A Coordinator agent (or human) routes tasks, and a Verifier agent checks each output against the spec's acceptance criteria. The engineer monitors, steers, and intervenes only when agents get stuck or drift.</p><div class="detail-artifacts"><span class="artifact-tag">src/**</span><span class="artifact-tag">tests/**</span><span class="artifact-tag">agent-logs/</span></div></div>
     <div class="workflow-detail" id="detail-4"><h4>Phase 5 — Human Review & Ship</h4><p>The full pod reviews the implementation. The Engineer checks code quality, architecture adherence, and test coverage. UX validates the interface against design decisions in the spec. The PM validates against user stories and acceptance criteria. Reviews focus on spec compliance, not syntax — because agents produce consistent code from living specs. Then ship.</p><div class="detail-artifacts"><span class="artifact-tag">PR review</span><span class="artifact-tag">spec-diff.md</span><span class="artifact-tag">deploy</span></div></div>
   </div>
+
+  <blockquote class="pullquote">
+    Spec-driven, not code-driven. Structure is permanent; prompting is temporary.
+    <span class="pullquote-attribution">The FSAD thesis</span>
+  </blockquote>
 </section>
 <hr class="divider">
 
@@ -1715,10 +1985,10 @@
     <div class="pod-description">
       <h3>The Markdown is the Meeting</h3>
       <p>In FSAD, the spec.md file replaces most of the ceremony of traditional development — the Jira tickets, the Figma handoffs, the sprint planning debates, the slack threads asking "what did we decide?"</p>
-      <div class="pod-principle"><div class="bullet" style="background: var(--accent-amber);"></div><p><strong>PM</strong> contributes user intent, business constraints, success metrics, and acceptance criteria directly into the spec.</p></div>
-      <div class="pod-principle"><div class="bullet" style="background: var(--accent-violet);"></div><p><strong>UX Designer</strong> contributes interaction patterns, component decisions, layout descriptions, and accessibility requirements — inline, not as a separate Figma file.</p></div>
-      <div class="pod-principle"><div class="bullet" style="background: var(--accent-emerald);"></div><p><strong>Engineer</strong> contributes technical constraints, data models, API contracts, and architecture decisions — and validates feasibility in real-time.</p></div>
-      <div class="pod-principle"><div class="bullet" style="background: var(--accent-blue);"></div><p><strong>AI Agents</strong> consume the spec and execute implementation in parallel — the "workforce" that the pod directs.</p></div>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>PM</strong> contributes user intent, business constraints, success metrics, and acceptance criteria directly into the spec.</p></div>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>UX Designer</strong> contributes interaction patterns, component decisions, layout descriptions, and accessibility requirements — inline, not as a separate Figma file.</p></div>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>Engineer</strong> contributes technical constraints, data models, API contracts, and architecture decisions — and validates feasibility in real-time.</p></div>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>AI Agents</strong> consume the spec and execute implementation in parallel — the "workforce" that the pod directs.</p></div>
     </div>
   </div>
 </section>
@@ -1782,18 +2052,18 @@ PostgreSQL. Follow existing patterns.</span>
   <p class="section-subtitle">FSAD doesn't reject Agile values — it fulfills them by removing the ceremony that slowed teams down.</p>
   <div class="timeline-compare">
     <div class="timeline-row">
-      <h4 style="color: var(--accent-amber);">Traditional Agile/Scrum — Feature Delivery</h4>
+      <h4 class="timeline-heading timeline-heading--traditional">Traditional Agile/Scrum — Feature Delivery</h4>
       <div class="timeline-bar-container">
         <div class="timeline-segment" style="flex: 2; background: rgba(245,158,11,0.25); color: var(--accent-amber);">Sprint Planning</div>
-        <div class="timeline-segment" style="flex: 1.5; background: rgba(139,92,246,0.25); color: var(--accent-violet);">Design</div>
-        <div class="timeline-segment" style="flex: 1; background: rgba(139,92,246,0.15); color: var(--accent-violet);">Handoff</div>
+        <div class="timeline-segment" style="flex: 1.5; background: rgba(111,111,181,0.25); color: var(--accent-violet);">Design</div>
+        <div class="timeline-segment" style="flex: 1; background: rgba(111,111,181,0.15); color: var(--accent-violet);">Handoff</div>
         <div class="timeline-segment" style="flex: 3; background: rgba(16,185,129,0.25); color: var(--accent-emerald);">Development</div>
         <div class="timeline-segment" style="flex: 1.5; background: rgba(59,130,246,0.25); color: var(--accent-blue);">QA</div>
         <div class="timeline-segment" style="flex: 1; background: rgba(244,63,94,0.25); color: var(--accent-rose);">Deploy</div>
       </div>
       <div class="timeline-legend">
         <div class="legend-item"><div class="legend-dot" style="background: rgba(245,158,11,0.4);"></div> Planning</div>
-        <div class="legend-item"><div class="legend-dot" style="background: rgba(139,92,246,0.4);"></div> Design & Handoff</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(111,111,181,0.4);"></div> Design & Handoff</div>
         <div class="legend-item"><div class="legend-dot" style="background: rgba(16,185,129,0.4);"></div> Development</div>
         <div class="legend-item"><div class="legend-dot" style="background: rgba(59,130,246,0.4);"></div> QA</div>
         <div class="legend-item"><div class="legend-dot" style="background: rgba(244,63,94,0.4);"></div> Deploy</div>
@@ -1801,9 +2071,9 @@ PostgreSQL. Follow existing patterns.</span>
       <div class="timeline-duration">Typical: 2–4 weeks per feature</div>
     </div>
     <div class="timeline-row">
-      <h4 style="color: var(--accent-cyan);">FSAD — Feature Delivery</h4>
+      <h4 class="timeline-heading timeline-heading--fsad">FSAD — Feature Delivery</h4>
       <div class="timeline-bar-container">
-        <div class="timeline-segment" style="flex: 3; background: linear-gradient(90deg, rgba(245,158,11,0.25), rgba(139,92,246,0.25), rgba(16,185,129,0.25)); color: var(--text-primary);">Live Spec Session (Pod)</div>
+        <div class="timeline-segment" style="flex: 3; background: linear-gradient(90deg, rgba(245,158,11,0.25), rgba(111,111,181,0.25), rgba(16,185,129,0.25)); color: var(--text-primary);">Live Spec Session (Pod)</div>
         <div class="timeline-segment" style="flex: 1; background: rgba(59,130,246,0.3); color: var(--accent-blue);">Plan</div>
         <div class="timeline-segment" style="flex: 2; background: rgba(59,130,246,0.5); color: white;">Agent Execution ∥</div>
         <div class="timeline-segment" style="flex: 1.5; background: rgba(16,185,129,0.3); color: var(--accent-emerald);">Review & Ship</div>
@@ -1840,13 +2110,13 @@ PostgreSQL. Follow existing patterns.</span>
 <section id="advantages">
   <span class="section-label">06 — Why FSAD Wins</span>
   <h2 class="section-title">The Advantages</h2>
-  <div class="adv-grid">
-    <div class="adv-card"><div class="adv-metric" style="color: var(--accent-cyan);">10×</div><h3>Cycle Time Compression</h3><p>Eliminating handoffs and delegating to parallel agents compresses 2–4 week sprints into 1–3 days.</p></div>
-    <div class="adv-card"><div class="adv-metric" style="color: var(--accent-amber);">0</div><h3>Handoff Latency</h3><p>No more Figma → Jira → Slack → Code chain. Design decisions reach code without translation loss.</p></div>
-    <div class="adv-card"><div class="adv-metric" style="color: var(--accent-violet);">∞</div><h3>Parallel Execution</h3><p>Multiple agents in isolated worktrees implement different parts of the spec simultaneously.</p></div>
-    <div class="adv-card"><div class="adv-metric" style="color: var(--accent-emerald);">1</div><h3>Single Source of Truth</h3><p>spec.md replaces the constellation of Jira, Confluence, Figma, Slack threads, and meeting notes.</p></div>
-    <div class="adv-card"><div class="adv-metric" style="color: var(--accent-rose);">3×</div><h3>Knowledge Compound</h3><p>Better specs → better agent output → cleaner codebases → even better agent output. A virtuous cycle.</p></div>
-    <div class="adv-card"><div class="adv-metric" style="color: var(--accent-blue);">All</div><h3>Democratized Contribution</h3><p>PMs and designers contribute directly to the artifact that drives implementation. No code required.</p></div>
+  <div class="adv-list">
+    <div class="adv-item"><h3>Cycle Time Compression</h3><p>Eliminating handoffs and delegating implementation to parallel agents compresses 2–4 week sprints into 1–3 days.</p></div>
+    <div class="adv-item"><h3>No Handoff Latency</h3><p>No more Figma → Jira → Slack → Code chain. Design decisions reach code without translation loss.</p></div>
+    <div class="adv-item"><h3>Parallel Execution</h3><p>Multiple agents in isolated worktrees implement different parts of the spec simultaneously.</p></div>
+    <div class="adv-item"><h3>Single Source of Truth</h3><p><code>spec.md</code> replaces the constellation of Jira, Confluence, Figma, Slack threads, and meeting notes.</p></div>
+    <div class="adv-item"><h3>Knowledge Compound</h3><p>Better specs produce better agent output, which produces cleaner codebases, which produces even better agent output. A virtuous cycle.</p></div>
+    <div class="adv-item"><h3>Democratized Contribution</h3><p>PMs and designers contribute directly to the artifact that drives implementation. No code required.</p></div>
   </div>
 </section>
 <hr class="divider">
@@ -1909,7 +2179,7 @@ PostgreSQL. Follow existing patterns.</span>
 <div class="page" id="page-pods">
 
 <div class="hero" id="pods-hero" style="padding-bottom: 3rem;">
-  <div class="hero-badge" style="color: var(--accent-violet); border-color: rgba(139,92,246,0.3);">Team Design for Agentic Development</div>
+  <div class="hero-badge">Team Design for Agentic Development</div>
   <h1>Pod Compositions That <em>Work</em></h1>
   <p>Not every feature needs the same team shape. FSAD defines six pod configurations — each optimized for a different type of work, all unified by the same spec-driven workflow.</p>
   <div class="principle-strip" style="margin-top: 2rem;">
@@ -2096,12 +2366,12 @@ PostgreSQL. Follow existing patterns.</span>
       <tbody>
         <tr><td>Standard user-facing feature</td><td><span class="config-tag" style="background: rgba(59,130,246,0.15); color: var(--accent-blue);">Triad</span></td><td>3</td><td>Full coverage of product, design, and engineering.</td></tr>
         <tr><td>API / backend service</td><td><span class="config-tag" style="background: rgba(16,185,129,0.15); color: var(--accent-emerald);">Builder Duo</span></td><td>2</td><td>No UI decisions. PM + Engineer. Maximum speed.</td></tr>
-        <tr><td>Complex onboarding flow</td><td><span class="config-tag" style="background: rgba(139,92,246,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX-led. Interaction design is the product.</td></tr>
+        <tr><td>Complex onboarding flow</td><td><span class="config-tag" style="background: rgba(111,111,181,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX-led. Interaction design is the product.</td></tr>
         <tr><td>Payments integration</td><td><span class="config-tag" style="background: rgba(245,158,11,0.15); color: var(--accent-amber);">Full Stack Pod</span></td><td>4</td><td>High stakes, cross-service, needs specialist.</td></tr>
         <tr><td>CI/CD pipeline overhaul</td><td><span class="config-tag" style="background: rgba(6,182,212,0.15); color: var(--accent-cyan);">Platform Pod</span></td><td>2</td><td>Pure engineering. Architecture + reliability split.</td></tr>
         <tr><td>New product exploration</td><td><span class="config-tag" style="background: rgba(236,72,153,0.15); color: var(--accent-pink);">Discovery Pod</span></td><td>3</td><td>High uncertainty. Validate before committing.</td></tr>
         <tr><td>Bug fix / refactor</td><td><span class="config-tag" style="background: rgba(16,185,129,0.15); color: var(--accent-emerald);">Builder Duo</span></td><td>2</td><td>Requirements clear. Fast turnaround.</td></tr>
-        <tr><td>Design system component</td><td><span class="config-tag" style="background: rgba(139,92,246,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX owns component API and behavior.</td></tr>
+        <tr><td>Design system component</td><td><span class="config-tag" style="background: rgba(111,111,181,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX owns component API and behavior.</td></tr>
         <tr><td>Database migration</td><td><span class="config-tag" style="background: rgba(6,182,212,0.15); color: var(--accent-cyan);">Platform Pod</span></td><td>2</td><td>Deep technical work. No user-facing impact.</td></tr>
         <tr><td>Cross-cutting auth overhaul</td><td><span class="config-tag" style="background: rgba(245,158,11,0.15); color: var(--accent-amber);">Full Stack Pod</span></td><td>4</td><td>Touches every service. Needs security + UX + PM.</td></tr>
       </tbody>
@@ -2144,13 +2414,59 @@ PostgreSQL. Follow existing patterns.</span>
 <div class="page" id="page-practices">
 
 <div class="hero" id="practices-hero" style="padding-bottom: 3rem;">
-  <div class="hero-badge" style="color: var(--accent-emerald); border-color: rgba(16,185,129,0.3);">Practical Implementation Guide</div>
+  <div class="hero-badge">Practical Implementation Guide</div>
   <h1>Claude Best <em>Practices</em></h1>
   <p>From zero to spec-driven development. Project setup, integrations, skills, cheat sheets, power usage, and open source frameworks for Claude Code.</p>
 </div>
 
 <hr class="divider">
 
+<div class="topic-view" data-topic="hub">
+  <section id="practices-hub" class="practices-hub">
+    <span class="section-label">Claude Best Practices</span>
+    <h2 class="section-title">Choose a Topic</h2>
+    <p class="section-subtitle">Five clusters covering setup, integrations, automation, operations, and reference. Pick one — the rest stay out of your way.</p>
+    <p class="hub-depth-legend" aria-hidden="true"><span class="depth-sample"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span> light · <span class="depth-sample"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span> medium · <span class="depth-sample"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span> deep — relative depth of the cluster</p>
+    <div class="hub-grid">
+      <button type="button" class="hub-card" onclick="showTopic('foundations')">
+        <div class="hub-card-icon" aria-hidden="true">🧱</div>
+        <h3>Foundations</h3>
+        <p>From zero to your first spec-driven session. Project anatomy and the config cascade.</p>
+        <div class="hub-card-chips"><span>Getting Started</span><span>Project Anatomy</span><span>Config Cascade</span></div>
+        <div class="hub-card-depth" aria-label="Depth: light"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+      </button>
+      <button type="button" class="hub-card" onclick="showTopic('integrations')">
+        <div class="hub-card-icon" aria-hidden="true">🔌</div>
+        <h3>Integrations &amp; Review</h3>
+        <p>Connect Claude to your tools and put its output on trial.</p>
+        <div class="hub-card-chips"><span>MCP</span><span>Code Review</span><span>Security Review</span></div>
+        <div class="hub-card-depth" aria-label="Depth: medium"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
+      </button>
+      <button type="button" class="hub-card" onclick="showTopic('skills-hooks')">
+        <div class="hub-card-icon" aria-hidden="true">⚡</div>
+        <h3>Skills &amp; Hooks</h3>
+        <p>Package repeatable workflows and enforce invariants that models forget.</p>
+        <div class="hub-card-chips"><span>Building Skills</span><span>Hooks Deep Dive</span></div>
+        <div class="hub-card-depth" aria-label="Depth: deep"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></div>
+      </button>
+      <button type="button" class="hub-card" onclick="showTopic('operations')">
+        <div class="hub-card-icon" aria-hidden="true">📊</div>
+        <h3>Operations</h3>
+        <p>Track usage, enforce guidelines, and run Claude at team scale.</p>
+        <div class="hub-card-chips"><span>Monitoring</span><span>Guidelines</span></div>
+        <div class="hub-card-depth" aria-label="Depth: medium"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
+      </button>
+      <button type="button" class="hub-card" onclick="showTopic('reference')">
+        <div class="hub-card-icon" aria-hidden="true">📚</div>
+        <h3>Reference</h3>
+        <p>Cheat sheets, power-user patterns, and the open-source ecosystem.</p>
+        <div class="hub-card-chips"><span>Cheat Sheet</span><span>Power Usage</span><span>Open Source</span></div>
+        <div class="hub-card-depth" aria-label="Depth: light"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+      </button>
+    </div>
+  </section>
+</div>
+<div class="topic-view" data-topic="foundations" hidden>
 <section id="getting-started">
     <span class="section-label">08 — How to Get Started</span>
     <h2 class="section-title">From Zero to Spec-Driven Development</h2>
@@ -2581,6 +2897,11 @@ description: Structured code review with security and quality checks
       </div>
     </div>
 
+    <blockquote class="pullquote">
+      Org and project <code style="font-size:0.85em; font-style:normal;">.claude/</code> live in git. Only <code style="font-size:0.85em; font-style:normal;">~/.claude/</code> stays local.
+      <span class="pullquote-attribution">The config-cascade rule</span>
+    </blockquote>
+
     <!-- Cascading + precedence -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Cascading rules &amp; precedence</h3>
     <p style="color:var(--text-secondary); margin-bottom:1rem;">CLAUDE.md files are loaded by walking up the directory tree from the current working directory. Multiple CLAUDE.md files combine — each layer adds context without requiring duplication. When rules conflict, precedence flows:</p>
@@ -2751,7 +3072,9 @@ description: Structured code review with security and quality checks
 </section>
 
 <hr class="divider">
+</div>
 
+<div class="topic-view" data-topic="integrations" hidden>
 <section id="integrations">
     <span class="section-label">10 — Integrations</span>
     <h2 class="section-title">Connect Claude to Your Tools via MCP</h2>
@@ -2906,7 +3229,7 @@ description: Structured code review with security and quality checks
   }
 }</code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);"><strong>Setup:</strong> Requires Node.js 20+. On first tool use, a browser window opens for Microsoft OAuth login — no PAT or env vars needed. Replace <code>your-org-name</code> with your Azure DevOps organization. See <a href="https://github.com/microsoft/azure-devops-mcp" target="_blank" style="color:var(--accent-cyan);">microsoft/azure-devops-mcp</a> for details.</p>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);"><strong>Setup:</strong> Requires Node.js 20+. On first tool use, a browser window opens for Microsoft OAuth login — no PAT or env vars needed. Replace <code>your-org-name</code> with your Azure DevOps organization. See <a href="https://github.com/microsoft/azure-devops-mcp" target="_blank" style="color:var(--accent-blue);">microsoft/azure-devops-mcp</a> for details.</p>
         <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--text-secondary);"><strong>Example usage:</strong> "List my ADO projects" or "List ADO builds for 'Contoso'" or "Create a work item in the Sprint 12 backlog"</p>
       </div></div>
     </div>
@@ -2935,7 +3258,7 @@ description: Structured code review with security and quality checks
   }
 }</code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);"><strong>Setup:</strong> Install <code>gcloud</code> CLI, run <code>gcloud auth application-default login</code>, then enable the MCP server: <code>gcloud beta services mcp enable SERVICE --project=PROJECT_ID</code>. See <a href="https://docs.cloud.google.com/mcp/configure-mcp-ai-application" target="_blank" style="color:var(--accent-cyan);">Google Cloud MCP docs</a> for full instructions.</p>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);"><strong>Setup:</strong> Install <code>gcloud</code> CLI, run <code>gcloud auth application-default login</code>, then enable the MCP server: <code>gcloud beta services mcp enable SERVICE --project=PROJECT_ID</code>. See <a href="https://docs.cloud.google.com/mcp/configure-mcp-ai-application" target="_blank" style="color:var(--accent-blue);">Google Cloud MCP docs</a> for full instructions.</p>
 
         <h4 style="margin-top:1.25rem; margin-bottom:0.5rem;">Google Workspace MCP (community, self-hosted)</h4>
         <div class="code-block" style="margin-top:0.5rem;">
@@ -2946,14 +3269,14 @@ git clone https://github.com/taylorwilsdon/google_workspace_mcp
 cd google_workspace_mcp && cargo build --release
 claude mcp add google-workspace -- ./target/release/google_workspace_mcp</code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires a Google Cloud project with OAuth credentials and the relevant APIs enabled. See the <a href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" style="color:var(--accent-cyan);">project README</a> for setup.</p>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires a Google Cloud project with OAuth credentials and the relevant APIs enabled. See the <a href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" style="color:var(--accent-blue);">project README</a> for setup.</p>
         <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--text-secondary);"><strong>Example usage:</strong> "Read the PRD from this Google Doc and create a spec.md" or "Query the BigQuery dataset for last month's revenue"</p>
       </div></div>
     </div>
 
     <div class="callout callout-tip" style="margin-top:1.5rem;">
       <div class="callout-title">Tip</div>
-      <p>You can run multiple MCPs simultaneously. Claude auto-discovers available tools from all connected servers. Jira, Figma, and Notion are available as plugins with hosted MCP endpoints (OAuth, no tokens). Azure DevOps and Google Workspace require self-hosted servers. Check <a href="https://registry.modelcontextprotocol.io" target="_blank" style="color:var(--accent-cyan);">registry.modelcontextprotocol.io</a> for the latest server options.</p>
+      <p>You can run multiple MCPs simultaneously. Claude auto-discovers available tools from all connected servers. Jira, Figma, and Notion are available as plugins with hosted MCP endpoints (OAuth, no tokens). Azure DevOps and Google Workspace require self-hosted servers. Check <a href="https://registry.modelcontextprotocol.io" target="_blank" style="color:var(--accent-blue);">registry.modelcontextprotocol.io</a> for the latest server options.</p>
     </div>
   </section>
 
@@ -2992,15 +3315,19 @@ claude mcp add google-workspace -- ./target/release/google_workspace_mcp</code><
 └──────────────────────────────────────────────────┘</code></pre>
     </div>
 
-    <!-- Key stats -->
-    <div class="card-grid" style="margin-top:0; margin-bottom:2rem;">
-      <div class="card">
-        <h3 style="color:var(--accent-emerald);">84%</h3>
-        <p>of large PRs (1,000+ lines) receive findings, averaging 7.5 issues per review</p>
+    <!-- Key stats (Phase 6: upgraded to small-multiples kpi-card rhythm) -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Coverage on large PRs</span>
+        <span class="kpi-figure kpi-figure--positive">84%</span>
+        <p class="kpi-context">of PRs over 1,000 lines receive at least one actionable finding, averaging 7.5 issues per review.</p>
+        <span class="kpi-source">Source: Anthropic internal telemetry, Claude Code review agent</span>
       </div>
-      <div class="card">
-        <h3 style="color:var(--accent-emerald);">&lt;1%</h3>
-        <p>false positive rate — verified agents filter noise before posting comments</p>
+      <div class="kpi-card">
+        <span class="kpi-label">False positive rate</span>
+        <span class="kpi-figure kpi-figure--positive">&lt;1%</span>
+        <p class="kpi-context">Verified agents filter noise before anything reaches the PR — comments you see are comments worth reading.</p>
+        <span class="kpi-source">Source: Anthropic internal telemetry, Claude Code review agent</span>
       </div>
     </div>
 
@@ -3215,7 +3542,9 @@ Use the code-review skill to frame the consolidation. Do NOT fix anything in thi
 </section>
 
 <hr class="divider">
+</div>
 
+<div class="topic-view" data-topic="skills-hooks" hidden>
 <section id="building-skills">
     <span class="section-label">11 — Building Your Own Skills</span>
     <h2 class="section-title">Turn Repeatable Workflows into Reusable Expert Modes</h2>
@@ -3616,7 +3945,9 @@ smoke tests against the staging URL."</code></pre>
   </section>
 
 <hr class="divider">
+</div>
 
+<div class="topic-view" data-topic="operations" hidden>
 <section id="best-practices">
     <span class="section-label">12 — Best Practices & Guidelines</span>
     <h2 class="section-title">Lessons from Real-World FSAD Adoption</h2>
@@ -3723,7 +4054,9 @@ smoke tests against the staging URL."</code></pre>
   </section>
 
 <hr class="divider">
+</div>
 
+<div class="topic-view" data-topic="reference" hidden>
 <section id="cheat-sheet">
     <span class="section-label">13 — Claude Cheat Sheet</span>
     <h2 class="section-title">Everything You Need in One Place</h2>
@@ -4525,7 +4858,9 @@ smoke tests against the staging URL."</code></pre>
   </section>
 
 <hr class="divider">
+</div>
 
+<div class="topic-view" data-topic="skills-hooks" hidden>
 <section id="hooks-deep-dive">
     <span class="section-label">15 — Hooks</span>
     <h2 class="section-title">Hooks — Automation &amp; Guardrails</h2>
@@ -4918,7 +5253,9 @@ exit 0</code></pre>
   </section>
 
 <hr class="divider">
+</div>
 
+<div class="topic-view" data-topic="operations" hidden>
 <section id="monitoring">
     <span class="section-label">16 — Claude Monitoring</span>
     <h2 class="section-title">Track Usage, Costs &amp; Tool Activity</h2>
@@ -5108,7 +5445,9 @@ claude</code></pre>
   </section>
 
 <hr class="divider">
+</div>
 
+<div class="topic-view" data-topic="reference" hidden>
 <section id="open-source">
     <span class="section-label">17 — Open Source Frameworks</span>
     <h2 class="section-title">Community Meta-Frameworks for Claude Code</h2>
@@ -5123,7 +5462,7 @@ claude</code></pre>
 Solves context rot — the quality degradation that happens as Claude fills its context window.</p>
         <div class="framework-stats">
           <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">30+ commands</span>
-          <span class="badge" style="background:rgba(139,92,246,0.15); color:var(--accent-violet);">Cognitive personas</span>
+          <span class="badge" style="background:rgba(111,111,181,0.15); color:var(--accent-violet);">Cognitive personas</span>
         </div>
       </div>
 
@@ -5133,7 +5472,7 @@ Solves context rot — the quality degradation that happens as Claude fills its 
         <div class="framework-stats">
           <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">11 agents</span>
           <span class="badge" style="background:rgba(16,185,129,0.15); color:var(--accent-emerald);">40 commands</span>
-          <span class="badge" style="background:rgba(139,92,246,0.15); color:var(--accent-violet);">15 skills</span>
+          <span class="badge" style="background:rgba(111,111,181,0.15); color:var(--accent-violet);">15 skills</span>
           <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">15 hooks</span>
         </div>
       </div>
@@ -5153,7 +5492,7 @@ Solves context rot — the quality degradation that happens as Claude fills its 
         <div class="framework-stats">
           <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">112 agents</span>
           <span class="badge" style="background:rgba(16,185,129,0.15); color:var(--accent-emerald);">16 orchestrators</span>
-          <span class="badge" style="background:rgba(139,92,246,0.15); color:var(--accent-violet);">146 skills</span>
+          <span class="badge" style="background:rgba(111,111,181,0.15); color:var(--accent-violet);">146 skills</span>
           <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">79 tools</span>
         </div>
       </div>
@@ -5175,7 +5514,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
         <p class="framework-desc">Claude Code Hooks - Quickly master how to use Claude Code hooks to add deterministic (or non-deterministic) control over Claude Code's behavior. Plus learn about Claude Code Sub-Agents, the powerful Meta-Agent, and Team-Based Validation with agent orchestration.</p>
         <div class="framework-stats">
           <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">Meta-agent pattern</span>
-          <span class="badge" style="background:rgba(139,92,246,0.15); color:var(--accent-violet);">Hook reference</span>
+          <span class="badge" style="background:rgba(111,111,181,0.15); color:var(--accent-violet);">Hook reference</span>
         </div>
       </div>
 
@@ -5205,6 +5544,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
     </div>
   </section>
 
+</div>
 <footer>
   <span class="footer-brand">Full Stack Agentic Development</span>
   <p>Claude Best Practices Guide — for R&D teams adopting FSAD.</p>
@@ -5217,7 +5557,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
 <div class="page" id="page-codex">
 
 <div class="hero" id="codex-hero" style="padding-bottom: 3rem;">
-  <div class="hero-badge" style="color: var(--accent-amber); border-color: rgba(251,191,36,0.3);">OpenAI's Coding Agent</div>
+  <div class="hero-badge">OpenAI's Coding Agent</div>
   <h1>Codex Best <em>Practices</em></h1>
   <p>Getting productive with OpenAI's open-source coding agent alongside Claude Code.</p>
 </div>
@@ -5230,7 +5570,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
     <p class="section-subtitle">From installation to agentic workflows with OpenAI's Codex.</p>
 
     <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem;">
-      <a href="https://github.com/openai/codex" target="_blank" style="color:var(--accent-cyan);">Codex CLI</a> is OpenAI's open-source coding agent — a Rust-based terminal UI (TUI) that reads files, writes code, and runs shell commands in a sandbox. It defaults to <code>gpt-5.4</code> and supports multiple model providers including OpenAI, Azure, Ollama, and more. If your team uses OpenAI models or wants multi-provider flexibility, Codex is the FSAD-compatible agent to learn.
+      <a href="https://github.com/openai/codex" target="_blank" style="color:var(--accent-blue);">Codex CLI</a> is OpenAI's open-source coding agent — a Rust-based terminal UI (TUI) that reads files, writes code, and runs shell commands in a sandbox. It defaults to <code>gpt-5.4</code> and supports multiple model providers including OpenAI, Azure, Ollama, and more. If your team uses OpenAI models or wants multi-provider flexibility, Codex is the FSAD-compatible agent to learn.
     </p>
 
     <div class="callout callout-tip" style="margin-bottom:2rem;">
@@ -5702,7 +6042,7 @@ codex mcp add ado -- npx -y @azure-devops/mcp your-org-name</code></pre>
 <span class="val">command</span> = "npx"
 <span class="val">args</span> = ["-y", "@azure-devops/mcp", "your-org-name"]</code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires Node.js 20+. Browser-based OAuth on first use. See <a href="https://github.com/microsoft/azure-devops-mcp" target="_blank" style="color:var(--accent-cyan);">microsoft/azure-devops-mcp</a>.</p>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires Node.js 20+. Browser-based OAuth on first use. See <a href="https://github.com/microsoft/azure-devops-mcp" target="_blank" style="color:var(--accent-blue);">microsoft/azure-devops-mcp</a>.</p>
       </div></div>
     </div>
 
@@ -5725,20 +6065,20 @@ codex mcp add bigquery --url https://bigquery.googleapis.com/mcp</code></pre>
 <span class="kw">[mcp_servers.bigquery]</span>
 <span class="val">url</span> = "https://bigquery.googleapis.com/mcp"</code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires <code>gcloud auth application-default login</code> and <code>gcloud beta services mcp enable SERVICE</code>. See <a href="https://docs.cloud.google.com/mcp/configure-mcp-ai-application" target="_blank" style="color:var(--accent-cyan);">Google Cloud MCP docs</a>.</p>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires <code>gcloud auth application-default login</code> and <code>gcloud beta services mcp enable SERVICE</code>. See <a href="https://docs.cloud.google.com/mcp/configure-mcp-ai-application" target="_blank" style="color:var(--accent-blue);">Google Cloud MCP docs</a>.</p>
 
         <h4 style="margin-top:1rem; margin-bottom:0.5rem;">Google Workspace MCP (community, self-hosted)</h4>
         <div class="code-block" style="margin-top:0.5rem;">
           <pre><code><span class="cm"># Add via CLI (build from source first)</span>
 codex mcp add google-workspace -- /path/to/google_workspace_mcp</code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires building from source (Rust) and a Google Cloud project with OAuth. See <a href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" style="color:var(--accent-cyan);">taylorwilsdon/google_workspace_mcp</a>.</p>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires building from source (Rust) and a Google Cloud project with OAuth. See <a href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" style="color:var(--accent-blue);">taylorwilsdon/google_workspace_mcp</a>.</p>
       </div></div>
     </div>
 
     <div class="callout callout-tip" style="margin-top:1.5rem;">
       <div class="callout-title">Codex as MCP Server</div>
-      <p>Unlike Claude Code, Codex can also act as an MCP server (<code>codex mcp-server</code>), allowing other agents to invoke Codex as a tool. Full docs at <a href="https://developers.openai.com/codex/mcp/" target="_blank" style="color:var(--accent-cyan);">developers.openai.com/codex/mcp</a>.</p>
+      <p>Unlike Claude Code, Codex can also act as an MCP server (<code>codex mcp-server</code>), allowing other agents to invoke Codex as a tool. Full docs at <a href="https://developers.openai.com/codex/mcp/" target="_blank" style="color:var(--accent-blue);">developers.openai.com/codex/mcp</a>.</p>
     </div>
   </section>
 
@@ -6193,7 +6533,7 @@ codex app</code></pre>
 <div class="page" id="page-kpis">
 
 <div class="hero" id="kpis-hero" style="padding-bottom: 3rem;">
-  <div class="hero-badge" style="color: var(--accent-emerald); border-color: rgba(52,211,153,0.3);">Measuring Success</div>
+  <div class="hero-badge">Measuring Success</div>
   <h1>KPIs to Measure <em>Impact</em></h1>
   <p>Key metrics to track adoption, productivity, and ROI of agentic development.</p>
 </div>
@@ -6266,7 +6606,69 @@ codex app</code></pre>
 
 </div><!-- end main -->
 
+<!-- ═══════════════════════════════════════
+     CHANGELOG MODAL (Phase 3)
+     ═══════════════════════════════════════ -->
+<div class="changelog-modal" id="changelogModal" role="dialog" aria-labelledby="changelogTitle" aria-hidden="true" onclick="if(event.target===this) closeChangelog()">
+  <div class="changelog-panel">
+    <header class="changelog-header">
+      <h2 id="changelogTitle">Changelog</h2>
+      <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
+    </header>
+    <div class="changelog-body">
+      <section>
+        <h3>v21 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Distinctive voice (CBP-032 Phase 6 — final critique-driven phase).</strong> Introduced a recurring <code>.pullquote</code> component and deployed it three times across the FSAD page and Config Cascade section — surfacing the thesis sentences that already earned their place in the writing. Upgraded the Code Review section's two cited metrics to a small-multiples <code>.kpi-card</code> rhythm (label + figure + context + source) — no fabricated data, sparklines intentionally omitted. Extended Source Serif 4 italic to <code>.section-subtitle em</code> and <code>.hero p em</code>, carrying the hero's typographic personality into every section intro. Retires the five-pass critique-driven UX cycle; future UX work is sourced from external reviewer feedback (see <code>markdown/research/external_feedback_v21.md</code>).</p>
+      </section>
+      <section>
+        <h3>v20 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Residual polish (CBP-032 Phase 5).</strong> Ported the final ~12 decorative <code>rgba(139,92,246,…)</code> hexes across overview cards, timeline segments, config-tags, power-usage badges, and sidebar hover tints onto the desaturated indigo. Introduced <code>--font-hero</code> (Source Serif 4) on the hero h1 as a distinct typographic voice; Inter remains the body/display face. Rebalanced the Advantages section from a 2-column grid to single-column prose rhythm. Extracted KPI metric inline styles to <code>.kpi-metric--positive</code>/<code>.kpi-metric--warning</code> classes. Swept all <code>var(--accent-cyan)</code> link inline styles to <code>var(--accent-blue)</code>. Deleted orphaned <code>.hero-stat*</code> and <code>.adv-metric</code> CSS and removed <code>.adv-card</code> from JS animation observer selectors.</p>
+      </section>
+      <section>
+        <h3>v19 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>UX overhaul gap-close (CBP-032 Phase 4).</strong> Retired the Advantages card grid with its rhetorical metrics (<code>∞ / 1 / All</code>) and rotating accent colors, flattened to a prose list. Removed the <code>.adv-card::before</code> gradient top-bars. Ported the callout, hero-badge, search-hover, and table-hover tokens onto the desaturated palette. Deleted the dead <code>--nav-node-*</code>/<code>--nav-connector-*</code> token blocks. Extracted inline accent-color styles on hero badges, pod-principle bullets, and timeline headings into semantic classes or neutral defaults. Bumped the light-theme accent to <code>#5555a0</code> for better interactive readability. Scoped the <code>!important</code> off <code>.changelog-foot</code> and removed the redundant <code>prefers-reduced-motion</code> rules.</p>
+      </section>
+      <section>
+        <h3>v18 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Major UX overhaul (CBP-032).</strong> Desaturated the accent palette, removed decorative glows and gradient text, replaced fake hero metrics with thesis sentences, documented a 3-tier hierarchy + semantic color contract, converted the sidebar from node-graph pills to a docs-tree, retired the duplicate page-indicator pills row, removed dead DM Serif font import, reduced theme toggle to 2 states, made this version badge clickable, and differentiated topic-footer prev/next.</p>
+      </section>
+      <section>
+        <h3>v17 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Hub + Topic views restructure.</strong> Split the 13-section Claude Best Practices page into a Hub landing view with five topic cards plus focused topic views. Breadcrumb navigation, prev/next footer, two-level sidebar accordion, scoped scroll-spy, and hash routing for topics with legacy-link fallback.</p>
+      </section>
+      <section>
+        <h3>v16 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>External memory vaults (CBP-031).</strong> Added guidance on Obsidian / Karpathy-style markdown vaults adjacent to the existing MEMORY.md recommendations.</p>
+      </section>
+      <section>
+        <h3>v15 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Claude Code v2.1.107 auto-update (CBP-027–CBP-030).</strong> Skill description cap raised to 1,536 chars, PreCompact hook blocking documented, <code>/proactive</code> alias added, <code>monitors</code> manifest key surfaced.</p>
+      </section>
+      <p class="changelog-foot">For the complete history, see <code>CHANGELOG.md</code> in the repository.</p>
+    </div>
+  </div>
+</div>
+
 <script>
+  // ─── CHANGELOG MODAL ───
+  function openChangelog() {
+    const m = document.getElementById('changelogModal');
+    if (!m) return;
+    m.classList.add('open');
+    m.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeChangelog() {
+    const m = document.getElementById('changelogModal');
+    if (!m) return;
+    m.classList.remove('open');
+    m.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeChangelog();
+  });
+
   // ─── THEME TOGGLE ───
   function getEffectiveTheme() {
     const saved = localStorage.getItem('theme');
@@ -6275,33 +6677,18 @@ codex app</code></pre>
   }
 
   function applyTheme() {
-    const saved = localStorage.getItem('theme');
+    const effective = getEffectiveTheme();
     const icon = document.getElementById('themeIcon');
     const label = document.getElementById('themeLabel');
-    if (saved === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-      if (icon) icon.textContent = '☀';
-      if (label) label.textContent = 'Light';
-    } else if (saved === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      if (icon) icon.textContent = '☾';
-      if (label) label.textContent = 'Dark';
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-      if (icon) icon.textContent = '◑';
-      if (label) label.textContent = 'Auto';
-    }
+    document.documentElement.setAttribute('data-theme', effective);
+    if (icon) icon.textContent = effective === 'light' ? '☀' : '☾';
+    if (label) label.textContent = effective === 'light' ? 'Light' : 'Dark';
   }
 
   function cycleTheme() {
-    const saved = localStorage.getItem('theme');
-    if (!saved) {
-      localStorage.setItem('theme', 'light');
-    } else if (saved === 'light') {
-      localStorage.setItem('theme', 'dark');
-    } else {
-      localStorage.removeItem('theme');
-    }
+    // 2-state toggle (Phase 3): light ↔ dark. Default on first load follows OS.
+    const current = getEffectiveTheme();
+    localStorage.setItem('theme', current === 'light' ? 'dark' : 'light');
     applyTheme();
   }
 
@@ -6312,7 +6699,8 @@ codex app</code></pre>
   const sectionToPageMap = {
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
-    'practices-hero': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
+    'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
   };
@@ -6333,13 +6721,34 @@ codex app</code></pre>
 
     const [pageId, sectionId] = hash.split('/');
     const navBtn = document.querySelector(`.nav-group-toggle[data-page="${pageId}"]`);
-    
+
     if (navBtn) {
       switchPage(pageId, navBtn);
     } else if (sectionToPageMap[pageId]) {
       // Direct section reference in hash (e.g. #overview)
       switchPage(sectionToPageMap[pageId], document.querySelector(`.nav-group-toggle[data-page="${sectionToPageMap[pageId]}"]`));
-      scrollToId(pageId);
+      if (sectionToPageMap[pageId] === 'practices') {
+        const topic = TOPIC_IDS.includes(pageId) ? pageId : (sectionToTopicMap[pageId] || 'hub');
+        showTopic(topic);
+        if (!TOPIC_IDS.includes(pageId)) setTimeout(() => scrollToId(pageId), 120);
+      } else {
+        scrollToId(pageId);
+      }
+      return;
+    }
+
+    if (pageId === 'practices') {
+      // Second segment may be a topic or a section
+      if (sectionId && TOPIC_IDS.includes(sectionId)) {
+        showTopic(sectionId);
+        return;
+      }
+      if (sectionId && sectionToTopicMap[sectionId]) {
+        showTopic(sectionToTopicMap[sectionId]);
+        setTimeout(() => scrollToId(sectionId), 120);
+        return;
+      }
+      showTopic('hub');
       return;
     }
 
@@ -6399,8 +6808,120 @@ codex app</code></pre>
     const pageTitles = { fsad: 'Full Stack Agentic Development', pods: 'Pod Compositions', practices: 'Claude Best Practices', codex: 'Codex Best Practices', kpis: 'KPIs to Measure Impact' };
     const titleEl = document.getElementById('pageTitle');
     if (titleEl) titleEl.textContent = pageTitles[pageId] || '';
-    buildIndicatorPills(pageId);
+    if (pageId === 'practices' && !window.__currentTopic) {
+      showTopic('hub');
+    } else {
+      buildIndicatorPills(pageId);
+    }
     initCopyButtons();
+  }
+
+  // ─── CLAUDE PAGE: Hub + Topic views ───
+  const TOPIC_IDS = ['hub', 'foundations', 'integrations', 'skills-hooks', 'operations', 'reference'];
+  const TOPIC_ORDER = ['foundations', 'integrations', 'skills-hooks', 'operations', 'reference'];
+  const TOPIC_LABELS = {
+    'hub': 'Hub',
+    'foundations': 'Foundations',
+    'integrations': 'Integrations & Review',
+    'skills-hooks': 'Skills & Hooks',
+    'operations': 'Operations',
+    'reference': 'Reference'
+  };
+  const sectionToTopicMap = {};
+
+  function buildSectionToTopicMap() {
+    document.querySelectorAll('#page-practices .topic-view[data-topic]').forEach(view => {
+      const topic = view.dataset.topic;
+      view.querySelectorAll('section[id]').forEach(sec => {
+        sectionToTopicMap[sec.id] = topic;
+      });
+    });
+  }
+
+  function showTopic(topicId) {
+    if (!TOPIC_IDS.includes(topicId)) topicId = 'hub';
+    window.__currentTopic = topicId;
+    document.querySelectorAll('#page-practices .topic-view').forEach(v => {
+      v.hidden = (v.dataset.topic !== topicId);
+    });
+    renderTopicFooter(topicId);
+    updatePracticesBreadcrumb(topicId);
+    const practicesEl = document.getElementById('page-practices');
+    if (practicesEl) reinitSectionObserver(practicesEl);
+    buildIndicatorPills('practices');
+    updateSidebarTopicActive(topicId);
+    // Update hash without triggering full route handling
+    const currentHash = window.location.hash.substring(1);
+    const desired = topicId === 'hub' ? 'practices' : `practices/${topicId}`;
+    if (currentHash.split('/')[0] === 'practices' && currentHash !== desired) {
+      history.replaceState(null, '', '#' + desired);
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }
+
+  function updatePracticesBreadcrumb(topicId) {
+    const titleEl = document.getElementById('pageTitle');
+    if (!titleEl) return;
+    if (topicId === 'hub' || !topicId) {
+      titleEl.textContent = 'Claude Best Practices';
+      return;
+    }
+    titleEl.innerHTML = '';
+    const crumb = document.createElement('a');
+    crumb.className = 'page-indicator-crumb';
+    crumb.textContent = 'Claude';
+    crumb.href = '#practices';
+    crumb.addEventListener('click', (e) => { e.preventDefault(); showTopic('hub'); });
+    const sep = document.createElement('span');
+    sep.textContent = ' / ';
+    sep.style.color = 'var(--text-muted)';
+    const label = document.createElement('span');
+    label.textContent = TOPIC_LABELS[topicId] || topicId;
+    titleEl.appendChild(crumb);
+    titleEl.appendChild(sep);
+    titleEl.appendChild(label);
+  }
+
+  function renderTopicFooter(topicId) {
+    // Remove any existing footers across topic-views
+    document.querySelectorAll('#page-practices .topic-footer').forEach(f => f.remove());
+    if (topicId === 'hub') return;
+    const view = document.querySelector(`#page-practices .topic-view[data-topic="${topicId}"]:not([hidden])`);
+    if (!view) return;
+    const idx = TOPIC_ORDER.indexOf(topicId);
+    const next = TOPIC_ORDER[(idx + 1) % TOPIC_ORDER.length];
+    const footer = document.createElement('div');
+    footer.className = 'topic-footer';
+    const back = document.createElement('a');
+    back.className = 'topic-footer-back';
+    back.textContent = '← All Topics';
+    back.href = '#practices';
+    back.addEventListener('click', (e) => { e.preventDefault(); showTopic('hub'); });
+    const fwd = document.createElement('a');
+    fwd.className = 'topic-footer-next';
+    fwd.textContent = `Next: ${TOPIC_LABELS[next]} →`;
+    fwd.href = '#practices/' + next;
+    fwd.addEventListener('click', (e) => { e.preventDefault(); showTopic(next); });
+    footer.appendChild(back);
+    footer.appendChild(fwd);
+    view.appendChild(footer);
+  }
+
+  function updateSidebarTopicActive(topicId) {
+    document.querySelectorAll('.nav-topic-header').forEach(h => {
+      const match = h.dataset.topic === topicId;
+      h.classList.toggle('active', match);
+    });
+    document.querySelectorAll('.nav-topic-sections').forEach(s => {
+      s.classList.toggle('open', s.dataset.topicSections === topicId);
+    });
+    document.querySelectorAll('.nav-topic-header').forEach(h => {
+      h.classList.toggle('open', h.dataset.topic === topicId);
+    });
+  }
+
+  function toggleTopicNav(btn, topicId) {
+    showTopic(topicId);
   }
 
   function scrollToSection(sectionId) {
@@ -6570,6 +7091,25 @@ codex app</code></pre>
     const container = document.getElementById('pageIndicatorPills');
     if (!container) return;
     container.innerHTML = '';
+    if (pageId === 'practices') {
+      const topic = window.__currentTopic || 'hub';
+      if (topic === 'hub') return;
+      const visibleSections = document.querySelectorAll(`#page-practices .topic-view[data-topic="${topic}"]:not([hidden]) section[id]`);
+      visibleSections.forEach(sec => {
+        const pill = document.createElement('a');
+        pill.className = 'page-indicator-pill';
+        const heading = sec.querySelector('.section-title');
+        pill.textContent = heading ? heading.textContent.trim().slice(0, 40) : sec.id;
+        pill.href = `#practices/${sec.id}`;
+        pill.dataset.section = sec.id;
+        pill.addEventListener('click', (e) => {
+          e.preventDefault();
+          scrollToId(sec.id);
+        });
+        container.appendChild(pill);
+      });
+      return;
+    }
     const subItems = document.querySelectorAll(`.nav-sub-items[data-group="${pageId}"] .nav-sub-item`);
     subItems.forEach(item => {
       const pill = document.createElement('a');
@@ -6609,7 +7149,16 @@ codex app</code></pre>
   function reinitSectionObserver(pageEl) {
     // Unobserve all sections across all pages
     document.querySelectorAll('section[id], .hero[id]').forEach(s => sectionObserver.unobserve(s));
-    // Re-observe only sections within the active page
+    // On practices page, scope to the visible topic-view only
+    if (pageEl.id === 'page-practices') {
+      const visible = pageEl.querySelector('.topic-view:not([hidden])');
+      if (visible) {
+        visible.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+      }
+      const hero = pageEl.querySelector('.hero[id]');
+      if (hero) sectionObserver.observe(hero);
+      return;
+    }
     pageEl.querySelectorAll('section[id], .hero[id]').forEach(s => sectionObserver.observe(s));
   }
 
@@ -6654,7 +7203,7 @@ codex app</code></pre>
     if (!initialLoadComplete) return; // Skip on first load — DOMContentLoaded handles it
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
-    pageEl.querySelectorAll('.overview-card, .adv-card, .proscons-col, .anti-card, .role-card, .meta-box, .card, .step-card, .framework-card, .bp-anti-card').forEach(el => {
+    pageEl.querySelectorAll('.overview-card, .proscons-col, .anti-card, .role-card, .meta-box, .card, .step-card, .framework-card, .bp-anti-card').forEach(el => {
       animObserver.unobserve(el);
       el.style.opacity = '0';
       el.style.transform = 'translateY(14px)';
@@ -6708,6 +7257,7 @@ codex app</code></pre>
   });
 
   document.addEventListener('DOMContentLoaded', () => {
+    buildSectionToTopicMap();
     initRouter();
     buildSearchIndex();
     initCopyButtons();
@@ -6716,7 +7266,7 @@ codex app</code></pre>
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!prefersReducedMotion) {
-      document.querySelectorAll('.overview-card, .adv-card, .proscons-col, .anti-card, .role-card, .meta-box, .card, .step-card, .framework-card, .bp-anti-card').forEach(el => {
+      document.querySelectorAll('.overview-card, .proscons-col, .anti-card, .role-card, .meta-box, .card, .step-card, .framework-card, .bp-anti-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(14px)';
         el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';

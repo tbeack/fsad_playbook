@@ -1,5 +1,87 @@
 ## Changes in This Version
 
+### v21 — 2026-04-14
+
+**Distinctive voice — Phase 6 of CBP-032 (final critique-driven phase)**
+
+The v20 critique returned a clear pass with zero Priority Issues but noted the playbook was *correct and quiet* rather than *correct and distinctive*. Phase 6 answers that by committing to three identity moves — and then retires the critique pipeline.
+
+- **`.pullquote` component introduced.** CSS spec: Source Serif 4 italic at `clamp(1.2rem, 2.5vw, 1.45rem)` against a 2px `--accent-blue` left border, 640px max-width, optional mono attribution line beneath. Three placements, each sourced from existing copy:
+  - `#overview` (FSAD page): _"Models forget. Hooks don't."_
+  - `#workflow` (FSAD page): _"Spec-driven, not code-driven. Structure is permanent; prompting is temporary."_
+  - `#practices/config-cascade`: _"Org and project `.claude/` live in git. Only `~/.claude/` stays local."_
+- **`.kpi-card` rhythm.** Replaced the two cited Code Review metrics (`84%` coverage and `<1%` false-positive rate) with a small-multiples treatment: mono label, Source Serif 4 figure, prose context sentence, mono citation line. Sparklines intentionally omitted — real time-series data wasn't available, and Phase 6's plan explicitly forbids fabricated charts.
+- **Serif italic in section subtitles.** Added `.section-subtitle em` and `.hero p em` to the `--font-hero` family. Propagates the hero's typographic personality across ~25 subtitle instances without touching h2/h3 or body type. Spot-checked on FSAD, Pods, Practices, Codex, and KPIs hero + section subtitles.
+- **Critique-pipeline retirement.** This is the fifth and final critique-driven phase of CBP-032. The five-pass arc (v17 → v18 → v19 → v20 → v21) drove the playbook from "AI-generated on sight" to "distinctive voice." Future UX work is sourced from external engineering-director feedback, captured in `markdown/research/external_feedback_v21.md` (seeded empty, ready for reviewer notes).
+
+### v20 — 2026-04-14
+
+**Residual polish — Phase 5 of CBP-032**
+
+Driven by the fourth-pass critique in `markdown/research/UX_critique_v19.md`, which returned a clear pass but flagged 5 non-blocking residuals. Phase 5 closes them.
+
+- **Final decorative violet ported.** The remaining ~12 inline-style uses of `rgba(139,92,246,…)` across overview-card icon backgrounds, timeline segments, legend dots, timeline center-gradient, Pod Sizing Matrix config-tags, power-usage plugin badges, and sidebar-nav hover tints all ported to `rgba(111,111,181,…)`. The document no longer contains any references to the original violet hex.
+- **Typography identity assigned.** New `--font-hero` token bound to Source Serif 4 (imported via Google Fonts), applied exclusively to `.hero h1`. Adds a classical methodology-doc voice to the landing headline without disrupting the Inter rhythm elsewhere. Adjusted hero h1 weight (800 → 600), size (clamp max +0.2rem), and letter-spacing to suit the serif.
+- **Advantages rebalanced.** `.adv-list` converted from a 2-column grid to a single-column flex stack capped at 680px max-width. Slightly larger body type and looser line-height (1.7). Six claims now read as prose punctuation rather than a feature matrix.
+- **KPI metric inline styles extracted.** `#page-kpis` percentages (`84%`, `<1%`) migrated from `style="color:var(--accent-emerald)"` to semantic `.kpi-metric kpi-metric--positive` classes. New `--warning` variant added for future use.
+- **Codex accent-cyan consolidated.** All `style="color:var(--accent-cyan)"` inline link attributes swept to `style="color:var(--accent-blue)"` — removes forward-compat risk from the alias collision documented in Phase 4.
+- **Orphan CSS/JS deleted.** Removed `.hero-stats`, `.hero-stat`, `.hero-stat .number`, and `.hero-stat .label` rules (retired in Phase 1). Removed the mobile media query entries for the same selectors. Removed `.adv-card` from the two JS `IntersectionObserver` selector lists where it no longer corresponds to any element.
+
+### v19 — 2026-04-14
+
+**UX overhaul gap-close — Phase 4 of CBP-032**
+
+Driven by the third-pass critique in `markdown/research/UX_critique_v18.md`, which flagged three remaining AI-tell zones and two new code-smells introduced during v18.
+
+- **Advantages grid retired.** `#advantages` was a 6-card grid with rhetorical metrics (`10× / 0 / ∞ / 1 / 3× / All`) and rotating accent colors per card (cyan/amber/violet/emerald/rose/blue). Replaced with a plain prose list (`.adv-list` + `.adv-item`); claims kept, decoration dropped.
+- **Gradient top-bars removed.** `.adv-card::before` gradient stripes (6 `nth-child` rules covering `--gradient-brand`, `--gradient-warm`, `--gradient-cool`, and three hand-rolled linear-gradients) deleted.
+- **Callout tokens retuned.** `--callout-tip-bg`, `--callout-tip-border`, `--hero-badge-border`, `--search-result-hover`, `--table-row-hover` ported from the old violet (`rgba(124,92,252,…)` dark / `rgba(91,63,212,…)` light) onto the desaturated indigo (`rgba(111,111,181,…)` / `rgba(85,85,160,…)`) across all three `:root` contexts.
+- **Dead tokens deleted.** The `--nav-node-*` and `--nav-connector-*` blocks (13 tokens × 3 `:root` contexts = 39 lines) were unused after the v18 sidebar rewrite. Removed.
+- **Inline accent styles extracted.** Hero-badge `style="color: var(--accent-*); border-color: ..."` attributes on all three pages neutralised to use the token-driven `.hero-badge` class. Pod-principle bullets flattened to a single muted background. Timeline h4 inline colors moved to `.timeline-heading--traditional` / `.timeline-heading--fsad` semantic classes.
+- **Alias duplication.** `--accent-cyan` and `--accent-violet` both now explicitly alias `--accent-blue` (`#6f6fb5` dark / `#5555a0` light) — documented as legacy aliases in CSS comments.
+- **Light-theme accent bump.** `--accent-blue` raised from `#4a4a8a` to `#5555a0` for better interactive readability in bright environments.
+- **CSS cleanups.** Removed the redundant `@media (prefers-reduced-motion: reduce) .hero::before { display: none !important; }` rule (already suppressed at root via `--hero-glow: none`). Scoped the `!important` off `.changelog-foot`.
+- **Version bump + changelog entry** added to the in-app modal.
+
+### v18 — 2026-04-14
+
+**Major UX overhaul — reclaim the playbook as a senior methodology document (CBP-032)**
+
+Grounded in `markdown/research/UX_critique.md`, which flagged the v17 surface as generic "AI-SaaS-dark-mode-with-purple-glow." Content stayed; the visual envelope was rebuilt across three phases.
+
+**Phase 1 — Quiet the surface**
+- Desaturated the primary accent by ~40% (`#7c5cfc`/`#a78bfa` → muted indigo `#6f6fb5`/`#9595c5`; light-theme equivalents also softened)
+- Halved every `--accent-glow-*` opacity; removed `--hero-glow` radial halo in dark, light, and auto-detect themes
+- Killed gradient-text on the hero `<h1>` and stat numbers
+- Replaced the fake hero metric cards (`2–4 / 10× / .md / ∞`) with three thesis sentences: _"Humans write markdown specs. Agents write the code." / "Structure is permanent; prompting is temporary." / "Models forget. Hooks don't."_
+- Removed `backdrop-filter: blur(12px)` from the page indicator (kept only on the sidebar modal backdrop)
+- Extended `prefers-reduced-motion` to also suppress the hero decorative pseudo-element
+
+**Phase 2 — Hierarchy, semantic colors, sidebar**
+- Documented a 3-tier visual hierarchy contract in CSS (prose quiet / callouts structured / diagrams rare)
+- Documented a semantic color contract: indigo = primary nav, emerald = positive, amber = warning, rose = anti-pattern, pink = retired
+- Retired the pink decorative card border palette (`rgba(255,0,200,...)`) in favor of neutral greys across all themes
+- Converted the sidebar from node-graph pills + connector lines to a plain docs-tree with a 2px left-border active state
+- Retired the page-indicator pills row (sidebar is now the sole section nav); breadcrumb row retained
+- Demoted the gradient step-number badge to a flat neutral background
+
+**Phase 3 — Typography, consistency, polish**
+- Removed the unused `DM Serif Display` Google Fonts import (dead code)
+- Theme toggle reduced from 3 states (auto/light/dark) to 2 states (light/dark); first load follows OS preference
+- Version badge (`· v18`) is now a clickable link targeting the changelog
+- Added a legend above the Hub depth dots explaining the light/medium/deep scale
+- Topic-footer prev/next visually differentiated: back is a muted text link, next is an accent-weighted link
+
+### v17 — 2026-04-14
+
+**Claude Best Practices — Hub + Topic views restructure**
+- Restructured the 13-section flat Claude Best Practices page into a two-level experience: a Hub landing view with five topic cards, plus focused topic views that render one cluster at a time
+- Five clusters: Foundations, Integrations & Review, Skills & Hooks, Operations, Reference
+- Added breadcrumb (`Claude / <topic>`) in the page indicator and prev/next topic-footer navigation inside each topic view
+- Reworked the sidebar practices group from 13 flat items into a two-level topic → section accordion; topic headers route to the topic view, nested sections open the view and scroll to the section
+- Scroll-spy and indicator pills scoped to the currently visible topic view only; hash routing supports `#practices`, `#practices/<topic>`, and legacy `#practices/<section>` links (which now resolve to the containing topic)
+- Prepared for an optional Persona Tracks navigation layer (Phase 2) without requiring further structural changes
+
 ### v16 — 2026-04-14
 
 **External memory vaults — Obsidian & Karpathy pattern (CBP-031)**
