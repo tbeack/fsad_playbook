@@ -28,3 +28,7 @@
 - [x] `CBP-024` Update `/effort` guidance to include formal updated guidance from Boris Cherny — default changed to `medium`, recommend `/effort max` for complex tasks → [task-cbp-024.md](task-cbp-024.md)
 - [x] `CBP-025` Update guidance on disabling adaptive thinking — document current behavior and recommended approach → [task-cbp-025.md](task-cbp-025.md)
 - [x] `CBP-026` Create a new subsection on Hooks in Claude Best Practices — lifecycle, 4 hook types, configuration, exit codes, recipes → [task-cbp-026.md](task-cbp-026.md)
+- [x] `CBP-027` Update skill description character cap from 250 to 1,536 chars in frontmatter reference table → [task-cbp-027.md](task-cbp-027.md)
+- [x] `CBP-028` Document PreCompact hook blocking: exit code 2 or `{"decision":"block"}` prevents compaction → [task-cbp-028.md](task-cbp-028.md)
+- [x] `CBP-029` Add `/proactive` as alias for `/loop` in Cheat Sheet and /loop collapsible header → [task-cbp-029.md](task-cbp-029.md)
+- [x] `CBP-030` Add `monitors` manifest key to Skills frontmatter reference table → [task-cbp-030.md](task-cbp-030.md)

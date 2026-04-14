@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v13)</title>
+<title>FSAD — Full Stack Agentic Development (v15)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1518,7 +1518,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v13</span></span>
+    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v15</span></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3256,7 +3256,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
             <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
             <tbody>
               <tr><td><code>name</code></td><td>string</td><td>Display name and <code>/slash-command</code>. Defaults to directory name.</td></tr>
-              <tr><td><code>description</code></td><td>string</td><td>What the skill does. Claude uses this for auto-invocation matching. Front-load the key use case. Truncated at 250 chars.</td></tr>
+              <tr><td><code>description</code></td><td>string</td><td>What the skill does. Claude uses this for auto-invocation matching. Front-load the key use case. Truncated at 1,536 chars (startup warning shown when exceeded).</td></tr>
               <tr><td><code>argument-hint</code></td><td>string</td><td>Hint shown in autocomplete (e.g. <code>[filename]</code>, <code>[issue-number]</code>).</td></tr>
               <tr><td><code>disable-model-invocation</code></td><td>boolean</td><td>If <code>true</code>, only you can invoke via <code>/name</code> — Claude won't auto-load. Use for side effects (deploy, send).</td></tr>
               <tr><td><code>user-invocable</code></td><td>boolean</td><td>If <code>false</code>, hidden from <code>/</code> menu. Claude can still auto-load. Use for background knowledge.</td></tr>
@@ -3266,6 +3266,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>context</code></td><td>string</td><td>Set to <code>fork</code> to run in isolated subagent context with fresh context window.</td></tr>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
               <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.).</td></tr>
+              <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation.</td></tr>
               <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
             </tbody>
           </table>
@@ -3792,7 +3793,7 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/loop</code> <code>[interval] &lt;prompt&gt;</code></td><td>Run prompt on recurring interval (e.g. <code>/loop 5m check tests</code>)</td></tr>
+          <tr><td><code>/loop</code> <code>[interval] &lt;prompt&gt;</code></td><td>Run prompt on recurring interval (e.g. <code>/loop 5m check tests</code>). Alias: <code>/proactive</code></td></tr>
           <tr><td><code>/schedule</code></td><td>Create / manage cloud scheduled tasks</td></tr>
           <tr><td><code>/batch</code> <code>&lt;instruction&gt;</code></td><td>Orchestrate large-scale changes (5–30 parallel agents)</td></tr>
           <tr><td><code>/tasks</code></td><td>List and manage background tasks (alias: <code>/bashes</code>)</td></tr>
@@ -4292,7 +4293,7 @@ smoke tests against the staging URL."</code></pre>
     <!-- /loop -->
     <div class="collapsible">
       <div class="collapsible-header">
-        <h3>/loop — Built-in Scheduler</h3>
+        <h3>/loop — Built-in Scheduler <span style="font-weight:400; font-size:0.85em; color:var(--text-secondary);">(alias: /proactive)</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -4707,7 +4708,7 @@ smoke tests against the staging URL."</code></pre>
             <thead><tr><th>Exit Code</th><th>Behavior</th></tr></thead>
             <tbody>
               <tr><td><code>0</code></td><td><strong>Success</strong> — stdout parsed for JSON output. Most events: written to debug log. Exceptions: <code>UserPromptSubmit</code> and <code>SessionStart</code> show stdout as context.</td></tr>
-              <tr><td><code>2</code></td><td><strong>Blocking error</strong> — blocks tool call, rejects prompt, or prevents stop (depending on event). Stderr is fed back as the error message.</td></tr>
+              <tr><td><code>2</code></td><td><strong>Blocking error</strong> — blocks tool call, rejects prompt, prevents stop, or blocks compaction (depending on event). Stderr is fed back as the error message.</td></tr>
               <tr><td>Any other</td><td><strong>Non-blocking error</strong> — stderr shown as warning in transcript. Execution continues normally.</td></tr>
             </tbody>
           </table>
@@ -4731,6 +4732,17 @@ smoke tests against the staging URL."</code></pre>
           </table>
         </div>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem;">When multiple hooks fire, precedence is: <code>deny</code> &gt; <code>defer</code> &gt; <code>ask</code> &gt; <code>allow</code>.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>PreCompact blocking</strong> — prevent context compaction from running:</p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Method</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td>Exit with code <code>2</code></td><td>Block compaction; stderr shown as reason</td></tr>
+              <tr><td>Return <code>{"decision":"block"}</code></td><td>Block compaction via JSON decision output</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div></div>
     </div>
 

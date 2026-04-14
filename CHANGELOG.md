@@ -1,5 +1,24 @@
 ## Changes in This Version
 
+### v15 — 2026-04-14
+
+**Claude Code v2.1.107 auto-update (CBP-027 through CBP-030)**
+
+**Skill description cap updated (CBP-027)**
+- Updated `description` field in Building Skills frontmatter reference table: cap raised from 250 to 1,536 characters (per Claude Code v2.1.105)
+- Added note that a startup warning is shown when descriptions are truncated
+
+**PreCompact hook blocking documented (CBP-028)**
+- Updated exit code 2 description in Exit Codes & Decision Control to include "blocks compaction" as a possible effect
+- Added new "PreCompact blocking" table in Exit Codes & Decision Control collapsible showing both blocking methods: exit code 2 (with stderr reason) and JSON `{"decision":"block"}` output
+
+**`/proactive` alias added (CBP-029)**
+- Cheat Sheet automation table: added "Alias: `/proactive`" to the `/loop` row
+- `/loop — Built-in Scheduler` collapsible header: appended `(alias: /proactive)` subtitle
+
+**`monitors` manifest key added (CBP-030)**
+- Added `monitors` row to Skills frontmatter reference table: array type, describes background monitor definitions that auto-arm at session start or skill invoke
+
 ### v14 — 2026-04-13
 
 **Effort level guidance update (CBP-024)**
