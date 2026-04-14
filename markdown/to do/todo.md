@@ -32,3 +32,4 @@
 - [x] `CBP-028` Document PreCompact hook blocking: exit code 2 or `{"decision":"block"}` prevents compaction → [task-cbp-028.md](task-cbp-028.md)
 - [x] `CBP-029` Add `/proactive` as alias for `/loop` in Cheat Sheet and /loop collapsible header → [task-cbp-029.md](task-cbp-029.md)
 - [x] `CBP-030` Add `monitors` manifest key to Skills frontmatter reference table → [task-cbp-030.md](task-cbp-030.md)
+- [x] `CBP-031` Add Obsidian as a memory example (referencing Andrej Karpathy's approach) → [task-cbp-031.md](task-cbp-031.md)

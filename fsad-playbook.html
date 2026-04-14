@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v15)</title>
+<title>FSAD — Full Stack Agentic Development (v16)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1518,7 +1518,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v15</span></span>
+    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v16</span></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -2727,6 +2727,20 @@ description: Structured code review with security and quality checks
         <h4>✕ Ignoring <code>MEMORY.md</code></h4>
         <p>Stale auto-memory poisons future sessions. Periodically review for accuracy and prune drift.</p>
       </div>
+    </div>
+
+    <!-- External memory vaults -->
+    <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">External Memory: Obsidian &amp; Markdown Vaults</div>
+      <p style="margin-bottom:0.6rem;">Claude's <code>MEMORY.md</code> is <strong>passive</strong> — session knowledge auto-persists as the model works. A curated markdown vault (Obsidian, Logseq, plain <code>notes/</code>) is the complement: <strong>intentional</strong>, human-authored, and portable across tools, models, and years.</p>
+      <p style="margin-bottom:0.6rem;">Andrej Karpathy popularized this pattern — a long-lived Obsidian vault of notes, decisions, and research that gets selectively fed into LLM sessions as high-signal context. The vault outlives any single model or IDE; the AI is just one of many readers.</p>
+      <p style="margin-bottom:0.4rem;"><strong>Practical integration patterns:</strong></p>
+      <ul style="margin:0; padding-left:1.2rem;">
+        <li>Symlink a vault subfolder into the repo (e.g. <code>docs/notes/ → ~/Obsidian/project-x/</code>) so Claude reads it as part of the project tree.</li>
+        <li>Paste relevant notes into context at session start — curated beats comprehensive.</li>
+        <li>Wire an Obsidian / Reflect / Notion MCP server so Claude can search and append notes directly, turning the vault into a read/write memory layer.</li>
+        <li>Treat the vault as source-of-truth; let <code>MEMORY.md</code> churn freely underneath it.</li>
+      </ul>
     </div>
 
     <!-- Codex cross-reference -->

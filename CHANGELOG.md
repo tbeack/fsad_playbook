@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v16 — 2026-04-14
+
+**External memory vaults — Obsidian & Karpathy pattern (CBP-031)**
+- Added a new "External Memory: Obsidian & Markdown Vaults" tip callout to the Claude Best Practices page, adjacent to the existing `MEMORY.md` recommendations
+- Framed the distinction between Claude's passive auto-memory and intentional, human-curated markdown vaults (Obsidian, Logseq, plain `notes/`)
+- Referenced Andrej Karpathy's workflow as the canonical example — a long-lived vault that outlives any single model or IDE
+- Listed four practical integration patterns: symlinking a vault subfolder into the repo, pasting curated notes at session start, wiring an Obsidian/Reflect/Notion MCP server for read/write access, and treating the vault as source-of-truth above churn-prone `MEMORY.md`
+
 ### v15 — 2026-04-14
 
 **Claude Code v2.1.107 auto-update (CBP-027 through CBP-030)**
