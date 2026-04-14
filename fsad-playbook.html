@@ -1583,6 +1583,7 @@
         <a class="nav-sub-item" href="#practices/best-practices" onclick="scrollToSection('best-practices')">Guidelines</a>
         <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="scrollToSection('cheat-sheet')">Cheat Sheet</a>
         <a class="nav-sub-item" href="#practices/power-usage" onclick="scrollToSection('power-usage')">Power Usage</a>
+        <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')">Hooks</a>
         <a class="nav-sub-item" href="#practices/monitoring" onclick="scrollToSection('monitoring')">Monitoring</a>
         <a class="nav-sub-item" href="#practices/open-source" onclick="scrollToSection('open-source')">Open Source</a>
       </div>
@@ -2444,7 +2445,7 @@ description: Structured code review with security and quality checks
         </div>
         <div class="callout callout-warning" style="margin-bottom:0;">
           <div class="callout-title">Important</div>
-          <p>Hooks run shell commands automatically. Use them for formatting, linting, and safety checks — not for business logic.</p>
+          <p>Hooks run shell commands automatically. Use them for formatting, linting, and safety checks — not for business logic. See the <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks Deep Dive</a> for configuration, exit codes, and more recipes.</p>
         </div>
       </div></div>
     </div>
@@ -3261,7 +3262,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>user-invocable</code></td><td>boolean</td><td>If <code>false</code>, hidden from <code>/</code> menu. Claude can still auto-load. Use for background knowledge.</td></tr>
               <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Grep Bash(git *)</code>).</td></tr>
               <tr><td><code>model</code></td><td>string</td><td>Override model when skill is active (e.g. <code>claude-opus-4-6</code>).</td></tr>
-              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>.</td></tr>
+              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>. Overrides session default (medium).</td></tr>
               <tr><td><code>context</code></td><td>string</td><td>Set to <code>fork</code> to run in isolated subagent context with fresh context window.</td></tr>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
               <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.).</td></tr>
@@ -3775,7 +3776,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>/model</code></td><td>Select or change AI model (Sonnet / Opus / Haiku)</td></tr>
-          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code> | <code>auto</code></td></tr>
+          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> (default) | <code>high</code> | <code>max</code> — use <code>max</code> for complex tasks</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>)</td></tr>
@@ -3882,7 +3883,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>--model</code></td><td>Select specific model (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>)</td></tr>
-          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>)</td></tr>
+          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> [default] | <code>high</code> | <code>max</code>)</td></tr>
           <tr><td><code>--fallback-model</code></td><td>Auto-fallback model when overloaded (print mode)</td></tr>
         </tbody>
       </table>
@@ -4100,7 +4101,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td>Explore error</td><td><code>cat error.log | claude -p "fix"</code></td></tr>
           <tr><td>Parallel sessions</td><td><code>claude -w</code> (each gets own worktree)</td></tr>
           <tr><td>Force model</td><td><code>claude --model opus</code></td></tr>
-          <tr><td>Set effort level</td><td><code>/effort max</code> or <code>claude --effort high</code></td></tr>
+          <tr><td>Set effort level</td><td><code>/effort max</code> (complex work) or <code>/effort medium</code> (default)</td></tr>
           <tr><td>Remote control from web</td><td><code>/remote-control</code> or <code>claude --remote</code></td></tr>
           <tr><td>Voice dictation</td><td><code>/voice</code> then hold <kbd>Space</kbd> to talk</td></tr>
           <tr><td>Scriptable automation</td><td><code>claude -p --output-format json "task"</code></td></tr>
@@ -4193,9 +4194,11 @@ smoke tests against the staging URL."</code></pre>
 <span class="kw">claude</span> <span class="val">--model</span> opus
 
 <span class="cm"># Set effort level (controls reasoning depth)</span>
-/effort max          <span class="cm"># Deep thinking — best for complex tasks</span>
-/effort low          <span class="cm"># Quick responses — best for simple tasks</span>
-<span class="kw">claude</span> <span class="val">--effort</span> high  <span class="cm"># Set via CLI flag</span>
+/effort max          <span class="cm"># Maximum reasoning — complex agentic tasks</span>
+/effort high         <span class="cm"># Deep thinking — difficult coding problems</span>
+/effort medium       <span class="cm"># Balanced (default) — speed + quality</span>
+/effort low          <span class="cm"># Quick responses — simple tasks, subagents</span>
+<span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
 
 <span class="cm"># Toggle fast mode (same model, faster output)</span>
 /fast on
@@ -4203,55 +4206,43 @@ smoke tests against the staging URL."</code></pre>
 <span class="cm"># Auto-fallback in print mode when overloaded</span>
 <span class="kw">claude</span> <span class="val">-p</span> <span class="val">--fallback-model</span> sonnet <span class="str">"query"</span></code></pre>
         </div>
+        <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:0;">
+          <div class="callout-title">Effort Default Changed to Medium</div>
+          <p>Anthropic changed the default effort from <code>high</code> to <code>medium</code> to better balance intelligence with speed, based on real-world usage data. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Adaptive thinking &amp; effort</strong></p>
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7;">On Opus 4.6 and Sonnet 4.6, <strong>adaptive thinking</strong> is the recommended mode. Instead of manually setting a thinking token budget, Claude dynamically decides when and how much to think based on task complexity. The <code>/effort</code> level is the primary lever that controls thinking depth:</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Effort</th><th>Thinking Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><code>max</code></td><td>Always thinks, no constraints on depth — deepest reasoning</td></tr>
+              <tr><td><code>high</code></td><td>Almost always thinks — deep reasoning on complex tasks</td></tr>
+              <tr><td><code>medium</code></td><td>Moderate thinking — may skip for simple queries</td></tr>
+              <tr><td><code>low</code></td><td>Minimal thinking — skips for simple tasks, prioritizes speed</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7; margin-top:0.75rem;">Toggle extended thinking with <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Option+T</kbd> / <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Alt+T</kbd>. Setting effort to <code>low</code> effectively minimizes thinking; use this for simple lookups or subagent tasks where speed matters most.</p>
+        <div class="callout callout-warning" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">budget_tokens Is Deprecated</div>
+          <p>The manual <code>budget_tokens</code> parameter for extended thinking is <strong>deprecated</strong> on Opus 4.6 and Sonnet 4.6 and will be removed in a future release. Use adaptive thinking with the <code>effort</code> parameter instead. Older models (Sonnet 4.5, Opus 4.5) still require the manual <code>budget_tokens</code> approach.</p>
+        </div>
       </div></div>
     </div>
 
-    <!-- Hooks in Practice -->
+    <!-- Hooks (pointer to dedicated section) -->
     <div class="collapsible">
       <div class="collapsible-header">
-        <h3>Hooks in Practice</h3>
+        <h3>Hooks</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Real-world hook examples you can add to <code>.claude/settings.json</code>. Hooks support a conditional <code>if</code> field for filtering by tool name or permission rule syntax.</p>
-        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem; margin-bottom:0.5rem;"><strong>Auto-lint after file edits:</strong></p>
-        <div class="code-block" style="margin-top:0.25rem;">
-          <pre><code class="language-json">{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "command": "npx eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null || true"
-      }
-    ]
-  }
-}</code></pre>
-        </div>
-        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Read-before-edit reminder:</strong></p>
-        <div class="code-block" style="margin-top:0.25rem;">
-          <pre><code class="language-json">{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Edit",
-        "command": "echo 'READ-BEFORE-EDIT REMINDER: Read the file first before editing.'"
-      }
-    ]
-  }
-}</code></pre>
-        </div>
-        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Custom status line (context monitor):</strong></p>
-        <div class="code-block" style="margin-top:0.25rem;">
-          <pre><code class="language-json">{
-  "statusLine": {
-    "type": "command",
-    "command": "node ~/.claude/hooks/my-statusline.js"
-  }
-}</code></pre>
-        </div>
-        <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:0;">
-          <div class="callout-title">26 Hook Events</div>
-          <p>See the Cheat Sheet above for the full list of hook events — from <code>SessionStart</code> to <code>WorktreeRemove</code>. Use the <code>if</code> field to conditionally fire hooks based on tool names or patterns.</p>
+        <p>Hooks are event-driven shell commands, HTTP endpoints, prompts, or agents that fire automatically at 26 lifecycle points. Use them for linting, formatting, security enforcement, and observability.</p>
+        <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Hooks Deep Dive</div>
+          <p>See the dedicated <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks section</a> for the full lifecycle, all 4 hook types, configuration guide, exit code semantics, and practical recipes.</p>
         </div>
       </div></div>
     </div>
@@ -4520,8 +4511,390 @@ smoke tests against the staging URL."</code></pre>
 
 <hr class="divider">
 
+<section id="hooks-deep-dive">
+    <span class="section-label">15 — Hooks</span>
+    <h2 class="section-title">Hooks — Automation &amp; Guardrails</h2>
+    <p class="section-subtitle">Automate workflows, enforce policies, and extend Claude Code with event-driven hooks. Models forget. Hooks don't.</p>
+
+    <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.8; margin-top:1.5rem;">Hooks are user-defined shell commands, HTTP endpoints, LLM prompts, or agents that execute automatically at specific points in Claude Code's lifecycle. They fire deterministically — unlike instructions in CLAUDE.md that Claude may or may not follow, hooks <strong>always</strong> execute when their event triggers.</p>
+
+    <!-- Hook Lifecycle -->
+    <div class="collapsible open">
+      <div class="collapsible-header">
+        <h3>Hook Lifecycle</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Hooks fire at specific stages of Claude Code's execution. Understanding the lifecycle helps you choose the right event for your hook.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code class="language-text">SessionStart
+  │
+  ├── [Per-turn loop]
+  │     UserPromptSubmit
+  │       │
+  │       ├── [Agentic loop]
+  │       │     PreToolUse → PermissionRequest → Tool executes
+  │       │       │                                   │
+  │       │       │                          PostToolUse / PostToolUseFailure
+  │       │       │
+  │       │     SubagentStart → SubagentStop
+  │       │     TaskCreated → TaskCompleted
+  │       │
+  │       Stop / StopFailure
+  │
+  ├── [Async events]
+  │     FileChanged, CwdChanged, ConfigChange
+  │     WorktreeCreate / WorktreeRemove
+  │     PreCompact / PostCompact
+  │     Notification
+  │
+  SessionEnd</code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:0;">
+          <div class="callout-title">26 Hook Events</div>
+          <p>See the <a href="#practices/cheat-sheet" onclick="scrollToSection('cheat-sheet')" style="color:var(--accent);">Cheat Sheet</a> for the full reference table of all 26 hook events organized by category.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Four Hook Types -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Four Hook Types</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Each hook type suits different use cases. Most teams start with <code>command</code> hooks and add others as needs grow.</p>
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th>Type</th><th>How It Works</th><th>Best For</th></tr></thead>
+            <tbody>
+              <tr><td><code>command</code></td><td>Runs a shell command. Receives JSON on stdin, returns results via exit code + stdout.</td><td>Linting, formatting, blocking unsafe commands, logging</td></tr>
+              <tr><td><code>http</code></td><td>Sends JSON POST to an endpoint. Headers support <code>$ENV_VAR</code> interpolation.</td><td>Remote validation, audit logging, webhook integrations</td></tr>
+              <tr><td><code>prompt</code></td><td>Sends a single-turn prompt to Claude. Returns a yes/no decision as JSON.</td><td>Security review of commands, content policy checks</td></tr>
+              <tr><td><code>agent</code></td><td>Spawns a subagent with tool access (Read, Grep, Glob). Full agentic evaluation.</td><td>Complex verification, multi-file checks, code analysis</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Command hook:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "command",
+  "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/lint.sh",
+  "timeout": 30
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>HTTP hook:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "http",
+  "url": "http://localhost:8080/hooks/pre-tool-use",
+  "headers": { "Authorization": "Bearer $MY_TOKEN" },
+  "allowedEnvVars": ["MY_TOKEN"]
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Prompt hook:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "prompt",
+  "prompt": "Is this shell command safe to execute? $ARGUMENTS"
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Agent hook:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "agent",
+  "prompt": "Verify this edit doesn't break any imports. $ARGUMENTS"
+}</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Configuration -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Configuration</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Where to put hooks (by scope):</strong></p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Location</th><th>Scope</th></tr></thead>
+            <tbody>
+              <tr><td><code>~/.claude/settings.json</code></td><td>All projects (local to your machine)</td></tr>
+              <tr><td><code>.claude/settings.json</code></td><td>Single project (shareable, committed to git)</td></tr>
+              <tr><td><code>.claude/settings.local.json</code></td><td>Single project (gitignored, personal)</td></tr>
+              <tr><td>Managed policy settings</td><td>Organization-wide (admin-controlled)</td></tr>
+              <tr><td>Plugin <code>hooks/hooks.json</code></td><td>Active when plugin is enabled</td></tr>
+              <tr><td>Skill/Agent YAML frontmatter</td><td>Active while component runs</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Settings.json structure:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(rm *)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-rm.sh",
+            "timeout": 30,
+            "statusMessage": "Checking command safety..."
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Matcher patterns:</strong></p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Pattern</th><th>Evaluated As</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><code>"*"</code>, <code>""</code>, or omitted</td><td>Match all</td><td>Fires on every event</td></tr>
+              <tr><td>Letters, digits, <code>_</code>, <code>|</code> only</td><td>Exact or pipe-separated list</td><td><code>Bash</code> or <code>Edit|Write</code></td></tr>
+              <tr><td>Contains other characters</td><td>JavaScript regex</td><td><code>^Notebook</code>, <code>mcp__.*</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Conditional <code>if</code> field</strong> — narrows which tool calls trigger a hook:</p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.85rem; line-height:2; margin-top:0.25rem;">
+          <li><code>"Bash(git *)"</code> — only git commands</li>
+          <li><code>"Bash(rm *)"</code> — only rm commands</li>
+          <li><code>"Edit(*.ts)"</code> — only TypeScript edits</li>
+          <li><code>"Write(*.md)"</code> — only Markdown writes</li>
+        </ul>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Environment variables available in hooks:</strong></p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>CLAUDE_PROJECT_DIR</code></td><td>Project root directory</td></tr>
+              <tr><td><code>CLAUDE_ENV_FILE</code></td><td>File path for persisting env vars (SessionStart, CwdChanged, FileChanged)</td></tr>
+              <tr><td><code>CLAUDE_PLUGIN_ROOT</code></td><td>Plugin installation directory</td></tr>
+              <tr><td><code>CLAUDE_PLUGIN_DATA</code></td><td>Plugin persistent data directory</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Exit Codes & Decision Control -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Exit Codes &amp; Decision Control</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Exit codes determine whether a hook blocks execution or just logs a warning. Getting this right is critical for policy enforcement.</p>
+
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th>Exit Code</th><th>Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><code>0</code></td><td><strong>Success</strong> — stdout parsed for JSON output. Most events: written to debug log. Exceptions: <code>UserPromptSubmit</code> and <code>SessionStart</code> show stdout as context.</td></tr>
+              <tr><td><code>2</code></td><td><strong>Blocking error</strong> — blocks tool call, rejects prompt, or prevents stop (depending on event). Stderr is fed back as the error message.</td></tr>
+              <tr><td>Any other</td><td><strong>Non-blocking error</strong> — stderr shown as warning in transcript. Execution continues normally.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning" style="margin-top:1rem;">
+          <div class="callout-title">Exit 2 Is the Only Blocking Code</div>
+          <p>Exit 1 is <strong>non-blocking</strong> — it logs an error but doesn't stop anything. You <strong>must</strong> use exit 2 to enforce policy. This is the most common mistake when writing hooks.</p>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>PreToolUse permission decisions</strong> — control what happens to the tool call:</p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Decision</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>allow</code></td><td>Skip permission prompt, execute immediately</td></tr>
+              <tr><td><code>deny</code></td><td>Block the tool call entirely</td></tr>
+              <tr><td><code>ask</code></td><td>Prompt the user to confirm</td></tr>
+              <tr><td><code>defer</code></td><td>Pause for later (non-interactive <code>-p</code> mode only)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem;">When multiple hooks fire, precedence is: <code>deny</code> &gt; <code>defer</code> &gt; <code>ask</code> &gt; <code>allow</code>.</p>
+      </div></div>
+    </div>
+
+    <!-- Practical Recipes -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Practical Recipes</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Real-world hook examples you can add to <code>.claude/settings.json</code>.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Security — block destructive commands:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(rm *)",
+            "command": "echo 'Destructive command blocked' >&2 && exit 2"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Quality — auto-lint after file edits:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Workflow — read-before-edit reminder:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'READ-BEFORE-EDIT: Read the file first before editing.'"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Policy — prompt-based security review:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Is this shell command safe to execute? Command: $ARGUMENTS",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Environment — auto-setup via SessionStart:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-bash">#!/bin/bash
+# .claude/hooks/session-setup.sh
+if [ -n "$CLAUDE_ENV_FILE" ]; then
+  echo 'export NODE_ENV=production' >> "$CLAUDE_ENV_FILE"
+  echo 'export PATH="$PATH:./node_modules/.bin"' >> "$CLAUDE_ENV_FILE"
+fi
+exit 0</code></pre>
+        </div>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-setup.sh"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Observability — log all MCP operations:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date): MCP operation\" >> ~/mcp-audit.log"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Best Practices -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Hook Best Practices</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2.2; margin-top:0.5rem;">
+          <li><strong>Keep hooks fast</strong> — especially <code>SessionStart</code>, which runs on every session launch</li>
+          <li><strong>Use exit 2 to enforce</strong> — exit 1 is non-blocking and won't stop anything</li>
+          <li><strong>Test with <code>--debug</code></strong> — see full hook execution details in the debug log</li>
+          <li><strong>Use the <code>if</code> field</strong> — narrow trigger conditions to avoid unnecessary process spawns</li>
+          <li><strong>Use <code>async: true</code></strong> — for fire-and-forget operations like logging</li>
+          <li><strong>Reference scripts via <code>$CLAUDE_PROJECT_DIR</code></strong> — always quote for paths with spaces</li>
+          <li><strong>View hooks with <code>/hooks</code></strong> — read-only browser showing all configured hooks by source</li>
+          <li><strong>Disable all with <code>"disableAllHooks": true</code></strong> — in settings.json for troubleshooting</li>
+        </ul>
+      </div></div>
+    </div>
+
+  </section>
+
+<hr class="divider">
+
 <section id="monitoring">
-    <span class="section-label">15 — Claude Monitoring</span>
+    <span class="section-label">16 — Claude Monitoring</span>
     <h2 class="section-title">Track Usage, Costs &amp; Tool Activity</h2>
     <p class="section-subtitle">Monitor Claude Code across your organization with OpenTelemetry. Track token spend, session activity, tool usage, and developer productivity — then pipe it into the observability stack you already use.</p>
 
@@ -4711,7 +5084,7 @@ claude</code></pre>
 <hr class="divider">
 
 <section id="open-source">
-    <span class="section-label">16 — Open Source Frameworks</span>
+    <span class="section-label">17 — Open Source Frameworks</span>
     <h2 class="section-title">Community Meta-Frameworks for Claude Code</h2>
     <p class="section-subtitle">These open source projects use combinations of hooks, skills, commands, agents, and workflow orchestration to extend Claude Code's capabilities.</p>
 
@@ -5913,7 +6286,7 @@ codex app</code></pre>
   const sectionToPageMap = {
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
-    'practices-hero': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
   };
@@ -6036,9 +6409,22 @@ codex app</code></pre>
           id: sec.id,
           title: title.trim(),
           label: label.trim(),
-          text: sec.textContent.substring(0, 300).replace(/\s+/g, ' ').trim()
+          text: sec.textContent.substring(0, 2000).replace(/\s+/g, ' ').trim()
         });
       }
+      // Index collapsible headers within sections for deeper search hits
+      sec.querySelectorAll('.collapsible').forEach(col => {
+        const colTitle = col.querySelector('.collapsible-header h3')?.textContent || '';
+        const colText = col.textContent.substring(0, 3000).replace(/\s+/g, ' ').trim();
+        if (colTitle && sec.id) {
+          searchIndex.push({
+            id: sec.id,
+            title: colTitle.trim(),
+            label: label.trim(),
+            text: colText
+          });
+        }
+      });
     });
   }
 

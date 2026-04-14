@@ -1,5 +1,36 @@
 ## Changes in This Version
 
+### v14 — 2026-04-13
+
+**Effort level guidance update (CBP-024)**
+- Updated all 5 effort references across the playbook to reflect Anthropic's change: default effort is now `medium` (was `high`)
+- Power Usage → Model & Effort Control: expanded code block to show all 4 levels with descriptions, added "Effort Default Changed to Medium" tip callout with Boris Cherny's guidance on using `/effort max` for complex agentic work
+- Cheat Sheet: updated `/effort` slash command, `--effort` CLI flag, and Quick Reference table to show `medium` as default
+- Skill frontmatter `effort` field: added note that it overrides session default (medium)
+
+**Adaptive thinking & budget_tokens deprecation guidance (CBP-025)**
+- Added "Adaptive thinking & effort" block to Model & Effort Control collapsible in Power Usage
+- Effort/thinking behavior table showing how each level controls thinking depth (max → always thinks with no constraints, low → skips thinking for speed)
+- Added `Option+T` / `Alt+T` keyboard shortcut reference for toggling extended thinking
+- Added "budget_tokens Is Deprecated" warning callout: manual `budget_tokens` is deprecated on Opus 4.6 and Sonnet 4.6, use adaptive thinking with `effort` instead
+
+**Hooks Deep Dive section (CBP-026)**
+- Added new standalone section 15 "Hooks — Automation & Guardrails" to Claude Best Practices, between Power Usage and Monitoring
+- **Hook Lifecycle** — ASCII flow diagram showing all 26 events from SessionStart through the agentic loop to SessionEnd
+- **Four Hook Types** — comparison table and code examples for all 4 types: `command` (shell), `http` (POST endpoints), `prompt` (LLM evaluation), `agent` (subagent with tools)
+- **Configuration** — 6 scope locations (user/project/local/managed/plugin/skill), settings.json structure, matcher patterns table, conditional `if` field syntax, environment variables reference
+- **Exit Codes & Decision Control** — exit 0/2/other semantics with warning about exit 2 being the only blocking code, PreToolUse permission decisions (allow/deny/ask/defer) with precedence rules
+- **Practical Recipes** — 6 real-world examples: block destructive commands (security), auto-lint after edits (quality), read-before-edit reminder (workflow), prompt-based security review (policy), SessionStart environment setup, MCP operation logging (observability)
+- **Hook Best Practices** — 8 guidelines including performance, testing with `--debug`, async hooks, and `/hooks` viewer
+- Replaced "Hooks in Practice" collapsible in Power Usage with a short summary pointing to the new section
+- Updated Pillar 3 (Project Anatomy) with cross-reference link to the new Hooks section
+- Added sidebar nav entry and sectionToPageMap wiring for `hooks-deep-dive`
+- Renumbered Monitoring to section 16, Open Source Frameworks to section 17
+
+**Search system improvement**
+- Increased section text capture from 300 to 2000 characters for broader search coverage
+- Added collapsible-level indexing: each collapsible header now gets its own search entry (up to 3000 chars), so users can find content like "adaptive thinking" or "budget_tokens" that lives deep within sections
+
 ### v13 — 2026-04-10
 
 **Phase 3 rename (CBP-023)**

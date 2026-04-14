@@ -25,3 +25,6 @@
 - [x] `CBP-021` Add Vertex AI/Bedrock interactive setup wizard note → [task-cbp-021.md](task-cbp-021.md)
 - [x] `CBP-022` Add a "Claude Monitoring" section to Claude Best Practices covering usage tracking & cost management → [task-cbp-022.md](task-cbp-022.md)
 - [x] `CBP-023` Rename Phase 3 heading from "Spec Validation" to "Implementation Planning" in FSAD workflow
+- [x] `CBP-024` Update `/effort` guidance to include formal updated guidance from Boris Cherny — default changed to `medium`, recommend `/effort max` for complex tasks → [task-cbp-024.md](task-cbp-024.md)
+- [x] `CBP-025` Update guidance on disabling adaptive thinking — document current behavior and recommended approach → [task-cbp-025.md](task-cbp-025.md)
+- [x] `CBP-026` Create a new subsection on Hooks in Claude Best Practices — lifecycle, 4 hook types, configuration, exit codes, recipes → [task-cbp-026.md](task-cbp-026.md)
