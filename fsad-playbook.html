@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v10)</title>
+<title>FSAD — Full Stack Agentic Development (v11)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1518,7 +1518,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v10</span></span>
+    <span class="sidebar-brand">FSAD <span style="color: var(--text-muted); font-weight: 400;">· v11</span></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3705,7 +3705,7 @@ smoke tests against the staging URL."</code></pre>
 <section id="cheat-sheet">
     <span class="section-label">13 — Claude Cheat Sheet</span>
     <h2 class="section-title">Everything You Need in One Place</h2>
-    <p class="section-subtitle">Keyboard shortcuts, commands, flags, hooks, and configuration reference.</p>
+    <p class="section-subtitle">Keyboard shortcuts, commands, flags, hooks, configuration, and environment variables.</p>
 
     <!-- Keyboard Shortcuts -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Keyboard Shortcuts</h3>
@@ -3753,8 +3753,9 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/context</code></td><td>Visualize context usage with optimization suggestions</td></tr>
           <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
           <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>)</td></tr>
+          <tr><td><code>/recap</code></td><td>Summarize the session so far — useful for returning after a break</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
-          <tr><td><code>/undo</code></td><td>Undo last action</td></tr>
+          <tr><td><code>/undo</code></td><td>Undo last action (alias: <code>/rewind</code>)</td></tr>
           <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (alias: <code>/checkpoint</code>)</td></tr>
           <tr><td><code>/export</code></td><td>Export conversation to file or clipboard</td></tr>
           <tr><td><code>/copy</code> <code>[N]</code></td><td>Copy last response to clipboard (or Nth-last)</td></tr>
@@ -3785,7 +3786,7 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/loop</code> <code>[interval] &lt;prompt&gt;</code></td><td>Run prompt on recurring interval (e.g. <code>/loop 5m check tests</code>)</td></tr>
+          <tr><td><code>/loop</code> <code>[interval] &lt;prompt&gt;</code></td><td>Run prompt on recurring interval (e.g. <code>/loop 5m check tests</code>) (alias: <code>/proactive</code>)</td></tr>
           <tr><td><code>/schedule</code></td><td>Create / manage cloud scheduled tasks</td></tr>
           <tr><td><code>/batch</code> <code>&lt;instruction&gt;</code></td><td>Orchestrate large-scale changes (5–30 parallel agents)</td></tr>
           <tr><td><code>/tasks</code></td><td>List and manage background tasks (alias: <code>/bashes</code>)</td></tr>
@@ -3842,6 +3843,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/release-notes</code></td><td>View changelog with version picker</td></tr>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
+          <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide for Claude Code</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
           <tr><td><code>/logout</code></td><td>Sign out</td></tr>
         </tbody>
@@ -3919,7 +3921,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>--agent</code></td><td>Specify agent for session</td></tr>
           <tr><td><code>--chrome</code></td><td>Enable Chrome browser integration</td></tr>
           <tr><td><code>--remote</code></td><td>Create web session on claude.ai</td></tr>
-          <tr><td><code>--bare</code></td><td>Minimal mode — skip auto-discovery</td></tr>
+          <tr><td><code>--bare</code></td><td>Skip hooks &amp; plugin sync — for scripted <code>-p</code> calls</td></tr>
           <tr><td><code>--verbose</code></td><td>Enable verbose logging</td></tr>
           <tr><td><code>--debug</code></td><td>Enable debug logging</td></tr>
         </tbody>
@@ -4095,6 +4097,20 @@ smoke tests against the staging URL."</code></pre>
           <tr><td>Remote control from web</td><td><code>/remote-control</code> or <code>claude --remote</code></td></tr>
           <tr><td>Voice dictation</td><td><code>/voice</code> then hold <kbd>Space</kbd> to talk</td></tr>
           <tr><td>Scriptable automation</td><td><code>claude -p --output-format json "task"</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Environment Variables -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Environment Variables</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>ANTHROPIC_API_KEY</code></td><td>API key for direct API access (bypasses OAuth)</td></tr>
+          <tr><td><code>ENABLE_PROMPT_CACHING_1H</code></td><td>Enable extended 1-hour prompt cache TTL for longer sessions</td></tr>
+          <tr><td><code>FORCE_PROMPT_CACHING_5M</code></td><td>Force 5-minute prompt cache — useful for rapid iteration</td></tr>
+          <tr><td><code>CLAUDE_CODE_NO_FLICKER=1</code></td><td>Enable flicker-free rendering for smoother output display</td></tr>
         </tbody>
       </table>
     </div>

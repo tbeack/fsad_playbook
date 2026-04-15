@@ -1,5 +1,32 @@
 ## Changes in This Version
 
+### v11 — 2026-04-15
+
+**Auto-update for Claude Code v2.1.109 (CBP-017 through CBP-021)**
+
+**Add `/recap` to Session slash commands (CBP-017)**
+- Added `/recap` row to the "Session, context & history" table in the Claude Cheat Sheet
+- Describes the v2.1.108 feature for summarizing the session when returning after a break
+
+**Add `/team-onboarding` to Info & Account slash commands (CBP-018)**
+- Added `/team-onboarding` row to the "Info & account" table in the Claude Cheat Sheet
+- Covers the v2.1.101 feature for generating teammate ramp-up guides
+
+**Add Environment Variables sub-section to Claude Cheat Sheet (CBP-019)**
+- Added a new "Environment Variables" sub-section at the end of section 13
+- Documents `ANTHROPIC_API_KEY`, `ENABLE_PROMPT_CACHING_1H`, `FORCE_PROMPT_CACHING_5M`, `CLAUDE_CODE_NO_FLICKER=1`
+- Updated section subtitle to include "environment variables"
+- Prompt caching vars from v2.1.108; flicker-free rendering from v2.1.89
+
+**Update `/undo` and `--bare` descriptions (CBP-020)**
+- `/undo` description updated to note alias to `/rewind` (v2.1.108 change)
+- `--bare` description corrected: "Skip hooks & plugin sync — for scripted `-p` calls" (was "Minimal mode — skip auto-discovery")
+
+**Add `/proactive` alias to `/loop` row (CBP-021)**
+- `/loop` description now notes `(alias: /proactive)` per v2.1.105 addition
+
+---
+
 ### v10 — 2026-04-09
 
 **Building Skills overhaul (CBP-016)**
