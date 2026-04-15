@@ -1,5 +1,19 @@
 ## Changes in This Version
 
+### v22 — 2026-04-14
+
+**New Workflows page (CBP-033)**
+
+Added a top-level `Workflows` section to the left nav, positioned between *Pod Compositions* and *Claude Best Practices*. This gives teams getting started a dedicated home for concrete, end-to-end walkthroughs of the skills and rituals an FSAD pod uses day-to-day — not methodology, not best-practice bullets, but *"here is exactly how this skill runs."*
+
+- **First example: Project Initialize-Context Skill.** A 4-step deep-dive into `/project:initialize-context` — Discover (Step 0), Explore (Step 1–2), Draft (Step 3–7), Write (Step 8–9). Each step is a clickable tab revealing paired detail cards: the mechanics on the left, the conceptual payoff (classification as conforms / supplements / overrides, the accept-edit-redo loop, incremental re-runs) on the right. Content sourced from team reference screenshots in `markdown/examples/`, restyled in the playbook's existing typographic and card language — not embedded as images. Terminology aligned to FSAD vocabulary (project / pod) rather than the source screenshots' internal terms (squad / legion).
+- **Second example: Project Create-Spec Skill.** A 4-step deep-dive into `/project:create-spec` — Setup (Step 0), Mode (Step 1), Drafting (Step 2–8), Write (Step 9). Setup loads the full pod/project context chain before drafting begins. Mode forks between *brain dump* (paste meeting notes, Slack threads, Gong snippets) and *guided* (step-by-step questions for user analytics, customer feedback, competitive signals, success criteria). Drafting walks the guided-mode section list (Problem · Competitive Lens · Use Cases · Architecture · Preconditions · Acceptance Criteria · Future Scope) through a `looks good` / `edit` / `redo` review loop. Write assembles the spec, emits to `pod/dir/specs/feature-name.md`, regenerates the pod roadmap, and generates next steps. Transcribed from screenshots with three renames applied (`/product:generate-spec` → `/project:create-spec`, `legion` → `project`, `squad` → `pod`) and one line of meta-commentary ("This is the part that can't be Sherlocked…") deliberately omitted as inappropriate for a methodology document.
+- **Copy polish pass.** Dropped the internal-team-specific enumerations and jargon during final review: `(AI / IDMS / Platform)` removed from *Pick project*, `with YAML frontmatter` removed from *Assembles full spec*, `from frontmatter` removed from *Regenerates pod roadmap*, `Prints` → `Generates` on the next-steps bullet, and the tab-label word *Phase* renamed to *Step* across all 8 tabs in both skills.
+- **Closing pull-section generalized** to cover both skills — "Two markdown files. An entire pod operating system." — replacing the single-skill version shipped in Phase 1.
+- **New CSS module: `.wf-*`.** Tab group (`.wf-tabs`, `.wf-tab` with stacked mono label + title), step panels (`.wf-panel`), card grid (`.wf-grid`, `.wf-card` with `.wf-card-label`, chip row, mono code blocks, footnote variant). Mobile breakpoint collapses tabs to 2 columns and cards to 1 column at ≤780px.
+- **New JS: `switchWorkflow(wfId)`.** Parallel to `switchPod()` — toggles `.active` across tabs and panels.
+- **Router + nav plumbing.** `sectionToPageMap` extended with `workflows-hero`, `project-initialize-context`, and `project-create-spec`; `pageTitles` gains `workflows: 'Workflows'`; nav group added between Pods and Practices with two sub-items; scroll-spy picks up the new section anchors automatically via the existing `IntersectionObserver` pipeline.
+
 ### v21 — 2026-04-14
 
 **Distinctive voice — Phase 6 of CBP-032 (final critique-driven phase)**

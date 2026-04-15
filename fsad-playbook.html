@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v21)</title>
+<title>FSAD — Full Stack Agentic Development (v22)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1165,6 +1165,86 @@
   .role-card-body h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
   .role-card-body p { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6; }
 
+  /* Workflow phase tabs (Workflows page) */
+  .wf-tabs {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;
+    margin-bottom: 1.6rem;
+  }
+  .wf-tab {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.3rem; padding: 0.9rem 0.8rem;
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font-body); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    color: var(--text-secondary);
+  }
+  .wf-tab:hover { border-color: var(--border-accent); color: var(--text-primary); }
+  .wf-tab.active { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
+  .wf-tab .wf-tab-label {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .wf-tab.active .wf-tab-label { color: rgba(255,255,255,0.75); }
+  .wf-tab .wf-tab-title {
+    font-family: var(--font-mono); font-size: 0.88rem; font-weight: 500;
+  }
+  .wf-panel { display: none; }
+  .wf-panel.active { display: block; animation: fadeIn 0.3s ease forwards; }
+  .wf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .wf-card {
+    background: var(--bg-card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1.2rem 1.3rem;
+    box-shadow: 0 0 12px var(--card-glow);
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .wf-card-label {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent-cyan);
+  }
+  .wf-card h4 {
+    font-size: 1rem; font-weight: 600; color: var(--text-primary);
+    line-height: 1.35; margin: 0;
+  }
+  .wf-card p {
+    font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; margin: 0;
+  }
+  .wf-card ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .wf-card ul li {
+    font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;
+    padding-left: 0.9rem; position: relative;
+  }
+  .wf-card ul li::before {
+    content: '–'; position: absolute; left: 0; color: var(--text-muted);
+  }
+  .wf-card pre {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.75rem 0.9rem;
+    font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-secondary);
+    line-height: 1.65; overflow-x: auto; margin: 0;
+    white-space: pre;
+  }
+  .wf-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .wf-chip {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    padding: 0.18rem 0.55rem; border-radius: 100px;
+    background: var(--bg-surface); border: 1px solid var(--border-accent);
+    color: var(--text-secondary);
+  }
+  .wf-card-footnote {
+    font-size: 0.78rem; color: var(--text-muted); line-height: 1.6;
+    font-style: italic;
+  }
+  @media (max-width: 780px) {
+    .wf-tabs { grid-template-columns: repeat(2, 1fr); }
+    .wf-grid { grid-template-columns: 1fr; }
+  }
+
   .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
   .meta-box {
     background: var(--bg-card); border: 1px solid var(--card-border);
@@ -1763,7 +1843,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v21</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v22</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1810,7 +1890,21 @@
       </div>
     </div>
 
-    <!-- GROUP 3: Claude Best Practices -->
+    <!-- GROUP 3: Workflows -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('workflows', this)" data-page="workflows">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Workflows
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="workflows">
+        <a class="nav-sub-item" href="#workflows/workflows-hero" onclick="scrollToSection('workflows-hero')">Overview</a>
+        <a class="nav-sub-item" href="#workflows/project-initialize-context" onclick="scrollToSection('project-initialize-context')">Project Initialize-Context</a>
+        <a class="nav-sub-item" href="#workflows/project-create-spec" onclick="scrollToSection('project-create-spec')">Project Create-Spec</a>
+      </div>
+    </div>
+
+    <!-- GROUP 4: Claude Best Practices -->
     <div class="nav-group">
       <button class="nav-group-toggle" onclick="navigateTo('practices', this)" data-page="practices">
         <span class="nav-icon" aria-hidden="true">◆</span>
@@ -2409,7 +2503,271 @@ PostgreSQL. Follow existing patterns.</span>
 
 
 <!-- ═══════════════════════════════════════════════════════
-     PAGE 3: CLAUDE BEST PRACTICES
+     PAGE 3: WORKFLOWS
+     ═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-workflows">
+
+<div class="hero" id="workflows-hero" style="padding-bottom: 3rem;">
+  <div class="hero-badge">Example Workflows for Teams Getting Started</div>
+  <h1>Workflows in <em>Practice</em></h1>
+  <p>Concrete, end-to-end walkthroughs of the skills and rituals an FSAD pod uses day-to-day. Start here when you want to see <em>how</em> a skill actually runs — not just what it promises.</p>
+</div>
+<hr class="divider">
+
+<section id="project-initialize-context">
+  <span class="section-label">01 — Inside the Project Initialize-Context Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/project:initialize-context</code></h2>
+  <p class="section-subtitle">This is how a project's context gets built. The skill explores your actual repos, classifies what it finds against platform defaults, and writes the docs. Click each phase.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="discover" onclick="switchWorkflow('discover')" role="tab">
+      <span class="wf-tab-label">Step 0</span>
+      <span class="wf-tab-title">Discover</span>
+    </button>
+    <button class="wf-tab" data-wf="explore" onclick="switchWorkflow('explore')" role="tab">
+      <span class="wf-tab-label">Step 1–2</span>
+      <span class="wf-tab-title">Explore</span>
+    </button>
+    <button class="wf-tab" data-wf="draft" onclick="switchWorkflow('draft')" role="tab">
+      <span class="wf-tab-label">Step 3–7</span>
+      <span class="wf-tab-title">Draft</span>
+    </button>
+    <button class="wf-tab" data-wf="write" onclick="switchWorkflow('write')" role="tab">
+      <span class="wf-tab-label">Step 8–9</span>
+      <span class="wf-tab-title">Write</span>
+    </button>
+  </div>
+
+  <!-- PHASE 0: DISCOVER -->
+  <div class="wf-panel active" id="wf-discover">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Load the hierarchy</span>
+        <h4>Skill reads the full context chain</h4>
+        <ul>
+          <li>Pick project (or auto-detect from path)</li>
+          <li>Read root <code>CLAUDE.md</code> → platform defaults</li>
+          <li>Read pod <code>CLAUDE.md</code> → shared architecture</li>
+          <li>Read project <code>CLAUDE.md</code> → current state</li>
+          <li>Assess what's populated vs. template stubs</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">The key concept: classification</span>
+        <p>Everything the skill finds gets classified against what the platform already defines:</p>
+        <div class="wf-chips">
+          <span class="wf-chip">conforms</span>
+          <span class="wf-chip">supplements</span>
+          <span class="wf-chip">overrides</span>
+        </div>
+        <p>Project docs never repeat what's in the parent docs. They only document what's specific to the project — additions and deviations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1–2: EXPLORE -->
+  <div class="wf-panel" id="wf-explore">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Option A: deep repo exploration</span>
+        <h4>Claude explores your actual code</h4>
+        <p>Give it GitHub repo names. It launches parallel subagents that read <code>package.json</code>, <code>tsconfig</code>, component directories, state management imports, test configs, CI pipelines — and returns structured findings.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">What repo exploration actually reads</span>
+        <p>Each repo gets its own subagent that reads:</p>
+<pre>package.json / *.csproj  → dependencies
+src/ structure           → component organization
+grep for @Global, Autoload, redux + UI + state
+webpack.config / vite.config → build tooling
+Dockerfile / CI.yml      → deployment
+.storybook/              → design system presence
+test configs             → testing patterns</pre>
+        <p class="wf-card-footnote">Findings are merged across repos, deduplicated, and classified as conforms / supplements / overrides.</p>
+      </div>
+      <div class="wf-card" style="grid-column: 1 / -1;">
+        <span class="wf-card-label">Option B: quick dump</span>
+        <h4>Paste anything</h4>
+        <p>Confluence pages, README excerpts, architecture notes, Slack threads. Claude structures and classifies against platform defaults.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3–7: DRAFT -->
+  <div class="wf-panel" id="wf-draft">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">What gets drafted</span>
+<pre>architecture/README.md       → full architecture doc
+design-standards/README.md   → UI patterns + conventions
+CLAUDE.md architecture section → inline summary + diagram
+CLAUDE.md design standards   → inline summary
+Product overview + tech stack → if full setup mode</pre>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Architecture README includes</span>
+        <p>System overview and design principles. ASCII service diagram (auto-generated from findings). Per-service docs with repo links and tech stack. Data flow descriptions. External-dependencies table. Infrastructure and deployments. Cross-cutting concerns — classified as conforms, supplements, or overrides. Relevant ADR references.</p>
+        <p class="wf-card-footnote">Each section: Accept / Edit / Redo — same review loop as the spec skill.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 8–9: WRITE -->
+  <div class="wf-panel" id="wf-write">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Write &amp; update</span>
+        <ul>
+          <li>Writes <code>architecture/README.md</code></li>
+          <li>Writes <code>design-standards/README.md</code></li>
+          <li>Updates <code>CLAUDE.md</code> (targeted sections only)</li>
+          <li>Preserves existing content not in scope</li>
+          <li>Verifies all files after writing</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Incremental by design</span>
+        <p>The skill detects which sections are already populated. Re-run it to update specific sections without overwriting previous work. A project's context builds up over time — each run adds to it.</p>
+        <p>Like the spec skill, it's <strong>a single markdown file</strong> in <code>.claude/commands/</code>. The entire project context initialization process — repo exploration, classification, drafting, writing — encoded in plain English.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="project-create-spec">
+  <span class="section-label">02 — Inside the Project Create-Spec Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/project:create-spec</code></h2>
+  <p class="section-subtitle">A skill is just a markdown file with instructions. Here's what this one does — click each phase to see the flow.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="spec-setup" onclick="switchWorkflow('spec-setup')" role="tab">
+      <span class="wf-tab-label">Step 0</span>
+      <span class="wf-tab-title">Setup</span>
+    </button>
+    <button class="wf-tab" data-wf="spec-mode" onclick="switchWorkflow('spec-mode')" role="tab">
+      <span class="wf-tab-label">Step 1</span>
+      <span class="wf-tab-title">Mode</span>
+    </button>
+    <button class="wf-tab" data-wf="spec-drafting" onclick="switchWorkflow('spec-drafting')" role="tab">
+      <span class="wf-tab-label">Step 2–8</span>
+      <span class="wf-tab-title">Drafting</span>
+    </button>
+    <button class="wf-tab" data-wf="spec-write" onclick="switchWorkflow('spec-write')" role="tab">
+      <span class="wf-tab-label">Step 9</span>
+      <span class="wf-tab-title">Write</span>
+    </button>
+  </div>
+
+  <!-- PHASE 0: SETUP -->
+  <div class="wf-panel active" id="wf-spec-setup">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Regular context</span>
+        <h4>The skill loads your world</h4>
+        <ul>
+          <li>Pick project</li>
+          <li>Pick pod</li>
+          <li>Read pod <code>CLAUDE.md</code></li>
+          <li>Follow context chain upward</li>
+          <li>Read 2–3 existing specs for conventions</li>
+          <li>Detect author from git config</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Why this matters</span>
+        <p>Before a single word is drafted, Claude has the full product context: architecture, services, design standards, platform fundamentals, and examples of how this pod writes specs. The skill does the context loading — the human doesn't have to.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1: MODE -->
+  <div class="wf-panel" id="wf-spec-mode">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Option A: brain dump</span>
+        <h4>Paste anything</h4>
+        <p>Meeting notes, Slack threads, Gong snippets, half-formed thoughts. Claude structures them into the spec template. You review section by section.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">The key insight</span>
+        <p>Both paths converge on the same output — a structured spec with problem framing, competitive lens, use cases, architecture context, and acceptance criteria.</p>
+        <p>The skill's job is to <strong>solicit the right inputs</strong> and <strong>load the right context</strong>. Then it hands off to Claude's plan mode for the actual writing. We built the funnel. Claude does the work.</p>
+      </div>
+      <div class="wf-card" style="grid-column: 1 / -1;">
+        <span class="wf-card-label">Option B: guided</span>
+        <h4>Step-by-step questions</h4>
+        <p>Claude walks through each section with targeted prompts. Probes for the right inputs: user analytics, customer feedback, competitive signals, success criteria.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2–8: DRAFTING -->
+  <div class="wf-panel" id="wf-spec-drafting">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Guided mode sections</span>
+<pre>Problem / Description  → what + why inputs
+Competitive Lens       → web search, pattern detection
+Use Cases              → generated from context
+Architecture           → auto-populated from CLAUDE.md
+Preconditions          → flags, roles, regions
+Acceptance Criteria    → 2–3 rounds of iteration
+Future Scope           → planned / possible / out</pre>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Each section: review loop</span>
+        <p>Every section gets presented to you with three options:</p>
+        <div class="wf-chips">
+          <span class="wf-chip">looks good</span>
+          <span class="wf-chip">edit</span>
+          <span class="wf-chip">redo</span>
+        </div>
+        <p>The skill stays in the loop until you're satisfied. Competitive lens auto-searches the web. Architecture auto-populates from the context chain. You're directing — not writing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 9: WRITE -->
+  <div class="wf-panel" id="wf-spec-write">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Write &amp; publish</span>
+        <ul>
+          <li>Assembles full spec</li>
+          <li>Writes to <code>pod/dir/specs/feature-name.md</code></li>
+          <li>Regenerates pod roadmap</li>
+          <li>Generates next steps (open PR, refine TODOs)</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Then what?</span>
+        <p>Open a PR. Start coding. The spec and code evolve together from here. When the feature ships, clean up the spec as a record of what was actually built.</p>
+        <p>The entire skill is <strong>a single markdown file</strong> in <code>.claude/commands/</code> — ~300 lines. It encodes the process in plain English. Anyone can read it, anyone can PR changes to it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section style="text-align: center; max-width: 660px; margin: 0 auto;">
+  <span class="section-label">Why these examples</span>
+  <h2 class="section-title" style="margin-bottom: 1rem;">Two markdown files.<br><em>An entire pod operating system.</em></h2>
+  <p style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 300; line-height: 1.8;">Both skills are concrete answers to <em>"what does agentic work actually look like?"</em> — not frameworks, not diagrams. Just English instructions in a file, run by a pod: one to build the context every future agent inherits, one to turn raw intent into a reviewable spec. The rituals compound.</p>
+</section>
+
+<footer>
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>Workflows — example skills and rituals for FSAD pods.</p>
+</footer>
+</div><!-- end page-workflows -->
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 4: CLAUDE BEST PRACTICES
      ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-practices">
 
@@ -6617,6 +6975,15 @@ codex app</code></pre>
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v22 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>New Workflows page (CBP-033).</strong> Added a top-level <code>Workflows</code> section to the left nav between <em>Pod Compositions</em> and <em>Claude Best Practices</em>. Two example walkthroughs:</p>
+        <ul>
+          <li><em>Inside the Project Initialize-Context Skill</em> — a 4-step (Discover / Explore / Draft / Write) deep-dive into <code>/project:initialize-context</code>.</li>
+          <li><em>Inside the Project Create-Spec Skill</em> — a 4-step (Setup / Mode / Drafting / Write) deep-dive into <code>/project:create-spec</code>, featuring the brain-dump vs. guided mode fork, the guided-mode section list, and the <code>looks good / edit / redo</code> review loop.</li>
+        </ul>
+        <p>Each section uses the same tabbed phase switcher and paired detail cards. Content sourced from team reference screenshots, restyled in the playbook's existing typographic and card language rather than embedded as images. Terminology aligned to FSAD vocabulary throughout (<code>project</code> / <code>pod</code>, not <code>squad</code> / <code>legion</code> / <code>product</code>). New CSS module (<code>.wf-*</code>) and <code>switchWorkflow()</code> JS added; router, section map, and page titles updated accordingly.</p>
+      </section>
+      <section>
         <h3>v21 <span class="changelog-date">· 2026-04-14</span></h3>
         <p><strong>Distinctive voice (CBP-032 Phase 6 — final critique-driven phase).</strong> Introduced a recurring <code>.pullquote</code> component and deployed it three times across the FSAD page and Config Cascade section — surfacing the thesis sentences that already earned their place in the writing. Upgraded the Code Review section's two cited metrics to a small-multiples <code>.kpi-card</code> rhythm (label + figure + context + source) — no fabricated data, sparklines intentionally omitted. Extended Source Serif 4 italic to <code>.section-subtitle em</code> and <code>.hero p em</code>, carrying the hero's typographic personality into every section intro. Retires the five-pass critique-driven UX cycle; future UX work is sourced from external reviewer feedback (see <code>markdown/research/external_feedback_v21.md</code>).</p>
       </section>
@@ -6699,6 +7066,7 @@ codex app</code></pre>
   const sectionToPageMap = {
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
+    'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows',
     'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
@@ -6805,7 +7173,7 @@ codex app</code></pre>
     document.getElementById('sidebar').classList.remove('open');
     const backdrop = document.getElementById('sidebarBackdrop');
     if (backdrop) backdrop.classList.remove('visible');
-    const pageTitles = { fsad: 'Full Stack Agentic Development', pods: 'Pod Compositions', practices: 'Claude Best Practices', codex: 'Codex Best Practices', kpis: 'KPIs to Measure Impact' };
+    const pageTitles = { fsad: 'Full Stack Agentic Development', pods: 'Pod Compositions', workflows: 'Workflows', practices: 'Claude Best Practices', codex: 'Codex Best Practices', kpis: 'KPIs to Measure Impact' };
     const titleEl = document.getElementById('pageTitle');
     if (titleEl) titleEl.textContent = pageTitles[pageId] || '';
     if (pageId === 'practices' && !window.__currentTopic) {
@@ -7084,6 +7452,15 @@ codex app</code></pre>
     document.querySelector(`.pod-tab[data-pod="${podId}"]`).classList.add('active');
     document.querySelectorAll('.pod-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('pod-' + podId).classList.add('active');
+  }
+
+  function switchWorkflow(wfId) {
+    document.querySelectorAll('.wf-tab').forEach(t => t.classList.remove('active'));
+    const tab = document.querySelector(`.wf-tab[data-wf="${wfId}"]`);
+    if (tab) tab.classList.add('active');
+    document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById('wf-' + wfId);
+    if (panel) panel.classList.add('active');
   }
 
   // ─── INDICATOR PILLS ───

@@ -40,3 +40,6 @@
   - [x] Phase 4 (v19 shipped — UX_critique_v19.md verdict: clear pass) → [task-cbp-032-phase-04.md](task-cbp-032-phase-04.md)
   - [x] Phase 5 (v20 shipped — UX_critique_v20.md verdict: clear pass, zero Priority Issues) → [task-cbp-032-phase-05.md](task-cbp-032-phase-05.md)
   - [x] Phase 6 (v21 shipped — UX_critique_v21.md verdict: correct and distinctive; critique pipeline retired) → [task-cbp-032-phase-06.md](task-cbp-032-phase-06.md)
+- [x] `CBP-033` Add `Workflows` section to the left nav, positioned after `Pod Compositions` → [task-cbp-033.md](task-cbp-033.md)
+  - [x] Phase 2 — Rename skill to `/project:initialize-context`, `squad` → `project`, `legion` → `pod` → [task-cbp-033-phase-02.md](task-cbp-033-phase-02.md)
+  - [x] Phase 3 — Second workflow example: `/project:create-spec` (Setup / Mode / Drafting / Write) → [task-cbp-033-phase-03.md](task-cbp-033-phase-03.md)
