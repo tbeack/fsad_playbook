@@ -43,3 +43,7 @@
 - [x] `CBP-033` Add `Workflows` section to the left nav, positioned after `Pod Compositions` → [task-cbp-033.md](task-cbp-033.md)
   - [x] Phase 2 — Rename skill to `/project:initialize-context`, `squad` → `project`, `legion` → `pod` → [task-cbp-033-phase-02.md](task-cbp-033-phase-02.md)
   - [x] Phase 3 — Second workflow example: `/project:create-spec` (Setup / Mode / Drafting / Write) → [task-cbp-033-phase-03.md](task-cbp-033-phase-03.md)
+- [x] `CBP-034` Add `/recap` command to Cheat Sheet session/context/history table → [task-cbp-034.md](task-cbp-034.md)
+- [x] `CBP-035` Fix `/undo` — consolidate as alias for `/rewind` in Cheat Sheet → [task-cbp-035.md](task-cbp-035.md)
+- [x] `CBP-036` Add prompt caching TTL env vars (`ENABLE_PROMPT_CACHING_1H`, `FORCE_PROMPT_CACHING_5M`) to Power Usage → [task-cbp-036.md](task-cbp-036.md)
+- [x] `CBP-037` Update Skills "Programmatic" card — Claude itself can discover built-in commands via Skill tool → [task-cbp-037.md](task-cbp-037.md)

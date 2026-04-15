@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v23 — 2026-04-15
+
+**Claude Code v2.1.109 auto-update (CBP-034–CBP-037)**
+
+Automated playbook sync for Claude Code releases v2.1.108 and v2.1.109.
+
+- **CBP-034 — `/recap` command added to Cheat Sheet.** New session/context table row for `/recap`, introduced in v2.1.108. Describes the use case (returning to a long-running session), notes it is configurable in `/config`, and documents the `CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1` fallback for telemetry-disabled setups.
+- **CBP-035 — `/undo` consolidated as alias for `/rewind`.** As of v2.1.108, `/undo` is an alias for `/rewind`, not a separate command. Removed the standalone `/undo` row; updated the `/rewind` row to list both `/undo` and `/checkpoint` as aliases.
+- **CBP-036 — Prompt Caching TTL collapsible added to Power Usage.** New collapsible in the Claude Power Usage section documents `ENABLE_PROMPT_CACHING_1H=1` (opt into 1-hour TTL for API key / Bedrock / Vertex / Foundry users) and `FORCE_PROMPT_CACHING_5M=1` (force 5-minute TTL). Includes a cost tip for large shared system prompts.
+- **CBP-037 — Skills "Programmatic" card updated for built-in Skill tool discovery.** As of v2.1.108, Claude itself can discover and invoke built-in slash commands (`/init`, `/review`, `/security-review`) via the Skill tool — not just subagents and API integrations. Updated card text to reflect this.
+
 ### v22 — 2026-04-14
 
 **New Workflows page (CBP-033)**

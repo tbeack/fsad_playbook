@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v22)</title>
+<title>FSAD — Full Stack Agentic Development (v23)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1843,7 +1843,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v22</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v23</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -4005,7 +4005,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
       </div>
       <div class="card">
         <h3>Programmatic</h3>
-        <p>Subagents and API integrations invoke skills via the Skill tool. Skills can also run in isolated context with <code>context: fork</code>.</p>
+        <p>Subagents and API integrations invoke skills via the Skill tool. Claude itself can also discover and invoke built-in commands (like <code>/init</code>, <code>/review</code>, <code>/security-review</code>) this way. Skills can also run in isolated context with <code>context: fork</code>.</p>
       </div>
     </div>
     <div class="callout callout-tip" style="margin-top:1rem;">
@@ -4467,8 +4467,8 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
           <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>)</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
-          <tr><td><code>/undo</code></td><td>Undo last action</td></tr>
-          <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (alias: <code>/checkpoint</code>)</td></tr>
+          <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>; force with <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>.</td></tr>
+          <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>)</td></tr>
           <tr><td><code>/export</code></td><td>Export conversation to file or clipboard</td></tr>
           <tr><td><code>/copy</code> <code>[N]</code></td><td>Copy last response to clipboard (or Nth-last)</td></tr>
           <tr><td><code>/diff</code></td><td>Open interactive diff viewer</td></tr>
@@ -5209,6 +5209,30 @@ smoke tests against the staging URL."</code></pre>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
           <div class="callout-title">Use Case</div>
           <p>Set these in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Prevents one session from interfering with another.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Prompt Caching TTL -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Prompt Caching TTL</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Control the prompt cache time-to-live (TTL) for API key, Bedrock, Vertex, and Foundry users. By default Claude Code uses a 5-minute cache; opt into 1-hour caching to improve hit rates in long or recurring sessions.</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Env Var</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>ENABLE_PROMPT_CACHING_1H=1</code></td><td>Opt into 1-hour prompt cache TTL (API key, Bedrock, Vertex, Foundry). Improves hit rate for long or repeated sessions.</td></tr>
+              <tr><td><code>FORCE_PROMPT_CACHING_5M=1</code></td><td>Force 5-minute TTL regardless of other settings.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Cost Tip</div>
+          <p>Use <code>ENABLE_PROMPT_CACHING_1H=1</code> for sessions that share a large system prompt across many requests — reduces repeated input token costs significantly.</p>
         </div>
       </div></div>
     </div>
