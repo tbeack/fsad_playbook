@@ -50,3 +50,6 @@
 - [x] `CBP-038` Add `cbp-add-task` as a showcased example skill under Example Skills, featuring the playground artifact as the visual example → [task-cbp-038.md](task-cbp-038.md)
   - [x] Phase 2 — Promote to Workflows page with tabbed phases + embedded playground (removable); slim Example Skills collapsible to pointer → [task-cbp-038-phase-02.md](task-cbp-038-phase-02.md)
 - [x] `CBP-039` Add `/cbp-commit-changes` as a fourth Workflows example, mirroring the CBP Add-Task pattern (tabbed phases + embedded playground) → [task-cbp-039.md](task-cbp-039.md)
+- [x] `CBP-040` Add `/tui` command to Cheat Sheet configuration table → [task-cbp-040.md](task-cbp-040.md)
+- [x] `CBP-041` Add `/focus` command to Cheat Sheet and update `Ctrl+O` keyboard shortcut description → [task-cbp-041.md](task-cbp-041.md)
+- [x] `CBP-042` Update `/recap` Cheat Sheet row to document `CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0` opt-out for Bedrock/Vertex/Foundry deployments → [task-cbp-042.md](task-cbp-042.md)
