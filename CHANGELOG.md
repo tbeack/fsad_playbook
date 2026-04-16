@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v26 — 2026-04-16
+
+**Claude Code v2.1.110 auto-update (CBP-040–CBP-042)**
+
+Automated playbook sync for Claude Code release v2.1.110.
+
+- **CBP-040 — `/tui` command added to Cheat Sheet.** New row in the "Configuration & setup" slash commands table. Documents `/tui fullscreen` for switching to fullscreen TUI mode with flicker-free rendering in the same conversation.
+- **CBP-041 — `/focus` command added and `Ctrl+O` updated.** As of v2.1.110, `Ctrl+O` toggles normal/verbose transcript only; focus view is now a separate `/focus` command. Updated the keyboard shortcut description, added `/focus` to the "Model, mode & usage" slash commands table, and updated the Session Logs Power Usage bullet to reflect the split behavior.
+- **CBP-042 — `/recap` row updated with opt-out env var.** Session recap is now on by default for telemetry-disabled deployments (Bedrock, Vertex, Foundry). Updated the `/recap` Cheat Sheet row to document `CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0` for opting out, alongside the existing `=1` force-on reference.
+
 ### v25 — 2026-04-15
 
 **Remove CBP prefix from Workflows skill examples and playground artifacts**
