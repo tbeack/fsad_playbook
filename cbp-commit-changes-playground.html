@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CBP Commit Changes — Skill Playground</title>
+<style>
+  :root {
+    --bg: #0b0b10;
+    --panel: #131320;
+    --panel-2: #191928;
+    --border: #26263a;
+    --border-2: #33334d;
+    --text: #e8e8f0;
+    --muted: #8a8aa3;
+    --accent: #a78bfa;
+    --accent-2: #7c5cff;
+    --good: #6ee7b7;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0f0f18;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,0.15), transparent 60%), var(--bg);
+    color: var(--text);
+  }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  .app { display: grid; grid-template-rows: auto 1fr auto; height: 100vh; }
+
+  header {
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 14px;
+    background: linear-gradient(180deg, rgba(167,139,250,0.06), transparent);
+  }
+  header h1 { margin: 0; font-size: 16px; letter-spacing: 0.02em; }
+  header .sub { color: var(--muted); font-size: 12px; }
+  header .badge {
+    margin-left: auto; font-size: 11px; color: var(--accent);
+    border: 1px solid var(--border-2); padding: 3px 8px; border-radius: 999px;
+    background: rgba(167,139,250,0.08);
+  }
+
+  main { display: grid; grid-template-columns: 440px 1fr; overflow: hidden; }
+  .sidebar { border-right: 1px solid var(--border); overflow-y: auto; padding: 18px 18px 32px; background: var(--panel); }
+  .preview { overflow-y: auto; padding: 22px 26px 40px; }
+
+  .group { margin-bottom: 22px; }
+  .group h3 {
+    margin: 0 0 10px; font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); font-weight: 600;
+  }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button {
+    padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border-2);
+    background: var(--panel-2); color: var(--text); font-size: 12px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .presets button:hover { border-color: var(--accent); color: var(--accent); }
+
+  label.field { display: block; margin-bottom: 12px; }
+  label.field > span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+  input[type="text"], input[type="number"], input[type="date"], textarea, select {
+    width: 100%; background: var(--panel-2); color: var(--text);
+    border: 1px solid var(--border-2); border-radius: 8px;
+    padding: 8px 10px; font: inherit; outline: none; transition: border-color 0.15s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 58px; font-family: inherit; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Task list */
+  .tasks { display: flex; flex-direction: column; gap: 8px; }
+  .task {
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    transition: border-color 0.15s;
+  }
+  .task.shipping { border-color: var(--accent); background: linear-gradient(180deg, rgba(167,139,250,0.08), rgba(167,139,250,0.02)); }
+  .task-head { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .task-head .cbp { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent); }
+  .task-head input[type="text"] { flex: 1; padding: 4px 8px; font-size: 12px; border-radius: 6px; }
+  .task-head input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
+  .task-head .remove {
+    background: transparent; border: 1px solid var(--border-2); color: var(--muted);
+    border-radius: 6px; padding: 2px 6px; font-size: 11px; cursor: pointer;
+  }
+  .task-head .remove:hover { color: var(--bad); border-color: var(--bad); }
+  .task textarea { font-size: 12px; min-height: 48px; padding: 6px 8px; border-radius: 6px; }
+
+  .add-task {
+    background: var(--panel-2); border: 1px dashed var(--border-2);
+    color: var(--muted); border-radius: 10px; padding: 8px; cursor: pointer;
+    width: 100%; font: inherit; transition: all 0.15s;
+  }
+  .add-task:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Steps */
+  .steps { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 9px 12px 9px 38px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    font-size: 12.5px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--border); color: var(--muted);
+    font-size: 11px; font-weight: 700; font-family: "IBM Plex Mono", monospace;
+    transition: all 0.15s;
+  }
+  .steps li.active { border-color: var(--accent); background: linear-gradient(180deg, rgba(167,139,250,0.10), rgba(167,139,250,0.02)); }
+  .steps li.active::before { background: var(--accent); color: #0b0b10; }
+  .steps li .lbl { font-weight: 600; display: block; }
+  .steps li .hint { color: var(--muted); font-size: 11.5px; }
+
+  /* File blocks */
+  .file-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .file-block > header {
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .file-block header .path { color: var(--text); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+  .file-block header .tag {
+    margin-left: auto;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--border-2);
+    padding: 2px 6px; border-radius: 4px;
+  }
+  .file-block pre {
+    margin: 0; padding: 14px 16px; font-size: 12.5px; line-height: 1.65;
+    white-space: pre-wrap; word-break: break-word; color: var(--text);
+  }
+  .file-block .diff-add { background: rgba(110, 231, 183, 0.08); display: block; }
+  .file-block .diff-ctx { color: var(--muted); display: block; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    background: var(--panel);
+    padding: 14px 22px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+  }
+  .footer .prompt {
+    background: var(--code-bg);
+    border: 1px solid var(--border-2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    color: var(--text);
+    max-height: 130px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+  .footer button.copy {
+    background: var(--accent);
+    color: #0b0b10;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font: inherit; font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.15s;
+  }
+  .footer button.copy:hover { background: var(--accent-2); color: #fff; }
+  .footer button.copy:active { transform: scale(0.97); }
+  .footer button.copy.ok { background: var(--good); color: #0b0b10; }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  @media (max-width: 940px) {
+    main { grid-template-columns: 1fr; }
+    .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1>CBP Commit Changes <span style="color:var(--muted);font-weight:400;">— Skill Playground</span></h1>
+    <span class="sub">Walk through the ship-a-version workflow and preview generated artifacts.</span>
+    <span class="badge">skill: cbp-commit-changes</span>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <div class="group">
+        <h3>Presets</h3>
+        <div class="presets" id="presets"></div>
+      </div>
+
+      <div class="group">
+        <h3>Version metadata</h3>
+        <div class="row">
+          <label class="field">
+            <span>Version label</span>
+            <input type="text" id="version" value="v24" />
+          </label>
+          <label class="field">
+            <span>Date (YYYY-MM-DD)</span>
+            <input type="date" id="date" value="2026-04-15" />
+          </label>
+        </div>
+        <label class="field">
+          <span>Rollup line (optional — used when shipping &gt; 1 task)</span>
+          <input type="text" id="rollup" value="Skill showcase rollup (CBP-038)" />
+        </label>
+      </div>
+
+      <div class="group">
+        <h3>Tasks in this batch</h3>
+        <div class="tasks" id="tasks"></div>
+        <button class="add-task" id="addTask" type="button">+ add another CBP task</button>
+      </div>
+
+      <div class="group">
+        <h3>Stage list <span style="font-weight:400; text-transform:none; letter-spacing:0; color:var(--muted);">(scoped <code>git add</code>)</span></h3>
+        <label class="field" style="margin:0;">
+          <span>Files to stage (one per line)</span>
+          <textarea id="stage" rows="5">CHANGELOG.md
+README.md
+fsad-playbook.html
+markdown/to do/todo.md</textarea>
+        </label>
+      </div>
+
+      <div class="group">
+        <h3>Workflow — fill fields to advance</h3>
+        <ol class="steps" id="steps">
+          <li data-step="1"><span class="lbl">Identify shipping tasks</span><span class="hint">Completed but not yet in CHANGELOG.</span></li>
+          <li data-step="2"><span class="lbl">Summarize each task</span><span class="hint">1–4 past-tense bullets per task.</span></li>
+          <li data-step="3"><span class="lbl">Update CHANGELOG.md</span><span class="hint">New block above previous version.</span></li>
+          <li data-step="4"><span class="lbl">Update README.md</span><span class="hint">Bump version + date rows only.</span></li>
+          <li data-step="5"><span class="lbl">Update HTML title</span><span class="hint">Only live-version occurrences.</span></li>
+          <li data-step="6"><span class="lbl">Verify</span><span class="hint">git status + visual sanity check.</span></li>
+          <li data-step="7"><span class="lbl">Commit (scoped)</span><span class="hint">Stage listed files; no <code>-A</code>.</span></li>
+          <li data-step="8"><span class="lbl">Push</span><span class="hint">Never force; stop on non-FF.</span></li>
+        </ol>
+      </div>
+    </aside>
+
+    <section class="preview" id="preview">
+      <div class="file-block" data-highlight="3">
+        <header>
+          <span class="path">CHANGELOG.md</span>
+          <span class="tag">Step 3 · new block</span>
+        </header>
+        <pre id="changelog"></pre>
+      </div>
+
+      <div class="file-block" data-highlight="4">
+        <header>
+          <span class="path">README.md</span>
+          <span class="tag">Step 4 · version table diff</span>
+        </header>
+        <pre id="readme"></pre>
+      </div>
+
+      <div class="file-block" data-highlight="7">
+        <header>
+          <span class="path">git commit</span>
+          <span class="tag">Step 7 · commit message</span>
+        </header>
+        <pre id="commit"></pre>
+      </div>
+
+      <div class="file-block" data-highlight="7">
+        <header>
+          <span class="path">shell</span>
+          <span class="tag">Step 7–8 · commands</span>
+        </header>
+        <pre id="shell"></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="prompt" id="prompt"></div>
+    <button class="copy" id="copy">Copy prompt</button>
+  </footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+const PRESETS = {
+  "Single task ship": {
+    version: "v24", date: "2026-04-15",
+    rollup: "",
+    tasks: [
+      { cbp: "038", ship: true, title: "Add cbp-add-task skill showcase", bullets: "Added new Workflows section for /cbp-add-task with 4 tabbed phases\nEmbedded interactive playground artifact (removable block)\nSlimmed Example Skills collapsible to Workflows pointer" },
+    ],
+    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md\nmarkdown/to do/task-cbp-038.md\nmarkdown/to do/task-cbp-038-phase-02.md\ncbp-add-task-playground.html",
+  },
+  "Multi-task rollup": {
+    version: "v25", date: "2026-04-22",
+    rollup: "Cheat-sheet & monitoring refresh (CBP-039 through CBP-041)",
+    tasks: [
+      { cbp: "039", ship: true, title: "Update monitoring section with new usage export flags", bullets: "Documented CLAUDE_USAGE_EXPORT_PATH env var\nAdded example CSV schema" },
+      { cbp: "040", ship: true, title: "Add /rewind keyboard shortcut row to cheat sheet", bullets: "New row in session/history table\nLinked to rewind docs" },
+      { cbp: "041", ship: true, title: "Fix dead link in Integrations section", bullets: "Updated MCP Notion URL\nVerified in dark + light themes" },
+    ],
+    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md",
+  },
+  "Hotfix (one file)": {
+    version: "v24.1", date: "2026-04-16",
+    rollup: "",
+    tasks: [
+      { cbp: "042", ship: true, title: "Hotfix: playground iframe height on mobile", bullets: "Capped iframe height at 560px below 640px viewport\nAdded scroll affordance inside frame" },
+    ],
+    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md\nmarkdown/to do/task-cbp-042.md",
+  },
+  "Mixed (some skipped)": {
+    version: "v26", date: "2026-04-29",
+    rollup: "Partial ship — pending items held for v27",
+    tasks: [
+      { cbp: "043", ship: true, title: "Add security-review skill walkthrough", bullets: "New Best Practices subsection\nCode block with /security-review command" },
+      { cbp: "044", ship: false, title: "Redesign KPI dashboard (WIP)", bullets: "Held back — needs UX review" },
+      { cbp: "045", ship: true, title: "Minor copy polish across FSAD page", bullets: "Tightened three paragraphs\nFixed two typos" },
+    ],
+    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md",
+  },
+};
+
+const state = {
+  version: "v24",
+  date: "2026-04-15",
+  rollup: "Skill showcase rollup (CBP-038)",
+  tasks: [
+    { cbp: "038", ship: true, title: "Add cbp-add-task skill showcase", bullets: "Added new Workflows section for /cbp-add-task with 4 tabbed phases\nEmbedded interactive playground artifact (removable block)\nSlimmed Example Skills collapsible to Workflows pointer" },
+  ],
+  stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md",
+};
+
+function renderTasks() {
+  const host = $('tasks');
+  host.innerHTML = '';
+  state.tasks.forEach((t, i) => {
+    const el = document.createElement('div');
+    el.className = 'task' + (t.ship ? ' shipping' : '');
+    el.innerHTML = `
+      <div class="task-head">
+        <input type="checkbox" ${t.ship ? 'checked' : ''} data-idx="${i}" data-k="ship" title="Include in this version"/>
+        <span class="cbp">CBP-</span>
+        <input type="text" value="${escapeAttr(t.cbp)}" data-idx="${i}" data-k="cbp" style="width:58px;" />
+        <input type="text" value="${escapeAttr(t.title)}" data-idx="${i}" data-k="title" placeholder="Task title" />
+        <button class="remove" data-idx="${i}" type="button">×</button>
+      </div>
+      <textarea data-idx="${i}" data-k="bullets" placeholder="One bullet per line — past tense, concrete">${escapeHtml(t.bullets)}</textarea>
+    `;
+    host.appendChild(el);
+  });
+  host.querySelectorAll('input, textarea').forEach(inp => {
+    inp.addEventListener('input', (e) => {
+      const i = parseInt(e.target.dataset.idx, 10);
+      const k = e.target.dataset.k;
+      const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+      state.tasks[i][k] = val;
+      if (k === 'ship') renderTasks();
+      update();
+    });
+  });
+  host.querySelectorAll('.remove').forEach(b => {
+    b.addEventListener('click', (e) => {
+      const i = parseInt(e.target.dataset.idx, 10);
+      state.tasks.splice(i, 1);
+      renderTasks();
+      update();
+    });
+  });
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function escapeAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+
+function shippingTasks() {
+  return state.tasks.filter(t => t.ship && t.cbp && t.title.trim());
+}
+
+function buildChangelog() {
+  const ships = shippingTasks();
+  const lines = [];
+  lines.push(`### ${state.version} — ${state.date}`);
+  lines.push('');
+  if (ships.length > 1 && state.rollup.trim()) {
+    lines.push(`**${state.rollup.trim()}**`);
+    lines.push('');
+  }
+  ships.forEach((t, idx) => {
+    lines.push(`**${t.title.trim()} (CBP-${t.cbp})**`);
+    const bullets = t.bullets.split('\n').map(s => s.trim()).filter(Boolean);
+    if (bullets.length) {
+      bullets.forEach(b => lines.push(`- ${b}`));
+    } else {
+      lines.push(`- [change bullet]`);
+    }
+    if (idx < ships.length - 1) lines.push('');
+  });
+  return lines.join('\n');
+}
+
+function buildReadme() {
+  return [
+    `  | **Current version** | ${state.version} |`,
+    `  | **Date updated**    | ${state.date} |`,
+  ].join('\n');
+}
+
+function buildCommit() {
+  const ships = shippingTasks();
+  const cbps = ships.map(t => `CBP-${t.cbp}`).join(', ');
+  const subject = ships.length === 1
+    ? `${state.version}: ${ships[0].title.trim()} (CBP-${ships[0].cbp})`
+    : `${state.version}: ${state.rollup.trim() || 'batch ship'} (${cbps})`;
+  const body = ships.map(t => {
+    const firstBullet = (t.bullets.split('\n').map(s => s.trim()).filter(Boolean)[0]) || t.title.trim();
+    return `- CBP-${t.cbp}: ${firstBullet}`;
+  }).join('\n');
+  return [
+    subject,
+    '',
+    body,
+    '',
+    'Co-Authored-By: Claude <noreply@anthropic.com>',
+  ].join('\n');
+}
+
+function buildShell() {
+  const files = state.stage.split('\n').map(s => s.trim()).filter(Boolean);
+  const addArgs = files.map(f => f.includes(' ') ? `"${f}"` : f).join(' ');
+  return [
+    `# Step 6 — verify`,
+    `git status`,
+    `git diff --stat`,
+    ``,
+    `# Step 7 — scoped stage + commit`,
+    `git add ${addArgs}`,
+    `git commit -F .commit-msg.tmp   # HEREDOC body above`,
+    ``,
+    `# Step 8 — push`,
+    `git push`,
+  ].join('\n');
+}
+
+function buildPrompt() {
+  const ships = shippingTasks();
+  if (ships.length === 0) {
+    return `/cbp-commit-changes\n\n(No tasks marked to ship — check at least one task above.)`;
+  }
+  const cbps = ships.map(t => `CBP-${t.cbp}`).join(', ');
+  const parts = [];
+  parts.push(`/cbp-commit-changes ${state.version}`);
+  parts.push('');
+  parts.push(`Ship ${ships.length === 1 ? 'this task' : `these ${ships.length} tasks`} as ${state.version} dated ${state.date}: ${cbps}.`);
+  if (ships.length > 1 && state.rollup.trim()) {
+    parts.push(`Rollup line: "${state.rollup.trim()}".`);
+  }
+  parts.push('');
+  parts.push('Per-task summaries:');
+  ships.forEach(t => {
+    parts.push(`• CBP-${t.cbp} — ${t.title.trim()}`);
+    const bullets = t.bullets.split('\n').map(s => s.trim()).filter(Boolean);
+    bullets.forEach(b => parts.push(`    - ${b}`));
+  });
+  parts.push('');
+  parts.push(`Stage only: ${state.stage.split('\n').map(s => s.trim()).filter(Boolean).join(', ')}.`);
+  parts.push(`Update CHANGELOG.md + README.md version row + fsad-playbook.html title. Verify with git status before committing. Do not force-push.`);
+  return parts.join('\n');
+}
+
+function highlightSteps() {
+  const active = new Set();
+  const ships = shippingTasks();
+  if (state.tasks.length > 0) active.add(1);
+  if (ships.some(t => t.bullets.trim())) active.add(2);
+  if (ships.length) { active.add(3); active.add(4); active.add(5); active.add(6); active.add(7); active.add(8); }
+  document.querySelectorAll('#steps li').forEach(li => {
+    const s = parseInt(li.dataset.step, 10);
+    li.classList.toggle('active', active.has(s));
+  });
+}
+
+function update() {
+  $('changelog').textContent = buildChangelog();
+  $('readme').textContent = buildReadme();
+  $('commit').textContent = buildCommit();
+  $('shell').textContent = buildShell();
+  $('prompt').textContent = buildPrompt();
+  highlightSteps();
+}
+
+function applyPreset(name) {
+  const p = PRESETS[name];
+  state.version = p.version;
+  state.date = p.date;
+  state.rollup = p.rollup;
+  state.tasks = p.tasks.map(t => ({ ...t }));
+  state.stage = p.stage;
+  $('version').value = state.version;
+  $('date').value = state.date;
+  $('rollup').value = state.rollup;
+  $('stage').value = state.stage;
+  renderTasks();
+  update();
+}
+
+function renderPresets() {
+  const host = $('presets');
+  Object.keys(PRESETS).forEach(name => {
+    const b = document.createElement('button');
+    b.textContent = name;
+    b.addEventListener('click', () => applyPreset(name));
+    host.appendChild(b);
+  });
+}
+
+$('version').addEventListener('input', e => { state.version = e.target.value; update(); });
+$('date').addEventListener('input', e => { state.date = e.target.value; update(); });
+$('rollup').addEventListener('input', e => { state.rollup = e.target.value; update(); });
+$('stage').addEventListener('input', e => { state.stage = e.target.value; update(); });
+
+$('addTask').addEventListener('click', () => {
+  const nextNum = String(Math.max(0, ...state.tasks.map(t => parseInt(t.cbp, 10) || 0)) + 1).padStart(3, '0');
+  state.tasks.push({ cbp: nextNum, ship: true, title: '', bullets: '' });
+  renderTasks();
+  update();
+});
+
+$('copy').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText($('prompt').textContent);
+    const b = $('copy');
+    const prev = b.textContent;
+    b.textContent = 'Copied!';
+    b.classList.add('ok');
+    setTimeout(() => { b.textContent = prev; b.classList.remove('ok'); }, 1200);
+  } catch (e) {
+    alert('Copy failed — select and copy manually.');
+  }
+});
+
+document.querySelectorAll('#steps li').forEach(li => {
+  li.addEventListener('mouseenter', () => {
+    const s = li.dataset.step;
+    document.querySelectorAll('.file-block').forEach(fb => {
+      fb.style.outline = fb.dataset.highlight === s ? '1px solid var(--accent)' : 'none';
+    });
+  });
+  li.addEventListener('mouseleave', () => {
+    document.querySelectorAll('.file-block').forEach(fb => fb.style.outline = 'none');
+  });
+});
+
+renderPresets();
+renderTasks();
+update();
+</script>
+</body>
+</html>

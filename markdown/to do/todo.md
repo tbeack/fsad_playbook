@@ -47,3 +47,6 @@
 - [x] `CBP-035` Fix `/undo` — consolidate as alias for `/rewind` in Cheat Sheet → [task-cbp-035.md](task-cbp-035.md)
 - [x] `CBP-036` Add prompt caching TTL env vars (`ENABLE_PROMPT_CACHING_1H`, `FORCE_PROMPT_CACHING_5M`) to Power Usage → [task-cbp-036.md](task-cbp-036.md)
 - [x] `CBP-037` Update Skills "Programmatic" card — Claude itself can discover built-in commands via Skill tool → [task-cbp-037.md](task-cbp-037.md)
+- [x] `CBP-038` Add `cbp-add-task` as a showcased example skill under Example Skills, featuring the playground artifact as the visual example → [task-cbp-038.md](task-cbp-038.md)
+  - [x] Phase 2 — Promote to Workflows page with tabbed phases + embedded playground (removable); slim Example Skills collapsible to pointer → [task-cbp-038-phase-02.md](task-cbp-038-phase-02.md)
+- [x] `CBP-039` Add `/cbp-commit-changes` as a fourth Workflows example, mirroring the CBP Add-Task pattern (tabbed phases + embedded playground) → [task-cbp-039.md](task-cbp-039.md)

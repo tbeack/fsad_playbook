@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v23)</title>
+<title>FSAD — Full Stack Agentic Development (v24)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1843,7 +1843,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v23</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v24</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1901,6 +1901,8 @@
         <a class="nav-sub-item" href="#workflows/workflows-hero" onclick="scrollToSection('workflows-hero')">Overview</a>
         <a class="nav-sub-item" href="#workflows/project-initialize-context" onclick="scrollToSection('project-initialize-context')">Project Initialize-Context</a>
         <a class="nav-sub-item" href="#workflows/project-create-spec" onclick="scrollToSection('project-create-spec')">Project Create-Spec</a>
+        <a class="nav-sub-item" href="#workflows/cbp-add-task-skill" onclick="scrollToSection('cbp-add-task-skill')">CBP Add-Task</a>
+        <a class="nav-sub-item" href="#workflows/cbp-commit-changes-skill" onclick="scrollToSection('cbp-commit-changes-skill')">CBP Commit-Changes</a>
       </div>
     </div>
 
@@ -2013,11 +2015,6 @@
   <div class="hero-badge">Methodology for R&D Teams</div>
   <h1>Full Stack <em>Agentic</em> Development</h1>
   <p>A spec-driven, agentic-first methodology where small cross-functional pods use markdown as a common language to direct teams of AI agents — collapsing cycle times from weeks to hours.</p>
-  <ul class="hero-thesis">
-    <li>Humans write markdown specs. Agents write the code.</li>
-    <li>Structure is permanent; prompting is temporary.</li>
-    <li>Models forget. Hooks don't.</li>
-  </ul>
 </div>
 <hr class="divider">
 
@@ -2752,10 +2749,285 @@ Future Scope           → planned / possible / out</pre>
 
 <hr class="divider">
 
+<section id="cbp-add-task-skill">
+  <span class="section-label">03 — Inside the CBP Add-Task Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/cbp-add-task</code></h2>
+  <p class="section-subtitle">A project-specific skill that encodes this repo's task-tracking convention — CBP numbering, <code>todo.md</code> entries, and the <code>task-cbp-NNN.md</code> template. Click each phase to walk the flow.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="cbp-intake" onclick="switchWorkflow('cbp-intake')" role="tab">
+      <span class="wf-tab-label">Step 1–2</span>
+      <span class="wf-tab-title">Intake</span>
+    </button>
+    <button class="wf-tab" data-wf="cbp-interview" onclick="switchWorkflow('cbp-interview')" role="tab">
+      <span class="wf-tab-label">Step 3–4</span>
+      <span class="wf-tab-title">Interview</span>
+    </button>
+    <button class="wf-tab" data-wf="cbp-generate" onclick="switchWorkflow('cbp-generate')" role="tab">
+      <span class="wf-tab-label">Step 5</span>
+      <span class="wf-tab-title">Generate</span>
+    </button>
+    <button class="wf-tab" data-wf="cbp-confirm" onclick="switchWorkflow('cbp-confirm')" role="tab">
+      <span class="wf-tab-label">Step 6</span>
+      <span class="wf-tab-title">Confirm</span>
+    </button>
+  </div>
+
+  <!-- INTAKE -->
+  <div class="wf-panel active" id="wf-cbp-intake">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Read the tracker</span>
+        <h4>Find the next CBP number</h4>
+        <p>The skill opens <code>markdown/to do/todo.md</code>, scans every <code>CBP-###</code> already taken, and increments the highest by one. Always 3 digits with leading zeros.</p>
+        <div class="wf-chips">
+          <span class="wf-chip">CBP-037</span>
+          <span class="wf-chip">→ CBP-038</span>
+        </div>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Capture the title</span>
+        <h4>One-liner, no form</h4>
+        <p>If the user ran <code>/cbp-add-task &lt;title&gt;</code>, that becomes the title. Otherwise the skill asks once and waits — no multi-field modal, no upfront ceremony.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW -->
+  <div class="wf-panel" id="wf-cbp-interview">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Append the entry first</span>
+        <h4>Single-line commit to the tracker</h4>
+<pre>- [ ] `CBP-NNN` [Title] → [task-cbp-NNN.md](task-cbp-NNN.md)</pre>
+        <p class="wf-card-footnote">Inserted before any <em>Bug Details</em> section, or at the end of the list. The entry lands before any details are gathered, so the task is already real.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">One question at a time</span>
+        <h4>No form-dumps on the user</h4>
+        <p>The skill asks in sequence, and accepts <em>"use your best judgment"</em> as a valid answer at any step:</p>
+        <div class="wf-chips">
+          <span class="wf-chip">source</span>
+          <span class="wf-chip">summary</span>
+          <span class="wf-chip">assessment</span>
+          <span class="wf-chip">plan</span>
+          <span class="wf-chip">acceptance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GENERATE -->
+  <div class="wf-panel" id="wf-cbp-generate">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Write the task file</span>
+        <h4>Canonical template, every time</h4>
+<pre># CBP-NNN — [Task Title]
+
+## Source
+## Summary
+## Assessment
+**Location:** `[file path]`
+## Plan
+## Acceptance Criteria
+- [ ] …</pre>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Why a template matters</span>
+        <p>Section names, em-dash in the heading, checkbox-style acceptance criteria — all the small formatting decisions that would otherwise drift across contributors. The skill encodes them once so every task file reads the same.</p>
+        <p class="wf-card-footnote">Location hint (<code>**Location:**</code>) keeps implementation grounded in a real file path from day one.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM -->
+  <div class="wf-panel" id="wf-cbp-confirm">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Report back</span>
+        <h4>Three things, every time</h4>
+        <ul>
+          <li>The new CBP number</li>
+          <li>That the entry was added to <code>todo.md</code></li>
+          <li>The path to the new task file</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">What this skill really is</span>
+        <p>Not a form. Not a tracker UI. Just a markdown file in <code>.claude/skills/</code> that encodes one contributor's tribal knowledge — numbering scheme, filename conventions, interview order, section headings — so every future session produces identical output without anyone having to remember it.</p>
+        <p>Small skill, but it's the pattern: <strong>any repeatable workflow becomes a markdown file</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEGIN: cbp-add-task playground embed (safe to remove — delete everything between BEGIN/END comments) -->
+  <div id="cbp-add-task-playground-embed" style="margin-top: 3rem;">
+    <span class="section-label" style="display:block; margin-bottom: 0.5rem;">Try it yourself</span>
+    <h3 style="font-family: var(--font-display); font-size: 1.3rem; margin: 0 0 0.5rem;">Interactive playground</h3>
+    <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
+      Fill sample task inputs on the left, watch the generated <code>todo.md</code> entry and <code>task-cbp-NNN.md</code> file update live on the right, and copy a ready-to-paste prompt that invokes the skill.
+    </p>
+    <div style="position: relative; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <iframe
+        src="cbp-add-task-playground.html"
+        title="cbp-add-task interactive playground"
+        loading="lazy"
+        style="width: 100%; height: 720px; border: 0; display: block; color-scheme: dark;"></iframe>
+    </div>
+    <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+      Prefer a new tab? <a href="cbp-add-task-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
+    </p>
+  </div>
+  <!-- END: cbp-add-task playground embed -->
+</section>
+
+<hr class="divider">
+
+<section id="cbp-commit-changes-skill">
+  <span class="section-label">04 — Inside the CBP Commit-Changes Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/cbp-commit-changes</code></h2>
+  <p class="section-subtitle">The counterpart to <code>/cbp-add-task</code>. When a batch of tasks is done, this skill writes the CHANGELOG entry, bumps the version, and commits — in the exact sequence that keeps the artifact coherent.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="commit-gather" onclick="switchWorkflow('commit-gather')" role="tab">
+      <span class="wf-tab-label">Inputs + Step 1</span>
+      <span class="wf-tab-title">Gather</span>
+    </button>
+    <button class="wf-tab" data-wf="commit-docs" onclick="switchWorkflow('commit-docs')" role="tab">
+      <span class="wf-tab-label">Step 2–4</span>
+      <span class="wf-tab-title">Update Docs</span>
+    </button>
+    <button class="wf-tab" data-wf="commit-verify" onclick="switchWorkflow('commit-verify')" role="tab">
+      <span class="wf-tab-label">Step 5</span>
+      <span class="wf-tab-title">Verify</span>
+    </button>
+    <button class="wf-tab" data-wf="commit-ship" onclick="switchWorkflow('commit-ship')" role="tab">
+      <span class="wf-tab-label">Step 6–8</span>
+      <span class="wf-tab-title">Ship</span>
+    </button>
+  </div>
+
+  <!-- GATHER -->
+  <div class="wf-panel active" id="wf-commit-gather">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Find the shipping set</span>
+        <h4>Completed, but not yet in CHANGELOG</h4>
+        <p>The skill reads <code>markdown/to do/todo.md</code> for items marked <code>[x]</code>, then cross-references <code>CHANGELOG.md</code> to filter out anything already shipped. If the set is ambiguous — multiple newly-completed tasks, only some meant to go — it asks the user before writing a single line.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Detect the next version</span>
+        <h4>Read the top of CHANGELOG</h4>
+<pre>### vN — YYYY-MM-DD
+↓
+### v(N+1) — &lt;today&gt;</pre>
+        <p class="wf-card-footnote">Explicit <code>$ARGUMENTS</code> (e.g., <code>v24</code>) override auto-increment. Today's date is pulled from context, never guessed.</p>
+      </div>
+      <div class="wf-card" style="grid-column: 1 / -1;">
+        <span class="wf-card-label">Pull per-task summaries</span>
+        <p>For each shipping CBP, the skill opens <code>task-cbp-NNN.md</code> and extracts the title + 1–4 concrete, past-tense bullets. If a task file is missing or opaque, it stops and asks — rather than inventing changelog prose.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPDATE DOCS -->
+  <div class="wf-panel" id="wf-commit-docs">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">CHANGELOG.md — new block</span>
+        <h4>Insert above the previous version</h4>
+<pre>### vN — YYYY-MM-DD
+
+**[Rollup line for multi-task batches]**
+
+**[Task title] (CBP-NNN)**
+- [Change bullet]
+- [Change bullet]</pre>
+        <p class="wf-card-footnote">Sub-tasks (e.g., <code>CBP-005a</code>) group under their parent. Single-task ships skip the rollup line.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">README.md + HTML title</span>
+        <h4>Two surgical edits</h4>
+<pre>| Current version | v(N+1) |
+| Date updated    | YYYY-MM-DD |</pre>
+        <p>And the <code>&lt;title&gt;</code> tag in <code>fsad-playbook.html</code> — but <strong>only</strong> the live-version occurrences. Historical <code>vN</code> references in the playbook's own changelog section stay untouched.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERIFY -->
+  <div class="wf-panel" id="wf-commit-verify">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Sanity-check the diff</span>
+        <h4>Before anything is staged</h4>
+<pre>git status
+git diff --stat</pre>
+        <div class="wf-chips">
+          <span class="wf-chip">CHANGELOG top renders clean</span>
+          <span class="wf-chip">README version matches</span>
+          <span class="wf-chip">no stray edits</span>
+        </div>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Why verify before committing</span>
+        <p>The playbook is shared with engineering teams. A silent typo in the changelog or a version mismatch between README and HTML title ships to every reader and erodes trust in the artifact. The skill stops on any inconsistency instead of powering through.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHIP -->
+  <div class="wf-panel" id="wf-commit-ship">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Scoped stage — never <code>-A</code></span>
+        <h4>Only files the skill intentionally changed</h4>
+<pre>git add CHANGELOG.md README.md \
+        fsad-playbook.html \
+        "markdown/to do/todo.md" \
+        "markdown/to do/task-cbp-NNN.md"</pre>
+        <p class="wf-card-footnote"><code>markdown/</code> often contains WIP notes. Using <code>git add -A</code> would catch them by accident.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Commit, push, report</span>
+        <h4>Match the project's message style</h4>
+<pre>vN: &lt;rollup&gt; (CBP-NNN, CBP-NNN)
+
+- CBP-NNN: &lt;terse bullet&gt;
+- CBP-NNN: &lt;terse bullet&gt;</pre>
+        <p>Then <code>git push</code>. If it's non-fast-forward, auth-fail, or hook-blocked — the skill stops and reports. No force-push, ever. Final message to the user: version shipped, CBPs included, short SHA, push status.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEGIN: cbp-commit-changes playground embed (safe to remove — delete everything between BEGIN/END comments) -->
+  <div id="cbp-commit-changes-playground-embed" style="margin-top: 3rem;">
+    <span class="section-label" style="display:block; margin-bottom: 0.5rem;">Try it yourself</span>
+    <h3 style="font-family: var(--font-display); font-size: 1.3rem; margin: 0 0 0.5rem;">Interactive playground</h3>
+    <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
+      Build a batch of shipping tasks on the left, watch the generated <code>CHANGELOG.md</code> block, <code>README.md</code> version rows, commit message, and shell commands update live on the right.
+    </p>
+    <div style="position: relative; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <iframe
+        src="cbp-commit-changes-playground.html"
+        title="cbp-commit-changes interactive playground"
+        loading="lazy"
+        style="width: 100%; height: 720px; border: 0; display: block; color-scheme: dark;"></iframe>
+    </div>
+    <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+      Prefer a new tab? <a href="cbp-commit-changes-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
+    </p>
+  </div>
+  <!-- END: cbp-commit-changes playground embed -->
+</section>
+
+<hr class="divider">
+
 <section style="text-align: center; max-width: 660px; margin: 0 auto;">
   <span class="section-label">Why these examples</span>
-  <h2 class="section-title" style="margin-bottom: 1rem;">Two markdown files.<br><em>An entire pod operating system.</em></h2>
-  <p style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 300; line-height: 1.8;">Both skills are concrete answers to <em>"what does agentic work actually look like?"</em> — not frameworks, not diagrams. Just English instructions in a file, run by a pod: one to build the context every future agent inherits, one to turn raw intent into a reviewable spec. The rituals compound.</p>
+  <h2 class="section-title" style="margin-bottom: 1rem;">Four markdown files.<br><em>The connective tissue of a working pod.</em></h2>
+  <p style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 300; line-height: 1.8;">Each skill is a concrete answer to <em>"what does agentic work actually look like?"</em> — not frameworks, not diagrams. Just English instructions in a file, run by a pod: one builds the context every future agent inherits, one turns raw intent into a reviewable spec, one captures the rituals of adding new work, one ships the batch coherently. The rituals compound.</p>
 </section>
 
 <footer>
@@ -7090,7 +7362,7 @@ codex app</code></pre>
   const sectionToPageMap = {
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
-    'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows',
+    'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'cbp-add-task-skill': 'workflows', 'cbp-commit-changes-skill': 'workflows',
     'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',

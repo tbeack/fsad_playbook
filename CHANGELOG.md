@@ -1,5 +1,23 @@
 ## Changes in This Version
 
+### v24 — 2026-04-15
+
+**Skill showcase with interactive playgrounds (CBP-038, CBP-039)**
+
+**Add `/cbp-add-task` as a Workflows example with interactive playground (CBP-038)**
+- Added a new Workflows section (`#cbp-add-task-skill`) — 4 tabbed phases (Intake / Interview / Generate / Confirm) condensing the 6-step SKILL.md workflow into the existing `wf-tabs` / `wf-panel` / `wf-card` visual system.
+- Built `cbp-add-task-playground.html` — a single-file interactive artifact that visualizes the skill's workflow, lets users fill sample inputs, and live-previews the generated `todo.md` line and `task-cbp-NNN.md` file with a copy-able prompt.
+- Embedded the playground inline via `<iframe>` with a removable `BEGIN`/`END` comment block (deletion contract: remove the block, section still renders).
+- Standalone fallback link provided for opening the playground in a new tab.
+- Left-nav Workflows group and `sectionToPageMap` updated with the new section.
+
+**Add `/cbp-commit-changes` as a Workflows example with interactive playground (CBP-039)**
+- Added a fourth Workflows section (`#cbp-commit-changes-skill`) — 4 tabbed phases (Gather / Update Docs / Verify / Ship) condensing the 8-step SKILL.md workflow.
+- Built `cbp-commit-changes-playground.html` — interactive artifact with dynamic task list, scoped stage list, and live previews of CHANGELOG block, README version rows, commit message, and shell commands. Includes 4 presets (single task, multi-task rollup, hotfix, mixed with skipped WIP).
+- Embedded via the same removable `BEGIN`/`END` iframe pattern as the add-task playground.
+- Workflows closing callout updated from "Two markdown files" → "Four markdown files. The connective tissue of a working pod."
+- Removed the slimmed Example Skills collapsible (CBP-038 Phase 01 artifact) — the Workflows section supersedes it entirely.
+
 ### v23 — 2026-04-15
 
 **Claude Code v2.1.109 auto-update (CBP-034–CBP-037)**

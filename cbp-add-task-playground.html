@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CBP Add Task — Skill Playground</title>
+<style>
+  :root {
+    --bg: #0b0b10;
+    --panel: #131320;
+    --panel-2: #191928;
+    --border: #26263a;
+    --border-2: #33334d;
+    --text: #e8e8f0;
+    --muted: #8a8aa3;
+    --accent: #a78bfa;
+    --accent-2: #7c5cff;
+    --good: #6ee7b7;
+    --warn: #fbbf24;
+    --code-bg: #0f0f18;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,0.15), transparent 60%), var(--bg);
+    color: var(--text);
+  }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  .app {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+  }
+  header {
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 14px;
+    background: linear-gradient(180deg, rgba(167,139,250,0.06), transparent);
+  }
+  header h1 {
+    margin: 0; font-size: 16px; letter-spacing: 0.02em;
+  }
+  header .sub { color: var(--muted); font-size: 12px; }
+  header .badge {
+    margin-left: auto;
+    font-size: 11px; color: var(--accent);
+    border: 1px solid var(--border-2); padding: 3px 8px; border-radius: 999px;
+    background: rgba(167,139,250,0.08);
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    overflow: hidden;
+  }
+  .sidebar {
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 18px 18px 32px;
+    background: var(--panel);
+  }
+  .preview {
+    overflow-y: auto;
+    padding: 22px 26px 40px;
+  }
+
+  .group { margin-bottom: 22px; }
+  .group h3 {
+    margin: 0 0 10px; font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); font-weight: 600;
+  }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button {
+    padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border-2);
+    background: var(--panel-2); color: var(--text); font-size: 12px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .presets button:hover { border-color: var(--accent); color: var(--accent); }
+
+  label.field {
+    display: block; margin-bottom: 12px;
+  }
+  label.field > span {
+    display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px;
+  }
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid var(--border-2);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 68px; font-family: inherit; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .steps { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 10px 12px 10px 38px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    font-size: 13px;
+    transition: all 0.15s;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--border);
+    color: var(--muted);
+    font-size: 11px; font-weight: 700;
+    font-family: "IBM Plex Mono", monospace;
+    transition: all 0.15s;
+  }
+  .steps li.active {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(167,139,250,0.12), rgba(167,139,250,0.03));
+  }
+  .steps li.active::before {
+    background: var(--accent);
+    color: #0b0b10;
+  }
+  .steps li .lbl { font-weight: 600; display: block; }
+  .steps li .hint { color: var(--muted); font-size: 12px; }
+
+  .file-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .file-block header {
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .file-block header .path {
+    color: var(--text);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+  }
+  .file-block header .tag {
+    margin-left: auto;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--border-2);
+    padding: 2px 6px; border-radius: 4px;
+  }
+  .file-block pre {
+    margin: 0;
+    padding: 14px 16px;
+    font-size: 12.5px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--text);
+  }
+  .file-block pre .k { color: var(--accent); }
+  .file-block pre .c { color: var(--muted); }
+  .file-block pre .id { color: var(--good); }
+  .file-block pre .h { color: var(--accent-2); font-weight: 600; }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    background: var(--panel);
+    padding: 14px 22px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+  }
+  .footer .prompt {
+    background: var(--code-bg);
+    border: 1px solid var(--border-2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    color: var(--text);
+    max-height: 120px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+  .footer button.copy {
+    background: var(--accent);
+    color: #0b0b10;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    font: inherit; font-weight: 600;
+    transition: transform 0.1s, background 0.15s;
+  }
+  .footer button.copy:hover { background: var(--accent-2); color: #fff; }
+  .footer button.copy:active { transform: scale(0.97); }
+  .footer button.copy.ok { background: var(--good); color: #0b0b10; }
+
+  .meta-row {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;
+  }
+  .chip {
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border-2);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1>CBP Add Task <span style="color:var(--muted);font-weight:400;">— Skill Playground</span></h1>
+    <span class="sub">Visualize the 6-step workflow and preview generated artifacts.</span>
+    <span class="badge">skill: cbp-add-task</span>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <div class="group">
+        <h3>Presets</h3>
+        <div class="presets" id="presets"></div>
+      </div>
+
+      <div class="group">
+        <h3>Task Inputs</h3>
+        <div class="row">
+          <label class="field">
+            <span>Next CBP number</span>
+            <input type="number" id="num" min="1" value="38" />
+          </label>
+          <label class="field">
+            <span>Source</span>
+            <select id="source">
+              <option value="">— none —</option>
+              <option>Release notes</option>
+              <option>User feedback</option>
+              <option>Bug report</option>
+              <option>Own idea</option>
+              <option>Team review</option>
+            </select>
+          </label>
+        </div>
+        <label class="field">
+          <span>Task title</span>
+          <input type="text" id="title" value="Add skill index page" />
+        </label>
+        <label class="field">
+          <span>Summary (1–3 sentences)</span>
+          <textarea id="summary">Introduce a dedicated landing page listing every skill in the playbook with descriptions and invocation patterns. Helps engineers discover available skills quickly.</textarea>
+        </label>
+        <label class="field">
+          <span>Assessment (current state)</span>
+          <textarea id="assessment">Skills are currently scattered across the Building Skills section. No unified index exists.</textarea>
+        </label>
+        <label class="field">
+          <span>Target location</span>
+          <input type="text" id="location" value="fsad-playbook.html — Best Practices › Building Skills" />
+        </label>
+        <label class="field">
+          <span>Plan (one step per line)</span>
+          <textarea id="plan">Draft IA and copy for the new Skills Index section
+Add markup after the existing Building Skills subsection
+Wire router and sidebar entries
+Verify navigation, scroll spy, and mobile layout</textarea>
+        </label>
+        <label class="field">
+          <span>Acceptance criteria (one per line)</span>
+          <textarea id="accept">New "Skills Index" subsection renders with all skills listed
+Sidebar + deep links point to the index
+No regressions in adjacent collapsibles</textarea>
+        </label>
+      </div>
+
+      <div class="group">
+        <h3>Workflow — hover or click to highlight</h3>
+        <ol class="steps" id="steps">
+          <li data-step="1"><span class="lbl">Get next CBP number</span><span class="hint">Read <code>markdown/to do/todo.md</code>, increment highest.</span></li>
+          <li data-step="2"><span class="lbl">Get task title</span><span class="hint">From <code>$ARGUMENTS</code> or ask the user.</span></li>
+          <li data-step="3"><span class="lbl">Append entry to todo.md</span><span class="hint">Before <em>Bug Details</em> section if present.</span></li>
+          <li data-step="4"><span class="lbl">Gather details (one-at-a-time)</span><span class="hint">Source · Summary · Assessment · Plan · AC.</span></li>
+          <li data-step="5"><span class="lbl">Create task file</span><span class="hint">Write <code>task-cbp-NNN.md</code> from template.</span></li>
+          <li data-step="6"><span class="lbl">Confirm completion</span><span class="hint">Report number, todo entry, and file path.</span></li>
+        </ol>
+      </div>
+    </aside>
+
+    <section class="preview" id="preview">
+      <div class="file-block" data-highlight="3">
+        <header>
+          <span class="path">markdown/to do/todo.md</span>
+          <span class="tag">Step 3 · appended line</span>
+        </header>
+        <pre id="todo-line"></pre>
+      </div>
+
+      <div class="file-block" data-highlight="5">
+        <header>
+          <span class="path" id="file-path">markdown/to do/task-cbp-038.md</span>
+          <span class="tag">Step 5 · generated file</span>
+        </header>
+        <pre id="task-file"></pre>
+      </div>
+
+      <div class="file-block" data-highlight="6">
+        <header>
+          <span class="path">confirmation output</span>
+          <span class="tag">Step 6</span>
+        </header>
+        <pre id="confirm"></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="prompt" id="prompt"></div>
+    <button class="copy" id="copy">Copy prompt</button>
+  </footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+const DEFAULTS = {
+  num: 38,
+  source: '',
+  title: 'Add skill index page',
+  summary: 'Introduce a dedicated landing page listing every skill in the playbook with descriptions and invocation patterns. Helps engineers discover available skills quickly.',
+  assessment: 'Skills are currently scattered across the Building Skills section. No unified index exists.',
+  location: 'fsad-playbook.html — Best Practices › Building Skills',
+  plan: 'Draft IA and copy for the new Skills Index section\nAdd markup after the existing Building Skills subsection\nWire router and sidebar entries\nVerify navigation, scroll spy, and mobile layout',
+  accept: 'New "Skills Index" subsection renders with all skills listed\nSidebar + deep links point to the index\nNo regressions in adjacent collapsibles',
+};
+
+const PRESETS = {
+  "New feature": {
+    num: 38, source: "Own idea",
+    title: "Add skill index page",
+    summary: "Introduce a dedicated landing page listing every skill in the playbook with descriptions and invocation patterns. Helps engineers discover available skills quickly.",
+    assessment: "Skills are currently scattered across the Building Skills section. No unified index exists.",
+    location: "fsad-playbook.html — Best Practices › Building Skills",
+    plan: "Draft IA and copy for the new Skills Index section\nAdd markup after the existing Building Skills subsection\nWire router and sidebar entries\nVerify navigation, scroll spy, and mobile layout",
+    accept: "New \"Skills Index\" subsection renders with all skills listed\nSidebar + deep links point to the index\nNo regressions in adjacent collapsibles",
+  },
+  "Bug fix": {
+    num: 39, source: "Bug report",
+    title: "Fix scroll spy drift on KPI page",
+    summary: "IntersectionObserver thresholds cause sidebar entries to activate slightly after the section is already in view on the KPI page.",
+    assessment: "Scroll spy works on other pages. KPI page has taller sections causing the root margin to under-trigger.",
+    location: "fsad-playbook.html — sectionObserver setup",
+    plan: "Reproduce on KPI page with smooth scroll\nAdjust rootMargin / threshold\nRe-verify every page",
+    accept: "Active sidebar entry matches visible section within ±30px on all pages\nNo flicker during fast scrolls",
+  },
+  "Content update": {
+    num: 40, source: "User feedback",
+    title: "Expand Codex cheat sheet with slash-command syntax",
+    summary: "Add missing slash-command syntax and short examples to the Codex cheat sheet, mirroring coverage already present for Claude.",
+    assessment: "Codex cheat sheet lists commands but lacks the concise syntax column and examples shown for Claude.",
+    location: "fsad-playbook.html — page-codex, cheat-sheet section",
+    plan: "Audit existing Codex cheat-sheet rows\nAdd syntax + example columns matching Claude table\nVerify dark/light contrast",
+    accept: "Codex cheat sheet has parity columns with Claude cheat sheet\nTable renders cleanly in both themes",
+  },
+  "Minimal (title only)": {
+    num: 41, source: "",
+    title: "Polish homepage hero spacing",
+    summary: "",
+    assessment: "",
+    location: "",
+    plan: "",
+    accept: "",
+  },
+};
+
+function pad(n) { return String(n).padStart(3, '0'); }
+
+function setState(obj) {
+  $('num').value = obj.num;
+  $('source').value = obj.source || '';
+  $('title').value = obj.title || '';
+  $('summary').value = obj.summary || '';
+  $('assessment').value = obj.assessment || '';
+  $('location').value = obj.location || '';
+  $('plan').value = obj.plan || '';
+  $('accept').value = obj.accept || '';
+  update();
+}
+
+function buildTodoLine(n, title) {
+  const id = `CBP-${pad(n)}`;
+  return `- [ ] \`${id}\` ${title || '[Title]'} → [task-cbp-${pad(n)}.md](task-cbp-${pad(n)}.md)`;
+}
+
+function buildTaskFile(n, title, source, summary, assessment, location, plan, accept) {
+  const id = pad(n);
+  const lines = [];
+  lines.push(`# CBP-${id} — ${title || '[Task Title]'}`);
+  lines.push('');
+  if (source && source.trim()) {
+    lines.push('## Source');
+    lines.push(source.trim());
+    lines.push('');
+  }
+  lines.push('## Summary');
+  lines.push(summary.trim() || '[1–3 sentences: what\'s changing and why]');
+  lines.push('');
+  lines.push('## Assessment');
+  lines.push(assessment.trim() || '[Current state of the relevant content.]');
+  if (location.trim()) {
+    lines.push('');
+    lines.push(`**Location:** ${location.trim()}`);
+  }
+  lines.push('');
+  lines.push('## Plan');
+  lines.push('');
+  const planLines = plan.split('\n').map(s => s.trim()).filter(Boolean);
+  if (planLines.length) {
+    planLines.forEach((p, i) => lines.push(`${i + 1}. ${p}`));
+  } else {
+    lines.push('1. [Step one]');
+    lines.push('2. [Step two]');
+  }
+  lines.push('');
+  lines.push('## Acceptance Criteria');
+  const acceptLines = accept.split('\n').map(s => s.trim()).filter(Boolean);
+  if (acceptLines.length) {
+    acceptLines.forEach(a => lines.push(`- [ ] ${a}`));
+  } else {
+    lines.push('- [ ] [Verification step 1]');
+    lines.push('- [ ] [Verification step 2]');
+  }
+  return lines.join('\n');
+}
+
+function buildConfirm(n, title) {
+  const id = pad(n);
+  return [
+    `✓ Created CBP-${id}`,
+    `  todo.md  → new entry appended`,
+    `  task file → markdown/to do/task-cbp-${id}.md`,
+    `  title    → ${title || '[Title]'}`,
+  ].join('\n');
+}
+
+function buildPrompt(n, title, source, summary, plan, accept) {
+  const id = pad(n);
+  const parts = [];
+  parts.push(`/cbp-add-task ${title || 'New task'}`);
+  parts.push('');
+  parts.push(`Create CBP-${id} with these details:`);
+  if (source) parts.push(`• Source: ${source}`);
+  if (summary.trim()) parts.push(`• Summary: ${summary.trim()}`);
+  const planLines = plan.split('\n').map(s => s.trim()).filter(Boolean);
+  if (planLines.length) {
+    parts.push(`• Plan: ${planLines.join(' → ')}`);
+  }
+  const acceptLines = accept.split('\n').map(s => s.trim()).filter(Boolean);
+  if (acceptLines.length) {
+    parts.push(`• Acceptance: ${acceptLines.join('; ')}`);
+  }
+  parts.push('');
+  parts.push('Follow the cbp-add-task skill: read todo.md for the next number, append the entry, write the task file, and confirm.');
+  return parts.join('\n');
+}
+
+function highlightSteps() {
+  const active = new Set();
+  const title = $('title').value.trim();
+  const num = parseInt($('num').value, 10);
+  if (num) { active.add(1); active.add(3); }
+  if (title) { active.add(2); active.add(3); }
+  if ($('summary').value.trim() || $('assessment').value.trim() || $('plan').value.trim() || $('accept').value.trim()) {
+    active.add(4); active.add(5);
+  }
+  active.add(6);
+  document.querySelectorAll('#steps li').forEach(li => {
+    const s = parseInt(li.dataset.step, 10);
+    li.classList.toggle('active', active.has(s));
+  });
+}
+
+function update() {
+  const n = parseInt($('num').value, 10) || 1;
+  const title = $('title').value;
+  const source = $('source').value;
+  const summary = $('summary').value;
+  const assessment = $('assessment').value;
+  const location = $('location').value;
+  const plan = $('plan').value;
+  const accept = $('accept').value;
+
+  $('file-path').textContent = `markdown/to do/task-cbp-${pad(n)}.md`;
+  $('todo-line').textContent = buildTodoLine(n, title);
+  $('task-file').textContent = buildTaskFile(n, title, source, summary, assessment, location, plan, accept);
+  $('confirm').textContent = buildConfirm(n, title);
+  $('prompt').textContent = buildPrompt(n, title, source, summary, plan, accept);
+
+  highlightSteps();
+}
+
+function renderPresets() {
+  const host = $('presets');
+  Object.keys(PRESETS).forEach(name => {
+    const b = document.createElement('button');
+    b.textContent = name;
+    b.addEventListener('click', () => setState(PRESETS[name]));
+    host.appendChild(b);
+  });
+}
+
+document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('input', update);
+  el.addEventListener('change', update);
+});
+
+$('copy').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText($('prompt').textContent);
+    const b = $('copy');
+    const prev = b.textContent;
+    b.textContent = 'Copied!';
+    b.classList.add('ok');
+    setTimeout(() => { b.textContent = prev; b.classList.remove('ok'); }, 1200);
+  } catch (e) {
+    alert('Copy failed — select the prompt and copy manually.');
+  }
+});
+
+document.querySelectorAll('#steps li').forEach(li => {
+  li.addEventListener('mouseenter', () => {
+    const s = li.dataset.step;
+    document.querySelectorAll('.file-block').forEach(fb => {
+      fb.style.outline = fb.dataset.highlight === s ? '1px solid var(--accent)' : 'none';
+    });
+  });
+  li.addEventListener('mouseleave', () => {
+    document.querySelectorAll('.file-block').forEach(fb => fb.style.outline = 'none');
+  });
+});
+
+renderPresets();
+update();
+</script>
+</body>
+</html>
