@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CBP Commit Changes — Skill Playground</title>
+<title>Commit Changes — Skill Playground</title>
 <style>
   :root {
     --bg: #0b0b10;
@@ -86,7 +86,7 @@
   }
   .task.shipping { border-color: var(--accent); background: linear-gradient(180deg, rgba(167,139,250,0.08), rgba(167,139,250,0.02)); }
   .task-head { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
-  .task-head .cbp { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent); }
+  .task-head .task-id { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent); }
   .task-head input[type="text"] { flex: 1; padding: 4px 8px; font-size: 12px; border-radius: 6px; }
   .task-head input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
   .task-head .remove {
@@ -210,9 +210,9 @@
 
 <div class="app">
   <header>
-    <h1>CBP Commit Changes <span style="color:var(--muted);font-weight:400;">— Skill Playground</span></h1>
+    <h1>Commit Changes <span style="color:var(--muted);font-weight:400;">— Skill Playground</span></h1>
     <span class="sub">Walk through the ship-a-version workflow and preview generated artifacts.</span>
-    <span class="badge">skill: cbp-commit-changes</span>
+    <span class="badge">skill: commit-changes</span>
   </header>
 
   <main>
@@ -236,14 +236,14 @@
         </div>
         <label class="field">
           <span>Rollup line (optional — used when shipping &gt; 1 task)</span>
-          <input type="text" id="rollup" value="Skill showcase rollup (CBP-038)" />
+          <input type="text" id="rollup" value="Skill showcase rollup (TASK-038)" />
         </label>
       </div>
 
       <div class="group">
         <h3>Tasks in this batch</h3>
         <div class="tasks" id="tasks"></div>
-        <button class="add-task" id="addTask" type="button">+ add another CBP task</button>
+        <button class="add-task" id="addTask" type="button">+ add another task</button>
       </div>
 
       <div class="group">
@@ -321,17 +321,17 @@ const PRESETS = {
     version: "v24", date: "2026-04-15",
     rollup: "",
     tasks: [
-      { cbp: "038", ship: true, title: "Add cbp-add-task skill showcase", bullets: "Added new Workflows section for /cbp-add-task with 4 tabbed phases\nEmbedded interactive playground artifact (removable block)\nSlimmed Example Skills collapsible to Workflows pointer" },
+      { taskNum: "038", ship: true, title: "Add add-task skill showcase", bullets: "Added new Workflows section for /add-task with 4 tabbed phases\nEmbedded interactive playground artifact (removable block)\nSlimmed Example Skills collapsible to Workflows pointer" },
     ],
-    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md\nmarkdown/to do/task-cbp-038.md\nmarkdown/to do/task-cbp-038-phase-02.md\ncbp-add-task-playground.html",
+    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md\nmarkdown/to do/task-038.md\nmarkdown/to do/task-038-phase-02.md\nadd-task-playground.html",
   },
   "Multi-task rollup": {
     version: "v25", date: "2026-04-22",
-    rollup: "Cheat-sheet & monitoring refresh (CBP-039 through CBP-041)",
+    rollup: "Cheat-sheet & monitoring refresh (TASK-039 through TASK-041)",
     tasks: [
-      { cbp: "039", ship: true, title: "Update monitoring section with new usage export flags", bullets: "Documented CLAUDE_USAGE_EXPORT_PATH env var\nAdded example CSV schema" },
-      { cbp: "040", ship: true, title: "Add /rewind keyboard shortcut row to cheat sheet", bullets: "New row in session/history table\nLinked to rewind docs" },
-      { cbp: "041", ship: true, title: "Fix dead link in Integrations section", bullets: "Updated MCP Notion URL\nVerified in dark + light themes" },
+      { taskNum: "039", ship: true, title: "Update monitoring section with new usage export flags", bullets: "Documented CLAUDE_USAGE_EXPORT_PATH env var\nAdded example CSV schema" },
+      { taskNum: "040", ship: true, title: "Add /rewind keyboard shortcut row to cheat sheet", bullets: "New row in session/history table\nLinked to rewind docs" },
+      { taskNum: "041", ship: true, title: "Fix dead link in Integrations section", bullets: "Updated MCP Notion URL\nVerified in dark + light themes" },
     ],
     stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md",
   },
@@ -339,17 +339,17 @@ const PRESETS = {
     version: "v24.1", date: "2026-04-16",
     rollup: "",
     tasks: [
-      { cbp: "042", ship: true, title: "Hotfix: playground iframe height on mobile", bullets: "Capped iframe height at 560px below 640px viewport\nAdded scroll affordance inside frame" },
+      { taskNum: "042", ship: true, title: "Hotfix: playground iframe height on mobile", bullets: "Capped iframe height at 560px below 640px viewport\nAdded scroll affordance inside frame" },
     ],
-    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md\nmarkdown/to do/task-cbp-042.md",
+    stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md\nmarkdown/to do/task-042.md",
   },
   "Mixed (some skipped)": {
     version: "v26", date: "2026-04-29",
     rollup: "Partial ship — pending items held for v27",
     tasks: [
-      { cbp: "043", ship: true, title: "Add security-review skill walkthrough", bullets: "New Best Practices subsection\nCode block with /security-review command" },
-      { cbp: "044", ship: false, title: "Redesign KPI dashboard (WIP)", bullets: "Held back — needs UX review" },
-      { cbp: "045", ship: true, title: "Minor copy polish across FSAD page", bullets: "Tightened three paragraphs\nFixed two typos" },
+      { taskNum: "043", ship: true, title: "Add security-review skill walkthrough", bullets: "New Best Practices subsection\nCode block with /security-review command" },
+      { taskNum: "044", ship: false, title: "Redesign KPI dashboard (WIP)", bullets: "Held back — needs UX review" },
+      { taskNum: "045", ship: true, title: "Minor copy polish across FSAD page", bullets: "Tightened three paragraphs\nFixed two typos" },
     ],
     stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md",
   },
@@ -358,9 +358,9 @@ const PRESETS = {
 const state = {
   version: "v24",
   date: "2026-04-15",
-  rollup: "Skill showcase rollup (CBP-038)",
+  rollup: "Skill showcase rollup (TASK-038)",
   tasks: [
-    { cbp: "038", ship: true, title: "Add cbp-add-task skill showcase", bullets: "Added new Workflows section for /cbp-add-task with 4 tabbed phases\nEmbedded interactive playground artifact (removable block)\nSlimmed Example Skills collapsible to Workflows pointer" },
+    { taskNum: "038", ship: true, title: "Add add-task skill showcase", bullets: "Added new Workflows section for /add-task with 4 tabbed phases\nEmbedded interactive playground artifact (removable block)\nSlimmed Example Skills collapsible to Workflows pointer" },
   ],
   stage: "CHANGELOG.md\nREADME.md\nfsad-playbook.html\nmarkdown/to do/todo.md",
 };
@@ -374,8 +374,8 @@ function renderTasks() {
     el.innerHTML = `
       <div class="task-head">
         <input type="checkbox" ${t.ship ? 'checked' : ''} data-idx="${i}" data-k="ship" title="Include in this version"/>
-        <span class="cbp">CBP-</span>
-        <input type="text" value="${escapeAttr(t.cbp)}" data-idx="${i}" data-k="cbp" style="width:58px;" />
+        <span class="task-id">TASK-</span>
+        <input type="text" value="${escapeAttr(t.taskNum)}" data-idx="${i}" data-k="taskNum" style="width:58px;" />
         <input type="text" value="${escapeAttr(t.title)}" data-idx="${i}" data-k="title" placeholder="Task title" />
         <button class="remove" data-idx="${i}" type="button">×</button>
       </div>
@@ -407,7 +407,7 @@ function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','
 function escapeAttr(s) { return String(s).replace(/"/g, '&quot;'); }
 
 function shippingTasks() {
-  return state.tasks.filter(t => t.ship && t.cbp && t.title.trim());
+  return state.tasks.filter(t => t.ship && t.taskNum && t.title.trim());
 }
 
 function buildChangelog() {
@@ -420,7 +420,7 @@ function buildChangelog() {
     lines.push('');
   }
   ships.forEach((t, idx) => {
-    lines.push(`**${t.title.trim()} (CBP-${t.cbp})**`);
+    lines.push(`**${t.title.trim()} (TASK-${t.taskNum})**`);
     const bullets = t.bullets.split('\n').map(s => s.trim()).filter(Boolean);
     if (bullets.length) {
       bullets.forEach(b => lines.push(`- ${b}`));
@@ -441,13 +441,13 @@ function buildReadme() {
 
 function buildCommit() {
   const ships = shippingTasks();
-  const cbps = ships.map(t => `CBP-${t.cbp}`).join(', ');
+  const taskIds = ships.map(t => `TASK-${t.taskNum}`).join(', ');
   const subject = ships.length === 1
-    ? `${state.version}: ${ships[0].title.trim()} (CBP-${ships[0].cbp})`
-    : `${state.version}: ${state.rollup.trim() || 'batch ship'} (${cbps})`;
+    ? `${state.version}: ${ships[0].title.trim()} (TASK-${ships[0].taskNum})`
+    : `${state.version}: ${state.rollup.trim() || 'batch ship'} (${taskIds})`;
   const body = ships.map(t => {
     const firstBullet = (t.bullets.split('\n').map(s => s.trim()).filter(Boolean)[0]) || t.title.trim();
-    return `- CBP-${t.cbp}: ${firstBullet}`;
+    return `- TASK-${t.taskNum}: ${firstBullet}`;
   }).join('\n');
   return [
     subject,
@@ -478,20 +478,20 @@ function buildShell() {
 function buildPrompt() {
   const ships = shippingTasks();
   if (ships.length === 0) {
-    return `/cbp-commit-changes\n\n(No tasks marked to ship — check at least one task above.)`;
+    return `/commit-changes\n\n(No tasks marked to ship — check at least one task above.)`;
   }
-  const cbps = ships.map(t => `CBP-${t.cbp}`).join(', ');
+  const taskIds = ships.map(t => `TASK-${t.taskNum}`).join(', ');
   const parts = [];
-  parts.push(`/cbp-commit-changes ${state.version}`);
+  parts.push(`/commit-changes ${state.version}`);
   parts.push('');
-  parts.push(`Ship ${ships.length === 1 ? 'this task' : `these ${ships.length} tasks`} as ${state.version} dated ${state.date}: ${cbps}.`);
+  parts.push(`Ship ${ships.length === 1 ? 'this task' : `these ${ships.length} tasks`} as ${state.version} dated ${state.date}: ${taskIds}.`);
   if (ships.length > 1 && state.rollup.trim()) {
     parts.push(`Rollup line: "${state.rollup.trim()}".`);
   }
   parts.push('');
   parts.push('Per-task summaries:');
   ships.forEach(t => {
-    parts.push(`• CBP-${t.cbp} — ${t.title.trim()}`);
+    parts.push(`• TASK-${t.taskNum} — ${t.title.trim()}`);
     const bullets = t.bullets.split('\n').map(s => s.trim()).filter(Boolean);
     bullets.forEach(b => parts.push(`    - ${b}`));
   });
@@ -553,8 +553,8 @@ $('rollup').addEventListener('input', e => { state.rollup = e.target.value; upda
 $('stage').addEventListener('input', e => { state.stage = e.target.value; update(); });
 
 $('addTask').addEventListener('click', () => {
-  const nextNum = String(Math.max(0, ...state.tasks.map(t => parseInt(t.cbp, 10) || 0)) + 1).padStart(3, '0');
-  state.tasks.push({ cbp: nextNum, ship: true, title: '', bullets: '' });
+  const nextNum = String(Math.max(0, ...state.tasks.map(t => parseInt(t.taskNum, 10) || 0)) + 1).padStart(3, '0');
+  state.tasks.push({ taskNum: nextNum, ship: true, title: '', bullets: '' });
   renderTasks();
   update();
 });

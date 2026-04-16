@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CBP Add Task — Skill Playground</title>
+<title>Add Task — Skill Playground</title>
 <style>
   :root {
     --bg: #0b0b10;
@@ -240,9 +240,9 @@
 
 <div class="app">
   <header>
-    <h1>CBP Add Task <span style="color:var(--muted);font-weight:400;">— Skill Playground</span></h1>
+    <h1>Add Task <span style="color:var(--muted);font-weight:400;">— Skill Playground</span></h1>
     <span class="sub">Visualize the 6-step workflow and preview generated artifacts.</span>
-    <span class="badge">skill: cbp-add-task</span>
+    <span class="badge">skill: add-task</span>
   </header>
 
   <main>
@@ -256,7 +256,7 @@
         <h3>Task Inputs</h3>
         <div class="row">
           <label class="field">
-            <span>Next CBP number</span>
+            <span>Next task number</span>
             <input type="number" id="num" min="1" value="38" />
           </label>
           <label class="field">
@@ -305,11 +305,11 @@ No regressions in adjacent collapsibles</textarea>
       <div class="group">
         <h3>Workflow — hover or click to highlight</h3>
         <ol class="steps" id="steps">
-          <li data-step="1"><span class="lbl">Get next CBP number</span><span class="hint">Read <code>markdown/to do/todo.md</code>, increment highest.</span></li>
+          <li data-step="1"><span class="lbl">Get next task number</span><span class="hint">Read <code>markdown/to do/todo.md</code>, increment highest.</span></li>
           <li data-step="2"><span class="lbl">Get task title</span><span class="hint">From <code>$ARGUMENTS</code> or ask the user.</span></li>
           <li data-step="3"><span class="lbl">Append entry to todo.md</span><span class="hint">Before <em>Bug Details</em> section if present.</span></li>
           <li data-step="4"><span class="lbl">Gather details (one-at-a-time)</span><span class="hint">Source · Summary · Assessment · Plan · AC.</span></li>
-          <li data-step="5"><span class="lbl">Create task file</span><span class="hint">Write <code>task-cbp-NNN.md</code> from template.</span></li>
+          <li data-step="5"><span class="lbl">Create task file</span><span class="hint">Write <code>task-NNN.md</code> from template.</span></li>
           <li data-step="6"><span class="lbl">Confirm completion</span><span class="hint">Report number, todo entry, and file path.</span></li>
         </ol>
       </div>
@@ -326,7 +326,7 @@ No regressions in adjacent collapsibles</textarea>
 
       <div class="file-block" data-highlight="5">
         <header>
-          <span class="path" id="file-path">markdown/to do/task-cbp-038.md</span>
+          <span class="path" id="file-path">markdown/to do/task-038.md</span>
           <span class="tag">Step 5 · generated file</span>
         </header>
         <pre id="task-file"></pre>
@@ -416,14 +416,14 @@ function setState(obj) {
 }
 
 function buildTodoLine(n, title) {
-  const id = `CBP-${pad(n)}`;
-  return `- [ ] \`${id}\` ${title || '[Title]'} → [task-cbp-${pad(n)}.md](task-cbp-${pad(n)}.md)`;
+  const id = `TASK-${pad(n)}`;
+  return `- [ ] \`${id}\` ${title || '[Title]'} → [task-${pad(n)}.md](task-${pad(n)}.md)`;
 }
 
 function buildTaskFile(n, title, source, summary, assessment, location, plan, accept) {
   const id = pad(n);
   const lines = [];
-  lines.push(`# CBP-${id} — ${title || '[Task Title]'}`);
+  lines.push(`# TASK-${id} — ${title || '[Task Title]'}`);
   lines.push('');
   if (source && source.trim()) {
     lines.push('## Source');
@@ -464,9 +464,9 @@ function buildTaskFile(n, title, source, summary, assessment, location, plan, ac
 function buildConfirm(n, title) {
   const id = pad(n);
   return [
-    `✓ Created CBP-${id}`,
+    `✓ Created TASK-${id}`,
     `  todo.md  → new entry appended`,
-    `  task file → markdown/to do/task-cbp-${id}.md`,
+    `  task file → markdown/to do/task-${id}.md`,
     `  title    → ${title || '[Title]'}`,
   ].join('\n');
 }
@@ -474,9 +474,9 @@ function buildConfirm(n, title) {
 function buildPrompt(n, title, source, summary, plan, accept) {
   const id = pad(n);
   const parts = [];
-  parts.push(`/cbp-add-task ${title || 'New task'}`);
+  parts.push(`/add-task ${title || 'New task'}`);
   parts.push('');
-  parts.push(`Create CBP-${id} with these details:`);
+  parts.push(`Create TASK-${id} with these details:`);
   if (source) parts.push(`• Source: ${source}`);
   if (summary.trim()) parts.push(`• Summary: ${summary.trim()}`);
   const planLines = plan.split('\n').map(s => s.trim()).filter(Boolean);
@@ -488,7 +488,7 @@ function buildPrompt(n, title, source, summary, plan, accept) {
     parts.push(`• Acceptance: ${acceptLines.join('; ')}`);
   }
   parts.push('');
-  parts.push('Follow the cbp-add-task skill: read todo.md for the next number, append the entry, write the task file, and confirm.');
+  parts.push('Follow the add-task skill: read todo.md for the next number, append the entry, write the task file, and confirm.');
   return parts.join('\n');
 }
 
@@ -518,7 +518,7 @@ function update() {
   const plan = $('plan').value;
   const accept = $('accept').value;
 
-  $('file-path').textContent = `markdown/to do/task-cbp-${pad(n)}.md`;
+  $('file-path').textContent = `markdown/to do/task-${pad(n)}.md`;
   $('todo-line').textContent = buildTodoLine(n, title);
   $('task-file').textContent = buildTaskFile(n, title, source, summary, assessment, location, plan, accept);
   $('confirm').textContent = buildConfirm(n, title);

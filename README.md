@@ -39,7 +39,7 @@ python -m http.server 8000
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v24 |
+| **Current version** | v25 |
 | **Date updated** | 2026-04-15 |
 | **File** | `fsad-playbook.html` |
 
@@ -51,8 +51,8 @@ The Workflows page embeds interactive skill playgrounds via `<iframe>`. These fi
 
 | File | Used by |
 |------|---------|
-| `cbp-add-task-playground.html` | Workflows → CBP Add-Task |
-| `cbp-commit-changes-playground.html` | Workflows → CBP Commit-Changes |
+| `add-task-playground.html` | Workflows → Add-Task |
+| `commit-changes-playground.html` | Workflows → Commit-Changes |
 
 Each playground is a standalone single-file HTML artifact — no build step, no dependencies. If the playground files are missing, the Workflows sections still render normally (the iframe simply won't load). Remove the `<!-- BEGIN ... -->` / `<!-- END ... -->` embed blocks in the playbook to drop the iframes entirely.
 

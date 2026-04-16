@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v25 — 2026-04-15
+
+**Remove CBP prefix from Workflows skill examples and playground artifacts**
+
+- Renamed all Workflows section IDs, nav entries, tab/panel IDs, and scroll-spy mappings: `cbp-add-task-skill` → `add-task-skill`, `cbp-commit-changes-skill` → `commit-changes-skill`.
+- Renamed playground files: `cbp-add-task-playground.html` → `add-task-playground.html`, `cbp-commit-changes-playground.html` → `commit-changes-playground.html`.
+- Replaced all `CBP-NNN` display text with `TASK-NNN` in Workflows content and both playground files.
+- Renamed skill invocations: `/cbp-add-task` → `/add-task`, `/cbp-commit-changes` → `/commit-changes`.
+- Updated README companion files table with new filenames.
+- Historical in-app changelog entries retained original CBP references (they document what shipped at that time).
+
 ### v24 — 2026-04-15
 
 **Skill showcase with interactive playgrounds (CBP-038, CBP-039)**
