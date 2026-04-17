@@ -53,3 +53,8 @@
 - [x] `CBP-040` Add `/tui` command to Cheat Sheet configuration table → [task-cbp-040.md](task-cbp-040.md)
 - [x] `CBP-041` Add `/focus` command to Cheat Sheet and update `Ctrl+O` keyboard shortcut description → [task-cbp-041.md](task-cbp-041.md)
 - [x] `CBP-042` Update `/recap` Cheat Sheet row to document `CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0` opt-out for Bedrock/Vertex/Foundry deployments → [task-cbp-042.md](task-cbp-042.md)
+- [x] `CBP-043` Detect missing playground files and hide playground artifacts from UI when absent → [task-cbp-043.md](task-cbp-043.md)
+- [x] `CBP-044` Update search index to capture new content from recent updates → [task-cbp-044.md](task-cbp-044.md)
+- [ ] `CBP-045` Add guidance on learning from sessions via playback/rewind (review and refine your prompting) → [task-cbp-045.md](task-cbp-045.md)
+- [x] `CBP-046` Add `xhigh` effort level and update `/effort` interactive slider behavior (v2.1.111) → [task-cbp-046.md](task-cbp-046.md)
+- [x] `CBP-047` Add `/ultrareview`, `/less-permission-prompts`; update `/theme` with auto option (v2.1.111) → [task-cbp-047.md](task-cbp-047.md)
