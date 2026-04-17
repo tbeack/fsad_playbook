@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v27 — 2026-04-17
+
+**Claude Code v2.1.111–v2.1.112 auto-update (CBP-046–CBP-047)**
+
+Automated playbook sync for Claude Code releases v2.1.111 and v2.1.112.
+
+- **CBP-046 — `xhigh` effort level and `/effort` interactive slider documented.** v2.1.111 added a new `xhigh` effort level for Opus 4.7 (between `high` and `max`; falls back to `high` on other models) and changed `/effort` called with no arguments to open an interactive arrow-key slider. Updated: Cheat Sheet `/effort` slash command row, Cheat Sheet `--effort` CLI flag row, Power Usage effort code block (added `xhigh` line and no-arg slider line), Power Usage "Set effort level" quick-ref row, and the adaptive-thinking table (new `xhigh` row with Opus 4.7 caveat).
+- **CBP-047 — `/ultrareview`, `/less-permission-prompts`, and `/theme` auto option added.** v2.1.111 shipped three Cheat Sheet items: (1) `/theme` now supports `auto` (match terminal) in addition to `dark`/`light` — updated description in place; (2) `/ultrareview [PR#]` — new cloud-based parallel multi-agent code review command, added to the Info & account table; (3) `/less-permission-prompts` — new built-in skill that scans transcripts for common read-only Bash/MCP calls and proposes an allowlist for `settings.json`, added after `/doctor` in the Config & environment table.
+
 ### v26 — 2026-04-16
 
 **Claude Code v2.1.110 auto-update (CBP-040–CBP-042)**

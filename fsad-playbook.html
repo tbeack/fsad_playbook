@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v26)</title>
+<title>FSAD — Full Stack Agentic Development (v27)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1843,7 +1843,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v26</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v27</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -2868,12 +2868,14 @@ Future Scope           → planned / possible / out</pre>
     <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
       Fill sample task inputs on the left, watch the generated <code>todo.md</code> entry and <code>task-NNN.md</code> file update live on the right, and copy a ready-to-paste prompt that invokes the skill.
     </p>
-    <div style="position: relative; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
-      <iframe
-        src="add-task-playground.html"
-        title="add-task interactive playground"
-        loading="lazy"
-        style="width: 100%; height: 720px; border: 0; display: block; color-scheme: dark;"></iframe>
+    <div style="border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <object data="add-task-playground.html" type="text/html" width="100%" height="720" style="display:block; color-scheme:dark;">
+        <div style="display:flex; align-items:center; justify-content:center; height:720px; flex-direction:column; gap:0.75rem; color:var(--text-muted); font-size:0.9rem; text-align:center; padding:2rem;">
+          <span style="font-size:2rem; opacity:0.4;">&#9654;</span>
+          <span>Playground file not found</span>
+          <span style="font-size:0.8rem; opacity:0.5;">Place <code>add-task-playground.html</code> alongside this file, or <a href="add-task-playground.html" target="_blank" rel="noopener" style="color:var(--accent);">open standalone →</a></span>
+        </div>
+      </object>
     </div>
     <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
       Prefer a new tab? <a href="add-task-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
@@ -3008,12 +3010,14 @@ git diff --stat</pre>
     <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
       Build a batch of shipping tasks on the left, watch the generated <code>CHANGELOG.md</code> block, <code>README.md</code> version rows, commit message, and shell commands update live on the right.
     </p>
-    <div style="position: relative; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
-      <iframe
-        src="commit-changes-playground.html"
-        title="commit-changes interactive playground"
-        loading="lazy"
-        style="width: 100%; height: 720px; border: 0; display: block; color-scheme: dark;"></iframe>
+    <div style="border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <object data="commit-changes-playground.html" type="text/html" width="100%" height="720" style="display:block; color-scheme:dark;">
+        <div style="display:flex; align-items:center; justify-content:center; height:720px; flex-direction:column; gap:0.75rem; color:var(--text-muted); font-size:0.9rem; text-align:center; padding:2rem;">
+          <span style="font-size:2rem; opacity:0.4;">&#9654;</span>
+          <span>Playground file not found</span>
+          <span style="font-size:0.8rem; opacity:0.5;">Place <code>commit-changes-playground.html</code> alongside this file, or <a href="commit-changes-playground.html" target="_blank" rel="noopener" style="color:var(--accent);">open standalone →</a></span>
+        </div>
+      </object>
     </div>
     <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
       Prefer a new tab? <a href="commit-changes-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
@@ -4754,7 +4758,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>/model</code></td><td>Select or change AI model (Sonnet / Opus / Haiku)</td></tr>
-          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> (default) | <code>high</code> | <code>max</code> — use <code>max</code> for complex tasks</td></tr>
+          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> (default) | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
@@ -4790,11 +4794,12 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/init</code></td><td>Create CLAUDE.md for your project</td></tr>
           <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
-          <tr><td><code>/theme</code></td><td>Change color theme (dark / light)</td></tr>
+          <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal)</td></tr>
           <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
           <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
           <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
+          <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
           <tr><td><code>/mcp</code></td><td>Manage MCP server connections</td></tr>
           <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
           <tr><td><code>/skills</code></td><td>List available skills</td></tr>
@@ -4830,6 +4835,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/release-notes</code></td><td>View changelog with version picker</td></tr>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide from your local Claude Code usage history</td></tr>
+          <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
           <tr><td><code>/logout</code></td><td>Sign out</td></tr>
@@ -4863,7 +4869,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>--model</code></td><td>Select specific model (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>)</td></tr>
-          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> [default] | <code>high</code> | <code>max</code>)</td></tr>
+          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> [default] | <code>high</code> | <code>xhigh</code> | <code>max</code>)</td></tr>
           <tr><td><code>--fallback-model</code></td><td>Auto-fallback model when overloaded (print mode)</td></tr>
         </tbody>
       </table>
@@ -5081,7 +5087,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td>Explore error</td><td><code>cat error.log | claude -p "fix"</code></td></tr>
           <tr><td>Parallel sessions</td><td><code>claude -w</code> (each gets own worktree)</td></tr>
           <tr><td>Force model</td><td><code>claude --model opus</code></td></tr>
-          <tr><td>Set effort level</td><td><code>/effort max</code> (complex work) or <code>/effort medium</code> (default)</td></tr>
+          <tr><td>Set effort level</td><td><code>/effort max</code> (complex work), <code>/effort xhigh</code> (Opus 4.7), or <code>/effort</code> for interactive slider</td></tr>
           <tr><td>Remote control from web</td><td><code>/remote-control</code> or <code>claude --remote</code></td></tr>
           <tr><td>Voice dictation</td><td><code>/voice</code> then hold <kbd>Space</kbd> to talk</td></tr>
           <tr><td>Scriptable automation</td><td><code>claude -p --output-format json "task"</code></td></tr>
@@ -5175,9 +5181,11 @@ smoke tests against the staging URL."</code></pre>
 
 <span class="cm"># Set effort level (controls reasoning depth)</span>
 /effort max          <span class="cm"># Maximum reasoning — complex agentic tasks</span>
+/effort xhigh        <span class="cm"># Opus 4.7 only — between high and max</span>
 /effort high         <span class="cm"># Deep thinking — difficult coding problems</span>
 /effort medium       <span class="cm"># Balanced (default) — speed + quality</span>
 /effort low          <span class="cm"># Quick responses — simple tasks, subagents</span>
+/effort              <span class="cm"># No args: opens interactive slider (arrow keys + Enter)</span>
 <span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
 
 <span class="cm"># Toggle fast mode (same model, faster output)</span>
@@ -5198,6 +5206,7 @@ smoke tests against the staging URL."</code></pre>
             <thead><tr><th>Effort</th><th>Thinking Behavior</th></tr></thead>
             <tbody>
               <tr><td><code>max</code></td><td>Always thinks, no constraints on depth — deepest reasoning</td></tr>
+              <tr><td><code>xhigh</code></td><td>Opus 4.7 only — deeper than high, lighter than max; falls back to <code>high</code> on other models</td></tr>
               <tr><td><code>high</code></td><td>Almost always thinks — deep reasoning on complex tasks</td></tr>
               <tr><td><code>medium</code></td><td>Moderate thinking — may skip for simple queries</td></tr>
               <tr><td><code>low</code></td><td>Minimal thinking — skips for simple tasks, prioritizes speed</td></tr>
@@ -7622,13 +7631,13 @@ codex app</code></pre>
           id: sec.id,
           title: title.trim(),
           label: label.trim(),
-          text: sec.textContent.substring(0, 2000).replace(/\s+/g, ' ').trim()
+          text: sec.textContent.substring(0, 5000).replace(/\s+/g, ' ').trim()
         });
       }
       // Index collapsible headers within sections for deeper search hits
       sec.querySelectorAll('.collapsible').forEach(col => {
         const colTitle = col.querySelector('.collapsible-header h3')?.textContent || '';
-        const colText = col.textContent.substring(0, 3000).replace(/\s+/g, ' ').trim();
+        const colText = col.textContent.substring(0, 5000).replace(/\s+/g, ' ').trim();
         if (colTitle && sec.id) {
           searchIndex.push({
             id: sec.id,
@@ -7680,6 +7689,9 @@ codex app</code></pre>
         const targetPage = sectionToPageMap[item.id];
         const navBtn = document.querySelector(`.nav-group-toggle[data-page="${targetPage}"]`);
         switchPage(targetPage, navBtn);
+        if (targetPage === 'practices' && sectionToTopicMap[item.id]) {
+          showTopic(sectionToTopicMap[item.id]);
+        }
         setTimeout(() => scrollToId(item.id), 150);
         const input = document.getElementById('sidebarSearchInput');
         if (input) { input.value = ''; input.blur(); }
