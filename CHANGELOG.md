@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### v30 — 2026-04-21
+
+**Model & Effort promoted to a top-level Reference section (CBP-048)**
+
+- **CBP-048 — Model comparison chart with guidance on best-practice combinations.** Replaced the stale 3-bullet model list (which still named Opus 4.6 as the top tier) with a full Opus 4.7 / Sonnet 4.6 / Haiku 4.5 comparison table covering positioning, API ID, pricing ($5/$25, $3/$15, $1/$5 per MTok), context window, max output, adaptive thinking, latency, and best-for guidance. Added a **Claude Code model aliases** table featuring `opusplan` (Opus plans → Sonnet executes, ~40% cheaper than pure Opus) alongside `default`, `best`/`opus`, `sonnet`, `haiku`, and the `opus[1m]` / `sonnet[1m]` long-context variants. Updated the code block to lead with `claude --model opusplan` and added `export CLAUDE_CODE_SUBAGENT_MODEL=haiku` as the single biggest cost lever after `opusplan`. New **best-practice combinations by workload** table — 7 rows covering greenfield features, targeted bug fixes, architectural refactors, boilerplate, high-volume code review, long-session monorepo exploration, and production incident/RCA, each with plan / execute / sub-agent model recommendations. Added a **Cost Optimization Checklist** callout (opusplan, subagent routing, prompt caching, Batch API, effort defaults, 35% tokenizer growth on Opus 4.6 → 4.7 migrations) and a **Key Dates (Apr 2026)** warning callout covering the April 23 default-model switch to Opus 4.7 on Enterprise PAYG + Anthropic API and the June 15 retirements of Sonnet 4 / Opus 4. Existing "Effort Default Changed to Medium" callout, adaptive-thinking table, and `budget_tokens Is Deprecated` callout preserved intact.
+- **Promoted Model & Effort out of Power Usage into its own top-level Reference section.** What was a single collapsible inside Power Usage is now `<section id="model-effort">` labeled `12.5 — Model & Effort`, rendered as the **first child** of the Reference topic-view (before Cheat Sheet). Removed the corresponding `power-usage--model-effort` leaf from the Power Usage nav sub-list (16 → 15 leaves); added `Model & Effort` as the first `nav-sub-item` under Reference. Updated `sectionToPageMap` with `'model-effort': 'practices'` so direct deep links like `#model-effort` resolve correctly.
+
 ### v29 — 2026-04-21
 
 **Nav sub-topics for Claude Best Practices (CBP-050)**
