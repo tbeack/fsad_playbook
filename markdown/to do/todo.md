@@ -60,3 +60,4 @@
 - [x] `CBP-047` Add `/ultrareview`, `/less-permission-prompts`; update `/theme` with auto option (v2.1.111) → [task-cbp-047.md](task-cbp-047.md)
 - [ ] `CBP-048` Add Model comparison chart with guidance on best practice combinations → [task-cbp-048.md](task-cbp-048.md)
 - [x] `CBP-049` Cheat Sheet + Power Usage updates for v2.1.113 and v2.1.116: `Ctrl+U` full-buffer clear, `sandbox.network.deniedDomains`, `/terminal-setup` scroll note, `/loop` Esc tip, `hooks:` fires via `--agent` → [task-cbp-049.md](task-cbp-049.md)
+- [x] `CBP-050` Add sub-topic children to the left nav for every Claude Best Practices section (always visible when parent topic is open; scroll spy highlights active leaf) → [task-cbp-050.md](task-cbp-050.md)

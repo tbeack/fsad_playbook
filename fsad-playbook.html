@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v28)</title>
+<title>FSAD — Full Stack Agentic Development (v29)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1807,6 +1807,39 @@
   .nav-topic-sections .nav-sub-item + .nav-sub-item::before,
   .nav-topic-sections .nav-sub-item + .nav-sub-item::after { display: none; }
 
+  /* 3rd-level leaf nav (sub-topics within a section) */
+  .nav-sub-item-wrap { display: flex; flex-direction: column; }
+  .nav-leaf-sections {
+    display: flex;
+    flex-direction: column;
+    padding: 0.1rem 0 0.25rem 0.85rem;
+    margin: 0.1rem 0 0.25rem 0.65rem;
+    border-left: 1px solid var(--border, rgba(255,255,255,0.08));
+  }
+  .nav-leaf-item {
+    display: block;
+    padding: 0.22rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    border-radius: 0;
+    line-height: 1.35;
+    opacity: 0.85;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  }
+  .nav-leaf-item:hover {
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+    opacity: 1;
+  }
+  .nav-leaf-item.active {
+    color: var(--accent-blue);
+    border-left-color: var(--accent-blue);
+    opacity: 1;
+  }
+
   /* Hub entry: lightweight row, not a primary pill */
   .nav-sub-items[data-group="practices"] > .nav-sub-item[href="#practices"] {
     width: calc(100% - 1.5rem);
@@ -1843,7 +1876,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v28</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v29</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1918,29 +1951,99 @@
         <button type="button" class="nav-topic-header" data-topic="foundations" onclick="toggleTopicNav(this, 'foundations')">Foundations<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="foundations">
           <a class="nav-sub-item" href="#practices/getting-started" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('getting-started'),120)">Getting Started</a>
-          <a class="nav-sub-item" href="#practices/claude-setup" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('claude-setup'),120)">Project Anatomy</a>
+          <div class="nav-sub-item-wrap" data-section="claude-setup">
+            <a class="nav-sub-item" href="#practices/claude-setup" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('claude-setup'),120)">Project Anatomy</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-1-claude-md" data-leaf="claude-setup--pillar-1-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-1-claude-md', 'foundations')">Pillar 1 — CLAUDE.md</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/example-claude-md" data-leaf="claude-setup--example-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--example-claude-md', 'foundations')">Example CLAUDE.md</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-2-skills" data-leaf="claude-setup--pillar-2-skills" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-2-skills', 'foundations')">Pillar 2 — Skills</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-3-hooks" data-leaf="claude-setup--pillar-3-hooks" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-3-hooks', 'foundations')">Pillar 3 — Hooks</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-4-docs" data-leaf="claude-setup--pillar-4-docs" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-4-docs', 'foundations')">Pillar 4 — docs/</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-5-local-claude-md" data-leaf="claude-setup--pillar-5-local-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-5-local-claude-md', 'foundations')">Pillar 5 — Local CLAUDE.md</a>
+            </div>
+          </div>
           <a class="nav-sub-item" href="#practices/config-cascade" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('config-cascade'),120)">Config Cascade</a>
         </div>
         <button type="button" class="nav-topic-header" data-topic="integrations" onclick="toggleTopicNav(this, 'integrations')">Integrations &amp; Review<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="integrations">
-          <a class="nav-sub-item" href="#practices/integrations" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('integrations'),120)">Integrations (MCP)</a>
+          <div class="nav-sub-item-wrap" data-section="integrations">
+            <a class="nav-sub-item" href="#practices/integrations" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('integrations'),120)">Integrations (MCP)</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/integrations/jira-mcp" data-leaf="integrations--jira-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--jira-mcp', 'integrations')">JIRA</a>
+              <a class="nav-leaf-item" href="#practices/integrations/figma-mcp" data-leaf="integrations--figma-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--figma-mcp', 'integrations')">Figma</a>
+              <a class="nav-leaf-item" href="#practices/integrations/notion-mcp" data-leaf="integrations--notion-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--notion-mcp', 'integrations')">Notion</a>
+              <a class="nav-leaf-item" href="#practices/integrations/azure-devops-mcp" data-leaf="integrations--azure-devops-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--azure-devops-mcp', 'integrations')">Azure DevOps</a>
+              <a class="nav-leaf-item" href="#practices/integrations/google-workspace-mcp" data-leaf="integrations--google-workspace-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--google-workspace-mcp', 'integrations')">Google Workspace</a>
+            </div>
+          </div>
           <a class="nav-sub-item" href="#practices/code-review" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('code-review'),120)">Code Review Agent</a>
           <a class="nav-sub-item" href="#practices/security-review" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('security-review'),120)">Security Review</a>
         </div>
         <button type="button" class="nav-topic-header" data-topic="skills-hooks" onclick="toggleTopicNav(this, 'skills-hooks')">Skills &amp; Hooks<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="skills-hooks">
-          <a class="nav-sub-item" href="#practices/building-skills" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('building-skills'),120)">Building Skills</a>
-          <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
+          <div class="nav-sub-item-wrap" data-section="building-skills">
+            <a class="nav-sub-item" href="#practices/building-skills" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('building-skills'),120)">Building Skills</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/building-skills/frontmatter-reference" data-leaf="building-skills--frontmatter-reference" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--frontmatter-reference', 'skills-hooks')">Frontmatter Reference</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/documentation-skill" data-leaf="building-skills--documentation-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--documentation-skill', 'skills-hooks')">Documentation</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/story-point-skill" data-leaf="building-skills--story-point-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--story-point-skill', 'skills-hooks')">Story Points</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/epic-to-stories-skill" data-leaf="building-skills--epic-to-stories-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--epic-to-stories-skill', 'skills-hooks')">Epic → Stories</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/code-review-skill" data-leaf="building-skills--code-review-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--code-review-skill', 'skills-hooks')">Code Review</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/advanced-patterns" data-leaf="building-skills--advanced-patterns" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--advanced-patterns', 'skills-hooks')">Advanced Patterns</a>
+            </div>
+          </div>
+          <div class="nav-sub-item-wrap" data-section="hooks-deep-dive">
+            <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/lifecycle" data-leaf="hooks-deep-dive--lifecycle" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--lifecycle', 'skills-hooks')">Lifecycle</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/four-types" data-leaf="hooks-deep-dive--four-types" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--four-types', 'skills-hooks')">Four Types</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/configuration" data-leaf="hooks-deep-dive--configuration" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--configuration', 'skills-hooks')">Configuration</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/exit-codes" data-leaf="hooks-deep-dive--exit-codes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--exit-codes', 'skills-hooks')">Exit Codes</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/recipes" data-leaf="hooks-deep-dive--recipes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--recipes', 'skills-hooks')">Recipes</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/best-practices" data-leaf="hooks-deep-dive--best-practices" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--best-practices', 'skills-hooks')">Best Practices</a>
+            </div>
+          </div>
         </div>
         <button type="button" class="nav-topic-header" data-topic="operations" onclick="toggleTopicNav(this, 'operations')">Operations<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="operations">
-          <a class="nav-sub-item" href="#practices/monitoring" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('monitoring'),120)">Monitoring</a>
+          <div class="nav-sub-item-wrap" data-section="monitoring">
+            <a class="nav-sub-item" href="#practices/monitoring" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('monitoring'),120)">Monitoring</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/monitoring/quick-start" data-leaf="monitoring--quick-start" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--quick-start', 'operations')">Quick Start</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/metrics" data-leaf="monitoring--metrics" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--metrics', 'operations')">Metrics</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/events-logs" data-leaf="monitoring--events-logs" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--events-logs', 'operations')">Events &amp; Logs</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/enterprise" data-leaf="monitoring--enterprise" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--enterprise', 'operations')">Enterprise</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/distributed-traces" data-leaf="monitoring--distributed-traces" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--distributed-traces', 'operations')">Distributed Traces</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/backends" data-leaf="monitoring--backends" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--backends', 'operations')">Backends</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/privacy" data-leaf="monitoring--privacy" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--privacy', 'operations')">Privacy</a>
+            </div>
+          </div>
           <a class="nav-sub-item" href="#practices/best-practices" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('best-practices'),120)">Guidelines</a>
         </div>
         <button type="button" class="nav-topic-header" data-topic="reference" onclick="toggleTopicNav(this, 'reference')">Reference<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="reference">
           <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('cheat-sheet'),120)">Cheat Sheet</a>
-          <a class="nav-sub-item" href="#practices/power-usage" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('power-usage'),120)">Power Usage</a>
+          <div class="nav-sub-item-wrap" data-section="power-usage">
+            <a class="nav-sub-item" href="#practices/power-usage" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('power-usage'),120)">Power Usage</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/power-usage/agent-teams" data-leaf="power-usage--agent-teams" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--agent-teams', 'reference')">Agent Teams</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/work-trees" data-leaf="power-usage--work-trees" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--work-trees', 'reference')">Worktrees</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/model-effort" data-leaf="power-usage--model-effort" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--model-effort', 'reference')">Model &amp; Effort</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/hooks" data-leaf="power-usage--hooks" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--hooks', 'reference')">Hooks</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/session-logs" data-leaf="power-usage--session-logs" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--session-logs', 'reference')">Session Logs</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/insights" data-leaf="power-usage--insights" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--insights', 'reference')">/insights</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/loop" data-leaf="power-usage--loop" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--loop', 'reference')">/loop</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/remote-control" data-leaf="power-usage--remote-control" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--remote-control', 'reference')">Remote Control</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/chrome" data-leaf="power-usage--chrome" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--chrome', 'reference')">Chrome</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/batch" data-leaf="power-usage--batch" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--batch', 'reference')">Batch Ops</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/plugins" data-leaf="power-usage--plugins" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--plugins', 'reference')">Plugins</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/voice-input" data-leaf="power-usage--voice-input" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--voice-input', 'reference')">Voice Input</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/context-management" data-leaf="power-usage--context-management" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--context-management', 'reference')">Context Mgmt</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/monitor-tool" data-leaf="power-usage--monitor-tool" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--monitor-tool', 'reference')">Monitor Tool</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/subprocess-sandboxing" data-leaf="power-usage--subprocess-sandboxing" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--subprocess-sandboxing', 'reference')">Sandboxing</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/prompt-caching" data-leaf="power-usage--prompt-caching" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--prompt-caching', 'reference')">Prompt Caching</a>
+            </div>
+          </div>
           <a class="nav-sub-item" href="#practices/open-source" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('open-source'),120)">Open Source</a>
         </div>
       </div>
@@ -3233,7 +3336,7 @@ What problem are we solving and for whom?
     </div>
 
     <!-- Pillar 1 -->
-    <div class="collapsible open">
+    <div class="collapsible open" id="claude-setup--pillar-1-claude-md">
       <div class="collapsible-header">
         <h3>Pillar 1: CLAUDE.md = Repo Memory</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3269,7 +3372,7 @@ orders, and payments.
       </div></div>
     </div>
 
-    <div class="collapsible" style="margin-top:0.6rem;">
+    <div class="collapsible" id="claude-setup--example-claude-md" style="margin-top:0.6rem;">
       <div class="collapsible-header">
         <h3>Example: A Production CLAUDE.md</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3336,7 +3439,7 @@ orders, and payments.
     </div>
 
     <!-- Pillar 2 -->
-    <div class="collapsible">
+    <div class="collapsible" id="claude-setup--pillar-2-skills">
       <div class="collapsible-header">
         <h3>Pillar 2: .claude/skills/ = Reusable Expert Modes</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3368,7 +3471,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Pillar 3 -->
-    <div class="collapsible">
+    <div class="collapsible" id="claude-setup--pillar-3-hooks">
       <div class="collapsible-header">
         <h3>Pillar 3: .claude/hooks/ = Guardrails</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3401,7 +3504,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Pillar 4 -->
-    <div class="collapsible">
+    <div class="collapsible" id="claude-setup--pillar-4-docs">
       <div class="collapsible-header">
         <h3>Pillar 4: docs/ = Progressive Context</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3426,7 +3529,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Pillar 5 -->
-    <div class="collapsible">
+    <div class="collapsible" id="claude-setup--pillar-5-local-claude-md">
       <div class="collapsible-header">
         <h3>Pillar 5: Local CLAUDE.md for Risky Modules</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3770,7 +3873,7 @@ description: Structured code review with security and quality checks
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Available Integrations</h3>
 
     <!-- JIRA MCP -->
-    <div class="collapsible">
+    <div class="collapsible" id="integrations--jira-mcp">
       <div class="collapsible-header">
         <h3>JIRA MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3795,7 +3898,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Figma MCP -->
-    <div class="collapsible">
+    <div class="collapsible" id="integrations--figma-mcp">
       <div class="collapsible-header">
         <h3>Figma MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3820,7 +3923,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Notion MCP -->
-    <div class="collapsible">
+    <div class="collapsible" id="integrations--notion-mcp">
       <div class="collapsible-header">
         <h3>Notion MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3845,7 +3948,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Azure DevOps MCP -->
-    <div class="collapsible">
+    <div class="collapsible" id="integrations--azure-devops-mcp">
       <div class="collapsible-header">
         <h3>Azure DevOps MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3869,7 +3972,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Google Workspace MCP -->
-    <div class="collapsible">
+    <div class="collapsible" id="integrations--google-workspace-mcp">
       <div class="collapsible-header">
         <h3>Google Workspace MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4222,7 +4325,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
     </div>
 
     <!-- Frontmatter Reference -->
-    <div class="collapsible">
+    <div class="collapsible" id="building-skills--frontmatter-reference">
       <div class="collapsible-header">
         <h3>Frontmatter Reference (All Fields)</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4292,7 +4395,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
     <!-- Example Skills -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Example Skills</h3>
 
-    <div class="collapsible">
+    <div class="collapsible" id="building-skills--documentation-skill">
       <div class="collapsible-header">
         <h3>Documentation Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4325,7 +4428,7 @@ allowed-tools: Read Grep Glob
       </div></div>
     </div>
 
-    <div class="collapsible">
+    <div class="collapsible" id="building-skills--story-point-skill">
       <div class="collapsible-header">
         <h3>Story Point Estimation Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4361,7 +4464,7 @@ description: Estimate story points for tasks using Fibonacci scale
       </div></div>
     </div>
 
-    <div class="collapsible">
+    <div class="collapsible" id="building-skills--epic-to-stories-skill">
       <div class="collapsible-header">
         <h3>Epic to Stories Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4401,7 +4504,7 @@ For each story:
       </div></div>
     </div>
 
-    <div class="collapsible">
+    <div class="collapsible" id="building-skills--code-review-skill">
       <div class="collapsible-header">
         <h3>Code Review Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4445,7 +4548,7 @@ With specific line-level feedback for each issue.</code></pre>
     </div>
 
     <!-- Advanced Patterns -->
-    <div class="collapsible">
+    <div class="collapsible" id="building-skills--advanced-patterns">
       <div class="collapsible-header">
         <h3>Advanced Skill Patterns</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5104,7 +5207,7 @@ smoke tests against the staging URL."</code></pre>
     <p class="section-subtitle">Agent teams, worktrees, remote control, batch operations, voice, plugins, and more.</p>
 
     <!-- Agent Teams -->
-    <div class="collapsible open">
+    <div class="collapsible open" id="power-usage--agent-teams">
       <div class="collapsible-header">
         <h3>Agent Teams</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5137,7 +5240,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Work Trees -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--work-trees">
       <div class="collapsible-header">
         <h3>Work Trees</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5163,7 +5266,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Model & Effort Control -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--model-effort">
       <div class="collapsible-header">
         <h3>Model &amp; Effort Control</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5222,7 +5325,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Hooks (pointer to dedicated section) -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--hooks">
       <div class="collapsible-header">
         <h3>Hooks</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5237,7 +5340,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Session Logs -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--session-logs">
       <div class="collapsible-header">
         <h3>Session Logs</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5256,7 +5359,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- /insights -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--insights">
       <div class="collapsible-header">
         <h3>/insights — Workflow Analysis</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5279,7 +5382,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- /loop -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--loop">
       <div class="collapsible-header">
         <h3>/loop — Built-in Scheduler <span style="font-weight:400; font-size:0.85em; color:var(--text-secondary);">(alias: /proactive)</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5308,7 +5411,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Remote Control & Cross-Device -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--remote-control">
       <div class="collapsible-header">
         <h3>Remote Control &amp; Cross-Device</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5335,7 +5438,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Chrome Integration -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--chrome">
       <div class="collapsible-header">
         <h3>Chrome Integration</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5360,7 +5463,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Batch Operations -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--batch">
       <div class="collapsible-header">
         <h3>Batch Operations</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5382,7 +5485,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Plugins -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--plugins">
       <div class="collapsible-header">
         <h3>Plugins</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5408,7 +5511,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Voice Input -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--voice-input">
       <div class="collapsible-header">
         <h3>Voice Input</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5428,7 +5531,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Context Management -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--context-management">
       <div class="collapsible-header">
         <h3>Context Management</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5455,7 +5558,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Monitor Tool -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--monitor-tool">
       <div class="collapsible-header">
         <h3>Monitor Tool — Background Script Streaming</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5477,7 +5580,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Subprocess Sandboxing -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--subprocess-sandboxing">
       <div class="collapsible-header">
         <h3>Subprocess Sandboxing</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5510,7 +5613,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Prompt Caching TTL -->
-    <div class="collapsible">
+    <div class="collapsible" id="power-usage--prompt-caching">
       <div class="collapsible-header">
         <h3>Prompt Caching TTL</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5547,7 +5650,7 @@ smoke tests against the staging URL."</code></pre>
     <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.8; margin-top:1.5rem;">Hooks are user-defined shell commands, HTTP endpoints, LLM prompts, or agents that execute automatically at specific points in Claude Code's lifecycle. They fire deterministically — unlike instructions in CLAUDE.md that Claude may or may not follow, hooks <strong>always</strong> execute when their event triggers.</p>
 
     <!-- Hook Lifecycle -->
-    <div class="collapsible open">
+    <div class="collapsible open" id="hooks-deep-dive--lifecycle">
       <div class="collapsible-header">
         <h3>Hook Lifecycle</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5586,7 +5689,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Four Hook Types -->
-    <div class="collapsible">
+    <div class="collapsible" id="hooks-deep-dive--four-types">
       <div class="collapsible-header">
         <h3>Four Hook Types</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5643,7 +5746,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Configuration -->
-    <div class="collapsible">
+    <div class="collapsible" id="hooks-deep-dive--configuration">
       <div class="collapsible-header">
         <h3>Configuration</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5722,7 +5825,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Exit Codes & Decision Control -->
-    <div class="collapsible">
+    <div class="collapsible" id="hooks-deep-dive--exit-codes">
       <div class="collapsible-header">
         <h3>Exit Codes &amp; Decision Control</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5774,7 +5877,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Practical Recipes -->
-    <div class="collapsible">
+    <div class="collapsible" id="hooks-deep-dive--recipes">
       <div class="collapsible-header">
         <h3>Practical Recipes</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5909,7 +6012,7 @@ exit 0</code></pre>
     </div>
 
     <!-- Best Practices -->
-    <div class="collapsible">
+    <div class="collapsible" id="hooks-deep-dive--best-practices">
       <div class="collapsible-header">
         <h3>Hook Best Practices</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5940,7 +6043,7 @@ exit 0</code></pre>
     <p class="section-subtitle">Monitor Claude Code across your organization with OpenTelemetry. Track token spend, session activity, tool usage, and developer productivity — then pipe it into the observability stack you already use.</p>
 
     <!-- Quick Start -->
-    <div class="collapsible open">
+    <div class="collapsible open" id="monitoring--quick-start">
       <div class="collapsible-header">
         <h3>Quick Start</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5973,7 +6076,7 @@ claude</code></pre>
     </div>
 
     <!-- Available Metrics -->
-    <div class="collapsible">
+    <div class="collapsible" id="monitoring--metrics">
       <div class="collapsible-header">
         <h3>Available Metrics</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6000,7 +6103,7 @@ claude</code></pre>
     </div>
 
     <!-- Events & Logs -->
-    <div class="collapsible">
+    <div class="collapsible" id="monitoring--events-logs">
       <div class="collapsible-header">
         <h3>Events &amp; Logs</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6027,7 +6130,7 @@ claude</code></pre>
     </div>
 
     <!-- Enterprise Configuration -->
-    <div class="collapsible">
+    <div class="collapsible" id="monitoring--enterprise">
       <div class="collapsible-header">
         <h3>Enterprise Configuration</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6054,7 +6157,7 @@ claude</code></pre>
     </div>
 
     <!-- Traces (Beta) -->
-    <div class="collapsible">
+    <div class="collapsible" id="monitoring--distributed-traces">
       <div class="collapsible-header">
         <h3>Distributed Traces (Beta)</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6075,7 +6178,7 @@ claude</code></pre>
     </div>
 
     <!-- Backend Options -->
-    <div class="collapsible">
+    <div class="collapsible" id="monitoring--backends">
       <div class="collapsible-header">
         <h3>Recommended Backends</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6096,7 +6199,7 @@ claude</code></pre>
     </div>
 
     <!-- Privacy & Security -->
-    <div class="collapsible">
+    <div class="collapsible" id="monitoring--privacy">
       <div class="collapsible-header">
         <h3>Privacy &amp; Security</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -7407,7 +7510,7 @@ codex app</code></pre>
     const hash = window.location.hash.substring(1);
     if (!hash) return;
 
-    const [pageId, sectionId] = hash.split('/');
+    const [pageId, sectionId, leafSlug] = hash.split('/');
     const navBtn = document.querySelector(`.nav-group-toggle[data-page="${pageId}"]`);
 
     if (navBtn) {
@@ -7432,8 +7535,15 @@ codex app</code></pre>
         return;
       }
       if (sectionId && sectionToTopicMap[sectionId]) {
-        showTopic(sectionToTopicMap[sectionId]);
-        setTimeout(() => scrollToId(sectionId), 120);
+        const topic = sectionToTopicMap[sectionId];
+        showTopic(topic);
+        // Third segment: open a specific collapsible within the section
+        if (leafSlug) {
+          const leafId = `${sectionId}--${leafSlug}`;
+          setTimeout(() => openAndScrollToLeaf(leafId, topic), 140);
+        } else {
+          setTimeout(() => scrollToId(sectionId), 120);
+        }
         return;
       }
       showTopic('hub');
@@ -7625,6 +7735,18 @@ codex app</code></pre>
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
+  }
+
+  // Open a collapsible (3rd-level leaf) and scroll to it. Ensures the right
+  // practices topic view is visible first so getBoundingClientRect is sane.
+  function openAndScrollToLeaf(collapsibleId, topicId) {
+    const el = document.getElementById(collapsibleId);
+    if (!el) return;
+    if (topicId && TOPIC_IDS.includes(topicId) && window.__currentTopic !== topicId) {
+      showTopic(topicId);
+    }
+    el.classList.add('open');
+    setTimeout(() => scrollToId(collapsibleId), 140);
   }
 
   function toggleSidebar() {
@@ -7831,29 +7953,39 @@ codex app</code></pre>
   // ─── SCROLL SPY ───
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        document.querySelectorAll('.nav-sub-item').forEach(item => {
-          item.classList.remove('active');
-          if (item.getAttribute('onclick')?.includes(id)) {
-            item.classList.add('active');
-          }
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      const isLeaf = entry.target.classList.contains('collapsible');
+      if (isLeaf) {
+        // A collapsible became visible → highlight the matching leaf nav item
+        document.querySelectorAll('.nav-leaf-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.leaf === id);
         });
-        document.querySelectorAll('.page-indicator-pill').forEach(pill => {
-          pill.classList.toggle('active', pill.dataset.section === id);
-        });
+        return;
       }
+      // A section became visible → highlight matching section nav item
+      document.querySelectorAll('.nav-sub-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('onclick')?.includes(id)) {
+          item.classList.add('active');
+        }
+      });
+      document.querySelectorAll('.page-indicator-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.dataset.section === id);
+      });
     });
   }, { threshold: 0.1, rootMargin: '-60px 0px -60% 0px' });
 
   function reinitSectionObserver(pageEl) {
-    // Unobserve all sections across all pages
-    document.querySelectorAll('section[id], .hero[id]').forEach(s => sectionObserver.unobserve(s));
+    // Unobserve everything we might have been watching
+    document.querySelectorAll('section[id], .hero[id], .collapsible[id]').forEach(s => sectionObserver.unobserve(s));
     // On practices page, scope to the visible topic-view only
     if (pageEl.id === 'page-practices') {
       const visible = pageEl.querySelector('.topic-view:not([hidden])');
       if (visible) {
         visible.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+        // Also observe collapsibles for 3rd-level active-leaf highlighting
+        visible.querySelectorAll('.collapsible[id]').forEach(c => sectionObserver.observe(c));
       }
       const hero = pageEl.querySelector('.hero[id]');
       if (hero) sectionObserver.observe(hero);
