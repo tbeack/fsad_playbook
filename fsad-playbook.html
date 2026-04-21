@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v29)</title>
+<title>FSAD — Full Stack Agentic Development (v30)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1876,7 +1876,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v29</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v30</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -2022,13 +2022,13 @@
         </div>
         <button type="button" class="nav-topic-header" data-topic="reference" onclick="toggleTopicNav(this, 'reference')">Reference<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="reference">
+          <a class="nav-sub-item" href="#practices/model-effort" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('model-effort'),120)">Model &amp; Effort</a>
           <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('cheat-sheet'),120)">Cheat Sheet</a>
           <div class="nav-sub-item-wrap" data-section="power-usage">
             <a class="nav-sub-item" href="#practices/power-usage" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('power-usage'),120)">Power Usage</a>
             <div class="nav-leaf-sections">
               <a class="nav-leaf-item" href="#practices/power-usage/agent-teams" data-leaf="power-usage--agent-teams" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--agent-teams', 'reference')">Agent Teams</a>
               <a class="nav-leaf-item" href="#practices/power-usage/work-trees" data-leaf="power-usage--work-trees" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--work-trees', 'reference')">Worktrees</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/model-effort" data-leaf="power-usage--model-effort" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--model-effort', 'reference')">Model &amp; Effort</a>
               <a class="nav-leaf-item" href="#practices/power-usage/hooks" data-leaf="power-usage--hooks" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--hooks', 'reference')">Hooks</a>
               <a class="nav-leaf-item" href="#practices/power-usage/session-logs" data-leaf="power-usage--session-logs" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--session-logs', 'reference')">Session Logs</a>
               <a class="nav-leaf-item" href="#practices/power-usage/insights" data-leaf="power-usage--insights" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--insights', 'reference')">/insights</a>
@@ -4794,6 +4794,146 @@ smoke tests against the staging URL."</code></pre>
 </div>
 
 <div class="topic-view" data-topic="reference" hidden>
+<section id="model-effort">
+    <span class="section-label">12.5 — Model &amp; Effort</span>
+    <h2 class="section-title">Model &amp; Effort</h2>
+    <p class="section-subtitle">Pick the right model tier for the task, combine them with <code>opusplan</code>, and tune reasoning depth with <code>/effort</code>.</p>
+
+    <p style="margin-top:1.5rem;">Match model capability to task complexity. Claude Code auto-selects a sensible default, but the best coding results in 2026 come from combining all three tiers — not picking one for everything.</p>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Current model lineup</strong></p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Opus 4.7</th>
+            <th>Sonnet 4.6</th>
+            <th>Haiku 4.5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Positioning</td><td>Frontier reasoning + agentic coding</td><td>Balanced daily driver</td><td>Fast, near-frontier</td></tr>
+          <tr><td>API ID</td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5</code></td></tr>
+          <tr><td>Input / Output (per MTok)</td><td>$5 / $25</td><td>$3 / $15</td><td>$1 / $5</td></tr>
+          <tr><td>Context window</td><td>1M tokens</td><td>1M tokens</td><td>200K tokens</td></tr>
+          <tr><td>Max output</td><td>128K</td><td>64K</td><td>64K</td></tr>
+          <tr><td>Adaptive thinking</td><td>Yes (default <code>xhigh</code>)</td><td>Yes</td><td>No (extended thinking only)</td></tr>
+          <tr><td>Relative latency</td><td>Moderate</td><td>Fast</td><td>Fastest</td></tr>
+          <tr><td>Best for</td><td>Long-horizon agentic coding, large refactors, architecture, RCA</td><td>80%+ of day-to-day coding, tests, tool use</td><td>Sub-agent work, batch reviews, mechanical edits</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Claude Code model aliases</strong></p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Alias</th><th>Resolves to</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td><code>default</code></td><td>Tier-dependent (Max / Team Premium → Opus 4.7; Pro / Team Std / Enterprise / API → Sonnet 4.6; Bedrock / Vertex / Foundry → Sonnet 4.5)</td><td>Daily driver if unsure</td></tr>
+          <tr><td><code>best</code> / <code>opus</code></td><td>Latest Opus (4.7 on API; 4.6 on Bedrock / Vertex / Foundry)</td><td>Complex reasoning, architecture, gnarly bugs</td></tr>
+          <tr><td><code>sonnet</code></td><td>Latest Sonnet (4.6 on API; 4.5 on Bedrock / Vertex / Foundry)</td><td>80%+ of coding tasks</td></tr>
+          <tr><td><code>haiku</code></td><td>Latest Haiku</td><td>Cheap sub-agent / background work</td></tr>
+          <tr><td><code>opus[1m]</code> / <code>sonnet[1m]</code></td><td>1M context variant</td><td>Long-session work across large codebases</td></tr>
+          <tr><td><strong><code>opusplan</code></strong></td><td>Opus during plan mode → Sonnet during execution</td><td><strong>Recommended default for non-trivial feature work</strong> — ~40% cheaper than pure Opus</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="code-block" style="margin-top:1.5rem;">
+      <pre><code class="language-bash"><span class="cm"># Recommended: let Opus plan, Sonnet execute</span>
+<span class="kw">claude</span> <span class="val">--model</span> opusplan
+
+<span class="cm"># Force a specific model mid-session</span>
+/model opus         <span class="cm"># Switch to latest Opus</span>
+/model sonnet       <span class="cm"># Switch to latest Sonnet</span>
+/model haiku        <span class="cm"># Switch to latest Haiku</span>
+/model opus[1m]     <span class="cm"># 1M context variant for large codebases</span>
+
+<span class="cm"># Route sub-agents to Haiku (single biggest cost lever after opusplan)</span>
+<span class="kw">export</span> CLAUDE_CODE_SUBAGENT_MODEL=haiku
+
+<span class="cm"># Set effort level (controls reasoning depth)</span>
+/effort max          <span class="cm"># Maximum reasoning — complex agentic tasks</span>
+/effort xhigh        <span class="cm"># Opus 4.7 only — between high and max</span>
+/effort high         <span class="cm"># Deep thinking — difficult coding problems</span>
+/effort medium       <span class="cm"># Balanced (default) — speed + quality</span>
+/effort low          <span class="cm"># Quick responses — simple tasks, subagents</span>
+/effort              <span class="cm"># No args: opens interactive slider (arrow keys + Enter)</span>
+<span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
+
+<span class="cm"># Toggle fast mode (same model, faster output)</span>
+/fast on
+
+<span class="cm"># Auto-fallback in print mode when overloaded</span>
+<span class="kw">claude</span> <span class="val">-p</span> <span class="val">--fallback-model</span> sonnet <span class="str">"query"</span></code></pre>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Best-practice combinations by workload</strong></p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Workload</th><th>Plan</th><th>Execute</th><th>Sub-agents</th></tr></thead>
+        <tbody>
+          <tr><td>Greenfield feature, multi-file</td><td>Opus 4.7 (<code>xhigh</code>)</td><td>Sonnet 4.6</td><td>Haiku 4.5</td></tr>
+          <tr><td>Targeted bug fix (known file)</td><td>Sonnet 4.6</td><td>Sonnet 4.6</td><td>Haiku 4.5</td></tr>
+          <tr><td>Architectural refactor (10+ files)</td><td>Opus 4.7 (<code>max</code>, one-shot)</td><td>Opus 4.7 or Sonnet 4.6</td><td>Haiku 4.5</td></tr>
+          <tr><td>Boilerplate / rename / formatting</td><td>—</td><td>Haiku 4.5</td><td>—</td></tr>
+          <tr><td>High-volume code review / lint triage</td><td>—</td><td>Haiku 4.5 (Batch API)</td><td>—</td></tr>
+          <tr><td>Long-session monorepo exploration</td><td>Opus 4.7 <code>[1m]</code> or Sonnet <code>[1m]</code></td><td>Sonnet 4.6 <code>[1m]</code></td><td>Haiku 4.5</td></tr>
+          <tr><td>Production incident / RCA</td><td>Opus 4.7 (<code>max</code>)</td><td>Opus 4.7</td><td>Sonnet 4.6</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1rem;">
+      <div class="callout-title">Cost Optimization Checklist</div>
+      <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
+        <li>Default to <code>opusplan</code> for coding — ~40% cheaper than pure Opus.</li>
+        <li>Route sub-agents to Haiku via <code>CLAUDE_CODE_SUBAGENT_MODEL=haiku</code>.</li>
+        <li>Enable prompt caching — cache hits are 10% of base input (up to 90% off on repeated system prompts, CLAUDE.md, large docs).</li>
+        <li>Use the Batch API for any non-interactive job — 50% off input and output; stacks with caching.</li>
+        <li>Pin effort to <code>medium</code> on cost-sensitive Sonnet workflows; raise only where needed.</li>
+        <li>Budget for up to <strong>35% more tokens</strong> when migrating from Opus 4.6 → 4.7 (new tokenizer).</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-warning" style="margin-top:0.75rem;">
+      <div class="callout-title">Key Dates (Apr 2026)</div>
+      <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
+        <li><strong>April 23, 2026</strong> — Default model for Enterprise PAYG + Anthropic API switches to Opus 4.7.</li>
+        <li><strong>June 15, 2026</strong> — Sonnet 4 (<code>claude-sonnet-4-20250514</code>) and Opus 4 (<code>claude-opus-4-20250514</code>) retire. Migrate to Sonnet 4.6 and Opus 4.7.</li>
+        <li>On Bedrock / Vertex / Foundry, pin model versions explicitly (<code>ANTHROPIC_DEFAULT_OPUS_MODEL</code>, etc.) — alias targets move under you.</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:0.75rem;">
+      <div class="callout-title">Effort Default Changed to Medium</div>
+      <p>Anthropic changed the default effort from <code>high</code> to <code>medium</code> to better balance intelligence with speed, based on real-world usage data. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Adaptive thinking &amp; effort</strong></p>
+    <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7;">On Opus 4.6 and Sonnet 4.6, <strong>adaptive thinking</strong> is the recommended mode. Instead of manually setting a thinking token budget, Claude dynamically decides when and how much to think based on task complexity. The <code>/effort</code> level is the primary lever that controls thinking depth:</p>
+    <div class="table-wrap" style="margin-top:0.75rem;">
+      <table class="styled-table">
+        <thead><tr><th>Effort</th><th>Thinking Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>max</code></td><td>Always thinks, no constraints on depth — deepest reasoning</td></tr>
+          <tr><td><code>xhigh</code></td><td>Opus 4.7 only — deeper than high, lighter than max; falls back to <code>high</code> on other models</td></tr>
+          <tr><td><code>high</code></td><td>Almost always thinks — deep reasoning on complex tasks</td></tr>
+          <tr><td><code>medium</code></td><td>Moderate thinking — may skip for simple queries</td></tr>
+          <tr><td><code>low</code></td><td>Minimal thinking — skips for simple tasks, prioritizes speed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7; margin-top:0.75rem;">Toggle extended thinking with <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Option+T</kbd> / <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Alt+T</kbd>. Setting effort to <code>low</code> effectively minimizes thinking; use this for simple lookups or subagent tasks where speed matters most.</p>
+    <div class="callout callout-warning" style="margin-top:0.75rem;">
+      <div class="callout-title">budget_tokens Is Deprecated</div>
+      <p>The manual <code>budget_tokens</code> parameter for extended thinking is <strong>deprecated</strong> on Opus 4.6 and Sonnet 4.6 and will be removed in a future release. Use adaptive thinking with the <code>effort</code> parameter instead. Older models (Sonnet 4.5, Opus 4.5) still require the manual <code>budget_tokens</code> approach.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
 <section id="cheat-sheet">
     <span class="section-label">13 — Claude Cheat Sheet</span>
     <h2 class="section-title">Everything You Need in One Place</h2>
@@ -5261,65 +5401,6 @@ smoke tests against the staging URL."</code></pre>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">Tip</div>
           <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events.</p>
-        </div>
-      </div></div>
-    </div>
-
-    <!-- Model & Effort Control -->
-    <div class="collapsible" id="power-usage--model-effort">
-      <div class="collapsible-header">
-        <h3>Model &amp; Effort Control</h3>
-        <span class="collapsible-chevron">&#9660;</span>
-      </div>
-      <div class="collapsible-body"><div class="collapsible-content">
-        <p>Claude auto-selects the right model for the task, but you have full control over model choice and reasoning depth.</p>
-        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
-          <li><strong>Haiku 4.5:</strong> Quick lookups, simple questions, file navigation</li>
-          <li><strong>Sonnet 4.6:</strong> Standard coding, refactoring, test writing</li>
-          <li><strong>Opus 4.6:</strong> Complex architecture, debugging, multi-file changes</li>
-        </ul>
-        <div class="code-block" style="margin-top:0.75rem;">
-          <pre><code class="language-bash"><span class="cm"># Force a specific model</span>
-<span class="kw">claude</span> <span class="val">--model</span> opus
-
-<span class="cm"># Set effort level (controls reasoning depth)</span>
-/effort max          <span class="cm"># Maximum reasoning — complex agentic tasks</span>
-/effort xhigh        <span class="cm"># Opus 4.7 only — between high and max</span>
-/effort high         <span class="cm"># Deep thinking — difficult coding problems</span>
-/effort medium       <span class="cm"># Balanced (default) — speed + quality</span>
-/effort low          <span class="cm"># Quick responses — simple tasks, subagents</span>
-/effort              <span class="cm"># No args: opens interactive slider (arrow keys + Enter)</span>
-<span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
-
-<span class="cm"># Toggle fast mode (same model, faster output)</span>
-/fast on
-
-<span class="cm"># Auto-fallback in print mode when overloaded</span>
-<span class="kw">claude</span> <span class="val">-p</span> <span class="val">--fallback-model</span> sonnet <span class="str">"query"</span></code></pre>
-        </div>
-        <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:0;">
-          <div class="callout-title">Effort Default Changed to Medium</div>
-          <p>Anthropic changed the default effort from <code>high</code> to <code>medium</code> to better balance intelligence with speed, based on real-world usage data. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
-        </div>
-
-        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Adaptive thinking &amp; effort</strong></p>
-        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7;">On Opus 4.6 and Sonnet 4.6, <strong>adaptive thinking</strong> is the recommended mode. Instead of manually setting a thinking token budget, Claude dynamically decides when and how much to think based on task complexity. The <code>/effort</code> level is the primary lever that controls thinking depth:</p>
-        <div class="table-wrap" style="margin-top:0.75rem;">
-          <table class="styled-table">
-            <thead><tr><th>Effort</th><th>Thinking Behavior</th></tr></thead>
-            <tbody>
-              <tr><td><code>max</code></td><td>Always thinks, no constraints on depth — deepest reasoning</td></tr>
-              <tr><td><code>xhigh</code></td><td>Opus 4.7 only — deeper than high, lighter than max; falls back to <code>high</code> on other models</td></tr>
-              <tr><td><code>high</code></td><td>Almost always thinks — deep reasoning on complex tasks</td></tr>
-              <tr><td><code>medium</code></td><td>Moderate thinking — may skip for simple queries</td></tr>
-              <tr><td><code>low</code></td><td>Minimal thinking — skips for simple tasks, prioritizes speed</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7; margin-top:0.75rem;">Toggle extended thinking with <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Option+T</kbd> / <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Alt+T</kbd>. Setting effort to <code>low</code> effectively minimizes thinking; use this for simple lookups or subagent tasks where speed matters most.</p>
-        <div class="callout callout-warning" style="margin-top:0.75rem; margin-bottom:0;">
-          <div class="callout-title">budget_tokens Is Deprecated</div>
-          <p>The manual <code>budget_tokens</code> parameter for extended thinking is <strong>deprecated</strong> on Opus 4.6 and Sonnet 4.6 and will be removed in a future release. Use adaptive thinking with the <code>effort</code> parameter instead. Older models (Sonnet 4.5, Opus 4.5) still require the manual <code>budget_tokens</code> approach.</p>
         </div>
       </div></div>
     </div>
@@ -7490,7 +7571,7 @@ codex app</code></pre>
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
     'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'add-task-skill': 'workflows', 'commit-changes-skill': 'workflows',
-    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
