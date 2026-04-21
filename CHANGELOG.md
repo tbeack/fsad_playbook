@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v29 — 2026-04-21
+
+**Nav sub-topics for Claude Best Practices (CBP-050)**
+
+- **CBP-050 — 3rd-level left-nav children for every Claude Best Practices section.** The left nav now exposes a third level under each section that has collapsibles, giving teams a full-hierarchy view of the playbook from the sidebar. Scope: Project Anatomy (6 pillars), Integrations / MCP (5 services), Building Skills (Frontmatter Reference + 4 example skills + Advanced Patterns), Hooks (Lifecycle, Four Types, Configuration, Exit Codes, Recipes, Best Practices), Monitoring (Quick Start through Privacy — 7 leaves), and Power Usage (all 16 collapsibles — Agent Teams, Worktrees, Model & Effort, /insights, /loop, Remote Control, Chrome, Batch Ops, Plugins, Voice, Context Mgmt, Monitor Tool, Sandboxing, Prompt Caching, etc.). 46 collapsibles gained stable `id` slugs (e.g. `power-usage--agent-teams`, `hooks-deep-dive--lifecycle`) to serve as anchor targets. New `.nav-sub-item-wrap` / `.nav-leaf-sections` / `.nav-leaf-item` CSS layer renders leaves in a demoted-pill style continuous with the existing 2nd level. Leaves are always visible when their topic is open — scroll spy no longer controls visibility (initial "auto-expand" behavior proved inconsistent on tall sections and was dropped). Scroll spy now highlights the active leaf as the reader scrolls through a section, via a new `openAndScrollToLeaf(collapsibleId, topicId)` helper. Hash routing extended to support 3-segment URLs (`#practices/power-usage/agent-teams` → opens the practices page, reveals the Reference topic, expands the Agent Teams collapsible, and scrolls to it); legacy 2-segment links still work unchanged. Codex nav, indicator pills, and sections without collapsibles are untouched.
+
 ### v28 — 2026-04-21
 
 **Claude Code v2.1.113–v2.1.116 auto-update (CBP-049)**
