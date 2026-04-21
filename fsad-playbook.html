@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v27)</title>
+<title>FSAD — Full Stack Agentic Development (v28)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1843,7 +1843,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v27</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v28</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -4242,7 +4242,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>. Overrides session default (medium).</td></tr>
               <tr><td><code>context</code></td><td>string</td><td>Set to <code>fork</code> to run in isolated subagent context with fresh context window.</td></tr>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
-              <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.).</td></tr>
+              <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.). Also fires when the agent is run as a main-thread agent via <code>--agent</code>.</td></tr>
               <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation.</td></tr>
               <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
             </tbody>
@@ -4726,7 +4726,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><kbd>Ctrl+A</kbd> / <kbd>Ctrl+E</kbd></td><td>Jump to start / end of line</td></tr>
           <tr><td><kbd>Ctrl+W</kbd></td><td>Delete word backward</td></tr>
           <tr><td><kbd>Ctrl+K</kbd></td><td>Delete from cursor to end of line</td></tr>
-          <tr><td><kbd>Ctrl+U</kbd></td><td>Delete from cursor to line start</td></tr>
+          <tr><td><kbd>Ctrl+U</kbd></td><td>Clear entire input buffer (press <kbd>Ctrl+Y</kbd> to restore)</td></tr>
         </tbody>
       </table>
     </div>
@@ -4796,7 +4796,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
           <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal)</td></tr>
           <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
-          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input</td></tr>
+          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
           <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
           <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
@@ -5296,6 +5296,10 @@ smoke tests against the staging URL."</code></pre>
 # Monitor deployment status
 /loop 15m check the deploy pipeline status and notify me of failures</code></pre>
         </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem;">
+          <div class="callout-title">Cancel a Wakeup</div>
+          <p>Press <kbd>Esc</kbd> while a <code>/loop</code> is counting down to cancel the pending wakeup without ending the session.</p>
+        </div>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">For Persistence</div>
           <p>Session-scoped loops stop when the terminal closes. For persistent cloud scheduling, use <code>/schedule</code> to create cron-based tasks that run without an active terminal.</p>
@@ -5489,9 +5493,18 @@ smoke tests against the staging URL."</code></pre>
             </tbody>
           </table>
         </div>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">You can also restrict network access from <code>settings.json</code>:</p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Setting key</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>sandbox.network.deniedDomains</code></td><td>Block specific domains even when an <code>allowedDomains</code> wildcard would otherwise permit them — useful for blocking telemetry or third-party endpoints in CI</td></tr>
+            </tbody>
+          </table>
+        </div>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
           <div class="callout-title">Use Case</div>
-          <p>Set these in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Prevents one session from interfering with another.</p>
+          <p>Set env vars in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Use <code>deniedDomains</code> to close loopholes left by broad <code>allowedDomains</code> wildcards.</p>
         </div>
       </div></div>
     </div>

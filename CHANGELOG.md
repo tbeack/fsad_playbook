@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v28 — 2026-04-21
+
+**Claude Code v2.1.113–v2.1.116 auto-update (CBP-049)**
+
+Automated playbook sync for Claude Code releases v2.1.113 and v2.1.116.
+
+- **CBP-049 — Cheat Sheet + Power Usage updates for v2.1.113 and v2.1.116.** Four targeted updates: (1) Keyboard shortcuts: `Ctrl+U` corrected to "Clear entire input buffer" (behavior changed in v2.1.111 but not previously reflected); added `Ctrl+Y` restore note inline. (2) Subprocess Sandboxing: added `sandbox.network.deniedDomains` settings key — blocks specific domains even when an `allowedDomains` wildcard would otherwise permit them. (3) `/terminal-setup` Cheat Sheet description expanded to mention VS Code, Cursor, and Windsurf scroll sensitivity configuration. (4) `/loop` Power Usage collapsible: new "Cancel a Wakeup" callout — pressing Esc cancels pending wakeups mid-session (v2.1.113). Also updated the Skills frontmatter `hooks` row to note that `hooks:` also fires when the agent runs as a main-thread agent via `--agent`.
+
 ### v27 — 2026-04-17
 
 **Claude Code v2.1.111–v2.1.112 auto-update (CBP-046–CBP-047)**
