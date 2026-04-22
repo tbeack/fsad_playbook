@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v31 — 2026-04-22
+
+**Claude Code v2.1.117 auto-update (CBP-051–CBP-055)**
+
+Automated playbook sync for Claude Code release v2.1.117.
+
+- **CBP-051 — Default effort updated: tier-dependent as of v2.1.117.** Rewrote the "Effort Default Changed to Medium" callout to "Default Effort Is Tier-Dependent" — Pro and Max subscribers on Opus 4.6 or Sonnet 4.6 now default to `high`; all other tiers and models remain at `medium`. Updated the Cheat Sheet `/effort` row, the `--effort` CLI flag row, and the frontmatter `effort` field description to reflect the tier-dependent default. Also added `xhigh` to the frontmatter effort enum (previously missing).
+- **CBP-052 — `/model` Cheat Sheet row updated.** Expanded description to note that model selections persist across restarts (overriding project-pinned models) and that the startup header now shows when the active model comes from a project or managed-settings pin.
+- **CBP-053 — `/resume` Cheat Sheet row updated.** Added note that `/resume` now offers to summarize stale large sessions before re-reading them, matching existing `--resume` behavior.
+- **CBP-054 — `mcpServers` added to Skills frontmatter reference table.** New row inserted after `hooks` and before `monitors`. Documents that `mcpServers` works for both fork-subagent contexts and main-thread agent sessions via `--agent`.
+- **CBP-055 — Native Glob/Grep → bfs/ugrep change documented.** Updated `allowed-tools` example from `Read Grep Bash(git *)` to `Read Bash(grep:*) Bash(git *)`. Row description notes that on native macOS/Linux builds, `Grep` and `Glob` are embedded in the Bash tool — use `Bash(grep:*)` / `Bash(find:*)` instead.
+
 ### v30 — 2026-04-21
 
 **Model & Effort promoted to a top-level Reference section (CBP-048)**
