@@ -61,3 +61,8 @@
 - [x] `CBP-048` Add Model comparison chart with guidance on best practice combinations — promoted to standalone `#model-effort` section as first child of Reference → [task-cbp-048.md](task-cbp-048.md)
 - [x] `CBP-049` Cheat Sheet + Power Usage updates for v2.1.113 and v2.1.116: `Ctrl+U` full-buffer clear, `sandbox.network.deniedDomains`, `/terminal-setup` scroll note, `/loop` Esc tip, `hooks:` fires via `--agent` → [task-cbp-049.md](task-cbp-049.md)
 - [x] `CBP-050` Add sub-topic children to the left nav for every Claude Best Practices section (always visible when parent topic is open; scroll spy highlights active leaf) → [task-cbp-050.md](task-cbp-050.md)
+- [x] `CBP-051` Update default effort: Pro/Max on Opus 4.6 / Sonnet 4.6 now defaults to `high` (was `medium`) — update callout, Cheat Sheet, CLI flags, frontmatter table (v2.1.117) → [task-cbp-051.md](task-cbp-051.md)
+- [x] `CBP-052` Update `/model` Cheat Sheet row: selections persist across restarts; startup shows pin source (v2.1.117) → [task-cbp-052.md](task-cbp-052.md)
+- [x] `CBP-053` Update `/resume` Cheat Sheet row: now offers to summarize stale large sessions before re-reading (v2.1.117) → [task-cbp-053.md](task-cbp-053.md)
+- [x] `CBP-054` Add `mcpServers` frontmatter key to Skills reference table — loaded for `--agent` main-thread sessions (v2.1.117) → [task-cbp-054.md](task-cbp-054.md)
+- [x] `CBP-055` Document native macOS/Linux Glob/Grep → bfs/ugrep (Bash tool) replacement; update `allowed-tools` example (v2.1.117) → [task-cbp-055.md](task-cbp-055.md)

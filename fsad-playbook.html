@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v30)</title>
+<title>FSAD — Full Stack Agentic Development (v31)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1876,7 +1876,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v30</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v31</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -4340,12 +4340,13 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>argument-hint</code></td><td>string</td><td>Hint shown in autocomplete (e.g. <code>[filename]</code>, <code>[issue-number]</code>).</td></tr>
               <tr><td><code>disable-model-invocation</code></td><td>boolean</td><td>If <code>true</code>, only you can invoke via <code>/name</code> — Claude won't auto-load. Use for side effects (deploy, send).</td></tr>
               <tr><td><code>user-invocable</code></td><td>boolean</td><td>If <code>false</code>, hidden from <code>/</code> menu. Claude can still auto-load. Use for background knowledge.</td></tr>
-              <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Grep Bash(git *)</code>).</td></tr>
+              <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Bash(grep:*) Bash(git *)</code>). On native macOS/Linux builds, <code>Grep</code> and <code>Glob</code> are embedded in the Bash tool — use <code>Bash(grep:*)</code> and <code>Bash(find:*)</code> instead.</td></tr>
               <tr><td><code>model</code></td><td>string</td><td>Override model when skill is active (e.g. <code>claude-opus-4-6</code>).</td></tr>
-              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>. Overrides session default (medium).</td></tr>
+              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>. Overrides session default (<code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> otherwise).</td></tr>
               <tr><td><code>context</code></td><td>string</td><td>Set to <code>fork</code> to run in isolated subagent context with fresh context window.</td></tr>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
               <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.). Also fires when the agent is run as a main-thread agent via <code>--agent</code>.</td></tr>
+              <tr><td><code>mcpServers</code></td><td>object</td><td>MCP server definitions scoped to this skill. Loaded for fork-subagent contexts and for main-thread agent sessions via <code>--agent</code>.</td></tr>
               <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation.</td></tr>
               <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
             </tbody>
@@ -4907,8 +4908,8 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <div class="callout callout-tip" style="margin-top:0.75rem;">
-      <div class="callout-title">Effort Default Changed to Medium</div>
-      <p>Anthropic changed the default effort from <code>high</code> to <code>medium</code> to better balance intelligence with speed, based on real-world usage data. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
+      <div class="callout-title">Default Effort Is Tier-Dependent</div>
+      <p>As of v2.1.117, the default effort level depends on your subscription tier and model: <strong>Pro and Max subscribers on Opus 4.6 or Sonnet 4.6 default to <code>high</code></strong>. All other tiers and models default to <code>medium</code>. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
     </div>
 
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Adaptive thinking &amp; effort</strong></p>
@@ -4984,7 +4985,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/compact</code> <code>[focus]</code></td><td>Compress context to save tokens. Optional: tell it what to keep.</td></tr>
           <tr><td><code>/context</code></td><td>Visualize context usage with optimization suggestions</td></tr>
           <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
-          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>)</td></tr>
+          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them.</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
           <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>. Force on: <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>; opt out: <code>=0</code> (also disables the default-on behavior on Bedrock / Vertex / Foundry).</td></tr>
           <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>)</td></tr>
@@ -5000,8 +5001,8 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model (Sonnet / Opus / Haiku)</td></tr>
-          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> (default) | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider.</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin.</td></tr>
+          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
@@ -5112,7 +5113,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>--model</code></td><td>Select specific model (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>)</td></tr>
-          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> [default] | <code>high</code> | <code>xhigh</code> | <code>max</code>)</td></tr>
+          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>). Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> otherwise.</td></tr>
           <tr><td><code>--fallback-model</code></td><td>Auto-fallback model when overloaded (print mode)</td></tr>
         </tbody>
       </table>
