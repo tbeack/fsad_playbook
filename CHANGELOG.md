@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v32 — 2026-04-23
+
+**Claude Code v2.1.118 auto-update (CBP-056–CBP-059)**
+
+Automated playbook sync for Claude Code release v2.1.118.
+
+- **CBP-056 — `/cost` and `/stats` consolidated into `/usage`.** The three separate Cheat Sheet rows (`/cost`, `/usage`, `/stats`) are now a single unified `/usage` row. The description explains the three tabs (session cost & token usage, plan usage & rate limits, daily usage streaks) and notes that `/cost` and `/stats` remain as typing shortcuts that open the relevant tab.
+- **CBP-057 — `/theme` updated for named custom themes.** The Cheat Sheet `/theme` row now documents that users can create and switch between named custom themes, hand-edit JSON files in `~/.claude/themes/`, and that plugins can ship themes via a `themes/` directory — in addition to the existing `dark | light | auto` options.
+- **CBP-058 — `mcp_tool` added as a fifth hook type.** The "Four Hook Types" collapsible (now "Five Hook Types") gains a new `mcp_tool` row: invokes an MCP tool directly, passing hook context as input — useful for Slack/Jira notifications and custom audit systems via MCP. Added a code example. Updated the nav leaf label, section heading, and the "all 4 hook types" callout reference to reflect 5 types.
+- **CBP-059 — `DISABLE_UPDATES` env var added to Subprocess Sandboxing.** New row in the env vars table documents `DISABLE_UPDATES=1`, which blocks all update paths including manual `claude update`. Noted as stricter than `DISABLE_AUTOUPDATER` and recommended for managed/enterprise deployments that need to pin a specific version.
+
 ### v31 — 2026-04-22
 
 **Claude Code v2.1.117 auto-update (CBP-051–CBP-055)**

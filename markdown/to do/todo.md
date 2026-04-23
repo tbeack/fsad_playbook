@@ -66,3 +66,7 @@
 - [x] `CBP-053` Update `/resume` Cheat Sheet row: now offers to summarize stale large sessions before re-reading (v2.1.117) → [task-cbp-053.md](task-cbp-053.md)
 - [x] `CBP-054` Add `mcpServers` frontmatter key to Skills reference table — loaded for `--agent` main-thread sessions (v2.1.117) → [task-cbp-054.md](task-cbp-054.md)
 - [x] `CBP-055` Document native macOS/Linux Glob/Grep → bfs/ugrep (Bash tool) replacement; update `allowed-tools` example (v2.1.117) → [task-cbp-055.md](task-cbp-055.md)
+- [x] `CBP-056` Consolidate `/cost` and `/stats` into `/usage` row in Cheat Sheet (v2.1.118) → [task-cbp-056.md](task-cbp-056.md)
+- [x] `CBP-057` Update `/theme` Cheat Sheet row to document named custom themes in `~/.claude/themes/` (v2.1.118) → [task-cbp-057.md](task-cbp-057.md)
+- [x] `CBP-058` Add `mcp_tool` as a fifth hook type in the Hooks — Five Types collapsible (v2.1.118) → [task-cbp-058.md](task-cbp-058.md)
+- [x] `CBP-059` Add `DISABLE_UPDATES` env var to Subprocess Sandboxing collapsible (v2.1.118) → [task-cbp-059.md](task-cbp-059.md)
