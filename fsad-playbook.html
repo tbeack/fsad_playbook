@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v31)</title>
+<title>FSAD — Full Stack Agentic Development (v32)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1876,7 +1876,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v31</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v32</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1996,7 +1996,7 @@
             <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
             <div class="nav-leaf-sections">
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/lifecycle" data-leaf="hooks-deep-dive--lifecycle" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--lifecycle', 'skills-hooks')">Lifecycle</a>
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/four-types" data-leaf="hooks-deep-dive--four-types" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--four-types', 'skills-hooks')">Four Types</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/four-types" data-leaf="hooks-deep-dive--four-types" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--four-types', 'skills-hooks')">Five Types</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/configuration" data-leaf="hooks-deep-dive--configuration" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--configuration', 'skills-hooks')">Configuration</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/exit-codes" data-leaf="hooks-deep-dive--exit-codes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--exit-codes', 'skills-hooks')">Exit Codes</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/recipes" data-leaf="hooks-deep-dive--recipes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--recipes', 'skills-hooks')">Recipes</a>
@@ -5007,9 +5007,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>)</td></tr>
-          <tr><td><code>/cost</code></td><td>Show session cost &amp; token usage</td></tr>
-          <tr><td><code>/usage</code></td><td>Show plan usage &amp; rate limits</td></tr>
-          <tr><td><code>/stats</code></td><td>Visualize daily usage and streaks</td></tr>
+          <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab.</td></tr>
         </tbody>
       </table>
     </div>
@@ -5038,7 +5036,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/init</code></td><td>Create CLAUDE.md for your project</td></tr>
           <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
-          <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal)</td></tr>
+          <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal) | or select a named custom theme. Hand-edit JSON files in <code>~/.claude/themes/</code> to create themes; plugins can ship themes via a <code>themes/</code> directory.</td></tr>
           <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
           <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
@@ -5416,7 +5414,7 @@ smoke tests against the staging URL."</code></pre>
         <p>Hooks are event-driven shell commands, HTTP endpoints, prompts, or agents that fire automatically at 26 lifecycle points. Use them for linting, formatting, security enforcement, and observability.</p>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
           <div class="callout-title">Hooks Deep Dive</div>
-          <p>See the dedicated <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks section</a> for the full lifecycle, all 4 hook types, configuration guide, exit code semantics, and practical recipes.</p>
+          <p>See the dedicated <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks section</a> for the full lifecycle, all 5 hook types, configuration guide, exit code semantics, and practical recipes.</p>
         </div>
       </div></div>
     </div>
@@ -5675,6 +5673,7 @@ smoke tests against the staging URL."</code></pre>
             <tbody>
               <tr><td><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code></td><td>Enables PID namespace isolation on Linux — sandboxed commands can't see or signal processes outside their namespace</td></tr>
               <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
+              <tr><td><code>DISABLE_UPDATES=1</code></td><td>Completely blocks all update paths including manual <code>claude update</code>. Stricter than <code>DISABLE_AUTOUPDATER</code> (which only prevents auto-updates). Use in managed/enterprise environments to pin a specific version.</td></tr>
             </tbody>
           </table>
         </div>
@@ -5770,10 +5769,10 @@ smoke tests against the staging URL."</code></pre>
       </div></div>
     </div>
 
-    <!-- Four Hook Types -->
+    <!-- Five Hook Types -->
     <div class="collapsible" id="hooks-deep-dive--four-types">
       <div class="collapsible-header">
-        <h3>Four Hook Types</h3>
+        <h3>Five Hook Types</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -5786,6 +5785,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>http</code></td><td>Sends JSON POST to an endpoint. Headers support <code>$ENV_VAR</code> interpolation.</td><td>Remote validation, audit logging, webhook integrations</td></tr>
               <tr><td><code>prompt</code></td><td>Sends a single-turn prompt to Claude. Returns a yes/no decision as JSON.</td><td>Security review of commands, content policy checks</td></tr>
               <tr><td><code>agent</code></td><td>Spawns a subagent with tool access (Read, Grep, Glob). Full agentic evaluation.</td><td>Complex verification, multi-file checks, code analysis</td></tr>
+              <tr><td><code>mcp_tool</code></td><td>Invokes an MCP tool directly. Specify the server and tool name; Claude passes the hook context as input.</td><td>Calling external services, Slack/Jira notifications, custom audit systems via MCP</td></tr>
             </tbody>
           </table>
         </div>
@@ -5822,6 +5822,16 @@ smoke tests against the staging URL."</code></pre>
           <pre><code class="language-json">{
   "type": "agent",
   "prompt": "Verify this edit doesn't break any imports. $ARGUMENTS"
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>MCP tool hook:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "mcp_tool",
+  "server": "slack",
+  "tool": "send_message",
+  "input": { "channel": "#dev-audit", "text": "Tool use: $TOOL_NAME" }
 }</code></pre>
         </div>
       </div></div>
