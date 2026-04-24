@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v34)</title>
+<title>FSAD — Full Stack Agentic Development (v25)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -818,6 +818,27 @@
     border: 1px solid var(--accent-glow-border); border-radius: 6px; color: var(--accent-blue);
   }
 
+  /* Split-panel upgrade: sticky workflow phases */
+  .workflow-container { position: relative; }
+  .workflow-phases {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--bg-surface);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .workflow-detail-area {
+    max-height: 45vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  @media (max-width: 780px) {
+    .workflow-phases { position: relative; }
+    .workflow-detail-area { max-height: none; overflow-y: visible; }
+  }
+
   /* ─── POD VISUAL (Page 1) ─── */
   .pod-visual {
     display: flex; align-items: center; justify-content: center;
@@ -1243,6 +1264,168 @@
   @media (max-width: 780px) {
     .wf-tabs { grid-template-columns: repeat(2, 1fr); }
     .wf-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Interactive Widget System — shared by all explorable widgets (.xw-*) */
+  .xw {
+    margin: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-surface);
+  }
+  /* Widget entrance animations */
+  .xw { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .xw.xw-visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .xw { opacity: 1 !important; transform: none !important; transition: none !important; } }
+  .xw-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .xw-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    border: 1px solid var(--border-accent);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .xw-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .xw-body {
+    padding: 1.25rem;
+  }
+  .xw-split {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+  .xw-visual {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem;
+  }
+  .xw-content {
+    padding: 1.25rem;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  .xw-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .xw-btn {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 6px 12px;
+    border: 1px solid var(--border-accent);
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .xw-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+  .xw-btn.active {
+    background: var(--accent-blue);
+    color: var(--bg);
+    border-color: var(--accent-blue);
+  }
+  .xw-editor {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    width: 100%;
+    resize: vertical;
+    outline: none;
+  }
+  .xw-editor:focus { border-color: var(--accent-blue); }
+  .xw-output {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    white-space: pre-wrap;
+  }
+  .xw-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+  .xw-highlight {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: -2px;
+    transition: outline-color 0.15s;
+  }
+  @media (max-width: 780px) {
+    .xw-content { max-height: none; }
+    .xw-visual { position: relative; }
+    .xw-header { flex-wrap: wrap; }
+    .xw-controls { flex-wrap: wrap; }
+    #xw-hooks-timeline { overflow-x: auto; }
+    #xw-hooks-svg { min-width: 600px; }
+    #xw-cc-editors { grid-template-columns: 1fr !important; }
+    #xw-sprint .xw-body > div:nth-child(2) { grid-template-columns: 1fr !important; }
+    #xw-skill-builder .xw-body > div:last-child { grid-template-columns: 1fr !important; }
+  }
+
+  /* Config cascade split-panel: sticky playground */
+  #config-cascade-split {
+    position: relative;
+  }
+  #config-cascade-split .xw-cc-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  #config-cascade-split .xw-cc-prose {
+    max-height: 55vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  @media (max-width: 780px) {
+    #config-cascade-split .xw-cc-sticky { position: relative; }
+    #config-cascade-split .xw-cc-prose { max-height: none; overflow-y: visible; }
+    #xw-bets-options { grid-template-columns: 1fr !important; }
+    #xw-pod-composer .xw-body > div { grid-template-columns: 1fr !important; }
+    #xw-spec-panels { grid-template-columns: 1fr !important; }
+    #xw-roi .xw-body > div:first-child { grid-template-columns: 1fr !important; }
+    #xw-roi-results { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 480px) {
+    .xw-body { padding: 0.75rem; }
+    .xw-btn { font-size: 0.68rem; padding: 5px 8px; }
+    #xw-roi-results { grid-template-columns: 1fr !important; }
   }
 
   .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
@@ -1807,39 +1990,6 @@
   .nav-topic-sections .nav-sub-item + .nav-sub-item::before,
   .nav-topic-sections .nav-sub-item + .nav-sub-item::after { display: none; }
 
-  /* 3rd-level leaf nav (sub-topics within a section) */
-  .nav-sub-item-wrap { display: flex; flex-direction: column; }
-  .nav-leaf-sections {
-    display: flex;
-    flex-direction: column;
-    padding: 0.1rem 0 0.25rem 0.85rem;
-    margin: 0.1rem 0 0.25rem 0.65rem;
-    border-left: 1px solid var(--border, rgba(255,255,255,0.08));
-  }
-  .nav-leaf-item {
-    display: block;
-    padding: 0.22rem 0.55rem;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    border-left: 2px solid transparent;
-    border-radius: 0;
-    line-height: 1.35;
-    opacity: 0.85;
-    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
-  }
-  .nav-leaf-item:hover {
-    color: var(--text-primary);
-    background: var(--bg-elevated);
-    opacity: 1;
-  }
-  .nav-leaf-item.active {
-    color: var(--accent-blue);
-    border-left-color: var(--accent-blue);
-    opacity: 1;
-  }
-
   /* Hub entry: lightweight row, not a primary pill */
   .nav-sub-items[data-group="practices"] > .nav-sub-item[href="#practices"] {
     width: calc(100% - 1.5rem);
@@ -1876,7 +2026,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v34</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v25</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1951,99 +2101,29 @@
         <button type="button" class="nav-topic-header" data-topic="foundations" onclick="toggleTopicNav(this, 'foundations')">Foundations<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="foundations">
           <a class="nav-sub-item" href="#practices/getting-started" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('getting-started'),120)">Getting Started</a>
-          <div class="nav-sub-item-wrap" data-section="claude-setup">
-            <a class="nav-sub-item" href="#practices/claude-setup" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('claude-setup'),120)">Project Anatomy</a>
-            <div class="nav-leaf-sections">
-              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-1-claude-md" data-leaf="claude-setup--pillar-1-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-1-claude-md', 'foundations')">Pillar 1 — CLAUDE.md</a>
-              <a class="nav-leaf-item" href="#practices/claude-setup/example-claude-md" data-leaf="claude-setup--example-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--example-claude-md', 'foundations')">Example CLAUDE.md</a>
-              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-2-skills" data-leaf="claude-setup--pillar-2-skills" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-2-skills', 'foundations')">Pillar 2 — Skills</a>
-              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-3-hooks" data-leaf="claude-setup--pillar-3-hooks" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-3-hooks', 'foundations')">Pillar 3 — Hooks</a>
-              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-4-docs" data-leaf="claude-setup--pillar-4-docs" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-4-docs', 'foundations')">Pillar 4 — docs/</a>
-              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-5-local-claude-md" data-leaf="claude-setup--pillar-5-local-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-5-local-claude-md', 'foundations')">Pillar 5 — Local CLAUDE.md</a>
-            </div>
-          </div>
+          <a class="nav-sub-item" href="#practices/claude-setup" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('claude-setup'),120)">Project Anatomy</a>
           <a class="nav-sub-item" href="#practices/config-cascade" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('config-cascade'),120)">Config Cascade</a>
         </div>
         <button type="button" class="nav-topic-header" data-topic="integrations" onclick="toggleTopicNav(this, 'integrations')">Integrations &amp; Review<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="integrations">
-          <div class="nav-sub-item-wrap" data-section="integrations">
-            <a class="nav-sub-item" href="#practices/integrations" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('integrations'),120)">Integrations (MCP)</a>
-            <div class="nav-leaf-sections">
-              <a class="nav-leaf-item" href="#practices/integrations/jira-mcp" data-leaf="integrations--jira-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--jira-mcp', 'integrations')">JIRA</a>
-              <a class="nav-leaf-item" href="#practices/integrations/figma-mcp" data-leaf="integrations--figma-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--figma-mcp', 'integrations')">Figma</a>
-              <a class="nav-leaf-item" href="#practices/integrations/notion-mcp" data-leaf="integrations--notion-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--notion-mcp', 'integrations')">Notion</a>
-              <a class="nav-leaf-item" href="#practices/integrations/azure-devops-mcp" data-leaf="integrations--azure-devops-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--azure-devops-mcp', 'integrations')">Azure DevOps</a>
-              <a class="nav-leaf-item" href="#practices/integrations/google-workspace-mcp" data-leaf="integrations--google-workspace-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--google-workspace-mcp', 'integrations')">Google Workspace</a>
-            </div>
-          </div>
+          <a class="nav-sub-item" href="#practices/integrations" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('integrations'),120)">Integrations (MCP)</a>
           <a class="nav-sub-item" href="#practices/code-review" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('code-review'),120)">Code Review Agent</a>
           <a class="nav-sub-item" href="#practices/security-review" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('security-review'),120)">Security Review</a>
         </div>
         <button type="button" class="nav-topic-header" data-topic="skills-hooks" onclick="toggleTopicNav(this, 'skills-hooks')">Skills &amp; Hooks<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="skills-hooks">
-          <div class="nav-sub-item-wrap" data-section="building-skills">
-            <a class="nav-sub-item" href="#practices/building-skills" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('building-skills'),120)">Building Skills</a>
-            <div class="nav-leaf-sections">
-              <a class="nav-leaf-item" href="#practices/building-skills/frontmatter-reference" data-leaf="building-skills--frontmatter-reference" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--frontmatter-reference', 'skills-hooks')">Frontmatter Reference</a>
-              <a class="nav-leaf-item" href="#practices/building-skills/documentation-skill" data-leaf="building-skills--documentation-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--documentation-skill', 'skills-hooks')">Documentation</a>
-              <a class="nav-leaf-item" href="#practices/building-skills/story-point-skill" data-leaf="building-skills--story-point-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--story-point-skill', 'skills-hooks')">Story Points</a>
-              <a class="nav-leaf-item" href="#practices/building-skills/epic-to-stories-skill" data-leaf="building-skills--epic-to-stories-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--epic-to-stories-skill', 'skills-hooks')">Epic → Stories</a>
-              <a class="nav-leaf-item" href="#practices/building-skills/code-review-skill" data-leaf="building-skills--code-review-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--code-review-skill', 'skills-hooks')">Code Review</a>
-              <a class="nav-leaf-item" href="#practices/building-skills/advanced-patterns" data-leaf="building-skills--advanced-patterns" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--advanced-patterns', 'skills-hooks')">Advanced Patterns</a>
-            </div>
-          </div>
-          <div class="nav-sub-item-wrap" data-section="hooks-deep-dive">
-            <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
-            <div class="nav-leaf-sections">
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/lifecycle" data-leaf="hooks-deep-dive--lifecycle" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--lifecycle', 'skills-hooks')">Lifecycle</a>
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/four-types" data-leaf="hooks-deep-dive--four-types" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--four-types', 'skills-hooks')">Five Types</a>
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/configuration" data-leaf="hooks-deep-dive--configuration" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--configuration', 'skills-hooks')">Configuration</a>
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/exit-codes" data-leaf="hooks-deep-dive--exit-codes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--exit-codes', 'skills-hooks')">Exit Codes</a>
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/recipes" data-leaf="hooks-deep-dive--recipes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--recipes', 'skills-hooks')">Recipes</a>
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/best-practices" data-leaf="hooks-deep-dive--best-practices" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--best-practices', 'skills-hooks')">Best Practices</a>
-            </div>
-          </div>
+          <a class="nav-sub-item" href="#practices/building-skills" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('building-skills'),120)">Building Skills</a>
+          <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
         </div>
         <button type="button" class="nav-topic-header" data-topic="operations" onclick="toggleTopicNav(this, 'operations')">Operations<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="operations">
-          <div class="nav-sub-item-wrap" data-section="monitoring">
-            <a class="nav-sub-item" href="#practices/monitoring" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('monitoring'),120)">Monitoring</a>
-            <div class="nav-leaf-sections">
-              <a class="nav-leaf-item" href="#practices/monitoring/quick-start" data-leaf="monitoring--quick-start" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--quick-start', 'operations')">Quick Start</a>
-              <a class="nav-leaf-item" href="#practices/monitoring/metrics" data-leaf="monitoring--metrics" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--metrics', 'operations')">Metrics</a>
-              <a class="nav-leaf-item" href="#practices/monitoring/events-logs" data-leaf="monitoring--events-logs" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--events-logs', 'operations')">Events &amp; Logs</a>
-              <a class="nav-leaf-item" href="#practices/monitoring/enterprise" data-leaf="monitoring--enterprise" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--enterprise', 'operations')">Enterprise</a>
-              <a class="nav-leaf-item" href="#practices/monitoring/distributed-traces" data-leaf="monitoring--distributed-traces" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--distributed-traces', 'operations')">Distributed Traces</a>
-              <a class="nav-leaf-item" href="#practices/monitoring/backends" data-leaf="monitoring--backends" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--backends', 'operations')">Backends</a>
-              <a class="nav-leaf-item" href="#practices/monitoring/privacy" data-leaf="monitoring--privacy" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--privacy', 'operations')">Privacy</a>
-            </div>
-          </div>
+          <a class="nav-sub-item" href="#practices/monitoring" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('monitoring'),120)">Monitoring</a>
           <a class="nav-sub-item" href="#practices/best-practices" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('best-practices'),120)">Guidelines</a>
         </div>
         <button type="button" class="nav-topic-header" data-topic="reference" onclick="toggleTopicNav(this, 'reference')">Reference<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="reference">
-          <a class="nav-sub-item" href="#practices/model-effort" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('model-effort'),120)">Model &amp; Effort</a>
           <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('cheat-sheet'),120)">Cheat Sheet</a>
-          <div class="nav-sub-item-wrap" data-section="power-usage">
-            <a class="nav-sub-item" href="#practices/power-usage" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('power-usage'),120)">Power Usage</a>
-            <div class="nav-leaf-sections">
-              <a class="nav-leaf-item" href="#practices/power-usage/agent-teams" data-leaf="power-usage--agent-teams" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--agent-teams', 'reference')">Agent Teams</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/work-trees" data-leaf="power-usage--work-trees" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--work-trees', 'reference')">Worktrees</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/hooks" data-leaf="power-usage--hooks" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--hooks', 'reference')">Hooks</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/session-logs" data-leaf="power-usage--session-logs" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--session-logs', 'reference')">Session Logs</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/insights" data-leaf="power-usage--insights" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--insights', 'reference')">/insights</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/loop" data-leaf="power-usage--loop" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--loop', 'reference')">/loop</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/remote-control" data-leaf="power-usage--remote-control" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--remote-control', 'reference')">Remote Control</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/chrome" data-leaf="power-usage--chrome" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--chrome', 'reference')">Chrome</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/batch" data-leaf="power-usage--batch" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--batch', 'reference')">Batch Ops</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/plugins" data-leaf="power-usage--plugins" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--plugins', 'reference')">Plugins</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/voice-input" data-leaf="power-usage--voice-input" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--voice-input', 'reference')">Voice Input</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/context-management" data-leaf="power-usage--context-management" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--context-management', 'reference')">Context Mgmt</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/monitor-tool" data-leaf="power-usage--monitor-tool" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--monitor-tool', 'reference')">Monitor Tool</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/subprocess-sandboxing" data-leaf="power-usage--subprocess-sandboxing" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--subprocess-sandboxing', 'reference')">Sandboxing</a>
-              <a class="nav-leaf-item" href="#practices/power-usage/prompt-caching" data-leaf="power-usage--prompt-caching" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--prompt-caching', 'reference')">Prompt Caching</a>
-            </div>
-          </div>
+          <a class="nav-sub-item" href="#practices/power-usage" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('power-usage'),120)">Power Usage</a>
           <a class="nav-sub-item" href="#practices/open-source" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('open-source'),120)">Open Source</a>
         </div>
       </div>
@@ -2151,17 +2231,88 @@
       <div class="workflow-phase" data-phase="3" onclick="showPhase(3)"><div class="phase-number">Phase 4</div><div class="phase-title">Agent Execution</div><div class="phase-who"><span class="role-agent">Agent</span><span class="role-agent">Agent</span><span class="role-agent">Agent</span></div><div class="phase-output">→ code + tests</div></div>
       <div class="workflow-phase" data-phase="4" onclick="showPhase(4)"><div class="phase-number">Phase 5</div><div class="phase-title">Human Review & Ship</div><div class="phase-who"><span class="role-eng">Eng</span><span class="role-ux">UX</span><span class="role-pm">PM</span></div><div class="phase-output">→ deploy</div></div>
     </div>
+    <div class="workflow-detail-area">
     <div class="workflow-detail visible" id="detail-0"><h4>Phase 1 — Intent & Discovery</h4><p>The PM and UX designer define the problem space and user outcomes. They collaborate — often with an AI research assistant — to surface user needs, competitive landscape, and constraints. The output is a concise problem statement in markdown that frames <em>what</em> we're solving and <em>for whom</em>. No solutions yet.</p><div class="detail-artifacts"><span class="artifact-tag">problem.md</span><span class="artifact-tag">user-stories.md</span><span class="artifact-tag">constraints.md</span></div></div>
     <div class="workflow-detail" id="detail-1"><h4>Phase 2 — Live Spec Session</h4><p>The entire pod convenes in a real-time collaborative session. The PM contributes business requirements, UX contributes interaction patterns and design decisions, and the Engineer contributes technical feasibility and architecture. They co-author the spec in markdown together — design decisions are embedded inline, not deferred to a separate Figma-to-Jira handoff. This is where FSAD breaks the handoff chain.</p><div class="detail-artifacts"><span class="artifact-tag">spec.md</span><span class="artifact-tag">design-decisions.md</span><span class="artifact-tag">AGENTS.md</span></div></div>
     <div class="workflow-detail" id="detail-2"><h4>Phase 3 — Implementation Planning & Task Decomposition</h4><p>The Engineer feeds the spec to an AI agent in "plan mode" (read-only). The agent analyzes the codebase, generates an implementation plan, and decomposes work into discrete, parallelizable tasks. The human reviews the plan against the spec — catching hallucinations, missed edge cases, and architectural misalignment before any code is written.</p><div class="detail-artifacts"><span class="artifact-tag">plan.md</span><span class="artifact-tag">tasks/*.md</span><span class="artifact-tag">test-plan.md</span></div></div>
     <div class="workflow-detail" id="detail-3"><h4>Phase 4 — Parallel Agent Execution</h4><p>Multiple AI agents execute tasks simultaneously in isolated git worktrees. Each agent works against the spec as its source of truth. A Coordinator agent (or human) routes tasks, and a Verifier agent checks each output against the spec's acceptance criteria. The engineer monitors, steers, and intervenes only when agents get stuck or drift.</p><div class="detail-artifacts"><span class="artifact-tag">src/**</span><span class="artifact-tag">tests/**</span><span class="artifact-tag">agent-logs/</span></div></div>
     <div class="workflow-detail" id="detail-4"><h4>Phase 5 — Human Review & Ship</h4><p>The full pod reviews the implementation. The Engineer checks code quality, architecture adherence, and test coverage. UX validates the interface against design decisions in the spec. The PM validates against user stories and acceptance criteria. Reviews focus on spec compliance, not syntax — because agents produce consistent code from living specs. Then ship.</p><div class="detail-artifacts"><span class="artifact-tag">PR review</span><span class="artifact-tag">spec-diff.md</span><span class="artifact-tag">deploy</span></div></div>
+    </div>
   </div>
 
   <blockquote class="pullquote">
     Spec-driven, not code-driven. Structure is permanent; prompting is temporary.
     <span class="pullquote-attribution">The FSAD thesis</span>
   </blockquote>
+
+<!-- BEGIN: spec-comparison (safe to remove) -->
+<div class="xw" id="xw-spec-compare" style="margin: 2rem 0 0;">
+  <div class="xw-header">
+    <span class="xw-badge">Compare</span>
+    <h4 class="xw-title">Spec-Driven vs. Ad-Hoc Agent Sessions</h4>
+  </div>
+  <div class="xw-body">
+    <div class="xw-controls" id="xw-spec-toggles">
+      <button class="xw-btn active" onclick="setSpecView('both')">Side by side</button>
+      <button class="xw-btn" onclick="setSpecView('with')">With spec only</button>
+      <button class="xw-btn" onclick="setSpecView('without')">Without spec only</button>
+    </div>
+    <div id="xw-spec-panels" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <!-- With Spec -->
+      <div id="xw-spec-with" style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;">
+        <div style="padding: 8px 12px; background: rgba(16,185,129,0.1); border-bottom: 1px solid var(--border); display:flex; align-items:center; gap:8px;">
+          <span style="width:8px; height:8px; border-radius:50%; background:var(--accent-emerald);"></span>
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-emerald);">$ claude — with spec.md</span>
+        </div>
+        <div style="padding: 1rem; font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.8; color: var(--text-secondary); max-height: 320px; overflow-y: auto;">
+          <div style="color:var(--text-muted);">Reading spec.md...</div>
+          <div style="color:var(--text-muted);">Found: 4 acceptance criteria, 2 API endpoints, 1 database migration</div>
+          <div><br></div>
+          <div style="color:var(--accent-emerald);">Plan:</div>
+          <div>1. Create migration for <span style="color:var(--accent-blue);">users.preferences</span> column</div>
+          <div>2. Add <span style="color:var(--accent-blue);">GET /api/preferences</span> endpoint</div>
+          <div>3. Add <span style="color:var(--accent-blue);">PUT /api/preferences</span> endpoint</div>
+          <div>4. Write tests against spec criteria</div>
+          <div><br></div>
+          <div style="color:var(--accent-emerald);">Executing task 1/4...</div>
+          <div>Created <span style="color:var(--accent-blue);">migrations/003_add_preferences.sql</span></div>
+          <div style="color:var(--accent-emerald);">Executing task 2/4...</div>
+          <div>Created <span style="color:var(--accent-blue);">src/routes/preferences.ts</span> (47 lines)</div>
+          <div style="color:var(--accent-emerald);">All 4 acceptance criteria passing. ✓</div>
+          <div style="color:var(--text-muted);"><br>Done. 4 files changed, 183 insertions.</div>
+        </div>
+      </div>
+      <!-- Without Spec -->
+      <div id="xw-spec-without" style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;">
+        <div style="padding: 8px 12px; background: rgba(244,63,94,0.08); border-bottom: 1px solid var(--border); display:flex; align-items:center; gap:8px;">
+          <span style="width:8px; height:8px; border-radius:50%; background:var(--accent-rose);"></span>
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-rose);">$ claude — no spec</span>
+        </div>
+        <div style="padding: 1rem; font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.8; color: var(--text-secondary); max-height: 320px; overflow-y: auto;">
+          <div style="color:var(--accent-amber);">What kind of preferences? User settings? Feature flags?</div>
+          <div style="color:var(--text-muted);">> User settings. Themes, notifications, that kind of thing.</div>
+          <div><br></div>
+          <div>OK, I'll create a preferences system.</div>
+          <div>Creating <span style="color:var(--accent-blue);">src/models/UserPreference.ts</span></div>
+          <div>Creating <span style="color:var(--accent-blue);">src/services/PreferenceService.ts</span></div>
+          <div>Creating <span style="color:var(--accent-blue);">src/controllers/PreferenceController.ts</span></div>
+          <div>Creating <span style="color:var(--accent-blue);">src/middleware/preferenceLoader.ts</span></div>
+          <div><br></div>
+          <div style="color:var(--accent-amber);">Should preferences sync across devices? I'll add WebSocket support...</div>
+          <div>Creating <span style="color:var(--accent-blue);">src/ws/preferenceSync.ts</span></div>
+          <div style="color:var(--accent-amber);">Actually, should I use localStorage as a cache layer?</div>
+          <div>Creating <span style="color:var(--accent-blue);">src/cache/preferenceCache.ts</span></div>
+          <div><br></div>
+          <div style="color:var(--accent-rose);">Tests failing — PreferenceService depends on WebSocket server not in test env</div>
+          <div style="color:var(--text-muted);"><br>12 files changed, 847 insertions. 3 tests failing.</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 1rem;">Same task, same agent, same codebase. The spec focuses the work; without it, the agent fills the ambiguity with assumptions.</p>
+  </div>
+</div>
+<!-- END: spec-comparison -->
+
 </section>
 <hr class="divider">
 
@@ -2281,6 +2432,54 @@ PostgreSQL. Follow existing patterns.</span>
     </div>
   </div>
 
+  <!-- BEGIN: sprint-simulator (safe to remove) -->
+  <div class="xw" id="xw-sprint" style="margin: 2.5rem 0;">
+    <div class="xw-header">
+      <span class="xw-badge">Interactive</span>
+      <h4 class="xw-title">Build-a-Sprint Simulator</h4>
+    </div>
+    <div class="xw-body">
+      <div class="xw-controls">
+        <button class="xw-btn active" onclick="setSprintPreset('default')">Default</button>
+        <button class="xw-btn" onclick="setSprintPreset('parallel')">Max Parallel (FSAD)</button>
+        <button class="xw-btn" onclick="setSprintPreset('crunch')">Crunch Mode</button>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <!-- Agile Lane -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+            <span class="xw-label">Traditional Agile (serial)</span>
+            <span class="xw-label" id="xw-sprint-agile-days" style="color: var(--accent-amber);">10 days</span>
+          </div>
+          <div id="xw-sprint-agile" style="position: relative; height: 180px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;"></div>
+        </div>
+        <!-- FSAD Lane -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+            <span class="xw-label">FSAD (parallel agents)</span>
+            <span class="xw-label" id="xw-sprint-fsad-days" style="color: var(--accent-emerald);"></span>
+          </div>
+          <div id="xw-sprint-fsad" style="position: relative; height: 180px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;"></div>
+        </div>
+      </div>
+      <!-- Day grid labels -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 0.3rem;">
+        <div style="display: flex; justify-content: space-between; padding: 0 2px;">
+          <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted);">Day 1</span>
+          <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted);">Day 5</span>
+          <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted);">Day 10</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 0 2px;">
+          <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted);">Day 1</span>
+          <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted);">Day 5</span>
+          <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted);">Day 10</span>
+        </div>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 1rem;">In FSAD, agents execute implementation tasks in parallel while humans focus on spec quality and review. The timeline compresses because the bottleneck shifts from serial execution to spec clarity.</p>
+    </div>
+  </div>
+  <!-- END: sprint-simulator -->
+
   <div class="comparison-table-wrap" style="margin-top: 2.5rem;">
     <table class="comparison-table">
       <thead><tr><th>Dimension</th><th>Traditional Agile / Scrum</th><th>FSAD</th></tr></thead>
@@ -2304,6 +2503,25 @@ PostgreSQL. Follow existing patterns.</span>
 <section id="advantages">
   <span class="section-label">06 — Why FSAD Wins</span>
   <h2 class="section-title">The Advantages</h2>
+  <!-- BEGIN: place-your-bets (safe to remove) -->
+  <div class="xw" id="xw-bets" style="margin: 0 0 2.5rem;">
+    <div class="xw-header">
+      <span class="xw-badge">Knowledge check</span>
+      <h4 class="xw-title">Place Your Bets</h4>
+    </div>
+    <div class="xw-body">
+      <div id="xw-bets-question">
+        <p style="font-size: 1rem; color: var(--text-primary); margin-bottom: 1.25rem; font-weight: 500;">What do you think the biggest advantage of agentic development is?</p>
+        <div id="xw-bets-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;"></div>
+      </div>
+      <div id="xw-bets-reveal" style="display: none;">
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem;" id="xw-bets-pick-msg"></p>
+        <div id="xw-bets-results"></div>
+        <button class="xw-btn" onclick="resetBets()" style="margin-top: 1rem;">Try again</button>
+      </div>
+    </div>
+  </div>
+  <!-- END: place-your-bets -->
   <div class="adv-list">
     <div class="adv-item"><h3>Cycle Time Compression</h3><p>Eliminating handoffs and delegating implementation to parallel agents compresses 2–4 week sprints into 1–3 days.</p></div>
     <div class="adv-item"><h3>No Handoff Latency</h3><p>No more Figma → Jira → Slack → Code chain. Design decisions reach code without translation loss.</p></div>
@@ -2389,6 +2607,41 @@ PostgreSQL. Follow existing patterns.</span>
   <span class="section-label">01 — Pod Explorer</span>
   <h2 class="section-title">Choose the Right Pod for the Work</h2>
   <p class="section-subtitle">Click a configuration to explore its composition, when it works best, and the artifacts it produces.</p>
+
+<!-- BEGIN: pod-composer (safe to remove) -->
+<div class="xw" id="xw-pod-composer" style="margin: 0 0 2.5rem;">
+  <div class="xw-header">
+    <span class="xw-badge">Interactive</span>
+    <h4 class="xw-title">Pod Composer — Build Your Own</h4>
+  </div>
+  <div class="xw-body">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+      <!-- Left: Pod Canvas -->
+      <div>
+        <span class="xw-label">Your pod</span>
+        <div id="xw-pod-canvas" style="position:relative; height: 220px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          <div id="xw-pod-members" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; padding: 1rem;"></div>
+        </div>
+        <div class="xw-controls" style="margin-top: 0.75rem;">
+          <button class="xw-btn" onclick="addPodMember('pm')" style="border-color: var(--accent-amber); color: var(--accent-amber);">+ PM</button>
+          <button class="xw-btn" onclick="addPodMember('ux')" style="border-color: var(--accent-blue); color: var(--accent-blue);">+ UX</button>
+          <button class="xw-btn" onclick="addPodMember('eng')" style="border-color: var(--accent-emerald); color: var(--accent-emerald);">+ Eng</button>
+          <button class="xw-btn" onclick="addPodMember('agent')" style="border-color: #60a5fa; color: #60a5fa;">+ Agent</button>
+          <button class="xw-btn" onclick="clearPodMembers()">Clear</button>
+          <button class="xw-btn" onclick="randomPod()">Random</button>
+        </div>
+      </div>
+      <!-- Right: Match Result -->
+      <div>
+        <span class="xw-label">Closest match</span>
+        <div id="xw-pod-match" style="min-height: 200px;">
+          <p style="color: var(--text-muted); font-size: 0.82rem; font-family: var(--font-mono);">Add members to see which pod type you're building.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END: pod-composer -->
 
   <div class="pod-tabs">
     <button class="pod-tab active" data-pod="triad" onclick="switchPod('triad')">🎯 The Triad <span class="tab-size">3</span></button>
@@ -2971,14 +3224,12 @@ Future Scope           → planned / possible / out</pre>
     <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
       Fill sample task inputs on the left, watch the generated <code>todo.md</code> entry and <code>task-NNN.md</code> file update live on the right, and copy a ready-to-paste prompt that invokes the skill.
     </p>
-    <div style="border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
-      <object data="add-task-playground.html" type="text/html" width="100%" height="720" style="display:block; color-scheme:dark;">
-        <div style="display:flex; align-items:center; justify-content:center; height:720px; flex-direction:column; gap:0.75rem; color:var(--text-muted); font-size:0.9rem; text-align:center; padding:2rem;">
-          <span style="font-size:2rem; opacity:0.4;">&#9654;</span>
-          <span>Playground file not found</span>
-          <span style="font-size:0.8rem; opacity:0.5;">Place <code>add-task-playground.html</code> alongside this file, or <a href="add-task-playground.html" target="_blank" rel="noopener" style="color:var(--accent);">open standalone →</a></span>
-        </div>
-      </object>
+    <div style="position: relative; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <iframe
+        src="add-task-playground.html"
+        title="add-task interactive playground"
+        loading="lazy"
+        style="width: 100%; height: 720px; border: 0; display: block; color-scheme: dark;"></iframe>
     </div>
     <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
       Prefer a new tab? <a href="add-task-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
@@ -3113,14 +3364,12 @@ git diff --stat</pre>
     <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
       Build a batch of shipping tasks on the left, watch the generated <code>CHANGELOG.md</code> block, <code>README.md</code> version rows, commit message, and shell commands update live on the right.
     </p>
-    <div style="border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
-      <object data="commit-changes-playground.html" type="text/html" width="100%" height="720" style="display:block; color-scheme:dark;">
-        <div style="display:flex; align-items:center; justify-content:center; height:720px; flex-direction:column; gap:0.75rem; color:var(--text-muted); font-size:0.9rem; text-align:center; padding:2rem;">
-          <span style="font-size:2rem; opacity:0.4;">&#9654;</span>
-          <span>Playground file not found</span>
-          <span style="font-size:0.8rem; opacity:0.5;">Place <code>commit-changes-playground.html</code> alongside this file, or <a href="commit-changes-playground.html" target="_blank" rel="noopener" style="color:var(--accent);">open standalone →</a></span>
-        </div>
-      </object>
+    <div style="position: relative; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <iframe
+        src="commit-changes-playground.html"
+        title="commit-changes interactive playground"
+        loading="lazy"
+        style="width: 100%; height: 720px; border: 0; display: block; color-scheme: dark;"></iframe>
     </div>
     <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
       Prefer a new tab? <a href="commit-changes-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
@@ -3336,7 +3585,7 @@ What problem are we solving and for whom?
     </div>
 
     <!-- Pillar 1 -->
-    <div class="collapsible open" id="claude-setup--pillar-1-claude-md">
+    <div class="collapsible open">
       <div class="collapsible-header">
         <h3>Pillar 1: CLAUDE.md = Repo Memory</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3372,7 +3621,7 @@ orders, and payments.
       </div></div>
     </div>
 
-    <div class="collapsible" id="claude-setup--example-claude-md" style="margin-top:0.6rem;">
+    <div class="collapsible" style="margin-top:0.6rem;">
       <div class="collapsible-header">
         <h3>Example: A Production CLAUDE.md</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3439,7 +3688,7 @@ orders, and payments.
     </div>
 
     <!-- Pillar 2 -->
-    <div class="collapsible" id="claude-setup--pillar-2-skills">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Pillar 2: .claude/skills/ = Reusable Expert Modes</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3471,7 +3720,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Pillar 3 -->
-    <div class="collapsible" id="claude-setup--pillar-3-hooks">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Pillar 3: .claude/hooks/ = Guardrails</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3504,7 +3753,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Pillar 4 -->
-    <div class="collapsible" id="claude-setup--pillar-4-docs">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Pillar 4: docs/ = Progressive Context</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3529,7 +3778,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Pillar 5 -->
-    <div class="collapsible" id="claude-setup--pillar-5-local-claude-md">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Pillar 5: Local CLAUDE.md for Risky Modules</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3721,6 +3970,51 @@ description: Structured code review with security and quality checks
     └── my-workflow/SKILL.md</code></pre>
     </div>
 
+    <div id="config-cascade-split">
+    <div class="xw-cc-sticky">
+    <!-- BEGIN: config-cascade-playground (safe to remove) -->
+    <div class="xw" id="xw-config-cascade" style="margin: 2.5rem 0;">
+      <div class="xw-header">
+        <span class="xw-badge">Interactive</span>
+        <h4 class="xw-title">Config Cascade Playground</h4>
+      </div>
+      <div class="xw-body">
+        <div id="xw-cc-editors" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <div>
+            <span class="xw-label" style="color: var(--accent-amber);">Org CLAUDE.md (lowest priority)</span>
+            <textarea class="xw-editor" id="xw-cc-org" rows="8"># Org standards
+- Language: TypeScript
+- Versioning: semantic
+- All PRs require review
+- Max function length: 50 lines
+- Linter: ESLint</textarea>
+          </div>
+          <div>
+            <span class="xw-label" style="color: var(--accent-emerald);">Project CLAUDE.md (overrides org)</span>
+            <textarea class="xw-editor" id="xw-cc-project" rows="8"># Project rules
+- Language: TypeScript strict
+- Test before commit: always
+- Max file length: 300 lines
+- Framework: Next.js 15</textarea>
+          </div>
+          <div>
+            <span class="xw-label" style="color: var(--accent-blue);">User ~/.claude/CLAUDE.md (highest priority)</span>
+            <textarea class="xw-editor" id="xw-cc-user" rows="8"># My preferences
+- Language: TypeScript strict
+- Editor: vim keybindings
+- Never auto-commit
+- Verbose logging: on</textarea>
+          </div>
+        </div>
+        <span class="xw-label">Resolved config (most-specific layer wins per key)</span>
+        <div class="xw-output" id="xw-cc-resolved" style="min-height: 120px;"></div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem;">Edit any layer — the resolved config updates live. Each line shows which layer it came from. User overrides Project overrides Org.</p>
+      </div>
+    </div>
+    <!-- END: config-cascade-playground -->
+    </div><!-- /.xw-cc-sticky -->
+    <div class="xw-cc-prose">
+
     <!-- 8 Recommendations -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">8 Recommendations for Teams</h3>
     <div class="card-grid" style="gap:1rem;">
@@ -3806,6 +4100,8 @@ description: Structured code review with security and quality checks
       <div class="callout-title">Codex Equivalent</div>
       <p>OpenAI's Codex CLI uses the same layered architecture with different filenames: <code>AGENTS.md</code> instead of <code>CLAUDE.md</code>, <code>.rules/</code> for guardrails, and <code>.agents/skills/</code> for reusable workflows. The cascade model (org → project → user) is identical. See the <strong>Codex Best Practices</strong> page for the full mapping.</p>
     </div>
+    </div><!-- /.xw-cc-prose -->
+    </div><!-- /#config-cascade-split -->
 </section>
 
 <hr class="divider">
@@ -3873,7 +4169,7 @@ description: Structured code review with security and quality checks
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Available Integrations</h3>
 
     <!-- JIRA MCP -->
-    <div class="collapsible" id="integrations--jira-mcp">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>JIRA MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3898,7 +4194,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Figma MCP -->
-    <div class="collapsible" id="integrations--figma-mcp">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Figma MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3923,7 +4219,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Notion MCP -->
-    <div class="collapsible" id="integrations--notion-mcp">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Notion MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3948,7 +4244,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Azure DevOps MCP -->
-    <div class="collapsible" id="integrations--azure-devops-mcp">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Azure DevOps MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -3972,7 +4268,7 @@ description: Structured code review with security and quality checks
     </div>
 
     <!-- Google Workspace MCP -->
-    <div class="collapsible" id="integrations--google-workspace-mcp">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Google Workspace MCP</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4227,63 +4523,23 @@ Use a structured format: file, line, severity, description.</code></pre>
 <section id="security-review">
     <span class="section-label">10.6 — Security Review</span>
     <h2 class="section-title">Multi-Agent Security Review Team</h2>
-    <p class="section-subtitle">Orchestrate a specialist-library security review team for pre-merge or pre-release hardening. The skill picks a roster based on detected stack signals, spawns specialists in parallel, and consolidates structured findings into a single severity-ranked report. Review only — no fixes.</p>
+    <p class="section-subtitle">Orchestrate a team of specialized review agents in parallel for a pre-merge or pre-release hardening pass. Each specialist writes findings to its own file; a lead agent consolidates them into a single report. Review only — no fixes.</p>
 
-    <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:1.5rem;">
-      <div class="callout-title">Invocation</div>
-      <p>Drop <code>.claude/skills/sec-review-team/</code> into your project and invoke with <code>/sec-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>). The <code>-team</code> suffix disambiguates from the built-in <code>/security-review</code> (a single-pass branch review). Pair with <code>/sec-review-fixes</code> to produce fix PRs from the report. Validated on Opus 4.7 against a Tauri + React + Rust target (CBP-060 → 3 high-severity findings after dedupe, zero hallucinated CVEs).</p>
-    </div>
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialists</h3>
+    <ul style="color:var(--text-secondary); line-height:1.9; margin-bottom:1.5rem; padding-left:1.2rem;">
+      <li><strong style="color:var(--text-primary);">auth-authz-auditor</strong> — Auth flows, sessions, JWT/OAuth, RBAC, privilege boundaries, endpoint auth mapping.</li>
+      <li><strong style="color:var(--text-primary);">input-validation-auditor</strong> — Injection vectors: SQLi, command injection, SSRF, path traversal, XSS, deserialization, prompt injection.</li>
+      <li><strong style="color:var(--text-primary);">secrets-crypto-auditor</strong> — Hardcoded secrets, weak crypto, insecure random, improper key/token storage, leaked credentials.</li>
+      <li><strong style="color:var(--text-primary);">dependency-supplychain-auditor</strong> — Known CVEs, pinned versions, lockfile integrity, suspicious packages, CI/CD trust boundaries.</li>
+      <li><strong style="color:var(--text-primary);">silent-failure-hunter</strong> — Swallowed exceptions, fallbacks that mask security failures, error handling that fails open.</li>
+      <li><strong style="color:var(--text-primary);">data-exposure-auditor</strong> — PII handling, log redaction, response shapes, IDOR, tenant isolation, overly broad CORS.</li>
+    </ul>
 
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialist Library (13)</h3>
-    <p style="color:var(--text-secondary); margin-bottom:1rem;">The roster is selected automatically from detected stack signals (see <code>stack-signals.md</code>). Four baseline specialists always run; stack-specific additions layer on top.</p>
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Example Prompt</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">Paste this into Claude Code, replace <code>&lt;PATH&gt;</code> and the scope placeholder, and adjust the agent roster to match your stack:</p>
 
-    <table style="width:100%; border-collapse:collapse; font-size:0.92rem; margin-bottom:1.5rem;">
-      <thead>
-        <tr style="border-bottom:2px solid var(--border); text-align:left;">
-          <th style="padding:0.6rem 0.8rem; color:var(--text-primary);">Specialist</th>
-          <th style="padding:0.6rem 0.8rem; color:var(--text-primary);">Default for</th>
-          <th style="padding:0.6rem 0.8rem; color:var(--text-primary);">Scope</th>
-        </tr>
-      </thead>
-      <tbody style="color:var(--text-secondary);">
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">secrets-crypto-auditor</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">Hardcoded secrets, weak crypto, insecure random, key storage, TLS config.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">dependency-supplychain-auditor</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">Known CVEs, lockfile integrity, install scripts, typosquats, plugin alignment.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">silent-failure-hunter</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">Swallowed exceptions, fail-open error paths, security-relevant silences.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">data-exposure-auditor</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">PII storage, log redaction, error-leak patterns, IDOR, outbound-call verification.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">auth-authz-auditor</strong></td><td style="padding:0.5rem 0.8rem;">webapp, desktop, backend, multi-user</td><td style="padding:0.5rem 0.8rem;">Auth flows, JWT/OAuth, RBAC, IPC command surfaces, Tauri capability grants.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">input-validation-auditor</strong></td><td style="padding:0.5rem 0.8rem;">webapp, backend, desktop</td><td style="padding:0.5rem 0.8rem;">SQLi, XSS, command/path traversal, deserialization, SSRF, IPC payload validation.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">frontend-security-auditor</strong></td><td style="padding:0.5rem 0.8rem;">webapp, desktop-with-webview</td><td style="padding:0.5rem 0.8rem;">CSP, CORS, SRI, cookie flags, postMessage origin, clickjacking, third-party scripts.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">prompt-injection-auditor</strong></td><td style="padding:0.5rem 0.8rem;">llm-agent, rag, agentic</td><td style="padding:0.5rem 0.8rem;">Prompt concat of untrusted input, tool-use role confusion, context poisoning, memory injection.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">iac-auditor</strong></td><td style="padding:0.5rem 0.8rem;">terraform, kubernetes, helm, cloudformation</td><td style="padding:0.5rem 0.8rem;">Public resources, IAM wildcards, encryption, pod security, IaC hardcoded credentials.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">container-runtime-auditor</strong></td><td style="padding:0.5rem 0.8rem;">docker, kubernetes</td><td style="padding:0.5rem 0.8rem;">Dockerfile hardening, base-image CVEs, compose privileges, pod security context.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">ci-cd-security-auditor</strong></td><td style="padding:0.5rem 0.8rem;">any repo with CI</td><td style="padding:0.5rem 0.8rem;">Workflow triggers, action SHA-pinning, permissions block, secrets-in-CI, artifact integrity.</td></tr>
-        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">concurrency-race-auditor</strong></td><td style="padding:0.5rem 0.8rem;">backend, realtime, multi-user</td><td style="padding:0.5rem 0.8rem;">TOCTOU, double-check-locking, rate-limit races, session races, transactional integrity.</td></tr>
-        <tr><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">privacy-telemetry-auditor</strong></td><td style="padding:0.5rem 0.8rem;">consumer-facing webapp/desktop</td><td style="padding:0.5rem 0.8rem;">Outbound data, analytics SDKs, cookies, consent flow, cross-border transfer.</td></tr>
-      </tbody>
-    </table>
-
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Example Invocation</h3>
     <div class="code-block">
-      <pre><code class="language-bash"># Confirm + run against a full repo on Opus 4.7
-/sec-review-team /path/to/repo all
-
-# Review only the diff vs main (fast — finishes in minutes)
-/sec-review-team /path/to/repo "diff vs main"
-
-# Skip confirmation (for CI / scripted runs)
-/sec-review-team /path/to/repo all --yes
-
-# After the run, open fix PRs for high/certain findings:
-/sec-review-fixes /path/to/repo/.planning/security-review/</code></pre>
-    </div>
-
-    <p style="color:var(--text-secondary); margin:1rem 0 0.5rem;">The skill produces structured JSONL findings (one file per specialist) plus a human-readable <code>REPORT.md</code>. The JSONL conforms to <code>schema/finding.schema.json</code> and is consumable by CI, the <code>/sec-review-fixes</code> companion, and a future fixtures-based regression harness.</p>
-
-    <details style="margin-top:1.5rem; border:1px solid var(--border); border-radius:6px; padding:0.5rem 1rem;">
-      <summary style="cursor:pointer; font-weight:600; color:var(--text-primary); padding:0.5rem 0;">Legacy monolithic prompt (for reference / non-skill environments)</summary>
-      <p style="color:var(--text-secondary); margin:1rem 0;">The original single-prompt form the library was factored from. Use this in environments where the skill isn't available — paste into Claude Code, replace <code>&lt;PATH&gt;</code> and the scope placeholder, and adjust the agent roster.</p>
-      <div class="code-block">
-        <pre><code class="language-markdown">Spin up a security review team for the codebase at &lt;PATH&gt;. Scope: &lt;all backend services | specific dirs | recent diff vs main&gt;.
+      <pre><code class="language-markdown">Spin up a security review team for the codebase at &lt;PATH&gt;. Scope: &lt;all backend services | specific dirs | recent diff vs main&gt;.
 
 1. Create a team via TeamCreate named "sec-review" with a task list.
 
@@ -4310,12 +4566,11 @@ Use a structured format: file, line, severity, description.</code></pre>
 4. After all agents finish, you (lead) consolidate into .planning/security-review/REPORT.md grouped by severity, dedupe overlaps, and propose a fix order. Then shut down the team.
 
 Use the code-review skill to frame the consolidation. Do NOT fix anything in this pass — review only.</code></pre>
-      </div>
-    </details>
+    </div>
 
     <div class="callout callout-best-practice" style="margin-top:1.5rem;">
       <div class="callout-title">How to Adapt</div>
-      <p>Roster adaptation is now automatic via <code>stack-signals.md</code>: the skill detects your stack (webapp / desktop / iac / llm-agent / container / etc.) and picks a roster. Override at the pre-run confirmation screen — drop or add specialists with a one-liner. For first-time setup, inspect the specialist library under <code>.claude/skills/sec-review-team/specialists/</code> and the detection rules in <code>stack-signals.md</code>. Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take 20+ minutes on a large monorepo.</p>
+      <p>Swap in your stack's auditors (e.g., drop <code>dependency-supplychain-auditor</code> for a pure static site, add a Terraform/IaC auditor for infra repos). Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take much longer and cost more.</p>
     </div>
 </section>
 
@@ -4366,7 +4621,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
     </div>
 
     <!-- Frontmatter Reference -->
-    <div class="collapsible" id="building-skills--frontmatter-reference">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Frontmatter Reference (All Fields)</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4381,13 +4636,12 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>argument-hint</code></td><td>string</td><td>Hint shown in autocomplete (e.g. <code>[filename]</code>, <code>[issue-number]</code>).</td></tr>
               <tr><td><code>disable-model-invocation</code></td><td>boolean</td><td>If <code>true</code>, only you can invoke via <code>/name</code> — Claude won't auto-load. Use for side effects (deploy, send).</td></tr>
               <tr><td><code>user-invocable</code></td><td>boolean</td><td>If <code>false</code>, hidden from <code>/</code> menu. Claude can still auto-load. Use for background knowledge.</td></tr>
-              <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Bash(grep:*) Bash(git *)</code>). On native macOS/Linux builds, <code>Grep</code> and <code>Glob</code> are embedded in the Bash tool — use <code>Bash(grep:*)</code> and <code>Bash(find:*)</code> instead.</td></tr>
+              <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Grep Bash(git *)</code>).</td></tr>
               <tr><td><code>model</code></td><td>string</td><td>Override model when skill is active (e.g. <code>claude-opus-4-6</code>).</td></tr>
-              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>. Overrides session default (<code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> otherwise).</td></tr>
+              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>. Overrides session default (medium).</td></tr>
               <tr><td><code>context</code></td><td>string</td><td>Set to <code>fork</code> to run in isolated subagent context with fresh context window.</td></tr>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
-              <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.). Also fires when the agent is run as a main-thread agent via <code>--agent</code>.</td></tr>
-              <tr><td><code>mcpServers</code></td><td>object</td><td>MCP server definitions scoped to this skill. Loaded for fork-subagent contexts and for main-thread agent sessions via <code>--agent</code>.</td></tr>
+              <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.).</td></tr>
               <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation.</td></tr>
               <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
             </tbody>
@@ -4434,10 +4688,50 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
       <p>Front-load your <code>description</code> with the key use case in the first 50 characters. Claude uses this to decide when to auto-load the skill. Vague descriptions = poor triggering.</p>
     </div>
 
+    <!-- BEGIN: skill-anatomy-builder (safe to remove) -->
+    <div class="xw" id="xw-skill-builder" style="margin: 2.5rem 0;">
+      <div class="xw-header">
+        <span class="xw-badge">Interactive</span>
+        <h4 class="xw-title">Skill Anatomy Builder</h4>
+      </div>
+      <div class="xw-body">
+        <div class="xw-controls">
+          <button class="xw-btn" onclick="loadSkillPreset('docs')">Documentation Skill</button>
+          <button class="xw-btn" onclick="loadSkillPreset('review')">Code Review Skill</button>
+          <button class="xw-btn" onclick="loadSkillPreset('deploy')">Deploy Checklist</button>
+          <button class="xw-btn" onclick="loadSkillPreset('empty')">Start Empty</button>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+          <div>
+            <span class="xw-label">Frontmatter</span>
+            <div style="display: grid; gap: 0.5rem; margin-bottom: 1rem;">
+              <input class="xw-editor" id="xw-sk-name" placeholder="name" value="generate-docs" style="padding: 6px 10px;" oninput="renderSkillPreview()">
+              <input class="xw-editor" id="xw-sk-desc" placeholder="description" value="Generate project documentation from codebase analysis" style="padding: 6px 10px;" oninput="renderSkillPreview()">
+              <input class="xw-editor" id="xw-sk-hint" placeholder="argument-hint (optional)" value="[module-or-directory]" style="padding: 6px 10px;" oninput="renderSkillPreview()">
+              <input class="xw-editor" id="xw-sk-tools" placeholder="allowed-tools (optional)" value="Read Grep Glob" style="padding: 6px 10px;" oninput="renderSkillPreview()">
+            </div>
+            <span class="xw-label">Process steps (one per line)</span>
+            <textarea class="xw-editor" id="xw-sk-steps" rows="6" oninput="renderSkillPreview()">Read CLAUDE.md and architecture docs
+Scan src/ for all public APIs
+For each module, extract function signatures
+Generate docs/api-reference.md</textarea>
+            <span class="xw-label" style="margin-top: 0.75rem;">Guardrails (one per line, optional)</span>
+            <textarea class="xw-editor" id="xw-sk-guards" rows="3" oninput="renderSkillPreview()">Never overwrite existing documentation
+Ask before creating new directories</textarea>
+          </div>
+          <div>
+            <span class="xw-label">Live preview — SKILL.md</span>
+            <div class="xw-output" id="xw-sk-preview" style="min-height: 300px; font-size: 0.74rem; line-height: 1.7;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: skill-anatomy-builder -->
+
     <!-- Example Skills -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Example Skills</h3>
 
-    <div class="collapsible" id="building-skills--documentation-skill">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Documentation Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4470,7 +4764,7 @@ allowed-tools: Read Grep Glob
       </div></div>
     </div>
 
-    <div class="collapsible" id="building-skills--story-point-skill">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Story Point Estimation Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4506,7 +4800,7 @@ description: Estimate story points for tasks using Fibonacci scale
       </div></div>
     </div>
 
-    <div class="collapsible" id="building-skills--epic-to-stories-skill">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Epic to Stories Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4546,7 +4840,7 @@ For each story:
       </div></div>
     </div>
 
-    <div class="collapsible" id="building-skills--code-review-skill">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Code Review Skill</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4590,7 +4884,7 @@ With specific line-level feedback for each issue.</code></pre>
     </div>
 
     <!-- Advanced Patterns -->
-    <div class="collapsible" id="building-skills--advanced-patterns">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Advanced Skill Patterns</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -4836,146 +5130,6 @@ smoke tests against the staging URL."</code></pre>
 </div>
 
 <div class="topic-view" data-topic="reference" hidden>
-<section id="model-effort">
-    <span class="section-label">12.5 — Model &amp; Effort</span>
-    <h2 class="section-title">Model &amp; Effort</h2>
-    <p class="section-subtitle">Pick the right model tier for the task, combine them with <code>opusplan</code>, and tune reasoning depth with <code>/effort</code>.</p>
-
-    <p style="margin-top:1.5rem;">Match model capability to task complexity. Claude Code auto-selects a sensible default, but the best coding results in 2026 come from combining all three tiers — not picking one for everything.</p>
-
-    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Current model lineup</strong></p>
-    <div class="table-wrap">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Capability</th>
-            <th>Opus 4.7</th>
-            <th>Sonnet 4.6</th>
-            <th>Haiku 4.5</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Positioning</td><td>Frontier reasoning + agentic coding</td><td>Balanced daily driver</td><td>Fast, near-frontier</td></tr>
-          <tr><td>API ID</td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5</code></td></tr>
-          <tr><td>Input / Output (per MTok)</td><td>$5 / $25</td><td>$3 / $15</td><td>$1 / $5</td></tr>
-          <tr><td>Context window</td><td>1M tokens</td><td>1M tokens</td><td>200K tokens</td></tr>
-          <tr><td>Max output</td><td>128K</td><td>64K</td><td>64K</td></tr>
-          <tr><td>Adaptive thinking</td><td>Yes (default <code>xhigh</code>)</td><td>Yes</td><td>No (extended thinking only)</td></tr>
-          <tr><td>Relative latency</td><td>Moderate</td><td>Fast</td><td>Fastest</td></tr>
-          <tr><td>Best for</td><td>Long-horizon agentic coding, large refactors, architecture, RCA</td><td>80%+ of day-to-day coding, tests, tool use</td><td>Sub-agent work, batch reviews, mechanical edits</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Claude Code model aliases</strong></p>
-    <div class="table-wrap">
-      <table class="styled-table">
-        <thead><tr><th>Alias</th><th>Resolves to</th><th>When to use</th></tr></thead>
-        <tbody>
-          <tr><td><code>default</code></td><td>Tier-dependent (Max / Team Premium → Opus 4.7; Pro / Team Std / Enterprise / API → Sonnet 4.6; Bedrock / Vertex / Foundry → Sonnet 4.5)</td><td>Daily driver if unsure</td></tr>
-          <tr><td><code>best</code> / <code>opus</code></td><td>Latest Opus (4.7 on API; 4.6 on Bedrock / Vertex / Foundry)</td><td>Complex reasoning, architecture, gnarly bugs</td></tr>
-          <tr><td><code>sonnet</code></td><td>Latest Sonnet (4.6 on API; 4.5 on Bedrock / Vertex / Foundry)</td><td>80%+ of coding tasks</td></tr>
-          <tr><td><code>haiku</code></td><td>Latest Haiku</td><td>Cheap sub-agent / background work</td></tr>
-          <tr><td><code>opus[1m]</code> / <code>sonnet[1m]</code></td><td>1M context variant</td><td>Long-session work across large codebases</td></tr>
-          <tr><td><strong><code>opusplan</code></strong></td><td>Opus during plan mode → Sonnet during execution</td><td><strong>Recommended default for non-trivial feature work</strong> — ~40% cheaper than pure Opus</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="code-block" style="margin-top:1.5rem;">
-      <pre><code class="language-bash"><span class="cm"># Recommended: let Opus plan, Sonnet execute</span>
-<span class="kw">claude</span> <span class="val">--model</span> opusplan
-
-<span class="cm"># Force a specific model mid-session</span>
-/model opus         <span class="cm"># Switch to latest Opus</span>
-/model sonnet       <span class="cm"># Switch to latest Sonnet</span>
-/model haiku        <span class="cm"># Switch to latest Haiku</span>
-/model opus[1m]     <span class="cm"># 1M context variant for large codebases</span>
-
-<span class="cm"># Route sub-agents to Haiku (single biggest cost lever after opusplan)</span>
-<span class="kw">export</span> CLAUDE_CODE_SUBAGENT_MODEL=haiku
-
-<span class="cm"># Set effort level (controls reasoning depth)</span>
-/effort max          <span class="cm"># Maximum reasoning — complex agentic tasks</span>
-/effort xhigh        <span class="cm"># Opus 4.7 only — between high and max</span>
-/effort high         <span class="cm"># Deep thinking — difficult coding problems</span>
-/effort medium       <span class="cm"># Balanced (default) — speed + quality</span>
-/effort low          <span class="cm"># Quick responses — simple tasks, subagents</span>
-/effort              <span class="cm"># No args: opens interactive slider (arrow keys + Enter)</span>
-<span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
-
-<span class="cm"># Toggle fast mode (same model, faster output)</span>
-/fast on
-
-<span class="cm"># Auto-fallback in print mode when overloaded</span>
-<span class="kw">claude</span> <span class="val">-p</span> <span class="val">--fallback-model</span> sonnet <span class="str">"query"</span></code></pre>
-    </div>
-
-    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Best-practice combinations by workload</strong></p>
-    <div class="table-wrap">
-      <table class="styled-table">
-        <thead><tr><th>Workload</th><th>Plan</th><th>Execute</th><th>Sub-agents</th></tr></thead>
-        <tbody>
-          <tr><td>Greenfield feature, multi-file</td><td>Opus 4.7 (<code>xhigh</code>)</td><td>Sonnet 4.6</td><td>Haiku 4.5</td></tr>
-          <tr><td>Targeted bug fix (known file)</td><td>Sonnet 4.6</td><td>Sonnet 4.6</td><td>Haiku 4.5</td></tr>
-          <tr><td>Architectural refactor (10+ files)</td><td>Opus 4.7 (<code>max</code>, one-shot)</td><td>Opus 4.7 or Sonnet 4.6</td><td>Haiku 4.5</td></tr>
-          <tr><td>Boilerplate / rename / formatting</td><td>—</td><td>Haiku 4.5</td><td>—</td></tr>
-          <tr><td>High-volume code review / lint triage</td><td>—</td><td>Haiku 4.5 (Batch API)</td><td>—</td></tr>
-          <tr><td>Long-session monorepo exploration</td><td>Opus 4.7 <code>[1m]</code> or Sonnet <code>[1m]</code></td><td>Sonnet 4.6 <code>[1m]</code></td><td>Haiku 4.5</td></tr>
-          <tr><td>Production incident / RCA</td><td>Opus 4.7 (<code>max</code>)</td><td>Opus 4.7</td><td>Sonnet 4.6</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="callout callout-tip" style="margin-top:1rem;">
-      <div class="callout-title">Cost Optimization Checklist</div>
-      <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
-        <li>Default to <code>opusplan</code> for coding — ~40% cheaper than pure Opus.</li>
-        <li>Route sub-agents to Haiku via <code>CLAUDE_CODE_SUBAGENT_MODEL=haiku</code>.</li>
-        <li>Enable prompt caching — cache hits are 10% of base input (up to 90% off on repeated system prompts, CLAUDE.md, large docs).</li>
-        <li>Use the Batch API for any non-interactive job — 50% off input and output; stacks with caching.</li>
-        <li>Pin effort to <code>medium</code> on cost-sensitive Sonnet workflows; raise only where needed.</li>
-        <li>Budget for up to <strong>35% more tokens</strong> when migrating from Opus 4.6 → 4.7 (new tokenizer).</li>
-      </ul>
-    </div>
-
-    <div class="callout callout-warning" style="margin-top:0.75rem;">
-      <div class="callout-title">Key Dates (Apr 2026)</div>
-      <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
-        <li><strong>April 23, 2026</strong> — Default model for Enterprise PAYG + Anthropic API switches to Opus 4.7.</li>
-        <li><strong>June 15, 2026</strong> — Sonnet 4 (<code>claude-sonnet-4-20250514</code>) and Opus 4 (<code>claude-opus-4-20250514</code>) retire. Migrate to Sonnet 4.6 and Opus 4.7.</li>
-        <li>On Bedrock / Vertex / Foundry, pin model versions explicitly (<code>ANTHROPIC_DEFAULT_OPUS_MODEL</code>, etc.) — alias targets move under you.</li>
-      </ul>
-    </div>
-
-    <div class="callout callout-tip" style="margin-top:0.75rem;">
-      <div class="callout-title">Default Effort Is Tier-Dependent</div>
-      <p>As of v2.1.117, the default effort level depends on your subscription tier and model: <strong>Pro and Max subscribers on Opus 4.6 or Sonnet 4.6 default to <code>high</code></strong>. All other tiers and models default to <code>medium</code>. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
-    </div>
-
-    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Adaptive thinking &amp; effort</strong></p>
-    <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7;">On Opus 4.6 and Sonnet 4.6, <strong>adaptive thinking</strong> is the recommended mode. Instead of manually setting a thinking token budget, Claude dynamically decides when and how much to think based on task complexity. The <code>/effort</code> level is the primary lever that controls thinking depth:</p>
-    <div class="table-wrap" style="margin-top:0.75rem;">
-      <table class="styled-table">
-        <thead><tr><th>Effort</th><th>Thinking Behavior</th></tr></thead>
-        <tbody>
-          <tr><td><code>max</code></td><td>Always thinks, no constraints on depth — deepest reasoning</td></tr>
-          <tr><td><code>xhigh</code></td><td>Opus 4.7 only — deeper than high, lighter than max; falls back to <code>high</code> on other models</td></tr>
-          <tr><td><code>high</code></td><td>Almost always thinks — deep reasoning on complex tasks</td></tr>
-          <tr><td><code>medium</code></td><td>Moderate thinking — may skip for simple queries</td></tr>
-          <tr><td><code>low</code></td><td>Minimal thinking — skips for simple tasks, prioritizes speed</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7; margin-top:0.75rem;">Toggle extended thinking with <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Option+T</kbd> / <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Alt+T</kbd>. Setting effort to <code>low</code> effectively minimizes thinking; use this for simple lookups or subagent tasks where speed matters most.</p>
-    <div class="callout callout-warning" style="margin-top:0.75rem;">
-      <div class="callout-title">budget_tokens Is Deprecated</div>
-      <p>The manual <code>budget_tokens</code> parameter for extended thinking is <strong>deprecated</strong> on Opus 4.6 and Sonnet 4.6 and will be removed in a future release. Use adaptive thinking with the <code>effort</code> parameter instead. Older models (Sonnet 4.5, Opus 4.5) still require the manual <code>budget_tokens</code> approach.</p>
-    </div>
-  </section>
-
-<hr class="divider">
-
 <section id="cheat-sheet">
     <span class="section-label">13 — Claude Cheat Sheet</span>
     <h2 class="section-title">Everything You Need in One Place</h2>
@@ -4995,7 +5149,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><kbd>Ctrl+C</kbd></td><td>Cancel current operation (hard stop)</td></tr>
           <tr><td><kbd>Ctrl+R</kbd></td><td>Search command history</td></tr>
           <tr><td><kbd>Ctrl+T</kbd></td><td>Toggle task list</td></tr>
-          <tr><td><kbd>Ctrl+O</kbd></td><td>Toggle normal / verbose transcript</td></tr>
+          <tr><td><kbd>Ctrl+O</kbd></td><td>Toggle transcript viewer</td></tr>
           <tr><td><kbd>Ctrl+B</kbd></td><td>Background running tasks</td></tr>
           <tr><td><kbd>Ctrl+D</kbd></td><td>Exit Claude Code</td></tr>
           <tr><td><kbd>Ctrl+G</kbd></td><td>Open prompt in external text editor</td></tr>
@@ -5011,10 +5165,36 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><kbd>Ctrl+A</kbd> / <kbd>Ctrl+E</kbd></td><td>Jump to start / end of line</td></tr>
           <tr><td><kbd>Ctrl+W</kbd></td><td>Delete word backward</td></tr>
           <tr><td><kbd>Ctrl+K</kbd></td><td>Delete from cursor to end of line</td></tr>
-          <tr><td><kbd>Ctrl+U</kbd></td><td>Clear entire input buffer (press <kbd>Ctrl+Y</kbd> to restore)</td></tr>
+          <tr><td><kbd>Ctrl+U</kbd></td><td>Delete from cursor to line start</td></tr>
         </tbody>
       </table>
     </div>
+
+    <!-- BEGIN: permission-mode-selector (safe to remove) -->
+    <div class="xw" id="xw-permissions" style="margin: 2.5rem 0;">
+      <div class="xw-header">
+        <span class="xw-badge">Interactive</span>
+        <h4 class="xw-title">Permission Mode Explorer</h4>
+      </div>
+      <div class="xw-body">
+        <span class="xw-label">Scenario</span>
+        <div class="xw-controls" id="xw-perm-scenarios" style="margin-bottom: 1.25rem;">
+          <button class="xw-btn" onclick="setPermScenario('explore')">Quick exploration</button>
+          <button class="xw-btn" onclick="setPermScenario('feature')">Feature development</button>
+          <button class="xw-btn" onclick="setPermScenario('auto')">Autonomous pipeline</button>
+        </div>
+        <span class="xw-label">Permission mode</span>
+        <div class="xw-controls" id="xw-perm-modes">
+          <button class="xw-btn active" onclick="setPermMode('plan')">Plan</button>
+          <button class="xw-btn" onclick="setPermMode('default')">Default</button>
+          <button class="xw-btn" onclick="setPermMode('acceptEdits')">AcceptEdits</button>
+          <button class="xw-btn" onclick="setPermMode('auto')">Auto</button>
+        </div>
+        <div id="xw-perm-table" style="overflow-x: auto;"></div>
+        <p id="xw-perm-recommendation" style="font-size: 0.82rem; color: var(--accent-blue); margin-top: 1rem; display: none;"></p>
+      </div>
+    </div>
+    <!-- END: permission-mode-selector -->
 
     <!-- Slash Commands -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Slash Commands</h3>
@@ -5026,9 +5206,9 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/compact</code> <code>[focus]</code></td><td>Compress context to save tokens. Optional: tell it what to keep.</td></tr>
           <tr><td><code>/context</code></td><td>Visualize context usage with optimization suggestions</td></tr>
           <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
-          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them.</td></tr>
+          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>)</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
-          <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>. Force on: <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>; opt out: <code>=0</code> (also disables the default-on behavior on Bedrock / Vertex / Foundry).</td></tr>
+          <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>; force with <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>.</td></tr>
           <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>)</td></tr>
           <tr><td><code>/export</code></td><td>Export conversation to file or clipboard</td></tr>
           <tr><td><code>/copy</code> <code>[N]</code></td><td>Copy last response to clipboard (or Nth-last)</td></tr>
@@ -5042,13 +5222,14 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin.</td></tr>
-          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model (Sonnet / Opus / Haiku)</td></tr>
+          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> (default) | <code>high</code> | <code>max</code> — use <code>max</code> for complex tasks</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
-          <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>)</td></tr>
-          <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab.</td></tr>
+          <tr><td><code>/cost</code></td><td>Show session cost &amp; token usage</td></tr>
+          <tr><td><code>/usage</code></td><td>Show plan usage &amp; rate limits</td></tr>
+          <tr><td><code>/stats</code></td><td>Visualize daily usage and streaks</td></tr>
         </tbody>
       </table>
     </div>
@@ -5076,13 +5257,11 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/config</code></td><td>Open settings interface (alias: <code>/settings</code>)</td></tr>
           <tr><td><code>/init</code></td><td>Create CLAUDE.md for your project</td></tr>
           <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
-          <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
-          <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal) | or select a named custom theme. Hand-edit JSON files in <code>~/.claude/themes/</code> to create themes; plugins can ship themes via a <code>themes/</code> directory.</td></tr>
+          <tr><td><code>/theme</code></td><td>Change color theme (dark / light)</td></tr>
           <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
-          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals</td></tr>
+          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
           <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
-          <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
           <tr><td><code>/mcp</code></td><td>Manage MCP server connections</td></tr>
           <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
           <tr><td><code>/skills</code></td><td>List available skills</td></tr>
@@ -5118,7 +5297,6 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/release-notes</code></td><td>View changelog with version picker</td></tr>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide from your local Claude Code usage history</td></tr>
-          <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
           <tr><td><code>/logout</code></td><td>Sign out</td></tr>
@@ -5152,7 +5330,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>--model</code></td><td>Select specific model (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>)</td></tr>
-          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>). Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> otherwise.</td></tr>
+          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> [default] | <code>high</code> | <code>max</code>)</td></tr>
           <tr><td><code>--fallback-model</code></td><td>Auto-fallback model when overloaded (print mode)</td></tr>
         </tbody>
       </table>
@@ -5370,7 +5548,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td>Explore error</td><td><code>cat error.log | claude -p "fix"</code></td></tr>
           <tr><td>Parallel sessions</td><td><code>claude -w</code> (each gets own worktree)</td></tr>
           <tr><td>Force model</td><td><code>claude --model opus</code></td></tr>
-          <tr><td>Set effort level</td><td><code>/effort max</code> (complex work), <code>/effort xhigh</code> (Opus 4.7), or <code>/effort</code> for interactive slider</td></tr>
+          <tr><td>Set effort level</td><td><code>/effort max</code> (complex work) or <code>/effort medium</code> (default)</td></tr>
           <tr><td>Remote control from web</td><td><code>/remote-control</code> or <code>claude --remote</code></td></tr>
           <tr><td>Voice dictation</td><td><code>/voice</code> then hold <kbd>Space</kbd> to talk</td></tr>
           <tr><td>Scriptable automation</td><td><code>claude -p --output-format json "task"</code></td></tr>
@@ -5387,7 +5565,7 @@ smoke tests against the staging URL."</code></pre>
     <p class="section-subtitle">Agent teams, worktrees, remote control, batch operations, voice, plugins, and more.</p>
 
     <!-- Agent Teams -->
-    <div class="collapsible open" id="power-usage--agent-teams">
+    <div class="collapsible open">
       <div class="collapsible-header">
         <h3>Agent Teams</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5420,7 +5598,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Work Trees -->
-    <div class="collapsible" id="power-usage--work-trees">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Work Trees</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5445,8 +5623,64 @@ smoke tests against the staging URL."</code></pre>
       </div></div>
     </div>
 
+    <!-- Model & Effort Control -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Model &amp; Effort Control</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Claude auto-selects the right model for the task, but you have full control over model choice and reasoning depth.</p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li><strong>Haiku 4.5:</strong> Quick lookups, simple questions, file navigation</li>
+          <li><strong>Sonnet 4.6:</strong> Standard coding, refactoring, test writing</li>
+          <li><strong>Opus 4.6:</strong> Complex architecture, debugging, multi-file changes</li>
+        </ul>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># Force a specific model</span>
+<span class="kw">claude</span> <span class="val">--model</span> opus
+
+<span class="cm"># Set effort level (controls reasoning depth)</span>
+/effort max          <span class="cm"># Maximum reasoning — complex agentic tasks</span>
+/effort high         <span class="cm"># Deep thinking — difficult coding problems</span>
+/effort medium       <span class="cm"># Balanced (default) — speed + quality</span>
+/effort low          <span class="cm"># Quick responses — simple tasks, subagents</span>
+<span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
+
+<span class="cm"># Toggle fast mode (same model, faster output)</span>
+/fast on
+
+<span class="cm"># Auto-fallback in print mode when overloaded</span>
+<span class="kw">claude</span> <span class="val">-p</span> <span class="val">--fallback-model</span> sonnet <span class="str">"query"</span></code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:0;">
+          <div class="callout-title">Effort Default Changed to Medium</div>
+          <p>Anthropic changed the default effort from <code>high</code> to <code>medium</code> to better balance intelligence with speed, based on real-world usage data. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Adaptive thinking &amp; effort</strong></p>
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7;">On Opus 4.6 and Sonnet 4.6, <strong>adaptive thinking</strong> is the recommended mode. Instead of manually setting a thinking token budget, Claude dynamically decides when and how much to think based on task complexity. The <code>/effort</code> level is the primary lever that controls thinking depth:</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Effort</th><th>Thinking Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><code>max</code></td><td>Always thinks, no constraints on depth — deepest reasoning</td></tr>
+              <tr><td><code>high</code></td><td>Almost always thinks — deep reasoning on complex tasks</td></tr>
+              <tr><td><code>medium</code></td><td>Moderate thinking — may skip for simple queries</td></tr>
+              <tr><td><code>low</code></td><td>Minimal thinking — skips for simple tasks, prioritizes speed</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.7; margin-top:0.75rem;">Toggle extended thinking with <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Option+T</kbd> / <kbd style="background:var(--bg-tertiary); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.8rem;">Alt+T</kbd>. Setting effort to <code>low</code> effectively minimizes thinking; use this for simple lookups or subagent tasks where speed matters most.</p>
+        <div class="callout callout-warning" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">budget_tokens Is Deprecated</div>
+          <p>The manual <code>budget_tokens</code> parameter for extended thinking is <strong>deprecated</strong> on Opus 4.6 and Sonnet 4.6 and will be removed in a future release. Use adaptive thinking with the <code>effort</code> parameter instead. Older models (Sonnet 4.5, Opus 4.5) still require the manual <code>budget_tokens</code> approach.</p>
+        </div>
+      </div></div>
+    </div>
+
     <!-- Hooks (pointer to dedicated section) -->
-    <div class="collapsible" id="power-usage--hooks">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Hooks</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5455,13 +5689,13 @@ smoke tests against the staging URL."</code></pre>
         <p>Hooks are event-driven shell commands, HTTP endpoints, prompts, or agents that fire automatically at 26 lifecycle points. Use them for linting, formatting, security enforcement, and observability.</p>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
           <div class="callout-title">Hooks Deep Dive</div>
-          <p>See the dedicated <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks section</a> for the full lifecycle, all 5 hook types, configuration guide, exit code semantics, and practical recipes.</p>
+          <p>See the dedicated <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks section</a> for the full lifecycle, all 4 hook types, configuration guide, exit code semantics, and practical recipes.</p>
         </div>
       </div></div>
     </div>
 
     <!-- Session Logs -->
-    <div class="collapsible" id="power-usage--session-logs">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Session Logs</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5474,13 +5708,13 @@ smoke tests against the staging URL."</code></pre>
           <li>Includes tool calls, file changes, and conversation flow</li>
           <li>Useful for debugging "what did the agent do while I was away?"</li>
           <li>Use <code>/export</code> to save a conversation to file or clipboard</li>
-          <li>Press <kbd>Ctrl+O</kbd> to toggle normal / verbose transcript; use <code>/focus</code> to toggle focus view</li>
+          <li>Press <kbd>Ctrl+O</kbd> to open the transcript viewer mid-session</li>
         </ul>
       </div></div>
     </div>
 
     <!-- /insights -->
-    <div class="collapsible" id="power-usage--insights">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>/insights — Workflow Analysis</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5503,7 +5737,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- /loop -->
-    <div class="collapsible" id="power-usage--loop">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>/loop — Built-in Scheduler <span style="font-weight:400; font-size:0.85em; color:var(--text-secondary);">(alias: /proactive)</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5520,10 +5754,6 @@ smoke tests against the staging URL."</code></pre>
 # Monitor deployment status
 /loop 15m check the deploy pipeline status and notify me of failures</code></pre>
         </div>
-        <div class="callout callout-tip" style="margin-top:0.75rem;">
-          <div class="callout-title">Cancel a Wakeup</div>
-          <p>Press <kbd>Esc</kbd> while a <code>/loop</code> is counting down to cancel the pending wakeup without ending the session.</p>
-        </div>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">For Persistence</div>
           <p>Session-scoped loops stop when the terminal closes. For persistent cloud scheduling, use <code>/schedule</code> to create cron-based tasks that run without an active terminal.</p>
@@ -5532,7 +5762,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Remote Control & Cross-Device -->
-    <div class="collapsible" id="power-usage--remote-control">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Remote Control &amp; Cross-Device</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5559,7 +5789,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Chrome Integration -->
-    <div class="collapsible" id="power-usage--chrome">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Chrome Integration</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5584,7 +5814,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Batch Operations -->
-    <div class="collapsible" id="power-usage--batch">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Batch Operations</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5606,7 +5836,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Plugins -->
-    <div class="collapsible" id="power-usage--plugins">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Plugins</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5632,7 +5862,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Voice Input -->
-    <div class="collapsible" id="power-usage--voice-input">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Voice Input</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5652,7 +5882,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Context Management -->
-    <div class="collapsible" id="power-usage--context-management">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Context Management</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5679,7 +5909,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Monitor Tool -->
-    <div class="collapsible" id="power-usage--monitor-tool">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Monitor Tool — Background Script Streaming</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5701,7 +5931,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Subprocess Sandboxing -->
-    <div class="collapsible" id="power-usage--subprocess-sandboxing">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Subprocess Sandboxing</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5714,28 +5944,18 @@ smoke tests against the staging URL."</code></pre>
             <tbody>
               <tr><td><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code></td><td>Enables PID namespace isolation on Linux — sandboxed commands can't see or signal processes outside their namespace</td></tr>
               <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
-              <tr><td><code>DISABLE_UPDATES=1</code></td><td>Completely blocks all update paths including manual <code>claude update</code>. Stricter than <code>DISABLE_AUTOUPDATER</code> (which only prevents auto-updates). Use in managed/enterprise environments to pin a specific version.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">You can also restrict network access from <code>settings.json</code>:</p>
-        <div class="table-wrap">
-          <table class="styled-table">
-            <thead><tr><th>Setting key</th><th>Effect</th></tr></thead>
-            <tbody>
-              <tr><td><code>sandbox.network.deniedDomains</code></td><td>Block specific domains even when an <code>allowedDomains</code> wildcard would otherwise permit them — useful for blocking telemetry or third-party endpoints in CI</td></tr>
             </tbody>
           </table>
         </div>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
           <div class="callout-title">Use Case</div>
-          <p>Set env vars in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Use <code>deniedDomains</code> to close loopholes left by broad <code>allowedDomains</code> wildcards.</p>
+          <p>Set these in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Prevents one session from interfering with another.</p>
         </div>
       </div></div>
     </div>
 
     <!-- Prompt Caching TTL -->
-    <div class="collapsible" id="power-usage--prompt-caching">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Prompt Caching TTL</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5772,7 +5992,7 @@ smoke tests against the staging URL."</code></pre>
     <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.8; margin-top:1.5rem;">Hooks are user-defined shell commands, HTTP endpoints, LLM prompts, or agents that execute automatically at specific points in Claude Code's lifecycle. They fire deterministically — unlike instructions in CLAUDE.md that Claude may or may not follow, hooks <strong>always</strong> execute when their event triggers.</p>
 
     <!-- Hook Lifecycle -->
-    <div class="collapsible open" id="hooks-deep-dive--lifecycle">
+    <div class="collapsible open">
       <div class="collapsible-header">
         <h3>Hook Lifecycle</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5810,10 +6030,79 @@ smoke tests against the staging URL."</code></pre>
       </div></div>
     </div>
 
-    <!-- Five Hook Types -->
-    <div class="collapsible" id="hooks-deep-dive--four-types">
+    <!-- BEGIN: hook-lifecycle-tracer (safe to remove) -->
+    <div class="xw" id="xw-hooks" style="margin: 2.5rem 0;">
+      <div class="xw-header">
+        <span class="xw-badge">Interactive</span>
+        <h4 class="xw-title">Hook Lifecycle Tracer</h4>
+      </div>
+      <div class="xw-body">
+        <div id="xw-hooks-timeline" style="position: relative; height: 80px; margin: 1rem 0 1.5rem; overflow: visible;">
+          <svg width="100%" height="80" viewBox="0 0 800 80" preserveAspectRatio="xMidYMid meet" id="xw-hooks-svg">
+            <!-- Timeline line -->
+            <line x1="40" y1="35" x2="760" y2="35" stroke="var(--border-accent)" stroke-width="2" stroke-dasharray="6,4"/>
+            <!-- Nodes -->
+            <g id="xw-hook-node-0" style="cursor:pointer;" onclick="toggleHookNode(0)">
+              <circle cx="100" cy="35" r="18" fill="var(--bg-elevated)" stroke="var(--accent-amber)" stroke-width="2"/>
+              <text x="100" y="39" text-anchor="middle" fill="var(--accent-amber)" font-size="9" font-family="var(--font-mono)">Pre</text>
+              <text x="100" y="65" text-anchor="middle" fill="var(--text-muted)" font-size="8" font-family="var(--font-mono)">PreToolUse</text>
+            </g>
+            <g id="xw-hook-node-1">
+              <rect x="230" y="20" width="100" height="30" rx="6" fill="var(--bg-elevated)" stroke="var(--border-accent)" stroke-width="1.5"/>
+              <text x="280" y="39" text-anchor="middle" fill="var(--text-secondary)" font-size="9" font-family="var(--font-mono)">Tool Executes</text>
+            </g>
+            <g id="xw-hook-node-2" style="cursor:pointer;" onclick="toggleHookNode(2)">
+              <circle cx="440" cy="35" r="18" fill="var(--bg-elevated)" stroke="var(--accent-emerald)" stroke-width="2"/>
+              <text x="440" y="39" text-anchor="middle" fill="var(--accent-emerald)" font-size="9" font-family="var(--font-mono)">Post</text>
+              <text x="440" y="65" text-anchor="middle" fill="var(--text-muted)" font-size="8" font-family="var(--font-mono)">PostToolUse</text>
+            </g>
+            <g id="xw-hook-node-3" style="cursor:pointer;" onclick="toggleHookNode(3)">
+              <circle cx="580" cy="35" r="18" fill="var(--bg-elevated)" stroke="var(--accent-blue)" stroke-width="2"/>
+              <text x="580" y="39" text-anchor="middle" fill="var(--accent-blue)" font-size="8" font-family="var(--font-mono)">Notif</text>
+              <text x="580" y="65" text-anchor="middle" fill="var(--text-muted)" font-size="8" font-family="var(--font-mono)">Notification</text>
+            </g>
+            <g id="xw-hook-node-4" style="cursor:pointer;" onclick="toggleHookNode(4)">
+              <circle cx="700" cy="35" r="18" fill="var(--bg-elevated)" stroke="var(--accent-rose)" stroke-width="2"/>
+              <text x="700" y="39" text-anchor="middle" fill="var(--accent-rose)" font-size="9" font-family="var(--font-mono)">Stop</text>
+              <text x="700" y="65" text-anchor="middle" fill="var(--text-muted)" font-size="8" font-family="var(--font-mono)">Stop</text>
+            </g>
+            <!-- Arrows -->
+            <polygon points="175,35 167,30 167,40" fill="var(--text-muted)"/>
+            <polygon points="385,35 377,30 377,40" fill="var(--text-muted)"/>
+            <polygon points="525,35 517,30 517,40" fill="var(--text-muted)"/>
+            <polygon points="645,35 637,30 637,40" fill="var(--text-muted)"/>
+            <!-- Animated dot -->
+            <circle id="xw-hooks-dot" cx="40" cy="35" r="6" fill="var(--accent-blue)" opacity="0"/>
+          </svg>
+        </div>
+        <!-- Hook badges area -->
+        <div id="xw-hooks-badges" style="display: flex; gap: 0.5rem; flex-wrap: wrap; min-height: 28px; margin-bottom: 1rem;"></div>
+        <!-- Controls -->
+        <div class="xw-controls">
+          <select class="xw-editor" id="xw-hook-type" style="width: auto; padding: 6px 10px;">
+            <option value="0">PreToolUse</option>
+            <option value="2">PostToolUse</option>
+            <option value="3">Notification</option>
+            <option value="4">Stop</option>
+          </select>
+          <select class="xw-editor" id="xw-hook-action" style="width: auto; padding: 6px 10px;">
+            <option value="log">Log</option>
+            <option value="block">Block</option>
+            <option value="transform">Transform</option>
+          </select>
+          <button class="xw-btn" onclick="addHook()">Add Hook</button>
+          <button class="xw-btn" onclick="clearHooks()">Clear All</button>
+          <button class="xw-btn active" onclick="simulateHooks()">Simulate</button>
+        </div>
+        <div class="xw-output" id="xw-hooks-log" style="min-height: 60px; font-size: 0.74rem; margin-top: 0.75rem;"></div>
+      </div>
+    </div>
+    <!-- END: hook-lifecycle-tracer -->
+
+    <!-- Four Hook Types -->
+    <div class="collapsible">
       <div class="collapsible-header">
-        <h3>Five Hook Types</h3>
+        <h3>Four Hook Types</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -5826,7 +6115,6 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>http</code></td><td>Sends JSON POST to an endpoint. Headers support <code>$ENV_VAR</code> interpolation.</td><td>Remote validation, audit logging, webhook integrations</td></tr>
               <tr><td><code>prompt</code></td><td>Sends a single-turn prompt to Claude. Returns a yes/no decision as JSON.</td><td>Security review of commands, content policy checks</td></tr>
               <tr><td><code>agent</code></td><td>Spawns a subagent with tool access (Read, Grep, Glob). Full agentic evaluation.</td><td>Complex verification, multi-file checks, code analysis</td></tr>
-              <tr><td><code>mcp_tool</code></td><td>Invokes an MCP tool directly. Specify the server and tool name; Claude passes the hook context as input.</td><td>Calling external services, Slack/Jira notifications, custom audit systems via MCP</td></tr>
             </tbody>
           </table>
         </div>
@@ -5865,21 +6153,11 @@ smoke tests against the staging URL."</code></pre>
   "prompt": "Verify this edit doesn't break any imports. $ARGUMENTS"
 }</code></pre>
         </div>
-
-        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>MCP tool hook:</strong></p>
-        <div class="code-block" style="margin-top:0.25rem;">
-          <pre><code class="language-json">{
-  "type": "mcp_tool",
-  "server": "slack",
-  "tool": "send_message",
-  "input": { "channel": "#dev-audit", "text": "Tool use: $TOOL_NAME" }
-}</code></pre>
-        </div>
       </div></div>
     </div>
 
     <!-- Configuration -->
-    <div class="collapsible" id="hooks-deep-dive--configuration">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Configuration</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -5958,7 +6236,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Exit Codes & Decision Control -->
-    <div class="collapsible" id="hooks-deep-dive--exit-codes">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Exit Codes &amp; Decision Control</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6010,7 +6288,7 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <!-- Practical Recipes -->
-    <div class="collapsible" id="hooks-deep-dive--recipes">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Practical Recipes</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6145,7 +6423,7 @@ exit 0</code></pre>
     </div>
 
     <!-- Best Practices -->
-    <div class="collapsible" id="hooks-deep-dive--best-practices">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Hook Best Practices</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6176,7 +6454,7 @@ exit 0</code></pre>
     <p class="section-subtitle">Monitor Claude Code across your organization with OpenTelemetry. Track token spend, session activity, tool usage, and developer productivity — then pipe it into the observability stack you already use.</p>
 
     <!-- Quick Start -->
-    <div class="collapsible open" id="monitoring--quick-start">
+    <div class="collapsible open">
       <div class="collapsible-header">
         <h3>Quick Start</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6209,7 +6487,7 @@ claude</code></pre>
     </div>
 
     <!-- Available Metrics -->
-    <div class="collapsible" id="monitoring--metrics">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Available Metrics</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6236,7 +6514,7 @@ claude</code></pre>
     </div>
 
     <!-- Events & Logs -->
-    <div class="collapsible" id="monitoring--events-logs">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Events &amp; Logs</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6263,7 +6541,7 @@ claude</code></pre>
     </div>
 
     <!-- Enterprise Configuration -->
-    <div class="collapsible" id="monitoring--enterprise">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Enterprise Configuration</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6290,7 +6568,7 @@ claude</code></pre>
     </div>
 
     <!-- Traces (Beta) -->
-    <div class="collapsible" id="monitoring--distributed-traces">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Distributed Traces (Beta)</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6311,7 +6589,7 @@ claude</code></pre>
     </div>
 
     <!-- Backend Options -->
-    <div class="collapsible" id="monitoring--backends">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Recommended Backends</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -6332,7 +6610,7 @@ claude</code></pre>
     </div>
 
     <!-- Privacy & Security -->
-    <div class="collapsible" id="monitoring--privacy">
+    <div class="collapsible">
       <div class="collapsible-header">
         <h3>Privacy &amp; Security</h3>
         <span class="collapsible-chevron">&#9660;</span>
@@ -7459,6 +7737,48 @@ codex app</code></pre>
     <h2 class="section-title">Measuring FSAD Success</h2>
     <p class="section-subtitle">What to measure to demonstrate the value of agentic development to your organization.</p>
 
+    <!-- BEGIN: roi-calculator (safe to remove) -->
+    <div class="xw" id="xw-roi" style="margin: 0 0 2.5rem;">
+      <div class="xw-header">
+        <span class="xw-badge">Interactive</span>
+        <h4 class="xw-title">FSAD ROI Projector</h4>
+      </div>
+      <div class="xw-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div>
+            <span class="xw-label">Team size</span>
+            <input type="range" id="xw-roi-team" min="2" max="10" value="4" oninput="updateROI()" style="width:100%; accent-color: var(--accent-blue);">
+            <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);"><span>2</span><span id="xw-roi-team-val" style="color:var(--accent-blue); font-weight:600;">4</span><span>10</span></div>
+          </div>
+          <div>
+            <span class="xw-label">Sprint velocity (story points)</span>
+            <input type="range" id="xw-roi-velocity" min="10" max="100" value="40" step="5" oninput="updateROI()" style="width:100%; accent-color: var(--accent-emerald);">
+            <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);"><span>10</span><span id="xw-roi-vel-val" style="color:var(--accent-emerald); font-weight:600;">40</span><span>100</span></div>
+          </div>
+          <div>
+            <span class="xw-label">Deploys per month</span>
+            <input type="range" id="xw-roi-deploys" min="1" max="20" value="4" oninput="updateROI()" style="width:100%; accent-color: var(--accent-amber);">
+            <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);"><span>1</span><span id="xw-roi-dep-val" style="color:var(--accent-amber); font-weight:600;">4</span><span>20</span></div>
+          </div>
+        </div>
+        <div id="xw-roi-results" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;"></div>
+        <details style="margin-top: 1.25rem;">
+          <summary style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); cursor: pointer; letter-spacing: 0.08em;">Methodology & assumptions</summary>
+          <div style="padding: 0.75rem 0; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.7;">
+            <p style="margin: 0 0 0.5rem;">These projections use conservative multipliers based on early FSAD adoption reports:</p>
+            <ul style="margin: 0; padding-left: 1.2rem;">
+              <li><strong>Hours saved:</strong> ~3 hours/engineer/sprint from reduced context-switching and automated implementation (scales with team size).</li>
+              <li><strong>Velocity increase:</strong> 30–60% improvement from parallel agent execution (higher for larger, more parallelizable backlogs).</li>
+              <li><strong>Deploy frequency:</strong> 1.5–2.5× increase from faster cycle times (diminishing returns above ~15 deploys/month).</li>
+              <li><strong>Cost efficiency:</strong> Estimated using $75/hr blended engineering rate applied to hours saved.</li>
+            </ul>
+            <p style="margin: 0.5rem 0 0;">These are directional estimates for planning, not guarantees. Actual results depend on spec quality, team experience, and codebase complexity.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <!-- END: roi-calculator -->
+
     <!-- Highest Priority -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Highest Priority</h3>
     <div class="card-grid">
@@ -7623,11 +7943,782 @@ codex app</code></pre>
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
     'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'add-task-skill': 'workflows', 'commit-changes-skill': 'workflows',
-    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
   };
+
+  // ─── CONFIG CASCADE PLAYGROUND ───
+  (function() {
+    const layers = [
+      { id: 'xw-cc-org', label: 'org', color: 'var(--accent-amber)' },
+      { id: 'xw-cc-project', label: 'project', color: 'var(--accent-emerald)' },
+      { id: 'xw-cc-user', label: 'user', color: 'var(--accent-blue)' },
+    ];
+
+    function parseLines(text) {
+      const entries = [];
+      text.split('\n').forEach(line => {
+        const t = line.trim();
+        if (t.startsWith('- ')) {
+          const content = t.substring(2);
+          const colonIdx = content.indexOf(':');
+          const key = colonIdx > -1 ? content.substring(0, colonIdx).trim().toLowerCase() : content.toLowerCase();
+          entries.push({ key, line: t });
+        }
+      });
+      return entries;
+    }
+
+    function resolve() {
+      const resolved = new Map();
+      layers.forEach(layer => {
+        const el = document.getElementById(layer.id);
+        if (!el) return;
+        const entries = parseLines(el.value);
+        entries.forEach(e => {
+          resolved.set(e.key, { line: e.line, label: layer.label, color: layer.color });
+        });
+      });
+
+      const out = document.getElementById('xw-cc-resolved');
+      if (!out) return;
+      out.innerHTML = '';
+      if (resolved.size === 0) {
+        out.textContent = '(no config lines detected — add lines starting with "- ")';
+        return;
+      }
+      resolved.forEach(entry => {
+        const div = document.createElement('div');
+        div.style.cssText = 'border-left: 3px solid ' + entry.color + '; padding: 2px 0 2px 10px; margin-bottom: 3px; font-size: 0.78rem;';
+        const badge = document.createElement('span');
+        badge.style.cssText = 'color:' + entry.color + '; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 8px; font-family: var(--font-mono);';
+        badge.textContent = entry.label;
+        const text = document.createTextNode(entry.line);
+        div.appendChild(badge);
+        div.appendChild(text);
+        out.appendChild(div);
+      });
+    }
+
+    document.querySelectorAll('#xw-config-cascade textarea').forEach(ta => {
+      ta.addEventListener('input', resolve);
+    });
+
+    // Initial render
+    if (document.getElementById('xw-cc-org')) resolve();
+  })();
+
+  // ─── CONFIG CASCADE SCROLL HIGHLIGHTING ───
+  (function() {
+    const highlights = [
+      { keyword: 'org', editorId: 'xw-cc-org' },
+      { keyword: 'project', editorId: 'xw-cc-project' },
+      { keyword: 'user', editorId: 'xw-cc-user' },
+    ];
+    const proseEl = document.querySelector('.xw-cc-prose');
+    if (!proseEl) return;
+
+    const headings = proseEl.querySelectorAll('h3');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const text = entry.target.textContent.toLowerCase();
+        highlights.forEach(h => {
+          const editor = document.getElementById(h.editorId);
+          if (!editor) return;
+          if (text.includes(h.keyword)) {
+            editor.style.outline = '2px solid var(--accent-blue)';
+            editor.style.outlineOffset = '-2px';
+          } else {
+            editor.style.outline = 'none';
+          }
+        });
+      });
+    }, { root: proseEl, threshold: 0.5 });
+
+    headings.forEach(h => observer.observe(h));
+  })();
+
+  // ─── PERMISSION MODE EXPLORER ───
+  (function() {
+    const ACTIONS = [
+      { name: 'Read files', icon: '📄' },
+      { name: 'Edit files', icon: '✏️' },
+      { name: 'Run shell commands', icon: '⚡' },
+      { name: 'MCP tool calls', icon: '🔌' },
+      { name: 'Git push', icon: '🚀' },
+      { name: 'Create files', icon: '📝' },
+      { name: 'Delete files', icon: '🗑️' },
+    ];
+
+    const MODES = {
+      plan: { label: 'Plan', perms: ['allowed','blocked','blocked','blocked','blocked','blocked','blocked'] },
+      default: { label: 'Default', perms: ['allowed','prompted','prompted','prompted','prompted','prompted','prompted'] },
+      acceptEdits: { label: 'AcceptEdits', perms: ['allowed','allowed','prompted','prompted','prompted','allowed','prompted'] },
+      auto: { label: 'Auto', perms: ['allowed','allowed','allowed','allowed','allowed','allowed','allowed'] },
+    };
+
+    const SCENARIOS = {
+      explore: { recommended: 'plan', desc: 'Read-only exploration is safe in Plan mode — Claude can read and reason but cannot change anything.' },
+      feature: { recommended: 'acceptEdits', desc: 'AcceptEdits lets Claude edit files freely while still prompting for shell commands and destructive actions.' },
+      auto: { recommended: 'auto', desc: 'Full autonomy for trusted pipelines. Claude executes everything without prompts — use in controlled environments only.' },
+    };
+
+    const STATUS = {
+      allowed: { text: 'Allowed', bg: 'rgba(16,185,129,0.15)', color: 'var(--accent-emerald)' },
+      prompted: { text: 'Prompted', bg: 'rgba(245,158,11,0.15)', color: 'var(--accent-amber)' },
+      blocked: { text: 'Blocked', bg: 'rgba(244,63,94,0.15)', color: 'var(--accent-rose)' },
+    };
+
+    function renderTable(modeKey) {
+      const mode = MODES[modeKey];
+      const table = document.getElementById('xw-perm-table');
+      if (!table) return;
+      let html = '<table style="width:100%; border-collapse: separate; border-spacing: 0; font-size: 0.82rem;">';
+      html += '<thead><tr><th style="text-align:left; padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em;">Action</th>';
+      html += '<th style="text-align:center; padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em;">Status</th></tr></thead><tbody>';
+      ACTIONS.forEach((action, i) => {
+        const status = STATUS[mode.perms[i]];
+        html += '<tr><td style="padding: 8px 10px; border-bottom: 1px solid var(--border);">' + action.icon + ' ' + action.name + '</td>';
+        html += '<td style="padding: 8px 10px; border-bottom: 1px solid var(--border); text-align:center;"><span style="display:inline-block; padding: 3px 10px; border-radius: 999px; font-family: var(--font-mono); font-size: 0.72rem; background:' + status.bg + '; color:' + status.color + ';">' + status.text + '</span></td></tr>';
+      });
+      html += '</tbody></table>';
+      table.innerHTML = html;
+    }
+
+    window.setPermMode = function(modeKey) {
+      document.querySelectorAll('#xw-perm-modes .xw-btn').forEach(b => b.classList.remove('active'));
+      const clicked = document.querySelector('#xw-perm-modes .xw-btn[onclick*="' + modeKey + '"]');
+      if (clicked) clicked.classList.add('active');
+      renderTable(modeKey);
+    };
+
+    window.setPermScenario = function(scenarioKey) {
+      const scenario = SCENARIOS[scenarioKey];
+      if (!scenario) return;
+      document.querySelectorAll('#xw-perm-scenarios .xw-btn').forEach(b => b.classList.remove('active'));
+      const clicked = document.querySelector('#xw-perm-scenarios .xw-btn[onclick*="' + scenarioKey + '"]');
+      if (clicked) clicked.classList.add('active');
+      window.setPermMode(scenario.recommended);
+      const rec = document.getElementById('xw-perm-recommendation');
+      if (rec) { rec.style.display = 'block'; rec.textContent = '\u2192 Recommended: ' + MODES[scenario.recommended].label + '. ' + scenario.desc; }
+    };
+
+    if (document.getElementById('xw-permissions')) window.setPermMode('plan');
+  })();
+
+  // ─── SPRINT SIMULATOR ───
+  (function() {
+    const PHASES = [
+      { name: 'Design', color: 'rgba(111,111,181,0.35)', textColor: 'var(--accent-blue)' },
+      { name: 'Implement', color: 'rgba(16,185,129,0.35)', textColor: 'var(--accent-emerald)' },
+      { name: 'Review', color: 'rgba(245,158,11,0.35)', textColor: 'var(--accent-amber)' },
+      { name: 'Test', color: 'rgba(59,130,246,0.35)', textColor: '#60a5fa' },
+      { name: 'Deploy', color: 'rgba(244,63,94,0.3)', textColor: 'var(--accent-rose)' },
+    ];
+
+    const PRESETS = {
+      default: {
+        agile: [
+          { phase: 0, row: 0, start: 0, len: 2 },
+          { phase: 1, row: 0, start: 2, len: 4 },
+          { phase: 2, row: 0, start: 6, len: 1.5 },
+          { phase: 3, row: 0, start: 7.5, len: 1.5 },
+          { phase: 4, row: 0, start: 9, len: 1 },
+        ],
+        fsad: [
+          { phase: 0, row: 0, start: 0, len: 1.5 },
+          { phase: 1, row: 0, start: 1.5, len: 2 },
+          { phase: 1, row: 1, start: 1.5, len: 2 },
+          { phase: 1, row: 2, start: 1.5, len: 2 },
+          { phase: 2, row: 0, start: 3.5, len: 1 },
+          { phase: 3, row: 1, start: 3.5, len: 1 },
+          { phase: 4, row: 0, start: 4.5, len: 0.5 },
+        ],
+      },
+      parallel: {
+        agile: [
+          { phase: 0, row: 0, start: 0, len: 2 },
+          { phase: 1, row: 0, start: 2, len: 4 },
+          { phase: 2, row: 0, start: 6, len: 1.5 },
+          { phase: 3, row: 0, start: 7.5, len: 1.5 },
+          { phase: 4, row: 0, start: 9, len: 1 },
+        ],
+        fsad: [
+          { phase: 0, row: 0, start: 0, len: 1 },
+          { phase: 1, row: 0, start: 1, len: 1.5 },
+          { phase: 1, row: 1, start: 1, len: 1.5 },
+          { phase: 1, row: 2, start: 1, len: 1.5 },
+          { phase: 2, row: 0, start: 2.5, len: 0.5 },
+          { phase: 3, row: 1, start: 2.5, len: 0.5 },
+          { phase: 4, row: 0, start: 3, len: 0.5 },
+        ],
+      },
+      crunch: {
+        agile: [
+          { phase: 0, row: 0, start: 0, len: 1 },
+          { phase: 1, row: 0, start: 1, len: 5 },
+          { phase: 2, row: 0, start: 6, len: 1 },
+          { phase: 3, row: 0, start: 7, len: 2 },
+          { phase: 4, row: 0, start: 9, len: 1 },
+        ],
+        fsad: [
+          { phase: 0, row: 0, start: 0, len: 0.5 },
+          { phase: 1, row: 0, start: 0.5, len: 1 },
+          { phase: 1, row: 1, start: 0.5, len: 1 },
+          { phase: 1, row: 2, start: 0.5, len: 1 },
+          { phase: 1, row: 3, start: 0.5, len: 1 },
+          { phase: 2, row: 0, start: 1.5, len: 0.5 },
+          { phase: 3, row: 1, start: 1.5, len: 0.5 },
+          { phase: 4, row: 0, start: 2, len: 0.5 },
+        ],
+      },
+    };
+
+    function renderLane(containerId, blocks, totalDays) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      el.innerHTML = '';
+      const rowH = 36;
+      const gap = 4;
+      blocks.forEach(b => {
+        const phase = PHASES[b.phase];
+        const div = document.createElement('div');
+        const leftPct = (b.start / totalDays) * 100;
+        const widthPct = (b.len / totalDays) * 100;
+        div.style.cssText = 'position:absolute; left:' + leftPct + '%; width:' + widthPct + '%; top:' + (b.row * (rowH + gap) + 8) + 'px; height:' + rowH + 'px; background:' + phase.color + '; border-radius: 6px; display:flex; align-items:center; padding: 0 8px; font-family: var(--font-mono); font-size: 0.68rem; color:' + phase.textColor + '; overflow:hidden; white-space:nowrap; transition: all 0.3s ease;';
+        div.textContent = phase.name + ' (' + b.len + 'd)';
+        el.appendChild(div);
+      });
+    }
+
+    function calcDays(blocks) {
+      let max = 0;
+      blocks.forEach(b => { if (b.start + b.len > max) max = b.start + b.len; });
+      return max;
+    }
+
+    window.setSprintPreset = function(name) {
+      const preset = PRESETS[name];
+      if (!preset) return;
+      document.querySelectorAll('#xw-sprint .xw-btn').forEach(b => b.classList.remove('active'));
+      const clicked = document.querySelector('#xw-sprint .xw-btn[onclick*="' + name + '"]');
+      if (clicked) clicked.classList.add('active');
+
+      const agileDays = calcDays(preset.agile);
+      const fsadDays = calcDays(preset.fsad);
+      const maxDays = 10;
+      renderLane('xw-sprint-agile', preset.agile, maxDays);
+      renderLane('xw-sprint-fsad', preset.fsad, maxDays);
+      const agileEl = document.getElementById('xw-sprint-agile-days');
+      const fsadEl = document.getElementById('xw-sprint-fsad-days');
+      if (agileEl) agileEl.textContent = agileDays + ' days';
+      if (fsadEl) fsadEl.textContent = fsadDays + ' days (' + Math.round((1 - fsadDays / agileDays) * 100) + '% faster)';
+    };
+
+    if (document.getElementById('xw-sprint')) window.setSprintPreset('default');
+  })();
+
+  // ─── SKILL ANATOMY BUILDER ───
+  (function() {
+    const PRESETS = {
+      docs: {
+        name: 'generate-docs', desc: 'Generate project documentation from codebase analysis',
+        hint: '[module-or-directory]', tools: 'Read Grep Glob',
+        steps: 'Read CLAUDE.md and architecture docs\nScan src/ for all public APIs\nFor each module, extract function signatures\nGenerate docs/api-reference.md',
+        guards: 'Never overwrite existing documentation\nAsk before creating new directories',
+      },
+      review: {
+        name: 'code-review', desc: 'Review code changes for bugs, security issues, and style violations',
+        hint: '[file-or-branch]', tools: 'Read Grep Glob Bash(git diff *)',
+        steps: 'Read the project CLAUDE.md for coding standards\nGet the diff (file, branch, or staged changes)\nCheck each change for bugs and logic errors\nCheck for security vulnerabilities (OWASP top 10)\nVerify style compliance against project conventions\nReport findings grouped by severity',
+        guards: 'Never modify code — read-only analysis\nFlag uncertain findings as "needs human review"',
+      },
+      deploy: {
+        name: 'deploy-checklist', desc: 'Run pre-deployment verification checklist before shipping',
+        hint: '[environment]', tools: 'Read Bash(npm *) Bash(git *)',
+        steps: 'Verify all tests pass (npm test)\nCheck for uncommitted changes (git status)\nVerify branch is up to date with main\nRun build to check for compilation errors\nVerify environment variables are set\nGenerate deployment summary',
+        guards: 'Never push or deploy — only verify readiness\nStop and report if any check fails',
+      },
+      empty: {
+        name: '', desc: '', hint: '', tools: '', steps: '', guards: '',
+      },
+    };
+
+    window.loadSkillPreset = function(key) {
+      var p = PRESETS[key];
+      if (!p) return;
+      document.getElementById('xw-sk-name').value = p.name;
+      document.getElementById('xw-sk-desc').value = p.desc;
+      document.getElementById('xw-sk-hint').value = p.hint;
+      document.getElementById('xw-sk-tools').value = p.tools;
+      document.getElementById('xw-sk-steps').value = p.steps;
+      document.getElementById('xw-sk-guards').value = p.guards;
+      document.querySelectorAll('#xw-skill-builder .xw-btn').forEach(function(b) { b.classList.remove('active'); });
+      var clicked = document.querySelector('#xw-skill-builder .xw-btn[onclick*="' + key + '"]');
+      if (clicked) clicked.classList.add('active');
+      renderSkillPreview();
+    };
+
+    window.renderSkillPreview = function() {
+      var name = document.getElementById('xw-sk-name').value.trim();
+      var desc = document.getElementById('xw-sk-desc').value.trim();
+      var hint = document.getElementById('xw-sk-hint').value.trim();
+      var tools = document.getElementById('xw-sk-tools').value.trim();
+      var steps = document.getElementById('xw-sk-steps').value.trim();
+      var guards = document.getElementById('xw-sk-guards').value.trim();
+
+      var lines = [];
+      lines.push('<span style="color:var(--text-muted);">---</span>');
+      lines.push('name: <span style="color:var(--accent-blue);">' + (name || '<em style="color:var(--text-muted);">your-skill-name</em>') + '</span>');
+      lines.push('description: <span style="color:var(--accent-blue);">' + (desc || '<em style="color:var(--text-muted);">what this skill does</em>') + '</span>');
+      if (hint) lines.push('argument-hint: <span style="color:var(--accent-blue);">' + hint + '</span>');
+      if (tools) lines.push('allowed-tools: <span style="color:var(--accent-emerald);">' + tools + '</span>');
+      lines.push('<span style="color:var(--text-muted);">---</span>');
+      lines.push('');
+      lines.push('<span style="color:var(--accent-amber); font-weight:600;"># ' + (name || 'Skill Name') + '</span>');
+      lines.push('');
+
+      if (steps) {
+        lines.push('<span style="color:var(--accent-amber); font-weight:600;">## Process</span>');
+        steps.split('\n').forEach(function(s, i) {
+          if (s.trim()) lines.push((i + 1) + '. ' + s.trim());
+        });
+        lines.push('');
+      }
+
+      if (guards) {
+        lines.push('<span style="color:var(--accent-amber); font-weight:600;">## Guardrails</span>');
+        guards.split('\n').forEach(function(g) {
+          if (g.trim()) lines.push('- ' + g.trim());
+        });
+      }
+
+      var el = document.getElementById('xw-sk-preview');
+      if (el) el.innerHTML = lines.join('<br>');
+    };
+
+    if (document.getElementById('xw-sk-preview')) renderSkillPreview();
+  })();
+
+  // ─── HOOK LIFECYCLE TRACER ───
+  (function() {
+    var NODES = [
+      { idx: 0, name: 'PreToolUse', cx: 100, color: 'var(--accent-amber)' },
+      { idx: 1, name: 'Tool Executes', cx: 280, color: 'var(--text-secondary)' },
+      { idx: 2, name: 'PostToolUse', cx: 440, color: 'var(--accent-emerald)' },
+      { idx: 3, name: 'Notification', cx: 580, color: 'var(--accent-blue)' },
+      { idx: 4, name: 'Stop', cx: 700, color: 'var(--accent-rose)' },
+    ];
+
+    var hooks = [];
+
+    function renderBadges() {
+      var el = document.getElementById('xw-hooks-badges');
+      if (!el) return;
+      if (hooks.length === 0) { el.innerHTML = '<span style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">No hooks added. Click a node or use the controls below.</span>'; return; }
+      el.innerHTML = hooks.map(function(h, i) {
+        var node = NODES[h.nodeIdx];
+        return '<span style="display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:999px; font-family:var(--font-mono); font-size:0.68rem; border:1px solid ' + node.color + '; color:' + node.color + '; background:var(--bg-elevated); cursor:pointer;" onclick="removeHook(' + i + ')" title="Click to remove">' + node.name + ':' + h.action + ' \u00d7</span>';
+      }).join('');
+    }
+
+    window.addHook = function() {
+      var nodeIdx = parseInt(document.getElementById('xw-hook-type').value, 10);
+      var action = document.getElementById('xw-hook-action').value;
+      hooks.push({ nodeIdx: nodeIdx, action: action });
+      renderBadges();
+    };
+
+    window.removeHook = function(i) {
+      hooks.splice(i, 1);
+      renderBadges();
+    };
+
+    window.clearHooks = function() {
+      hooks = [];
+      renderBadges();
+      document.getElementById('xw-hooks-log').innerHTML = '';
+    };
+
+    window.toggleHookNode = function(nodeIdx) {
+      if (nodeIdx === 1) return;
+      document.getElementById('xw-hook-type').value = String(nodeIdx);
+      window.addHook();
+    };
+
+    window.simulateHooks = function() {
+      var dot = document.getElementById('xw-hooks-dot');
+      var log = document.getElementById('xw-hooks-log');
+      if (!dot || !log) return;
+      log.innerHTML = '';
+      dot.setAttribute('opacity', '1');
+      dot.setAttribute('cx', '40');
+
+      var sequence = NODES.map(function(n) { return n; });
+      var stepIdx = 0;
+      var blocked = false;
+
+      function animateDot(targetCx, callback) {
+        var startCx = parseFloat(dot.getAttribute('cx'));
+        var dist = targetCx - startCx;
+        var duration = 400;
+        var startTime = null;
+        function frame(ts) {
+          if (!startTime) startTime = ts;
+          var progress = Math.min((ts - startTime) / duration, 1);
+          var ease = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+          dot.setAttribute('cx', String(startCx + dist * ease));
+          if (progress < 1) { requestAnimationFrame(frame); } else { callback(); }
+        }
+        requestAnimationFrame(frame);
+      }
+
+      function step() {
+        if (stepIdx >= sequence.length || blocked) {
+          if (!blocked) appendLog('\u2713 Complete', 'var(--accent-emerald)');
+          setTimeout(function() { dot.setAttribute('opacity', '0'); }, 800);
+          return;
+        }
+        var node = sequence[stepIdx];
+        animateDot(node.cx, function() {
+          var nodeHooks = hooks.filter(function(h) { return h.nodeIdx === node.idx; });
+          if (nodeHooks.length === 0) {
+            appendLog('\u2192 ' + node.name + ' (no hooks)', 'var(--text-muted)');
+          } else {
+            nodeHooks.forEach(function(h) {
+              if (h.action === 'block') {
+                appendLog('\u26d4 ' + node.name + ' \u2192 BLOCKED (hook action: block)', 'var(--accent-rose)');
+                blocked = true;
+              } else if (h.action === 'log') {
+                appendLog('\ud83d\udcdd ' + node.name + ' \u2192 logged (hook action: log)', node.color);
+              } else if (h.action === 'transform') {
+                appendLog('\ud83d\udd04 ' + node.name + ' \u2192 transformed (hook action: transform)', node.color);
+              }
+            });
+          }
+          stepIdx++;
+          if (!blocked) setTimeout(step, 500);
+        });
+      }
+
+      function appendLog(text, color) {
+        var div = document.createElement('div');
+        div.style.cssText = 'color:' + color + '; margin-bottom: 2px;';
+        div.textContent = text;
+        log.appendChild(div);
+      }
+
+      step();
+    };
+
+    renderBadges();
+  })();
+
+  // ─── PLACE YOUR BETS KNOWLEDGE CHECK ───
+  (function() {
+    var OPTIONS = [
+      { text: 'Parallel execution — agents work simultaneously, compressing timelines', correct: true, rank: 1, explain: 'The biggest multiplier. What took one engineer days takes parallel agents hours.' },
+      { text: 'Specs become the single source of truth, not code', correct: true, rank: 2, explain: 'Agents read specs. Humans read specs. Everyone aligned on the same artifact.' },
+      { text: 'You never have to write code again', correct: false, explain: 'Wrong — humans still write specs, review code, and steer agents. The role shifts, it doesn\'t vanish.' },
+      { text: 'Reduced context-switching for engineers', correct: true, rank: 3, explain: 'Engineers focus on architecture and review. Agents handle the mechanical translation.' },
+      { text: 'AI generates perfect code every time', correct: false, explain: 'Agents hallucinate, drift, and make mistakes. Human review is non-negotiable.' },
+      { text: 'Markdown as a universal interface across roles', correct: true, rank: 4, explain: 'PMs, designers, and engineers all work in the same format. No more handoff friction.' },
+      { text: 'It eliminates the need for code review', correct: false, explain: 'The opposite — FSAD shifts code review to spec compliance review. You review more, not less.' },
+      { text: 'Smaller teams ship faster without losing quality', correct: false, explain: 'Partially true, but it\'s not about team size — it\'s about the spec-driven loop. A 4-person pod with bad specs ships bad software just as fast.' },
+    ];
+
+    function shuffle(arr) {
+      for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+      }
+      return arr;
+    }
+
+    var shuffled = shuffle(OPTIONS.slice());
+
+    function renderOptions() {
+      var el = document.getElementById('xw-bets-options');
+      if (!el) return;
+      el.innerHTML = '';
+      shuffled.forEach(function(opt, i) {
+        var btn = document.createElement('button');
+        btn.className = 'xw-btn';
+        btn.style.cssText = 'text-align:left; padding:10px 14px; font-size:0.82rem; line-height:1.4; white-space:normal; height:auto;';
+        btn.textContent = opt.text;
+        btn.onclick = function() { selectBet(i); };
+        el.appendChild(btn);
+      });
+    }
+
+    function selectBet(idx) {
+      var picked = shuffled[idx];
+      try { localStorage.setItem('xw-bets-pick', JSON.stringify({ text: picked.text, correct: picked.correct })); } catch(e) {}
+
+      document.getElementById('xw-bets-question').style.display = 'none';
+      var reveal = document.getElementById('xw-bets-reveal');
+      reveal.style.display = 'block';
+
+      var msg = document.getElementById('xw-bets-pick-msg');
+      if (picked.correct) {
+        msg.innerHTML = 'You picked: <strong style="color:var(--accent-emerald);">\u201c' + picked.text + '\u201d</strong> \u2014 that\'s one of the real advantages.';
+      } else {
+        msg.innerHTML = 'You picked: <strong style="color:var(--accent-rose);">\u201c' + picked.text + '\u201d</strong> \u2014 common misconception.';
+      }
+
+      var results = document.getElementById('xw-bets-results');
+      var sorted = OPTIONS.slice().sort(function(a, b) {
+        if (a.correct && !b.correct) return -1;
+        if (!a.correct && b.correct) return 1;
+        if (a.correct && b.correct) return (a.rank || 99) - (b.rank || 99);
+        return 0;
+      });
+
+      results.innerHTML = sorted.map(function(o) {
+        var isUserPick = o.text === picked.text;
+        var icon = o.correct ? '\u2713' : '\u2717';
+        var iconColor = o.correct ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+        var bg = isUserPick ? 'var(--bg-elevated)' : 'transparent';
+        var border = isUserPick ? '1px solid var(--border-accent)' : '1px solid transparent';
+        return '<div style="padding:8px 12px; margin-bottom:4px; border-radius:8px; background:' + bg + '; border:' + border + ';">' +
+          '<div style="display:flex; gap:8px; align-items:baseline;">' +
+          '<span style="color:' + iconColor + '; font-weight:700; font-family:var(--font-mono);">' + icon + '</span>' +
+          '<span style="font-size:0.85rem; color:var(--text-primary);">' + o.text + (isUserPick ? ' <span style="font-size:0.7rem; color:var(--accent-blue);">\u2190 your pick</span>' : '') + '</span>' +
+          '</div>' +
+          '<p style="margin:4px 0 0 20px; font-size:0.78rem; color:var(--text-secondary);">' + o.explain + '</p>' +
+          '</div>';
+      }).join('');
+    }
+
+    window.resetBets = function() {
+      try { localStorage.removeItem('xw-bets-pick'); } catch(e) {}
+      shuffled = shuffle(OPTIONS.slice());
+      document.getElementById('xw-bets-question').style.display = 'block';
+      document.getElementById('xw-bets-reveal').style.display = 'none';
+      renderOptions();
+    };
+
+    // Check localStorage for existing pick
+    try {
+      var saved = JSON.parse(localStorage.getItem('xw-bets-pick'));
+      if (saved) {
+        var idx = shuffled.findIndex(function(o) { return o.text === saved.text; });
+        if (idx > -1) { renderOptions(); selectBet(idx); return; }
+      }
+    } catch(e) {}
+
+    renderOptions();
+  })();
+
+  // ─── POD COMPOSER ───
+(function() {
+  var ROLE_STYLES = {
+    pm: { label: 'PM', bg: 'rgba(245,158,11,0.15)', border: 'var(--accent-amber)', color: 'var(--accent-amber)' },
+    ux: { label: 'UX', bg: 'rgba(111,111,181,0.15)', border: 'var(--accent-blue)', color: 'var(--accent-blue)' },
+    eng: { label: 'Eng', bg: 'rgba(16,185,129,0.15)', border: 'var(--accent-emerald)', color: 'var(--accent-emerald)' },
+    agent: { label: 'Agent', bg: 'rgba(59,130,246,0.15)', border: '#60a5fa', color: '#60a5fa' },
+  };
+
+  var PODS = [
+    { name: 'The Triad', comp: { pm: 1, ux: 1, eng: 1, agent: 0 }, desc: 'Balanced 3-person pod. PM owns the spec, UX owns the experience, Eng owns the architecture. Agents multiply each role.', when: 'New product features, cross-functional work.' },
+    { name: 'Builder Duo', comp: { pm: 0, ux: 0, eng: 2, agent: 0 }, desc: 'Two engineers, no PM or UX. Fast iteration on technical infrastructure, internal tools, or backend services.', when: 'Infrastructure, migrations, dev tooling.' },
+    { name: 'Experience Pod', comp: { pm: 1, ux: 2, eng: 1, agent: 0 }, desc: 'UX-heavy pod for design-intensive work. Two designers cover research + implementation. One engineer builds what they design.', when: 'Design systems, onboarding flows, UX overhauls.' },
+    { name: 'Full Stack Pod', comp: { pm: 1, ux: 1, eng: 2, agent: 0 }, desc: 'The workhorse. Two engineers split frontend/backend or feature/platform. Full coverage across all roles.', when: 'Complex features spanning multiple systems.' },
+    { name: 'Platform Pod', comp: { pm: 0, ux: 0, eng: 2, agent: 0 }, desc: 'Pure engineering pod focused on platform reliability, performance, and developer experience.', when: 'API design, CI/CD, observability, performance.' },
+    { name: 'Discovery Pod', comp: { pm: 1, ux: 1, eng: 1, agent: 0 }, desc: 'Research-oriented pod that validates ideas before committing engineering capacity. Heavy on research agents.', when: 'New market exploration, prototype validation.' },
+  ];
+
+  var members = [];
+
+  function renderMembers() {
+    var el = document.getElementById('xw-pod-members');
+    if (!el) return;
+    if (members.length === 0) {
+      el.innerHTML = '<span style="font-size:0.78rem; color:var(--text-muted); font-family:var(--font-mono);">Empty pod</span>';
+      return;
+    }
+    el.innerHTML = members.map(function(role, i) {
+      var s = ROLE_STYLES[role];
+      return '<div onclick="removePodMember(' + i + ')" style="width:52px; height:52px; border-radius:50%; background:' + s.bg + '; border:2px solid ' + s.border + '; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: transform 0.15s;" title="Click to remove"><span style="font-family:var(--font-mono); font-size:0.72rem; font-weight:600; color:' + s.color + ';">' + s.label + '</span></div>';
+    }).join('');
+  }
+
+  function getComp() {
+    var comp = { pm: 0, ux: 0, eng: 0, agent: 0 };
+    members.forEach(function(r) { comp[r]++; });
+    return comp;
+  }
+
+  function matchPods() {
+    var comp = getComp();
+    var humanCount = comp.pm + comp.ux + comp.eng;
+    if (humanCount === 0 && comp.agent === 0) return;
+
+    var scored = PODS.map(function(pod) {
+      var total = 0;
+      var matched = 0;
+      ['pm', 'ux', 'eng'].forEach(function(role) {
+        var expected = pod.comp[role];
+        var actual = comp[role];
+        total += expected;
+        matched += Math.min(actual, expected);
+      });
+      var pct = total > 0 ? Math.round((matched / total) * 100) : 0;
+      if (humanCount > 0 && total === 0) pct = 10;
+      return { pod: pod, pct: pct };
+    }).sort(function(a, b) { return b.pct - a.pct; });
+
+    var el = document.getElementById('xw-pod-match');
+    if (!el) return;
+
+    var top = scored[0];
+    var runner = scored[1];
+    var compStr = [];
+    if (comp.pm) compStr.push(comp.pm + ' PM');
+    if (comp.ux) compStr.push(comp.ux + ' UX');
+    if (comp.eng) compStr.push(comp.eng + ' Eng');
+    if (comp.agent) compStr.push(comp.agent + ' Agent');
+
+    var html = '<div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); margin-bottom:0.75rem;">' + compStr.join(' · ') + ' (' + members.length + ' total)</div>';
+
+    html += '<div style="padding:1rem; border:1px solid var(--border-accent); border-radius:10px; background:var(--bg-elevated); margin-bottom:0.75rem;">';
+    html += '<div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.5rem;">';
+    html += '<span style="font-family:var(--font-display); font-size:1.1rem; font-weight:600; color:var(--text-primary);">' + top.pod.name + '</span>';
+    html += '<span style="font-family:var(--font-mono); font-size:0.88rem; font-weight:700; color:var(--accent-emerald);">' + top.pct + '%</span>';
+    html += '</div>';
+    html += '<p style="font-size:0.82rem; color:var(--text-secondary); margin:0 0 0.5rem;">' + top.pod.desc + '</p>';
+    html += '<span style="font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">Best for: ' + top.pod.when + '</span>';
+    html += '</div>';
+
+    if (runner && runner.pct > 0) {
+      html += '<div style="padding:0.75rem; border:1px solid var(--border); border-radius:8px;">';
+      html += '<div style="display:flex; justify-content:space-between; align-items:baseline;">';
+      html += '<span style="font-size:0.85rem; color:var(--text-secondary);">Runner-up: ' + runner.pod.name + '</span>';
+      html += '<span style="font-family:var(--font-mono); font-size:0.78rem; color:var(--text-muted);">' + runner.pct + '%</span>';
+      html += '</div></div>';
+    }
+
+    el.innerHTML = html;
+  }
+
+  function update() { renderMembers(); matchPods(); }
+
+  window.addPodMember = function(role) {
+    if (members.length >= 8) return;
+    members.push(role);
+    update();
+  };
+
+  window.removePodMember = function(i) {
+    members.splice(i, 1);
+    update();
+  };
+
+  window.clearPodMembers = function() {
+    members = [];
+    update();
+    document.getElementById('xw-pod-match').innerHTML = '<p style="color: var(--text-muted); font-size: 0.82rem; font-family: var(--font-mono);">Add members to see which pod type you\'re building.</p>';
+  };
+
+  window.randomPod = function() {
+    var roles = ['pm', 'ux', 'eng', 'agent'];
+    var count = 2 + Math.floor(Math.random() * 4);
+    members = [];
+    for (var i = 0; i < count; i++) {
+      members.push(roles[Math.floor(Math.random() * roles.length)]);
+    }
+    update();
+  };
+
+  renderMembers();
+})();
+
+  // ─── SPEC COMPARISON TOGGLE ───
+(function() {
+  window.setSpecView = function(mode) {
+    var panels = document.getElementById('xw-spec-panels');
+    var withEl = document.getElementById('xw-spec-with');
+    var withoutEl = document.getElementById('xw-spec-without');
+    if (!panels || !withEl || !withoutEl) return;
+
+    document.querySelectorAll('#xw-spec-toggles .xw-btn').forEach(function(b) { b.classList.remove('active'); });
+    var clicked = document.querySelector('#xw-spec-toggles .xw-btn[onclick*="' + mode + '"]');
+    if (clicked) clicked.classList.add('active');
+
+    if (mode === 'both') {
+      panels.style.gridTemplateColumns = '1fr 1fr';
+      withEl.style.display = 'block';
+      withoutEl.style.display = 'block';
+    } else if (mode === 'with') {
+      panels.style.gridTemplateColumns = '1fr';
+      withEl.style.display = 'block';
+      withoutEl.style.display = 'none';
+    } else {
+      panels.style.gridTemplateColumns = '1fr';
+      withEl.style.display = 'none';
+      withoutEl.style.display = 'block';
+    }
+  };
+})();
+
+  // ─── ROI CALCULATOR ───
+  (function() {
+    window.updateROI = function() {
+      var team = parseInt(document.getElementById('xw-roi-team').value, 10);
+      var velocity = parseInt(document.getElementById('xw-roi-velocity').value, 10);
+      var deploys = parseInt(document.getElementById('xw-roi-deploys').value, 10);
+
+      document.getElementById('xw-roi-team-val').textContent = team;
+      document.getElementById('xw-roi-vel-val').textContent = velocity;
+      document.getElementById('xw-roi-dep-val').textContent = deploys;
+
+      var hoursSaved = Math.round(team * 3.2);
+      var velIncrease = Math.round(30 + (velocity / 100) * 30);
+      var newVelocity = Math.round(velocity * (1 + velIncrease / 100));
+      var deployMultiplier = Math.min(2.5, 1.5 + (10 - deploys) * 0.05).toFixed(1);
+      if (deployMultiplier < 1.2) deployMultiplier = '1.2';
+      var newDeploys = Math.round(deploys * parseFloat(deployMultiplier));
+      var costSavings = Math.round(hoursSaved * 75 * 26 / 12);
+
+      var metrics = [
+        { label: 'Hours saved / sprint', value: hoursSaved + 'h', sub: team + ' engineers \u00d7 ~3.2h each', color: 'var(--accent-blue)' },
+        { label: 'Velocity increase', value: '+' + velIncrease + '%', sub: velocity + ' \u2192 ' + newVelocity + ' story points', color: 'var(--accent-emerald)' },
+        { label: 'Deploy frequency', value: deployMultiplier + '\u00d7', sub: deploys + ' \u2192 ' + newDeploys + '/month', color: 'var(--accent-amber)' },
+        { label: 'Monthly savings (est.)', value: '$' + costSavings.toLocaleString(), sub: 'At $75/hr blended rate', color: 'var(--text-primary)' },
+      ];
+
+      var el = document.getElementById('xw-roi-results');
+      if (!el) return;
+      el.innerHTML = metrics.map(function(m) {
+        return '<div style="padding: 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-elevated);">' +
+          '<span style="font-family:var(--font-mono); font-size:0.62rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--text-muted); display:block; margin-bottom:0.4rem;">' + m.label + '</span>' +
+          '<span style="font-family:var(--font-hero); font-size:1.6rem; font-weight:600; color:' + m.color + '; display:block; margin-bottom:0.25rem;">' + m.value + '</span>' +
+          '<span style="font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">' + m.sub + '</span>' +
+          '</div>';
+      }).join('');
+    };
+
+    if (document.getElementById('xw-roi')) updateROI();
+  })();
+
+  // ─── WIDGET ENTRANCE ANIMATIONS ───
+  (function() {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('xw-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.xw').forEach(function(el) {
+      observer.observe(el);
+    });
+  })();
 
   // ─── ROUTING & NAVIGATION ───
   function initRouter() {
@@ -7643,7 +8734,7 @@ codex app</code></pre>
     const hash = window.location.hash.substring(1);
     if (!hash) return;
 
-    const [pageId, sectionId, leafSlug] = hash.split('/');
+    const [pageId, sectionId] = hash.split('/');
     const navBtn = document.querySelector(`.nav-group-toggle[data-page="${pageId}"]`);
 
     if (navBtn) {
@@ -7668,15 +8759,8 @@ codex app</code></pre>
         return;
       }
       if (sectionId && sectionToTopicMap[sectionId]) {
-        const topic = sectionToTopicMap[sectionId];
-        showTopic(topic);
-        // Third segment: open a specific collapsible within the section
-        if (leafSlug) {
-          const leafId = `${sectionId}--${leafSlug}`;
-          setTimeout(() => openAndScrollToLeaf(leafId, topic), 140);
-        } else {
-          setTimeout(() => scrollToId(sectionId), 120);
-        }
+        showTopic(sectionToTopicMap[sectionId]);
+        setTimeout(() => scrollToId(sectionId), 120);
         return;
       }
       showTopic('hub');
@@ -7870,18 +8954,6 @@ codex app</code></pre>
     }
   }
 
-  // Open a collapsible (3rd-level leaf) and scroll to it. Ensures the right
-  // practices topic view is visible first so getBoundingClientRect is sane.
-  function openAndScrollToLeaf(collapsibleId, topicId) {
-    const el = document.getElementById(collapsibleId);
-    if (!el) return;
-    if (topicId && TOPIC_IDS.includes(topicId) && window.__currentTopic !== topicId) {
-      showTopic(topicId);
-    }
-    el.classList.add('open');
-    setTimeout(() => scrollToId(collapsibleId), 140);
-  }
-
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebarBackdrop').classList.toggle('visible');
@@ -7899,13 +8971,13 @@ codex app</code></pre>
           id: sec.id,
           title: title.trim(),
           label: label.trim(),
-          text: sec.textContent.substring(0, 5000).replace(/\s+/g, ' ').trim()
+          text: sec.textContent.substring(0, 2000).replace(/\s+/g, ' ').trim()
         });
       }
       // Index collapsible headers within sections for deeper search hits
       sec.querySelectorAll('.collapsible').forEach(col => {
         const colTitle = col.querySelector('.collapsible-header h3')?.textContent || '';
-        const colText = col.textContent.substring(0, 5000).replace(/\s+/g, ' ').trim();
+        const colText = col.textContent.substring(0, 3000).replace(/\s+/g, ' ').trim();
         if (colTitle && sec.id) {
           searchIndex.push({
             id: sec.id,
@@ -7957,9 +9029,6 @@ codex app</code></pre>
         const targetPage = sectionToPageMap[item.id];
         const navBtn = document.querySelector(`.nav-group-toggle[data-page="${targetPage}"]`);
         switchPage(targetPage, navBtn);
-        if (targetPage === 'practices' && sectionToTopicMap[item.id]) {
-          showTopic(sectionToTopicMap[item.id]);
-        }
         setTimeout(() => scrollToId(item.id), 150);
         const input = document.getElementById('sidebarSearchInput');
         if (input) { input.value = ''; input.blur(); }
@@ -8086,39 +9155,29 @@ codex app</code></pre>
   // ─── SCROLL SPY ───
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const id = entry.target.id;
-      const isLeaf = entry.target.classList.contains('collapsible');
-      if (isLeaf) {
-        // A collapsible became visible → highlight the matching leaf nav item
-        document.querySelectorAll('.nav-leaf-item').forEach(item => {
-          item.classList.toggle('active', item.dataset.leaf === id);
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.nav-sub-item').forEach(item => {
+          item.classList.remove('active');
+          if (item.getAttribute('onclick')?.includes(id)) {
+            item.classList.add('active');
+          }
         });
-        return;
+        document.querySelectorAll('.page-indicator-pill').forEach(pill => {
+          pill.classList.toggle('active', pill.dataset.section === id);
+        });
       }
-      // A section became visible → highlight matching section nav item
-      document.querySelectorAll('.nav-sub-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.getAttribute('onclick')?.includes(id)) {
-          item.classList.add('active');
-        }
-      });
-      document.querySelectorAll('.page-indicator-pill').forEach(pill => {
-        pill.classList.toggle('active', pill.dataset.section === id);
-      });
     });
   }, { threshold: 0.1, rootMargin: '-60px 0px -60% 0px' });
 
   function reinitSectionObserver(pageEl) {
-    // Unobserve everything we might have been watching
-    document.querySelectorAll('section[id], .hero[id], .collapsible[id]').forEach(s => sectionObserver.unobserve(s));
+    // Unobserve all sections across all pages
+    document.querySelectorAll('section[id], .hero[id]').forEach(s => sectionObserver.unobserve(s));
     // On practices page, scope to the visible topic-view only
     if (pageEl.id === 'page-practices') {
       const visible = pageEl.querySelector('.topic-view:not([hidden])');
       if (visible) {
         visible.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
-        // Also observe collapsibles for 3rd-level active-leaf highlighting
-        visible.querySelectorAll('.collapsible[id]').forEach(c => sectionObserver.observe(c));
       }
       const hero = pageEl.querySelector('.hero[id]');
       if (hero) sectionObserver.observe(hero);

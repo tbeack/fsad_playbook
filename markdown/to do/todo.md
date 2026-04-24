@@ -70,3 +70,19 @@
 - [x] `CBP-057` Update `/theme` Cheat Sheet row to document named custom themes in `~/.claude/themes/` (v2.1.118) → [task-cbp-057.md](task-cbp-057.md)
 - [x] `CBP-058` Add `mcp_tool` as a fifth hook type in the Hooks — Five Types collapsible (v2.1.118) → [task-cbp-058.md](task-cbp-058.md)
 - [x] `CBP-059` Add `DISABLE_UPDATES` env var to Subprocess Sandboxing collapsible (v2.1.118) → [task-cbp-059.md](task-cbp-059.md)
+- [x] `CBP-060` Test Security Review multi-agent prompt on Opus 4.7 and package as reusable skill → [task-cbp-060.md](task-cbp-060.md)
+- [x] `CBP-061` sec-review-team: emit structured JSONL findings alongside prose markdown (P0.1) → [task-cbp-061.md](task-cbp-061.md)
+- [x] `CBP-062` sec-review-team: add pre-run confirmation with target / scope / stack / ETA / estimated cost (P0.2) → [task-cbp-062.md](task-cbp-062.md)
+- [x] `CBP-063` sec-review-team: checked-clean vs didn't-check contract + confidence field on findings (P0.3) → [task-cbp-063.md](task-cbp-063.md)
+- [x] `CBP-064` sec-review-team: refactor into specialist library with stack-signal detection (P0.4) → [task-cbp-064.md](task-cbp-064.md)
+- [x] `CBP-065` sec-review-team: add per-agent heartbeat files and orchestrator interim-report status lines (P0.5) → [task-cbp-065.md](task-cbp-065.md)
+- [x] `CBP-066` sec-review-team: enforce hard read-only tool allowlist when spawning specialists (P1.2) → [task-cbp-066.md](task-cbp-066.md)
+- [x] `CBP-067` sec-review-team: integrate off-the-shelf scanners (gitleaks / semgrep / npm / cargo / osv-scanner) as pre-pass (P1.4) → [task-cbp-067.md](task-cbp-067.md)
+- [x] `CBP-068` sec-review-team: test harness with known-vulnerable fixture repos + expected-findings regression check (P2.3) → [task-cbp-068.md](task-cbp-068.md)
+- [x] `CBP-069` sec-review-team: add iac-auditor + prompt-injection-auditor specialists (highest-priority gap fills) → [task-cbp-069.md](task-cbp-069.md) — _specialists + fixtures shipped; pending: harness validation run_
+- [x] `CBP-070` sec-review-fixes: companion skill that takes REPORT.md and opens fix PRs per High finding (P2.4) → [task-cbp-070.md](task-cbp-070.md)
+- [x] `CBP-071` Playbook docs: update #practices/security-review to reflect the specialist-library model; slim the embedded prompt → [task-cbp-071.md](task-cbp-071.md)
+- [x] `CBP-072` sec-review-team: add frontend-security-auditor + container-runtime-auditor + ci-cd-security-auditor specialists → [task-cbp-072.md](task-cbp-072.md) — _specialists + fixtures shipped; pending: harness validation run_
+- [x] `CBP-073` sec-review-team: add concurrency-race-auditor + privacy-telemetry-auditor specialists → [task-cbp-073.md](task-cbp-073.md) — _specialists + fixtures shipped; pending: harness validation run + recall regression check_
+- [x] `CBP-074` sec-review-team: prune specialist overlaps (narrow silent-failure-hunter; move CSP from data-exposure to frontend-security) → [task-cbp-074.md](task-cbp-074.md)
+- [x] `CBP-075` sec-review-team: document known tradeoffs + output-dir pollution warning in the skill → [task-cbp-075.md](task-cbp-075.md)
