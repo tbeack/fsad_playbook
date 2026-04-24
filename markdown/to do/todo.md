@@ -86,3 +86,8 @@
 - [x] `CBP-073` sec-review-team: add concurrency-race-auditor + privacy-telemetry-auditor specialists → [task-cbp-073.md](task-cbp-073.md) — _specialists + fixtures shipped; pending: harness validation run + recall regression check_
 - [x] `CBP-074` sec-review-team: prune specialist overlaps (narrow silent-failure-hunter; move CSP from data-exposure to frontend-security) → [task-cbp-074.md](task-cbp-074.md)
 - [x] `CBP-075` sec-review-team: document known tradeoffs + output-dir pollution warning in the skill → [task-cbp-075.md](task-cbp-075.md)
+- [x] `CBP-076` Update `/config` Cheat Sheet row — settings persist to `~/.claude/settings.json` with cascade precedence (v2.1.119) → [task-cbp-076.md](task-cbp-076.md)
+- [x] `CBP-077` Add `prUrlTemplate` setting to Config Cascade section — custom PR badge URL for GitLab/Bitbucket/GHE teams (v2.1.119) → [task-cbp-077.md](task-cbp-077.md)
+- [x] `CBP-078` Add `CLAUDE_CODE_HIDE_CWD=1` env var to Subprocess Sandboxing env vars table (v2.1.119) → [task-cbp-078.md](task-cbp-078.md)
+- [x] `CBP-079` Add `--from-pr` to Cheat Sheet CLI flags — accepts GitHub, GitLab, Bitbucket, and GHE URLs (v2.1.119) → [task-cbp-079.md](task-cbp-079.md)
+- [x] `CBP-080` Update OTEL events table — add `tool_use_id` to `tool_result`/`tool_decision`; add `tool_input_size_bytes` to `tool_result` (v2.1.119) → [task-cbp-080.md](task-cbp-080.md)

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v34)</title>
+<title>FSAD — Full Stack Agentic Development (v35)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1876,7 +1876,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v34</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v35</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3758,6 +3758,17 @@ description: Structured code review with security and quality checks
       </div>
     </div>
 
+    <!-- Notable settings.json keys -->
+    <div class="callout callout-tip" style="margin-top:1.5rem; margin-bottom:2rem;">
+      <div class="callout-title">Notable <code>settings.json</code> Keys</div>
+      <p style="margin-bottom:0.6rem;">Beyond permissions and MCP server lists, <code>settings.json</code> accepts several useful configuration keys:</p>
+      <ul style="margin:0; padding-left:1.25rem; font-size:0.9rem; color:var(--text-secondary);">
+        <li style="margin-bottom:0.4rem;"><code>prUrlTemplate</code> — Point the footer PR badge to a custom review URL instead of github.com. Useful for GitLab, Bitbucket, or GitHub Enterprise teams.</li>
+        <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
+        <li style="margin-bottom:0;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
+      </ul>
+    </div>
+
     <!-- Anti-patterns -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Patterns &amp; Anti-Patterns</h3>
     <div class="card-grid" style="gap:1rem;">
@@ -5073,7 +5084,7 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/config</code></td><td>Open settings interface (alias: <code>/settings</code>)</td></tr>
+          <tr><td><code>/config</code></td><td>Open settings interface — changes persist to <code>~/.claude/settings.json</code> and participate in the config cascade (alias: <code>/settings</code>)</td></tr>
           <tr><td><code>/init</code></td><td>Create CLAUDE.md for your project</td></tr>
           <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
@@ -5177,6 +5188,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>-p</code> / <code>--print</code></td><td>Print mode — answer &amp; exit (for scripting)</td></tr>
+          <tr><td><code>--from-pr</code></td><td>Load PR/MR diff as context — accepts GitHub, GitHub Enterprise, GitLab, and Bitbucket URLs</td></tr>
           <tr><td><code>--output-format json</code></td><td>JSON output</td></tr>
           <tr><td><code>--output-format stream-json</code></td><td>Streaming JSON output</td></tr>
           <tr><td><code>--json-schema</code></td><td>Get JSON output matching a specific schema</td></tr>
@@ -5714,6 +5726,7 @@ smoke tests against the staging URL."</code></pre>
             <tbody>
               <tr><td><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code></td><td>Enables PID namespace isolation on Linux — sandboxed commands can't see or signal processes outside their namespace</td></tr>
               <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
+              <tr><td><code>CLAUDE_CODE_HIDE_CWD=1</code></td><td>Hides the working directory path from the startup logo — useful in CI/CD and shared environments where paths should not be exposed</td></tr>
               <tr><td><code>DISABLE_UPDATES=1</code></td><td>Completely blocks all update paths including manual <code>claude update</code>. Stricter than <code>DISABLE_AUTOUPDATER</code> (which only prevents auto-updates). Use in managed/enterprise environments to pin a specific version.</td></tr>
             </tbody>
           </table>
@@ -6248,10 +6261,10 @@ claude</code></pre>
             <thead><tr><th>Event</th><th>Fires When</th><th>Key Attributes</th></tr></thead>
             <tbody>
               <tr><td><code>claude_code.user_prompt</code></td><td>User submits a prompt</td><td>prompt_length, prompt (opt-in)</td></tr>
-              <tr><td><code>claude_code.tool_result</code></td><td>Tool finishes executing</td><td>tool_name, success, duration_ms</td></tr>
+              <tr><td><code>claude_code.tool_result</code></td><td>Tool finishes executing</td><td>tool_name, success, duration_ms, tool_use_id, tool_input_size_bytes</td></tr>
               <tr><td><code>claude_code.api_request</code></td><td>API call to Claude completes</td><td>model, cost_usd, input/output tokens</td></tr>
               <tr><td><code>claude_code.api_error</code></td><td>API call fails (after retries)</td><td>error, status_code, attempt count</td></tr>
-              <tr><td><code>claude_code.tool_decision</code></td><td>Tool permission accept/reject</td><td>tool_name, decision, source</td></tr>
+              <tr><td><code>claude_code.tool_decision</code></td><td>Tool permission accept/reject</td><td>tool_name, decision, source, tool_use_id</td></tr>
             </tbody>
           </table>
         </div>

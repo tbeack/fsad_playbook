@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v35 — 2026-04-24
+
+**Claude Code v2.1.119 auto-update (CBP-076 through CBP-080)**
+
+Automated playbook sync for Claude Code release v2.1.119.
+
+- **CBP-076 — `/config` row updated.** The Cheat Sheet `/config` row now notes that changes persist to `~/.claude/settings.json` and participate in the config cascade — reflecting the v2.1.119 behavior where theme, editor mode, verbose, and other settings set via `/config` are written to the user settings file with full precedence semantics.
+- **CBP-077 — `prUrlTemplate` documented in Config Cascade.** Added a "Notable `settings.json` Keys" callout to the Config Cascade section listing `prUrlTemplate` (point the footer PR badge to a custom review URL for GitLab, Bitbucket, or GHE teams), `otelHeadersHelper`, and `disableAllHooks`.
+- **CBP-078 — `CLAUDE_CODE_HIDE_CWD` added to Subprocess Sandboxing.** New env var row documents `CLAUDE_CODE_HIDE_CWD=1`, which hides the working directory path from the startup logo — useful in CI/CD and shared environments where paths should not be exposed.
+- **CBP-079 — `--from-pr` added to Cheat Sheet CLI flags.** New row in the Print / programmatic mode flags table documents `--from-pr`, noting it accepts GitHub, GitHub Enterprise, GitLab, and Bitbucket URLs for loading PR/MR diffs as context.
+- **CBP-080 — OTEL events table updated.** `claude_code.tool_result` key attributes extended with `tool_use_id` and `tool_input_size_bytes`; `claude_code.tool_decision` extended with `tool_use_id` — enabling correlation of tool calls in observability dashboards.
+
 ### v34 — 2026-04-23
 
 **sec-review-team promoted to a 13-specialist library; `/sec-review-fixes` companion skill; fixtures + harness (CBP-061 through CBP-075)**
