@@ -143,17 +143,17 @@ Confirm the in-app search still returns the section-level hits correctly. No sea
   - Mobile / narrow-width: the extra nesting doesn't blow out the sidebar. Adjust CSS if needed.
 
 ## Acceptance Criteria
-- [ ] Every Claude Best Practices section with multiple `.collapsible` children has a 3rd-level nav list (one item per collapsible, in document order)
-- [ ] Each targeted `.collapsible` has a stable `id` slug; no collisions on the page
-- [ ] Leaf lists are hidden by default and auto-expand only when their parent section is the active scroll-spy target (one section's leaves visible at a time)
-- [ ] Clicking a leaf opens the collapsible AND scrolls to it with proper header offset
-- [ ] The matching leaf is highlighted as the user scrolls through the section
-- [ ] Deep link of the form `#practices/<section>/<collapsible-id>` works (shows correct topic, opens correct collapsible)
-- [ ] Legacy 2-segment links `#practices/<section>` still work unchanged
-- [ ] Sections without collapsibles show no 3rd level (no empty wrappers)
-- [ ] Indicator pills behavior unchanged
-- [ ] Works in both light and dark themes; no sidebar overflow on narrow widths
-- [ ] No broken HTML or console errors
+- [x] Every Claude Best Practices section with multiple `.collapsible` children has a 3rd-level nav list (one item per collapsible, in document order)
+- [x] Each targeted `.collapsible` has a stable `id` slug; no collisions on the page
+- [x] Leaf lists are hidden by default and auto-expand only when their parent section is the active scroll-spy target (one section's leaves visible at a time)
+- [x] Clicking a leaf opens the collapsible AND scrolls to it with proper header offset
+- [x] The matching leaf is highlighted as the user scrolls through the section
+- [x] Deep link of the form `#practices/<section>/<collapsible-id>` works (shows correct topic, opens correct collapsible)
+- [x] Legacy 2-segment links `#practices/<section>` still work unchanged
+- [x] Sections without collapsibles show no 3rd level (no empty wrappers)
+- [x] Indicator pills behavior unchanged
+- [x] Works in both light and dark themes; no sidebar overflow on narrow widths
+- [x] No broken HTML or console errors
 
 ## Out of Scope
 - Applying the same 3-level pattern to the Codex Best Practices nav (can follow as a separate CBP if useful).
