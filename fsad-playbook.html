@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v30)</title>
+<title>FSAD — Full Stack Agentic Development (v35)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1876,7 +1876,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v30</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v35</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -1996,7 +1996,7 @@
             <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
             <div class="nav-leaf-sections">
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/lifecycle" data-leaf="hooks-deep-dive--lifecycle" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--lifecycle', 'skills-hooks')">Lifecycle</a>
-              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/four-types" data-leaf="hooks-deep-dive--four-types" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--four-types', 'skills-hooks')">Four Types</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/four-types" data-leaf="hooks-deep-dive--four-types" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--four-types', 'skills-hooks')">Five Types</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/configuration" data-leaf="hooks-deep-dive--configuration" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--configuration', 'skills-hooks')">Configuration</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/exit-codes" data-leaf="hooks-deep-dive--exit-codes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--exit-codes', 'skills-hooks')">Exit Codes</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/recipes" data-leaf="hooks-deep-dive--recipes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--recipes', 'skills-hooks')">Recipes</a>
@@ -3758,6 +3758,17 @@ description: Structured code review with security and quality checks
       </div>
     </div>
 
+    <!-- Notable settings.json keys -->
+    <div class="callout callout-tip" style="margin-top:1.5rem; margin-bottom:2rem;">
+      <div class="callout-title">Notable <code>settings.json</code> Keys</div>
+      <p style="margin-bottom:0.6rem;">Beyond permissions and MCP server lists, <code>settings.json</code> accepts several useful configuration keys:</p>
+      <ul style="margin:0; padding-left:1.25rem; font-size:0.9rem; color:var(--text-secondary);">
+        <li style="margin-bottom:0.4rem;"><code>prUrlTemplate</code> — Point the footer PR badge to a custom review URL instead of github.com. Useful for GitLab, Bitbucket, or GitHub Enterprise teams.</li>
+        <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
+        <li style="margin-bottom:0;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
+      </ul>
+    </div>
+
     <!-- Anti-patterns -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Patterns &amp; Anti-Patterns</h3>
     <div class="card-grid" style="gap:1rem;">
@@ -4227,23 +4238,63 @@ Use a structured format: file, line, severity, description.</code></pre>
 <section id="security-review">
     <span class="section-label">10.6 — Security Review</span>
     <h2 class="section-title">Multi-Agent Security Review Team</h2>
-    <p class="section-subtitle">Orchestrate a team of specialized review agents in parallel for a pre-merge or pre-release hardening pass. Each specialist writes findings to its own file; a lead agent consolidates them into a single report. Review only — no fixes.</p>
+    <p class="section-subtitle">Orchestrate a specialist-library security review team for pre-merge or pre-release hardening. The skill picks a roster based on detected stack signals, spawns specialists in parallel, and consolidates structured findings into a single severity-ranked report. Review only — no fixes.</p>
 
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialists</h3>
-    <ul style="color:var(--text-secondary); line-height:1.9; margin-bottom:1.5rem; padding-left:1.2rem;">
-      <li><strong style="color:var(--text-primary);">auth-authz-auditor</strong> — Auth flows, sessions, JWT/OAuth, RBAC, privilege boundaries, endpoint auth mapping.</li>
-      <li><strong style="color:var(--text-primary);">input-validation-auditor</strong> — Injection vectors: SQLi, command injection, SSRF, path traversal, XSS, deserialization, prompt injection.</li>
-      <li><strong style="color:var(--text-primary);">secrets-crypto-auditor</strong> — Hardcoded secrets, weak crypto, insecure random, improper key/token storage, leaked credentials.</li>
-      <li><strong style="color:var(--text-primary);">dependency-supplychain-auditor</strong> — Known CVEs, pinned versions, lockfile integrity, suspicious packages, CI/CD trust boundaries.</li>
-      <li><strong style="color:var(--text-primary);">silent-failure-hunter</strong> — Swallowed exceptions, fallbacks that mask security failures, error handling that fails open.</li>
-      <li><strong style="color:var(--text-primary);">data-exposure-auditor</strong> — PII handling, log redaction, response shapes, IDOR, tenant isolation, overly broad CORS.</li>
-    </ul>
+    <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:1.5rem;">
+      <div class="callout-title">Invocation</div>
+      <p>Drop <code>.claude/skills/sec-review-team/</code> into your project and invoke with <code>/sec-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>). The <code>-team</code> suffix disambiguates from the built-in <code>/security-review</code> (a single-pass branch review). Pair with <code>/sec-review-fixes</code> to produce fix PRs from the report. Validated on Opus 4.7 against a Tauri + React + Rust target (CBP-060 → 3 high-severity findings after dedupe, zero hallucinated CVEs).</p>
+    </div>
 
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Example Prompt</h3>
-    <p style="color:var(--text-secondary); margin-bottom:1rem;">Paste this into Claude Code, replace <code>&lt;PATH&gt;</code> and the scope placeholder, and adjust the agent roster to match your stack:</p>
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialist Library (13)</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">The roster is selected automatically from detected stack signals (see <code>stack-signals.md</code>). Four baseline specialists always run; stack-specific additions layer on top.</p>
 
+    <table style="width:100%; border-collapse:collapse; font-size:0.92rem; margin-bottom:1.5rem;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border); text-align:left;">
+          <th style="padding:0.6rem 0.8rem; color:var(--text-primary);">Specialist</th>
+          <th style="padding:0.6rem 0.8rem; color:var(--text-primary);">Default for</th>
+          <th style="padding:0.6rem 0.8rem; color:var(--text-primary);">Scope</th>
+        </tr>
+      </thead>
+      <tbody style="color:var(--text-secondary);">
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">secrets-crypto-auditor</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">Hardcoded secrets, weak crypto, insecure random, key storage, TLS config.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">dependency-supplychain-auditor</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">Known CVEs, lockfile integrity, install scripts, typosquats, plugin alignment.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">silent-failure-hunter</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">Swallowed exceptions, fail-open error paths, security-relevant silences.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">data-exposure-auditor</strong></td><td style="padding:0.5rem 0.8rem;">all (baseline)</td><td style="padding:0.5rem 0.8rem;">PII storage, log redaction, error-leak patterns, IDOR, outbound-call verification.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">auth-authz-auditor</strong></td><td style="padding:0.5rem 0.8rem;">webapp, desktop, backend, multi-user</td><td style="padding:0.5rem 0.8rem;">Auth flows, JWT/OAuth, RBAC, IPC command surfaces, Tauri capability grants.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">input-validation-auditor</strong></td><td style="padding:0.5rem 0.8rem;">webapp, backend, desktop</td><td style="padding:0.5rem 0.8rem;">SQLi, XSS, command/path traversal, deserialization, SSRF, IPC payload validation.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">frontend-security-auditor</strong></td><td style="padding:0.5rem 0.8rem;">webapp, desktop-with-webview</td><td style="padding:0.5rem 0.8rem;">CSP, CORS, SRI, cookie flags, postMessage origin, clickjacking, third-party scripts.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">prompt-injection-auditor</strong></td><td style="padding:0.5rem 0.8rem;">llm-agent, rag, agentic</td><td style="padding:0.5rem 0.8rem;">Prompt concat of untrusted input, tool-use role confusion, context poisoning, memory injection.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">iac-auditor</strong></td><td style="padding:0.5rem 0.8rem;">terraform, kubernetes, helm, cloudformation</td><td style="padding:0.5rem 0.8rem;">Public resources, IAM wildcards, encryption, pod security, IaC hardcoded credentials.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">container-runtime-auditor</strong></td><td style="padding:0.5rem 0.8rem;">docker, kubernetes</td><td style="padding:0.5rem 0.8rem;">Dockerfile hardening, base-image CVEs, compose privileges, pod security context.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">ci-cd-security-auditor</strong></td><td style="padding:0.5rem 0.8rem;">any repo with CI</td><td style="padding:0.5rem 0.8rem;">Workflow triggers, action SHA-pinning, permissions block, secrets-in-CI, artifact integrity.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">concurrency-race-auditor</strong></td><td style="padding:0.5rem 0.8rem;">backend, realtime, multi-user</td><td style="padding:0.5rem 0.8rem;">TOCTOU, double-check-locking, rate-limit races, session races, transactional integrity.</td></tr>
+        <tr><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">privacy-telemetry-auditor</strong></td><td style="padding:0.5rem 0.8rem;">consumer-facing webapp/desktop</td><td style="padding:0.5rem 0.8rem;">Outbound data, analytics SDKs, cookies, consent flow, cross-border transfer.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Example Invocation</h3>
     <div class="code-block">
-      <pre><code class="language-markdown">Spin up a security review team for the codebase at &lt;PATH&gt;. Scope: &lt;all backend services | specific dirs | recent diff vs main&gt;.
+      <pre><code class="language-bash"># Confirm + run against a full repo on Opus 4.7
+/sec-review-team /path/to/repo all
+
+# Review only the diff vs main (fast — finishes in minutes)
+/sec-review-team /path/to/repo "diff vs main"
+
+# Skip confirmation (for CI / scripted runs)
+/sec-review-team /path/to/repo all --yes
+
+# After the run, open fix PRs for high/certain findings:
+/sec-review-fixes /path/to/repo/.planning/security-review/</code></pre>
+    </div>
+
+    <p style="color:var(--text-secondary); margin:1rem 0 0.5rem;">The skill produces structured JSONL findings (one file per specialist) plus a human-readable <code>REPORT.md</code>. The JSONL conforms to <code>schema/finding.schema.json</code> and is consumable by CI, the <code>/sec-review-fixes</code> companion, and a future fixtures-based regression harness.</p>
+
+    <details style="margin-top:1.5rem; border:1px solid var(--border); border-radius:6px; padding:0.5rem 1rem;">
+      <summary style="cursor:pointer; font-weight:600; color:var(--text-primary); padding:0.5rem 0;">Legacy monolithic prompt (for reference / non-skill environments)</summary>
+      <p style="color:var(--text-secondary); margin:1rem 0;">The original single-prompt form the library was factored from. Use this in environments where the skill isn't available — paste into Claude Code, replace <code>&lt;PATH&gt;</code> and the scope placeholder, and adjust the agent roster.</p>
+      <div class="code-block">
+        <pre><code class="language-markdown">Spin up a security review team for the codebase at &lt;PATH&gt;. Scope: &lt;all backend services | specific dirs | recent diff vs main&gt;.
 
 1. Create a team via TeamCreate named "sec-review" with a task list.
 
@@ -4270,11 +4321,12 @@ Use a structured format: file, line, severity, description.</code></pre>
 4. After all agents finish, you (lead) consolidate into .planning/security-review/REPORT.md grouped by severity, dedupe overlaps, and propose a fix order. Then shut down the team.
 
 Use the code-review skill to frame the consolidation. Do NOT fix anything in this pass — review only.</code></pre>
-    </div>
+      </div>
+    </details>
 
     <div class="callout callout-best-practice" style="margin-top:1.5rem;">
       <div class="callout-title">How to Adapt</div>
-      <p>Swap in your stack's auditors (e.g., drop <code>dependency-supplychain-auditor</code> for a pure static site, add a Terraform/IaC auditor for infra repos). Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take much longer and cost more.</p>
+      <p>Roster adaptation is now automatic via <code>stack-signals.md</code>: the skill detects your stack (webapp / desktop / iac / llm-agent / container / etc.) and picks a roster. Override at the pre-run confirmation screen — drop or add specialists with a one-liner. For first-time setup, inspect the specialist library under <code>.claude/skills/sec-review-team/specialists/</code> and the detection rules in <code>stack-signals.md</code>. Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take 20+ minutes on a large monorepo.</p>
     </div>
 </section>
 
@@ -4340,12 +4392,13 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>argument-hint</code></td><td>string</td><td>Hint shown in autocomplete (e.g. <code>[filename]</code>, <code>[issue-number]</code>).</td></tr>
               <tr><td><code>disable-model-invocation</code></td><td>boolean</td><td>If <code>true</code>, only you can invoke via <code>/name</code> — Claude won't auto-load. Use for side effects (deploy, send).</td></tr>
               <tr><td><code>user-invocable</code></td><td>boolean</td><td>If <code>false</code>, hidden from <code>/</code> menu. Claude can still auto-load. Use for background knowledge.</td></tr>
-              <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Grep Bash(git *)</code>).</td></tr>
+              <tr><td><code>allowed-tools</code></td><td>string/list</td><td>Tools Claude can use without prompting (e.g. <code>Read Bash(grep:*) Bash(git *)</code>). On native macOS/Linux builds, <code>Grep</code> and <code>Glob</code> are embedded in the Bash tool — use <code>Bash(grep:*)</code> and <code>Bash(find:*)</code> instead.</td></tr>
               <tr><td><code>model</code></td><td>string</td><td>Override model when skill is active (e.g. <code>claude-opus-4-6</code>).</td></tr>
-              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>max</code>. Overrides session default (medium).</td></tr>
+              <tr><td><code>effort</code></td><td>enum</td><td>Override effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>. Overrides session default (<code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> otherwise).</td></tr>
               <tr><td><code>context</code></td><td>string</td><td>Set to <code>fork</code> to run in isolated subagent context with fresh context window.</td></tr>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
               <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.). Also fires when the agent is run as a main-thread agent via <code>--agent</code>.</td></tr>
+              <tr><td><code>mcpServers</code></td><td>object</td><td>MCP server definitions scoped to this skill. Loaded for fork-subagent contexts and for main-thread agent sessions via <code>--agent</code>.</td></tr>
               <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation.</td></tr>
               <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
             </tbody>
@@ -4907,8 +4960,8 @@ smoke tests against the staging URL."</code></pre>
     </div>
 
     <div class="callout callout-tip" style="margin-top:0.75rem;">
-      <div class="callout-title">Effort Default Changed to Medium</div>
-      <p>Anthropic changed the default effort from <code>high</code> to <code>medium</code> to better balance intelligence with speed, based on real-world usage data. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
+      <div class="callout-title">Default Effort Is Tier-Dependent</div>
+      <p>As of v2.1.117, the default effort level depends on your subscription tier and model: <strong>Pro and Max subscribers on Opus 4.6 or Sonnet 4.6 default to <code>high</code></strong>. All other tiers and models default to <code>medium</code>. The setting is <strong>sticky</strong> — it persists across sessions. For complex agentic work, architecture decisions, and multi-file changes, use <code>/effort max</code>. If you've changed effort previously, verify you're on the latest Claude Code version and check that your CLAUDE.md and <code>/memory</code> don't have conflicting effort instructions.</p>
     </div>
 
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Adaptive thinking &amp; effort</strong></p>
@@ -4984,7 +5037,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/compact</code> <code>[focus]</code></td><td>Compress context to save tokens. Optional: tell it what to keep.</td></tr>
           <tr><td><code>/context</code></td><td>Visualize context usage with optimization suggestions</td></tr>
           <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
-          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>)</td></tr>
+          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them.</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
           <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>. Force on: <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>; opt out: <code>=0</code> (also disables the default-on behavior on Bedrock / Vertex / Foundry).</td></tr>
           <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>)</td></tr>
@@ -5000,15 +5053,13 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model (Sonnet / Opus / Haiku)</td></tr>
-          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> (default) | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider.</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin.</td></tr>
+          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>)</td></tr>
-          <tr><td><code>/cost</code></td><td>Show session cost &amp; token usage</td></tr>
-          <tr><td><code>/usage</code></td><td>Show plan usage &amp; rate limits</td></tr>
-          <tr><td><code>/stats</code></td><td>Visualize daily usage and streaks</td></tr>
+          <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab.</td></tr>
         </tbody>
       </table>
     </div>
@@ -5033,11 +5084,11 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/config</code></td><td>Open settings interface (alias: <code>/settings</code>)</td></tr>
+          <tr><td><code>/config</code></td><td>Open settings interface — changes persist to <code>~/.claude/settings.json</code> and participate in the config cascade (alias: <code>/settings</code>)</td></tr>
           <tr><td><code>/init</code></td><td>Create CLAUDE.md for your project</td></tr>
           <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
-          <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal)</td></tr>
+          <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal) | or select a named custom theme. Hand-edit JSON files in <code>~/.claude/themes/</code> to create themes; plugins can ship themes via a <code>themes/</code> directory.</td></tr>
           <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
           <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
@@ -5112,7 +5163,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>--model</code></td><td>Select specific model (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>)</td></tr>
-          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> [default] | <code>high</code> | <code>xhigh</code> | <code>max</code>)</td></tr>
+          <tr><td><code>--effort</code></td><td>Set effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>). Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> otherwise.</td></tr>
           <tr><td><code>--fallback-model</code></td><td>Auto-fallback model when overloaded (print mode)</td></tr>
         </tbody>
       </table>
@@ -5137,6 +5188,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Flag</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>-p</code> / <code>--print</code></td><td>Print mode — answer &amp; exit (for scripting)</td></tr>
+          <tr><td><code>--from-pr</code></td><td>Load PR/MR diff as context — accepts GitHub, GitHub Enterprise, GitLab, and Bitbucket URLs</td></tr>
           <tr><td><code>--output-format json</code></td><td>JSON output</td></tr>
           <tr><td><code>--output-format stream-json</code></td><td>Streaming JSON output</td></tr>
           <tr><td><code>--json-schema</code></td><td>Get JSON output matching a specific schema</td></tr>
@@ -5415,7 +5467,7 @@ smoke tests against the staging URL."</code></pre>
         <p>Hooks are event-driven shell commands, HTTP endpoints, prompts, or agents that fire automatically at 26 lifecycle points. Use them for linting, formatting, security enforcement, and observability.</p>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
           <div class="callout-title">Hooks Deep Dive</div>
-          <p>See the dedicated <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks section</a> for the full lifecycle, all 4 hook types, configuration guide, exit code semantics, and practical recipes.</p>
+          <p>See the dedicated <a href="#practices/hooks-deep-dive" onclick="scrollToSection('hooks-deep-dive')" style="color:var(--accent);">Hooks section</a> for the full lifecycle, all 5 hook types, configuration guide, exit code semantics, and practical recipes.</p>
         </div>
       </div></div>
     </div>
@@ -5674,6 +5726,8 @@ smoke tests against the staging URL."</code></pre>
             <tbody>
               <tr><td><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code></td><td>Enables PID namespace isolation on Linux — sandboxed commands can't see or signal processes outside their namespace</td></tr>
               <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
+              <tr><td><code>CLAUDE_CODE_HIDE_CWD=1</code></td><td>Hides the working directory path from the startup logo — useful in CI/CD and shared environments where paths should not be exposed</td></tr>
+              <tr><td><code>DISABLE_UPDATES=1</code></td><td>Completely blocks all update paths including manual <code>claude update</code>. Stricter than <code>DISABLE_AUTOUPDATER</code> (which only prevents auto-updates). Use in managed/enterprise environments to pin a specific version.</td></tr>
             </tbody>
           </table>
         </div>
@@ -5769,10 +5823,10 @@ smoke tests against the staging URL."</code></pre>
       </div></div>
     </div>
 
-    <!-- Four Hook Types -->
+    <!-- Five Hook Types -->
     <div class="collapsible" id="hooks-deep-dive--four-types">
       <div class="collapsible-header">
-        <h3>Four Hook Types</h3>
+        <h3>Five Hook Types</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -5785,6 +5839,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>http</code></td><td>Sends JSON POST to an endpoint. Headers support <code>$ENV_VAR</code> interpolation.</td><td>Remote validation, audit logging, webhook integrations</td></tr>
               <tr><td><code>prompt</code></td><td>Sends a single-turn prompt to Claude. Returns a yes/no decision as JSON.</td><td>Security review of commands, content policy checks</td></tr>
               <tr><td><code>agent</code></td><td>Spawns a subagent with tool access (Read, Grep, Glob). Full agentic evaluation.</td><td>Complex verification, multi-file checks, code analysis</td></tr>
+              <tr><td><code>mcp_tool</code></td><td>Invokes an MCP tool directly. Specify the server and tool name; Claude passes the hook context as input.</td><td>Calling external services, Slack/Jira notifications, custom audit systems via MCP</td></tr>
             </tbody>
           </table>
         </div>
@@ -5821,6 +5876,16 @@ smoke tests against the staging URL."</code></pre>
           <pre><code class="language-json">{
   "type": "agent",
   "prompt": "Verify this edit doesn't break any imports. $ARGUMENTS"
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>MCP tool hook:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "mcp_tool",
+  "server": "slack",
+  "tool": "send_message",
+  "input": { "channel": "#dev-audit", "text": "Tool use: $TOOL_NAME" }
 }</code></pre>
         </div>
       </div></div>
@@ -6196,10 +6261,10 @@ claude</code></pre>
             <thead><tr><th>Event</th><th>Fires When</th><th>Key Attributes</th></tr></thead>
             <tbody>
               <tr><td><code>claude_code.user_prompt</code></td><td>User submits a prompt</td><td>prompt_length, prompt (opt-in)</td></tr>
-              <tr><td><code>claude_code.tool_result</code></td><td>Tool finishes executing</td><td>tool_name, success, duration_ms</td></tr>
+              <tr><td><code>claude_code.tool_result</code></td><td>Tool finishes executing</td><td>tool_name, success, duration_ms, tool_use_id, tool_input_size_bytes</td></tr>
               <tr><td><code>claude_code.api_request</code></td><td>API call to Claude completes</td><td>model, cost_usd, input/output tokens</td></tr>
               <tr><td><code>claude_code.api_error</code></td><td>API call fails (after retries)</td><td>error, status_code, attempt count</td></tr>
-              <tr><td><code>claude_code.tool_decision</code></td><td>Tool permission accept/reject</td><td>tool_name, decision, source</td></tr>
+              <tr><td><code>claude_code.tool_decision</code></td><td>Tool permission accept/reject</td><td>tool_name, decision, source, tool_use_id</td></tr>
             </tbody>
           </table>
         </div>

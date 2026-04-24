@@ -1,5 +1,67 @@
 ## Changes in This Version
 
+### v35 — 2026-04-24
+
+**Claude Code v2.1.119 auto-update (CBP-076 through CBP-080)**
+
+Automated playbook sync for Claude Code release v2.1.119.
+
+- **CBP-076 — `/config` row updated.** The Cheat Sheet `/config` row now notes that changes persist to `~/.claude/settings.json` and participate in the config cascade — reflecting the v2.1.119 behavior where theme, editor mode, verbose, and other settings set via `/config` are written to the user settings file with full precedence semantics.
+- **CBP-077 — `prUrlTemplate` documented in Config Cascade.** Added a "Notable `settings.json` Keys" callout to the Config Cascade section listing `prUrlTemplate` (point the footer PR badge to a custom review URL for GitLab, Bitbucket, or GHE teams), `otelHeadersHelper`, and `disableAllHooks`.
+- **CBP-078 — `CLAUDE_CODE_HIDE_CWD` added to Subprocess Sandboxing.** New env var row documents `CLAUDE_CODE_HIDE_CWD=1`, which hides the working directory path from the startup logo — useful in CI/CD and shared environments where paths should not be exposed.
+- **CBP-079 — `--from-pr` added to Cheat Sheet CLI flags.** New row in the Print / programmatic mode flags table documents `--from-pr`, noting it accepts GitHub, GitHub Enterprise, GitLab, and Bitbucket URLs for loading PR/MR diffs as context.
+- **CBP-080 — OTEL events table updated.** `claude_code.tool_result` key attributes extended with `tool_use_id` and `tool_input_size_bytes`; `claude_code.tool_decision` extended with `tool_use_id` — enabling correlation of tool calls in observability dashboards.
+
+### v34 — 2026-04-23
+
+**sec-review-team promoted to a 13-specialist library; `/sec-review-fixes` companion skill; fixtures + harness (CBP-061 through CBP-075)**
+
+Large structural build-out of the Security Review section based on the recommendations doc (`markdown/research/sec-review-recommendations.md`). 15 CBP tasks landed.
+
+- **CBP-061/063/064 — Library refactor + structured outputs.** `sec-review-team` skill restructured into `specialists/` (13 briefs, one file each), `schema/` (JSONL schemas for findings + coverage), `docs/` (consolidation template + tradeoffs + scanner coverage), `stack-signals.md` (detection → roster mapping). `SKILL.md` slimmed to orchestration-only (~180 lines). Every specialist emits `{md, findings.jsonl, coverage.jsonl, status.json}`. Every finding carries `confidence ∈ {certain, likely, possible, unverified}`. Every N/A finding requires a `coverage.jsonl` record with the searches + search_limits that proved it.
+- **CBP-066 — Hard read-only enforcement.** Each specialist brief lists explicit `allowed-tools`: `Read`, `Grep`, `Glob`, a read-only `Bash` allowlist, and `Write` scoped to the four output-file paths only. Prompt-level "don't edit" replaced with harness-level denial.
+- **CBP-069/072/073 — Roster expanded 6 → 13 specialists.** Added `iac-auditor`, `prompt-injection-auditor`, `container-runtime-auditor`, `concurrency-race-auditor`, `privacy-telemetry-auditor`, `ci-cd-security-auditor`, `frontend-security-auditor` — each with primary scope, overlap-handoff notes, allowed-tools, scanner integration.
+- **CBP-074 — Overlap pruning.** CSP moved from `data-exposure-auditor` → `frontend-security-auditor` (with fallback when frontend-security not in roster). Architectural IPC/capability findings moved from `silent-failure-hunter` → `auth-authz-auditor`. Every specialist brief carries an "Overlap with other specialists" section listing primary-ownership + deferrals.
+- **CBP-075 — Known tradeoffs documented.** `docs/tradeoffs.md` captures 6 deliberate non-features (general-purpose fallback, findings-in-target-repo, no streaming, two-sources-of-truth, no auto-fix, tool-allowlist enforcement). Plus `.gitignore` pollution warning wired into Step 2 of SKILL.md.
+- **CBP-062 — Pre-run confirmation.** `SKILL.md` Step 0 fully specified: target/scope/stack/roster/scanners/ETA/cost confirmation block with approve / narrow / add-specialist / drop-specialist / abort responses. `--yes` bypass for scripted runs. Cost estimation formula grounded in CBP-060 baselines.
+- **CBP-065 — Progress signal.** Per-specialist `status.json` heartbeat with `status`, `started_at`, `finished_at`, `files_read`, `findings_written`, `current_file`, `severity_counts`, `error`. Orchestrator prints one-line interim status per specialist as they return. Live-watch instructions for `watch -n 5 'jq ...'` and `tail -f` in separate terminals.
+- **CBP-067 — Scanner pre-pass.** Step 2.5 runs deterministic scanners (`gitleaks`, `trufflehog`, `semgrep`, `npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`, `bandit`, `hadolint`, `trivy`, `actionlint`, `tfsec`, `checkov`, `retire.js`) before LLM specialists. Output normalized to `finding.jsonl` format with `source: "scanner-<name>"`. `docs/scanner-coverage.md` maps scanners to specialists. Specialists triage scanner hits + find what tools miss.
+- **CBP-068 — Test harness + 3 fixtures.** `fixtures/` with `webapp-express-vulnerable` (11 planted vulns), `desktop-tauri-vulnerable` (7 planted vulns mirroring `recall`), `python-django-vulnerable` (11 planted vulns incl. critical `django-hardcoded-secret-key`). Each fixture has `expected-findings.jsonl` + `expected-coverage.jsonl`. `run-harness.sh` compares actual vs expected via `jq`. `.github/workflows/sec-review-harness.yml` runs on PRs touching the skill dir with PR-comment summary.
+- **CBP-070 — `/sec-review-fixes` companion skill.** New separate skill at `.claude/skills/sec-review-fixes/` that consumes `REPORT.md` / `findings.jsonl` and produces fix PRs. Three modes: interactive (default), `--dry-run`, `--re-verify`. Default filter: `severity ∈ {critical, high} AND confidence ∈ {certain, likely}`. Parallel fix-author subagents produce diff + regression test + commit msg per finding. 4-tier safeguards (`docs/safeguards.md`): never-main, never-force-push, never-amend, never-bypass-hooks, regression-test-gates-fix.
+- **CBP-071 — Playbook section restructured.** `#practices/security-review` now renders a 13-row specialist table, invocation example (including `/sec-review-fixes` pairing), link to the canonical library. Legacy monolithic prompt preserved in a `<details>` collapsible for non-skill environments. "How to Adapt" callout updated for automatic roster detection.
+
+### v33 — 2026-04-23
+
+**Security Review skill packaged and validated on Opus 4.7 (CBP-060)**
+
+- **CBP-060 — Security Review multi-agent prompt validated on Opus 4.7; packaged as reusable `/security-review` skill.** The multi-agent security review team from `markdown/design/Team_of_security_agents.md` was executed end-to-end against a real Tauri v2 + React/TS + Rust + SQLite target (`recall`). All six specialists spawned in parallel, produced substantive findings with concrete file:line evidence, correctly handled N/A categories rather than padding, and converged on shared root issues across agents (four of six flagged `csp: null` + unscoped SQL capability from different angles). No hallucinated CVEs. Deduped result: 0 critical, 3 high, 8 medium, 11 low. Prompt required no edits.
+  - Packaged the validated prompt as `.claude/skills/sec-review-team/SKILL.md` with frontmatter trigger phrases ("multi-agent security review", "security review team", "sec-review team", "audit this branch with a team", "pre-release hardening team pass") and an orchestration playbook for the executing agent. The skill handles the two env-specific adaptations discovered during validation (`TeamCreate` is optional; specialist subagent types fall back to `general-purpose` when plugin types aren't registered). The `-team` suffix in the skill name disambiguates from the pre-existing built-in `/security-review` (a single-pass branch review).
+  - Added a **Prefer the Packaged Skill** callout to the Security Review section in the playbook pointing users to `/sec-review-team <target> <scope>` as the preferred invocation. The raw prompt block remains below as a reference for customization or for environments without skill support.
+  - Validation artifacts: `markdown/research/security-review-opus-4.7-validation.md` (assessment) and `recall/.planning/security-review/REPORT.md` (consolidated findings from the reference run).
+
+### v32 — 2026-04-23
+
+**Claude Code v2.1.118 auto-update (CBP-056–CBP-059)**
+
+Automated playbook sync for Claude Code release v2.1.118.
+
+- **CBP-056 — `/cost` and `/stats` consolidated into `/usage`.** The three separate Cheat Sheet rows (`/cost`, `/usage`, `/stats`) are now a single unified `/usage` row. The description explains the three tabs (session cost & token usage, plan usage & rate limits, daily usage streaks) and notes that `/cost` and `/stats` remain as typing shortcuts that open the relevant tab.
+- **CBP-057 — `/theme` updated for named custom themes.** The Cheat Sheet `/theme` row now documents that users can create and switch between named custom themes, hand-edit JSON files in `~/.claude/themes/`, and that plugins can ship themes via a `themes/` directory — in addition to the existing `dark | light | auto` options.
+- **CBP-058 — `mcp_tool` added as a fifth hook type.** The "Four Hook Types" collapsible (now "Five Hook Types") gains a new `mcp_tool` row: invokes an MCP tool directly, passing hook context as input — useful for Slack/Jira notifications and custom audit systems via MCP. Added a code example. Updated the nav leaf label, section heading, and the "all 4 hook types" callout reference to reflect 5 types.
+- **CBP-059 — `DISABLE_UPDATES` env var added to Subprocess Sandboxing.** New row in the env vars table documents `DISABLE_UPDATES=1`, which blocks all update paths including manual `claude update`. Noted as stricter than `DISABLE_AUTOUPDATER` and recommended for managed/enterprise deployments that need to pin a specific version.
+
+### v31 — 2026-04-22
+
+**Claude Code v2.1.117 auto-update (CBP-051–CBP-055)**
+
+Automated playbook sync for Claude Code release v2.1.117.
+
+- **CBP-051 — Default effort updated: tier-dependent as of v2.1.117.** Rewrote the "Effort Default Changed to Medium" callout to "Default Effort Is Tier-Dependent" — Pro and Max subscribers on Opus 4.6 or Sonnet 4.6 now default to `high`; all other tiers and models remain at `medium`. Updated the Cheat Sheet `/effort` row, the `--effort` CLI flag row, and the frontmatter `effort` field description to reflect the tier-dependent default. Also added `xhigh` to the frontmatter effort enum (previously missing).
+- **CBP-052 — `/model` Cheat Sheet row updated.** Expanded description to note that model selections persist across restarts (overriding project-pinned models) and that the startup header now shows when the active model comes from a project or managed-settings pin.
+- **CBP-053 — `/resume` Cheat Sheet row updated.** Added note that `/resume` now offers to summarize stale large sessions before re-reading them, matching existing `--resume` behavior.
+- **CBP-054 — `mcpServers` added to Skills frontmatter reference table.** New row inserted after `hooks` and before `monitors`. Documents that `mcpServers` works for both fork-subagent contexts and main-thread agent sessions via `--agent`.
+- **CBP-055 — Native Glob/Grep → bfs/ugrep change documented.** Updated `allowed-tools` example from `Read Grep Bash(git *)` to `Read Bash(grep:*) Bash(git *)`. Row description notes that on native macOS/Linux builds, `Grep` and `Glob` are embedded in the Bash tool — use `Bash(grep:*)` / `Bash(find:*)` instead.
+
 ### v30 — 2026-04-21
 
 **Model & Effort promoted to a top-level Reference section (CBP-048)**
