@@ -185,16 +185,16 @@ After the edit, confirm these strings appear in the playbook's in-app search ind
 - Search for `opusplan` — confirm the section is found
 
 ## Acceptance Criteria
-- [ ] Stale "Opus 4.6 for complex architecture" bullet list removed
-- [ ] New model comparison table (Opus 4.7 / Sonnet 4.6 / Haiku 4.5) renders with correct pricing, context window, and best-for rows
-- [ ] Model alias table includes `opusplan` with the 40%-cheaper note
-- [ ] Code block features `claude --model opusplan` as the first (recommended) command and includes `CLAUDE_CODE_SUBAGENT_MODEL=haiku`
-- [ ] Permutation-by-workload table renders with all 7 rows
-- [ ] Cost optimization checklist callout is present
-- [ ] Key dates warning callout lists Apr 23 default switch, Jun 15 retirements, and Bedrock/Vertex pinning advice
-- [ ] Existing "Effort Default Changed to Medium" callout and adaptive-thinking table remain unchanged
-- [ ] No broken HTML or styling regressions in light or dark theme
-- [ ] Search returns results for `opusplan`, `Opus 4.7`, `subagent model`
+- [x] Stale "Opus 4.6 for complex architecture" bullet list removed
+- [x] New model comparison table (Opus 4.7 / Sonnet 4.6 / Haiku 4.5) renders with correct pricing, context window, and best-for rows
+- [x] Model alias table includes `opusplan` with the 40%-cheaper note
+- [x] Code block features `claude --model opusplan` as the first (recommended) command and includes `CLAUDE_CODE_SUBAGENT_MODEL=haiku`
+- [x] Permutation-by-workload table renders with all 7 rows
+- [x] Cost optimization checklist callout is present
+- [x] Key dates warning callout lists Apr 23 default switch, Jun 15 retirements, and Bedrock/Vertex pinning advice
+- [x] Existing "Effort Default Changed to Medium" callout and adaptive-thinking table remain unchanged
+- [x] No broken HTML or styling regressions in light or dark theme
+- [x] Search returns results for `opusplan`, `Opus 4.7`, `subagent model`
 
 ## Out of Scope
 - Rewriting the "Effort Default Changed to Medium" callout (CBP-024, still accurate)

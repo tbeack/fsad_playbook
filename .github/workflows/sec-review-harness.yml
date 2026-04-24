@@ -1,0 +1,63 @@
+name: sec-review-team harness
+
+# Runs the regression harness against all fixtures whenever the skill is modified.
+# Fails the PR if any expected finding is missing from the skill's output (regression).
+
+on:
+  pull_request:
+    paths:
+      - '.claude/skills/sec-review-team/**'
+      - '.github/workflows/sec-review-harness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      # The harness invokes the skill via SEC_REVIEW_INVOKE. In CI, that binary
+      # must drive the skill (via the Claude Code SDK or a wrapper) and wait for
+      # .planning/security-review/REPORT.md to land. Set SEC_REVIEW_INVOKE to the
+      # wrapper in your own runner setup.
+      #
+      # For now this job runs in compare-only mode: it assumes fixture results
+      # have been generated and committed as a baseline, and simply diffs them
+      # against expected-findings.jsonl.
+      - name: Run harness (compare baseline)
+        run: |
+          ./.claude/skills/sec-review-team/fixtures/run-harness.sh all
+
+      - name: Report coverage delta
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const fixturesDir = '.claude/skills/sec-review-team/fixtures';
+            const fixtures = fs.readdirSync(fixturesDir).filter(f => {
+              const full = path.join(fixturesDir, f);
+              return fs.statSync(full).isDirectory();
+            });
+            let body = '### sec-review-team harness result\n\n';
+            for (const name of fixtures) {
+              const expectedPath = path.join(fixturesDir, name, 'expected-findings.jsonl');
+              if (!fs.existsSync(expectedPath)) continue;
+              const expected = fs.readFileSync(expectedPath, 'utf8').split('\n').filter(Boolean).length;
+              body += `- **${name}**: ${expected} expected findings asserted\n`;
+            }
+            body += `\nSee workflow logs for PASS/FAIL per fixture.`;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
