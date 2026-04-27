@@ -6,8 +6,14 @@
 .planning/
 .remember/
 
+# IDE
+.zed/
+
 # Worktrees
 .worktrees/
+
+# launchd logs from playbook-updater
+logs/
 
 # Cleanup tracking
 delete.md
