@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v36 — 2026-04-29
+
+**Claude Code v2.1.120–v2.1.123 auto-update (CBP-082 through CBP-086)**
+
+Automated playbook sync covering four Claude Code releases (v2.1.120, v2.1.121, v2.1.122, v2.1.123). Five content updates.
+
+- **CBP-082 — `/ultrareview` and `/resume` rows updated.** The `/ultrareview` Cheat Sheet row now documents the `claude ultrareview [target]` non-interactive CLI subcommand for use in CI/scripts (`--json` for raw output, exits 0 on completion or 1 on failure — v2.1.120). The `/resume` row now documents that pasting a GitHub, GitHub Enterprise, GitLab, or Bitbucket PR URL into the search box finds the session that created that PR (v2.1.122).
+- **CBP-083 — `${CLAUDE_EFFORT}` added to skills frontmatter String substitutions note.** The Building Skills frontmatter reference now lists `${CLAUDE_EFFORT}` alongside the other substitution variables, noting it exposes the current effort level (`low` / `medium` / `high` / `xhigh` / `max`) so skills can branch their behavior by effort (v2.1.120).
+- **CBP-084 — `alwaysLoad` MCP option documented in Power Usage Plugins.** Added a code example and description showing how to set `"alwaysLoad": true` in an MCP server config to make all its tools skip tool-search deferral and remain permanently available — useful for servers whose tools are used in nearly every session (v2.1.121).
+- **CBP-085 — `claude plugin prune` added to Power Usage Plugins.** The Plugins collapsible code block now shows `claude plugin prune` (remove orphaned auto-installed dependencies) and `claude plugin uninstall --prune` (cascade uninstall) (v2.1.121).
+- **CBP-086 — PostToolUse `hookSpecificOutput.updatedToolOutput` documented in Hooks Exit Codes.** Added a code example and explanation to the Exit Codes collapsible showing how a PostToolUse hook can return `hookSpecificOutput.updatedToolOutput` to replace the tool result Claude sees — works for all tools (was MCP-only before v2.1.121).
+
 ### v35 — 2026-04-24
 
 **Claude Code v2.1.119 auto-update (CBP-076 through CBP-080)**
