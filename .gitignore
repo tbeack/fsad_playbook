@@ -21,8 +21,9 @@ delete.md
 # Personal scratch files
 Claude_Things_to_try.md
 
-# Local reference docs (to do/ and updates/ are tracked; design/ and research/ stay local)
+# Local reference docs (to do/, updates/, and completed/ are tracked; design/ and research/ stay local)
 markdown/*
 !markdown/to do/
 !markdown/updates/
+!markdown/completed/
 docs/
