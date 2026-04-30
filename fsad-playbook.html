@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v35)</title>
+<title>FSAD — Full Stack Agentic Development (v39)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1540,6 +1540,13 @@
   [data-theme="light"] .search-input { color: var(--text-primary); }
   [data-theme="light"] .member { background: var(--bg-surface); }
 
+  /* Security Review Team — flow diagram (theme-aware inline SVGs) */
+  .sec-review-flow-diagram { margin: 1.5rem 0; max-width: 760px; }
+  .sec-review-flow-diagram .flow-diagram { width: 100%; height: auto; display: block; }
+  .sec-review-flow-diagram .flow-diagram--light { display: none; }
+  [data-theme="light"] .sec-review-flow-diagram .flow-diagram--dark { display: none; }
+  [data-theme="light"] .sec-review-flow-diagram .flow-diagram--light { display: block; }
+
   /* Auto-detect OS preference when no manual override */
   @media (prefers-color-scheme: light) {
     :root:not([data-theme]) {
@@ -1876,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v35</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v39</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -4240,9 +4247,262 @@ Use a structured format: file, line, severity, description.</code></pre>
     <h2 class="section-title">Multi-Agent Security Review Team</h2>
     <p class="section-subtitle">Orchestrate a specialist-library security review team for pre-merge or pre-release hardening. The skill picks a roster based on detected stack signals, spawns specialists in parallel, and consolidates structured findings into a single severity-ranked report. Review only — no fixes.</p>
 
+    <figure class="sec-review-flow-diagram" aria-label="Security Review Team orchestration flow">
+      <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 880" role="img" xmlns="http://www.w3.org/2000/svg">
+        <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Security Review Team — orchestration flow, dark theme (Option A applied)</title>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Dark technical diagram of the /sec-review-team command flow. The Parallel specialists panel now uses solid borders for baseline specialists (always run) and dashed borders for stack-specific specialists (conditional). The previous textual labels above each row have been removed in favor of the visual border convention.</desc>
+        <defs>
+          <linearGradient id="cg-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1c2230"/>
+            <stop offset="100%" stop-color="#141822"/>
+          </linearGradient>
+          <marker id="arrow-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+        
+      
+        <rect width="680" height="880" rx="24" fill="url(#cg-dark)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="24" y="24" width="632" height="60" rx="14" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="40" y="38" width="32" height="3" rx="1.5" style="fill:rgb(138, 130, 221);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="56" text-anchor="middle" font-size="16" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Security Review Team</text>
+        <text x="340" y="74" text-anchor="middle" font-size="12" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Orchestrated specialists · deduped findings · companion fixes</text>
+      
+        <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="124" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/sec-review-team &lt;path&gt; &lt;scope&gt;</text>
+        <text x="340" y="142" text-anchor="middle" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
+      
+        <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-dark)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="48" y="170" width="584" height="112" rx="14" style="fill:rgb(31, 29, 51);stroke:rgb(138, 130, 221);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="64" y="184" width="20" height="3" rx="1.5" style="fill:rgb(138, 130, 221);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="80" y="200" font-size="13" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:start;dominant-baseline:auto">Orchestrator</text>
+        <text x="80" y="216" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">Setup phase</text>
+      
+        <rect x="62" y="232" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="127" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Detect stack</text>
+        <text x="127" y="262" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">scan for signals</text>
+      
+        <rect x="204" y="232" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="269" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Pick roster</text>
+        <text x="269" y="262" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">4–13 specialists</text>
+      
+        <rect x="346" y="232" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="411" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Scanner pre-pass</text>
+        <text x="411" y="262" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">gitleaks · semgrep</text>
+      
+        <rect x="488" y="232" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="553" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Spawn parallel</text>
+        <text x="553" y="262" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">single message</text>
+      
+        <line x1="340" y1="282" x2="340" y2="302" stroke-width="1.5" marker-end="url(#arrow-dark)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="48" y="302" width="584" height="230" rx="14" style="fill:rgb(31, 29, 51);stroke:rgb(138, 130, 221);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="64" y="316" width="20" height="3" rx="1.5" style="fill:rgb(138, 130, 221);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="332" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Parallel specialists</text>
+        <text x="340" y="348" text-anchor="middle" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">All run in one message · each writes its own outputs</text>
+      
+        <rect x="62" y="378" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="127" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">secrets-crypto</text>
+        <text x="127" y="408" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">keys, hashing, JWT</text>
+      
+        <rect x="204" y="378" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="269" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">dependency</text>
+        <text x="269" y="408" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">supply chain</text>
+      
+        <rect x="346" y="378" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="411" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">silent-failure</text>
+        <text x="411" y="408" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">swallowed errors</text>
+      
+        <rect x="488" y="378" width="130" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="553" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">data-exposure</text>
+        <text x="553" y="408" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">PII leaks, logs</text>
+      
+        <rect x="54" y="444" width="108" height="33" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="108" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">auth-authz</text>
+      
+        <rect x="170" y="444" width="108" height="33" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="224" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">input-val</text>
+      
+        <rect x="286" y="444" width="108" height="33" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">frontend</text>
+      
+        <rect x="402" y="444" width="108" height="33" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="456" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">prompt-inj</text>
+      
+        <rect x="518" y="444" width="108" height="33" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="572" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">+5 more</text>
+      
+        <text x="340" y="500" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Each writes:</text>
+        <text x="340" y="516" text-anchor="middle" font-size="10" font-weight="600" style="fill:rgb(170, 163, 235);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:10px;font-weight:600;text-anchor:middle;dominant-baseline:auto">findings.md  ·  findings.jsonl  ·  status.json</text>
+      
+        <line x1="340" y1="532" x2="340" y2="552" stroke-width="1.5" marker-end="url(#arrow-dark)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="48" y="552" width="584" height="60" rx="14" style="fill:rgb(31, 29, 51);stroke:rgb(138, 130, 221);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="64" y="566" width="20" height="3" rx="1.5" style="fill:rgb(138, 130, 221);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="582" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Orchestrator · consolidate</text>
+        <text x="340" y="600" text-anchor="middle" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Dedupe by root issue · rank by severity · build coverage matrix</text>
+      
+        <line x1="340" y1="612" x2="340" y2="632" stroke-width="1.5" marker-end="url(#arrow-dark)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="180" y="632" width="320" height="50" rx="12" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="196" y="644" width="16" height="3" rx="1.5" style="fill:rgb(76, 201, 160);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="660" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">REPORT.md</text>
+        <text x="340" y="676" text-anchor="middle" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Severity-ranked, deduped findings</text>
+      
+        <line x1="340" y1="682" x2="340" y2="702" stroke-width="1.5" marker-end="url(#arrow-dark)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="180" y="702" width="320" height="50" rx="12" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="722" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/sec-review-fixes</text>
+        <text x="340" y="740" text-anchor="middle" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Companion command · opens fix PRs</text>
+      
+        <rect x="24" y="772" width="632" height="84" rx="16" style="fill:rgb(20, 36, 30);stroke:rgb(76, 201, 160);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="40" y="786" width="20" height="3" rx="1.5" style="fill:rgb(76, 201, 160);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="804" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">What this enables</text>
+      
+        <text x="115" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(109, 217, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Parallel</text>
+        <text x="115" y="843" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">all in one message</text>
+      
+        <text x="265" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(109, 217, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Stack-aware</text>
+        <text x="265" y="843" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">roster fits codebase</text>
+      
+        <text x="415" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(109, 217, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Deduped</text>
+        <text x="415" y="843" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">root-cause collapse</text>
+      
+        <text x="565" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(109, 217, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">PR-ready</text>
+        <text x="565" y="843" text-anchor="middle" font-size="10" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">fixes companion</text>
+      </svg>
+      <svg class="flow-diagram flow-diagram--light" viewBox="0 0 690 890" role="img" xmlns="http://www.w3.org/2000/svg">
+        <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Security Review Team — orchestration flow, light theme (Option A applied)</title>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Light technical diagram of the /sec-review-team command flow. The Parallel specialists panel uses solid borders for baseline specialists (always run) and dashed borders for stack-specific specialists (conditional). Labels removed in favour of the visual border convention.</desc>
+        <defs>
+          <linearGradient id="cg-light" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f4f7fb"/>
+            <stop offset="100%" stop-color="#e6ecf3"/>
+          </linearGradient>
+          <marker id="arrow-light" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+        
+      
+        <rect width="680" height="880" rx="24" fill="url(#cg-light)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="24" y="24" width="632" height="60" rx="14" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="40" y="38" width="32" height="3" rx="1.5" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="56" text-anchor="middle" font-size="16" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Security Review Team</text>
+        <text x="340" y="74" text-anchor="middle" font-size="12" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Orchestrated specialists · deduped findings · companion fixes</text>
+      
+        <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="124" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/sec-review-team &lt;path&gt; &lt;scope&gt;</text>
+        <text x="340" y="142" text-anchor="middle" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
+      
+        <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-light)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="48" y="170" width="584" height="112" rx="14" style="fill:rgb(239, 236, 249);stroke:rgb(83, 74, 183);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="64" y="184" width="20" height="3" rx="1.5" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="80" y="200" font-size="13" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:start;dominant-baseline:auto">Orchestrator</text>
+        <text x="80" y="216" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">Setup phase</text>
+      
+        <rect x="62" y="232" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="127" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Detect stack</text>
+        <text x="127" y="262" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">scan for signals</text>
+      
+        <rect x="204" y="232" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="269" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Pick roster</text>
+        <text x="269" y="262" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">4–13 specialists</text>
+      
+        <rect x="346" y="232" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="411" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Scanner pre-pass</text>
+        <text x="411" y="262" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">gitleaks · semgrep</text>
+      
+        <rect x="488" y="232" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="553" y="248" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Spawn parallel</text>
+        <text x="553" y="262" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">single message</text>
+      
+        <line x1="340" y1="282" x2="340" y2="302" stroke-width="1.5" marker-end="url(#arrow-light)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="48" y="302" width="584" height="230" rx="14" style="fill:rgb(239, 236, 249);stroke:rgb(83, 74, 183);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="64" y="316" width="20" height="3" rx="1.5" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="332" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Parallel specialists</text>
+        <text x="340" y="348" text-anchor="middle" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">All run in one message · each writes its own outputs</text>
+      
+        <rect x="62" y="378" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="127" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">secrets-crypto</text>
+        <text x="127" y="408" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">keys, hashing, JWT</text>
+      
+        <rect x="204" y="378" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="269" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">dependency</text>
+        <text x="269" y="408" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">supply chain</text>
+      
+        <rect x="346" y="378" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="411" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">silent-failure</text>
+        <text x="411" y="408" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">swallowed errors</text>
+      
+        <rect x="488" y="378" width="130" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="553" y="394" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">data-exposure</text>
+        <text x="553" y="408" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">PII leaks, logs</text>
+      
+        <rect x="54" y="444" width="108" height="33" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="108" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">auth-authz</text>
+      
+        <rect x="170" y="444" width="108" height="33" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="224" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">input-val</text>
+      
+        <rect x="286" y="444" width="108" height="33" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">frontend</text>
+      
+        <rect x="402" y="444" width="108" height="33" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="456" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">prompt-inj</text>
+      
+        <rect x="518" y="444" width="108" height="33" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="572" y="464" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">+5 more</text>
+      
+        <text x="340" y="500" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Each writes:</text>
+        <text x="340" y="516" text-anchor="middle" font-size="10" font-weight="600" style="fill:rgb(63, 51, 163);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:10px;font-weight:600;text-anchor:middle;dominant-baseline:auto">findings.md  ·  findings.jsonl  ·  status.json</text>
+      
+        <line x1="340" y1="532" x2="340" y2="552" stroke-width="1.5" marker-end="url(#arrow-light)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="48" y="552" width="584" height="60" rx="14" style="fill:rgb(239, 236, 249);stroke:rgb(83, 74, 183);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="64" y="566" width="20" height="3" rx="1.5" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="582" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Orchestrator · consolidate</text>
+        <text x="340" y="600" text-anchor="middle" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Dedupe by root issue · rank by severity · build coverage matrix</text>
+      
+        <line x1="340" y1="612" x2="340" y2="632" stroke-width="1.5" marker-end="url(#arrow-light)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="180" y="632" width="320" height="50" rx="12" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="196" y="644" width="16" height="3" rx="1.5" style="fill:rgb(15, 138, 106);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="660" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">REPORT.md</text>
+        <text x="340" y="676" text-anchor="middle" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Severity-ranked, deduped findings</text>
+      
+        <line x1="340" y1="682" x2="340" y2="702" stroke-width="1.5" marker-end="url(#arrow-light)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+      
+        <rect x="180" y="702" width="320" height="50" rx="12" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="722" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/sec-review-fixes</text>
+        <text x="340" y="740" text-anchor="middle" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Companion command · opens fix PRs</text>
+      
+        <rect x="24" y="772" width="632" height="84" rx="16" style="fill:rgb(235, 247, 242);stroke:rgb(15, 138, 106);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <rect x="40" y="786" width="20" height="3" rx="1.5" style="fill:rgb(15, 138, 106);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+        <text x="340" y="804" text-anchor="middle" font-size="13" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">What this enables</text>
+      
+        <text x="115" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(10, 115, 85);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Parallel</text>
+        <text x="115" y="843" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">all in one message</text>
+      
+        <text x="265" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(10, 115, 85);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Stack-aware</text>
+        <text x="265" y="843" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">roster fits codebase</text>
+      
+        <text x="415" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(10, 115, 85);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Deduped</text>
+        <text x="415" y="843" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">root-cause collapse</text>
+      
+        <text x="565" y="828" text-anchor="middle" font-size="11" font-weight="600" style="fill:rgb(10, 115, 85);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">PR-ready</text>
+        <text x="565" y="843" text-anchor="middle" font-size="10" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">fixes companion</text>
+      </svg>
+    </figure>
+
     <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:1.5rem;">
       <div class="callout-title">Invocation</div>
-      <p>Drop <code>.claude/skills/sec-review-team/</code> into your project and invoke with <code>/sec-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>). The <code>-team</code> suffix disambiguates from the built-in <code>/security-review</code> (a single-pass branch review). Pair with <code>/sec-review-fixes</code> to produce fix PRs from the report. Validated on Opus 4.7 against a Tauri + React + Rust target (CBP-060 → 3 high-severity findings after dedupe, zero hallucinated CVEs).</p>
+      <p>Install from the <a href="https://github.com/tbeack/fsad_playbook" style="color:var(--accent);">fsad_playbook repo</a> (see <strong>Install the Skill</strong> below), then invoke with <code>/sec-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>). The <code>-team</code> suffix disambiguates from the built-in <code>/security-review</code> (a single-pass branch review). Pair with <code>/sec-review-fixes</code> to produce fix PRs from the report. Validated on Opus 4.7 against a Tauri + React + Rust target (CBP-060 → 3 high-severity findings after dedupe, zero hallucinated CVEs).</p>
     </div>
 
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialist Library (13)</h3>
@@ -4272,6 +4532,854 @@ Use a structured format: file, line, severity, description.</code></pre>
         <tr><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">privacy-telemetry-auditor</strong></td><td style="padding:0.5rem 0.8rem;">consumer-facing webapp/desktop</td><td style="padding:0.5rem 0.8rem;">Outbound data, analytics SDKs, cookies, consent flow, cross-border transfer.</td></tr>
       </tbody>
     </table>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Specialist Definitions</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">Each card mirrors the live specialist file under <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills/sec-review-team/specialists" style="color:var(--accent);"><code>skills/sec-review-team/specialists/</code></a> in the repo. <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">baseline</span> specialists always run; <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">stack-specific</span> specialists join based on <code>stack-signals.md</code>.</p>
+
+    <div class="collapsible" id="sec-spec--secrets-crypto" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>secrets-crypto-auditor <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber); margin-left:0.5rem; vertical-align:middle;">baseline</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Secrets and cryptography.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Hardcoded secrets / API keys / tokens / passwords in source (full-tree grep on <code>password|secret|api_key|token|bearer|credentials|private_key</code>).</li>
+          <li>Weak hash algorithms (MD5, SHA1, DES, RC4).</li>
+          <li>Insecure randomness (<code>Math.random()</code> for security IDs; OS-level CSPRNG required for keys).</li>
+          <li>Improper key/token storage (plaintext on disk, unencrypted SQLite, <code>localStorage</code> for secrets).</li>
+          <li>Credentials in logs, error messages, panics, stack traces.</li>
+          <li><code>unsafe</code> Rust touching key material.</li>
+          <li>TLS/SSL configuration — outdated protocol versions, weak cipher suites, certificate pinning where needed.</li>
+          <li>Key rotation / expiry policy.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Frame against the realistic adversary for the stack: disk compromise (stolen laptop, forensics, backup snooping) for local-only desktop; network attacker plus insider for SaaS backends; secrets leaked in build logs and committed <code>.env</code> for the supply chain.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>hardcoded-secrets</code>, <code>weak-crypto</code>, <code>insecure-random</code>, <code>plaintext-key-storage</code>, <code>credential-logging</code>, <code>tls-config</code>, <code>key-rotation</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># secrets-crypto-auditor
+
+## Primary scope
+Secrets and cryptography.
+
+- Hardcoded secrets / API keys / tokens / passwords in source (full-tree grep: `password|secret|api[_-]?key|token|bearer|authorization|credentials|private[_-]?key`).
+- Weak hash algorithms (MD5, SHA1, DES, RC4).
+- Insecure randomness (`Math.random()` for security IDs, `rand::thread_rng()` where CSPRNG needed; OS-level CSPRNG required for keys).
+- Improper key/token storage (plaintext on disk, unencrypted SQLite, localStorage for secrets).
+- Credentials in logs, error messages, panics, stack traces.
+- `unsafe` Rust touching key material.
+- TLS/SSL configuration — outdated protocol versions, weak cipher suites, certificate pinning or its absence where needed.
+- Key rotation / expiry policy.
+
+## Threat-model framing
+Frame findings against the realistic adversary for the stack:
+- **Local-only desktop:** disk compromise (stolen laptop, forensics, backup snooping) — plaintext DB is the top risk.
+- **SaaS backend:** network attacker + insider — key storage in secret manager, rotation, scoped IAM.
+- **Supply-chain:** secrets leaked in build logs, committed `.env`, compromised CI secrets.
+
+## Overlap with other specialists
+- **Primary owner of:** secrets in code, crypto primitive choice, key storage, randomness.
+- **Cross-cuts with:**
+  - `dependency-supplychain-auditor` — secrets leaked in CI workflows overlap; coordinate.
+  - `privacy-telemetry-auditor` — data-handling compliance overlaps with key-handling; yours is the crypto/key side.
+
+## Brief
+
+&gt; Review secrets and cryptography in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Realistic threat model: `&lt;THREAT_MODEL&gt;`. Check: hardcoded secrets, weak crypto, insecure random, improper key storage, credential logging, `unsafe` Rust touching keys, TLS config, key rotation. Frame findings against the actual threat model.
+&gt;
+&gt; **Output contract (four files):** `secrets-crypto-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Same format as other specialists — see `auth-authz-auditor.md` for details.
+&gt;
+&gt; **Confidence on every finding.** Negative findings require searches + search_limits in coverage.jsonl (e.g., "grepped for X|Y|Z, found nothing — would miss credentials assembled at runtime from env + obfuscation").
+&gt;
+&gt; **Hard rules:** read-only; cite evidence; no invented CVEs.
+&gt;
+&gt; Report: four output paths + severity count.
+
+## Output files
+`secrets-crypto-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`
+
+## Allowed tools
+Standard read-only set (see `auth-authz-auditor.md`). `Write` scoped to this specialist's four outputs.
+
+## Coverage categories this specialist owns
+`hardcoded-secrets`, `weak-crypto`, `insecure-random`, `plaintext-key-storage`, `credential-logging`, `tls-config`, `key-rotation`
+
+## Scanner integration
+- `gitleaks detect` / `trufflehog filesystem` — secrets scanning. Triage hits + find what they miss (runtime-assembled secrets, non-pattern credentials).
+- Pass scanner output as context via the pre-pass (CBP-067).</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--dependency-supplychain" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>dependency-supplychain-auditor <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber); margin-left:0.5rem; vertical-align:middle;">baseline</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Supply chain — dependencies, lockfile integrity, install scripts, build trust.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li><strong>npm:</strong> <code>package.json</code>, <code>package-lock.json</code>, <code>npm audit</code> if available; pinned vs floating versions; postinstall / install scripts.</li>
+          <li><strong>Cargo:</strong> <code>Cargo.toml</code>, <code>Cargo.lock</code>, <code>cargo audit</code>.</li>
+          <li><strong>Python:</strong> <code>requirements.txt</code>, <code>Pipfile.lock</code>, <code>poetry.lock</code>, <code>pip-audit</code>.</li>
+          <li><strong>OSV:</strong> <code>osv-scanner</code> across any ecosystem.</li>
+          <li>Suspicious packages, typosquats, recently compromised deps.</li>
+          <li><code>build.rs</code>, postinstall/preinstall scripts, Dockerfile <code>RUN</code> installs.</li>
+          <li>Plugin / core version alignment.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Treats package manifests, lockfiles, and install scripts as a third-party trust boundary — known CVEs, typosquats, and post-install hooks compromise the build before any of your code runs. Will not invent CVE IDs if a scanner isn't available; reports tool-availability in coverage.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>known-cves</code>, <code>lockfile-integrity</code>, <code>version-pinning</code>, <code>install-scripts</code>, <code>typosquats</code>, <code>plugin-alignment</code>, <code>build-rs-trust</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># dependency-supplychain-auditor
+
+## Primary scope
+Supply chain. Dependencies, lockfile integrity, install scripts, build trust.
+
+- **npm**: `package.json`, `package-lock.json`. `npm audit` if available. Pinned vs floating versions; lockfile presence + drift. Postinstall / install scripts (`hasInstallScript: true`).
+- **Cargo**: `Cargo.toml`, `Cargo.lock`. `cargo audit` if installed.
+- **Python**: `requirements.txt`, `Pipfile.lock`, `poetry.lock`, `pyproject.toml`. `pip-audit`.
+- **OSV**: `osv-scanner` across any ecosystem.
+- Suspicious packages, typosquats, recently compromised deps.
+- `build.rs`, postinstall/preinstall scripts, Dockerfile `RUN` installs.
+- Plugin/core version alignment.
+
+## Overlap with other specialists
+- **Primary owner of:** package manifests, lockfiles, CVE scanning.
+- **Cross-cuts with:**
+  - `ci-cd-security-auditor` — action-pinning and workflow trust boundaries are theirs; package-dep security is yours.
+  - `secrets-crypto-auditor` — secrets in lockfiles / dep configs overlap; credentials in `npm audit` output are theirs to triage.
+
+## Brief
+
+&gt; Review supply chain in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Run available scanners (`npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`). If a scanner isn't available, say so — DO NOT invent CVE IDs. Check pinned-vs-floating, lockfile presence + drift, install scripts, typosquats, plugin-core alignment.
+&gt;
+&gt; **Output:** `dependency-supplychain-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Scanner output normalized into `findings.jsonl` with `source: "scanner-&lt;name&gt;"`. See other specialist briefs for format.
+&gt;
+&gt; **Hard rules:** read-only; never install anything; no fabricated CVEs.
+&gt;
+&gt; Report: paths + severity count + tool-availability summary.
+
+## Allowed tools
+Standard read-only + `Bash` allowlist including `npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`, `npm ls`, `cargo tree`. `Write` scoped to this specialist's outputs.
+
+## Coverage categories
+`known-cves`, `lockfile-integrity`, `version-pinning`, `install-scripts`, `typosquats`, `plugin-alignment`, `build-rs-trust`
+
+## Scanner integration (primary consumer)
+All dep/CVE scanners feed this specialist. Pre-pass (CBP-067) runs them; specialist triages + extends.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--silent-failure" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>silent-failure-hunter <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber); margin-left:0.5rem; vertical-align:middle;">baseline</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Error paths that fail open or mask security-relevant failures.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Swallowed exceptions: <code>try{}catch{}</code>, <code>.catch(() =&gt; {})</code>, Rust <code>.ok()</code> / <code>.unwrap_or_default()</code> on security-relevant errors.</li>
+          <li>Fallback paths that bypass validation when the primary check errors.</li>
+          <li>Rust <code>match</code> arms with <code>Err(_) =&gt; Ok(())</code>.</li>
+          <li>Async promises without <code>.catch</code>; unhandled rejections.</li>
+          <li><code>unwrap()</code> on user-influenced data.</li>
+          <li>React error boundaries catching but not surfacing state-corrupting errors.</li>
+          <li>Errors around DB migrations, capability checks, session-rotation — not the check itself, the handling of the failure.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Security-relevant silences only. A swallowed UI toast error is not a finding; a swallowed DB-migration error that leaves the schema half-applied is. Defers architectural IPC/capability issues to <code>auth-authz-auditor</code> and missing validation to <code>input-validation-auditor</code>.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>swallowed-exceptions</code>, <code>fallback-bypasses-validation</code>, <code>unhandled-rejections</code>, <code>unwrap-on-user-input</code>, <code>error-boundary-absorption</code>, <code>migration-silent-failures</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># silent-failure-hunter
+
+## Primary scope
+Error paths that fail open or mask security-relevant failures.
+
+- Swallowed exceptions: `try{}catch{}`, `.catch(() =&gt; {})`, Rust `.ok()` / `.unwrap_or_default()` on security-relevant errors.
+- Fallback paths that bypass validation when the primary check errors.
+- Rust `match` arms with `Err(_) =&gt; Ok(())`.
+- Async promises without `.catch`; unhandled rejections.
+- `unwrap()` on user-influenced data.
+- React error boundaries catching but not surfacing state-corrupting errors.
+- Errors around DB migrations, capability checks, session-rotation — not the check itself, the handling of the failure.
+
+## Filter rule
+Security-relevant silences only. A swallowed UI toast error is not a finding. A swallowed DB-migration error that leaves the schema half-applied is.
+
+## Overlap with other specialists
+- **Primary owner of:** error-path silences, fail-open patterns in error handling.
+- **Defers to:**
+  - `auth-authz-auditor` for architectural IPC/capability issues — mention only when compounding a specific error silence.
+  - `input-validation-auditor` for missing validation (vs. validation-present-but-swallowed).
+- **Cross-cuts with:**
+  - `concurrency-race-auditor` — cancellation/race paths with silent failure overlap; coordinate.
+
+## Brief
+
+&gt; Review error paths in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Focus on silences that affect confidentiality, integrity, or availability. Architectural IPC/capability issues are `auth-authz-auditor`'s scope — defer. Missing-validation is `input-validation-auditor`'s scope — defer.
+&gt;
+&gt; **Output:** `silent-failure-hunter.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; filter for security-relevance; cite evidence; defer architectural issues to their primary owner with `coverage.status=deferred-to-other-specialist`.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`swallowed-exceptions`, `fallback-bypasses-validation`, `unhandled-rejections`, `unwrap-on-user-input`, `error-boundary-absorption`, `migration-silent-failures`
+
+## Scanner integration
+- None specific. `semgrep` pre-pass rules for "empty catch" patterns may feed this specialist.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--data-exposure" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>data-exposure-auditor <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber); margin-left:0.5rem; vertical-align:middle;">baseline</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Unintended exposure of sensitive data.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>PII / sensitive content storage (DB path, encryption-at-rest, cache/temp files, exports).</li>
+          <li>Log redaction (<code>println!</code>, <code>console.log</code>, <code>log::*</code>, <code>tracing::*</code>).</li>
+          <li>Error-message shapes leaking internals (stack traces, file paths, SQL).</li>
+          <li>IDOR / tenant isolation.</li>
+          <li>Clipboard / drag-and-drop lingering data.</li>
+          <li>Export pipeline (PDF/DOCX temp files, cleanup).</li>
+          <li>Outbound network calls — if threat model claims "no network", verify with grep (any hit is a finding).</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Verifies stated threat-model claims (e.g. "no network") with explicit grep — any deviation is a finding. Owns "what could leak" (storage, logs, errors); defers analytics/consent to <code>privacy-telemetry-auditor</code> and CSP/CORS to <code>frontend-security-auditor</code> when those are in roster, and reclaims them otherwise.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>pii-storage</code>, <code>log-redaction</code>, <code>error-leak</code>, <code>idor-tenant-isolation</code>, <code>clipboard-dnd</code>, <code>export-pipeline</code>, <code>outbound-calls-claimed-none</code>, <em>(conditionally)</em> <code>csp-cors-sri-cookies</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># data-exposure-auditor
+
+## Primary scope
+Unintended exposure of sensitive data.
+
+- PII / sensitive content storage (DB path, encryption-at-rest, cache/temp files, exports).
+- Log redaction (`println!`, `console.log`, `log::*`, `tracing::*`).
+- Error-message shapes leaking internals (stack traces, file paths, SQL).
+- IDOR / tenant isolation.
+- Clipboard / drag-and-drop lingering data.
+- Export pipeline (PDF/DOCX temp files, cleanup).
+- Outbound network calls — if threat model claims "no network", verify with grep (any hit is a finding).
+
+## Overlap with other specialists
+- **Primary owner of:** data storage posture, log redaction, error-leak patterns, IDOR, outbound-call verification.
+- **Defers to:**
+  - `frontend-security-auditor` (when in roster) — CSP, CORS, SRI, cookie flags. If frontend-security is NOT in the roster, data-exposure reclaims CSP as fallback.
+  - `privacy-telemetry-auditor` (when in roster) — analytics SDKs, consent flow, cross-border transfer. Data-exposure stays on "what could leak"; privacy-telemetry owns "what deliberately leaves + regulatory".
+
+## Brief
+
+&gt; Review unintended data exposure in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Verify stated threat-model claims (e.g. "no network") with explicit grep. If `frontend-security-auditor` is in roster, defer CSP/CORS/SRI/cookie-flags; otherwise cover them. If `privacy-telemetry-auditor` is in roster, defer analytics/consent/cross-border; otherwise cover them.
+&gt;
+&gt; **Output:** `data-exposure-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence; verify threat-model claims with searches.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`pii-storage`, `log-redaction`, `error-leak`, `idor-tenant-isolation`, `clipboard-dnd`, `export-pipeline`, `outbound-calls-claimed-none`, (conditionally) `csp-cors-sri-cookies`
+
+## Scanner integration
+- Light: `gitleaks` for leaked data in logs; `semgrep` for `console.log(user)` patterns.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--auth-authz" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>auth-authz-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Authentication, authorization, session management, and privilege boundaries.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Auth flows (login, signup, logout, password reset, MFA, SSO).</li>
+          <li>Session handling (cookie lifetime, rotation on privilege change, invalidation on logout).</li>
+          <li>JWT / OAuth / SAML — signature verification, audience/issuer checks, token expiry, refresh flows.</li>
+          <li>RBAC / ABAC — role definitions, assignment, enforcement at every protected operation.</li>
+          <li>Privilege boundaries — frontend/webview vs backend/trusted side, Tauri IPC command surface, Electron preload scripts, microservice trust.</li>
+          <li>Capability grants (Tauri <code>capabilities/*.json</code>, browser CSP <code>script-src</code>, OS permissions).</li>
+          <li>Endpoint / IPC command authorization mapping: every protected surface ↔ its required capability.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Maps every endpoint, IPC command, or authenticated surface to its required capability. For local-only or single-user apps, the focus shifts from user-level auth to IPC boundaries and capability grants between webview and native side. Architectural IPC/capability issues are this specialist's scope; error-path silences belong to <code>silent-failure-hunter</code>.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>auth-flows</code>, <code>session-handling</code>, <code>jwt-oauth-saml</code>, <code>rbac-abac</code>, <code>privilege-boundaries</code>, <code>ipc-capability-grants</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># auth-authz-auditor
+
+## Primary scope
+Authentication, authorization, session management, and privilege boundaries.
+
+- Auth flows (login, signup, logout, password reset, MFA, SSO).
+- Session handling (cookie lifetime, rotation on privilege change, invalidation on logout).
+- JWT / OAuth / SAML — signature verification, audience/issuer checks, token expiry, refresh flows.
+- RBAC / ABAC — role definitions, assignment, enforcement at every protected operation.
+- Privilege boundaries — frontend/webview vs backend/trusted side, Tauri IPC command surface, Electron preload scripts, microservice trust.
+- Capability grants (Tauri `capabilities/*.json`, browser CSP `script-src`, OS permissions).
+- Endpoint / IPC command authorization mapping: every protected surface ↔ its required capability.
+- For local-only or single-user apps: focus on IPC boundaries, capability grants, and privilege boundary between frontend (webview) and backend (Rust/native), not user-level auth.
+
+## Overlap with other specialists
+- **Primary owner of:** IPC command surfaces, Tauri capability grants, session-rotation flows, JWT/OAuth/SAML verification.
+- **Cross-cuts with:**
+  - `silent-failure-hunter` — error-path silences in auth checks are silent-failure's scope; architectural IPC/capability issues are yours.
+  - `input-validation-auditor` — authZ is yours; input validation at auth endpoints is theirs.
+  - `data-exposure-auditor` — authentication-required data is yours to gate; leaked-internals patterns are theirs.
+
+## Brief (passed to the Agent)
+
+&gt; Review auth flows, session handling, JWT/OAuth, RBAC, and privilege boundaries in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`.
+&gt;
+&gt; Map every endpoint / IPC command / authenticated surface to its auth requirement. For local-only / single-user apps, focus on IPC boundaries, capability grants, and the privilege boundary between the webview and backend — NOT on user-level auth (which is N/A). Architectural IPC and capability issues are YOUR scope; error-path silences are `silent-failure-hunter`'s scope — note them only if compounding.
+&gt;
+&gt; **Output contract (all four files in `&lt;TARGET&gt;/.planning/security-review/`):**
+&gt; 1. `auth-authz-auditor.md` — prose findings, human-readable, grouped by severity.
+&gt; 2. `auth-authz-auditor.findings.jsonl` — one JSON object per line per finding, conforming to `.claude/skills/sec-review-team/schema/finding.schema.json`. Required fields: `id`, `specialist` ("auth-authz-auditor"), `severity`, `confidence`, `title`, `root_issue`, `file`, `exploit`, `fix`, `evidence`.
+&gt; 3. `auth-authz-auditor.coverage.jsonl` — one record per attack-class axis in your scope, conforming to `coverage.schema.json`. For each category, report `status` (`checked-clean` / `checked-issues-found` / `not-checked` / `deferred-to-other-specialist`), `confidence` (`high`/`medium`/`low`), `searches` run, `files_read`, `search_limits`.
+&gt; 4. `auth-authz-auditor.status.json` — write at spawn with `{status: "starting", started_at, files_read: 0, findings_written: 0}`; update every ~5 reads; on completion write `{status: "completed", finished_at, ..., severity_counts}`.
+&gt;
+&gt; **Prose finding format:** `[SEVERITY: critical|high|medium|low] &lt;file&gt;:&lt;line&gt; — &lt;issue&gt;\nExploit scenario: …\nRecommended fix: …\nEvidence: &lt;exact code/config snippet&gt;`. Group by severity, "Scope reviewed" at top, severity counts at bottom.
+&gt;
+&gt; **Confidence:** set on every finding. `certain` = directly observed, fix mechanical; `likely` = observed + inference; `possible` = indirect evidence or architectural smell; `unverified` = cannot confirm without runtime.
+&gt;
+&gt; **Hard rules:** read-only (tools are allowlisted to prove it); cite concrete evidence; no speculation; if a category is N/A emit a `coverage.jsonl` entry with the searches + search_limits that prove the N/A; don't overlap with other specialists (defer via `coverage.status=deferred-to-other-specialist`).
+&gt;
+&gt; Report back: absolute paths of the four output files + one-line severity counts.
+
+## Output files
+- `auth-authz-auditor.md` (prose)
+- `auth-authz-auditor.findings.jsonl` (structured)
+- `auth-authz-auditor.coverage.jsonl` (structured)
+- `auth-authz-auditor.status.json` (heartbeat)
+
+## Allowed tools
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `auth-authz-auditor.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `NotebookEdit`, `WebFetch`, `WebSearch`
+
+## Coverage categories this specialist owns
+- `auth-flows`, `session-handling`, `jwt-oauth-saml`, `rbac-abac`, `privilege-boundaries`, `ipc-capability-grants`
+
+## Scanner integration
+- None specific to this specialist. Scanner pre-pass findings from `gitleaks`/`trufflehog` that hit auth endpoints may be triage candidates.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--input-validation" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>input-validation-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Injection vectors — tracing every external input to its sink.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li><strong>SQL injection</strong> — string-interpolated SQL, template literals, FTS5 <code>MATCH</code> syntax (parameterization alone doesn't save you from FTS5 query-syntax injection).</li>
+          <li><strong>Command / path traversal</strong> — <code>fs::*</code>, <code>Command::*</code>, <code>exec</code>, <code>os.s&#121;stem</code>, dialog APIs, archive extraction (zip-slip).</li>
+          <li><strong>XSS</strong> — React's unsafe HTML escape hatch (<code>&#100;angerouslySetInnerHTML</code>), <code>innerHTML</code>/<code>outerHTML</code>, Markdown→HTML serializers, template engines with auto-escape disabled.</li>
+          <li><strong>Deserialization</strong> — JSON/YAML/bincode/pi&#99;kle boundaries; prototype pollution.</li>
+          <li><strong>IPC payload validation</strong> — backends validating incoming args via typed structs vs trusting the caller.</li>
+          <li><strong>Open-redirect / SSRF</strong> — URL parameters reaching <code>fetch</code>/<code>reqwest</code>/<code>curl</code> without host allowlist.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Trace every external input to its sink. Defers prompt injection to <code>prompt-injection-auditor</code> when in roster; otherwise reclaims it. Authentication of input sources belongs to <code>auth-authz-auditor</code>; validation of input <em>content</em> is here.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>sql-injection</code>, <code>fts5-syntax-injection</code>, <code>command-injection</code>, <code>path-traversal</code>, <code>zip-slip</code>, <code>xss</code>, <code>deserialization</code>, <code>ipc-payload-validation</code>, <code>ssrf</code>, <code>open-redirect</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># input-validation-auditor
+
+## Primary scope
+Injection vectors — tracing every external input to its sink.
+
+- **SQL injection** — string-interpolated SQL, template literals, FTS5 `MATCH` syntax (parameterization alone doesn't save you from FTS5 query-syntax injection).
+- **Command / path traversal** — `fs::*`, `Command::*`, `exec`, `os.system`, dialog APIs, archive extraction (zip-slip).
+- **XSS** — `dangerouslySetInnerHTML`, `innerHTML`/`outerHTML`, Markdown→HTML serializers, template engines with auto-escape disabled.
+- **Deserialization** — JSON/YAML/bincode/pickle boundaries; prototype pollution via `Object.assign(target, JSON.parse(...))`.
+- **IPC payload validation** — do backends validate incoming args via typed structs or trust the caller?
+- **Open-redirect / SSRF** — URL parameters reaching `fetch`/`reqwest`/`curl` without host allowlist.
+
+## Overlap with other specialists
+- **Primary owner of:** SQLi, XSS, command/path traversal, deserialization, IPC payload validation, SSRF.
+- **Cross-cuts with:**
+  - `prompt-injection-auditor` — when present in the roster, prompt injection belongs to that specialist; defer via `coverage.status=deferred-to-other-specialist`.
+  - `secrets-crypto-auditor` — credentials reaching logs from validation bypasses are their scope.
+  - `auth-authz-auditor` — authentication of input sources is theirs; validation of input content is yours.
+
+## Brief (passed to the Agent)
+
+&gt; Review injection vectors in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Trace every external input to its sink. Axes: SQL injection (including FTS5 query-syntax), command/path traversal (zip-slip included), XSS, deserialization, IPC payload validation, SSRF/open-redirect. If `prompt-injection-auditor` is in the run's roster, prompt injection is theirs — defer.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/security-review/`):** `input-validation-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Conform to `.claude/skills/sec-review-team/schema/{finding,coverage}.schema.json`. See the `auth-authz-auditor` brief for full file-format details — identical contract.
+&gt;
+&gt; **Prose format:** `[SEVERITY] &lt;file&gt;:&lt;line&gt; — &lt;issue&gt;\nExploit / Fix / Evidence`. Group by severity.
+&gt;
+&gt; **Confidence required on every finding** (`certain|likely|possible|unverified`). Negative findings (clean/N/A) require searches + search_limits in `coverage.jsonl`.
+&gt;
+&gt; **Hard rules:** read-only (tools are allowlisted); cite evidence; no speculation; emit coverage for every category in your scope.
+&gt;
+&gt; Report: absolute paths of the four outputs + one-line severity count.
+
+## Output files
+- `input-validation-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`
+
+## Allowed tools
+Same as `auth-authz-auditor.md` allowed-tools section. `Write` scoped to this specialist's four output file paths only.
+
+## Coverage categories this specialist owns
+- `sql-injection`, `fts5-syntax-injection`, `command-injection`, `path-traversal`, `zip-slip`, `xss`, `deserialization`, `ipc-payload-validation`, `ssrf`, `open-redirect`
+- If `prompt-injection-auditor` is not in roster: also `prompt-injection`
+
+## Scanner integration
+- `semgrep --config auto` — pattern-based catches. Triage scanner hits + find what rules miss.
+- `bandit -r` (Python) — SAST for Python.
+- `brakeman` (Ruby on Rails).</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--frontend-security" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>frontend-security-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Frontend / web-platform security.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li><strong>CSP</strong> — header presence, strictness; absence of <code>unsafe-inline</code>, <code>unsafe-eval</code>, remote origins without <code>nonce</code>/<code>hash</code>.</li>
+          <li><strong>CORS</strong> — <code>Access-Control-Allow-Origin: *</code> on credentialed endpoints, missing <code>Vary: Origin</code>.</li>
+          <li><strong>Cookie flags</strong> — <code>Secure</code>, <code>HttpOnly</code>, <code>SameSite=Strict/Lax</code> on session cookies.</li>
+          <li><strong>Subresource Integrity (SRI)</strong> — on <code>&lt;script src=&gt;</code> and <code>&lt;link&gt;</code> to third-party CDNs.</li>
+          <li><strong>postMessage / BroadcastChannel</strong> — origin verification.</li>
+          <li><strong>Clickjacking</strong> — <code>X-Frame-Options</code> / <code>frame-ancestors</code> CSP directive.</li>
+          <li><strong>Third-party script hygiene</strong> — analytics, fonts, CDN scripts; async loading patterns.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Owns the web-platform attack surface — CSP, CORS, SRI, cookie flags, postMessage, clickjacking — that <code>data-exposure-auditor</code> defers when this specialist is in the roster. Cross-cuts with <code>privacy-telemetry-auditor</code> on third-party script inclusion.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>csp</code>, <code>cors</code>, <code>cookie-flags</code>, <code>sri</code>, <code>postmessage-origin</code>, <code>clickjacking</code>, <code>third-party-scripts</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># frontend-security-auditor
+
+## Primary scope
+Frontend / web-platform security.
+
+- **CSP** — header presence, strictness; absence of `unsafe-inline`, `unsafe-eval`, remote origins without `nonce`/`hash`.
+- **CORS** — `Access-Control-Allow-Origin: *` on credentialed endpoints, missing `Vary: Origin`.
+- **Cookie flags** — `Secure`, `HttpOnly`, `SameSite=Strict/Lax` on session cookies.
+- **Subresource Integrity (SRI)** — on `&lt;script src=&gt;` and `&lt;link&gt;` to third-party CDNs.
+- **postMessage / BroadcastChannel** — origin verification.
+- **Clickjacking** — `X-Frame-Options` / `frame-ancestors` CSP directive.
+- **Third-party script hygiene** — analytics, fonts, CDN scripts; async loading patterns.
+
+## Overlap with other specialists
+- **Primary owner of:** CSP, CORS, SRI, cookie flags, clickjacking, postMessage (when in roster). `data-exposure-auditor` defers these.
+- **Cross-cuts with:** `privacy-telemetry-auditor` (third-party script inclusion), `input-validation-auditor` (XSS is theirs; CSP is yours).
+
+## Brief
+
+&gt; Review frontend security in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Check CSP, CORS, cookie flags, SRI, postMessage origin checks, clickjacking defenses, third-party script inclusion.
+&gt;
+&gt; **Output:** `frontend-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`csp`, `cors`, `cookie-flags`, `sri`, `postmessage-origin`, `clickjacking`, `third-party-scripts`
+
+## Scanner integration
+- `retire.js` — known-vulnerable JS libs.
+- Future: `observatory.mozilla.org`-style header checks.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--prompt-injection" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>prompt-injection-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">LLM / agentic security.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Untrusted input reaching tool-use arguments (direct or via system-prompt concat).</li>
+          <li>Prompt assembly via string concat — <code>f"You are {role}. User: {msg}"</code> patterns.</li>
+          <li>Missing output sanitization — LLM response rendered as HTML, executed as code, or used in SQL unvalidated.</li>
+          <li>Tool-use role confusion — tools giving the model power the user shouldn't have without auth gates.</li>
+          <li>Context poisoning — untrusted RAG ingests without provenance tracking.</li>
+          <li>Memory / skill / system-prompt injection — user content altering agent memory or next-turn system prompts.</li>
+          <li>Indirect prompt injection via external data (web pages, emails, PDFs, Slack) fetched into context.</li>
+          <li>Secret exfiltration via prompts — LLM instructed to echo env vars / config / other users' data.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Trace every untrusted input to prompt-assembly sinks. Owns prompt injection when in roster; <code>input-validation-auditor</code> defers. Cross-cuts with <code>data-exposure-auditor</code> (LLM exfil) and <code>secrets-crypto-auditor</code> (leaked keys via prompt-echo).</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>prompt-concat-untrusted</code>, <code>tool-use-role-confusion</code>, <code>output-sanitization</code>, <code>context-poisoning-rag</code>, <code>memory-skill-injection</code>, <code>indirect-injection</code>, <code>secret-exfil-via-prompt</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># prompt-injection-auditor
+
+## Primary scope
+LLM / agentic security.
+
+- Untrusted input reaching tool-use arguments (direct or via system-prompt concat).
+- Prompt assembly via string concat — `f"You are {role}. User: {msg}"` patterns.
+- Missing output sanitization — LLM response rendered as HTML, executed as code, or used in SQL unvalidated.
+- Tool-use role confusion — tools giving the model power the user shouldn't have (arbitrary file write, shell exec) without auth gates.
+- Context poisoning — untrusted RAG ingests without provenance tracking.
+- Memory / skill / system-prompt injection — user content altering agent memory / skill files / next-turn system prompts.
+- Indirect prompt injection via external data (web pages, emails, PDFs, Slack) fetched into context.
+- Secret exfiltration via prompts — LLM instructed to echo env vars / config / other users' data.
+
+## Overlap with other specialists
+- **Primary owner of:** prompt injection (when in roster). `input-validation-auditor` defers to you.
+- **Cross-cuts with:** `data-exposure-auditor` (LLM exfil is data-exposure adjacent), `secrets-crypto-auditor` (leaked keys via prompt-echo).
+
+## Brief
+
+&gt; Review prompt-injection / LLM-agent security in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Trace every untrusted input to prompt-assembly sinks. Check tool-use role confusion, output sanitization, context poisoning, memory/skill injection, indirect injection, secret exfil.
+&gt;
+&gt; **Output:** `prompt-injection-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence; confidence on every finding.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`prompt-concat-untrusted`, `tool-use-role-confusion`, `output-sanitization`, `context-poisoning-rag`, `memory-skill-injection`, `indirect-injection`, `secret-exfil-via-prompt`
+
+## Scanner integration
+- Emerging: `garak`, `promptguard`. Integrate when widely available.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--iac" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>iac-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Infrastructure-as-code review.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Public-by-default resources (S3 buckets, RDS, blob storage) — ACL, bucket policy, encryption-at-rest.</li>
+          <li>Wildcards in IAM / RBAC (<code>Action: "*"</code>, <code>Resource: "*"</code>, <code>cluster-admin</code> bindings).</li>
+          <li>Missing encryption (TLS in transit, KMS at rest, SSM parameters marked <code>SecureString</code>).</li>
+          <li>Network policies — overly broad <code>0.0.0.0/0</code> ingress, missing egress restrictions.</li>
+          <li>Kubernetes pod security — <code>runAsRoot</code>, <code>privileged</code>, <code>allowPrivilegeEscalation</code>, missing <code>readOnlyRootFilesystem</code>, <code>hostPID/hostNetwork/hostIPC</code>.</li>
+          <li>Tagging / naming for audit trail.</li>
+          <li>Hardcoded credentials in <code>*.tfvars</code>, <code>values.yaml</code>, <code>.env.tpl</code>.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Reviews Terraform / CloudFormation / Helm / Kustomize / plain-YAML K8s manifests for cluster-level resources and IAM correctness. Defers credentials-in-plain-config to <code>secrets-crypto-auditor</code> via cross-reference; coordinates pod-level security context with <code>container-runtime-auditor</code>.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>public-resources</code>, <code>iam-wildcards</code>, <code>encryption-at-rest</code>, <code>encryption-in-transit</code>, <code>network-policies</code>, <code>pod-security-standards</code>, <code>iac-hardcoded-credentials</code>, <code>tagging-audit-trail</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># iac-auditor
+
+## Primary scope
+Infrastructure-as-code review.
+
+- Public-by-default resources (S3 buckets, RDS, blob storage) — ACL / bucket policy / encryption-at-rest.
+- Wildcards in IAM / RBAC (`Action: "*"`, `Resource: "*"`, `cluster-admin` bindings).
+- Missing encryption (TLS in transit, KMS at rest, SSM parameters marked SecureString).
+- Network policies — overly broad `0.0.0.0/0` ingress, missing egress restrictions.
+- Kubernetes pod security — `runAsRoot`, `privileged`, `allowPrivilegeEscalation`, missing `readOnlyRootFilesystem`, `hostPID`/`hostNetwork`/`hostIPC`.
+- Tagging / naming for audit trail.
+- Hardcoded credentials in `*.tfvars`, `values.yaml`, `.env.tpl`.
+
+## Overlap with other specialists
+- **Primary owner of:** Terraform / CloudFormation / Helm / Kustomize / plain-YAML K8s manifests, IAM policy correctness.
+- **Cross-cuts with:** `ci-cd-security-auditor` (workflows that apply IaC), `secrets-crypto-auditor` (credentials in tfvars).
+
+## Brief
+
+&gt; Review IaC in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Check public-by-default resources, IAM wildcards, missing encryption, overly broad network policies, pod-security misconfigurations, hardcoded credentials.
+&gt;
+&gt; **Output:** `iac-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite file:line; defer credentials-in-plain-config to secrets-crypto via cross-reference.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set + `Bash` allowlist for `tfsec`, `checkov`, `kube-score`, `kubesec`, `tflint`. `Write` scoped to four outputs.
+
+## Coverage categories
+`public-resources`, `iam-wildcards`, `encryption-at-rest`, `encryption-in-transit`, `network-policies`, `pod-security-standards`, `iac-hardcoded-credentials`, `tagging-audit-trail`
+
+## Scanner integration
+- `tfsec`, `checkov` (Terraform + CloudFormation); `kube-score`, `kubesec`, `kubeaudit` (Kubernetes); `conftest` with OPA policies.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--container-runtime" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>container-runtime-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Container and runtime security.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Dockerfile — <code>FROM</code> pinning (digest, not just tag), <code>USER</code> not root, <code>COPY</code> not <code>ADD</code> for local, <code>--chown</code>, no secrets in layers.</li>
+          <li>Base image freshness and known CVEs.</li>
+          <li><code>RUN</code> shell-injection risk via build-args.</li>
+          <li><code>docker-compose.yml</code> — <code>privileged: true</code>, exposed ports, volume mounts into <code>/etc</code>, <code>/var/run/docker.sock</code>.</li>
+          <li>Kubernetes pod spec — <code>runAsRoot</code>, <code>allowPrivilegeEscalation</code>, <code>capabilities.add</code>, missing <code>readOnlyRootFilesystem</code>, <code>hostPID/hostNetwork/hostIPC</code>.</li>
+          <li>Helm chart defaults that open ports or privileges.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Owns Dockerfile, compose, pod spec, and Helm values. Coordinates with <code>iac-auditor</code> (cluster-level resources) and <code>dependency-supplychain-auditor</code> (base-image CVEs).</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>dockerfile-hardening</code>, <code>base-image-cves</code>, <code>compose-privileges</code>, <code>pod-security-context</code>, <code>helm-default-exposure</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># container-runtime-auditor
+
+## Primary scope
+Container and runtime security.
+
+- Dockerfile — `FROM` pinning (digest, not just tag), `USER` not root, `COPY` not `ADD` for local, `--chown`, no secrets in layers.
+- Base image freshness and known CVEs.
+- `RUN` shell-injection risk via build-args.
+- `docker-compose.yml` — `privileged: true`, exposed ports, volume mounts into `/etc`, `/var/run/docker.sock`.
+- Kubernetes pod spec — `runAsRoot`, `allowPrivilegeEscalation`, `capabilities.add`, missing `readOnlyRootFilesystem`, `hostPID`/`hostNetwork`/`hostIPC`.
+- Helm chart defaults that open ports or privileges.
+
+## Overlap with other specialists
+- **Primary owner of:** Dockerfile, compose, pod spec, Helm values.
+- **Cross-cuts with:** `iac-auditor` (K8s manifests — coordinate; iac-auditor owns cluster-level resources, container-runtime owns pod-level security context), `dependency-supplychain-auditor` (base-image CVEs).
+
+## Brief
+
+&gt; Review containers in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Check Dockerfile hardening, base image CVEs, compose privilege escalation, K8s pod security context.
+&gt;
+&gt; **Output:** `container-runtime-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set + `Bash` allowlist for `hadolint`, `trivy` (read-only mode), `docker inspect`. `Write` scoped to four outputs.
+
+## Coverage categories
+`dockerfile-hardening`, `base-image-cves`, `compose-privileges`, `pod-security-context`, `helm-default-exposure`
+
+## Scanner integration
+- `hadolint` — Dockerfile lint.
+- `trivy image` — base image CVEs.
+- `kube-score`, `kubesec` — pod security.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--ci-cd" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>ci-cd-security-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">CI/CD pipeline security.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>GitHub Actions: <code>pull_request_target</code> on workflows that check out untrusted PR code (classic RCE pattern).</li>
+          <li>Third-party actions not SHA-pinned — prefer <code>@&lt;sha&gt;</code> over <code>@v4</code>.</li>
+          <li><code>permissions:</code> block — default <code>read-all</code>; explicit escalation only where needed.</li>
+          <li>Secrets exposure — <code>echo ${{ secrets.X }}</code> in logs, <code>env:</code> pass-through to untrusted steps.</li>
+          <li><code>on: pull_request</code> + secrets reachable from forks.</li>
+          <li>GitLab CI / CircleCI / Jenkins equivalents.</li>
+          <li>Artifact integrity — signed builds, SLSA provenance, cosign attestations.</li>
+          <li>Build-time dep fetch — <code>curl | sh</code> installs, unpinned deps in scripts.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">CI/CD pipeline trust boundaries — workflow triggers, action SHA-pinning, secrets exposure in logs and forks, permissions hardening, artifact integrity. Cross-cuts with <code>dependency-supplychain-auditor</code> (action-version supply chain) and <code>secrets-crypto-auditor</code> (leaked secrets in CI logs).</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>workflow-triggers</code>, <code>action-pinning</code>, <code>permissions-block</code>, <code>secrets-in-ci</code>, <code>fork-secret-access</code>, <code>artifact-integrity</code>, <code>build-time-dep-fetch</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># ci-cd-security-auditor
+
+## Primary scope
+CI/CD pipeline security.
+
+- GitHub Actions:
+  - `pull_request_target` on workflows that check out untrusted PR code (classic RCE pattern).
+  - Third-party actions not SHA-pinned — prefer `@&lt;sha&gt;` over `@v4`.
+  - `permissions:` block — default `read-all`; explicit escalation only where needed.
+  - Secrets exposure — `echo ${{ secrets.X }}` in logs, `env:` pass-through to untrusted steps.
+  - `on: pull_request` + secrets reachable from forks.
+- GitLab CI / CircleCI / Jenkins equivalents.
+- Artifact integrity — signed builds, SLSA provenance, cosign attestations.
+- Build-time dep fetch — `curl | sh` installs, unpinned deps in scripts.
+
+## Overlap with other specialists
+- **Primary owner of:** workflow triggers, action pinning, secrets-in-CI.
+- **Cross-cuts with:** `dependency-supplychain-auditor` (action-version supply chain overlap), `secrets-crypto-auditor` (leaked secrets in CI logs).
+
+## Brief
+
+&gt; Review CI/CD pipelines in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Check workflow triggers, action SHA-pinning, secrets exposure, permissions hardening, artifact integrity.
+&gt;
+&gt; **Output:** `ci-cd-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set + `Bash` allowlist for `actionlint`, `zizmor`. `Write` scoped to four outputs.
+
+## Coverage categories
+`workflow-triggers`, `action-pinning`, `permissions-block`, `secrets-in-ci`, `fork-secret-access`, `artifact-integrity`, `build-time-dep-fetch`
+
+## Scanner integration
+- `actionlint` — GitHub Actions syntax + security lint.
+- `zizmor` — Actions-specific security audit.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--concurrency-race" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>concurrency-race-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Race conditions and concurrency hazards with security impact.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>TOCTOU: check-then-act without atomicity (<code>if os.path.exists(path): open(path)</code>; auth read-then-act without transaction).</li>
+          <li>Double-check-locking anti-patterns.</li>
+          <li>Shared state without synchronization — globals mutated from async handlers, React state writes from overlapping effects.</li>
+          <li>Rate-limit bypass via concurrency — non-atomic counter read+increment.</li>
+          <li>Session fixation / replay — session IDs accepted before validation; concurrent login creating multiple session rows.</li>
+          <li>Transactional integrity — DB writes that should be atomic split across statements; <code>UPDATE balance</code> without row-level locking.</li>
+          <li>Rust <code>Send</code>/<code>Sync</code> misuse — <code>unsafe impl Send/Sync</code>, <code>Arc&lt;Mutex&lt;_&gt;&gt;</code> escape.</li>
+          <li>Async cancellation safety — futures leaving state half-modified if cancelled.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Concurrency correctness in security-relevant code paths — money, permissions, sessions, rate limits. Cross-cuts with <code>silent-failure-hunter</code> (swallowed errors in race paths) and <code>auth-authz-auditor</code> (session races) via cross-reference.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>toctou</code>, <code>double-check-locking</code>, <code>shared-state-unsynced</code>, <code>rate-limit-race</code>, <code>session-race</code>, <code>transactional-integrity</code>, <code>async-cancellation</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># concurrency-race-auditor
+
+## Primary scope
+Race conditions and concurrency hazards with security impact.
+
+- TOCTOU: check-then-act without atomicity (`if os.path.exists(path): open(path)`; auth read-then-act without transaction).
+- Double-check-locking anti-patterns.
+- Shared state without synchronization — globals mutated from async handlers, React state writes from overlapping effects.
+- Rate-limit bypass via concurrency — non-atomic counter read+increment.
+- Session fixation / replay — session IDs accepted before validation; concurrent login creating multiple session rows.
+- Transactional integrity — DB writes that should be atomic split across statements; `UPDATE balance` without row-level locking.
+- Rust `Send`/`Sync` misuse — `unsafe impl Send/Sync`, `Arc&lt;Mutex&lt;_&gt;&gt;` escape.
+- Async cancellation safety — futures leaving state half-modified if cancelled.
+
+## Overlap with other specialists
+- **Primary owner of:** concurrency correctness in security-relevant code paths.
+- **Cross-cuts with:** `silent-failure-hunter` (swallowed errors in race paths; coordinate), `auth-authz-auditor` (session races — coordinate via cross-reference).
+
+## Brief
+
+&gt; Review concurrency / race conditions in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Focus on TOCTOU, rate-limit bypass, session races, transactional integrity, async cancellation.
+&gt;
+&gt; **Output:** `concurrency-race-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`toctou`, `double-check-locking`, `shared-state-unsynced`, `rate-limit-race`, `session-race`, `transactional-integrity`, `async-cancellation`
+
+## Scanner integration
+- Limited: `clippy` with concurrency categories for Rust. Otherwise relies on model judgment.</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="sec-spec--privacy-telemetry" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>privacy-telemetry-auditor <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue); margin-left:0.5rem; vertical-align:middle;">stack-specific</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">What the app phones home about, what data leaves, regulatory (GDPR/CCPA) signals.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Outbound data inventory — every <code>fetch</code>/<code>XMLHttpRequest</code>/<code>reqwest</code>/<code>axios</code> destination + payload. Does any include PII?</li>
+          <li>Analytics / tracking SDKs — GA, Segment, Mixpanel, PostHog, Sentry, FullStory. Opt-in vs opt-out. DNT / GPC respected. Load before consent gathered?</li>
+          <li>Cookie inventory — domain, expiry, flags, purpose; categorized as strictly-necessary / functional / analytics / marketing.</li>
+          <li>Storage inventory — <code>localStorage</code>, <code>sessionStorage</code>, <code>IndexedDB</code>, cache APIs; client-side PII with retention.</li>
+          <li>Third-party script / iframe inclusion — what domains load at page start; SRI usage.</li>
+          <li>Cross-border data transfer — servers / CDNs / logging endpoints in unexpected jurisdictions.</li>
+          <li>Consent flow — banner presence, actual gating of analytics/marketing SDKs (classic bug: banner shows but scripts load anyway).</li>
+          <li>Retention / deletion — DSAR flow, logs retention visible.</li>
+          <li>Desktop telemetry — Sentry, crash reporters, auto-update pings, product analytics.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Threat model</h4>
+        <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Owns "what deliberately leaves + regulatory"; <code>data-exposure-auditor</code> owns "what could leak". Catches the classic consent-banner bug where SDKs load before the user clicks accept.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>outbound-destinations</code>, <code>analytics-sdks</code>, <code>cookies</code>, <code>client-storage-pii</code>, <code>third-party-scripts</code>, <code>cross-border-transfer</code>, <code>consent-flow-gating</code>, <code>retention-dsar</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># privacy-telemetry-auditor
+
+## Primary scope
+What the app phones home about, what data leaves, regulatory (GDPR/CCPA) signals.
+
+- Outbound data inventory — every `fetch`/`XMLHttpRequest`/`reqwest`/`axios` destination + payload. Does any include PII?
+- Analytics / tracking SDKs — GA, Segment, Mixpanel, PostHog, Sentry, FullStory. Opt-in vs opt-out. DNT / GPC respected. Load before consent gathered?
+- Cookie inventory — domain, expiry, flags, purpose; categorize as strictly-necessary / functional / analytics / marketing.
+- Storage inventory — `localStorage`, `sessionStorage`, `IndexedDB`, cache APIs; client-side PII with retention.
+- Third-party script / iframe inclusion — what domains load at page start; SRI usage.
+- Cross-border data transfer — servers / CDNs / logging endpoints in unexpected jurisdictions.
+- Consent flow — banner presence, actual gating of analytics/marketing SDKs (classic bug: banner shows but scripts load anyway).
+- Retention / deletion — DSAR flow, logs retention visible.
+- Desktop telemetry — Sentry, crash reporters, auto-update pings, product analytics.
+
+## Overlap with other specialists
+- **Primary owner of:** analytics SDKs, consent, cross-border, regulatory framing.
+- **Cross-cuts with:** `data-exposure-auditor` (data-exposure owns "what could leak"; you own "what deliberately leaves + regulatory").
+
+## Brief
+
+&gt; Review privacy and telemetry in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Inventory outbound data, analytics SDKs, cookies, storage, third-party scripts, consent flow, retention.
+&gt;
+&gt; **Output:** `privacy-telemetry-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`outbound-destinations`, `analytics-sdks`, `cookies`, `client-storage-pii`, `third-party-scripts`, `cross-border-transfer`, `consent-flow-gating`, `retention-dsar`
+
+## Scanner integration
+- Manual: `npm ls` filter for analytics packages. Future: headless-chrome crawl for runtime cookie/storage enumeration.</code></pre>
+      </div></div>
+    </div>
 
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Example Invocation</h3>
     <div class="code-block">
@@ -4326,8 +5434,31 @@ Use the code-review skill to frame the consolidation. Do NOT fix anything in thi
 
     <div class="callout callout-best-practice" style="margin-top:1.5rem;">
       <div class="callout-title">How to Adapt</div>
-      <p>Roster adaptation is now automatic via <code>stack-signals.md</code>: the skill detects your stack (webapp / desktop / iac / llm-agent / container / etc.) and picks a roster. Override at the pre-run confirmation screen — drop or add specialists with a one-liner. For first-time setup, inspect the specialist library under <code>.claude/skills/sec-review-team/specialists/</code> and the detection rules in <code>stack-signals.md</code>. Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take 20+ minutes on a large monorepo.</p>
+      <p>Roster adaptation is now automatic via <code>stack-signals.md</code>: the skill detects your stack (webapp / desktop / iac / llm-agent / container / etc.) and picks a roster. Override at the pre-run confirmation screen — drop or add specialists with a one-liner. For first-time setup, inspect the specialist library under <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills/sec-review-team/specialists" style="color:var(--accent);"><code>skills/sec-review-team/specialists/</code></a> in the repo and the detection rules in <code>stack-signals.md</code>. Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take 20+ minutes on a large monorepo.</p>
     </div>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Install the Skill</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">The skills live in the <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills" style="color:var(--accent);">fsad_playbook repo</a> under <code>skills/</code>. Copy them into your project's <code>.claude/skills/</code> directory (shared with the team) or <code>~/.claude/skills/</code> (global, personal). Once present, invoke with <code>/sec-review-team &lt;path&gt; &lt;scope&gt;</code> from any project.</p>
+
+    <h4 style="font-size:0.95rem; font-weight:600; margin:1rem 0 0.6rem;">Install via git sparse-checkout</h4>
+
+    <div class="code-block" style="margin-bottom:1rem;">
+      <pre><code class="language-bash"># Fetch only the skills/ directory from the FSAD Playbook repo
+git clone --depth=1 --filter=blob:none --sparse \
+  https://github.com/tbeack/fsad_playbook.git /tmp/fsad-playbook
+cd /tmp/fsad-playbook
+git sparse-checkout set skills/sec-review-team skills/sec-review-fixes
+
+# Copy to your project (team-wide):
+cp -r skills/sec-review-team  /path/to/project/.claude/skills/
+cp -r skills/sec-review-fixes /path/to/project/.claude/skills/
+# or globally (personal use):
+cp -r skills/sec-review-team  ~/.claude/skills/
+cp -r skills/sec-review-fixes ~/.claude/skills/
+
+rm -rf /tmp/fsad-playbook</code></pre>
+    </div>
+
 </section>
 
 <hr class="divider">
@@ -4404,7 +5535,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
             </tbody>
           </table>
         </div>
-        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>String substitutions:</strong> <code>$ARGUMENTS</code> (all args), <code>$0</code> / <code>$1</code> (specific args), <code>${CLAUDE_SKILL_DIR}</code> (skill directory), <code>${CLAUDE_SESSION_ID}</code> (session ID).</p>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>String substitutions:</strong> <code>$ARGUMENTS</code> (all args), <code>$0</code> / <code>$1</code> (specific args), <code>${CLAUDE_SKILL_DIR}</code> (skill directory), <code>${CLAUDE_SESSION_ID}</code> (session ID), <code>${CLAUDE_EFFORT}</code> (current effort level — lets a skill branch on <code>low</code> / <code>medium</code> / <code>high</code> / <code>xhigh</code> / <code>max</code>).</p>
       </div></div>
     </div>
 
@@ -5037,7 +6168,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/compact</code> <code>[focus]</code></td><td>Compress context to save tokens. Optional: tell it what to keep.</td></tr>
           <tr><td><code>/context</code></td><td>Visualize context usage with optimization suggestions</td></tr>
           <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
-          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them.</td></tr>
+          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them. Paste a GitHub, GitHub Enterprise, GitLab, or Bitbucket PR URL into the search box to jump directly to the session that created that PR.</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
           <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>. Force on: <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>; opt out: <code>=0</code> (also disables the default-on behavior on Bedrock / Vertex / Foundry).</td></tr>
           <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>)</td></tr>
@@ -5129,7 +6260,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/release-notes</code></td><td>View changelog with version picker</td></tr>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide from your local Claude Code usage history</td></tr>
-          <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number</td></tr>
+          <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number. Also available as <code>claude ultrareview [target]</code> non-interactively from CI/scripts (<code>--json</code> for raw output; exits 0 on completion, 1 on failure).</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
           <tr><td><code>/logout</code></td><td>Sign out</td></tr>
@@ -5632,6 +6763,10 @@ smoke tests against the staging URL."</code></pre>
 <span class="cm"># Reload plugins without restarting Claude</span>
 /reload-plugins
 
+<span class="cm"># Remove orphaned auto-installed plugin dependencies</span>
+<span class="kw">claude</span> plugin prune
+<span class="kw">claude</span> plugin uninstall my-plugin <span class="val">--prune</span>  <span class="cm"># uninstall + cascade</span>
+
 <span class="cm"># Load plugins from a custom directory</span>
 <span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins</code></pre>
         </div>
@@ -5640,6 +6775,18 @@ smoke tests against the staging URL."</code></pre>
           <li>Executables under <code>bin/</code> are invokable as bare commands</li>
           <li>Plugin marketplace for discovery and one-click install</li>
         </ul>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>MCP server <code>alwaysLoad</code> option</strong> — set <code>"alwaysLoad": true</code> in an MCP server config to make all its tools skip tool-search deferral and stay permanently available. Useful for servers whose tools you use in nearly every session.</p>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code class="language-json">{
+  "mcpServers": {
+    "my-server": {
+      "command": "npx",
+      "args": ["my-mcp-server"],
+      "alwaysLoad": true
+    }
+  }
+}</code></pre>
+        </div>
       </div></div>
     </div>
 
@@ -6019,6 +7166,16 @@ smoke tests against the staging URL."</code></pre>
             </tbody>
           </table>
         </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>PostToolUse output replacement</strong> — replace the tool's output before Claude sees it:</p>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code class="language-json">{
+  "hookSpecificOutput": {
+    "updatedToolOutput": "Sanitized or transformed output here"
+  }
+}</code></pre>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.5rem;">Return this JSON from a <code>PostToolUse</code> hook (exit 0) to substitute the tool result Claude receives. Works for all tools — use it to redact sensitive output, normalize formats, or inject additional context.</p>
       </div></div>
     </div>
 
@@ -7544,6 +8701,79 @@ codex app</code></pre>
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v39 <span class="changelog-date">· 2026-04-30</span></h3>
+        <p><strong>Install the Skill: git sparse-checkout replaces embedded file blocks (CBP-089).</strong> The ~1,700-line block of embedded markdown collapsibles (<code>SKILL.md</code>, <code>stack-signals.md</code>, 13 specialist files, docs, schemas) has been removed from the "Install the Skill" subsection. Replaced with a 5-line <code>git sparse-checkout</code> command pointing at the canonical source in the FSAD Playbook repo — install directly, no copy-pasting required.</p>
+      </section>
+      <section>
+        <h3>v38 <span class="changelog-date">· 2026-04-30</span></h3>
+        <p><strong>Full specialist definition files embedded in collapsibles (CBP-088).</strong> Each of the 13 "Specialist Definitions" collapsibles now ends with a "Definition file" sub-section rendering the complete specialist markdown source — YAML frontmatter stripped, HTML-escaped in a styled <code>pre/code</code> block. Readers can inspect every agent's brief, overlap boundaries, output contract, tool allowlist, and scanner integration without leaving the playbook.</p>
+      </section>
+      <section>
+        <h3>v37 <span class="changelog-date">· 2026-04-30</span></h3>
+        <p><strong>Security Review section enhanced: diagram, specialist cards, full distribution (CBP-087).</strong></p>
+        <ul>
+          <li><strong>Interaction diagram.</strong> Theme-aware inline SVG showing the full Security Review Team flow: invocation → orchestrator setup → 13 parallel specialists → consolidation → <code>REPORT.md</code> → optional <code>/sec-review-fixes</code>.</li>
+          <li><strong>Specialist definition cards.</strong> New "Specialist Definitions" subsection with one collapsible per specialist (4 baseline + 9 stack-specific), each showing scope, threat-model framing, and coverage categories.</li>
+          <li><strong>Full skill distribution.</strong> New "Install the Skill" subsection embeds the entire <code>.claude/skills/sec-review-team/</code> directory as copy-pasteable collapsible code blocks — no external install needed.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v36 <span class="changelog-date">· 2026-04-29</span></h3>
+        <p><strong>Claude Code v2.1.120–v2.1.123 auto-update (CBP-082–CBP-086).</strong> Five content updates across four releases: <code>claude ultrareview [target]</code> non-interactive CLI subcommand and PR-URL search in <code>/resume</code>; <code>${CLAUDE_EFFORT}</code> skill substitution variable; <code>"alwaysLoad": true</code> MCP option + <code>claude plugin prune</code>; PostToolUse <code>hookSpecificOutput.updatedToolOutput</code> now works for all tools.</p>
+      </section>
+      <section>
+        <h3>v35 <span class="changelog-date">· 2026-04-24</span></h3>
+        <p><strong>Claude Code v2.1.119 auto-update (CBP-076–CBP-080).</strong> Five targeted updates: <code>/config</code> now persists to <code>~/.claude/settings.json</code>; <code>prUrlTemplate</code> and <code>disableAllHooks</code> Notable Keys callout added to Config Cascade; <code>CLAUDE_CODE_HIDE_CWD=1</code> env var documented; <code>--from-pr</code> CLI flag for GitLab/Bitbucket/GHE PRs; OTEL event schema extended with <code>tool_use_id</code> and <code>tool_input_size_bytes</code>.</p>
+      </section>
+      <section>
+        <h3>v34 <span class="changelog-date">· 2026-04-23</span></h3>
+        <p><strong>sec-review-team 13-specialist library; <code>/sec-review-fixes</code> companion skill; test harness (CBP-061–CBP-075).</strong> Skill restructured into <code>specialists/</code> (13 briefs), <code>schema/</code> (JSONL), and <code>docs/</code>; roster expanded 6 → 13 specialists; 14-tool scanner pre-pass; per-specialist status heartbeat; pre-run confirmation with cost estimate; overlap pruning. <code>/sec-review-fixes</code> consumes <code>REPORT.md</code> and opens fix PRs for critical/high findings. Test harness with 3 fixture repos and a CI GitHub Action.</p>
+      </section>
+      <section>
+        <h3>v33 <span class="changelog-date">· 2026-04-23</span></h3>
+        <p><strong>Security Review validated on Opus 4.7 and packaged as a skill (CBP-060).</strong> The 6-specialist multi-agent prompt was validated end-to-end against a real Tauri v2 + React/TS + Rust + SQLite target. All specialists produced substantive findings with file:line evidence; no hallucinated CVEs. Packaged as <code>/sec-review-team</code> with trigger phrases and orchestration playbook. Playbook section updated with "Prefer the Packaged Skill" callout.</p>
+      </section>
+      <section>
+        <h3>v32 <span class="changelog-date">· 2026-04-23</span></h3>
+        <p><strong>Claude Code v2.1.118 auto-update (CBP-056–CBP-059).</strong> <code>/cost</code> and <code>/stats</code> consolidated into a unified <code>/usage</code> row (3 tabs); <code>/theme</code> now supports named custom themes in <code>~/.claude/themes/</code>; <code>mcp_tool</code> added as a fifth hook type; <code>DISABLE_UPDATES=1</code> env var documented for version-pinned enterprise deployments.</p>
+      </section>
+      <section>
+        <h3>v31 <span class="changelog-date">· 2026-04-22</span></h3>
+        <p><strong>Claude Code v2.1.117 auto-update (CBP-051–CBP-055).</strong> Default effort is now tier-dependent (Pro/Max on Opus 4.6/Sonnet 4.6 defaults to <code>high</code>, others to <code>medium</code>); <code>/model</code> selections persist across restarts; <code>/resume</code> offers to summarize stale large sessions; <code>mcpServers</code> frontmatter key documented; native Glob/Grep → <code>Bash(grep:*)</code> / <code>Bash(find:*)</code> change documented.</p>
+      </section>
+      <section>
+        <h3>v30 <span class="changelog-date">· 2026-04-21</span></h3>
+        <p><strong>Model &amp; Effort promoted to a top-level Reference section (CBP-048).</strong> Full Opus 4.7 / Sonnet 4.6 / Haiku 4.5 comparison table; <code>opusplan</code> alias and Claude Code model alias table; best-practice model combinations by workload (7 rows); Cost Optimization Checklist; Key Dates warning callout. Moved from a Power Usage collapsible to its own <code>12.5 — Model &amp; Effort</code> reference section.</p>
+      </section>
+      <section>
+        <h3>v29 <span class="changelog-date">· 2026-04-21</span></h3>
+        <p><strong>3rd-level left-nav children for every Claude Best Practices section (CBP-050).</strong> The sidebar now exposes leaf-level nav items for all collapsibles across Project Anatomy, Integrations, Building Skills, Hooks, Monitoring, and Power Usage (46 collapsibles gained stable IDs). Scroll spy highlights the active leaf; hash routing extended to 3-segment URLs (e.g. <code>#practices/power-usage/agent-teams</code>).</p>
+      </section>
+      <section>
+        <h3>v28 <span class="changelog-date">· 2026-04-21</span></h3>
+        <p><strong>Claude Code v2.1.113–v2.1.116 auto-update (CBP-049).</strong> <code>Ctrl+U</code> corrected to "Clear entire input buffer"; <code>sandbox.network.deniedDomains</code> settings key documented; <code>/terminal-setup</code> expanded for VS Code/Cursor/Windsurf scroll config; <code>/loop</code> Esc cancels pending wakeups; <code>hooks:</code> frontmatter fires via <code>--agent</code> main-thread sessions.</p>
+      </section>
+      <section>
+        <h3>v27 <span class="changelog-date">· 2026-04-17</span></h3>
+        <p><strong>Claude Code v2.1.111–v2.1.112 auto-update (CBP-046–CBP-047).</strong> <code>xhigh</code> effort level added (Opus 4.7 only, between <code>high</code> and <code>max</code>); <code>/effort</code> with no args opens an interactive slider; <code>/ultrareview [PR#]</code> added to Cheat Sheet; <code>/less-permission-prompts</code> skill added; <code>/theme auto</code> option documented.</p>
+      </section>
+      <section>
+        <h3>v26 <span class="changelog-date">· 2026-04-16</span></h3>
+        <p><strong>Claude Code v2.1.110 auto-update (CBP-040–CBP-042).</strong> <code>/tui fullscreen</code> command added; <code>Ctrl+O</code> now toggles verbose transcript only — focus view moved to a new <code>/focus</code> command; <code>/recap</code> row updated with <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0</code> opt-out for Bedrock/Vertex/Foundry deployments.</p>
+      </section>
+      <section>
+        <h3>v25 <span class="changelog-date">· 2026-04-15</span></h3>
+        <p><strong>Rename CBP prefix to generic identifiers in Workflows examples.</strong> Section IDs, nav entries, tab/panel IDs, playground filenames, and skill invocations renamed: <code>cbp-add-task</code> → <code>add-task</code>, <code>cbp-commit-changes</code> → <code>commit-changes</code>. Display text updated from <code>CBP-NNN</code> → <code>TASK-NNN</code>.</p>
+      </section>
+      <section>
+        <h3>v24 <span class="changelog-date">· 2026-04-15</span></h3>
+        <p><strong>Skill showcase with interactive playgrounds (CBP-038, CBP-039).</strong> Two new Workflows sections — <em>Inside the Add-Task Skill</em> and <em>Inside the Commit-Changes Skill</em> — each with 4 tabbed phases and an embedded playground artifact. Playgrounds let readers fill sample inputs and live-preview generated <code>todo.md</code> lines, task files, CHANGELOG entries, README rows, and commit messages.</p>
+      </section>
+      <section>
+        <h3>v23 <span class="changelog-date">· 2026-04-15</span></h3>
+        <p><strong>Claude Code v2.1.108–v2.1.109 auto-update (CBP-034–CBP-037).</strong> <code>/recap</code> added to Cheat Sheet; <code>/undo</code> consolidated as alias for <code>/rewind</code>; Prompt Caching TTL collapsible (<code>ENABLE_PROMPT_CACHING_1H</code>, <code>FORCE_PROMPT_CACHING_5M</code>) added to Power Usage; Skills "Programmatic" card updated to reflect Claude's ability to discover built-in slash commands via the Skill tool.</p>
+      </section>
+      <section>
         <h3>v22 <span class="changelog-date">· 2026-04-14</span></h3>
         <p><strong>New Workflows page (CBP-033).</strong> Added a top-level <code>Workflows</code> section to the left nav between <em>Pod Compositions</em> and <em>Claude Best Practices</em>. Two example walkthroughs:</p>
         <ul>
@@ -8149,7 +9379,7 @@ codex app</code></pre>
 
   // ─── COPY BUTTONS ───
   function initCopyButtons() {
-    document.querySelectorAll('.code-block pre').forEach(pre => {
+    document.querySelectorAll('.code-block pre, pre[data-copy]').forEach(pre => {
       if (pre.querySelector('.copy-btn')) return;
       const btn = document.createElement('button');
       btn.className = 'copy-btn';
