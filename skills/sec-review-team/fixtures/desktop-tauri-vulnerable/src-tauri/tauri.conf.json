@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "VulnApp",
+  "identifier": "com.fixture.vulnapp",
+  "build": { "beforeDevCommand": "", "devUrl": "http://localhost:1420", "frontendDist": "../dist" },
+  "app": {
+    "windows": [{ "label": "main", "title": "VulnApp" }],
+    "security": {
+      "csp": null
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# DELIBERATELY VULNERABLE fixture. Do not deploy.
+# VULN: Django 3.2.0 has multiple known CVEs (CVE-2021-31542 path traversal, CVE-2021-33203, etc.)
+Django==3.2.0
+psycopg2-binary==2.9.0

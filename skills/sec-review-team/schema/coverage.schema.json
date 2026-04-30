@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsad-playbook/schemas/sec-review-team/coverage.schema.json",
+  "title": "sec-review-team coverage record",
+  "description": "Per-category coverage record: proves what the specialist checked and what limits its confidence. Emitted as one JSON object per line in <agent>.coverage.jsonl.",
+  "type": "object",
+  "required": ["category", "specialist", "status", "confidence"],
+  "additionalProperties": false,
+  "properties": {
+    "category": {
+      "type": "string",
+      "description": "The attack-class / axis this record covers, e.g. 'prompt-injection', 'sql-injection', 'csp'."
+    },
+    "specialist": {
+      "type": "string",
+      "description": "Specialist who made the check."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["checked-clean", "checked-issues-found", "not-checked", "deferred-to-other-specialist"],
+      "description": "checked-clean = category investigated, no findings; checked-issues-found = investigated, findings emitted; not-checked = category applicable but not investigated (capacity or scope cut); deferred-to-other-specialist = owned by another specialist in this run."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Confidence in the negative/clean finding. 'high' = thorough search, well-understood surface; 'low' = partial search or novel pattern."
+    },
+    "searches": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Exact grep/rg/find/command invocations run to prove the category is clean."
+    },
+    "files_read": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files actually read (repo-relative paths)."
+    },
+    "search_limits": {
+      "type": "string",
+      "description": "One sentence on what these searches would miss (limits of the proof)."
+    },
+    "deferred_to": {
+      "type": "string",
+      "description": "If status=deferred-to-other-specialist, which specialist owns this category in the current run."
+    }
+  }
+}

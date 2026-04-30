@@ -1,0 +1,19 @@
+name: Deploy
+# VULNERABILITY: no permissions block — job has implicit write-all permissions on repo contents
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # VULNERABILITY: action not SHA-pinned
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: npm ci && npm run build
+
+      # VULNERABILITY: curl | bash fetches and executes an unpinned remote script at deploy time
+      - name: Install deploy tool
+        run: curl -s https://raw.githubusercontent.com/example-org/deploy-tool/main/install.sh | bash

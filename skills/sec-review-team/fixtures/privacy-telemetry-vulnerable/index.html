@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>App</title>
+
+  <!-- VULNERABILITY: analytics-loads-before-consent — Google Tag Manager fires unconditionally
+       at page load, before any consent decision is recorded; all downstream tags (GA4, ads) also fire -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- VULNERABILITY: analytics-loads-before-consent — Segment snippet loaded immediately;
+       analytics.page() fires before user has accepted or declined -->
+  <script>
+    !function(){
+      var analytics = window.analytics = window.analytics || [];
+      analytics.load = function(key) { /* Segment load */ };
+      analytics.load('SEGMENT_WRITE_KEY');
+      analytics.page();
+    }();
+  </script>
+</head>
+<body>
+
+  <!-- VULNERABILITY: missing-consent-gating — banner is displayed AFTER the analytics scripts
+       above have already loaded and fired; accepting or declining has no effect on active trackers -->
+  <div id="consent-banner" style="display:none; padding:12px; background:#333; color:#fff">
+    <p>We use cookies and analytics to improve your experience.</p>
+    <button onclick="acceptConsent()">Accept all</button>
+    <button onclick="rejectConsent()">Reject</button>
+  </div>
+
+  <div id="app"></div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (!localStorage.getItem('consent_decision')) {
+        document.getElementById('consent-banner').style.display = 'block';
+      }
+    });
+    function acceptConsent() {
+      localStorage.setItem('consent_decision', 'accepted');
+      document.getElementById('consent-banner').style.display = 'none';
+    }
+    function rejectConsent() {
+      localStorage.setItem('consent_decision', 'rejected');
+      document.getElementById('consent-banner').style.display = 'none';
+      // BUG: scripts already loaded — rejection does not unload GA or Segment
+    }
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>

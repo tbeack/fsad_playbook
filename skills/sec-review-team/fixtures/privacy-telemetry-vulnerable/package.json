@@ -1,0 +1,10 @@
+{
+  "name": "privacy-telemetry-vulnerable",
+  "version": "1.0.0",
+  "description": "Deliberately-vulnerable webapp fixture — analytics before consent, PII in telemetry, client-storage PII",
+  "dependencies": {
+    "@segment/analytics-next": "^1.51.3",
+    "posthog-js": "^1.57.2",
+    "express": "^4.18.2"
+  }
+}

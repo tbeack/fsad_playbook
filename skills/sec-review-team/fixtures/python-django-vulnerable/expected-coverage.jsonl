@@ -1,0 +1,7 @@
+{"category":"hardcoded-secrets","specialist":"secrets-crypto-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"sql-injection","specialist":"input-validation-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"auth-flows","specialist":"auth-authz-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"error-leak","specialist":"data-exposure-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"cookie-flags","specialist":"frontend-security-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"known-cves","specialist":"dependency-supplychain-auditor","status":"checked-issues-found","confidence":"medium"}
+{"category":"swallowed-exceptions","specialist":"silent-failure-hunter","status":"checked-issues-found","confidence":"high"}
