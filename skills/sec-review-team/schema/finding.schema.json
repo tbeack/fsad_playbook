@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsad-playbook/schemas/sec-review-team/finding.schema.json",
+  "title": "sec-review-team finding",
+  "description": "One security-review finding. Emitted as one JSON object per line in <agent>.findings.jsonl.",
+  "type": "object",
+  "required": ["id", "specialist", "severity", "confidence", "title", "root_issue", "file", "exploit", "fix", "evidence"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Stable per-run finding ID, e.g. 'auth-001'. Prefix with specialist short code."
+    },
+    "specialist": {
+      "type": "string",
+      "enum": [
+        "auth-authz-auditor",
+        "input-validation-auditor",
+        "secrets-crypto-auditor",
+        "dependency-supplychain-auditor",
+        "silent-failure-hunter",
+        "data-exposure-auditor",
+        "iac-auditor",
+        "prompt-injection-auditor",
+        "container-runtime-auditor",
+        "concurrency-race-auditor",
+        "privacy-telemetry-auditor",
+        "ci-cd-security-auditor",
+        "frontend-security-auditor"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "description": "Provenance: 'specialist' (LLM agent), or 'scanner-<name>' for off-the-shelf scanner output.",
+      "default": "specialist"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["certain", "likely", "possible", "unverified"],
+      "description": "certain = directly observed in code, fix is mechanical; likely = observed pattern + reasonable inference; possible = inferred from indirect evidence; unverified = cannot confirm without running code or external scanner."
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 140
+    },
+    "root_issue": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Short slug for dedupe across specialists, e.g. 'csp-null', 'unscoped-sql-capability'."
+    },
+    "file": {
+      "type": "string",
+      "description": "Repo-relative path."
+    },
+    "line_range": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 },
+      "minItems": 1,
+      "maxItems": 2
+    },
+    "exploit": {
+      "type": "string",
+      "description": "Concrete attack scenario."
+    },
+    "fix": {
+      "type": "string",
+      "description": "Specific change to make."
+    },
+    "evidence": {
+      "type": "string",
+      "description": "Exact code snippet or config block, quoted verbatim."
+    },
+    "threat_model": {
+      "type": "string",
+      "enum": ["network-attacker", "insider", "supply-chain", "disk-access", "physical", "llm-adversarial-input", "n/a"]
+    },
+    "cwe": {
+      "type": "string",
+      "pattern": "^CWE-[0-9]+$"
+    },
+    "cve": {
+      "type": "string",
+      "pattern": "^CVE-[0-9]{4}-[0-9]+$"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "related": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs of related findings from other specialists (cross-specialist correlation)."
+    }
+  }
+}

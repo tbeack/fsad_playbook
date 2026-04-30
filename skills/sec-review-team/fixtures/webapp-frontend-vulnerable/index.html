@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vulnerable Web App</title>
+  <!-- VULNERABILITY: no Content-Security-Policy meta tag or header -->
+  <!-- VULNERABILITY: third-party script loaded from CDN with no integrity= attribute (missing SRI) -->
+  <script src="https://cdn.example.com/jquery-3.6.0.min.js"></script>
+  <!-- VULNERABILITY: no X-Frame-Options or frame-ancestors directive — clickjacking possible -->
+</head>
+<body>
+  <h1>App</h1>
+  <script>
+    // VULNERABILITY: postMessage handler accepts messages from any origin — no event.origin check
+    window.addEventListener('message', function(event) {
+      document.getElementById('output').innerHTML = event.data;
+    });
+  </script>
+  <div id="output"></div>
+</body>
+</html>

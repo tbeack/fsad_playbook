@@ -1,0 +1,16 @@
+{
+  "name": "webapp-express-vulnerable",
+  "version": "0.0.1-fixture",
+  "description": "DELIBERATELY VULNERABLE fixture for sec-review-team harness. Do not deploy.",
+  "private": true,
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.10",
+    "mysql2": "^2.3.0",
+    "jsonwebtoken": "^8.5.1"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "concurrency-race-vulnerable",
+  "version": "1.0.0",
+  "description": "Deliberately-vulnerable backend fixture — race conditions, TOCTOU, transactional integrity bugs",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.0"
+  }
+}

@@ -1,0 +1,6 @@
+{"category":"csp","specialist":"frontend-security-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"ipc-capability-grants","specialist":"auth-authz-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"plaintext-key-storage","specialist":"secrets-crypto-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"pii-storage","specialist":"data-exposure-auditor","status":"checked-issues-found","confidence":"high"}
+{"category":"outbound-calls-claimed-none","specialist":"data-exposure-auditor","status":"checked-clean","confidence":"high"}
+{"category":"hardcoded-secrets","specialist":"secrets-crypto-auditor","status":"checked-clean","confidence":"high"}

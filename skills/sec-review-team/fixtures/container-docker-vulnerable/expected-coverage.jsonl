@@ -1,0 +1,6 @@
+{"category":"privileged-containers","specialist":"container-runtime-auditor","status":"checked-issues-found","confidence":"high","searches":["grep -r 'privileged' docker-compose.yml"],"files_read":["docker-compose.yml"]}
+{"category":"docker-socket-mount","specialist":"container-runtime-auditor","status":"checked-issues-found","confidence":"high","searches":["grep -r 'docker.sock' docker-compose.yml"],"files_read":["docker-compose.yml"]}
+{"category":"secrets-in-image","specialist":"container-runtime-auditor","status":"checked-issues-found","confidence":"high","searches":["grep -r 'ENV.*SECRET\\|ENV.*PASSWORD\\|ENV.*KEY\\|ENV.*TOKEN' Dockerfile"],"files_read":["Dockerfile"]}
+{"category":"container-user","specialist":"container-runtime-auditor","status":"checked-issues-found","confidence":"high","searches":["grep -r '^USER ' Dockerfile"],"files_read":["Dockerfile"]}
+{"category":"network-exposure","specialist":"container-runtime-auditor","status":"checked-issues-found","confidence":"high","searches":["grep -r 'ports:' docker-compose.yml"],"files_read":["docker-compose.yml"]}
+{"category":"base-image-pinning","specialist":"container-runtime-auditor","status":"checked-issues-found","confidence":"high","searches":["grep -r '^FROM ' Dockerfile"],"files_read":["Dockerfile"]}
