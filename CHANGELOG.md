@@ -1,5 +1,38 @@
 ## Changes in This Version
 
+### v39 — 2026-04-30
+
+**Install the Skill: replace embedded file blocks with git sparse-checkout command (CBP-089)**
+
+- **Embedded file collapsibles removed.** The ~1,700-line block of embedded markdown content (`SKILL.md`, `stack-signals.md`, 13 specialist files, 3 docs files, 2 schema files) has been stripped from the "Install the Skill" subsection. This content was hard to maintain — every skill update required manually re-pasting file contents.
+- **Git sparse-checkout install command added.** The "Directory structure" file-tree block is replaced with an "Install via git" bash code block pointing at the canonical source in the FSAD Playbook repo (`https://github.com/tbeack/fsad_playbook.git`). Readers run a 5-line sparse-checkout to pull just the `sec-review-team` skill directory into their project or global skills folder.
+
+### v38 — 2026-04-30
+
+**Security Review: full specialist definition files embedded in each collapsible (CBP-088)**
+
+- **Definition file blocks added to all 13 specialist collapsibles.** Each "Specialist Definitions" collapsible now ends with a "Definition file" sub-section showing the complete specialist markdown source (YAML frontmatter stripped, content HTML-escaped in a `<pre><code>` block). Readers can now see the exact agent brief, overlap boundaries, output file contract, allowed tool list, and scanner integration for every specialist without leaving the playbook or opening the skill source directory.
+
+### v37 — 2026-04-30
+
+**Security Review section enhanced: interaction diagram, specialist definition cards, full skill distribution (CBP-087)**
+
+- **Interaction diagram embedded.** Added a theme-aware inline SVG `<figure>` to `#practices/security-review` showing the full Security Review Team flow: invocation → orchestrator setup (detect stack, pick roster, scanner pre-pass, spawn) → 13 parallel specialists writing JSONL/MD/status → consolidation → `REPORT.md` → optional `/sec-review-fixes` companion. Two pre-built SVGs (one per theme) toggled via `[data-theme="..."]` selectors with no flash on theme switch. SVG `linearGradient` and `marker` IDs were namespaced (`cg-dark` / `arrow-dark` and `cg-light` / `arrow-light`) to avoid cross-SVG collisions when both share the document scope.
+- **13 specialist definition cards.** New "Specialist Definitions" subsection below the specialist table renders one collapsible per specialist (4 baseline + 9 stack-specific), each showing name, baseline/stack-specific badge, primary scope (bullet list), threat-model framing, and coverage categories pulled from the live skill files. Lets readers explore specialist responsibilities without leaving the playbook or opening the skill source.
+- **Distribution: full skill embedded for copy-paste install.** New "Install the Skill" subsection embeds the entire `.claude/skills/sec-review-team/` directory as collapsible code blocks: directory tree at the top, then `SKILL.md` (orchestrator), `stack-signals.md` (detection rules), nested 13-specialist group, 3 support docs (`consolidation-template.md`, `tradeoffs.md`, `scanner-coverage.md`), and 2 schemas (`finding.schema.json`, `coverage.schema.json`). All HTML-escaped. Readers can reproduce the skill in any project by copying out of the playbook itself — no separate distribution channel needed.
+
+### v36 — 2026-04-29
+
+**Claude Code v2.1.120–v2.1.123 auto-update (CBP-082 through CBP-086)**
+
+Automated playbook sync covering four Claude Code releases (v2.1.120, v2.1.121, v2.1.122, v2.1.123). Five content updates.
+
+- **CBP-082 — `/ultrareview` and `/resume` rows updated.** The `/ultrareview` Cheat Sheet row now documents the `claude ultrareview [target]` non-interactive CLI subcommand for use in CI/scripts (`--json` for raw output, exits 0 on completion or 1 on failure — v2.1.120). The `/resume` row now documents that pasting a GitHub, GitHub Enterprise, GitLab, or Bitbucket PR URL into the search box finds the session that created that PR (v2.1.122).
+- **CBP-083 — `${CLAUDE_EFFORT}` added to skills frontmatter String substitutions note.** The Building Skills frontmatter reference now lists `${CLAUDE_EFFORT}` alongside the other substitution variables, noting it exposes the current effort level (`low` / `medium` / `high` / `xhigh` / `max`) so skills can branch their behavior by effort (v2.1.120).
+- **CBP-084 — `alwaysLoad` MCP option documented in Power Usage Plugins.** Added a code example and description showing how to set `"alwaysLoad": true` in an MCP server config to make all its tools skip tool-search deferral and remain permanently available — useful for servers whose tools are used in nearly every session (v2.1.121).
+- **CBP-085 — `claude plugin prune` added to Power Usage Plugins.** The Plugins collapsible code block now shows `claude plugin prune` (remove orphaned auto-installed dependencies) and `claude plugin uninstall --prune` (cascade uninstall) (v2.1.121).
+- **CBP-086 — PostToolUse `hookSpecificOutput.updatedToolOutput` documented in Hooks Exit Codes.** Added a code example and explanation to the Exit Codes collapsible showing how a PostToolUse hook can return `hookSpecificOutput.updatedToolOutput` to replace the tool result Claude sees — works for all tools (was MCP-only before v2.1.121).
+
 ### v35 — 2026-04-24
 
 **Claude Code v2.1.119 auto-update (CBP-076 through CBP-080)**
