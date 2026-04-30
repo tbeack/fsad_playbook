@@ -4502,7 +4502,7 @@ Use a structured format: file, line, severity, description.</code></pre>
 
     <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:1.5rem;">
       <div class="callout-title">Invocation</div>
-      <p>Drop <code>.claude/skills/sec-review-team/</code> into your project and invoke with <code>/sec-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>). The <code>-team</code> suffix disambiguates from the built-in <code>/security-review</code> (a single-pass branch review). Pair with <code>/sec-review-fixes</code> to produce fix PRs from the report. Validated on Opus 4.7 against a Tauri + React + Rust target (CBP-060 → 3 high-severity findings after dedupe, zero hallucinated CVEs).</p>
+      <p>Install from the <a href="https://github.com/tbeack/fsad_playbook" style="color:var(--accent);">fsad_playbook repo</a> (see <strong>Install the Skill</strong> below), then invoke with <code>/sec-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>). The <code>-team</code> suffix disambiguates from the built-in <code>/security-review</code> (a single-pass branch review). Pair with <code>/sec-review-fixes</code> to produce fix PRs from the report. Validated on Opus 4.7 against a Tauri + React + Rust target (CBP-060 → 3 high-severity findings after dedupe, zero hallucinated CVEs).</p>
     </div>
 
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialist Library (13)</h3>
@@ -4534,7 +4534,7 @@ Use a structured format: file, line, severity, description.</code></pre>
     </table>
 
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Specialist Definitions</h3>
-    <p style="color:var(--text-secondary); margin-bottom:1rem;">Each card mirrors the live specialist file under <code>.claude/skills/sec-review-team/specialists/</code>. <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">baseline</span> specialists always run; <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">stack-specific</span> specialists join based on <code>stack-signals.md</code>.</p>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">Each card mirrors the live specialist file under <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills/sec-review-team/specialists" style="color:var(--accent);"><code>skills/sec-review-team/specialists/</code></a> in the repo. <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">baseline</span> specialists always run; <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">stack-specific</span> specialists join based on <code>stack-signals.md</code>.</p>
 
     <div class="collapsible" id="sec-spec--secrets-crypto" style="margin-top:0.6rem;">
       <div class="collapsible-header">
@@ -5434,25 +5434,27 @@ Use the code-review skill to frame the consolidation. Do NOT fix anything in thi
 
     <div class="callout callout-best-practice" style="margin-top:1.5rem;">
       <div class="callout-title">How to Adapt</div>
-      <p>Roster adaptation is now automatic via <code>stack-signals.md</code>: the skill detects your stack (webapp / desktop / iac / llm-agent / container / etc.) and picks a roster. Override at the pre-run confirmation screen — drop or add specialists with a one-liner. For first-time setup, inspect the specialist library under <code>.claude/skills/sec-review-team/specialists/</code> and the detection rules in <code>stack-signals.md</code>. Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take 20+ minutes on a large monorepo.</p>
+      <p>Roster adaptation is now automatic via <code>stack-signals.md</code>: the skill detects your stack (webapp / desktop / iac / llm-agent / container / etc.) and picks a roster. Override at the pre-run confirmation screen — drop or add specialists with a one-liner. For first-time setup, inspect the specialist library under <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills/sec-review-team/specialists" style="color:var(--accent);"><code>skills/sec-review-team/specialists/</code></a> in the repo and the detection rules in <code>stack-signals.md</code>. Scope tightly — a diff-only review finishes in minutes; a full-repo sweep can take 20+ minutes on a large monorepo.</p>
     </div>
 
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Install the Skill</h3>
-    <p style="color:var(--text-secondary); margin-bottom:1rem;">Install directly from the FSAD Playbook repo using a git sparse-checkout. Drop the resulting directory under <code>.claude/skills/</code> at project level (shared with the team) or <code>~/.claude/skills/</code> (global, personal). Once present, invoke with <code>/sec-review-team &lt;path&gt; &lt;scope&gt;</code> from any project.</p>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">The skills live in the <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills" style="color:var(--accent);">fsad_playbook repo</a> under <code>skills/</code>. Copy them into your project's <code>.claude/skills/</code> directory (shared with the team) or <code>~/.claude/skills/</code> (global, personal). Once present, invoke with <code>/sec-review-team &lt;path&gt; &lt;scope&gt;</code> from any project.</p>
 
-    <h4 style="font-size:0.95rem; font-weight:600; margin:1rem 0 0.6rem;">Install via git</h4>
+    <h4 style="font-size:0.95rem; font-weight:600; margin:1rem 0 0.6rem;">Install via git sparse-checkout</h4>
 
     <div class="code-block" style="margin-bottom:1rem;">
-      <pre><code class="language-bash"># Install sec-review-team from the FSAD Playbook repo
+      <pre><code class="language-bash"># Fetch only the skills/ directory from the FSAD Playbook repo
 git clone --depth=1 --filter=blob:none --sparse \
   https://github.com/tbeack/fsad_playbook.git /tmp/fsad-playbook
 cd /tmp/fsad-playbook
-git sparse-checkout set .claude/skills/sec-review-team
+git sparse-checkout set skills/sec-review-team skills/sec-review-fixes
 
 # Copy to your project (team-wide):
-cp -r .claude/skills/sec-review-team /path/to/project/.claude/skills/
+cp -r skills/sec-review-team  /path/to/project/.claude/skills/
+cp -r skills/sec-review-fixes /path/to/project/.claude/skills/
 # or globally (personal use):
-cp -r .claude/skills/sec-review-team ~/.claude/skills/
+cp -r skills/sec-review-team  ~/.claude/skills/
+cp -r skills/sec-review-fixes ~/.claude/skills/
 
 rm -rf /tmp/fsad-playbook</code></pre>
     </div>
