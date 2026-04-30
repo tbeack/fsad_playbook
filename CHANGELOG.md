@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### v39 — 2026-04-30
+
+**Install the Skill: replace embedded file blocks with git sparse-checkout command (CBP-089)**
+
+- **Embedded file collapsibles removed.** The ~1,700-line block of embedded markdown content (`SKILL.md`, `stack-signals.md`, 13 specialist files, 3 docs files, 2 schema files) has been stripped from the "Install the Skill" subsection. This content was hard to maintain — every skill update required manually re-pasting file contents.
+- **Git sparse-checkout install command added.** The "Directory structure" file-tree block is replaced with an "Install via git" bash code block pointing at the canonical source in the FSAD Playbook repo (`https://github.com/tbeack/fsad_playbook.git`). Readers run a 5-line sparse-checkout to pull just the `sec-review-team` skill directory into their project or global skills folder.
+
 ### v38 — 2026-04-30
 
 **Security Review: full specialist definition files embedded in each collapsible (CBP-088)**
