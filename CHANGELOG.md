@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v37 — 2026-04-30
+
+**Security Review section enhanced: interaction diagram, specialist definition cards, full skill distribution (CBP-087)**
+
+- **Interaction diagram embedded.** Added a theme-aware inline SVG `<figure>` to `#practices/security-review` showing the full Security Review Team flow: invocation → orchestrator setup (detect stack, pick roster, scanner pre-pass, spawn) → 13 parallel specialists writing JSONL/MD/status → consolidation → `REPORT.md` → optional `/sec-review-fixes` companion. Two pre-built SVGs (one per theme) toggled via `[data-theme="..."]` selectors with no flash on theme switch. SVG `linearGradient` and `marker` IDs were namespaced (`cg-dark` / `arrow-dark` and `cg-light` / `arrow-light`) to avoid cross-SVG collisions when both share the document scope.
+- **13 specialist definition cards.** New "Specialist Definitions" subsection below the specialist table renders one collapsible per specialist (4 baseline + 9 stack-specific), each showing name, baseline/stack-specific badge, primary scope (bullet list), threat-model framing, and coverage categories pulled from the live skill files. Lets readers explore specialist responsibilities without leaving the playbook or opening the skill source.
+- **Distribution: full skill embedded for copy-paste install.** New "Install the Skill" subsection embeds the entire `.claude/skills/sec-review-team/` directory as collapsible code blocks: directory tree at the top, then `SKILL.md` (orchestrator), `stack-signals.md` (detection rules), nested 13-specialist group, 3 support docs (`consolidation-template.md`, `tradeoffs.md`, `scanner-coverage.md`), and 2 schemas (`finding.schema.json`, `coverage.schema.json`). All HTML-escaped. Readers can reproduce the skill in any project by copying out of the playbook itself — no separate distribution channel needed.
+
 ### v36 — 2026-04-29
 
 **Claude Code v2.1.120–v2.1.123 auto-update (CBP-082 through CBP-086)**
