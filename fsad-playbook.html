@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v37)</title>
+<title>FSAD — Full Stack Agentic Development (v38)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -4558,6 +4558,57 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Frame against the realistic adversary for the stack: disk compromise (stolen laptop, forensics, backup snooping) for local-only desktop; network attacker plus insider for SaaS backends; secrets leaked in build logs and committed <code>.env</code> for the supply chain.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>hardcoded-secrets</code>, <code>weak-crypto</code>, <code>insecure-random</code>, <code>plaintext-key-storage</code>, <code>credential-logging</code>, <code>tls-config</code>, <code>key-rotation</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># secrets-crypto-auditor
+
+## Primary scope
+Secrets and cryptography.
+
+- Hardcoded secrets / API keys / tokens / passwords in source (full-tree grep: `password|secret|api[_-]?key|token|bearer|authorization|credentials|private[_-]?key`).
+- Weak hash algorithms (MD5, SHA1, DES, RC4).
+- Insecure randomness (`Math.random()` for security IDs, `rand::thread_rng()` where CSPRNG needed; OS-level CSPRNG required for keys).
+- Improper key/token storage (plaintext on disk, unencrypted SQLite, localStorage for secrets).
+- Credentials in logs, error messages, panics, stack traces.
+- `unsafe` Rust touching key material.
+- TLS/SSL configuration — outdated protocol versions, weak cipher suites, certificate pinning or its absence where needed.
+- Key rotation / expiry policy.
+
+## Threat-model framing
+Frame findings against the realistic adversary for the stack:
+- **Local-only desktop:** disk compromise (stolen laptop, forensics, backup snooping) — plaintext DB is the top risk.
+- **SaaS backend:** network attacker + insider — key storage in secret manager, rotation, scoped IAM.
+- **Supply-chain:** secrets leaked in build logs, committed `.env`, compromised CI secrets.
+
+## Overlap with other specialists
+- **Primary owner of:** secrets in code, crypto primitive choice, key storage, randomness.
+- **Cross-cuts with:**
+  - `dependency-supplychain-auditor` — secrets leaked in CI workflows overlap; coordinate.
+  - `privacy-telemetry-auditor` — data-handling compliance overlaps with key-handling; yours is the crypto/key side.
+
+## Brief
+
+&gt; Review secrets and cryptography in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Realistic threat model: `&lt;THREAT_MODEL&gt;`. Check: hardcoded secrets, weak crypto, insecure random, improper key storage, credential logging, `unsafe` Rust touching keys, TLS config, key rotation. Frame findings against the actual threat model.
+&gt;
+&gt; **Output contract (four files):** `secrets-crypto-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Same format as other specialists — see `auth-authz-auditor.md` for details.
+&gt;
+&gt; **Confidence on every finding.** Negative findings require searches + search_limits in coverage.jsonl (e.g., "grepped for X|Y|Z, found nothing — would miss credentials assembled at runtime from env + obfuscation").
+&gt;
+&gt; **Hard rules:** read-only; cite evidence; no invented CVEs.
+&gt;
+&gt; Report: four output paths + severity count.
+
+## Output files
+`secrets-crypto-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`
+
+## Allowed tools
+Standard read-only set (see `auth-authz-auditor.md`). `Write` scoped to this specialist's four outputs.
+
+## Coverage categories this specialist owns
+`hardcoded-secrets`, `weak-crypto`, `insecure-random`, `plaintext-key-storage`, `credential-logging`, `tls-config`, `key-rotation`
+
+## Scanner integration
+- `gitleaks detect` / `trufflehog filesystem` — secrets scanning. Triage hits + find what they miss (runtime-assembled secrets, non-pattern credentials).
+- Pass scanner output as context via the pre-pass (CBP-067).</code></pre>
       </div></div>
     </div>
 
@@ -4582,6 +4633,44 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Treats package manifests, lockfiles, and install scripts as a third-party trust boundary — known CVEs, typosquats, and post-install hooks compromise the build before any of your code runs. Will not invent CVE IDs if a scanner isn't available; reports tool-availability in coverage.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>known-cves</code>, <code>lockfile-integrity</code>, <code>version-pinning</code>, <code>install-scripts</code>, <code>typosquats</code>, <code>plugin-alignment</code>, <code>build-rs-trust</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># dependency-supplychain-auditor
+
+## Primary scope
+Supply chain. Dependencies, lockfile integrity, install scripts, build trust.
+
+- **npm**: `package.json`, `package-lock.json`. `npm audit` if available. Pinned vs floating versions; lockfile presence + drift. Postinstall / install scripts (`hasInstallScript: true`).
+- **Cargo**: `Cargo.toml`, `Cargo.lock`. `cargo audit` if installed.
+- **Python**: `requirements.txt`, `Pipfile.lock`, `poetry.lock`, `pyproject.toml`. `pip-audit`.
+- **OSV**: `osv-scanner` across any ecosystem.
+- Suspicious packages, typosquats, recently compromised deps.
+- `build.rs`, postinstall/preinstall scripts, Dockerfile `RUN` installs.
+- Plugin/core version alignment.
+
+## Overlap with other specialists
+- **Primary owner of:** package manifests, lockfiles, CVE scanning.
+- **Cross-cuts with:**
+  - `ci-cd-security-auditor` — action-pinning and workflow trust boundaries are theirs; package-dep security is yours.
+  - `secrets-crypto-auditor` — secrets in lockfiles / dep configs overlap; credentials in `npm audit` output are theirs to triage.
+
+## Brief
+
+&gt; Review supply chain in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Run available scanners (`npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`). If a scanner isn't available, say so — DO NOT invent CVE IDs. Check pinned-vs-floating, lockfile presence + drift, install scripts, typosquats, plugin-core alignment.
+&gt;
+&gt; **Output:** `dependency-supplychain-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Scanner output normalized into `findings.jsonl` with `source: "scanner-&lt;name&gt;"`. See other specialist briefs for format.
+&gt;
+&gt; **Hard rules:** read-only; never install anything; no fabricated CVEs.
+&gt;
+&gt; Report: paths + severity count + tool-availability summary.
+
+## Allowed tools
+Standard read-only + `Bash` allowlist including `npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`, `npm ls`, `cargo tree`. `Write` scoped to this specialist's outputs.
+
+## Coverage categories
+`known-cves`, `lockfile-integrity`, `version-pinning`, `install-scripts`, `typosquats`, `plugin-alignment`, `build-rs-trust`
+
+## Scanner integration (primary consumer)
+All dep/CVE scanners feed this specialist. Pre-pass (CBP-067) runs them; specialist triages + extends.</code></pre>
       </div></div>
     </div>
 
@@ -4606,6 +4695,49 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Security-relevant silences only. A swallowed UI toast error is not a finding; a swallowed DB-migration error that leaves the schema half-applied is. Defers architectural IPC/capability issues to <code>auth-authz-auditor</code> and missing validation to <code>input-validation-auditor</code>.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>swallowed-exceptions</code>, <code>fallback-bypasses-validation</code>, <code>unhandled-rejections</code>, <code>unwrap-on-user-input</code>, <code>error-boundary-absorption</code>, <code>migration-silent-failures</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># silent-failure-hunter
+
+## Primary scope
+Error paths that fail open or mask security-relevant failures.
+
+- Swallowed exceptions: `try{}catch{}`, `.catch(() =&gt; {})`, Rust `.ok()` / `.unwrap_or_default()` on security-relevant errors.
+- Fallback paths that bypass validation when the primary check errors.
+- Rust `match` arms with `Err(_) =&gt; Ok(())`.
+- Async promises without `.catch`; unhandled rejections.
+- `unwrap()` on user-influenced data.
+- React error boundaries catching but not surfacing state-corrupting errors.
+- Errors around DB migrations, capability checks, session-rotation — not the check itself, the handling of the failure.
+
+## Filter rule
+Security-relevant silences only. A swallowed UI toast error is not a finding. A swallowed DB-migration error that leaves the schema half-applied is.
+
+## Overlap with other specialists
+- **Primary owner of:** error-path silences, fail-open patterns in error handling.
+- **Defers to:**
+  - `auth-authz-auditor` for architectural IPC/capability issues — mention only when compounding a specific error silence.
+  - `input-validation-auditor` for missing validation (vs. validation-present-but-swallowed).
+- **Cross-cuts with:**
+  - `concurrency-race-auditor` — cancellation/race paths with silent failure overlap; coordinate.
+
+## Brief
+
+&gt; Review error paths in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Focus on silences that affect confidentiality, integrity, or availability. Architectural IPC/capability issues are `auth-authz-auditor`'s scope — defer. Missing-validation is `input-validation-auditor`'s scope — defer.
+&gt;
+&gt; **Output:** `silent-failure-hunter.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; filter for security-relevance; cite evidence; defer architectural issues to their primary owner with `coverage.status=deferred-to-other-specialist`.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`swallowed-exceptions`, `fallback-bypasses-validation`, `unhandled-rejections`, `unwrap-on-user-input`, `error-boundary-absorption`, `migration-silent-failures`
+
+## Scanner integration
+- None specific. `semgrep` pre-pass rules for "empty catch" patterns may feed this specialist.</code></pre>
       </div></div>
     </div>
 
@@ -4630,6 +4762,44 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Verifies stated threat-model claims (e.g. "no network") with explicit grep — any deviation is a finding. Owns "what could leak" (storage, logs, errors); defers analytics/consent to <code>privacy-telemetry-auditor</code> and CSP/CORS to <code>frontend-security-auditor</code> when those are in roster, and reclaims them otherwise.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>pii-storage</code>, <code>log-redaction</code>, <code>error-leak</code>, <code>idor-tenant-isolation</code>, <code>clipboard-dnd</code>, <code>export-pipeline</code>, <code>outbound-calls-claimed-none</code>, <em>(conditionally)</em> <code>csp-cors-sri-cookies</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># data-exposure-auditor
+
+## Primary scope
+Unintended exposure of sensitive data.
+
+- PII / sensitive content storage (DB path, encryption-at-rest, cache/temp files, exports).
+- Log redaction (`println!`, `console.log`, `log::*`, `tracing::*`).
+- Error-message shapes leaking internals (stack traces, file paths, SQL).
+- IDOR / tenant isolation.
+- Clipboard / drag-and-drop lingering data.
+- Export pipeline (PDF/DOCX temp files, cleanup).
+- Outbound network calls — if threat model claims "no network", verify with grep (any hit is a finding).
+
+## Overlap with other specialists
+- **Primary owner of:** data storage posture, log redaction, error-leak patterns, IDOR, outbound-call verification.
+- **Defers to:**
+  - `frontend-security-auditor` (when in roster) — CSP, CORS, SRI, cookie flags. If frontend-security is NOT in the roster, data-exposure reclaims CSP as fallback.
+  - `privacy-telemetry-auditor` (when in roster) — analytics SDKs, consent flow, cross-border transfer. Data-exposure stays on "what could leak"; privacy-telemetry owns "what deliberately leaves + regulatory".
+
+## Brief
+
+&gt; Review unintended data exposure in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Verify stated threat-model claims (e.g. "no network") with explicit grep. If `frontend-security-auditor` is in roster, defer CSP/CORS/SRI/cookie-flags; otherwise cover them. If `privacy-telemetry-auditor` is in roster, defer analytics/consent/cross-border; otherwise cover them.
+&gt;
+&gt; **Output:** `data-exposure-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence; verify threat-model claims with searches.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`pii-storage`, `log-redaction`, `error-leak`, `idor-tenant-isolation`, `clipboard-dnd`, `export-pipeline`, `outbound-calls-claimed-none`, (conditionally) `csp-cors-sri-cookies`
+
+## Scanner integration
+- Light: `gitleaks` for leaked data in logs; `semgrep` for `console.log(user)` patterns.</code></pre>
       </div></div>
     </div>
 
@@ -4654,6 +4824,66 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Maps every endpoint, IPC command, or authenticated surface to its required capability. For local-only or single-user apps, the focus shifts from user-level auth to IPC boundaries and capability grants between webview and native side. Architectural IPC/capability issues are this specialist's scope; error-path silences belong to <code>silent-failure-hunter</code>.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>auth-flows</code>, <code>session-handling</code>, <code>jwt-oauth-saml</code>, <code>rbac-abac</code>, <code>privilege-boundaries</code>, <code>ipc-capability-grants</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># auth-authz-auditor
+
+## Primary scope
+Authentication, authorization, session management, and privilege boundaries.
+
+- Auth flows (login, signup, logout, password reset, MFA, SSO).
+- Session handling (cookie lifetime, rotation on privilege change, invalidation on logout).
+- JWT / OAuth / SAML — signature verification, audience/issuer checks, token expiry, refresh flows.
+- RBAC / ABAC — role definitions, assignment, enforcement at every protected operation.
+- Privilege boundaries — frontend/webview vs backend/trusted side, Tauri IPC command surface, Electron preload scripts, microservice trust.
+- Capability grants (Tauri `capabilities/*.json`, browser CSP `script-src`, OS permissions).
+- Endpoint / IPC command authorization mapping: every protected surface ↔ its required capability.
+- For local-only or single-user apps: focus on IPC boundaries, capability grants, and privilege boundary between frontend (webview) and backend (Rust/native), not user-level auth.
+
+## Overlap with other specialists
+- **Primary owner of:** IPC command surfaces, Tauri capability grants, session-rotation flows, JWT/OAuth/SAML verification.
+- **Cross-cuts with:**
+  - `silent-failure-hunter` — error-path silences in auth checks are silent-failure's scope; architectural IPC/capability issues are yours.
+  - `input-validation-auditor` — authZ is yours; input validation at auth endpoints is theirs.
+  - `data-exposure-auditor` — authentication-required data is yours to gate; leaked-internals patterns are theirs.
+
+## Brief (passed to the Agent)
+
+&gt; Review auth flows, session handling, JWT/OAuth, RBAC, and privilege boundaries in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`.
+&gt;
+&gt; Map every endpoint / IPC command / authenticated surface to its auth requirement. For local-only / single-user apps, focus on IPC boundaries, capability grants, and the privilege boundary between the webview and backend — NOT on user-level auth (which is N/A). Architectural IPC and capability issues are YOUR scope; error-path silences are `silent-failure-hunter`'s scope — note them only if compounding.
+&gt;
+&gt; **Output contract (all four files in `&lt;TARGET&gt;/.planning/security-review/`):**
+&gt; 1. `auth-authz-auditor.md` — prose findings, human-readable, grouped by severity.
+&gt; 2. `auth-authz-auditor.findings.jsonl` — one JSON object per line per finding, conforming to `.claude/skills/sec-review-team/schema/finding.schema.json`. Required fields: `id`, `specialist` ("auth-authz-auditor"), `severity`, `confidence`, `title`, `root_issue`, `file`, `exploit`, `fix`, `evidence`.
+&gt; 3. `auth-authz-auditor.coverage.jsonl` — one record per attack-class axis in your scope, conforming to `coverage.schema.json`. For each category, report `status` (`checked-clean` / `checked-issues-found` / `not-checked` / `deferred-to-other-specialist`), `confidence` (`high`/`medium`/`low`), `searches` run, `files_read`, `search_limits`.
+&gt; 4. `auth-authz-auditor.status.json` — write at spawn with `{status: "starting", started_at, files_read: 0, findings_written: 0}`; update every ~5 reads; on completion write `{status: "completed", finished_at, ..., severity_counts}`.
+&gt;
+&gt; **Prose finding format:** `[SEVERITY: critical|high|medium|low] &lt;file&gt;:&lt;line&gt; — &lt;issue&gt;\nExploit scenario: …\nRecommended fix: …\nEvidence: &lt;exact code/config snippet&gt;`. Group by severity, "Scope reviewed" at top, severity counts at bottom.
+&gt;
+&gt; **Confidence:** set on every finding. `certain` = directly observed, fix mechanical; `likely` = observed + inference; `possible` = indirect evidence or architectural smell; `unverified` = cannot confirm without runtime.
+&gt;
+&gt; **Hard rules:** read-only (tools are allowlisted to prove it); cite concrete evidence; no speculation; if a category is N/A emit a `coverage.jsonl` entry with the searches + search_limits that prove the N/A; don't overlap with other specialists (defer via `coverage.status=deferred-to-other-specialist`).
+&gt;
+&gt; Report back: absolute paths of the four output files + one-line severity counts.
+
+## Output files
+- `auth-authz-auditor.md` (prose)
+- `auth-authz-auditor.findings.jsonl` (structured)
+- `auth-authz-auditor.coverage.jsonl` (structured)
+- `auth-authz-auditor.status.json` (heartbeat)
+
+## Allowed tools
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `auth-authz-auditor.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `NotebookEdit`, `WebFetch`, `WebSearch`
+
+## Coverage categories this specialist owns
+- `auth-flows`, `session-handling`, `jwt-oauth-saml`, `rbac-abac`, `privilege-boundaries`, `ipc-capability-grants`
+
+## Scanner integration
+- None specific to this specialist. Scanner pre-pass findings from `gitleaks`/`trufflehog` that hit auth endpoints may be triage candidates.</code></pre>
       </div></div>
     </div>
 
@@ -4677,6 +4907,54 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Trace every external input to its sink. Defers prompt injection to <code>prompt-injection-auditor</code> when in roster; otherwise reclaims it. Authentication of input sources belongs to <code>auth-authz-auditor</code>; validation of input <em>content</em> is here.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>sql-injection</code>, <code>fts5-syntax-injection</code>, <code>command-injection</code>, <code>path-traversal</code>, <code>zip-slip</code>, <code>xss</code>, <code>deserialization</code>, <code>ipc-payload-validation</code>, <code>ssrf</code>, <code>open-redirect</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># input-validation-auditor
+
+## Primary scope
+Injection vectors — tracing every external input to its sink.
+
+- **SQL injection** — string-interpolated SQL, template literals, FTS5 `MATCH` syntax (parameterization alone doesn't save you from FTS5 query-syntax injection).
+- **Command / path traversal** — `fs::*`, `Command::*`, `exec`, `os.system`, dialog APIs, archive extraction (zip-slip).
+- **XSS** — `dangerouslySetInnerHTML`, `innerHTML`/`outerHTML`, Markdown→HTML serializers, template engines with auto-escape disabled.
+- **Deserialization** — JSON/YAML/bincode/pickle boundaries; prototype pollution via `Object.assign(target, JSON.parse(...))`.
+- **IPC payload validation** — do backends validate incoming args via typed structs or trust the caller?
+- **Open-redirect / SSRF** — URL parameters reaching `fetch`/`reqwest`/`curl` without host allowlist.
+
+## Overlap with other specialists
+- **Primary owner of:** SQLi, XSS, command/path traversal, deserialization, IPC payload validation, SSRF.
+- **Cross-cuts with:**
+  - `prompt-injection-auditor` — when present in the roster, prompt injection belongs to that specialist; defer via `coverage.status=deferred-to-other-specialist`.
+  - `secrets-crypto-auditor` — credentials reaching logs from validation bypasses are their scope.
+  - `auth-authz-auditor` — authentication of input sources is theirs; validation of input content is yours.
+
+## Brief (passed to the Agent)
+
+&gt; Review injection vectors in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Trace every external input to its sink. Axes: SQL injection (including FTS5 query-syntax), command/path traversal (zip-slip included), XSS, deserialization, IPC payload validation, SSRF/open-redirect. If `prompt-injection-auditor` is in the run's roster, prompt injection is theirs — defer.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/security-review/`):** `input-validation-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Conform to `.claude/skills/sec-review-team/schema/{finding,coverage}.schema.json`. See the `auth-authz-auditor` brief for full file-format details — identical contract.
+&gt;
+&gt; **Prose format:** `[SEVERITY] &lt;file&gt;:&lt;line&gt; — &lt;issue&gt;\nExploit / Fix / Evidence`. Group by severity.
+&gt;
+&gt; **Confidence required on every finding** (`certain|likely|possible|unverified`). Negative findings (clean/N/A) require searches + search_limits in `coverage.jsonl`.
+&gt;
+&gt; **Hard rules:** read-only (tools are allowlisted); cite evidence; no speculation; emit coverage for every category in your scope.
+&gt;
+&gt; Report: absolute paths of the four outputs + one-line severity count.
+
+## Output files
+- `input-validation-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`
+
+## Allowed tools
+Same as `auth-authz-auditor.md` allowed-tools section. `Write` scoped to this specialist's four output file paths only.
+
+## Coverage categories this specialist owns
+- `sql-injection`, `fts5-syntax-injection`, `command-injection`, `path-traversal`, `zip-slip`, `xss`, `deserialization`, `ipc-payload-validation`, `ssrf`, `open-redirect`
+- If `prompt-injection-auditor` is not in roster: also `prompt-injection`
+
+## Scanner integration
+- `semgrep --config auto` — pattern-based catches. Triage scanner hits + find what rules miss.
+- `bandit -r` (Python) — SAST for Python.
+- `brakeman` (Ruby on Rails).</code></pre>
       </div></div>
     </div>
 
@@ -4701,6 +4979,41 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Owns the web-platform attack surface — CSP, CORS, SRI, cookie flags, postMessage, clickjacking — that <code>data-exposure-auditor</code> defers when this specialist is in the roster. Cross-cuts with <code>privacy-telemetry-auditor</code> on third-party script inclusion.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>csp</code>, <code>cors</code>, <code>cookie-flags</code>, <code>sri</code>, <code>postmessage-origin</code>, <code>clickjacking</code>, <code>third-party-scripts</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># frontend-security-auditor
+
+## Primary scope
+Frontend / web-platform security.
+
+- **CSP** — header presence, strictness; absence of `unsafe-inline`, `unsafe-eval`, remote origins without `nonce`/`hash`.
+- **CORS** — `Access-Control-Allow-Origin: *` on credentialed endpoints, missing `Vary: Origin`.
+- **Cookie flags** — `Secure`, `HttpOnly`, `SameSite=Strict/Lax` on session cookies.
+- **Subresource Integrity (SRI)** — on `&lt;script src=&gt;` and `&lt;link&gt;` to third-party CDNs.
+- **postMessage / BroadcastChannel** — origin verification.
+- **Clickjacking** — `X-Frame-Options` / `frame-ancestors` CSP directive.
+- **Third-party script hygiene** — analytics, fonts, CDN scripts; async loading patterns.
+
+## Overlap with other specialists
+- **Primary owner of:** CSP, CORS, SRI, cookie flags, clickjacking, postMessage (when in roster). `data-exposure-auditor` defers these.
+- **Cross-cuts with:** `privacy-telemetry-auditor` (third-party script inclusion), `input-validation-auditor` (XSS is theirs; CSP is yours).
+
+## Brief
+
+&gt; Review frontend security in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Check CSP, CORS, cookie flags, SRI, postMessage origin checks, clickjacking defenses, third-party script inclusion.
+&gt;
+&gt; **Output:** `frontend-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`csp`, `cors`, `cookie-flags`, `sri`, `postmessage-origin`, `clickjacking`, `third-party-scripts`
+
+## Scanner integration
+- `retire.js` — known-vulnerable JS libs.
+- Future: `observatory.mozilla.org`-style header checks.</code></pre>
       </div></div>
     </div>
 
@@ -4726,6 +5039,43 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Trace every untrusted input to prompt-assembly sinks. Owns prompt injection when in roster; <code>input-validation-auditor</code> defers. Cross-cuts with <code>data-exposure-auditor</code> (LLM exfil) and <code>secrets-crypto-auditor</code> (leaked keys via prompt-echo).</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>prompt-concat-untrusted</code>, <code>tool-use-role-confusion</code>, <code>output-sanitization</code>, <code>context-poisoning-rag</code>, <code>memory-skill-injection</code>, <code>indirect-injection</code>, <code>secret-exfil-via-prompt</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># prompt-injection-auditor
+
+## Primary scope
+LLM / agentic security.
+
+- Untrusted input reaching tool-use arguments (direct or via system-prompt concat).
+- Prompt assembly via string concat — `f"You are {role}. User: {msg}"` patterns.
+- Missing output sanitization — LLM response rendered as HTML, executed as code, or used in SQL unvalidated.
+- Tool-use role confusion — tools giving the model power the user shouldn't have (arbitrary file write, shell exec) without auth gates.
+- Context poisoning — untrusted RAG ingests without provenance tracking.
+- Memory / skill / system-prompt injection — user content altering agent memory / skill files / next-turn system prompts.
+- Indirect prompt injection via external data (web pages, emails, PDFs, Slack) fetched into context.
+- Secret exfiltration via prompts — LLM instructed to echo env vars / config / other users' data.
+
+## Overlap with other specialists
+- **Primary owner of:** prompt injection (when in roster). `input-validation-auditor` defers to you.
+- **Cross-cuts with:** `data-exposure-auditor` (LLM exfil is data-exposure adjacent), `secrets-crypto-auditor` (leaked keys via prompt-echo).
+
+## Brief
+
+&gt; Review prompt-injection / LLM-agent security in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Trace every untrusted input to prompt-assembly sinks. Check tool-use role confusion, output sanitization, context poisoning, memory/skill injection, indirect injection, secret exfil.
+&gt;
+&gt; **Output:** `prompt-injection-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence; confidence on every finding.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`prompt-concat-untrusted`, `tool-use-role-confusion`, `output-sanitization`, `context-poisoning-rag`, `memory-skill-injection`, `indirect-injection`, `secret-exfil-via-prompt`
+
+## Scanner integration
+- Emerging: `garak`, `promptguard`. Integrate when widely available.</code></pre>
       </div></div>
     </div>
 
@@ -4750,6 +5100,42 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Reviews Terraform / CloudFormation / Helm / Kustomize / plain-YAML K8s manifests for cluster-level resources and IAM correctness. Defers credentials-in-plain-config to <code>secrets-crypto-auditor</code> via cross-reference; coordinates pod-level security context with <code>container-runtime-auditor</code>.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>public-resources</code>, <code>iam-wildcards</code>, <code>encryption-at-rest</code>, <code>encryption-in-transit</code>, <code>network-policies</code>, <code>pod-security-standards</code>, <code>iac-hardcoded-credentials</code>, <code>tagging-audit-trail</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># iac-auditor
+
+## Primary scope
+Infrastructure-as-code review.
+
+- Public-by-default resources (S3 buckets, RDS, blob storage) — ACL / bucket policy / encryption-at-rest.
+- Wildcards in IAM / RBAC (`Action: "*"`, `Resource: "*"`, `cluster-admin` bindings).
+- Missing encryption (TLS in transit, KMS at rest, SSM parameters marked SecureString).
+- Network policies — overly broad `0.0.0.0/0` ingress, missing egress restrictions.
+- Kubernetes pod security — `runAsRoot`, `privileged`, `allowPrivilegeEscalation`, missing `readOnlyRootFilesystem`, `hostPID`/`hostNetwork`/`hostIPC`.
+- Tagging / naming for audit trail.
+- Hardcoded credentials in `*.tfvars`, `values.yaml`, `.env.tpl`.
+
+## Overlap with other specialists
+- **Primary owner of:** Terraform / CloudFormation / Helm / Kustomize / plain-YAML K8s manifests, IAM policy correctness.
+- **Cross-cuts with:** `ci-cd-security-auditor` (workflows that apply IaC), `secrets-crypto-auditor` (credentials in tfvars).
+
+## Brief
+
+&gt; Review IaC in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Check public-by-default resources, IAM wildcards, missing encryption, overly broad network policies, pod-security misconfigurations, hardcoded credentials.
+&gt;
+&gt; **Output:** `iac-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite file:line; defer credentials-in-plain-config to secrets-crypto via cross-reference.
+&gt;
+&gt; Report: paths + severity count.
+
+## Allowed tools
+Standard read-only set + `Bash` allowlist for `tfsec`, `checkov`, `kube-score`, `kubesec`, `tflint`. `Write` scoped to four outputs.
+
+## Coverage categories
+`public-resources`, `iam-wildcards`, `encryption-at-rest`, `encryption-in-transit`, `network-policies`, `pod-security-standards`, `iac-hardcoded-credentials`, `tagging-audit-trail`
+
+## Scanner integration
+- `tfsec`, `checkov` (Terraform + CloudFormation); `kube-score`, `kubesec`, `kubeaudit` (Kubernetes); `conftest` with OPA policies.</code></pre>
       </div></div>
     </div>
 
@@ -4773,6 +5159,41 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Owns Dockerfile, compose, pod spec, and Helm values. Coordinates with <code>iac-auditor</code> (cluster-level resources) and <code>dependency-supplychain-auditor</code> (base-image CVEs).</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>dockerfile-hardening</code>, <code>base-image-cves</code>, <code>compose-privileges</code>, <code>pod-security-context</code>, <code>helm-default-exposure</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># container-runtime-auditor
+
+## Primary scope
+Container and runtime security.
+
+- Dockerfile — `FROM` pinning (digest, not just tag), `USER` not root, `COPY` not `ADD` for local, `--chown`, no secrets in layers.
+- Base image freshness and known CVEs.
+- `RUN` shell-injection risk via build-args.
+- `docker-compose.yml` — `privileged: true`, exposed ports, volume mounts into `/etc`, `/var/run/docker.sock`.
+- Kubernetes pod spec — `runAsRoot`, `allowPrivilegeEscalation`, `capabilities.add`, missing `readOnlyRootFilesystem`, `hostPID`/`hostNetwork`/`hostIPC`.
+- Helm chart defaults that open ports or privileges.
+
+## Overlap with other specialists
+- **Primary owner of:** Dockerfile, compose, pod spec, Helm values.
+- **Cross-cuts with:** `iac-auditor` (K8s manifests — coordinate; iac-auditor owns cluster-level resources, container-runtime owns pod-level security context), `dependency-supplychain-auditor` (base-image CVEs).
+
+## Brief
+
+&gt; Review containers in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Check Dockerfile hardening, base image CVEs, compose privilege escalation, K8s pod security context.
+&gt;
+&gt; **Output:** `container-runtime-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set + `Bash` allowlist for `hadolint`, `trivy` (read-only mode), `docker inspect`. `Write` scoped to four outputs.
+
+## Coverage categories
+`dockerfile-hardening`, `base-image-cves`, `compose-privileges`, `pod-security-context`, `helm-default-exposure`
+
+## Scanner integration
+- `hadolint` — Dockerfile lint.
+- `trivy image` — base image CVEs.
+- `kube-score`, `kubesec` — pod security.</code></pre>
       </div></div>
     </div>
 
@@ -4798,6 +5219,43 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">CI/CD pipeline trust boundaries — workflow triggers, action SHA-pinning, secrets exposure in logs and forks, permissions hardening, artifact integrity. Cross-cuts with <code>dependency-supplychain-auditor</code> (action-version supply chain) and <code>secrets-crypto-auditor</code> (leaked secrets in CI logs).</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>workflow-triggers</code>, <code>action-pinning</code>, <code>permissions-block</code>, <code>secrets-in-ci</code>, <code>fork-secret-access</code>, <code>artifact-integrity</code>, <code>build-time-dep-fetch</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># ci-cd-security-auditor
+
+## Primary scope
+CI/CD pipeline security.
+
+- GitHub Actions:
+  - `pull_request_target` on workflows that check out untrusted PR code (classic RCE pattern).
+  - Third-party actions not SHA-pinned — prefer `@&lt;sha&gt;` over `@v4`.
+  - `permissions:` block — default `read-all`; explicit escalation only where needed.
+  - Secrets exposure — `echo ${{ secrets.X }}` in logs, `env:` pass-through to untrusted steps.
+  - `on: pull_request` + secrets reachable from forks.
+- GitLab CI / CircleCI / Jenkins equivalents.
+- Artifact integrity — signed builds, SLSA provenance, cosign attestations.
+- Build-time dep fetch — `curl | sh` installs, unpinned deps in scripts.
+
+## Overlap with other specialists
+- **Primary owner of:** workflow triggers, action pinning, secrets-in-CI.
+- **Cross-cuts with:** `dependency-supplychain-auditor` (action-version supply chain overlap), `secrets-crypto-auditor` (leaked secrets in CI logs).
+
+## Brief
+
+&gt; Review CI/CD pipelines in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Check workflow triggers, action SHA-pinning, secrets exposure, permissions hardening, artifact integrity.
+&gt;
+&gt; **Output:** `ci-cd-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set + `Bash` allowlist for `actionlint`, `zizmor`. `Write` scoped to four outputs.
+
+## Coverage categories
+`workflow-triggers`, `action-pinning`, `permissions-block`, `secrets-in-ci`, `fork-secret-access`, `artifact-integrity`, `build-time-dep-fetch`
+
+## Scanner integration
+- `actionlint` — GitHub Actions syntax + security lint.
+- `zizmor` — Actions-specific security audit.</code></pre>
       </div></div>
     </div>
 
@@ -4823,6 +5281,41 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Concurrency correctness in security-relevant code paths — money, permissions, sessions, rate limits. Cross-cuts with <code>silent-failure-hunter</code> (swallowed errors in race paths) and <code>auth-authz-auditor</code> (session races) via cross-reference.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>toctou</code>, <code>double-check-locking</code>, <code>shared-state-unsynced</code>, <code>rate-limit-race</code>, <code>session-race</code>, <code>transactional-integrity</code>, <code>async-cancellation</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># concurrency-race-auditor
+
+## Primary scope
+Race conditions and concurrency hazards with security impact.
+
+- TOCTOU: check-then-act without atomicity (`if os.path.exists(path): open(path)`; auth read-then-act without transaction).
+- Double-check-locking anti-patterns.
+- Shared state without synchronization — globals mutated from async handlers, React state writes from overlapping effects.
+- Rate-limit bypass via concurrency — non-atomic counter read+increment.
+- Session fixation / replay — session IDs accepted before validation; concurrent login creating multiple session rows.
+- Transactional integrity — DB writes that should be atomic split across statements; `UPDATE balance` without row-level locking.
+- Rust `Send`/`Sync` misuse — `unsafe impl Send/Sync`, `Arc&lt;Mutex&lt;_&gt;&gt;` escape.
+- Async cancellation safety — futures leaving state half-modified if cancelled.
+
+## Overlap with other specialists
+- **Primary owner of:** concurrency correctness in security-relevant code paths.
+- **Cross-cuts with:** `silent-failure-hunter` (swallowed errors in race paths; coordinate), `auth-authz-auditor` (session races — coordinate via cross-reference).
+
+## Brief
+
+&gt; Review concurrency / race conditions in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Focus on TOCTOU, rate-limit bypass, session races, transactional integrity, async cancellation.
+&gt;
+&gt; **Output:** `concurrency-race-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`toctou`, `double-check-locking`, `shared-state-unsynced`, `rate-limit-race`, `session-race`, `transactional-integrity`, `async-cancellation`
+
+## Scanner integration
+- Limited: `clippy` with concurrency categories for Rust. Otherwise relies on model judgment.</code></pre>
       </div></div>
     </div>
 
@@ -4849,6 +5342,42 @@ Use a structured format: file, line, severity, description.</code></pre>
         <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;">Owns "what deliberately leaves + regulatory"; <code>data-exposure-auditor</code> owns "what could leak". Catches the classic consent-banner bug where SDKs load before the user clicks accept.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage categories</h4>
         <p style="font-size:0.85rem; line-height:1.8; margin:0;"><code>outbound-destinations</code>, <code>analytics-sdks</code>, <code>cookies</code>, <code>client-storage-pii</code>, <code>third-party-scripts</code>, <code>cross-border-transfer</code>, <code>consent-flow-gating</code>, <code>retention-dsar</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># privacy-telemetry-auditor
+
+## Primary scope
+What the app phones home about, what data leaves, regulatory (GDPR/CCPA) signals.
+
+- Outbound data inventory — every `fetch`/`XMLHttpRequest`/`reqwest`/`axios` destination + payload. Does any include PII?
+- Analytics / tracking SDKs — GA, Segment, Mixpanel, PostHog, Sentry, FullStory. Opt-in vs opt-out. DNT / GPC respected. Load before consent gathered?
+- Cookie inventory — domain, expiry, flags, purpose; categorize as strictly-necessary / functional / analytics / marketing.
+- Storage inventory — `localStorage`, `sessionStorage`, `IndexedDB`, cache APIs; client-side PII with retention.
+- Third-party script / iframe inclusion — what domains load at page start; SRI usage.
+- Cross-border data transfer — servers / CDNs / logging endpoints in unexpected jurisdictions.
+- Consent flow — banner presence, actual gating of analytics/marketing SDKs (classic bug: banner shows but scripts load anyway).
+- Retention / deletion — DSAR flow, logs retention visible.
+- Desktop telemetry — Sentry, crash reporters, auto-update pings, product analytics.
+
+## Overlap with other specialists
+- **Primary owner of:** analytics SDKs, consent, cross-border, regulatory framing.
+- **Cross-cuts with:** `data-exposure-auditor` (data-exposure owns "what could leak"; you own "what deliberately leaves + regulatory").
+
+## Brief
+
+&gt; Review privacy and telemetry in `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`). Stack: `&lt;STACK CONTEXT&gt;`. Inventory outbound data, analytics SDKs, cookies, storage, third-party scripts, consent flow, retention.
+&gt;
+&gt; **Output:** `privacy-telemetry-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+&gt;
+&gt; **Hard rules:** read-only; cite evidence.
+
+## Allowed tools
+Standard read-only set. `Write` scoped to four outputs.
+
+## Coverage categories
+`outbound-destinations`, `analytics-sdks`, `cookies`, `client-storage-pii`, `third-party-scripts`, `cross-border-transfer`, `consent-flow-gating`, `retention-dsar`
+
+## Scanner integration
+- Manual: `npm ls` filter for analytics packages. Future: headless-chrome crawl for runtime cookie/storage enumeration.</code></pre>
       </div></div>
     </div>
 
@@ -10523,7 +11052,7 @@ codex app</code></pre>
 
   // ─── COPY BUTTONS ───
   function initCopyButtons() {
-    document.querySelectorAll('.code-block pre').forEach(pre => {
+    document.querySelectorAll('.code-block pre, pre[data-copy]').forEach(pre => {
       if (pre.querySelector('.copy-btn')) return;
       const btn = document.createElement('button');
       btn.className = 'copy-btn';

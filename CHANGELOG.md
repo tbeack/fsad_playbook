@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v38 — 2026-04-30
+
+**Security Review: full specialist definition files embedded in each collapsible (CBP-088)**
+
+- **Definition file blocks added to all 13 specialist collapsibles.** Each "Specialist Definitions" collapsible now ends with a "Definition file" sub-section showing the complete specialist markdown source (YAML frontmatter stripped, content HTML-escaped in a `<pre><code>` block). Readers can now see the exact agent brief, overlap boundaries, output file contract, allowed tool list, and scanner integration for every specialist without leaving the playbook or opening the skill source directory.
+
 ### v37 — 2026-04-30
 
 **Security Review section enhanced: interaction diagram, specialist definition cards, full skill distribution (CBP-087)**
