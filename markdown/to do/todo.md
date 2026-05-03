@@ -100,3 +100,6 @@
 - [x] `CBP-087` Modify the security team section to include: a) visual diagram of the agents and their interaction pattern, b) the definitions of each agent viewable in the playbook, c) package the security review team in a distribution version of the playbook. review the approach taken in the `fsad_training` app. → [task-cbp-087.md](completed/task-cbp-087.md)
 - [x] `CBP-088` Move the individual agent markdown files and move them to agent description under the section titled `Specialist Definitions`. Add the markdown section under the main agent description box. → [task-cbp-088.md](completed/task-cbp-088.md)
 - [x] `CBP-089` Remmove the agent markdown inserts that follows after the `Install Skill` section. Replace the Install Skill section directory structure with the git command to copy/install the skill directly from git (FSAD_Playbook repo). → [task-cbp-089.md](task-cbp-089.md)
+- [x] `CBP-090` Add `claude project purge` to Cheat Sheet CLI subcommands (v2.1.126) → [task-cbp-090.md](task-cbp-090.md)
+- [x] `CBP-091` Add `claude_code.skill_activated` and `claude_code.at_mention` to OTEL events table (v2.1.122 + v2.1.126) → [task-cbp-091.md](task-cbp-091.md)
+- [x] `CBP-092` Update `--dangerously-skip-permissions` Cheat Sheet description to reflect expanded path bypass (v2.1.126) → [task-cbp-092.md](task-cbp-092.md)

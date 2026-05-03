@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v40 — 2026-05-02
+
+**Claude Code v2.1.124–v2.1.126 auto-update (CBP-090–CBP-092)**
+
+Three targeted updates covering Claude Code releases v2.1.124 through v2.1.126.
+
+- **CBP-090 — `claude project purge` added to Cheat Sheet.** New CLI subcommand row in the Configuration/Utility commands table: `claude project purge [path]` deletes all Claude Code state for a project (transcripts, tasks, file history, config entry). Documents `--dry-run`, `-y`, `-i/--interactive`, and `--all` flags.
+- **CBP-091 — Two new OTEL events added to Monitoring table.** `claude_code.skill_activated` (fires when a skill is invoked; carries `invocation_trigger`: `user-slash`, `claude-proactive`, or `nested-skill`) and `claude_code.at_mention` (fires on @-mention resolution) added to the structured log events table.
+- **CBP-092 — `--dangerously-skip-permissions` description updated.** Cheat Sheet CLI flag row and Bypass Permissions mode card updated to reflect expanded path bypass (`.claude/`, `.git/`, `.vscode/`, shell config files) and the safety-net caveat that catastrophic removal commands still prompt.
+
 ### v39 — 2026-04-30
 
 **Install the Skill: replace embedded file blocks with git sparse-checkout command (CBP-089)**
