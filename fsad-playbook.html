@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v40)</title>
+<title>FSAD — Full Stack Agentic Development (v41)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v40</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v41</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -6133,7 +6133,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><kbd>Esc</kbd></td><td>Interrupt / stop generation</td></tr>
           <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Rewind / restore previous state</td></tr>
           <tr><td><kbd>Shift+Tab</kbd></td><td>Cycle permission mode: default &#8594; acceptEdits &#8594; plan &#8594; auto</td></tr>
-          <tr><td><kbd>Ctrl+L</kbd></td><td>Clear prompt input</td></tr>
+          <tr><td><kbd>Ctrl+L</kbd></td><td>Force screen redraw (does not clear input — readline behavior as of v2.1.126)</td></tr>
           <tr><td><kbd>Ctrl+C</kbd></td><td>Cancel current operation (hard stop)</td></tr>
           <tr><td><kbd>Ctrl+R</kbd></td><td>Search command history</td></tr>
           <tr><td><kbd>Ctrl+T</kbd></td><td>Toggle task list</td></tr>
@@ -8703,6 +8703,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v41 <span class="changelog-date">· 2026-05-03</span></h3>
+        <p><strong>Ctrl+L keyboard shortcut corrected (CBP-093).</strong> The Cheat Sheet keyboard shortcuts table entry for <kbd>Ctrl+L</kbd> has been corrected: v2.1.126 changed the behavior so it no longer clears the prompt input — it only forces a screen redraw, matching standard readline behavior. Description updated from "Clear prompt input" to "Force screen redraw (does not clear input)".</p>
+      </section>
       <section>
         <h3>v40 <span class="changelog-date">· 2026-05-02</span></h3>
         <p><strong>Claude Code v2.1.124–v2.1.126 auto-update (CBP-090–CBP-092).</strong> Three targeted updates: <code>claude project purge [path]</code> CLI subcommand added to Cheat Sheet; <code>claude_code.skill_activated</code> (with <code>invocation_trigger</code>) and <code>claude_code.at_mention</code> OTEL events added to Monitoring table; <code>--dangerously-skip-permissions</code> description updated to reflect expanded path bypass and safety-net caveat.</p>

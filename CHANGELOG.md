@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v41 — 2026-05-03
+
+**Ctrl+L keyboard shortcut corrected (CBP-093)**
+
+- **CBP-093 — `Ctrl+L` description corrected in Cheat Sheet.** The keyboard shortcuts table entry previously read "Clear prompt input". Claude Code v2.1.126 fixed this key to only force a screen redraw (matching readline behavior), no longer clearing the prompt. Updated to: "Force screen redraw (does not clear input — readline behavior as of v2.1.126)".
+
 ### v40 — 2026-05-02
 
 **Claude Code v2.1.124–v2.1.126 auto-update (CBP-090–CBP-092)**
