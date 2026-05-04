@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v41)</title>
+<title>FSAD — Full Stack Agentic Development (v42)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v41</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v42</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -6184,7 +6184,7 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin.</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, the picker lists models from that gateway's <code>/v1/models</code> endpoint.</td></tr>
           <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
@@ -6221,13 +6221,13 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
           <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal) | or select a named custom theme. Hand-edit JSON files in <code>~/.claude/themes/</code> to create themes; plugins can ship themes via a <code>themes/</code> directory.</td></tr>
           <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
-          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals</td></tr>
+          <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals; enables iTerm2 clipboard access for <code>/copy</code> (including from tmux)</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
           <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
           <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
           <tr><td><code>/mcp</code></td><td>Manage MCP server connections</td></tr>
           <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
-          <tr><td><code>/skills</code></td><td>List available skills</td></tr>
+          <tr><td><code>/skills</code></td><td>List available skills; type to filter by name in long lists</td></tr>
           <tr><td><code>/plugin</code></td><td>Manage Claude Code plugins</td></tr>
           <tr><td><code>/reload-plugins</code></td><td>Reload plugins without restart</td></tr>
         </tbody>
@@ -6876,6 +6876,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
               <tr><td><code>CLAUDE_CODE_HIDE_CWD=1</code></td><td>Hides the working directory path from the startup logo — useful in CI/CD and shared environments where paths should not be exposed</td></tr>
               <tr><td><code>DISABLE_UPDATES=1</code></td><td>Completely blocks all update paths including manual <code>claude update</code>. Stricter than <code>DISABLE_AUTOUPDATER</code> (which only prevents auto-updates). Use in managed/enterprise environments to pin a specific version.</td></tr>
+              <tr><td><code>ANTHROPIC_BEDROCK_SERVICE_TIER</code></td><td>Select Bedrock service tier: <code>default</code> | <code>flex</code> | <code>priority</code>. Sent as the <code>X-Amzn-Bedrock-Service-Tier</code> header. Use <code>priority</code> for provisioned-capacity deployments.</td></tr>
             </tbody>
           </table>
         </div>
@@ -8703,6 +8704,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v42 <span class="changelog-date">· 2026-05-04</span></h3>
+        <p><strong>Claude Code v2.1.121–v2.1.126 follow-up updates (CBP-094–CBP-097).</strong> Four targeted Cheat Sheet and Power Usage updates: <code>/terminal-setup</code> now mentions iTerm2 clipboard access for <code>/copy</code> (including from tmux); <code>/skills</code> row updated to note type-to-filter search in long lists; <code>ANTHROPIC_BEDROCK_SERVICE_TIER</code> env var (default/flex/priority) added to Subprocess Sandboxing env vars table; <code>/model</code> row updated to document gateway <code>/v1/models</code> endpoint discovery when <code>ANTHROPIC_BASE_URL</code> is set.</p>
+      </section>
       <section>
         <h3>v41 <span class="changelog-date">· 2026-05-03</span></h3>
         <p><strong>Ctrl+L keyboard shortcut corrected (CBP-093).</strong> The Cheat Sheet keyboard shortcuts table entry for <kbd>Ctrl+L</kbd> has been corrected: v2.1.126 changed the behavior so it no longer clears the prompt input — it only forces a screen redraw, matching standard readline behavior. Description updated from "Clear prompt input" to "Force screen redraw (does not clear input)".</p>

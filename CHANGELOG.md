@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v42 — 2026-05-04
+
+**Claude Code v2.1.121–v2.1.126 follow-up updates (CBP-094–CBP-097)**
+
+Four targeted Cheat Sheet and Power Usage updates covering items from v2.1.121, v2.1.122, and v2.1.126 that were not captured in the initial auto-update pass.
+
+- **CBP-094 — `/terminal-setup` Cheat Sheet row updated.** Added mention of iTerm2 clipboard access: `/terminal-setup` now enables the "Applications in terminal may access clipboard" setting in iTerm2, ensuring `/copy` works including from tmux sessions.
+- **CBP-095 — `/skills` Cheat Sheet row updated.** Added note that `/skills` supports type-to-filter search to find skills in long lists without scrolling (v2.1.121).
+- **CBP-096 — `ANTHROPIC_BEDROCK_SERVICE_TIER` env var added to Subprocess Sandboxing table.** New row documents the `default` | `flex` | `priority` tier options, sent as the `X-Amzn-Bedrock-Service-Tier` header. Relevant to enterprise teams using AWS Bedrock with provisioned-capacity deployments (v2.1.122).
+- **CBP-097 — `/model` Cheat Sheet row updated for gateway model discovery.** When `ANTHROPIC_BASE_URL` points at an Anthropic-compatible gateway, the `/model` picker now lists models from that gateway's `/v1/models` endpoint. Added note to the existing `/model` row (v2.1.126).
+
 ### v41 — 2026-05-03
 
 **Ctrl+L keyboard shortcut corrected (CBP-093)**

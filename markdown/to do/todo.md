@@ -104,3 +104,7 @@
 - [x] `CBP-091` Add `claude_code.skill_activated` and `claude_code.at_mention` to OTEL events table (v2.1.122 + v2.1.126) → [task-cbp-091.md](task-cbp-091.md)
 - [x] `CBP-092` Update `--dangerously-skip-permissions` Cheat Sheet description to reflect expanded path bypass (v2.1.126) → [task-cbp-092.md](task-cbp-092.md)
 - [x] `CBP-093` Correct `Ctrl+L` keyboard shortcut description — v2.1.126 changed behavior from "clear prompt input" to "force screen redraw only" → [task-cbp-093.md](task-cbp-093.md)
+- [x] `CBP-094` Update `/terminal-setup` Cheat Sheet row to mention iTerm2 clipboard access via `/copy` (v2.1.121) → [task-cbp-094.md](task-cbp-094.md)
+- [x] `CBP-095` Update `/skills` Cheat Sheet row to mention type-to-filter search box (v2.1.121) → [task-cbp-095.md](task-cbp-095.md)
+- [x] `CBP-096` Add `ANTHROPIC_BEDROCK_SERVICE_TIER` env var (default/flex/priority) to Subprocess Sandboxing env vars table (v2.1.122) → [task-cbp-096.md](task-cbp-096.md)
+- [x] `CBP-097` Update `/model` Cheat Sheet row to mention gateway `/v1/models` endpoint discovery when `ANTHROPIC_BASE_URL` is set (v2.1.126) → [task-cbp-097.md](task-cbp-097.md)
