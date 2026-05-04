@@ -1,5 +1,27 @@
 ## Changes in This Version
 
+### v43 — 2026-05-04
+
+**Codex Best Practices parity update (CBP-098)**
+
+Major refresh of the Codex Best Practices page to reflect Codex CLI v0.124–v0.128 and bring it to structural parity with the Claude Best Practices page.
+
+- **Model default updated.** All references updated from `gpt-5.4` to `gpt-5.5` (the recommended default as of April 2026). Codex-mini-latest replaces o4-mini as the secondary model reference.
+- **Comparison table expanded.** Added rows for Hooks (Claude: 26 events; Codex: 6 events), Plugin marketplace, and Permission model, with updated model and approval-mode descriptions.
+- **Cheat Sheet: Keyboard Shortcuts.** Added `Alt+,` (lower reasoning) and `Alt+.` (raise reasoning) shortcuts.
+- **Cheat Sheet: Slash Commands.** Added `/goal`, `/plugins`, `/new`, `/side`, `/fast`, `/init`, `/keymap`, `/statusline`, `/copy`, `/apps`, `/debug-config`.
+- **Cheat Sheet: CLI Flags.** Updated `--full-auto` to note deprecation in favor of named permission profiles. Updated `--json` to mention reasoning-token reporting. Added `codex update` row.
+- **Cheat Sheet: Config Reference.** Added `model_reasoning_effort`, `model_verbosity`, `default_permissions`, `service_tier`, `web_search`, `[features].codex_hooks`, `[otel]` keys.
+- **Cheat Sheet: Env Vars.** Added `SSL_CERT_FILE` and `AWS_PROFILE`/`AWS_REGION` for Bedrock.
+- **Power Usage: new collapsibles.** Added Permission Profiles, Amazon Bedrock, /goal Workflows, Plugins, and Monitoring & Observability collapsibles.
+- **Power Usage: CI/CD.** Updated `--full-auto` example to `--approval-mode never`. Added `--ephemeral` example. Updated `--json` note.
+- **Power Usage: Session Management.** Added `codex update` command.
+- **New section: Hooks (07).** Full Codex hooks section between Guidelines and Cheat Sheet: event types table (SessionStart, UserPromptSubmit, PreToolUse, PermissionRequest, PostToolUse, Stop), TOML config syntax, exit code reference, and three recipes (block dangerous commands, detect API keys in prompts, audit-log every tool call).
+- **Left nav.** Added Hooks nav entry for the Codex page.
+- **Section numbering.** Cheat Sheet renumbered to 08; Power Usage to 09.
+- **Project Anatomy.** Added `requirements.toml` note to the AGENTS.md cascade callout.
+- **Guidelines.** Added security review cross-reference callout pointing to the sec-review-team skill.
+
 ### v42 — 2026-05-04
 
 **Claude Code v2.1.121–v2.1.126 follow-up updates (CBP-094–CBP-097)**

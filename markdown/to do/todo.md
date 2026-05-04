@@ -108,3 +108,4 @@
 - [x] `CBP-095` Update `/skills` Cheat Sheet row to mention type-to-filter search box (v2.1.121) → [task-cbp-095.md](task-cbp-095.md)
 - [x] `CBP-096` Add `ANTHROPIC_BEDROCK_SERVICE_TIER` env var (default/flex/priority) to Subprocess Sandboxing env vars table (v2.1.122) → [task-cbp-096.md](task-cbp-096.md)
 - [x] `CBP-097` Update `/model` Cheat Sheet row to mention gateway `/v1/models` endpoint discovery when `ANTHROPIC_BASE_URL` is set (v2.1.126) → [task-cbp-097.md](task-cbp-097.md)
+- [x] `CBP-098` — research the latest developments from OpenAI's Codex. Develop a plan to replicate the Claude best practices with the equivalent Codex information, guidance, settings, configs, skills, etc. → [task-cbp-098.md](task-cbp-098.md)

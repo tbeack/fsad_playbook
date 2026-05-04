@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v42)</title>
+<title>FSAD — Full Stack Agentic Development (v43)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v42</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v43</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -2071,6 +2071,7 @@
         <a class="nav-sub-item" href="#codex/codex-code-review" onclick="scrollToSection('codex-code-review')">Code Review</a>
         <a class="nav-sub-item" href="#codex/codex-building-skills" onclick="scrollToSection('codex-building-skills')">Building Skills</a>
         <a class="nav-sub-item" href="#codex/codex-guidelines" onclick="scrollToSection('codex-guidelines')">Guidelines</a>
+        <a class="nav-sub-item" href="#codex/codex-hooks" onclick="scrollToSection('codex-hooks')">Hooks</a>
         <a class="nav-sub-item" href="#codex/codex-cheat-sheet" onclick="scrollToSection('codex-cheat-sheet')">Cheat Sheet</a>
         <a class="nav-sub-item" href="#codex/codex-power-usage" onclick="scrollToSection('codex-power-usage')">Power Usage</a>
       </div>
@@ -7658,7 +7659,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
     <p class="section-subtitle">From installation to agentic workflows with OpenAI's Codex.</p>
 
     <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem;">
-      <a href="https://github.com/openai/codex" target="_blank" style="color:var(--accent-blue);">Codex CLI</a> is OpenAI's open-source coding agent — a Rust-based terminal UI (TUI) that reads files, writes code, and runs shell commands in a sandbox. It defaults to <code>gpt-5.4</code> and supports multiple model providers including OpenAI, Azure, Ollama, and more. If your team uses OpenAI models or wants multi-provider flexibility, Codex is the FSAD-compatible agent to learn.
+      <a href="https://github.com/openai/codex" target="_blank" style="color:var(--accent-blue);">Codex CLI</a> is OpenAI's open-source coding agent — a terminal UI (TUI) that reads files, writes code, and runs shell commands in a sandbox. It defaults to <code>gpt-5.5</code> and supports multiple model providers including OpenAI, Azure, Ollama, Bedrock, and more. If your team uses OpenAI models or wants multi-provider flexibility, Codex is the FSAD-compatible agent to learn.
     </p>
 
     <div class="callout callout-tip" style="margin-bottom:2rem;">
@@ -7677,13 +7678,16 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
           <tr><td>Project instructions</td><td><code>CLAUDE.md</code></td><td><code>AGENTS.md</code></td></tr>
           <tr><td>Config directory</td><td><code>~/.claude/</code></td><td><code>~/.codex/</code></td></tr>
           <tr><td>Config format</td><td><code>settings.json</code> (JSON)</td><td><code>config.toml</code> (TOML)</td></tr>
-          <tr><td>Default model</td><td>Claude Sonnet / Opus</td><td>gpt-5.4 / o4-mini</td></tr>
+          <tr><td>Default model</td><td>Claude Sonnet / Opus</td><td>gpt-5.5 / codex-mini</td></tr>
           <tr><td>Approval modes</td><td>Default, Plan, Bypass</td><td>Auto, Read-only, Full Access</td></tr>
           <tr><td>Sandbox</td><td>Per-tool permissions</td><td>read-only / workspace-write / full-access</td></tr>
           <tr><td>MCP support</td><td>Client</td><td>Client + Server</td></tr>
           <tr><td>IDE extensions</td><td>VS Code</td><td>VS Code, Cursor, Windsurf</td></tr>
           <tr><td>Skills directory</td><td><code>.claude/skills/</code></td><td><code>.agents/skills/</code></td></tr>
           <tr><td>Multi-agent</td><td>Subagents (Task tool)</td><td>Agent threads (<code>max_threads</code> config)</td></tr>
+          <tr><td>Hooks</td><td>26 event types (SessionStart, PreToolUse, Stop…)</td><td>6 event types (SessionStart, PreToolUse, PermissionRequest, PostToolUse, UserPromptSubmit, Stop)</td></tr>
+          <tr><td>Plugin marketplace</td><td><code>claude plugin install</code></td><td><code>codex plugin install</code> / <code>/plugins</code> TUI</td></tr>
+          <tr><td>Permission model</td><td>Per-tool allow/deny + 5 approval modes</td><td>Named permission profiles with filesystem + network policies</td></tr>
         </tbody>
       </table>
     </div>
@@ -7838,7 +7842,7 @@ orders, and payments.
         </div>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">Tip</div>
-          <p>Codex merges AGENTS.md from 4 levels: <code>~/.codex/AGENTS.override.md</code> (highest) → <code>~/.codex/AGENTS.md</code> → repo root → current directory. Max 32 KiB by default.</p>
+          <p>Codex merges AGENTS.md from 4 levels: <code>~/.codex/AGENTS.override.md</code> (highest) → <code>~/.codex/AGENTS.md</code> → repo root → current directory. Max 32 KiB by default. For hooks and tool policies, the equivalent cascade runs through <code>config.toml</code> — add a <code>requirements.toml</code> at system/org level to enforce constraints users cannot override.</p>
         </div>
       </div></div>
     </div>
@@ -8357,13 +8361,177 @@ Guided deployment to staging and production environments.
         <p>Long conversations degrade agent performance. Use <code>/compact</code> regularly to summarize and free context tokens.</p>
       </div>
     </div>
+
+    <!-- Security Review cross-reference -->
+    <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">Security Review</div>
+      <p>The <a href="#practices/security-review" onclick="switchPage('practices'); setTimeout(()=>scrollToSection('security-review'),150);" style="color:var(--accent);">sec-review-team skill</a> is model-agnostic — it spawns Claude Code agents internally to run a multi-specialist security review, but its output (REPORT.md + FINDINGS.jsonl) is a workflow any team can adopt regardless of which CLI they use day-to-day. Codex teams can run the review via Claude Code and apply the fixes directly in their Codex workflow.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX HOOKS ─── -->
+<section id="codex-hooks">
+    <span class="section-label">07 — Hooks</span>
+    <h2 class="section-title">Hooks — Automation &amp; Guardrails</h2>
+    <p class="section-subtitle">Event-driven shell commands that fire deterministically at specific points in the agent loop. Models forget. Hooks don't.</p>
+
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem; font-size:0.92rem; color:var(--text-secondary);">Hooks inject scripts into Codex's agentic loop at named lifecycle events. Unlike instructions in AGENTS.md that the model may or may not follow, hooks <strong>always</strong> execute when their event triggers — making them ideal for audit logging, policy enforcement, and automated validation.</p>
+
+    <!-- Hook Types -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Hook Event Types</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Event</th><th>When it fires</th><th>Can block?</th><th>Claude Code equivalent</th></tr></thead>
+        <tbody>
+          <tr><td><code>SessionStart</code></td><td>Session begins or resumes</td><td>No — adds context only</td><td><code>SessionStart</code></td></tr>
+          <tr><td><code>UserPromptSubmit</code></td><td>User submits a prompt</td><td>Yes (exit 2)</td><td><code>UserPromptSubmit</code></td></tr>
+          <tr><td><code>PreToolUse</code></td><td>Before Bash, <code>apply_patch</code>, or MCP tool runs</td><td>Yes (exit 2 or deny JSON)</td><td><code>PreToolUse</code></td></tr>
+          <tr><td><code>PermissionRequest</code></td><td>When Codex seeks approval (shell escalation, network)</td><td>Yes — allow / deny</td><td><code>PermissionRequest</code></td></tr>
+          <tr><td><code>PostToolUse</code></td><td>After tool completes (including failed runs)</td><td>Yes (exit 2 — replaces output)</td><td><code>PostToolUse</code></td></tr>
+          <tr><td><code>Stop</code></td><td>When a turn completes</td><td>Yes — can request continuation</td><td><code>Stop</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Configuration -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Configuration</h3>
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.9rem; color:var(--text-secondary);">Enable hooks with <code>[features] codex_hooks = true</code> (default). Define hooks inline in <code>config.toml</code> or in a separate <code>hooks.json</code>. Project-scoped hooks go in <code>.codex/config.toml</code> and only load in trusted projects.</p>
+
+    <div class="collapsible open" style="margin-top:0.5rem;">
+      <div class="collapsible-header">
+        <h3>config.toml hook syntax</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code><span class="cm"># ~/.codex/config.toml  (global) or .codex/config.toml (project)</span>
+<span class="kw">[features]</span>
+<span class="val">codex_hooks</span> = true
+
+<span class="cm"># Fire before every Bash call</span>
+<span class="kw">[[hooks.PreToolUse]]</span>
+<span class="val">matcher</span> = <span class="str">"^Bash$"</span>
+
+<span class="kw">[[hooks.PreToolUse.hooks]]</span>
+<span class="val">type</span>          = <span class="str">"command"</span>
+<span class="val">command</span>       = <span class="str">"/usr/bin/python3 ~/.codex/hooks/check-command.py"</span>
+<span class="val">timeout</span>       = 10
+<span class="val">statusMessage</span> = <span class="str">"Checking command safety"</span>
+
+<span class="cm"># Fire after any apply_patch / Edit / Write</span>
+<span class="kw">[[hooks.PostToolUse]]</span>
+<span class="val">matcher</span> = <span class="str">"apply_patch"</span>
+
+<span class="kw">[[hooks.PostToolUse.hooks]]</span>
+<span class="val">type</span>    = <span class="str">"command"</span>
+<span class="val">command</span> = <span class="str">"/usr/bin/python3 ~/.codex/hooks/audit-log.py"</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Exit Codes -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Exit Code Semantics</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Exit code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code> + valid JSON</td><td>Process output per event schema (allow, deny, inject context, request continuation)</td></tr>
+          <tr><td><code>0</code> + plain text</td><td>Append as developer context (SessionStart, UserPromptSubmit)</td></tr>
+          <tr><td><code>0</code> + no output</td><td>Pass-through — hook ran successfully, no action taken</td></tr>
+          <tr><td><code>2</code></td><td>Block / deny; read reason from stderr; exact behavior depends on event type</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Recipes -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Recipes</h3>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Block dangerous shell commands (PreToolUse)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, re
+
+hook_input = json.load(sys.stdin)
+command = hook_input[<span class="str">"tool_input"</span>].get(<span class="str">"command"</span>, <span class="str">""</span>)
+
+<span class="kw">if</span> re.search(<span class="str">r"rm\s+-rf|sudo\s+rm|DROP\s+TABLE"</span>, command):
+    print(json.dumps({
+        <span class="str">"hookSpecificOutput"</span>: {
+            <span class="str">"hookEventName"</span>: <span class="str">"PreToolUse"</span>,
+            <span class="str">"permissionDecision"</span>: <span class="str">"deny"</span>,
+            <span class="str">"permissionDecisionReason"</span>: <span class="str">"High-risk command blocked by policy"</span>
+        }
+    }))
+sys.exit(0)</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Detect API keys in prompts (UserPromptSubmit)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, re
+
+hook_input = json.load(sys.stdin)
+prompt = hook_input.get(<span class="str">"prompt"</span>, <span class="str">""</span>)
+
+<span class="kw">if</span> re.search(<span class="str">r"sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}"</span>, prompt):
+    sys.stderr.write(<span class="str">"Possible API key or AWS credential detected in prompt\n"</span>)
+    sys.exit(2)  <span class="cm"># blocks the prompt submission</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Audit-log every tool call (PostToolUse)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, datetime, pathlib
+
+hook_input = json.load(sys.stdin)
+log_entry = {
+    <span class="str">"ts"</span>:      datetime.datetime.utcnow().isoformat(),
+    <span class="str">"session"</span>: hook_input[<span class="str">"session_id"</span>],
+    <span class="str">"tool"</span>:    hook_input[<span class="str">"tool_name"</span>],
+    <span class="str">"input"</span>:   hook_input[<span class="str">"tool_input"</span>],
+}
+
+log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class="str">"audit.jsonl"</span>
+<span class="kw">with</span> log_path.open(<span class="str">"a"</span>) <span class="kw">as</span> f:
+    f.write(json.dumps(log_entry) + <span class="str">"\n"</span>)
+
+<span class="cm"># Exit 0 with no output = pass-through</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
+      <div class="callout-title">Claude Code Comparison</div>
+      <p>Codex has 6 hook event types; Claude Code has more (26 total events including SubagentStart, TaskCreated, FileChanged, PreCompact, etc.). Both use the same input-via-stdin / exit-code pattern. If you're migrating hook scripts, the core logic is portable — only the event names and JSON shape differ slightly.</p>
+    </div>
   </section>
 
 <hr class="divider">
 
 <!-- ─── CODEX CHEAT SHEET ─── -->
 <section id="codex-cheat-sheet">
-    <span class="section-label">07 — Codex Cheat Sheet</span>
+    <span class="section-label">08 — Codex Cheat Sheet</span>
     <h2 class="section-title">Everything You Need in One Place</h2>
     <p class="section-subtitle">Keyboard shortcuts, commands, flags, configuration, and environment variables.</p>
 
@@ -8380,6 +8548,8 @@ Guided deployment to staging and production environments.
           <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Edit previous user message (keep pressing to walk back)</td></tr>
           <tr><td><kbd>Tab</kbd></td><td>File fuzzy search (prefix with <code>@</code>)</td></tr>
           <tr><td><kbd>&#8593;</kbd> / <kbd>&#8595;</kbd></td><td>Navigate draft history in composer</td></tr>
+          <tr><td><kbd>Alt+,</kbd></td><td>Lower reasoning level for current model</td></tr>
+          <tr><td><kbd>Alt+.</kbd></td><td>Raise reasoning level for current model</td></tr>
         </tbody>
       </table>
     </div>
@@ -8392,15 +8562,26 @@ Guided deployment to staging and production environments.
         <tbody>
           <tr><td><code>/plan</code></td><td>Enter plan mode — propose before implementing</td></tr>
           <tr><td><code>/review</code></td><td>Analyze diffs without modifying code</td></tr>
+          <tr><td><code>/goal</code></td><td>Create a persisted goal; pause, resume, or clear with TUI controls</td></tr>
           <tr><td><code>/fork</code></td><td>Clone conversation to a new thread</td></tr>
+          <tr><td><code>/side</code></td><td>Open an ephemeral branch for a focused follow-up; doesn't pollute main context</td></tr>
+          <tr><td><code>/new</code></td><td>Start a fresh conversation within the same CLI session</td></tr>
           <tr><td><code>/compact</code></td><td>Summarize conversation to free context tokens</td></tr>
-          <tr><td><code>/diff</code></td><td>Show current changes</td></tr>
-          <tr><td><code>/model</code></td><td>Switch model mid-session</td></tr>
+          <tr><td><code>/diff</code></td><td>Show current changes (staged and unstaged)</td></tr>
+          <tr><td><code>/model</code></td><td>Switch model and/or reasoning level mid-session</td></tr>
+          <tr><td><code>/fast</code></td><td>Toggle fast mode (<code>on</code> / <code>off</code> / <code>status</code>)</td></tr>
           <tr><td><code>/agent</code></td><td>Switch between active agent threads</td></tr>
+          <tr><td><code>/plugins</code></td><td>Browse, install, and manage marketplace plugins</td></tr>
+          <tr><td><code>/apps</code></td><td>Browse and insert available connectors</td></tr>
           <tr><td><code>/mcp</code></td><td>List configured MCP tools</td></tr>
           <tr><td><code>/permissions</code></td><td>Change approval mode mid-session</td></tr>
-          <tr><td><code>/personality</code></td><td>Set agent personality (friendly/pragmatic/neutral)</td></tr>
-          <tr><td><code>/status</code></td><td>Show current session status</td></tr>
+          <tr><td><code>/init</code></td><td>Generate an AGENTS.md scaffold for the current project</td></tr>
+          <tr><td><code>/keymap</code></td><td>Remap TUI keyboard shortcuts interactively</td></tr>
+          <tr><td><code>/statusline</code></td><td>Configure footer status items</td></tr>
+          <tr><td><code>/personality</code></td><td>Set agent personality (friendly / pragmatic / none)</td></tr>
+          <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>)</td></tr>
+          <tr><td><code>/status</code></td><td>Show session config and token usage metrics</td></tr>
+          <tr><td><code>/debug-config</code></td><td>Print configuration layers and policy diagnostics</td></tr>
           <tr><td><code>/exit</code></td><td>Close session</td></tr>
         </tbody>
       </table>
@@ -8412,18 +8593,19 @@ Guided deployment to staging and production environments.
       <table class="styled-table">
         <thead><tr><th>Flag</th><th>Purpose</th></tr></thead>
         <tbody>
-          <tr><td><code>--model / -m</code></td><td>Select model (e.g., <code>gpt-5.4</code>, <code>o4-mini</code>)</td></tr>
+          <tr><td><code>--model / -m</code></td><td>Select model (e.g., <code>gpt-5.5</code>, <code>codex-mini-latest</code>)</td></tr>
           <tr><td><code>--sandbox / -s</code></td><td>Set sandbox policy (<code>read-only</code>, <code>workspace-write</code>, <code>danger-full-access</code>)</td></tr>
           <tr><td><code>--approval-mode / -a</code></td><td>Set approval level (<code>auto</code>, <code>read-only</code>, <code>full-access</code>)</td></tr>
           <tr><td><code>--quiet / -q</code></td><td>Minimal output for scripting</td></tr>
-          <tr><td><code>--json</code></td><td>JSON Lines output for machine consumption</td></tr>
+          <tr><td><code>--json</code></td><td>JSON Lines output for machine consumption; includes reasoning-token usage</td></tr>
           <tr><td><code>-i</code></td><td>Attach image / screenshot (multimodal)</td></tr>
-          <tr><td><code>--full-auto</code></td><td>Autonomous execution (use with <code>exec</code>)</td></tr>
-          <tr><td><code>--profile</code></td><td>Use named config profile</td></tr>
+          <tr><td><code>--full-auto</code></td><td><em>Deprecated</em> — use <code>--approval-mode</code> with a named permission profile instead</td></tr>
+          <tr><td><code>--profile</code></td><td>Apply a named config profile (<code>~/.codex/config.toml</code> <code>[profiles.&lt;name&gt;]</code>)</td></tr>
           <tr><td><code>--notify</code></td><td>Desktop notifications when tasks complete</td></tr>
           <tr><td><code>--no-project-doc</code></td><td>Skip AGENTS.md loading</td></tr>
-          <tr><td><code>--output-schema</code></td><td>Enforce JSON Schema on response</td></tr>
+          <tr><td><code>--output-schema</code></td><td>Enforce JSON Schema on response (use with <code>exec</code>)</td></tr>
           <tr><td><code>--ephemeral</code></td><td>No session persistence (use with <code>exec</code>)</td></tr>
+          <tr><td><code>codex update</code></td><td>Update Codex CLI to the latest version</td></tr>
         </tbody>
       </table>
     </div>
@@ -8434,13 +8616,20 @@ Guided deployment to staging and production environments.
       <table class="styled-table">
         <thead><tr><th>Key (<code>config.toml</code>)</th><th>Purpose</th><th>Default</th></tr></thead>
         <tbody>
-          <tr><td><code>model</code></td><td>Default model</td><td><code>gpt-5.4</code></td></tr>
-          <tr><td><code>approval_policy</code></td><td>Approval mode</td><td><code>on-request</code></td></tr>
-          <tr><td><code>sandbox_mode</code></td><td>Sandbox policy</td><td><code>read-only</code></td></tr>
-          <tr><td><code>project_doc_max_bytes</code></td><td>Max AGENTS.md size</td><td><code>32768</code></td></tr>
+          <tr><td><code>model</code></td><td>Default model</td><td><code>gpt-5.5</code></td></tr>
+          <tr><td><code>model_reasoning_effort</code></td><td>Reasoning depth: <code>minimal</code> / <code>low</code> / <code>medium</code> / <code>high</code> / <code>xhigh</code></td><td><code>medium</code></td></tr>
+          <tr><td><code>model_verbosity</code></td><td>Response verbosity: <code>low</code> / <code>medium</code> / <code>high</code></td><td><code>medium</code></td></tr>
+          <tr><td><code>approval_policy</code></td><td>Approval mode: <code>untrusted</code> / <code>on-request</code> / <code>never</code> / <code>granular</code></td><td><code>on-request</code></td></tr>
+          <tr><td><code>sandbox_mode</code></td><td>Sandbox policy: <code>read-only</code> / <code>workspace-write</code> / <code>danger-full-access</code></td><td><code>read-only</code></td></tr>
+          <tr><td><code>default_permissions</code></td><td>Named permission profile to apply by default (e.g. <code>":workspace"</code>)</td><td>—</td></tr>
+          <tr><td><code>service_tier</code></td><td>OpenAI service tier: <code>flex</code> (cheaper) / <code>fast</code> (lower latency)</td><td><code>fast</code></td></tr>
+          <tr><td><code>web_search</code></td><td>Web search mode: <code>disabled</code> / <code>cached</code> / <code>live</code></td><td><code>cached</code></td></tr>
+          <tr><td><code>project_doc_max_bytes</code></td><td>Max AGENTS.md size in bytes</td><td><code>32768</code></td></tr>
           <tr><td><code>[agents].max_threads</code></td><td>Max concurrent agent threads</td><td><code>6</code></td></tr>
           <tr><td><code>[agents].max_depth</code></td><td>Max agent nesting depth</td><td><code>1</code></td></tr>
           <tr><td><code>[agents].job_max_runtime_seconds</code></td><td>Per-worker timeout</td><td><code>3600</code></td></tr>
+          <tr><td><code>[features].codex_hooks</code></td><td>Enable the hooks system</td><td><code>true</code></td></tr>
+          <tr><td><code>[otel]</code></td><td>OpenTelemetry export config (exporter, endpoint, metrics)</td><td>—</td></tr>
         </tbody>
       </table>
     </div>
@@ -8453,7 +8642,9 @@ Guided deployment to staging and production environments.
         <tbody>
           <tr><td><code>OPENAI_API_KEY</code></td><td>API key for OpenAI models</td></tr>
           <tr><td><code>CODEX_DISABLE_PROJECT_DOC</code></td><td>Set to <code>1</code> to skip AGENTS.md loading</td></tr>
-          <tr><td><code>CODEX_CA_CERTIFICATE</code></td><td>Custom CA cert for enterprise proxy/TLS interception</td></tr>
+          <tr><td><code>CODEX_CA_CERTIFICATE</code></td><td>Path to custom CA cert for enterprise proxy / TLS interception</td></tr>
+          <tr><td><code>SSL_CERT_FILE</code></td><td>Alternative CA cert path (covers HTTPS and WebSocket connections)</td></tr>
+          <tr><td><code>AWS_PROFILE</code> / <code>AWS_REGION</code></td><td>AWS credentials for Amazon Bedrock provider</td></tr>
         </tbody>
       </table>
     </div>
@@ -8463,9 +8654,9 @@ Guided deployment to staging and production environments.
 
 <!-- ─── CODEX POWER USAGE ─── -->
 <section id="codex-power-usage">
-    <span class="section-label">08 — Power Usage</span>
+    <span class="section-label">09 — Power Usage</span>
     <h2 class="section-title">Advanced Features for Power Users</h2>
-    <p class="section-subtitle">Multi-agent workflows, session management, CI/CD integration, multi-provider models, and Codex Cloud.</p>
+    <p class="section-subtitle">Multi-agent workflows, hooks, plugins, permission profiles, Bedrock, session management, CI/CD, multi-provider models, and Codex Cloud.</p>
 
     <!-- Multi-Agent -->
     <div class="collapsible open">
@@ -8528,7 +8719,10 @@ codex resume
 codex resume --last
 
 <span class="cm"># Run a throwaway session (no persistence)</span>
-codex exec --ephemeral "quick fix: update version in package.json"</code></pre>
+codex exec --ephemeral "quick fix: update version in package.json"
+
+<span class="cm"># Update Codex CLI to the latest version</span>
+codex update</code></pre>
         </div>
       </div></div>
     </div>
@@ -8545,17 +8739,20 @@ codex exec --ephemeral "quick fix: update version in package.json"</code></pre>
           <pre><code><span class="cm"># Headless execution — no TUI, streams to stderr</span>
 codex exec "fix all lint errors and run tests"
 
-<span class="cm"># JSON Lines output for parsing</span>
+<span class="cm"># JSON Lines output — includes reasoning-token usage</span>
 codex exec --json "analyze this codebase for security issues"
 
 <span class="cm"># Structured response with schema enforcement</span>
 codex exec --output-schema schema.json "list all API endpoints"
 
-<span class="cm"># Fully autonomous execution</span>
-codex exec --full-auto "update dependencies and fix breaking changes"
+<span class="cm"># Autonomous execution via permission profile (replaces deprecated --full-auto)</span>
+codex exec --approval-mode never "update dependencies and fix breaking changes"
 
 <span class="cm"># Quiet mode for scripting</span>
-codex exec -q "generate changelog from recent commits" > CHANGELOG.md</code></pre>
+codex exec -q "generate changelog from recent commits" > CHANGELOG.md
+
+<span class="cm"># Throwaway session (no session history saved)</span>
+codex exec --ephemeral "check for unused imports"</code></pre>
         </div>
       </div></div>
     </div>
@@ -8572,7 +8769,7 @@ codex exec -q "generate changelog from recent commits" > CHANGELOG.md</code></pr
           <table class="styled-table">
             <thead><tr><th>Provider</th><th>Example Models</th><th>Configuration</th></tr></thead>
             <tbody>
-              <tr><td>OpenAI</td><td><code>gpt-5.4</code>, <code>o4-mini</code></td><td>Default — uses <code>OPENAI_API_KEY</code></td></tr>
+              <tr><td>OpenAI</td><td><code>gpt-5.5</code>, <code>codex-mini-latest</code></td><td>Default — uses <code>OPENAI_API_KEY</code></td></tr>
               <tr><td>Azure OpenAI</td><td>Deployed models</td><td>Azure endpoint + API key</td></tr>
               <tr><td>Ollama</td><td>Local models</td><td>Local endpoint (<code>http://localhost:11434</code>)</td></tr>
               <tr><td>Gemini</td><td><code>gemini-2.5-pro</code></td><td>Google AI API key</td></tr>
@@ -8585,6 +8782,150 @@ codex exec -q "generate changelog from recent commits" > CHANGELOG.md</code></pr
         <div class="callout callout-tip" style="margin-top:1rem;">
           <div class="callout-title">Profiles</div>
           <p>Use <code>--profile</code> to switch between configurations. Example: <code>codex --profile local</code> for Ollama, <code>codex --profile cloud</code> for OpenAI.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Permission Profiles -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Permission Profiles</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Permission profiles replace the old binary sandbox flags with named, reusable policies for filesystem and network access. Define them in <code>~/.codex/config.toml</code> and apply with <code>--approval-mode</code> or <code>default_permissions</code>.</p>
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th>Built-in Profile</th><th>Filesystem</th><th>Network</th></tr></thead>
+            <tbody>
+              <tr><td><code>:read-only</code></td><td>Read everywhere</td><td>None</td></tr>
+              <tr><td><code>:workspace</code></td><td>Write to project root; deny <code>*.env</code> / <code>*.secrets</code></td><td>Restricted</td></tr>
+              <tr><td><code>:danger-no-sandbox</code></td><td>Unrestricted</td><td>Full</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem; font-size:0.9rem; color:var(--text-secondary);">Define a custom profile:</p>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[permissions.myproject.filesystem.":project_roots"]</span>
+<span class="val">"."</span> = <span class="str">"write"</span>
+<span class="val">"**/*.env"</span> = <span class="str">"none"</span>       <span class="cm"># deny reads of .env files</span>
+<span class="val">glob_scan_max_depth</span> = 3
+
+<span class="kw">[permissions.myproject.network]</span>
+<span class="val">enabled</span> = true
+<span class="val">mode</span> = <span class="str">"limited"</span>
+
+<span class="cm"># Apply as default</span>
+<span class="val">default_permissions</span> = <span class="str">":myproject"</span></code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Enterprise: requirements.toml</div>
+          <p>Admins can enforce which profiles are allowed and deny filesystem paths via <code>requirements.toml</code> — an admin-managed policy file that users cannot override. Install it at a system path or distribute via MDM.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Amazon Bedrock -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Amazon Bedrock</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex has first-class Amazon Bedrock support via AWS SigV4 signing and standard AWS credential resolution. Useful for teams with existing AWS infrastructure or data-residency requirements.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[model_providers.amazon-bedrock.aws]</span>
+<span class="val">profile</span> = <span class="str">"my-aws-profile"</span>   <span class="cm"># or use env vars</span>
+<span class="val">region</span>  = <span class="str">"us-west-2"</span>
+
+<span class="cm"># Credentials via standard AWS env vars also work:</span>
+<span class="cm"># AWS_PROFILE=my-profile AWS_REGION=us-west-2 codex</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch.</p>
+      </div></div>
+    </div>
+
+    <!-- /goal Workflows -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>/goal Workflows</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Persisted goals let you define a long-running objective that survives context compaction and session resume. Use the TUI controls or <code>/goal</code> command to manage them.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># In a Codex session — set a persistent goal</span>
+/goal
+
+<span class="cm"># TUI controls appear: Create / Pause / Resume / Clear</span>
+<span class="cm"># Goal state persists across /compact and codex resume</span>
+<span class="cm"># Model always sees the goal at the top of context</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Goals are ideal for large refactors or multi-day feature work where you want the agent to stay oriented across many turns and sessions.</p>
+      </div></div>
+    </div>
+
+    <!-- Plugins -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Plugins</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex plugins extend the agent with bundled tools, skills, and hooks. Browse the marketplace in the TUI or install from the CLI. Plugins can be scoped globally or to a trusted project.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># In the TUI: open the plugin marketplace</span>
+/plugins
+
+<span class="cm"># Install a plugin from the marketplace</span>
+codex plugin install &lt;plugin-name&gt;
+
+<span class="cm"># Remove a plugin</span>
+codex plugin remove &lt;plugin-name&gt;</code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>Plugin scoping:</strong></p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
+          <li><strong>Global</strong> (<code>~/.codex/</code>) — available in every session</li>
+          <li><strong>Project</strong> (<code>.codex/</code>) — loaded only in trusted projects</li>
+        </ul>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration.</p>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Claude Code Equivalent</div>
+          <p>Codex plugins map to Claude Code's plugin system — both use a marketplace model with skill + hook bundling. The key difference: Codex plugins install via <code>codex plugin install</code>; Claude plugins install via <code>claude plugin install</code>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Monitoring & Observability -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Monitoring &amp; Observability</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex exports structured telemetry via OpenTelemetry and provides machine-readable <code>exec</code> output for pipeline integration.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml — OTEL export</span>
+<span class="kw">[otel]</span>
+<span class="val">environment</span> = <span class="str">"prod"</span>
+<span class="val">exporter</span>    = <span class="str">"otlp-http"</span>
+
+<span class="kw">[otel.exporter.otlp-http]</span>
+<span class="val">endpoint</span> = <span class="str">"http://otel-collector:4318"</span>
+<span class="val">protocol</span> = <span class="str">"json"</span></code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>What gets traced:</strong></p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
+          <li>Tool calls (tool name, input size, output size)</li>
+          <li>Code-mode transitions and session lifecycle</li>
+          <li>Multi-agent thread relationships (rollout tracing)</li>
+          <li>Reasoning-token usage (via <code>codex exec --json</code>)</li>
+        </ul>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Audit Logging via Hooks</div>
+          <p>For teams without an OTEL collector, use a <code>PostToolUse</code> hook to append tool calls to a local log file. This gives you a full audit trail with zero infrastructure overhead — see the Hooks section for a recipe.</p>
         </div>
       </div></div>
     </div>
@@ -8704,6 +9045,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v43 <span class="changelog-date">· 2026-05-04</span></h3>
+        <p><strong>Codex Best Practices parity update (CBP-098).</strong> Major refresh of the Codex page to reflect Codex CLI v0.124–v0.128 and bring it to parity with the Claude Best Practices page. Model default updated to <code>gpt-5.5</code>; new Hooks section (6 event types, TOML config syntax, exit codes, 3 recipes); new Power Usage collapsibles for Permission Profiles, Amazon Bedrock, /goal Workflows, Plugins, and Monitoring; Cheat Sheet expanded with Alt+,/Alt+. shortcuts, /goal, /plugins, /new, /side, /init, /keymap, and 7 more slash commands; Config Reference adds reasoning-effort, service-tier, and OTEL keys; <code>--full-auto</code> marked deprecated; comparison table adds Hooks and Plugins rows; security review cross-reference added to Guidelines; requirements.toml documented.</p>
+      </section>
       <section>
         <h3>v42 <span class="changelog-date">· 2026-05-04</span></h3>
         <p><strong>Claude Code v2.1.121–v2.1.126 follow-up updates (CBP-094–CBP-097).</strong> Four targeted Cheat Sheet and Power Usage updates: <code>/terminal-setup</code> now mentions iTerm2 clipboard access for <code>/copy</code> (including from tmux); <code>/skills</code> row updated to note type-to-filter search in long lists; <code>ANTHROPIC_BEDROCK_SERVICE_TIER</code> env var (default/flex/priority) added to Subprocess Sandboxing env vars table; <code>/model</code> row updated to document gateway <code>/v1/models</code> endpoint discovery when <code>ANTHROPIC_BASE_URL</code> is set.</p>
