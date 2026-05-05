@@ -109,3 +109,11 @@
 - [x] `CBP-096` Add `ANTHROPIC_BEDROCK_SERVICE_TIER` env var (default/flex/priority) to Subprocess Sandboxing env vars table (v2.1.122) → [task-cbp-096.md](task-cbp-096.md)
 - [x] `CBP-097` Update `/model` Cheat Sheet row to mention gateway `/v1/models` endpoint discovery when `ANTHROPIC_BASE_URL` is set (v2.1.126) → [task-cbp-097.md](task-cbp-097.md)
 - [x] `CBP-098` — research the latest developments from OpenAI's Codex. Develop a plan to replicate the Claude best practices with the equivalent Codex information, guidance, settings, configs, skills, etc. → [task-cbp-098.md](task-cbp-098.md)
+- [ ] `CBP-099` — Add the `vuln_hunter` example to the security section.
+- [x] `CBP-100` Update `/color` Cheat Sheet row: bare command picks random color (v2.1.128) → [task-cbp-100.md](task-cbp-100.md)
+- [x] `CBP-101` Update `--plugin-dir` Plugins collapsible: `.zip` archives now accepted (v2.1.128) → [task-cbp-101.md](task-cbp-101.md)
+- [x] `CBP-102` Update Monitoring section: OTEL vars no longer inherited by subprocesses (v2.1.128) → [task-cbp-102.md](task-cbp-102.md)
+- [x] `CBP-103` Add MCP `workspace` reserved server name warning to Plugins section (v2.1.128) → [task-cbp-103.md](task-cbp-103.md)
+- [x] `CBP-104` Update `/mcp` Cheat Sheet row: shows tool count, flags 0-tool servers (v2.1.128) → [task-cbp-104.md](task-cbp-104.md)
+- [x] `CBP-105` — Add guidance on the /sandbox command using the following link: https://code.claude.com/docs/en/sandboxing → [task-cbp-105.md](task-cbp-105.md)
+- [ ] `CBP-106` — Update the cbp_auto_updater_agent to include Codex changes.

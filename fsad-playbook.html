@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v43)</title>
+<title>FSAD — Full Stack Agentic Development (v45)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v43</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v44</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -6221,12 +6221,13 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
           <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal) | or select a named custom theme. Hand-edit JSON files in <code>~/.claude/themes/</code> to create themes; plugins can ship themes via a <code>themes/</code> directory.</td></tr>
-          <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
+          <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.); omit the argument to pick a random color</td></tr>
           <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals; enables iTerm2 clipboard access for <code>/copy</code> (including from tmux)</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
           <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
           <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
-          <tr><td><code>/mcp</code></td><td>Manage MCP server connections</td></tr>
+          <tr><td><code>/sandbox</code></td><td>Enable OS-level sandboxing for Bash subprocesses — choose <strong>Auto-allow</strong> mode (sandboxed commands run without approval prompts) or <strong>Regular permissions</strong> mode (standard flow, sandbox still enforces boundaries). macOS: built-in via Seatbelt. Linux / WSL2: requires <code>bubblewrap</code> and <code>socat</code>.</td></tr>
+          <tr><td><code>/mcp</code></td><td>Manage MCP server connections; shows tool count per server and flags servers with 0 tools (usually a misconfiguration)</td></tr>
           <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
           <tr><td><code>/skills</code></td><td>List available skills; type to filter by name in long lists</td></tr>
           <tr><td><code>/plugin</code></td><td>Manage Claude Code plugins</td></tr>
@@ -6769,13 +6770,15 @@ smoke tests against the staging URL."</code></pre>
 <span class="kw">claude</span> plugin prune
 <span class="kw">claude</span> plugin uninstall my-plugin <span class="val">--prune</span>  <span class="cm"># uninstall + cascade</span>
 
-<span class="cm"># Load plugins from a custom directory</span>
-<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins</code></pre>
+<span class="cm"># Load plugins from a directory or .zip archive</span>
+<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins
+<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugin.zip  <span class="cm"># .zip archives also accepted</span></code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
           <li>Plugins add skills invokable via <code>/skill-name</code></li>
           <li>Executables under <code>bin/</code> are invokable as bare commands</li>
           <li>Plugin marketplace for discovery and one-click install</li>
+          <li><strong>Reserved MCP server name:</strong> <code>workspace</code> is reserved — an <code>mcpServers</code> entry named <code>workspace</code> will be skipped with a warning at startup; rename it to avoid silent breakage</li>
         </ul>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>MCP server <code>alwaysLoad</code> option</strong> — set <code>"alwaysLoad": true</code> in an MCP server config to make all its tools skip tool-search deferral and stay permanently available. Useful for servers whose tools you use in nearly every session.</p>
         <div class="code-block" style="margin-top:0.5rem;">
@@ -6868,8 +6871,38 @@ smoke tests against the staging URL."</code></pre>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Two env vars harden Claude Code's Bash tool for shared environments and CI/CD:</p>
-        <div class="table-wrap" style="margin-top:0.75rem;">
+        <p>Claude Code supports OS-level sandboxing that restricts what Bash subprocesses can read, write, and reach on the network — enforced by <strong>Seatbelt</strong> on macOS and <strong>bubblewrap</strong> on Linux / WSL2. Run <code>/sandbox</code> to enable it and choose a mode. Linux and WSL2 users must first install the required packages: <code>sudo apt-get install bubblewrap socat</code> (Ubuntu/Debian) or <code>sudo dnf install bubblewrap socat</code> (Fedora).</p>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">Sandbox modes</p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Mode</th><th>Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Auto-allow</strong></td><td>Sandboxed bash commands run automatically without approval prompts. Commands that cannot be sandboxed (e.g. need access to non-allowed network hosts) fall back to the normal permission flow. <code>rm</code> targeting critical paths still prompts.</td></tr>
+              <tr><td><strong>Regular permissions</strong></td><td>All bash commands go through the standard permission flow even when sandboxed — more control, more prompts. The sandbox still enforces the same filesystem and network boundaries.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">Key <code>settings.json</code> keys</p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Setting key</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>sandbox.enabled</code></td><td>Enable sandboxing (<code>true</code> / <code>false</code>). Equivalent to using <code>/sandbox</code> interactively.</td></tr>
+              <tr><td><code>sandbox.filesystem.allowWrite</code></td><td>Array of paths (absolute, <code>~/</code>, or <code>./</code> relative to project) that subprocess commands may write to outside the working directory — e.g. <code>["~/.kube", "/tmp/build"]</code>. Arrays merge across config scopes.</td></tr>
+              <tr><td><code>sandbox.filesystem.denyRead</code></td><td>Block subprocess read access to specified paths — e.g. <code>["~/"]</code> to prevent reading outside the project.</td></tr>
+              <tr><td><code>sandbox.filesystem.allowRead</code></td><td>Re-allow reads within a <code>denyRead</code> region — e.g. <code>["."]</code> to permit the current project while blocking the rest of <code>~/</code>.</td></tr>
+              <tr><td><code>sandbox.network.allowedDomains</code></td><td>Allowlist of domains Bash subprocesses may reach. New domain requests trigger a permission prompt; use <code>allowManagedDomainsOnly: true</code> to block unapproved domains automatically.</td></tr>
+              <tr><td><code>sandbox.network.deniedDomains</code></td><td>Block specific domains even when an <code>allowedDomains</code> wildcard would otherwise permit them — useful for blocking telemetry or third-party endpoints in CI.</td></tr>
+              <tr><td><code>sandbox.failIfUnavailable</code></td><td>Set to <code>true</code> to make sandbox startup failure a hard error instead of a warning — intended for managed deployments that require sandboxing as a security gate.</td></tr>
+              <tr><td><code>sandbox.allowUnsandboxedCommands</code></td><td>Set to <code>false</code> to disable the escape hatch — Claude can no longer retry failed commands outside the sandbox. All commands must be sandboxed or listed in <code>excludedCommands</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">Hardening env vars (shared environments &amp; CI/CD)</p>
+        <div class="table-wrap">
           <table class="styled-table">
             <thead><tr><th>Env Var</th><th>Effect</th></tr></thead>
             <tbody>
@@ -6881,18 +6914,9 @@ smoke tests against the staging URL."</code></pre>
             </tbody>
           </table>
         </div>
-        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">You can also restrict network access from <code>settings.json</code>:</p>
-        <div class="table-wrap">
-          <table class="styled-table">
-            <thead><tr><th>Setting key</th><th>Effect</th></tr></thead>
-            <tbody>
-              <tr><td><code>sandbox.network.deniedDomains</code></td><td>Block specific domains even when an <code>allowedDomains</code> wildcard would otherwise permit them — useful for blocking telemetry or third-party endpoints in CI</td></tr>
-            </tbody>
-          </table>
-        </div>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
-          <div class="callout-title">Use Case</div>
-          <p>Set env vars in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Use <code>deniedDomains</code> to close loopholes left by broad <code>allowedDomains</code> wildcards.</p>
+          <div class="callout-title">Best practice</div>
+          <p>Start with <code>/sandbox</code> in Auto-allow mode and a narrow <code>allowedDomains</code> list. Add <code>allowWrite</code> paths only for tools that genuinely need them (e.g. <code>~/.kube</code> for kubectl). Use <code>deniedDomains</code> to close loopholes left by broad wildcards, and set <code>allowUnsandboxedCommands: false</code> in managed environments where no escape hatch is acceptable.</p>
         </div>
       </div></div>
     </div>
@@ -7478,7 +7502,7 @@ claude</code></pre>
 <span class="kw">export</span> OTEL_TRACES_EXPORTER=otlp</code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
-          <li>Bash subprocesses inherit a <code>TRACEPARENT</code> env var for W3C trace context propagation</li>
+          <li>Bash subprocesses inherit a <code>TRACEPARENT</code> env var for W3C trace context propagation — but <code>OTEL_*</code> configuration vars (exporter, endpoint, headers) are intentionally <strong>not</strong> inherited, so OTEL-instrumented apps run via the Bash tool use their own OTEL config and won't accidentally pick up the CLI's OTLP endpoint</li>
           <li>Span content redacted by default &mdash; set <code>OTEL_LOG_TOOL_CONTENT=1</code> to include tool I/O (truncated at 60 KB)</li>
           <li>Visualize in Jaeger, Zipkin, Grafana Tempo, or any OTel-compatible backend</li>
         </ul>
@@ -9045,6 +9069,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v44 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Claude Code v2.1.128 auto-update (CBP-100–CBP-104).</strong> Five targeted updates: <code>/color</code> row updated to note that omitting the argument picks a random session color; <code>--plugin-dir</code> updated to mention <code>.zip</code> archives are accepted in addition to directories; Distributed Tracing bullet updated to clarify <code>OTEL_*</code> config vars are not inherited by subprocesses (Bash, hooks, MCP, LSP) — only <code>TRACEPARENT</code> is passed for trace context; Plugins collapsible gains a reserved-name warning that <code>workspace</code> is a reserved MCP server name (skipped with a warning if used); <code>/mcp</code> Cheat Sheet row updated to mention tool count display per server and flagging of 0-tool servers.</p>
+      </section>
       <section>
         <h3>v43 <span class="changelog-date">· 2026-05-04</span></h3>
         <p><strong>Codex Best Practices parity update (CBP-098).</strong> Major refresh of the Codex page to reflect Codex CLI v0.124–v0.128 and bring it to parity with the Claude Best Practices page. Model default updated to <code>gpt-5.5</code>; new Hooks section (6 event types, TOML config syntax, exit codes, 3 recipes); new Power Usage collapsibles for Permission Profiles, Amazon Bedrock, /goal Workflows, Plugins, and Monitoring; Cheat Sheet expanded with Alt+,/Alt+. shortcuts, /goal, /plugins, /new, /side, /init, /keymap, and 7 more slash commands; Config Reference adds reasoning-effort, service-tier, and OTEL keys; <code>--full-auto</code> marked deprecated; comparison table adds Hooks and Plugins rows; security review cross-reference added to Guidelines; requirements.toml documented.</p>
