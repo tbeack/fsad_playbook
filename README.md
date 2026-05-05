@@ -39,8 +39,8 @@ python -m http.server 8000
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v43 |
-| **Date updated** | 2026-05-04 |
+| **Current version** | v44 |
+| **Date updated** | 2026-05-05 |
 | **File** | `fsad-playbook.html` |
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes by version.

@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v44 — 2026-05-05
+
+**Claude Code v2.1.128 auto-update (CBP-100–CBP-104)**
+
+Five targeted updates for Claude Code v2.1.128.
+
+- **CBP-100** — `/color` Cheat Sheet row updated: bare `/color` with no argument now picks a random session color.
+- **CBP-101** — `--plugin-dir` code example in Plugins collapsible updated: `.zip` archives are now accepted in addition to directories; added a second example line.
+- **CBP-102** — Distributed Tracing bullet updated: `OTEL_*` configuration vars (exporter, endpoint, headers) are intentionally not inherited by subprocesses (Bash, hooks, MCP, LSP); only `TRACEPARENT` is passed for W3C trace context propagation.
+- **CBP-103** — Plugins collapsible gains a reserved-name warning: `workspace` is a reserved MCP server name — entries with that name are silently skipped at startup; teams should rename affected servers.
+- **CBP-104** — `/mcp` Cheat Sheet row updated: now mentions tool count display per connected server and flagging of servers that connect with 0 tools (usually a misconfiguration).
+
 ### v43 — 2026-05-04
 
 **Codex Best Practices parity update (CBP-098)**
