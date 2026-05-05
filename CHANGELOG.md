@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v45 — 2026-05-05
+
+**Add /sandbox command guidance (CBP-105)**
+
+Two targeted updates documenting the `/sandbox` command for OS-level Bash subprocess isolation.
+
+- **Cheat Sheet — Configuration & setup table.** Added `/sandbox` row between `/less-permission-prompts` and `/mcp`. Description covers Auto-allow mode (sandboxed commands run without approval prompts), Regular permissions mode (standard flow, sandbox still enforces boundaries), macOS built-in Seatbelt support, and the `bubblewrap` + `socat` requirement for Linux / WSL2.
+- **Subprocess Sandboxing collapsible (Power Usage).** Significantly expanded from env-vars-only. New intro paragraph leads with `/sandbox` as the enablement command and the two OS-level enforcement backends. Adds a Sandbox modes table (Auto-allow vs Regular permissions), an expanded `settings.json` keys table (`sandbox.enabled`, `sandbox.filesystem.allowWrite`, `sandbox.filesystem.denyRead`, `sandbox.filesystem.allowRead`, `sandbox.network.allowedDomains`, `sandbox.network.deniedDomains`, `sandbox.failIfUnavailable`, `sandbox.allowUnsandboxedCommands`), and updates the Use Case callout to cover best-practice startup configuration. Existing env vars table preserved in a distinct subsection.
+
 ### v44 — 2026-05-05
 
 **Claude Code v2.1.128 auto-update (CBP-100–CBP-104)**
