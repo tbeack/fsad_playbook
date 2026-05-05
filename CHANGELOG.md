@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v46 — 2026-05-05
+
+**Claude Code v2.1.128 follow-up updates (CBP-107–CBP-108)**
+
+Two targeted updates for uncovered v2.1.128 items.
+
+- **CBP-107** — Added `--channels` CLI flag to the Cheat Sheet "System prompt & config" flags table. Documents console (API key) authentication support and the `channelsEnabled: true` managed-settings org requirement.
+- **CBP-108** — Added a "Permission Allowlists & settings.local.json" callout to the Config Cascade section. Explains that selecting "Always allow" at a Bash permission prompt writes the entry to `.claude/settings.local.json` (gitignored, project-local) and cross-references `/less-permission-prompts` for bulk allowlist setup.
+
 ### v45 — 2026-05-05
 
 **Add /sandbox command guidance (CBP-105)**

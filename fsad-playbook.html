@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v45)</title>
+<title>FSAD — Full Stack Agentic Development (v46)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v44</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v46</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3775,6 +3775,11 @@ description: Structured code review with security and quality checks
         <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
         <li style="margin-bottom:0;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
       </ul>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem; margin-bottom:2rem;">
+      <div class="callout-title">Permission Allowlists &amp; <code>settings.local.json</code></div>
+      <p>When you select <strong>"Always allow"</strong> at a Bash tool permission prompt, Claude Code writes that entry to <code>.claude/settings.local.json</code> — the gitignored, project-local layer. This means your personal approvals accumulate per-project without affecting teammates. To bulk-migrate common read-only patterns (grep, git diff, ls) into the allowlist at once, run <code>/less-permission-prompts</code>.</p>
     </div>
 
     <!-- Anti-patterns -->
@@ -6344,6 +6349,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>--agent</code></td><td>Specify agent for session</td></tr>
           <tr><td><code>--chrome</code></td><td>Enable Chrome browser integration</td></tr>
           <tr><td><code>--remote</code></td><td>Create web session on claude.ai</td></tr>
+          <tr><td><code>--channels</code></td><td>Enable channels with console (API key) authentication. Console orgs with managed settings must set <code>channelsEnabled: true</code> in org settings to allow this.</td></tr>
           <tr><td><code>--bare</code></td><td>Minimal mode — skip auto-discovery</td></tr>
           <tr><td><code>--verbose</code></td><td>Enable verbose logging</td></tr>
           <tr><td><code>--debug</code></td><td>Enable debug logging</td></tr>
@@ -9069,6 +9075,14 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v46 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Claude Code v2.1.128 follow-up updates (CBP-107–CBP-108).</strong> Two targeted updates: <code>--channels</code> CLI flag added to the Cheat Sheet flags table — documents console (API key) authentication support and the <code>channelsEnabled: true</code> managed-settings org requirement; "Permission Allowlists &amp; <code>settings.local.json</code>" callout added to Config Cascade — explains that "Always allow" at a Bash permission prompt writes the entry to <code>.claude/settings.local.json</code> (gitignored, project-local) and cross-references <code>/less-permission-prompts</code> for bulk allowlist setup.</p>
+      </section>
+      <section>
+        <h3>v45 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Add /sandbox command guidance (CBP-105).</strong> Two targeted updates: <code>/sandbox</code> row added to Cheat Sheet configuration table covering Auto-allow mode, Regular permissions mode, macOS Seatbelt, and Linux bubblewrap + socat requirements; Subprocess Sandboxing Power Usage collapsible significantly expanded with <code>/sandbox</code> as the enablement command, sandbox modes table, full <code>settings.json</code> keys table (8 sandbox keys), and updated Use Case callout for best-practice startup configuration.</p>
+      </section>
       <section>
         <h3>v44 <span class="changelog-date">· 2026-05-05</span></h3>
         <p><strong>Claude Code v2.1.128 auto-update (CBP-100–CBP-104).</strong> Five targeted updates: <code>/color</code> row updated to note that omitting the argument picks a random session color; <code>--plugin-dir</code> updated to mention <code>.zip</code> archives are accepted in addition to directories; Distributed Tracing bullet updated to clarify <code>OTEL_*</code> config vars are not inherited by subprocesses (Bash, hooks, MCP, LSP) — only <code>TRACEPARENT</code> is passed for trace context; Plugins collapsible gains a reserved-name warning that <code>workspace</code> is a reserved MCP server name (skipped with a warning if used); <code>/mcp</code> Cheat Sheet row updated to mention tool count display per server and flagging of 0-tool servers.</p>
