@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v49 — 2026-05-06
+
+**Add QA Pod to Pod Compositions (CBP-116)**
+
+New pod configuration for teams building FSAD testing infrastructure.
+
+- **CBP-116** — Added Configuration G: The QA Pod to the Pod Explorer. A specialist 2-human engineering pod (QA Lead + Test Engineer + N QA agents) whose output is reusable testing tooling — agents for test generation and code review, skills for coverage reporting, hooks for pre-commit / post-deploy verification gates, and MCP tools for fixture management. Includes ring visual, role cards, When To Use, Key Artifacts, and a new "QA / test infrastructure" row in the Pod Selection Matrix.
+
 ### v48 — 2026-05-06
 
 **Claude Code v2.1.129 deferred items (CBP-114–CBP-115)**

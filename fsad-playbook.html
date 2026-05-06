@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v48)</title>
+<title>FSAD — Full Stack Agentic Development (v49)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -2405,6 +2405,7 @@ PostgreSQL. Follow existing patterns.</span>
     <button class="pod-tab" data-pod="fullstack" onclick="switchPod('fullstack')">🔷 Full Stack <span class="tab-size">4</span></button>
     <button class="pod-tab" data-pod="platform" onclick="switchPod('platform')">🛠 Platform <span class="tab-size">2</span></button>
     <button class="pod-tab" data-pod="discovery" onclick="switchPod('discovery')">🔬 Discovery <span class="tab-size">3</span></button>
+    <button class="pod-tab" data-pod="qa" onclick="switchPod('qa')">🧪 QA Pod <span class="tab-size">2</span></button>
   </div>
 
   <!-- TRIAD -->
@@ -2555,6 +2556,30 @@ PostgreSQL. Follow existing patterns.</span>
       </div>
     </div>
   </div></div>
+
+  <!-- QA POD -->
+  <div class="pod-panel" id="pod-qa"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <div class="pod-ring"><div class="pod-core"><span class="pod-core-icon">🧪</span><span class="pod-core-label">test-plan.md</span></div>
+        <div class="member eng pos-tl"><span class="m-icon">⚙️</span>QA Lead</div>
+        <div class="member eng2 pos-tr"><span class="m-icon">⚙️</span>Test Eng</div>
+        <div class="member agents pos-bottom"><span class="m-icon">🤖</span>QA Agents</div>
+      </div>
+      <div class="pod-type-label">Configuration G</div><div class="pod-type-name">The QA Pod</div><div class="pod-type-count">2 humans + N QA agents</div>
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>Specialist engineering pod that builds the testing infrastructure used by every other pod — agents for test generation and code review, skills for coverage reporting, hooks for pre-commit and post-deploy verification gates, and MCP tools for fixture management. Its output is reusable tooling, not features.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>QA Lead</h4><p>Owns test strategy, verification gate standards, and acceptance criteria frameworks. Reviews agent-generated test output for coverage gaps. Defines the quality contract other pods must meet.</p></div></div>
+        <div class="role-card"><div class="role-badge eng2">⚙️</div><div class="role-card-body"><h4>Test Engineer</h4><p>Builds custom agents, skills, hooks, and MCP tools for the team's testing stack. Maintains fixture libraries, regression suites, and test scaffolding.</p></div></div>
+        <div class="role-card"><div class="role-badge agents">🤖</div><div class="role-card-body"><h4>QA Agents</h4><p>Generate unit, integration, and e2e tests; run coverage analysis; perform spec-compliance validation; surface regressions across the codebase.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>Establishing QA infrastructure for a new product or team</li><li>Building custom test-generation agents and skills for specialized domains</li><li>Creating shared hooks and verification gates for CI/CD pipelines</li><li>Reducing testing tooling debt — standardizing test patterns across pods</li></ul></div>
+        <div class="meta-box artifacts"><h4>Key Artifacts</h4><ul><li><code>test-plan.md</code> — QA strategy, coverage targets, and acceptance gates</li><li><code>agents/</code> — Custom test generation, code review, and validation agents</li><li><code>skills/</code> — Coverage reporter, regression runner, fixture builder</li><li><code>hooks/</code> — PreToolUse / PostToolUse verification gates</li></ul></div>
+      </div>
+    </div>
+  </div></div>
 </section>
 <hr class="divider">
 
@@ -2576,6 +2601,7 @@ PostgreSQL. Follow existing patterns.</span>
         <tr><td>Design system component</td><td><span class="config-tag" style="background: rgba(111,111,181,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX owns component API and behavior.</td></tr>
         <tr><td>Database migration</td><td><span class="config-tag" style="background: rgba(6,182,212,0.15); color: var(--accent-cyan);">Platform Pod</span></td><td>2</td><td>Deep technical work. No user-facing impact.</td></tr>
         <tr><td>Cross-cutting auth overhaul</td><td><span class="config-tag" style="background: rgba(245,158,11,0.15); color: var(--accent-amber);">Full Stack Pod</span></td><td>4</td><td>Touches every service. Needs security + UX + PM.</td></tr>
+        <tr><td>QA / test infrastructure</td><td><span class="config-tag" style="background: rgba(251,113,133,0.15); color: var(--accent-rose);">QA Pod</span></td><td>2</td><td>Build reusable agents, skills, hooks. Engineering-only scope.</td></tr>
       </tbody>
     </table>
   </div>
