@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v45)</title>
+<title>FSAD — Full Stack Agentic Development (v47)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v44</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v47</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3775,6 +3775,11 @@ description: Structured code review with security and quality checks
         <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
         <li style="margin-bottom:0;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
       </ul>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem; margin-bottom:2rem;">
+      <div class="callout-title">Permission Allowlists &amp; <code>settings.local.json</code></div>
+      <p>When you select <strong>"Always allow"</strong> at a Bash tool permission prompt, Claude Code writes that entry to <code>.claude/settings.local.json</code> — the gitignored, project-local layer. This means your personal approvals accumulate per-project without affecting teammates. To bulk-migrate common read-only patterns (grep, git diff, ls) into the allowlist at once, run <code>/less-permission-prompts</code>.</p>
     </div>
 
     <!-- Anti-patterns -->
@@ -6136,7 +6141,8 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><kbd>Shift+Tab</kbd></td><td>Cycle permission mode: default &#8594; acceptEdits &#8594; plan &#8594; auto</td></tr>
           <tr><td><kbd>Ctrl+L</kbd></td><td>Force screen redraw (does not clear input — readline behavior as of v2.1.126)</td></tr>
           <tr><td><kbd>Ctrl+C</kbd></td><td>Cancel current operation (hard stop)</td></tr>
-          <tr><td><kbd>Ctrl+R</kbd></td><td>Search command history</td></tr>
+          <tr><td><kbd>Ctrl+R</kbd></td><td>Search prompt history across all projects (default). Press <kbd>Ctrl+S</kbd> to narrow to the current project or session.</td></tr>
+          <tr><td><kbd>Ctrl+S</kbd></td><td>Narrow <kbd>Ctrl+R</kbd> history picker to the current project or session only</td></tr>
           <tr><td><kbd>Ctrl+T</kbd></td><td>Toggle task list</td></tr>
           <tr><td><kbd>Ctrl+O</kbd></td><td>Toggle normal / verbose transcript</td></tr>
           <tr><td><kbd>Ctrl+B</kbd></td><td>Background running tasks</td></tr>
@@ -6185,7 +6191,7 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, the picker lists models from that gateway's <code>/v1/models</code> endpoint.</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129).</td></tr>
           <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
@@ -6344,6 +6350,8 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>--agent</code></td><td>Specify agent for session</td></tr>
           <tr><td><code>--chrome</code></td><td>Enable Chrome browser integration</td></tr>
           <tr><td><code>--remote</code></td><td>Create web session on claude.ai</td></tr>
+          <tr><td><code>--channels</code></td><td>Enable channels with console (API key) authentication. Console orgs with managed settings must set <code>channelsEnabled: true</code> in org settings to allow this.</td></tr>
+          <tr><td><code>--plugin-url &lt;url&gt;</code></td><td>Fetch a plugin <code>.zip</code> archive from a URL and load it for the current session only</td></tr>
           <tr><td><code>--bare</code></td><td>Minimal mode — skip auto-discovery</td></tr>
           <tr><td><code>--verbose</code></td><td>Enable verbose logging</td></tr>
           <tr><td><code>--debug</code></td><td>Enable debug logging</td></tr>
@@ -6772,7 +6780,10 @@ smoke tests against the staging URL."</code></pre>
 
 <span class="cm"># Load plugins from a directory or .zip archive</span>
 <span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins
-<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugin.zip  <span class="cm"># .zip archives also accepted</span></code></pre>
+<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugin.zip  <span class="cm"># .zip archives also accepted</span>
+
+<span class="cm"># Fetch and load a plugin from a URL (current session only)</span>
+<span class="kw">claude</span> <span class="val">--plugin-url</span> https://example.com/my-plugin.zip</code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
           <li>Plugins add skills invokable via <code>/skill-name</code></li>
@@ -6910,7 +6921,9 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
               <tr><td><code>CLAUDE_CODE_HIDE_CWD=1</code></td><td>Hides the working directory path from the startup logo — useful in CI/CD and shared environments where paths should not be exposed</td></tr>
               <tr><td><code>DISABLE_UPDATES=1</code></td><td>Completely blocks all update paths including manual <code>claude update</code>. Stricter than <code>DISABLE_AUTOUPDATER</code> (which only prevents auto-updates). Use in managed/enterprise environments to pin a specific version.</td></tr>
+              <tr><td><code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1</code></td><td>On Homebrew or WinGet installations, runs the package manager upgrade in the background and prompts to restart when a new version is ready. Complement to <code>DISABLE_UPDATES</code> — use when you want managed automatic updates.</td></tr>
               <tr><td><code>ANTHROPIC_BEDROCK_SERVICE_TIER</code></td><td>Select Bedrock service tier: <code>default</code> | <code>flex</code> | <code>priority</code>. Sent as the <code>X-Amzn-Bedrock-Service-Tier</code> header. Use <code>priority</code> for provisioned-capacity deployments.</td></tr>
+              <tr><td><code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code></td><td>Force-enables synchronized output mode for terminals where auto-detection fails (e.g. Emacs <code>eat</code>). Fixes garbled or interleaved output in unsupported terminal emulators.</td></tr>
             </tbody>
           </table>
         </div>
@@ -9069,6 +9082,18 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v47 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>Claude Code v2.1.129–v2.1.131 auto-update (CBP-109–CBP-113).</strong> Five targeted updates: <kbd>Ctrl+R</kbd> history picker description updated — now searches all projects by default (restored pre-2.1.124 behavior); new <kbd>Ctrl+S</kbd> shortcut row added to narrow to current project/session; <code>--plugin-url &lt;url&gt;</code> CLI flag added to the Cheat Sheet flags table and the Plugins collapsible with usage example; <code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1</code> env var documented in Subprocess Sandboxing (Homebrew/WinGet background auto-upgrade); <code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code> env var documented for terminals where synchronized output auto-detection fails; <code>/model</code> Cheat Sheet row updated to reflect that gateway model discovery is now opt-in via <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> (changed from automatic in v2.1.126–2.1.128).</p>
+      </section>
+      <section>
+        <h3>v46 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Claude Code v2.1.128 follow-up updates (CBP-107–CBP-108).</strong> Two targeted updates: <code>--channels</code> CLI flag added to the Cheat Sheet flags table — documents console (API key) authentication support and the <code>channelsEnabled: true</code> managed-settings org requirement; "Permission Allowlists &amp; <code>settings.local.json</code>" callout added to Config Cascade — explains that "Always allow" at a Bash permission prompt writes the entry to <code>.claude/settings.local.json</code> (gitignored, project-local) and cross-references <code>/less-permission-prompts</code> for bulk allowlist setup.</p>
+      </section>
+      <section>
+        <h3>v45 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Add /sandbox command guidance (CBP-105).</strong> Two targeted updates: <code>/sandbox</code> row added to Cheat Sheet configuration table covering Auto-allow mode, Regular permissions mode, macOS Seatbelt, and Linux bubblewrap + socat requirements; Subprocess Sandboxing Power Usage collapsible significantly expanded with <code>/sandbox</code> as the enablement command, sandbox modes table, full <code>settings.json</code> keys table (8 sandbox keys), and updated Use Case callout for best-practice startup configuration.</p>
+      </section>
       <section>
         <h3>v44 <span class="changelog-date">· 2026-05-05</span></h3>
         <p><strong>Claude Code v2.1.128 auto-update (CBP-100–CBP-104).</strong> Five targeted updates: <code>/color</code> row updated to note that omitting the argument picks a random session color; <code>--plugin-dir</code> updated to mention <code>.zip</code> archives are accepted in addition to directories; Distributed Tracing bullet updated to clarify <code>OTEL_*</code> config vars are not inherited by subprocesses (Bash, hooks, MCP, LSP) — only <code>TRACEPARENT</code> is passed for trace context; Plugins collapsible gains a reserved-name warning that <code>workspace</code> is a reserved MCP server name (skipped with a warning if used); <code>/mcp</code> Cheat Sheet row updated to mention tool count display per server and flagging of 0-tool servers.</p>

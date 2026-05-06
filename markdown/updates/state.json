@@ -1,4 +1,6 @@
 {
-  "lastVersion": "v2.1.128",
-  "lastChecked": "2026-05-05"
+  "lastVersion": "v2.1.131",
+  "lastChecked": "2026-05-06",
+  "lastCodexVersion": "rust-v0.128.0",
+  "lastCodexChecked": "2026-05-05"
 }

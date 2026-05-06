@@ -1,5 +1,26 @@
 ## Changes in This Version
 
+### v47 — 2026-05-06
+
+**Claude Code v2.1.129–v2.1.131 auto-update (CBP-109–CBP-113)**
+
+Five targeted updates for Claude Code v2.1.129 through v2.1.131.
+
+- **CBP-109** — Updated `Ctrl+R` keyboard shortcut: history picker now searches all prompts across all projects by default (restored pre-2.1.124 behavior). Added new `Ctrl+S` shortcut row: narrows the history picker to the current project or session only.
+- **CBP-110** — Added `--plugin-url <url>` CLI flag to the Cheat Sheet "Session & context" flags table. Fetches a plugin `.zip` archive from a URL and loads it for the current session only. Also added a usage example in the Plugins power-usage collapsible.
+- **CBP-111** — Added `CLAUDE_CODE_FORCE_SYNC_OUTPUT=1` to the Subprocess Sandboxing env vars table. Force-enables synchronized output for terminals where auto-detection fails (e.g. Emacs `eat`).
+- **CBP-112** — Added `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1` to the Subprocess Sandboxing env vars table. On Homebrew or WinGet installations, runs the package manager upgrade in the background and prompts to restart when a new version is ready.
+- **CBP-113** — Updated `/model` Cheat Sheet row: gateway model discovery is now opt-in via `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` (changed from automatic behavior in v2.1.126–2.1.128).
+
+### v46 — 2026-05-05
+
+**Claude Code v2.1.128 follow-up updates (CBP-107–CBP-108)**
+
+Two targeted updates for uncovered v2.1.128 items.
+
+- **CBP-107** — Added `--channels` CLI flag to the Cheat Sheet "System prompt & config" flags table. Documents console (API key) authentication support and the `channelsEnabled: true` managed-settings org requirement.
+- **CBP-108** — Added a "Permission Allowlists & settings.local.json" callout to the Config Cascade section. Explains that selecting "Always allow" at a Bash permission prompt writes the entry to `.claude/settings.local.json` (gitignored, project-local) and cross-references `/less-permission-prompts` for bulk allowlist setup.
+
 ### v45 — 2026-05-05
 
 **Add /sandbox command guidance (CBP-105)**
