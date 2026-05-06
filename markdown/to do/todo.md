@@ -124,3 +124,5 @@
 - [x] `CBP-111` Add `CLAUDE_CODE_FORCE_SYNC_OUTPUT=1` env var to Subprocess Sandboxing table (v2.1.129) → [task-cbp-111.md](task-cbp-111.md)
 - [x] `CBP-112` Add `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1` env var to Subprocess Sandboxing table (v2.1.129) → [task-cbp-112.md](task-cbp-112.md)
 - [x] `CBP-113` Update `/model` Cheat Sheet row: gateway discovery now opt-in via `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` (v2.1.129) → [task-cbp-113.md](task-cbp-113.md)
+- [x] `CBP-114` Add `skillOverrides` setting to Notable settings.json Keys callout in Config Cascade (v2.1.129) → [task-cbp-114.md](task-cbp-114.md)
+- [x] `CBP-115` Update `monitors` frontmatter row: note that in plugin manifests, declare under `"experimental": { ... }` to avoid validation warning (v2.1.129) → [task-cbp-115.md](task-cbp-115.md)

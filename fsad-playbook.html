@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v47)</title>
+<title>FSAD — Full Stack Agentic Development (v48)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v47</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v48</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3773,7 +3773,8 @@ description: Structured code review with security and quality checks
       <ul style="margin:0; padding-left:1.25rem; font-size:0.9rem; color:var(--text-secondary);">
         <li style="margin-bottom:0.4rem;"><code>prUrlTemplate</code> — Point the footer PR badge to a custom review URL instead of github.com. Useful for GitLab, Bitbucket, or GitHub Enterprise teams.</li>
         <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
-        <li style="margin-bottom:0;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
+        <li style="margin-bottom:0.4rem;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
+        <li style="margin-bottom:0;"><code>skillOverrides</code> — Control per-skill model visibility: <code>{"skill-name": "off"}</code> hides from both model and <code>/</code> menu; <code>"user-invocable-only"</code> hides from model only; <code>"name-only"</code> sends name without description to the model.</li>
       </ul>
     </div>
 
@@ -5536,7 +5537,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
               <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.). Also fires when the agent is run as a main-thread agent via <code>--agent</code>.</td></tr>
               <tr><td><code>mcpServers</code></td><td>object</td><td>MCP server definitions scoped to this skill. Loaded for fork-subagent contexts and for main-thread agent sessions via <code>--agent</code>.</td></tr>
-              <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation.</td></tr>
+              <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation. <em>Note: in plugin <code>manifest.json</code> files, declare as <code>"experimental": { "monitors": [...] }</code> — top-level still works but triggers a <code>claude plugin validate</code> warning.</em></td></tr>
               <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
             </tbody>
           </table>
@@ -9082,6 +9083,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v48 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>Claude Code v2.1.129 deferred items (CBP-114–CBP-115).</strong> Two follow-up updates from the v2.1.129 release: <code>skillOverrides</code> setting added to the Notable <code>settings.json</code> Keys callout in Config Cascade — documents the three modes (<code>off</code>, <code>user-invocable-only</code>, <code>name-only</code>) for controlling per-skill model visibility; <code>monitors</code> frontmatter row updated to note that in plugin <code>manifest.json</code> files, <code>monitors</code> and <code>themes</code> should be declared under <code>"experimental": { ... }</code> — top-level declarations still work but trigger a <code>claude plugin validate</code> warning.</p>
+      </section>
       <section>
         <h3>v47 <span class="changelog-date">· 2026-05-06</span></h3>
         <p><strong>Claude Code v2.1.129–v2.1.131 auto-update (CBP-109–CBP-113).</strong> Five targeted updates: <kbd>Ctrl+R</kbd> history picker description updated — now searches all projects by default (restored pre-2.1.124 behavior); new <kbd>Ctrl+S</kbd> shortcut row added to narrow to current project/session; <code>--plugin-url &lt;url&gt;</code> CLI flag added to the Cheat Sheet flags table and the Plugins collapsible with usage example; <code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1</code> env var documented in Subprocess Sandboxing (Homebrew/WinGet background auto-upgrade); <code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code> env var documented for terminals where synchronized output auto-detection fails; <code>/model</code> Cheat Sheet row updated to reflect that gateway model discovery is now opt-in via <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> (changed from automatic in v2.1.126–2.1.128).</p>
