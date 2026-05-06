@@ -119,3 +119,8 @@
 - [x] `CBP-106` — Update the cbp_auto_updater_agent to include Codex changes. → [task-cbp-106.md](task-cbp-106.md)
 - [x] `CBP-107` Add `--channels` CLI flag to Cheat Sheet — console (API key) auth support + `channelsEnabled: true` for managed-settings orgs (v2.1.128) → [task-cbp-107.md](task-cbp-107.md)
 - [x] `CBP-108` Document "Always allow" Bash permission prompt writes to `.claude/settings.local.json` in Config Cascade section (v2.1.128) → [task-cbp-108.md](task-cbp-108.md)
+- [x] `CBP-109` Update `Ctrl+R` keyboard shortcut: all-projects default restored; add `Ctrl+S` row for narrow-to-project (v2.1.129) → [task-cbp-109.md](task-cbp-109.md)
+- [x] `CBP-110` Add `--plugin-url <url>` CLI flag to Cheat Sheet and Plugins collapsible (v2.1.129) → [task-cbp-110.md](task-cbp-110.md)
+- [x] `CBP-111` Add `CLAUDE_CODE_FORCE_SYNC_OUTPUT=1` env var to Subprocess Sandboxing table (v2.1.129) → [task-cbp-111.md](task-cbp-111.md)
+- [x] `CBP-112` Add `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1` env var to Subprocess Sandboxing table (v2.1.129) → [task-cbp-112.md](task-cbp-112.md)
+- [x] `CBP-113` Update `/model` Cheat Sheet row: gateway discovery now opt-in via `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` (v2.1.129) → [task-cbp-113.md](task-cbp-113.md)
