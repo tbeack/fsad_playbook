@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v48 — 2026-05-06
+
+**Claude Code v2.1.129 deferred items (CBP-114–CBP-115)**
+
+Two follow-up updates from the v2.1.129 release, deferred from the previous run.
+
+- **CBP-114** — Added `skillOverrides` to the Notable `settings.json` Keys callout in Config Cascade. Documents the three modes: `off` (hides skill from both model and `/` menu), `user-invocable-only` (hides from model only, still appears in `/` menu), `name-only` (sends skill name without description to the model).
+- **CBP-115** — Updated the `monitors` row in the skill frontmatter reference table to note that in plugin `manifest.json` files, `monitors` and `themes` should be declared under `"experimental": { ... }`. Top-level declarations still work but trigger a `claude plugin validate` warning.
+
 ### v47 — 2026-05-06
 
 **Claude Code v2.1.129–v2.1.131 auto-update (CBP-109–CBP-113)**
