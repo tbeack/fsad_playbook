@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v50 — 2026-05-06
+
+**HTTP Hooks & Managed Web Agents section (CBP-117)**
+
+New section 15.5 covering two cloud integration patterns: HTTP hooks for webhook-style integrations with external services, and Anthropic's Managed Web Agents platform for running Claude as a hosted autonomous agent.
+
+- **CBP-117** — Added "HTTP Hooks & Managed Web Agents" section (15.5) to Claude Best Practices under the Skills & Hooks topic. Three collapsibles: (1) HTTP Hooks — what they are, full schema with env var interpolation, three ready-to-use recipes (team audit log, Slack notification, external approval gateway), and a gotchas callout; (2) Managed Web Agents — Messages API vs. Managed Agents comparison table, four core concepts (Agent/Environment/Session/Events), Python quickstart, four deployment scenarios, and a beta/rate-limit gotchas callout; (3) Novel Patterns — Hookdeck inbound webhook bridge via Claude Channels, Sentry's bug-to-PR autonomous pipeline, Notion's parallel delegated task sessions, async hooks for non-blocking telemetry, and external policy engine pattern with PermissionRequest hook.
+
 ### v49 — 2026-05-06
 
 **Add QA Pod to Pod Compositions (CBP-116)**
