@@ -130,3 +130,8 @@
 - [x] `CBP-117` — Add section about Claude Webhooks (https://code.claude.com/docs/en/hooks-guide), managed Web Agents (https://platform.claude.com/docs/en/managed-agents/overview) . include examples. propose use cases. thins to watch out for. Find examples of where people have used these to solve novel problems. Structure your plan into Research first, then plan. → [task-cbp-117.md](task-cbp-117.md)
 - [x] `CBP-118` Add `CLAUDE_CODE_SESSION_ID` to hooks env vars table (v2.1.132) → [task-cbp-118.md](task-cbp-118.md)
 - [x] `CBP-119` Add `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` to Subprocess Sandboxing env vars table (v2.1.132) → [task-cbp-119.md](task-cbp-119.md)
+- [x] `CBP-120` [Codex] Add `/vim` to Cheat Sheet and Vim editing collapsible to Power Usage (v0.129.0) → [task-cbp-120.md](task-cbp-120.md)
+- [x] `CBP-121` [Codex] Add `/hooks` to Cheat Sheet + update Hooks section: TUI browser, PreCompact/PostCompact events, PreToolUse context injection (v0.129.0) → [task-cbp-121.md](task-cbp-121.md)
+- [x] `CBP-122` [Codex] Update Session Management: redesigned resume/fork picker, raw scrollback mode, `/ide` context injection, workspace-aware `/diff` (v0.129.0) → [task-cbp-122.md](task-cbp-122.md)
+- [x] `CBP-123` [Codex] Add `/keymap debug` to Cheat Sheet; update Plugins collapsible with workspace sharing (v0.129.0) → [task-cbp-123.md](task-cbp-123.md)
+- [x] `CBP-124` [Codex] Update Goals section: discoverable goals, paused-across-resume default, multi-day duration (v0.129.0) → [task-cbp-124.md](task-cbp-124.md)

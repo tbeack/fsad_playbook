@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v52 — 2026-05-07
+
+**Codex CLI v0.129.0 auto-update (CBP-120–CBP-124)**
+
+Five Codex-side updates from the v0.129.0 release, covering new TUI features and hooks improvements.
+
+- **CBP-120** — Added `/vim` to the Codex Cheat Sheet slash commands table and `vim_mode` to the Configuration Reference; added a "Vim Editing Mode" collapsible to Codex Power Usage documenting modal Vim editing, permanent config enablement, and `/keymap debug` for troubleshooting terminal key events.
+- **CBP-121** — Added `/hooks` to the Codex Cheat Sheet; added `PreCompact` and `PostCompact` event rows to the Codex Hooks event types table; updated the `PreToolUse` row to note context injection capability; updated the Claude Code vs. Codex comparison table from 6 to 8 hook event types.
+- **CBP-122** — Updated the Codex Session Management Power Usage collapsible to mention the redesigned resume/fork picker and raw scrollback mode; added `/ide` to the Codex Cheat Sheet; updated `/diff` description to note workspace-aware behavior.
+- **CBP-123** — Updated `/keymap` Cheat Sheet row to document the `debug` subcommand; updated the Codex Plugins collapsible with workspace sharing (`codex plugin share`, `codex plugin sync`) and admin-disabled status.
+- **CBP-124** — Updated `/goal` Cheat Sheet row and `/goal Workflows` collapsible to document discoverable goals, the paused-across-resume default, and multi-day duration tracking.
+
 ### v51 — 2026-05-07
 
 **Claude Code v2.1.132 auto-update (CBP-118–CBP-119)**
