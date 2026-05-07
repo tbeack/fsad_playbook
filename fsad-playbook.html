@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v50)</title>
+<title>FSAD — Full Stack Agentic Development (v51)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v50</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v51</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -6959,6 +6959,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1</code></td><td>On Homebrew or WinGet installations, runs the package manager upgrade in the background and prompts to restart when a new version is ready. Complement to <code>DISABLE_UPDATES</code> — use when you want managed automatic updates.</td></tr>
               <tr><td><code>ANTHROPIC_BEDROCK_SERVICE_TIER</code></td><td>Select Bedrock service tier: <code>default</code> | <code>flex</code> | <code>priority</code>. Sent as the <code>X-Amzn-Bedrock-Service-Tier</code> header. Use <code>priority</code> for provisioned-capacity deployments.</td></tr>
               <tr><td><code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code></td><td>Force-enables synchronized output mode for terminals where auto-detection fails (e.g. Emacs <code>eat</code>). Fixes garbled or interleaved output in unsupported terminal emulators.</td></tr>
+              <tr><td><code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code></td><td>Opts out of the fullscreen alternate-screen renderer — keeps the conversation in the terminal's native scrollback buffer instead. Useful in tmux, GNU screen, or CI environments where alternate-screen mode interferes with log capture.</td></tr>
             </tbody>
           </table>
         </div>
@@ -7186,6 +7187,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_ENV_FILE</code></td><td>File path for persisting env vars (SessionStart, CwdChanged, FileChanged)</td></tr>
               <tr><td><code>CLAUDE_PLUGIN_ROOT</code></td><td>Plugin installation directory</td></tr>
               <tr><td><code>CLAUDE_PLUGIN_DATA</code></td><td>Plugin persistent data directory</td></tr>
+              <tr><td><code>CLAUDE_CODE_SESSION_ID</code></td><td>Current session ID — also injected into the Bash tool subprocess environment, enabling scripts to correlate tool runs with the active session without parsing hook JSON input</td></tr>
             </tbody>
           </table>
         </div>
@@ -9397,6 +9399,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v51 <span class="changelog-date">· 2026-05-07</span></h3>
+        <p><strong>Claude Code v2.1.132 auto-update (CBP-118–CBP-119).</strong> Added <code>CLAUDE_CODE_SESSION_ID</code> to the hooks env vars table (also injected into Bash subprocess environment); added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> to the Subprocess Sandboxing hardening env vars table for opting out of the fullscreen alternate-screen renderer.</p>
+      </section>
       <section>
         <h3>v50 <span class="changelog-date">· 2026-05-06</span></h3>
         <p><strong>HTTP Hooks &amp; Managed Web Agents section (CBP-117).</strong> Added HTTP Hooks coverage and a new Managed Web Agents section to the Claude Best Practices page.</p>
