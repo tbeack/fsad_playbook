@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v51 — 2026-05-07
+
+**Claude Code v2.1.132 auto-update (CBP-118–CBP-119)**
+
+Two new env vars from the v2.1.132 release, both with direct playbook impact.
+
+- **CBP-118** — Added `CLAUDE_CODE_SESSION_ID` to the "Environment variables available in hooks" table. The var is injected into both hook subprocess environments and Bash tool subprocess environments, enabling scripts to correlate tool runs with the active session without parsing hook JSON input.
+- **CBP-119** — Added `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` to the Subprocess Sandboxing hardening env vars table. Opts out of the fullscreen alternate-screen renderer, keeping output in the terminal's native scrollback buffer — useful in tmux, GNU screen, and CI pipelines where alternate-screen mode interferes with log capture.
+
 ### v50 — 2026-05-06
 
 **HTTP Hooks & Managed Web Agents section (CBP-117)**

@@ -128,3 +128,5 @@
 - [x] `CBP-115` Update `monitors` frontmatter row: note that in plugin manifests, declare under `"experimental": { ... }` to avoid validation warning (v2.1.129) → [task-cbp-115.md](task-cbp-115.md)
 - [x] `CBP-116` — Add the notion of a QA Pod that develop the QA/testing frameworks (agents, skills, hooks, tools) that are used to the testing & verification of code. → [task-cbp-116.md](task-cbp-116.md)
 - [x] `CBP-117` — Add section about Claude Webhooks (https://code.claude.com/docs/en/hooks-guide), managed Web Agents (https://platform.claude.com/docs/en/managed-agents/overview) . include examples. propose use cases. thins to watch out for. Find examples of where people have used these to solve novel problems. Structure your plan into Research first, then plan. → [task-cbp-117.md](task-cbp-117.md)
+- [x] `CBP-118` Add `CLAUDE_CODE_SESSION_ID` to hooks env vars table (v2.1.132) → [task-cbp-118.md](task-cbp-118.md)
+- [x] `CBP-119` Add `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` to Subprocess Sandboxing env vars table (v2.1.132) → [task-cbp-119.md](task-cbp-119.md)
