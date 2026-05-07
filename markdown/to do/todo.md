@@ -127,3 +127,4 @@
 - [x] `CBP-114` Add `skillOverrides` setting to Notable settings.json Keys callout in Config Cascade (v2.1.129) → [task-cbp-114.md](task-cbp-114.md)
 - [x] `CBP-115` Update `monitors` frontmatter row: note that in plugin manifests, declare under `"experimental": { ... }` to avoid validation warning (v2.1.129) → [task-cbp-115.md](task-cbp-115.md)
 - [x] `CBP-116` — Add the notion of a QA Pod that develop the QA/testing frameworks (agents, skills, hooks, tools) that are used to the testing & verification of code. → [task-cbp-116.md](task-cbp-116.md)
+- [x] `CBP-117` — Add section about Claude Webhooks (https://code.claude.com/docs/en/hooks-guide), managed Web Agents (https://platform.claude.com/docs/en/managed-agents/overview) . include examples. propose use cases. thins to watch out for. Find examples of where people have used these to solve novel problems. Structure your plan into Research first, then plan. → [task-cbp-117.md](task-cbp-117.md)

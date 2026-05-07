@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v49)</title>
+<title>FSAD — Full Stack Agentic Development (v50)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -2008,6 +2008,14 @@
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/exit-codes" data-leaf="hooks-deep-dive--exit-codes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--exit-codes', 'skills-hooks')">Exit Codes</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/recipes" data-leaf="hooks-deep-dive--recipes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--recipes', 'skills-hooks')">Recipes</a>
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/best-practices" data-leaf="hooks-deep-dive--best-practices" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--best-practices', 'skills-hooks')">Best Practices</a>
+            </div>
+          </div>
+          <div class="nav-sub-item-wrap" data-section="cloud-integrations">
+            <a class="nav-sub-item" href="#practices/cloud-integrations" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('cloud-integrations'),120)">HTTP Hooks &amp; Web Agents</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/http-hooks" data-leaf="cloud-integrations--http-hooks" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--http-hooks', 'skills-hooks')">HTTP Hooks</a>
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/managed-agents" data-leaf="cloud-integrations--managed-agents" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--managed-agents', 'skills-hooks')">Managed Web Agents</a>
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/novel-patterns" data-leaf="cloud-integrations--novel-patterns" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--novel-patterns', 'skills-hooks')">Novel Patterns</a>
             </div>
           </div>
         </div>
@@ -7403,6 +7411,286 @@ exit 0</code></pre>
 
   </section>
 
+<section id="cloud-integrations">
+    <span class="section-label">15.5 — HTTP Hooks &amp; Managed Web Agents</span>
+    <h2 class="section-title">Cloud Integrations</h2>
+    <p class="section-subtitle">Connect Claude Code to external services via HTTP hooks, and deploy Claude as a fully managed cloud agent for long-running autonomous work — no agent loop required.</p>
+
+    <!-- HTTP Hooks -->
+    <div class="collapsible open" id="cloud-integrations--http-hooks">
+      <div class="collapsible-header">
+        <h3>HTTP Hooks — Webhook Integrations</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>HTTP hooks (<code>"type": "http"</code>) POST Claude Code lifecycle events as JSON to any HTTP endpoint. Unlike command hooks, the receiving server doesn't need to be co-located with the developer — enabling team-wide shared audit services, remote approval gateways, and webhook-based integrations with Slack, PagerDuty, GitHub Actions, and custom dashboards.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>HTTP hook schema:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "http",
+  "url": "https://your-service.example.com/hooks/tool-use",
+  "headers": {
+    "Authorization": "Bearer $HOOK_TOKEN",
+    "X-Team": "platform-eng"
+  },
+  "allowedEnvVars": ["HOOK_TOKEN"],
+  "timeout": 10
+}</code></pre>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.5rem;">Header values support <code>$VAR</code> or <code>${VAR}</code> interpolation. Only env vars listed in <code>allowedEnvVars</code> are expanded — all others remain empty strings.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Recipe 1 — Team audit log service (PostToolUse):</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Every tool call across your team's Claude Code sessions is POSTed to a shared logging endpoint. The body is the standard PostToolUse JSON (session_id, tool_name, tool_input, tool_output). Index this into Elasticsearch, Datadog, or any observability stack.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://audit.internal/api/claude-events",
+            "headers": { "Authorization": "Bearer $AUDIT_TOKEN" },
+            "allowedEnvVars": ["AUDIT_TOKEN"]
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Recipe 2 — Slack notification on task completion (Stop):</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Post a message to your team's Slack channel whenever Claude finishes a turn. The Stop event fires each time Claude stops responding — pair with a Slack incoming webhook URL for real-time task completion alerts.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "http",
+            "url": "$SLACK_WEBHOOK_URL",
+            "headers": { "Content-Type": "application/json" },
+            "allowedEnvVars": ["SLACK_WEBHOOK_URL"]
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Recipe 3 — External approval gateway (PreToolUse):</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Before allowing destructive Bash commands in a regulated environment, POST to an approval service. The service evaluates the command against policy and returns a JSON decision body. Blocking requires a JSON response body — an HTTP 4xx status alone won't stop the action.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">// Hook config
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://policy.internal/approve",
+            "headers": { "Authorization": "Bearer $POLICY_TOKEN" },
+            "allowedEnvVars": ["POLICY_TOKEN"],
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
+
+// Your server returns this JSON to block:
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "Command violates SOC2 policy: rm -rf on /data"
+  }
+}
+
+// Or this JSON to allow:
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "allow"
+  }
+}</code></pre>
+        </div>
+
+        <div class="callout callout-warning" style="margin-top:1.5rem;">
+          <div class="callout-title">HTTP Hooks — What to Watch Out For</div>
+          <ul style="margin: 0.4rem 0 0 1.1rem; padding: 0; line-height:1.8;">
+            <li><strong>Blocking requires JSON body, not HTTP status.</strong> Return a 2xx response with the appropriate <code>hookSpecificOutput</code> JSON. A 403 or 500 causes a hook error — execution continues, it does not block.</li>
+            <li><strong>Always list env vars in <code>allowedEnvVars</code>.</strong> Any <code>$VAR</code> in headers not in this list expands to an empty string — no error, just silent auth failures.</li>
+            <li><strong>Set <code>timeout</code> explicitly for fast gates.</strong> Default is 10 minutes. An approval gateway that hangs will block Claude for 10 minutes if you don't specify a lower timeout (e.g., <code>"timeout": 10</code> seconds).</li>
+            <li><strong>Non-2xx responses cause hook errors — execution proceeds.</strong> If your server returns a 500, Claude Code logs a hook error but does not block the action. Design your server to return 2xx with a deny body, not an HTTP error code.</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Managed Web Agents -->
+    <div class="collapsible" id="cloud-integrations--managed-agents">
+      <div class="collapsible-header">
+        <h3>Managed Web Agents — Cloud-Hosted Agent Runtime</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Managed Web Agents is Anthropic's cloud-hosted agent infrastructure. Instead of building your own agent loop, tool execution layer, and container sandbox, you get a fully managed environment where Claude can run Bash commands, read and write files, search the web, and call MCP servers — with session state persisted server-side.</p>
+
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th></th><th>Messages API</th><th>Managed Web Agents</th></tr></thead>
+            <tbody>
+              <tr><td><strong>What it is</strong></td><td>Direct model prompting</td><td>Pre-built, configurable agent harness in managed infrastructure</td></tr>
+              <tr><td><strong>Best for</strong></td><td>Custom agent loops, fine-grained control</td><td>Long-running tasks, async work, minimal infrastructure</td></tr>
+              <tr><td><strong>You build</strong></td><td>Agent loop, tool execution, sandbox, state</td><td>Just your agent definition and task inputs</td></tr>
+              <tr><td><strong>Session state</strong></td><td>You manage</td><td>Persisted server-side, fetchable in full</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Four core concepts:</strong></p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Concept</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Agent</strong></td><td>Model + system prompt + tools + MCP servers + skills. Define once, reuse by ID across many sessions.</td></tr>
+              <tr><td><strong>Environment</strong></td><td>Cloud container template: pre-installed packages (Python, Node, Go…), network access rules, mounted files.</td></tr>
+              <tr><td><strong>Session</strong></td><td>A running instance of an agent in an environment, performing a specific task and streaming results via SSE.</td></tr>
+              <tr><td><strong>Events</strong></td><td>Messages exchanged between your application and the agent — user turns, tool results, status updates. Fetched on demand or streamed live.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Python quickstart:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()  # SDK sets managed-agents beta header automatically
+
+# 1. Create the agent once — reuse agent_id across sessions
+agent = client.beta.managed_agents.agents.create(
+    model="claude-opus-4-7",
+    system="You are a code review specialist. Analyze PRs for bugs and security issues.",
+    tools=[{"type": "bash"}, {"type": "web_search"}, {"type": "file"}],
+)
+
+# 2. Create a cloud environment with the packages you need
+env = client.beta.managed_agents.environments.create(
+    packages=["python3", "git", "ripgrep"],
+    network={"allowed_domains": ["github.com", "api.github.com"]},
+)
+
+# 3. Start a session for a specific task
+session = client.beta.managed_agents.sessions.create(
+    agent_id=agent.id,
+    environment_id=env.id,
+)
+
+# 4. Send a user message and stream the agent's work via SSE
+with client.beta.managed_agents.sessions.stream(
+    session_id=session.id,
+    message="Review the changes in github.com/myorg/repo/pull/42 and flag any critical issues."
+) as stream:
+    for event in stream:
+        print(event)  # Tool calls, text output, status updates
+
+# See https://platform.claude.com/docs/en/managed-agents for full API reference</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>When to use Managed Web Agents:</strong></p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Scenario</th><th>Why Managed Agents Fits</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CI pipeline code review</strong></td><td>Long-running (minutes), triggered on PR open, needs git access and web search — container environment handles all dependencies</td></tr>
+              <tr><td><strong>Scheduled maintenance</strong></td><td>Cron triggers a session; agent runs dependency updates, generates changelog, opens PR — no server to keep alive</td></tr>
+              <tr><td><strong>Customer-facing AI features</strong></td><td>Product creates a session per user request; agent completes the task asynchronously; results fetched via event history API</td></tr>
+              <tr><td><strong>Bulk data processing</strong></td><td>Fan out dozens of parallel sessions, each processing a different file or data chunk; all managed at the platform level</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning" style="margin-top:1.5rem;">
+          <div class="callout-title">Managed Web Agents — What to Watch Out For</div>
+          <ul style="margin: 0.4rem 0 0 1.1rem; padding: 0; line-height:1.8;">
+            <li><strong>Beta: behavior may change.</strong> All endpoints require the <code>managed-agents-2026-04-01</code> beta header. The Anthropic Python/TypeScript SDKs set this automatically via <code>client.beta.managed_agents</code>.</li>
+            <li><strong>Rate limits apply at the org level.</strong> 300 requests/min for create endpoints (agents, sessions, environments), 600 requests/min for read endpoints. Fan-out architectures need explicit rate management.</li>
+            <li><strong>Not a replacement for Messages API when you need control.</strong> If you need custom tool schemas, precise streaming behavior, or sub-turn decision logic, build your own loop with the Messages API instead.</li>
+            <li><strong>Declare packages in the Environment config.</strong> Container environments don't include every tool by default — specify <code>packages</code> explicitly or your agent's Bash commands will fail with "command not found".</li>
+            <li><strong>Outcomes and multi-agent features are research preview.</strong> Requires a separate access request at <code>claude.com/form/claude-managed-agents</code>.</li>
+            <li><strong>Cost is runtime hours + tokens.</strong> Sessions in beta are billed at $0.08/runtime hour plus standard model token costs. A 24/7 agent costs ~$58/month in runtime before any token charges.</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Novel Patterns & Community Use Cases -->
+    <div class="collapsible" id="cloud-integrations--novel-patterns">
+      <div class="collapsible-header">
+        <h3>Novel Patterns &amp; Real-World Use Cases</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Real adoption patterns from teams running HTTP hooks and Managed Web Agents in production.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Hookdeck — Inbound webhook bridge via Claude Channels:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Hookdeck's integration uses Claude Code's <em>Channels</em> feature (a specialized MCP server that emits notification events) to push inbound webhooks from GitHub, Stripe, or any external service directly into an active Claude Code session. The pattern: external service → Hookdeck → Claude Code Channel → Claude processes the event. Useful for having Claude react to production events (new PR, failed payment, deploy failure) without polling.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-bash"># Claude Code Channels receive external webhooks via Hookdeck CLI
+hookdeck listen 3000 claude-code-channel
+
+# Claude Code picks up events streamed from the channel MCP server
+# and can take action — file edits, git operations, notifications</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Sentry — Bug to PR, fully autonomous:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Sentry deployed a Managed Web Agent that takes a flagged error from their issue tracker, clones the relevant repo in a managed container, reproduces the bug, writes a fix, runs the test suite, and opens a pull request — all without human involvement. The agent uses Bash, file ops, and web search tools. Sessions run for 5–15 minutes per issue.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Notion — Parallel delegated tasks:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Notion runs dozens of parallel Managed Agent sessions simultaneously — one per delegated task from a user's workspace. Tasks include writing and shipping code, creating Slack channels, researching competitor sites, and generating project timelines. Session event history is persisted server-side so Notion can retrieve results asynchronously and surface them in the UI without a persistent connection.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Async hooks for non-blocking background work:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Async hooks (released January 2026) run in the background without blocking Claude's execution. Use them for slow operations — sending telemetry, triggering CI, updating dashboards — where you don't need the result to inform the next step. Configure with <code>"async": true</code> in the hook definition.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://telemetry.internal/events",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>External policy engine with PermissionRequest hook:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Teams in regulated environments (fintech, healthcare) route all permission prompts through a centralized policy engine via HTTP hook on the <code>PermissionRequest</code> event. The engine checks the tool call against compliance rules and returns an allow/deny decision — replacing the interactive dialog with deterministic policy enforcement. Because the hook fires before the user sees the dialog, the policy engine's decision is silent and auditable.</p>
+
+        <div class="callout callout-tip" style="margin-top:1.5rem;">
+          <div class="callout-title">Use HTTP Hooks for Team-Wide Policies, Command Hooks for Personal Automation</div>
+          <p>HTTP hooks make sense when the policy, rule, or notification target is shared across multiple developers. Command hooks are better for personal automation (formatting, linting) that doesn't need a server. The two types compose — a single event can have both.</p>
+        </div>
+      </div></div>
+    </div>
+
+</section>
+
 <hr class="divider">
 </div>
 
@@ -9311,7 +9599,7 @@ codex app</code></pre>
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
     'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'add-task-skill': 'workflows', 'commit-changes-skill': 'workflows',
-    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'cloud-integrations': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
