@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v51)</title>
+<title>FSAD — Full Stack Agentic Development (v52)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v51</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v52</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -8039,7 +8039,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
           <tr><td>IDE extensions</td><td>VS Code</td><td>VS Code, Cursor, Windsurf</td></tr>
           <tr><td>Skills directory</td><td><code>.claude/skills/</code></td><td><code>.agents/skills/</code></td></tr>
           <tr><td>Multi-agent</td><td>Subagents (Task tool)</td><td>Agent threads (<code>max_threads</code> config)</td></tr>
-          <tr><td>Hooks</td><td>26 event types (SessionStart, PreToolUse, Stop…)</td><td>6 event types (SessionStart, PreToolUse, PermissionRequest, PostToolUse, UserPromptSubmit, Stop)</td></tr>
+          <tr><td>Hooks</td><td>26 event types (SessionStart, PreToolUse, Stop…)</td><td>8 event types (SessionStart, UserPromptSubmit, PreToolUse, PermissionRequest, PostToolUse, Stop, PreCompact, PostCompact)</td></tr>
           <tr><td>Plugin marketplace</td><td><code>claude plugin install</code></td><td><code>codex plugin install</code> / <code>/plugins</code> TUI</td></tr>
           <tr><td>Permission model</td><td>Per-tool allow/deny + 5 approval modes</td><td>Named permission profiles with filesystem + network policies</td></tr>
         </tbody>
@@ -8741,10 +8741,12 @@ Guided deployment to staging and production environments.
         <tbody>
           <tr><td><code>SessionStart</code></td><td>Session begins or resumes</td><td>No — adds context only</td><td><code>SessionStart</code></td></tr>
           <tr><td><code>UserPromptSubmit</code></td><td>User submits a prompt</td><td>Yes (exit 2)</td><td><code>UserPromptSubmit</code></td></tr>
-          <tr><td><code>PreToolUse</code></td><td>Before Bash, <code>apply_patch</code>, or MCP tool runs</td><td>Yes (exit 2 or deny JSON)</td><td><code>PreToolUse</code></td></tr>
+          <tr><td><code>PreToolUse</code></td><td>Before Bash, <code>apply_patch</code>, or MCP tool runs; hooks can inject additional context into the turn by returning a <code>context</code> field in JSON output</td><td>Yes (exit 2 or deny JSON)</td><td><code>PreToolUse</code></td></tr>
           <tr><td><code>PermissionRequest</code></td><td>When Codex seeks approval (shell escalation, network)</td><td>Yes — allow / deny</td><td><code>PermissionRequest</code></td></tr>
           <tr><td><code>PostToolUse</code></td><td>After tool completes (including failed runs)</td><td>Yes (exit 2 — replaces output)</td><td><code>PostToolUse</code></td></tr>
           <tr><td><code>Stop</code></td><td>When a turn completes</td><td>Yes — can request continuation</td><td><code>Stop</code></td></tr>
+          <tr><td><code>PreCompact</code></td><td>Before context compaction runs</td><td>Yes (exit 2 blocks compaction)</td><td><code>PreCompact</code></td></tr>
+          <tr><td><code>PostCompact</code></td><td>After context compaction completes</td><td>No</td><td><code>PostCompact</code></td></tr>
         </tbody>
       </table>
     </div>
@@ -8916,22 +8918,25 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
         <tbody>
           <tr><td><code>/plan</code></td><td>Enter plan mode — propose before implementing</td></tr>
           <tr><td><code>/review</code></td><td>Analyze diffs without modifying code</td></tr>
-          <tr><td><code>/goal</code></td><td>Create a persisted goal; pause, resume, or clear with TUI controls</td></tr>
+          <tr><td><code>/goal</code></td><td>Create a persisted goal; browse discoverable goals in TUI. Goals pause across session resume by default — opt back in from the picker. Supports multi-day duration tracking.</td></tr>
           <tr><td><code>/fork</code></td><td>Clone conversation to a new thread</td></tr>
           <tr><td><code>/side</code></td><td>Open an ephemeral branch for a focused follow-up; doesn't pollute main context</td></tr>
           <tr><td><code>/new</code></td><td>Start a fresh conversation within the same CLI session</td></tr>
           <tr><td><code>/compact</code></td><td>Summarize conversation to free context tokens</td></tr>
-          <tr><td><code>/diff</code></td><td>Show current changes (staged and unstaged)</td></tr>
+          <tr><td><code>/diff</code></td><td>Show current changes (staged and unstaged); workspace-aware — diff is scoped to your project root</td></tr>
           <tr><td><code>/model</code></td><td>Switch model and/or reasoning level mid-session</td></tr>
           <tr><td><code>/fast</code></td><td>Toggle fast mode (<code>on</code> / <code>off</code> / <code>status</code>)</td></tr>
           <tr><td><code>/agent</code></td><td>Switch between active agent threads</td></tr>
           <tr><td><code>/plugins</code></td><td>Browse, install, and manage marketplace plugins</td></tr>
           <tr><td><code>/apps</code></td><td>Browse and insert available connectors</td></tr>
+          <tr><td><code>/ide</code></td><td>Inject IDE file/editor context into the current session (workspace-aware)</td></tr>
           <tr><td><code>/mcp</code></td><td>List configured MCP tools</td></tr>
           <tr><td><code>/permissions</code></td><td>Change approval mode mid-session</td></tr>
           <tr><td><code>/init</code></td><td>Generate an AGENTS.md scaffold for the current project</td></tr>
-          <tr><td><code>/keymap</code></td><td>Remap TUI keyboard shortcuts interactively</td></tr>
+          <tr><td><code>/vim</code></td><td>Toggle Vim modal editing in the composer. Set <code>vim_mode = true</code> in <code>config.toml</code> to enable by default.</td></tr>
+          <tr><td><code>/keymap</code> <code>[debug]</code></td><td>Remap TUI keyboard shortcuts interactively. Use <code>/keymap debug</code> to inspect raw terminal key events — helpful when Vim mode or chord bindings don't register.</td></tr>
           <tr><td><code>/statusline</code></td><td>Configure footer status items</td></tr>
+          <tr><td><code>/hooks</code></td><td>Browse and toggle configured hooks from the TUI without editing config files</td></tr>
           <tr><td><code>/personality</code></td><td>Set agent personality (friendly / pragmatic / none)</td></tr>
           <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>)</td></tr>
           <tr><td><code>/status</code></td><td>Show session config and token usage metrics</td></tr>
@@ -8973,6 +8978,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>model</code></td><td>Default model</td><td><code>gpt-5.5</code></td></tr>
           <tr><td><code>model_reasoning_effort</code></td><td>Reasoning depth: <code>minimal</code> / <code>low</code> / <code>medium</code> / <code>high</code> / <code>xhigh</code></td><td><code>medium</code></td></tr>
           <tr><td><code>model_verbosity</code></td><td>Response verbosity: <code>low</code> / <code>medium</code> / <code>high</code></td><td><code>medium</code></td></tr>
+          <tr><td><code>vim_mode</code></td><td>Enable Vim modal editing in the composer by default</td><td><code>false</code></td></tr>
           <tr><td><code>approval_policy</code></td><td>Approval mode: <code>untrusted</code> / <code>on-request</code> / <code>never</code> / <code>granular</code></td><td><code>on-request</code></td></tr>
           <tr><td><code>sandbox_mode</code></td><td>Sandbox policy: <code>read-only</code> / <code>workspace-write</code> / <code>danger-full-access</code></td><td><code>read-only</code></td></tr>
           <tr><td><code>default_permissions</code></td><td>Named permission profile to apply by default (e.g. <code>":workspace"</code>)</td><td>—</td></tr>
@@ -9057,6 +9063,26 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
       </div></div>
     </div>
 
+    <!-- Vim Editing Mode -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Vim Editing Mode</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex v0.129.0 adds modal Vim editing in the composer. Toggle it mid-session with <code>/vim</code>, or enable it permanently in config:</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml — enable Vim mode globally</span>
+vim_mode = true
+
+<span class="cm"># Or toggle mid-session</span>
+/vim</code></pre>
+        </div>
+        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use <code>/keymap debug</code> to inspect what key events your terminal is sending — helpful when certain Vim chords don't register correctly.</p>
+      </div></div>
+    </div>
+
     <!-- Session Management -->
     <div class="collapsible">
       <div class="collapsible-header">
@@ -9064,9 +9090,9 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Codex saves sessions automatically. Resume previous work without re-explaining context.</p>
+        <p>Codex saves sessions automatically. Resume previous work without re-explaining context. The redesigned resume/fork picker lets you select, resume, or fork any saved session in a single UI — no need to know the session ID upfront.</p>
         <div class="code-block" style="margin-top:1rem;">
-          <pre><code><span class="cm"># Show session picker</span>
+          <pre><code><span class="cm"># Show session picker (redesigned resume/fork picker in v0.129.0)</span>
 codex resume
 
 <span class="cm"># Resume the most recent session</span>
@@ -9076,7 +9102,10 @@ codex resume --last
 codex exec --ephemeral "quick fix: update version in package.json"
 
 <span class="cm"># Update Codex CLI to the latest version</span>
-codex update</code></pre>
+codex update
+
+<span class="cm"># Raw scrollback mode — scroll through session output without affecting</span>
+<span class="cm"># the composer; configure the keybind via /keymap</span></code></pre>
         </div>
       </div></div>
     </div>
@@ -9208,16 +9237,16 @@ codex exec --ephemeral "check for unused imports"</code></pre>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Persisted goals let you define a long-running objective that survives context compaction and session resume. Use the TUI controls or <code>/goal</code> command to manage them.</p>
+        <p>Persisted goals let you define a long-running objective that survives context compaction. Goals are now <strong>discoverable</strong> — browse all active goals from the TUI picker. When you resume a session, goals are <strong>paused by default</strong> so they don't carry over unintended work; opt back in from the picker. Goals show clear validation feedback and support multi-day duration tracking.</p>
         <div class="code-block" style="margin-top:1rem;">
           <pre><code><span class="cm"># In a Codex session — set a persistent goal</span>
 /goal
 
-<span class="cm"># TUI controls appear: Create / Pause / Resume / Clear</span>
-<span class="cm"># Goal state persists across /compact and codex resume</span>
-<span class="cm"># Model always sees the goal at the top of context</span></code></pre>
+<span class="cm"># TUI picker: Create / Pause / Resume / Clear / Browse all goals</span>
+<span class="cm"># Goal persists across /compact; pauses on resume (opt back in from picker)</span>
+<span class="cm"># Multi-day duration shown in goal status output</span></code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Goals are ideal for large refactors or multi-day feature work where you want the agent to stay oriented across many turns and sessions.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Goals are ideal for large refactors or multi-day feature work. The paused-across-resume default prevents stale goals from leaking into new sessions — always check the picker when resuming long-running work.</p>
       </div></div>
     </div>
 
@@ -9237,12 +9266,19 @@ codex exec --ephemeral "check for unused imports"</code></pre>
 codex plugin install &lt;plugin-name&gt;
 
 <span class="cm"># Remove a plugin</span>
-codex plugin remove &lt;plugin-name&gt;</code></pre>
+codex plugin remove &lt;plugin-name&gt;
+
+<span class="cm"># Share a plugin with your workspace</span>
+codex plugin share &lt;plugin-name&gt;
+
+<span class="cm"># Sync remote plugin bundles</span>
+codex plugin sync</code></pre>
         </div>
         <p style="margin-top:1rem;"><strong>Plugin scoping:</strong></p>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
           <li><strong>Global</strong> (<code>~/.codex/</code>) — available in every session</li>
           <li><strong>Project</strong> (<code>.codex/</code>) — loaded only in trusted projects</li>
+          <li><strong>Workspace-shared</strong> — install once, available to teammates via workspace share link; admin-disabled plugins are flagged in <code>/plugins</code></li>
         </ul>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration.</p>
         <div class="callout callout-tip" style="margin-top:1rem;">
