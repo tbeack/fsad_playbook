@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v48</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v50</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9397,6 +9397,14 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v50 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>HTTP Hooks &amp; Managed Web Agents section (CBP-117).</strong> Added HTTP Hooks coverage and a new Managed Web Agents section to the Claude Best Practices page.</p>
+      </section>
+      <section>
+        <h3>v49 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>QA Pod — Configuration G for test infrastructure pods (CBP-116).</strong> Added Configuration G to the Pod Compositions page covering QA pod structures and test infrastructure pod patterns.</p>
+      </section>
       <section>
         <h3>v48 <span class="changelog-date">· 2026-05-06</span></h3>
         <p><strong>Claude Code v2.1.129 deferred items (CBP-114–CBP-115).</strong> Two follow-up updates from the v2.1.129 release: <code>skillOverrides</code> setting added to the Notable <code>settings.json</code> Keys callout in Config Cascade — documents the three modes (<code>off</code>, <code>user-invocable-only</code>, <code>name-only</code>) for controlling per-skill model visibility; <code>monitors</code> frontmatter row updated to note that in plugin <code>manifest.json</code> files, <code>monitors</code> and <code>themes</code> should be declared under <code>"experimental": { ... }</code> — top-level declarations still work but trigger a <code>claude plugin validate</code> warning.</p>
