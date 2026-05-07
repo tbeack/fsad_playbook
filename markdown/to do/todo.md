@@ -126,3 +126,4 @@
 - [x] `CBP-113` Update `/model` Cheat Sheet row: gateway discovery now opt-in via `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` (v2.1.129) → [task-cbp-113.md](task-cbp-113.md)
 - [x] `CBP-114` Add `skillOverrides` setting to Notable settings.json Keys callout in Config Cascade (v2.1.129) → [task-cbp-114.md](task-cbp-114.md)
 - [x] `CBP-115` Update `monitors` frontmatter row: note that in plugin manifests, declare under `"experimental": { ... }` to avoid validation warning (v2.1.129) → [task-cbp-115.md](task-cbp-115.md)
+- [x] `CBP-116` — Add the notion of a QA Pod that develop the QA/testing frameworks (agents, skills, hooks, tools) that are used to the testing & verification of code. → [task-cbp-116.md](task-cbp-116.md)
