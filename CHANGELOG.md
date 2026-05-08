@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v53 — 2026-05-08
+
+**Claude Code v2.1.133 auto-update (CBP-125–CBP-127)**
+
+Three content updates from the v2.1.133 release, covering hooks context, worktree configuration, and Linux sandbox settings.
+
+- **CBP-125** — Added `$CLAUDE_EFFORT` to the "Environment variables available in hooks" table. The var is injected into hook subprocess environments and Bash tool subprocess commands, letting scripts branch on effort level (`low` | `medium` | `high` | `xhigh` | `max`) without parsing hook JSON. Also noted that `effort.level` is available in the JSON delivered to hook stdin.
+- **CBP-126** — Added `worktree.baseRef` setting table to the Work Trees collapsible. Documents `fresh` (default — branches from `origin/<default-branch>`) vs. `head` (branches from local `HEAD`, preserving unpushed commits) with use-case guidance for parallel agent workflows.
+- **CBP-127** — Added `sandbox.bwrapPath` and `sandbox.socatPath` rows to the Subprocess Sandboxing settings table. Both are Linux/WSL-only managed settings for specifying custom bubblewrap and socat binary paths when these tools are installed in non-standard locations.
+
 ### v52 — 2026-05-07
 
 **Codex CLI v0.129.0 auto-update (CBP-120–CBP-124)**
