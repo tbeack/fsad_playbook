@@ -1,5 +1,134 @@
 ## Changes in This Version
 
+### v54 — 2026-05-11
+
+**Claude Code v2.1.138 auto-update (CBP-128–CBP-129)**
+
+Two content updates from the v2.1.136 release, covering auto mode policy settings and OTEL enterprise configuration.
+
+- **CBP-128** — Added `settings.autoMode.hard_deny` to the Notable `settings.json` Keys callout in the Config Cascade section. Documents that hard-deny rules block unconditionally regardless of user intent or allow exceptions, distinguishing them from regular deny rules which the classifier can override.
+- **CBP-129** — Added `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1` bullet to the Enterprise Configuration collapsible in the Monitoring section. Documents that the session quality survey is suppressed by default when OTEL is active (to avoid polluting telemetry pipelines) and this flag opts enterprises back in.
+
+### v53 — 2026-05-08
+
+**Claude Code v2.1.133 auto-update (CBP-125–CBP-127)**
+
+Three content updates from the v2.1.133 release, covering hooks context, worktree configuration, and Linux sandbox settings.
+
+- **CBP-125** — Added `$CLAUDE_EFFORT` to the "Environment variables available in hooks" table. The var is injected into hook subprocess environments and Bash tool subprocess commands, letting scripts branch on effort level (`low` | `medium` | `high` | `xhigh` | `max`) without parsing hook JSON. Also noted that `effort.level` is available in the JSON delivered to hook stdin.
+- **CBP-126** — Added `worktree.baseRef` setting table to the Work Trees collapsible. Documents `fresh` (default — branches from `origin/<default-branch>`) vs. `head` (branches from local `HEAD`, preserving unpushed commits) with use-case guidance for parallel agent workflows.
+- **CBP-127** — Added `sandbox.bwrapPath` and `sandbox.socatPath` rows to the Subprocess Sandboxing settings table. Both are Linux/WSL-only managed settings for specifying custom bubblewrap and socat binary paths when these tools are installed in non-standard locations.
+
+### v52 — 2026-05-07
+
+**Codex CLI v0.129.0 auto-update (CBP-120–CBP-124)**
+
+Five Codex-side updates from the v0.129.0 release, covering new TUI features and hooks improvements.
+
+- **CBP-120** — Added `/vim` to the Codex Cheat Sheet slash commands table and `vim_mode` to the Configuration Reference; added a "Vim Editing Mode" collapsible to Codex Power Usage documenting modal Vim editing, permanent config enablement, and `/keymap debug` for troubleshooting terminal key events.
+- **CBP-121** — Added `/hooks` to the Codex Cheat Sheet; added `PreCompact` and `PostCompact` event rows to the Codex Hooks event types table; updated the `PreToolUse` row to note context injection capability; updated the Claude Code vs. Codex comparison table from 6 to 8 hook event types.
+- **CBP-122** — Updated the Codex Session Management Power Usage collapsible to mention the redesigned resume/fork picker and raw scrollback mode; added `/ide` to the Codex Cheat Sheet; updated `/diff` description to note workspace-aware behavior.
+- **CBP-123** — Updated `/keymap` Cheat Sheet row to document the `debug` subcommand; updated the Codex Plugins collapsible with workspace sharing (`codex plugin share`, `codex plugin sync`) and admin-disabled status.
+- **CBP-124** — Updated `/goal` Cheat Sheet row and `/goal Workflows` collapsible to document discoverable goals, the paused-across-resume default, and multi-day duration tracking.
+
+### v51 — 2026-05-07
+
+**Claude Code v2.1.132 auto-update (CBP-118–CBP-119)**
+
+Two new env vars from the v2.1.132 release, both with direct playbook impact.
+
+- **CBP-118** — Added `CLAUDE_CODE_SESSION_ID` to the "Environment variables available in hooks" table. The var is injected into both hook subprocess environments and Bash tool subprocess environments, enabling scripts to correlate tool runs with the active session without parsing hook JSON input.
+- **CBP-119** — Added `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` to the Subprocess Sandboxing hardening env vars table. Opts out of the fullscreen alternate-screen renderer, keeping output in the terminal's native scrollback buffer — useful in tmux, GNU screen, and CI pipelines where alternate-screen mode interferes with log capture.
+
+### v50 — 2026-05-06
+
+**HTTP Hooks & Managed Web Agents section (CBP-117)**
+
+New section 15.5 covering two cloud integration patterns: HTTP hooks for webhook-style integrations with external services, and Anthropic's Managed Web Agents platform for running Claude as a hosted autonomous agent.
+
+- **CBP-117** — Added "HTTP Hooks & Managed Web Agents" section (15.5) to Claude Best Practices under the Skills & Hooks topic. Three collapsibles: (1) HTTP Hooks — what they are, full schema with env var interpolation, three ready-to-use recipes (team audit log, Slack notification, external approval gateway), and a gotchas callout; (2) Managed Web Agents — Messages API vs. Managed Agents comparison table, four core concepts (Agent/Environment/Session/Events), Python quickstart, four deployment scenarios, and a beta/rate-limit gotchas callout; (3) Novel Patterns — Hookdeck inbound webhook bridge via Claude Channels, Sentry's bug-to-PR autonomous pipeline, Notion's parallel delegated task sessions, async hooks for non-blocking telemetry, and external policy engine pattern with PermissionRequest hook.
+
+### v49 — 2026-05-06
+
+**Add QA Pod to Pod Compositions (CBP-116)**
+
+New pod configuration for teams building FSAD testing infrastructure.
+
+- **CBP-116** — Added Configuration G: The QA Pod to the Pod Explorer. A specialist 2-human engineering pod (QA Lead + Test Engineer + N QA agents) whose output is reusable testing tooling — agents for test generation and code review, skills for coverage reporting, hooks for pre-commit / post-deploy verification gates, and MCP tools for fixture management. Includes ring visual, role cards, When To Use, Key Artifacts, and a new "QA / test infrastructure" row in the Pod Selection Matrix.
+
+### v48 — 2026-05-06
+
+**Claude Code v2.1.129 deferred items (CBP-114–CBP-115)**
+
+Two follow-up updates from the v2.1.129 release, deferred from the previous run.
+
+- **CBP-114** — Added `skillOverrides` to the Notable `settings.json` Keys callout in Config Cascade. Documents the three modes: `off` (hides skill from both model and `/` menu), `user-invocable-only` (hides from model only, still appears in `/` menu), `name-only` (sends skill name without description to the model).
+- **CBP-115** — Updated the `monitors` row in the skill frontmatter reference table to note that in plugin `manifest.json` files, `monitors` and `themes` should be declared under `"experimental": { ... }`. Top-level declarations still work but trigger a `claude plugin validate` warning.
+
+### v47 — 2026-05-06
+
+**Claude Code v2.1.129–v2.1.131 auto-update (CBP-109–CBP-113)**
+
+Five targeted updates for Claude Code v2.1.129 through v2.1.131.
+
+- **CBP-109** — Updated `Ctrl+R` keyboard shortcut: history picker now searches all prompts across all projects by default (restored pre-2.1.124 behavior). Added new `Ctrl+S` shortcut row: narrows the history picker to the current project or session only.
+- **CBP-110** — Added `--plugin-url <url>` CLI flag to the Cheat Sheet "Session & context" flags table. Fetches a plugin `.zip` archive from a URL and loads it for the current session only. Also added a usage example in the Plugins power-usage collapsible.
+- **CBP-111** — Added `CLAUDE_CODE_FORCE_SYNC_OUTPUT=1` to the Subprocess Sandboxing env vars table. Force-enables synchronized output for terminals where auto-detection fails (e.g. Emacs `eat`).
+- **CBP-112** — Added `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1` to the Subprocess Sandboxing env vars table. On Homebrew or WinGet installations, runs the package manager upgrade in the background and prompts to restart when a new version is ready.
+- **CBP-113** — Updated `/model` Cheat Sheet row: gateway model discovery is now opt-in via `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` (changed from automatic behavior in v2.1.126–2.1.128).
+
+### v46 — 2026-05-05
+
+**Claude Code v2.1.128 follow-up updates (CBP-107–CBP-108)**
+
+Two targeted updates for uncovered v2.1.128 items.
+
+- **CBP-107** — Added `--channels` CLI flag to the Cheat Sheet "System prompt & config" flags table. Documents console (API key) authentication support and the `channelsEnabled: true` managed-settings org requirement.
+- **CBP-108** — Added a "Permission Allowlists & settings.local.json" callout to the Config Cascade section. Explains that selecting "Always allow" at a Bash permission prompt writes the entry to `.claude/settings.local.json` (gitignored, project-local) and cross-references `/less-permission-prompts` for bulk allowlist setup.
+
+### v45 — 2026-05-05
+
+**Add /sandbox command guidance (CBP-105)**
+
+Two targeted updates documenting the `/sandbox` command for OS-level Bash subprocess isolation.
+
+- **Cheat Sheet — Configuration & setup table.** Added `/sandbox` row between `/less-permission-prompts` and `/mcp`. Description covers Auto-allow mode (sandboxed commands run without approval prompts), Regular permissions mode (standard flow, sandbox still enforces boundaries), macOS built-in Seatbelt support, and the `bubblewrap` + `socat` requirement for Linux / WSL2.
+- **Subprocess Sandboxing collapsible (Power Usage).** Significantly expanded from env-vars-only. New intro paragraph leads with `/sandbox` as the enablement command and the two OS-level enforcement backends. Adds a Sandbox modes table (Auto-allow vs Regular permissions), an expanded `settings.json` keys table (`sandbox.enabled`, `sandbox.filesystem.allowWrite`, `sandbox.filesystem.denyRead`, `sandbox.filesystem.allowRead`, `sandbox.network.allowedDomains`, `sandbox.network.deniedDomains`, `sandbox.failIfUnavailable`, `sandbox.allowUnsandboxedCommands`), and updates the Use Case callout to cover best-practice startup configuration. Existing env vars table preserved in a distinct subsection.
+
+### v44 — 2026-05-05
+
+**Claude Code v2.1.128 auto-update (CBP-100–CBP-104)**
+
+Five targeted updates for Claude Code v2.1.128.
+
+- **CBP-100** — `/color` Cheat Sheet row updated: bare `/color` with no argument now picks a random session color.
+- **CBP-101** — `--plugin-dir` code example in Plugins collapsible updated: `.zip` archives are now accepted in addition to directories; added a second example line.
+- **CBP-102** — Distributed Tracing bullet updated: `OTEL_*` configuration vars (exporter, endpoint, headers) are intentionally not inherited by subprocesses (Bash, hooks, MCP, LSP); only `TRACEPARENT` is passed for W3C trace context propagation.
+- **CBP-103** — Plugins collapsible gains a reserved-name warning: `workspace` is a reserved MCP server name — entries with that name are silently skipped at startup; teams should rename affected servers.
+- **CBP-104** — `/mcp` Cheat Sheet row updated: now mentions tool count display per connected server and flagging of servers that connect with 0 tools (usually a misconfiguration).
+
+### v43 — 2026-05-04
+
+**Codex Best Practices parity update (CBP-098)**
+
+Major refresh of the Codex Best Practices page to reflect Codex CLI v0.124–v0.128 and bring it to structural parity with the Claude Best Practices page.
+
+- **Model default updated.** All references updated from `gpt-5.4` to `gpt-5.5` (the recommended default as of April 2026). Codex-mini-latest replaces o4-mini as the secondary model reference.
+- **Comparison table expanded.** Added rows for Hooks (Claude: 26 events; Codex: 6 events), Plugin marketplace, and Permission model, with updated model and approval-mode descriptions.
+- **Cheat Sheet: Keyboard Shortcuts.** Added `Alt+,` (lower reasoning) and `Alt+.` (raise reasoning) shortcuts.
+- **Cheat Sheet: Slash Commands.** Added `/goal`, `/plugins`, `/new`, `/side`, `/fast`, `/init`, `/keymap`, `/statusline`, `/copy`, `/apps`, `/debug-config`.
+- **Cheat Sheet: CLI Flags.** Updated `--full-auto` to note deprecation in favor of named permission profiles. Updated `--json` to mention reasoning-token reporting. Added `codex update` row.
+- **Cheat Sheet: Config Reference.** Added `model_reasoning_effort`, `model_verbosity`, `default_permissions`, `service_tier`, `web_search`, `[features].codex_hooks`, `[otel]` keys.
+- **Cheat Sheet: Env Vars.** Added `SSL_CERT_FILE` and `AWS_PROFILE`/`AWS_REGION` for Bedrock.
+- **Power Usage: new collapsibles.** Added Permission Profiles, Amazon Bedrock, /goal Workflows, Plugins, and Monitoring & Observability collapsibles.
+- **Power Usage: CI/CD.** Updated `--full-auto` example to `--approval-mode never`. Added `--ephemeral` example. Updated `--json` note.
+- **Power Usage: Session Management.** Added `codex update` command.
+- **New section: Hooks (07).** Full Codex hooks section between Guidelines and Cheat Sheet: event types table (SessionStart, UserPromptSubmit, PreToolUse, PermissionRequest, PostToolUse, Stop), TOML config syntax, exit code reference, and three recipes (block dangerous commands, detect API keys in prompts, audit-log every tool call).
+- **Left nav.** Added Hooks nav entry for the Codex page.
+- **Section numbering.** Cheat Sheet renumbered to 08; Power Usage to 09.
+- **Project Anatomy.** Added `requirements.toml` note to the AGENTS.md cascade callout.
+- **Guidelines.** Added security review cross-reference callout pointing to the sec-review-team skill.
+
 ### v42 — 2026-05-04
 
 **Claude Code v2.1.121–v2.1.126 follow-up updates (CBP-094–CBP-097)**

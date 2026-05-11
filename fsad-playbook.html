@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v42)</title>
+<title>FSAD — Full Stack Agentic Development (v54)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v42</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v54</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -2010,6 +2010,14 @@
               <a class="nav-leaf-item" href="#practices/hooks-deep-dive/best-practices" data-leaf="hooks-deep-dive--best-practices" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--best-practices', 'skills-hooks')">Best Practices</a>
             </div>
           </div>
+          <div class="nav-sub-item-wrap" data-section="cloud-integrations">
+            <a class="nav-sub-item" href="#practices/cloud-integrations" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('cloud-integrations'),120)">HTTP Hooks &amp; Web Agents</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/http-hooks" data-leaf="cloud-integrations--http-hooks" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--http-hooks', 'skills-hooks')">HTTP Hooks</a>
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/managed-agents" data-leaf="cloud-integrations--managed-agents" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--managed-agents', 'skills-hooks')">Managed Web Agents</a>
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/novel-patterns" data-leaf="cloud-integrations--novel-patterns" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--novel-patterns', 'skills-hooks')">Novel Patterns</a>
+            </div>
+          </div>
         </div>
         <button type="button" class="nav-topic-header" data-topic="operations" onclick="toggleTopicNav(this, 'operations')">Operations<span class="nav-chevron">›</span></button>
         <div class="nav-topic-sections" data-topic-sections="operations">
@@ -2071,6 +2079,7 @@
         <a class="nav-sub-item" href="#codex/codex-code-review" onclick="scrollToSection('codex-code-review')">Code Review</a>
         <a class="nav-sub-item" href="#codex/codex-building-skills" onclick="scrollToSection('codex-building-skills')">Building Skills</a>
         <a class="nav-sub-item" href="#codex/codex-guidelines" onclick="scrollToSection('codex-guidelines')">Guidelines</a>
+        <a class="nav-sub-item" href="#codex/codex-hooks" onclick="scrollToSection('codex-hooks')">Hooks</a>
         <a class="nav-sub-item" href="#codex/codex-cheat-sheet" onclick="scrollToSection('codex-cheat-sheet')">Cheat Sheet</a>
         <a class="nav-sub-item" href="#codex/codex-power-usage" onclick="scrollToSection('codex-power-usage')">Power Usage</a>
       </div>
@@ -2404,6 +2413,7 @@ PostgreSQL. Follow existing patterns.</span>
     <button class="pod-tab" data-pod="fullstack" onclick="switchPod('fullstack')">🔷 Full Stack <span class="tab-size">4</span></button>
     <button class="pod-tab" data-pod="platform" onclick="switchPod('platform')">🛠 Platform <span class="tab-size">2</span></button>
     <button class="pod-tab" data-pod="discovery" onclick="switchPod('discovery')">🔬 Discovery <span class="tab-size">3</span></button>
+    <button class="pod-tab" data-pod="qa" onclick="switchPod('qa')">🧪 QA Pod <span class="tab-size">2</span></button>
   </div>
 
   <!-- TRIAD -->
@@ -2554,6 +2564,30 @@ PostgreSQL. Follow existing patterns.</span>
       </div>
     </div>
   </div></div>
+
+  <!-- QA POD -->
+  <div class="pod-panel" id="pod-qa"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <div class="pod-ring"><div class="pod-core"><span class="pod-core-icon">🧪</span><span class="pod-core-label">test-plan.md</span></div>
+        <div class="member eng pos-tl"><span class="m-icon">⚙️</span>QA Lead</div>
+        <div class="member eng2 pos-tr"><span class="m-icon">⚙️</span>Test Eng</div>
+        <div class="member agents pos-bottom"><span class="m-icon">🤖</span>QA Agents</div>
+      </div>
+      <div class="pod-type-label">Configuration G</div><div class="pod-type-name">The QA Pod</div><div class="pod-type-count">2 humans + N QA agents</div>
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>Specialist engineering pod that builds the testing infrastructure used by every other pod — agents for test generation and code review, skills for coverage reporting, hooks for pre-commit and post-deploy verification gates, and MCP tools for fixture management. Its output is reusable tooling, not features.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>QA Lead</h4><p>Owns test strategy, verification gate standards, and acceptance criteria frameworks. Reviews agent-generated test output for coverage gaps. Defines the quality contract other pods must meet.</p></div></div>
+        <div class="role-card"><div class="role-badge eng2">⚙️</div><div class="role-card-body"><h4>Test Engineer</h4><p>Builds custom agents, skills, hooks, and MCP tools for the team's testing stack. Maintains fixture libraries, regression suites, and test scaffolding.</p></div></div>
+        <div class="role-card"><div class="role-badge agents">🤖</div><div class="role-card-body"><h4>QA Agents</h4><p>Generate unit, integration, and e2e tests; run coverage analysis; perform spec-compliance validation; surface regressions across the codebase.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>Establishing QA infrastructure for a new product or team</li><li>Building custom test-generation agents and skills for specialized domains</li><li>Creating shared hooks and verification gates for CI/CD pipelines</li><li>Reducing testing tooling debt — standardizing test patterns across pods</li></ul></div>
+        <div class="meta-box artifacts"><h4>Key Artifacts</h4><ul><li><code>test-plan.md</code> — QA strategy, coverage targets, and acceptance gates</li><li><code>agents/</code> — Custom test generation, code review, and validation agents</li><li><code>skills/</code> — Coverage reporter, regression runner, fixture builder</li><li><code>hooks/</code> — PreToolUse / PostToolUse verification gates</li></ul></div>
+      </div>
+    </div>
+  </div></div>
 </section>
 <hr class="divider">
 
@@ -2575,6 +2609,7 @@ PostgreSQL. Follow existing patterns.</span>
         <tr><td>Design system component</td><td><span class="config-tag" style="background: rgba(111,111,181,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX owns component API and behavior.</td></tr>
         <tr><td>Database migration</td><td><span class="config-tag" style="background: rgba(6,182,212,0.15); color: var(--accent-cyan);">Platform Pod</span></td><td>2</td><td>Deep technical work. No user-facing impact.</td></tr>
         <tr><td>Cross-cutting auth overhaul</td><td><span class="config-tag" style="background: rgba(245,158,11,0.15); color: var(--accent-amber);">Full Stack Pod</span></td><td>4</td><td>Touches every service. Needs security + UX + PM.</td></tr>
+        <tr><td>QA / test infrastructure</td><td><span class="config-tag" style="background: rgba(251,113,133,0.15); color: var(--accent-rose);">QA Pod</span></td><td>2</td><td>Build reusable agents, skills, hooks. Engineering-only scope.</td></tr>
       </tbody>
     </table>
   </div>
@@ -3772,8 +3807,15 @@ description: Structured code review with security and quality checks
       <ul style="margin:0; padding-left:1.25rem; font-size:0.9rem; color:var(--text-secondary);">
         <li style="margin-bottom:0.4rem;"><code>prUrlTemplate</code> — Point the footer PR badge to a custom review URL instead of github.com. Useful for GitLab, Bitbucket, or GitHub Enterprise teams.</li>
         <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
-        <li style="margin-bottom:0;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
+        <li style="margin-bottom:0.4rem;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
+        <li style="margin-bottom:0.4rem;"><code>skillOverrides</code> — Control per-skill model visibility: <code>{"skill-name": "off"}</code> hides from both model and <code>/</code> menu; <code>"user-invocable-only"</code> hides from model only; <code>"name-only"</code> sends name without description to the model.</li>
+        <li style="margin-bottom:0;"><code>settings.autoMode.hard_deny</code> — Auto mode classifier rules that block unconditionally regardless of user intent or allow exceptions. Unlike regular deny rules (which the classifier can override when intent is clear), hard-deny rules are absolute. Use the same pattern array format as <code>allow</code>/<code>deny</code> rules in auto mode settings.</li>
       </ul>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem; margin-bottom:2rem;">
+      <div class="callout-title">Permission Allowlists &amp; <code>settings.local.json</code></div>
+      <p>When you select <strong>"Always allow"</strong> at a Bash tool permission prompt, Claude Code writes that entry to <code>.claude/settings.local.json</code> — the gitignored, project-local layer. This means your personal approvals accumulate per-project without affecting teammates. To bulk-migrate common read-only patterns (grep, git diff, ls) into the allowlist at once, run <code>/less-permission-prompts</code>.</p>
     </div>
 
     <!-- Anti-patterns -->
@@ -5530,7 +5572,7 @@ Skill directory: <span class="val">${CLAUDE_SKILL_DIR}</span>
               <tr><td><code>agent</code></td><td>string</td><td>Subagent type when <code>context: fork</code> (e.g. <code>Explore</code>, <code>Plan</code>).</td></tr>
               <tr><td><code>hooks</code></td><td>object</td><td>Hooks scoped to this skill's lifecycle (PreToolUse, PostToolUse, etc.). Also fires when the agent is run as a main-thread agent via <code>--agent</code>.</td></tr>
               <tr><td><code>mcpServers</code></td><td>object</td><td>MCP server definitions scoped to this skill. Loaded for fork-subagent contexts and for main-thread agent sessions via <code>--agent</code>.</td></tr>
-              <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation.</td></tr>
+              <tr><td><code>monitors</code></td><td>array</td><td>Background monitor definitions that auto-arm at session start or when the skill is invoked. Enables plugins to stream events without blocking the conversation. <em>Note: in plugin <code>manifest.json</code> files, declare as <code>"experimental": { "monitors": [...] }</code> — top-level still works but triggers a <code>claude plugin validate</code> warning.</em></td></tr>
               <tr><td><code>paths</code></td><td>string/list</td><td>Glob patterns limiting when skill auto-triggers (e.g. <code>src/**/*.ts</code>).</td></tr>
             </tbody>
           </table>
@@ -6135,7 +6177,8 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><kbd>Shift+Tab</kbd></td><td>Cycle permission mode: default &#8594; acceptEdits &#8594; plan &#8594; auto</td></tr>
           <tr><td><kbd>Ctrl+L</kbd></td><td>Force screen redraw (does not clear input — readline behavior as of v2.1.126)</td></tr>
           <tr><td><kbd>Ctrl+C</kbd></td><td>Cancel current operation (hard stop)</td></tr>
-          <tr><td><kbd>Ctrl+R</kbd></td><td>Search command history</td></tr>
+          <tr><td><kbd>Ctrl+R</kbd></td><td>Search prompt history across all projects (default). Press <kbd>Ctrl+S</kbd> to narrow to the current project or session.</td></tr>
+          <tr><td><kbd>Ctrl+S</kbd></td><td>Narrow <kbd>Ctrl+R</kbd> history picker to the current project or session only</td></tr>
           <tr><td><kbd>Ctrl+T</kbd></td><td>Toggle task list</td></tr>
           <tr><td><kbd>Ctrl+O</kbd></td><td>Toggle normal / verbose transcript</td></tr>
           <tr><td><kbd>Ctrl+B</kbd></td><td>Background running tasks</td></tr>
@@ -6184,7 +6227,7 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, the picker lists models from that gateway's <code>/v1/models</code> endpoint.</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129).</td></tr>
           <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
@@ -6220,12 +6263,13 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/memory</code></td><td>Edit CLAUDE.md and manage auto-memory</td></tr>
           <tr><td><code>/tui</code> <code>[fullscreen]</code></td><td>Switch to fullscreen TUI mode with flicker-free rendering (<code>/tui fullscreen</code>)</td></tr>
           <tr><td><code>/theme</code></td><td>Change color theme: <code>dark</code> | <code>light</code> | <code>auto</code> (match terminal) | or select a named custom theme. Hand-edit JSON files in <code>~/.claude/themes/</code> to create themes; plugins can ship themes via a <code>themes/</code> directory.</td></tr>
-          <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.)</td></tr>
+          <tr><td><code>/color</code> <code>[color]</code></td><td>Set prompt-bar color (red, blue, green, purple, etc.); omit the argument to pick a random color</td></tr>
           <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals; enables iTerm2 clipboard access for <code>/copy</code> (including from tmux)</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
           <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
           <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
-          <tr><td><code>/mcp</code></td><td>Manage MCP server connections</td></tr>
+          <tr><td><code>/sandbox</code></td><td>Enable OS-level sandboxing for Bash subprocesses — choose <strong>Auto-allow</strong> mode (sandboxed commands run without approval prompts) or <strong>Regular permissions</strong> mode (standard flow, sandbox still enforces boundaries). macOS: built-in via Seatbelt. Linux / WSL2: requires <code>bubblewrap</code> and <code>socat</code>.</td></tr>
+          <tr><td><code>/mcp</code></td><td>Manage MCP server connections; shows tool count per server and flags servers with 0 tools (usually a misconfiguration)</td></tr>
           <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
           <tr><td><code>/skills</code></td><td>List available skills; type to filter by name in long lists</td></tr>
           <tr><td><code>/plugin</code></td><td>Manage Claude Code plugins</td></tr>
@@ -6342,6 +6386,8 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>--agent</code></td><td>Specify agent for session</td></tr>
           <tr><td><code>--chrome</code></td><td>Enable Chrome browser integration</td></tr>
           <tr><td><code>--remote</code></td><td>Create web session on claude.ai</td></tr>
+          <tr><td><code>--channels</code></td><td>Enable channels with console (API key) authentication. Console orgs with managed settings must set <code>channelsEnabled: true</code> in org settings to allow this.</td></tr>
+          <tr><td><code>--plugin-url &lt;url&gt;</code></td><td>Fetch a plugin <code>.zip</code> archive from a URL and load it for the current session only</td></tr>
           <tr><td><code>--bare</code></td><td>Minimal mode — skip auto-discovery</td></tr>
           <tr><td><code>--verbose</code></td><td>Enable verbose logging</td></tr>
           <tr><td><code>--debug</code></td><td>Enable debug logging</td></tr>
@@ -6582,7 +6628,17 @@ smoke tests against the staging URL."</code></pre>
 <span class="cm"># Agents can work simultaneously without conflicts</span>
 <span class="cm"># Changes are merged back via standard git merge/PR</span></code></pre>
         </div>
-        <div class="callout callout-tip" style="margin-bottom:0;">
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong><code>worktree.baseRef</code> setting</strong> — controls the branch base for all worktrees (<code>--worktree</code>, <code>EnterWorktree</code>, and agent-isolation worktrees). Set in <code>.claude/settings.json</code>:</p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Value</th><th>Branches from</th><th>When to use</th></tr></thead>
+            <tbody>
+              <tr><td><code>fresh</code> (default)</td><td><code>origin/&lt;default-branch&gt;</code></td><td>Clean base — agents always start from the canonical remote state, no local noise</td></tr>
+              <tr><td><code>head</code></td><td>Local <code>HEAD</code></td><td>Share unpushed scaffolding — spawned agents inherit commits you haven't pushed yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-bottom:0; margin-top:0.75rem;">
           <div class="callout-title">Tip</div>
           <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events.</p>
         </div>
@@ -6768,13 +6824,18 @@ smoke tests against the staging URL."</code></pre>
 <span class="kw">claude</span> plugin prune
 <span class="kw">claude</span> plugin uninstall my-plugin <span class="val">--prune</span>  <span class="cm"># uninstall + cascade</span>
 
-<span class="cm"># Load plugins from a custom directory</span>
-<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins</code></pre>
+<span class="cm"># Load plugins from a directory or .zip archive</span>
+<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins
+<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugin.zip  <span class="cm"># .zip archives also accepted</span>
+
+<span class="cm"># Fetch and load a plugin from a URL (current session only)</span>
+<span class="kw">claude</span> <span class="val">--plugin-url</span> https://example.com/my-plugin.zip</code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
           <li>Plugins add skills invokable via <code>/skill-name</code></li>
           <li>Executables under <code>bin/</code> are invokable as bare commands</li>
           <li>Plugin marketplace for discovery and one-click install</li>
+          <li><strong>Reserved MCP server name:</strong> <code>workspace</code> is reserved — an <code>mcpServers</code> entry named <code>workspace</code> will be skipped with a warning at startup; rename it to avoid silent breakage</li>
         </ul>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>MCP server <code>alwaysLoad</code> option</strong> — set <code>"alwaysLoad": true</code> in an MCP server config to make all its tools skip tool-search deferral and stay permanently available. Useful for servers whose tools you use in nearly every session.</p>
         <div class="code-block" style="margin-top:0.5rem;">
@@ -6867,8 +6928,40 @@ smoke tests against the staging URL."</code></pre>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Two env vars harden Claude Code's Bash tool for shared environments and CI/CD:</p>
-        <div class="table-wrap" style="margin-top:0.75rem;">
+        <p>Claude Code supports OS-level sandboxing that restricts what Bash subprocesses can read, write, and reach on the network — enforced by <strong>Seatbelt</strong> on macOS and <strong>bubblewrap</strong> on Linux / WSL2. Run <code>/sandbox</code> to enable it and choose a mode. Linux and WSL2 users must first install the required packages: <code>sudo apt-get install bubblewrap socat</code> (Ubuntu/Debian) or <code>sudo dnf install bubblewrap socat</code> (Fedora).</p>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">Sandbox modes</p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Mode</th><th>Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Auto-allow</strong></td><td>Sandboxed bash commands run automatically without approval prompts. Commands that cannot be sandboxed (e.g. need access to non-allowed network hosts) fall back to the normal permission flow. <code>rm</code> targeting critical paths still prompts.</td></tr>
+              <tr><td><strong>Regular permissions</strong></td><td>All bash commands go through the standard permission flow even when sandboxed — more control, more prompts. The sandbox still enforces the same filesystem and network boundaries.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">Key <code>settings.json</code> keys</p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Setting key</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>sandbox.enabled</code></td><td>Enable sandboxing (<code>true</code> / <code>false</code>). Equivalent to using <code>/sandbox</code> interactively.</td></tr>
+              <tr><td><code>sandbox.filesystem.allowWrite</code></td><td>Array of paths (absolute, <code>~/</code>, or <code>./</code> relative to project) that subprocess commands may write to outside the working directory — e.g. <code>["~/.kube", "/tmp/build"]</code>. Arrays merge across config scopes.</td></tr>
+              <tr><td><code>sandbox.filesystem.denyRead</code></td><td>Block subprocess read access to specified paths — e.g. <code>["~/"]</code> to prevent reading outside the project.</td></tr>
+              <tr><td><code>sandbox.filesystem.allowRead</code></td><td>Re-allow reads within a <code>denyRead</code> region — e.g. <code>["."]</code> to permit the current project while blocking the rest of <code>~/</code>.</td></tr>
+              <tr><td><code>sandbox.network.allowedDomains</code></td><td>Allowlist of domains Bash subprocesses may reach. New domain requests trigger a permission prompt; use <code>allowManagedDomainsOnly: true</code> to block unapproved domains automatically.</td></tr>
+              <tr><td><code>sandbox.network.deniedDomains</code></td><td>Block specific domains even when an <code>allowedDomains</code> wildcard would otherwise permit them — useful for blocking telemetry or third-party endpoints in CI.</td></tr>
+              <tr><td><code>sandbox.failIfUnavailable</code></td><td>Set to <code>true</code> to make sandbox startup failure a hard error instead of a warning — intended for managed deployments that require sandboxing as a security gate.</td></tr>
+              <tr><td><code>sandbox.bwrapPath</code></td><td>(Linux/WSL only) Custom path to the <code>bwrap</code> (bubblewrap) binary — use when bubblewrap is installed in a non-standard location on managed systems or container base images.</td></tr>
+              <tr><td><code>sandbox.socatPath</code></td><td>(Linux/WSL only) Custom path to the <code>socat</code> binary — use when socat is installed in a non-standard location on managed systems or container base images.</td></tr>
+              <tr><td><code>sandbox.allowUnsandboxedCommands</code></td><td>Set to <code>false</code> to disable the escape hatch — Claude can no longer retry failed commands outside the sandbox. All commands must be sandboxed or listed in <code>excludedCommands</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">Hardening env vars (shared environments &amp; CI/CD)</p>
+        <div class="table-wrap">
           <table class="styled-table">
             <thead><tr><th>Env Var</th><th>Effect</th></tr></thead>
             <tbody>
@@ -6876,22 +6969,16 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_SCRIPT_CAPS=N</code></td><td>Limits total script invocations per session to N — prevents runaway automation</td></tr>
               <tr><td><code>CLAUDE_CODE_HIDE_CWD=1</code></td><td>Hides the working directory path from the startup logo — useful in CI/CD and shared environments where paths should not be exposed</td></tr>
               <tr><td><code>DISABLE_UPDATES=1</code></td><td>Completely blocks all update paths including manual <code>claude update</code>. Stricter than <code>DISABLE_AUTOUPDATER</code> (which only prevents auto-updates). Use in managed/enterprise environments to pin a specific version.</td></tr>
+              <tr><td><code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1</code></td><td>On Homebrew or WinGet installations, runs the package manager upgrade in the background and prompts to restart when a new version is ready. Complement to <code>DISABLE_UPDATES</code> — use when you want managed automatic updates.</td></tr>
               <tr><td><code>ANTHROPIC_BEDROCK_SERVICE_TIER</code></td><td>Select Bedrock service tier: <code>default</code> | <code>flex</code> | <code>priority</code>. Sent as the <code>X-Amzn-Bedrock-Service-Tier</code> header. Use <code>priority</code> for provisioned-capacity deployments.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;">You can also restrict network access from <code>settings.json</code>:</p>
-        <div class="table-wrap">
-          <table class="styled-table">
-            <thead><tr><th>Setting key</th><th>Effect</th></tr></thead>
-            <tbody>
-              <tr><td><code>sandbox.network.deniedDomains</code></td><td>Block specific domains even when an <code>allowedDomains</code> wildcard would otherwise permit them — useful for blocking telemetry or third-party endpoints in CI</td></tr>
+              <tr><td><code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code></td><td>Force-enables synchronized output mode for terminals where auto-detection fails (e.g. Emacs <code>eat</code>). Fixes garbled or interleaved output in unsupported terminal emulators.</td></tr>
+              <tr><td><code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code></td><td>Opts out of the fullscreen alternate-screen renderer — keeps the conversation in the terminal's native scrollback buffer instead. Useful in tmux, GNU screen, or CI environments where alternate-screen mode interferes with log capture.</td></tr>
             </tbody>
           </table>
         </div>
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
-          <div class="callout-title">Use Case</div>
-          <p>Set env vars in CI/CD pipelines or shared dev environments where multiple users or agents run on the same machine. Use <code>deniedDomains</code> to close loopholes left by broad <code>allowedDomains</code> wildcards.</p>
+          <div class="callout-title">Best practice</div>
+          <p>Start with <code>/sandbox</code> in Auto-allow mode and a narrow <code>allowedDomains</code> list. Add <code>allowWrite</code> paths only for tools that genuinely need them (e.g. <code>~/.kube</code> for kubectl). Use <code>deniedDomains</code> to close loopholes left by broad wildcards, and set <code>allowUnsandboxedCommands: false</code> in managed environments where no escape hatch is acceptable.</p>
         </div>
       </div></div>
     </div>
@@ -7113,6 +7200,8 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_ENV_FILE</code></td><td>File path for persisting env vars (SessionStart, CwdChanged, FileChanged)</td></tr>
               <tr><td><code>CLAUDE_PLUGIN_ROOT</code></td><td>Plugin installation directory</td></tr>
               <tr><td><code>CLAUDE_PLUGIN_DATA</code></td><td>Plugin persistent data directory</td></tr>
+              <tr><td><code>CLAUDE_CODE_SESSION_ID</code></td><td>Current session ID — also injected into the Bash tool subprocess environment, enabling scripts to correlate tool runs with the active session without parsing hook JSON input</td></tr>
+              <tr><td><code>CLAUDE_EFFORT</code></td><td>Active effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>) — injected into Bash tool subprocess commands so scripts can branch on effort without parsing hook JSON. Also available as <code>effort.level</code> in the JSON delivered to hook stdin.</td></tr>
             </tbody>
           </table>
         </div>
@@ -7338,6 +7427,286 @@ exit 0</code></pre>
 
   </section>
 
+<section id="cloud-integrations">
+    <span class="section-label">15.5 — HTTP Hooks &amp; Managed Web Agents</span>
+    <h2 class="section-title">Cloud Integrations</h2>
+    <p class="section-subtitle">Connect Claude Code to external services via HTTP hooks, and deploy Claude as a fully managed cloud agent for long-running autonomous work — no agent loop required.</p>
+
+    <!-- HTTP Hooks -->
+    <div class="collapsible open" id="cloud-integrations--http-hooks">
+      <div class="collapsible-header">
+        <h3>HTTP Hooks — Webhook Integrations</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>HTTP hooks (<code>"type": "http"</code>) POST Claude Code lifecycle events as JSON to any HTTP endpoint. Unlike command hooks, the receiving server doesn't need to be co-located with the developer — enabling team-wide shared audit services, remote approval gateways, and webhook-based integrations with Slack, PagerDuty, GitHub Actions, and custom dashboards.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>HTTP hook schema:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "type": "http",
+  "url": "https://your-service.example.com/hooks/tool-use",
+  "headers": {
+    "Authorization": "Bearer $HOOK_TOKEN",
+    "X-Team": "platform-eng"
+  },
+  "allowedEnvVars": ["HOOK_TOKEN"],
+  "timeout": 10
+}</code></pre>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.5rem;">Header values support <code>$VAR</code> or <code>${VAR}</code> interpolation. Only env vars listed in <code>allowedEnvVars</code> are expanded — all others remain empty strings.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Recipe 1 — Team audit log service (PostToolUse):</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Every tool call across your team's Claude Code sessions is POSTed to a shared logging endpoint. The body is the standard PostToolUse JSON (session_id, tool_name, tool_input, tool_output). Index this into Elasticsearch, Datadog, or any observability stack.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://audit.internal/api/claude-events",
+            "headers": { "Authorization": "Bearer $AUDIT_TOKEN" },
+            "allowedEnvVars": ["AUDIT_TOKEN"]
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Recipe 2 — Slack notification on task completion (Stop):</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Post a message to your team's Slack channel whenever Claude finishes a turn. The Stop event fires each time Claude stops responding — pair with a Slack incoming webhook URL for real-time task completion alerts.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "http",
+            "url": "$SLACK_WEBHOOK_URL",
+            "headers": { "Content-Type": "application/json" },
+            "allowedEnvVars": ["SLACK_WEBHOOK_URL"]
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Recipe 3 — External approval gateway (PreToolUse):</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Before allowing destructive Bash commands in a regulated environment, POST to an approval service. The service evaluates the command against policy and returns a JSON decision body. Blocking requires a JSON response body — an HTTP 4xx status alone won't stop the action.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">// Hook config
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://policy.internal/approve",
+            "headers": { "Authorization": "Bearer $POLICY_TOKEN" },
+            "allowedEnvVars": ["POLICY_TOKEN"],
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
+
+// Your server returns this JSON to block:
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "Command violates SOC2 policy: rm -rf on /data"
+  }
+}
+
+// Or this JSON to allow:
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "allow"
+  }
+}</code></pre>
+        </div>
+
+        <div class="callout callout-warning" style="margin-top:1.5rem;">
+          <div class="callout-title">HTTP Hooks — What to Watch Out For</div>
+          <ul style="margin: 0.4rem 0 0 1.1rem; padding: 0; line-height:1.8;">
+            <li><strong>Blocking requires JSON body, not HTTP status.</strong> Return a 2xx response with the appropriate <code>hookSpecificOutput</code> JSON. A 403 or 500 causes a hook error — execution continues, it does not block.</li>
+            <li><strong>Always list env vars in <code>allowedEnvVars</code>.</strong> Any <code>$VAR</code> in headers not in this list expands to an empty string — no error, just silent auth failures.</li>
+            <li><strong>Set <code>timeout</code> explicitly for fast gates.</strong> Default is 10 minutes. An approval gateway that hangs will block Claude for 10 minutes if you don't specify a lower timeout (e.g., <code>"timeout": 10</code> seconds).</li>
+            <li><strong>Non-2xx responses cause hook errors — execution proceeds.</strong> If your server returns a 500, Claude Code logs a hook error but does not block the action. Design your server to return 2xx with a deny body, not an HTTP error code.</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Managed Web Agents -->
+    <div class="collapsible" id="cloud-integrations--managed-agents">
+      <div class="collapsible-header">
+        <h3>Managed Web Agents — Cloud-Hosted Agent Runtime</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Managed Web Agents is Anthropic's cloud-hosted agent infrastructure. Instead of building your own agent loop, tool execution layer, and container sandbox, you get a fully managed environment where Claude can run Bash commands, read and write files, search the web, and call MCP servers — with session state persisted server-side.</p>
+
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th></th><th>Messages API</th><th>Managed Web Agents</th></tr></thead>
+            <tbody>
+              <tr><td><strong>What it is</strong></td><td>Direct model prompting</td><td>Pre-built, configurable agent harness in managed infrastructure</td></tr>
+              <tr><td><strong>Best for</strong></td><td>Custom agent loops, fine-grained control</td><td>Long-running tasks, async work, minimal infrastructure</td></tr>
+              <tr><td><strong>You build</strong></td><td>Agent loop, tool execution, sandbox, state</td><td>Just your agent definition and task inputs</td></tr>
+              <tr><td><strong>Session state</strong></td><td>You manage</td><td>Persisted server-side, fetchable in full</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Four core concepts:</strong></p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Concept</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Agent</strong></td><td>Model + system prompt + tools + MCP servers + skills. Define once, reuse by ID across many sessions.</td></tr>
+              <tr><td><strong>Environment</strong></td><td>Cloud container template: pre-installed packages (Python, Node, Go…), network access rules, mounted files.</td></tr>
+              <tr><td><strong>Session</strong></td><td>A running instance of an agent in an environment, performing a specific task and streaming results via SSE.</td></tr>
+              <tr><td><strong>Events</strong></td><td>Messages exchanged between your application and the agent — user turns, tool results, status updates. Fetched on demand or streamed live.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Python quickstart:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()  # SDK sets managed-agents beta header automatically
+
+# 1. Create the agent once — reuse agent_id across sessions
+agent = client.beta.managed_agents.agents.create(
+    model="claude-opus-4-7",
+    system="You are a code review specialist. Analyze PRs for bugs and security issues.",
+    tools=[{"type": "bash"}, {"type": "web_search"}, {"type": "file"}],
+)
+
+# 2. Create a cloud environment with the packages you need
+env = client.beta.managed_agents.environments.create(
+    packages=["python3", "git", "ripgrep"],
+    network={"allowed_domains": ["github.com", "api.github.com"]},
+)
+
+# 3. Start a session for a specific task
+session = client.beta.managed_agents.sessions.create(
+    agent_id=agent.id,
+    environment_id=env.id,
+)
+
+# 4. Send a user message and stream the agent's work via SSE
+with client.beta.managed_agents.sessions.stream(
+    session_id=session.id,
+    message="Review the changes in github.com/myorg/repo/pull/42 and flag any critical issues."
+) as stream:
+    for event in stream:
+        print(event)  # Tool calls, text output, status updates
+
+# See https://platform.claude.com/docs/en/managed-agents for full API reference</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>When to use Managed Web Agents:</strong></p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Scenario</th><th>Why Managed Agents Fits</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CI pipeline code review</strong></td><td>Long-running (minutes), triggered on PR open, needs git access and web search — container environment handles all dependencies</td></tr>
+              <tr><td><strong>Scheduled maintenance</strong></td><td>Cron triggers a session; agent runs dependency updates, generates changelog, opens PR — no server to keep alive</td></tr>
+              <tr><td><strong>Customer-facing AI features</strong></td><td>Product creates a session per user request; agent completes the task asynchronously; results fetched via event history API</td></tr>
+              <tr><td><strong>Bulk data processing</strong></td><td>Fan out dozens of parallel sessions, each processing a different file or data chunk; all managed at the platform level</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning" style="margin-top:1.5rem;">
+          <div class="callout-title">Managed Web Agents — What to Watch Out For</div>
+          <ul style="margin: 0.4rem 0 0 1.1rem; padding: 0; line-height:1.8;">
+            <li><strong>Beta: behavior may change.</strong> All endpoints require the <code>managed-agents-2026-04-01</code> beta header. The Anthropic Python/TypeScript SDKs set this automatically via <code>client.beta.managed_agents</code>.</li>
+            <li><strong>Rate limits apply at the org level.</strong> 300 requests/min for create endpoints (agents, sessions, environments), 600 requests/min for read endpoints. Fan-out architectures need explicit rate management.</li>
+            <li><strong>Not a replacement for Messages API when you need control.</strong> If you need custom tool schemas, precise streaming behavior, or sub-turn decision logic, build your own loop with the Messages API instead.</li>
+            <li><strong>Declare packages in the Environment config.</strong> Container environments don't include every tool by default — specify <code>packages</code> explicitly or your agent's Bash commands will fail with "command not found".</li>
+            <li><strong>Outcomes and multi-agent features are research preview.</strong> Requires a separate access request at <code>claude.com/form/claude-managed-agents</code>.</li>
+            <li><strong>Cost is runtime hours + tokens.</strong> Sessions in beta are billed at $0.08/runtime hour plus standard model token costs. A 24/7 agent costs ~$58/month in runtime before any token charges.</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Novel Patterns & Community Use Cases -->
+    <div class="collapsible" id="cloud-integrations--novel-patterns">
+      <div class="collapsible-header">
+        <h3>Novel Patterns &amp; Real-World Use Cases</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Real adoption patterns from teams running HTTP hooks and Managed Web Agents in production.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Hookdeck — Inbound webhook bridge via Claude Channels:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Hookdeck's integration uses Claude Code's <em>Channels</em> feature (a specialized MCP server that emits notification events) to push inbound webhooks from GitHub, Stripe, or any external service directly into an active Claude Code session. The pattern: external service → Hookdeck → Claude Code Channel → Claude processes the event. Useful for having Claude react to production events (new PR, failed payment, deploy failure) without polling.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-bash"># Claude Code Channels receive external webhooks via Hookdeck CLI
+hookdeck listen 3000 claude-code-channel
+
+# Claude Code picks up events streamed from the channel MCP server
+# and can take action — file edits, git operations, notifications</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Sentry — Bug to PR, fully autonomous:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Sentry deployed a Managed Web Agent that takes a flagged error from their issue tracker, clones the relevant repo in a managed container, reproduces the bug, writes a fix, runs the test suite, and opens a pull request — all without human involvement. The agent uses Bash, file ops, and web search tools. Sessions run for 5–15 minutes per issue.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Notion — Parallel delegated tasks:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Notion runs dozens of parallel Managed Agent sessions simultaneously — one per delegated task from a user's workspace. Tasks include writing and shipping code, creating Slack channels, researching competitor sites, and generating project timelines. Session event history is persisted server-side so Notion can retrieve results asynchronously and surface them in the UI without a persistent connection.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Async hooks for non-blocking background work:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Async hooks (released January 2026) run in the background without blocking Claude's execution. Use them for slow operations — sending telemetry, triggering CI, updating dashboards — where you don't need the result to inform the next step. Configure with <code>"async": true</code> in the hook definition.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://telemetry.internal/events",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>External policy engine with PermissionRequest hook:</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Teams in regulated environments (fintech, healthcare) route all permission prompts through a centralized policy engine via HTTP hook on the <code>PermissionRequest</code> event. The engine checks the tool call against compliance rules and returns an allow/deny decision — replacing the interactive dialog with deterministic policy enforcement. Because the hook fires before the user sees the dialog, the policy engine's decision is silent and auditable.</p>
+
+        <div class="callout callout-tip" style="margin-top:1.5rem;">
+          <div class="callout-title">Use HTTP Hooks for Team-Wide Policies, Command Hooks for Personal Automation</div>
+          <p>HTTP hooks make sense when the policy, rule, or notification target is shared across multiple developers. Command hooks are better for personal automation (formatting, linting) that doesn't need a server. The two types compose — a single event can have both.</p>
+        </div>
+      </div></div>
+    </div>
+
+</section>
+
 <hr class="divider">
 </div>
 
@@ -7459,6 +7828,7 @@ claude</code></pre>
           <li><strong>Multi-team segmentation</strong> &mdash; use <code>OTEL_RESOURCE_ATTRIBUTES="department=eng,team.id=platform,cost_center=123"</code> to tag metrics by team</li>
           <li><strong>Dynamic auth</strong> &mdash; set <code>"otelHeadersHelper": "/path/to/script.sh"</code> in settings.json to auto-refresh tokens (runs every 29 min)</li>
           <li><strong>Cardinality control</strong> &mdash; toggle <code>OTEL_METRICS_INCLUDE_SESSION_ID</code>, <code>OTEL_METRICS_INCLUDE_VERSION</code>, and <code>OTEL_METRICS_INCLUDE_ACCOUNT_UUID</code> to tune storage vs. granularity</li>
+          <li><strong>Survey re-opt-in</strong> &mdash; set <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to re-enable the session quality survey for enterprises capturing responses through OpenTelemetry (the survey is suppressed by default when OTEL is active to avoid polluting telemetry pipelines)</li>
         </ul>
       </div></div>
     </div>
@@ -7477,7 +7847,7 @@ claude</code></pre>
 <span class="kw">export</span> OTEL_TRACES_EXPORTER=otlp</code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
-          <li>Bash subprocesses inherit a <code>TRACEPARENT</code> env var for W3C trace context propagation</li>
+          <li>Bash subprocesses inherit a <code>TRACEPARENT</code> env var for W3C trace context propagation — but <code>OTEL_*</code> configuration vars (exporter, endpoint, headers) are intentionally <strong>not</strong> inherited, so OTEL-instrumented apps run via the Bash tool use their own OTEL config and won't accidentally pick up the CLI's OTLP endpoint</li>
           <li>Span content redacted by default &mdash; set <code>OTEL_LOG_TOOL_CONTENT=1</code> to include tool I/O (truncated at 60 KB)</li>
           <li>Visualize in Jaeger, Zipkin, Grafana Tempo, or any OTel-compatible backend</li>
         </ul>
@@ -7658,7 +8028,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
     <p class="section-subtitle">From installation to agentic workflows with OpenAI's Codex.</p>
 
     <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem;">
-      <a href="https://github.com/openai/codex" target="_blank" style="color:var(--accent-blue);">Codex CLI</a> is OpenAI's open-source coding agent — a Rust-based terminal UI (TUI) that reads files, writes code, and runs shell commands in a sandbox. It defaults to <code>gpt-5.4</code> and supports multiple model providers including OpenAI, Azure, Ollama, and more. If your team uses OpenAI models or wants multi-provider flexibility, Codex is the FSAD-compatible agent to learn.
+      <a href="https://github.com/openai/codex" target="_blank" style="color:var(--accent-blue);">Codex CLI</a> is OpenAI's open-source coding agent — a terminal UI (TUI) that reads files, writes code, and runs shell commands in a sandbox. It defaults to <code>gpt-5.5</code> and supports multiple model providers including OpenAI, Azure, Ollama, Bedrock, and more. If your team uses OpenAI models or wants multi-provider flexibility, Codex is the FSAD-compatible agent to learn.
     </p>
 
     <div class="callout callout-tip" style="margin-bottom:2rem;">
@@ -7677,13 +8047,16 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
           <tr><td>Project instructions</td><td><code>CLAUDE.md</code></td><td><code>AGENTS.md</code></td></tr>
           <tr><td>Config directory</td><td><code>~/.claude/</code></td><td><code>~/.codex/</code></td></tr>
           <tr><td>Config format</td><td><code>settings.json</code> (JSON)</td><td><code>config.toml</code> (TOML)</td></tr>
-          <tr><td>Default model</td><td>Claude Sonnet / Opus</td><td>gpt-5.4 / o4-mini</td></tr>
+          <tr><td>Default model</td><td>Claude Sonnet / Opus</td><td>gpt-5.5 / codex-mini</td></tr>
           <tr><td>Approval modes</td><td>Default, Plan, Bypass</td><td>Auto, Read-only, Full Access</td></tr>
           <tr><td>Sandbox</td><td>Per-tool permissions</td><td>read-only / workspace-write / full-access</td></tr>
           <tr><td>MCP support</td><td>Client</td><td>Client + Server</td></tr>
           <tr><td>IDE extensions</td><td>VS Code</td><td>VS Code, Cursor, Windsurf</td></tr>
           <tr><td>Skills directory</td><td><code>.claude/skills/</code></td><td><code>.agents/skills/</code></td></tr>
           <tr><td>Multi-agent</td><td>Subagents (Task tool)</td><td>Agent threads (<code>max_threads</code> config)</td></tr>
+          <tr><td>Hooks</td><td>26 event types (SessionStart, PreToolUse, Stop…)</td><td>8 event types (SessionStart, UserPromptSubmit, PreToolUse, PermissionRequest, PostToolUse, Stop, PreCompact, PostCompact)</td></tr>
+          <tr><td>Plugin marketplace</td><td><code>claude plugin install</code></td><td><code>codex plugin install</code> / <code>/plugins</code> TUI</td></tr>
+          <tr><td>Permission model</td><td>Per-tool allow/deny + 5 approval modes</td><td>Named permission profiles with filesystem + network policies</td></tr>
         </tbody>
       </table>
     </div>
@@ -7838,7 +8211,7 @@ orders, and payments.
         </div>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">Tip</div>
-          <p>Codex merges AGENTS.md from 4 levels: <code>~/.codex/AGENTS.override.md</code> (highest) → <code>~/.codex/AGENTS.md</code> → repo root → current directory. Max 32 KiB by default.</p>
+          <p>Codex merges AGENTS.md from 4 levels: <code>~/.codex/AGENTS.override.md</code> (highest) → <code>~/.codex/AGENTS.md</code> → repo root → current directory. Max 32 KiB by default. For hooks and tool policies, the equivalent cascade runs through <code>config.toml</code> — add a <code>requirements.toml</code> at system/org level to enforce constraints users cannot override.</p>
         </div>
       </div></div>
     </div>
@@ -8357,13 +8730,179 @@ Guided deployment to staging and production environments.
         <p>Long conversations degrade agent performance. Use <code>/compact</code> regularly to summarize and free context tokens.</p>
       </div>
     </div>
+
+    <!-- Security Review cross-reference -->
+    <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">Security Review</div>
+      <p>The <a href="#practices/security-review" onclick="switchPage('practices'); setTimeout(()=>scrollToSection('security-review'),150);" style="color:var(--accent);">sec-review-team skill</a> is model-agnostic — it spawns Claude Code agents internally to run a multi-specialist security review, but its output (REPORT.md + FINDINGS.jsonl) is a workflow any team can adopt regardless of which CLI they use day-to-day. Codex teams can run the review via Claude Code and apply the fixes directly in their Codex workflow.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX HOOKS ─── -->
+<section id="codex-hooks">
+    <span class="section-label">07 — Hooks</span>
+    <h2 class="section-title">Hooks — Automation &amp; Guardrails</h2>
+    <p class="section-subtitle">Event-driven shell commands that fire deterministically at specific points in the agent loop. Models forget. Hooks don't.</p>
+
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem; font-size:0.92rem; color:var(--text-secondary);">Hooks inject scripts into Codex's agentic loop at named lifecycle events. Unlike instructions in AGENTS.md that the model may or may not follow, hooks <strong>always</strong> execute when their event triggers — making them ideal for audit logging, policy enforcement, and automated validation.</p>
+
+    <!-- Hook Types -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Hook Event Types</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Event</th><th>When it fires</th><th>Can block?</th><th>Claude Code equivalent</th></tr></thead>
+        <tbody>
+          <tr><td><code>SessionStart</code></td><td>Session begins or resumes</td><td>No — adds context only</td><td><code>SessionStart</code></td></tr>
+          <tr><td><code>UserPromptSubmit</code></td><td>User submits a prompt</td><td>Yes (exit 2)</td><td><code>UserPromptSubmit</code></td></tr>
+          <tr><td><code>PreToolUse</code></td><td>Before Bash, <code>apply_patch</code>, or MCP tool runs; hooks can inject additional context into the turn by returning a <code>context</code> field in JSON output</td><td>Yes (exit 2 or deny JSON)</td><td><code>PreToolUse</code></td></tr>
+          <tr><td><code>PermissionRequest</code></td><td>When Codex seeks approval (shell escalation, network)</td><td>Yes — allow / deny</td><td><code>PermissionRequest</code></td></tr>
+          <tr><td><code>PostToolUse</code></td><td>After tool completes (including failed runs)</td><td>Yes (exit 2 — replaces output)</td><td><code>PostToolUse</code></td></tr>
+          <tr><td><code>Stop</code></td><td>When a turn completes</td><td>Yes — can request continuation</td><td><code>Stop</code></td></tr>
+          <tr><td><code>PreCompact</code></td><td>Before context compaction runs</td><td>Yes (exit 2 blocks compaction)</td><td><code>PreCompact</code></td></tr>
+          <tr><td><code>PostCompact</code></td><td>After context compaction completes</td><td>No</td><td><code>PostCompact</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Configuration -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Configuration</h3>
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.9rem; color:var(--text-secondary);">Enable hooks with <code>[features] codex_hooks = true</code> (default). Define hooks inline in <code>config.toml</code> or in a separate <code>hooks.json</code>. Project-scoped hooks go in <code>.codex/config.toml</code> and only load in trusted projects.</p>
+
+    <div class="collapsible open" style="margin-top:0.5rem;">
+      <div class="collapsible-header">
+        <h3>config.toml hook syntax</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code><span class="cm"># ~/.codex/config.toml  (global) or .codex/config.toml (project)</span>
+<span class="kw">[features]</span>
+<span class="val">codex_hooks</span> = true
+
+<span class="cm"># Fire before every Bash call</span>
+<span class="kw">[[hooks.PreToolUse]]</span>
+<span class="val">matcher</span> = <span class="str">"^Bash$"</span>
+
+<span class="kw">[[hooks.PreToolUse.hooks]]</span>
+<span class="val">type</span>          = <span class="str">"command"</span>
+<span class="val">command</span>       = <span class="str">"/usr/bin/python3 ~/.codex/hooks/check-command.py"</span>
+<span class="val">timeout</span>       = 10
+<span class="val">statusMessage</span> = <span class="str">"Checking command safety"</span>
+
+<span class="cm"># Fire after any apply_patch / Edit / Write</span>
+<span class="kw">[[hooks.PostToolUse]]</span>
+<span class="val">matcher</span> = <span class="str">"apply_patch"</span>
+
+<span class="kw">[[hooks.PostToolUse.hooks]]</span>
+<span class="val">type</span>    = <span class="str">"command"</span>
+<span class="val">command</span> = <span class="str">"/usr/bin/python3 ~/.codex/hooks/audit-log.py"</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Exit Codes -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Exit Code Semantics</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Exit code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code> + valid JSON</td><td>Process output per event schema (allow, deny, inject context, request continuation)</td></tr>
+          <tr><td><code>0</code> + plain text</td><td>Append as developer context (SessionStart, UserPromptSubmit)</td></tr>
+          <tr><td><code>0</code> + no output</td><td>Pass-through — hook ran successfully, no action taken</td></tr>
+          <tr><td><code>2</code></td><td>Block / deny; read reason from stderr; exact behavior depends on event type</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Recipes -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Recipes</h3>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Block dangerous shell commands (PreToolUse)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, re
+
+hook_input = json.load(sys.stdin)
+command = hook_input[<span class="str">"tool_input"</span>].get(<span class="str">"command"</span>, <span class="str">""</span>)
+
+<span class="kw">if</span> re.search(<span class="str">r"rm\s+-rf|sudo\s+rm|DROP\s+TABLE"</span>, command):
+    print(json.dumps({
+        <span class="str">"hookSpecificOutput"</span>: {
+            <span class="str">"hookEventName"</span>: <span class="str">"PreToolUse"</span>,
+            <span class="str">"permissionDecision"</span>: <span class="str">"deny"</span>,
+            <span class="str">"permissionDecisionReason"</span>: <span class="str">"High-risk command blocked by policy"</span>
+        }
+    }))
+sys.exit(0)</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Detect API keys in prompts (UserPromptSubmit)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, re
+
+hook_input = json.load(sys.stdin)
+prompt = hook_input.get(<span class="str">"prompt"</span>, <span class="str">""</span>)
+
+<span class="kw">if</span> re.search(<span class="str">r"sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}"</span>, prompt):
+    sys.stderr.write(<span class="str">"Possible API key or AWS credential detected in prompt\n"</span>)
+    sys.exit(2)  <span class="cm"># blocks the prompt submission</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Audit-log every tool call (PostToolUse)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, datetime, pathlib
+
+hook_input = json.load(sys.stdin)
+log_entry = {
+    <span class="str">"ts"</span>:      datetime.datetime.utcnow().isoformat(),
+    <span class="str">"session"</span>: hook_input[<span class="str">"session_id"</span>],
+    <span class="str">"tool"</span>:    hook_input[<span class="str">"tool_name"</span>],
+    <span class="str">"input"</span>:   hook_input[<span class="str">"tool_input"</span>],
+}
+
+log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class="str">"audit.jsonl"</span>
+<span class="kw">with</span> log_path.open(<span class="str">"a"</span>) <span class="kw">as</span> f:
+    f.write(json.dumps(log_entry) + <span class="str">"\n"</span>)
+
+<span class="cm"># Exit 0 with no output = pass-through</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
+      <div class="callout-title">Claude Code Comparison</div>
+      <p>Codex has 6 hook event types; Claude Code has more (26 total events including SubagentStart, TaskCreated, FileChanged, PreCompact, etc.). Both use the same input-via-stdin / exit-code pattern. If you're migrating hook scripts, the core logic is portable — only the event names and JSON shape differ slightly.</p>
+    </div>
   </section>
 
 <hr class="divider">
 
 <!-- ─── CODEX CHEAT SHEET ─── -->
 <section id="codex-cheat-sheet">
-    <span class="section-label">07 — Codex Cheat Sheet</span>
+    <span class="section-label">08 — Codex Cheat Sheet</span>
     <h2 class="section-title">Everything You Need in One Place</h2>
     <p class="section-subtitle">Keyboard shortcuts, commands, flags, configuration, and environment variables.</p>
 
@@ -8380,6 +8919,8 @@ Guided deployment to staging and production environments.
           <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Edit previous user message (keep pressing to walk back)</td></tr>
           <tr><td><kbd>Tab</kbd></td><td>File fuzzy search (prefix with <code>@</code>)</td></tr>
           <tr><td><kbd>&#8593;</kbd> / <kbd>&#8595;</kbd></td><td>Navigate draft history in composer</td></tr>
+          <tr><td><kbd>Alt+,</kbd></td><td>Lower reasoning level for current model</td></tr>
+          <tr><td><kbd>Alt+.</kbd></td><td>Raise reasoning level for current model</td></tr>
         </tbody>
       </table>
     </div>
@@ -8392,15 +8933,29 @@ Guided deployment to staging and production environments.
         <tbody>
           <tr><td><code>/plan</code></td><td>Enter plan mode — propose before implementing</td></tr>
           <tr><td><code>/review</code></td><td>Analyze diffs without modifying code</td></tr>
+          <tr><td><code>/goal</code></td><td>Create a persisted goal; browse discoverable goals in TUI. Goals pause across session resume by default — opt back in from the picker. Supports multi-day duration tracking.</td></tr>
           <tr><td><code>/fork</code></td><td>Clone conversation to a new thread</td></tr>
+          <tr><td><code>/side</code></td><td>Open an ephemeral branch for a focused follow-up; doesn't pollute main context</td></tr>
+          <tr><td><code>/new</code></td><td>Start a fresh conversation within the same CLI session</td></tr>
           <tr><td><code>/compact</code></td><td>Summarize conversation to free context tokens</td></tr>
-          <tr><td><code>/diff</code></td><td>Show current changes</td></tr>
-          <tr><td><code>/model</code></td><td>Switch model mid-session</td></tr>
+          <tr><td><code>/diff</code></td><td>Show current changes (staged and unstaged); workspace-aware — diff is scoped to your project root</td></tr>
+          <tr><td><code>/model</code></td><td>Switch model and/or reasoning level mid-session</td></tr>
+          <tr><td><code>/fast</code></td><td>Toggle fast mode (<code>on</code> / <code>off</code> / <code>status</code>)</td></tr>
           <tr><td><code>/agent</code></td><td>Switch between active agent threads</td></tr>
+          <tr><td><code>/plugins</code></td><td>Browse, install, and manage marketplace plugins</td></tr>
+          <tr><td><code>/apps</code></td><td>Browse and insert available connectors</td></tr>
+          <tr><td><code>/ide</code></td><td>Inject IDE file/editor context into the current session (workspace-aware)</td></tr>
           <tr><td><code>/mcp</code></td><td>List configured MCP tools</td></tr>
           <tr><td><code>/permissions</code></td><td>Change approval mode mid-session</td></tr>
-          <tr><td><code>/personality</code></td><td>Set agent personality (friendly/pragmatic/neutral)</td></tr>
-          <tr><td><code>/status</code></td><td>Show current session status</td></tr>
+          <tr><td><code>/init</code></td><td>Generate an AGENTS.md scaffold for the current project</td></tr>
+          <tr><td><code>/vim</code></td><td>Toggle Vim modal editing in the composer. Set <code>vim_mode = true</code> in <code>config.toml</code> to enable by default.</td></tr>
+          <tr><td><code>/keymap</code> <code>[debug]</code></td><td>Remap TUI keyboard shortcuts interactively. Use <code>/keymap debug</code> to inspect raw terminal key events — helpful when Vim mode or chord bindings don't register.</td></tr>
+          <tr><td><code>/statusline</code></td><td>Configure footer status items</td></tr>
+          <tr><td><code>/hooks</code></td><td>Browse and toggle configured hooks from the TUI without editing config files</td></tr>
+          <tr><td><code>/personality</code></td><td>Set agent personality (friendly / pragmatic / none)</td></tr>
+          <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>)</td></tr>
+          <tr><td><code>/status</code></td><td>Show session config and token usage metrics</td></tr>
+          <tr><td><code>/debug-config</code></td><td>Print configuration layers and policy diagnostics</td></tr>
           <tr><td><code>/exit</code></td><td>Close session</td></tr>
         </tbody>
       </table>
@@ -8412,18 +8967,19 @@ Guided deployment to staging and production environments.
       <table class="styled-table">
         <thead><tr><th>Flag</th><th>Purpose</th></tr></thead>
         <tbody>
-          <tr><td><code>--model / -m</code></td><td>Select model (e.g., <code>gpt-5.4</code>, <code>o4-mini</code>)</td></tr>
+          <tr><td><code>--model / -m</code></td><td>Select model (e.g., <code>gpt-5.5</code>, <code>codex-mini-latest</code>)</td></tr>
           <tr><td><code>--sandbox / -s</code></td><td>Set sandbox policy (<code>read-only</code>, <code>workspace-write</code>, <code>danger-full-access</code>)</td></tr>
           <tr><td><code>--approval-mode / -a</code></td><td>Set approval level (<code>auto</code>, <code>read-only</code>, <code>full-access</code>)</td></tr>
           <tr><td><code>--quiet / -q</code></td><td>Minimal output for scripting</td></tr>
-          <tr><td><code>--json</code></td><td>JSON Lines output for machine consumption</td></tr>
+          <tr><td><code>--json</code></td><td>JSON Lines output for machine consumption; includes reasoning-token usage</td></tr>
           <tr><td><code>-i</code></td><td>Attach image / screenshot (multimodal)</td></tr>
-          <tr><td><code>--full-auto</code></td><td>Autonomous execution (use with <code>exec</code>)</td></tr>
-          <tr><td><code>--profile</code></td><td>Use named config profile</td></tr>
+          <tr><td><code>--full-auto</code></td><td><em>Deprecated</em> — use <code>--approval-mode</code> with a named permission profile instead</td></tr>
+          <tr><td><code>--profile</code></td><td>Apply a named config profile (<code>~/.codex/config.toml</code> <code>[profiles.&lt;name&gt;]</code>)</td></tr>
           <tr><td><code>--notify</code></td><td>Desktop notifications when tasks complete</td></tr>
           <tr><td><code>--no-project-doc</code></td><td>Skip AGENTS.md loading</td></tr>
-          <tr><td><code>--output-schema</code></td><td>Enforce JSON Schema on response</td></tr>
+          <tr><td><code>--output-schema</code></td><td>Enforce JSON Schema on response (use with <code>exec</code>)</td></tr>
           <tr><td><code>--ephemeral</code></td><td>No session persistence (use with <code>exec</code>)</td></tr>
+          <tr><td><code>codex update</code></td><td>Update Codex CLI to the latest version</td></tr>
         </tbody>
       </table>
     </div>
@@ -8434,13 +8990,21 @@ Guided deployment to staging and production environments.
       <table class="styled-table">
         <thead><tr><th>Key (<code>config.toml</code>)</th><th>Purpose</th><th>Default</th></tr></thead>
         <tbody>
-          <tr><td><code>model</code></td><td>Default model</td><td><code>gpt-5.4</code></td></tr>
-          <tr><td><code>approval_policy</code></td><td>Approval mode</td><td><code>on-request</code></td></tr>
-          <tr><td><code>sandbox_mode</code></td><td>Sandbox policy</td><td><code>read-only</code></td></tr>
-          <tr><td><code>project_doc_max_bytes</code></td><td>Max AGENTS.md size</td><td><code>32768</code></td></tr>
+          <tr><td><code>model</code></td><td>Default model</td><td><code>gpt-5.5</code></td></tr>
+          <tr><td><code>model_reasoning_effort</code></td><td>Reasoning depth: <code>minimal</code> / <code>low</code> / <code>medium</code> / <code>high</code> / <code>xhigh</code></td><td><code>medium</code></td></tr>
+          <tr><td><code>model_verbosity</code></td><td>Response verbosity: <code>low</code> / <code>medium</code> / <code>high</code></td><td><code>medium</code></td></tr>
+          <tr><td><code>vim_mode</code></td><td>Enable Vim modal editing in the composer by default</td><td><code>false</code></td></tr>
+          <tr><td><code>approval_policy</code></td><td>Approval mode: <code>untrusted</code> / <code>on-request</code> / <code>never</code> / <code>granular</code></td><td><code>on-request</code></td></tr>
+          <tr><td><code>sandbox_mode</code></td><td>Sandbox policy: <code>read-only</code> / <code>workspace-write</code> / <code>danger-full-access</code></td><td><code>read-only</code></td></tr>
+          <tr><td><code>default_permissions</code></td><td>Named permission profile to apply by default (e.g. <code>":workspace"</code>)</td><td>—</td></tr>
+          <tr><td><code>service_tier</code></td><td>OpenAI service tier: <code>flex</code> (cheaper) / <code>fast</code> (lower latency)</td><td><code>fast</code></td></tr>
+          <tr><td><code>web_search</code></td><td>Web search mode: <code>disabled</code> / <code>cached</code> / <code>live</code></td><td><code>cached</code></td></tr>
+          <tr><td><code>project_doc_max_bytes</code></td><td>Max AGENTS.md size in bytes</td><td><code>32768</code></td></tr>
           <tr><td><code>[agents].max_threads</code></td><td>Max concurrent agent threads</td><td><code>6</code></td></tr>
           <tr><td><code>[agents].max_depth</code></td><td>Max agent nesting depth</td><td><code>1</code></td></tr>
           <tr><td><code>[agents].job_max_runtime_seconds</code></td><td>Per-worker timeout</td><td><code>3600</code></td></tr>
+          <tr><td><code>[features].codex_hooks</code></td><td>Enable the hooks system</td><td><code>true</code></td></tr>
+          <tr><td><code>[otel]</code></td><td>OpenTelemetry export config (exporter, endpoint, metrics)</td><td>—</td></tr>
         </tbody>
       </table>
     </div>
@@ -8453,7 +9017,9 @@ Guided deployment to staging and production environments.
         <tbody>
           <tr><td><code>OPENAI_API_KEY</code></td><td>API key for OpenAI models</td></tr>
           <tr><td><code>CODEX_DISABLE_PROJECT_DOC</code></td><td>Set to <code>1</code> to skip AGENTS.md loading</td></tr>
-          <tr><td><code>CODEX_CA_CERTIFICATE</code></td><td>Custom CA cert for enterprise proxy/TLS interception</td></tr>
+          <tr><td><code>CODEX_CA_CERTIFICATE</code></td><td>Path to custom CA cert for enterprise proxy / TLS interception</td></tr>
+          <tr><td><code>SSL_CERT_FILE</code></td><td>Alternative CA cert path (covers HTTPS and WebSocket connections)</td></tr>
+          <tr><td><code>AWS_PROFILE</code> / <code>AWS_REGION</code></td><td>AWS credentials for Amazon Bedrock provider</td></tr>
         </tbody>
       </table>
     </div>
@@ -8463,9 +9029,9 @@ Guided deployment to staging and production environments.
 
 <!-- ─── CODEX POWER USAGE ─── -->
 <section id="codex-power-usage">
-    <span class="section-label">08 — Power Usage</span>
+    <span class="section-label">09 — Power Usage</span>
     <h2 class="section-title">Advanced Features for Power Users</h2>
-    <p class="section-subtitle">Multi-agent workflows, session management, CI/CD integration, multi-provider models, and Codex Cloud.</p>
+    <p class="section-subtitle">Multi-agent workflows, hooks, plugins, permission profiles, Bedrock, session management, CI/CD, multi-provider models, and Codex Cloud.</p>
 
     <!-- Multi-Agent -->
     <div class="collapsible open">
@@ -8512,6 +9078,26 @@ Guided deployment to staging and production environments.
       </div></div>
     </div>
 
+    <!-- Vim Editing Mode -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Vim Editing Mode</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex v0.129.0 adds modal Vim editing in the composer. Toggle it mid-session with <code>/vim</code>, or enable it permanently in config:</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml — enable Vim mode globally</span>
+vim_mode = true
+
+<span class="cm"># Or toggle mid-session</span>
+/vim</code></pre>
+        </div>
+        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use <code>/keymap debug</code> to inspect what key events your terminal is sending — helpful when certain Vim chords don't register correctly.</p>
+      </div></div>
+    </div>
+
     <!-- Session Management -->
     <div class="collapsible">
       <div class="collapsible-header">
@@ -8519,16 +9105,22 @@ Guided deployment to staging and production environments.
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Codex saves sessions automatically. Resume previous work without re-explaining context.</p>
+        <p>Codex saves sessions automatically. Resume previous work without re-explaining context. The redesigned resume/fork picker lets you select, resume, or fork any saved session in a single UI — no need to know the session ID upfront.</p>
         <div class="code-block" style="margin-top:1rem;">
-          <pre><code><span class="cm"># Show session picker</span>
+          <pre><code><span class="cm"># Show session picker (redesigned resume/fork picker in v0.129.0)</span>
 codex resume
 
 <span class="cm"># Resume the most recent session</span>
 codex resume --last
 
 <span class="cm"># Run a throwaway session (no persistence)</span>
-codex exec --ephemeral "quick fix: update version in package.json"</code></pre>
+codex exec --ephemeral "quick fix: update version in package.json"
+
+<span class="cm"># Update Codex CLI to the latest version</span>
+codex update
+
+<span class="cm"># Raw scrollback mode — scroll through session output without affecting</span>
+<span class="cm"># the composer; configure the keybind via /keymap</span></code></pre>
         </div>
       </div></div>
     </div>
@@ -8545,17 +9137,20 @@ codex exec --ephemeral "quick fix: update version in package.json"</code></pre>
           <pre><code><span class="cm"># Headless execution — no TUI, streams to stderr</span>
 codex exec "fix all lint errors and run tests"
 
-<span class="cm"># JSON Lines output for parsing</span>
+<span class="cm"># JSON Lines output — includes reasoning-token usage</span>
 codex exec --json "analyze this codebase for security issues"
 
 <span class="cm"># Structured response with schema enforcement</span>
 codex exec --output-schema schema.json "list all API endpoints"
 
-<span class="cm"># Fully autonomous execution</span>
-codex exec --full-auto "update dependencies and fix breaking changes"
+<span class="cm"># Autonomous execution via permission profile (replaces deprecated --full-auto)</span>
+codex exec --approval-mode never "update dependencies and fix breaking changes"
 
 <span class="cm"># Quiet mode for scripting</span>
-codex exec -q "generate changelog from recent commits" > CHANGELOG.md</code></pre>
+codex exec -q "generate changelog from recent commits" > CHANGELOG.md
+
+<span class="cm"># Throwaway session (no session history saved)</span>
+codex exec --ephemeral "check for unused imports"</code></pre>
         </div>
       </div></div>
     </div>
@@ -8572,7 +9167,7 @@ codex exec -q "generate changelog from recent commits" > CHANGELOG.md</code></pr
           <table class="styled-table">
             <thead><tr><th>Provider</th><th>Example Models</th><th>Configuration</th></tr></thead>
             <tbody>
-              <tr><td>OpenAI</td><td><code>gpt-5.4</code>, <code>o4-mini</code></td><td>Default — uses <code>OPENAI_API_KEY</code></td></tr>
+              <tr><td>OpenAI</td><td><code>gpt-5.5</code>, <code>codex-mini-latest</code></td><td>Default — uses <code>OPENAI_API_KEY</code></td></tr>
               <tr><td>Azure OpenAI</td><td>Deployed models</td><td>Azure endpoint + API key</td></tr>
               <tr><td>Ollama</td><td>Local models</td><td>Local endpoint (<code>http://localhost:11434</code>)</td></tr>
               <tr><td>Gemini</td><td><code>gemini-2.5-pro</code></td><td>Google AI API key</td></tr>
@@ -8585,6 +9180,157 @@ codex exec -q "generate changelog from recent commits" > CHANGELOG.md</code></pr
         <div class="callout callout-tip" style="margin-top:1rem;">
           <div class="callout-title">Profiles</div>
           <p>Use <code>--profile</code> to switch between configurations. Example: <code>codex --profile local</code> for Ollama, <code>codex --profile cloud</code> for OpenAI.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Permission Profiles -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Permission Profiles</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Permission profiles replace the old binary sandbox flags with named, reusable policies for filesystem and network access. Define them in <code>~/.codex/config.toml</code> and apply with <code>--approval-mode</code> or <code>default_permissions</code>.</p>
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th>Built-in Profile</th><th>Filesystem</th><th>Network</th></tr></thead>
+            <tbody>
+              <tr><td><code>:read-only</code></td><td>Read everywhere</td><td>None</td></tr>
+              <tr><td><code>:workspace</code></td><td>Write to project root; deny <code>*.env</code> / <code>*.secrets</code></td><td>Restricted</td></tr>
+              <tr><td><code>:danger-no-sandbox</code></td><td>Unrestricted</td><td>Full</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem; font-size:0.9rem; color:var(--text-secondary);">Define a custom profile:</p>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[permissions.myproject.filesystem.":project_roots"]</span>
+<span class="val">"."</span> = <span class="str">"write"</span>
+<span class="val">"**/*.env"</span> = <span class="str">"none"</span>       <span class="cm"># deny reads of .env files</span>
+<span class="val">glob_scan_max_depth</span> = 3
+
+<span class="kw">[permissions.myproject.network]</span>
+<span class="val">enabled</span> = true
+<span class="val">mode</span> = <span class="str">"limited"</span>
+
+<span class="cm"># Apply as default</span>
+<span class="val">default_permissions</span> = <span class="str">":myproject"</span></code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Enterprise: requirements.toml</div>
+          <p>Admins can enforce which profiles are allowed and deny filesystem paths via <code>requirements.toml</code> — an admin-managed policy file that users cannot override. Install it at a system path or distribute via MDM.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Amazon Bedrock -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Amazon Bedrock</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex has first-class Amazon Bedrock support via AWS SigV4 signing and standard AWS credential resolution. Useful for teams with existing AWS infrastructure or data-residency requirements.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[model_providers.amazon-bedrock.aws]</span>
+<span class="val">profile</span> = <span class="str">"my-aws-profile"</span>   <span class="cm"># or use env vars</span>
+<span class="val">region</span>  = <span class="str">"us-west-2"</span>
+
+<span class="cm"># Credentials via standard AWS env vars also work:</span>
+<span class="cm"># AWS_PROFILE=my-profile AWS_REGION=us-west-2 codex</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch.</p>
+      </div></div>
+    </div>
+
+    <!-- /goal Workflows -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>/goal Workflows</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Persisted goals let you define a long-running objective that survives context compaction. Goals are now <strong>discoverable</strong> — browse all active goals from the TUI picker. When you resume a session, goals are <strong>paused by default</strong> so they don't carry over unintended work; opt back in from the picker. Goals show clear validation feedback and support multi-day duration tracking.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># In a Codex session — set a persistent goal</span>
+/goal
+
+<span class="cm"># TUI picker: Create / Pause / Resume / Clear / Browse all goals</span>
+<span class="cm"># Goal persists across /compact; pauses on resume (opt back in from picker)</span>
+<span class="cm"># Multi-day duration shown in goal status output</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Goals are ideal for large refactors or multi-day feature work. The paused-across-resume default prevents stale goals from leaking into new sessions — always check the picker when resuming long-running work.</p>
+      </div></div>
+    </div>
+
+    <!-- Plugins -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Plugins</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex plugins extend the agent with bundled tools, skills, and hooks. Browse the marketplace in the TUI or install from the CLI. Plugins can be scoped globally or to a trusted project.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># In the TUI: open the plugin marketplace</span>
+/plugins
+
+<span class="cm"># Install a plugin from the marketplace</span>
+codex plugin install &lt;plugin-name&gt;
+
+<span class="cm"># Remove a plugin</span>
+codex plugin remove &lt;plugin-name&gt;
+
+<span class="cm"># Share a plugin with your workspace</span>
+codex plugin share &lt;plugin-name&gt;
+
+<span class="cm"># Sync remote plugin bundles</span>
+codex plugin sync</code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>Plugin scoping:</strong></p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
+          <li><strong>Global</strong> (<code>~/.codex/</code>) — available in every session</li>
+          <li><strong>Project</strong> (<code>.codex/</code>) — loaded only in trusted projects</li>
+          <li><strong>Workspace-shared</strong> — install once, available to teammates via workspace share link; admin-disabled plugins are flagged in <code>/plugins</code></li>
+        </ul>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration.</p>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Claude Code Equivalent</div>
+          <p>Codex plugins map to Claude Code's plugin system — both use a marketplace model with skill + hook bundling. The key difference: Codex plugins install via <code>codex plugin install</code>; Claude plugins install via <code>claude plugin install</code>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Monitoring & Observability -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Monitoring &amp; Observability</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex exports structured telemetry via OpenTelemetry and provides machine-readable <code>exec</code> output for pipeline integration.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml — OTEL export</span>
+<span class="kw">[otel]</span>
+<span class="val">environment</span> = <span class="str">"prod"</span>
+<span class="val">exporter</span>    = <span class="str">"otlp-http"</span>
+
+<span class="kw">[otel.exporter.otlp-http]</span>
+<span class="val">endpoint</span> = <span class="str">"http://otel-collector:4318"</span>
+<span class="val">protocol</span> = <span class="str">"json"</span></code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>What gets traced:</strong></p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
+          <li>Tool calls (tool name, input size, output size)</li>
+          <li>Code-mode transitions and session lifecycle</li>
+          <li>Multi-agent thread relationships (rollout tracing)</li>
+          <li>Reasoning-token usage (via <code>codex exec --json</code>)</li>
+        </ul>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Audit Logging via Hooks</div>
+          <p>For teams without an OTEL collector, use a <code>PostToolUse</code> hook to append tool calls to a local log file. This gives you a full audit trail with zero infrastructure overhead — see the Hooks section for a recipe.</p>
         </div>
       </div></div>
     </div>
@@ -8704,6 +9450,46 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v54 <span class="changelog-date">· 2026-05-11</span></h3>
+        <p><strong>Claude Code v2.1.138 auto-update (CBP-128–CBP-129).</strong> Added <code>settings.autoMode.hard_deny</code> to the Notable settings.json Keys callout — hard-deny rules block unconditionally regardless of user intent or allow exceptions. Added <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to the Monitoring Enterprise Configuration collapsible — re-enables the session quality survey for enterprises capturing responses through OpenTelemetry (suppressed by default when OTEL is active).</p>
+      </section>
+      <section>
+        <h3>v51 <span class="changelog-date">· 2026-05-07</span></h3>
+        <p><strong>Claude Code v2.1.132 auto-update (CBP-118–CBP-119).</strong> Added <code>CLAUDE_CODE_SESSION_ID</code> to the hooks env vars table (also injected into Bash subprocess environment); added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> to the Subprocess Sandboxing hardening env vars table for opting out of the fullscreen alternate-screen renderer.</p>
+      </section>
+      <section>
+        <h3>v50 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>HTTP Hooks &amp; Managed Web Agents section (CBP-117).</strong> Added HTTP Hooks coverage and a new Managed Web Agents section to the Claude Best Practices page.</p>
+      </section>
+      <section>
+        <h3>v49 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>QA Pod — Configuration G for test infrastructure pods (CBP-116).</strong> Added Configuration G to the Pod Compositions page covering QA pod structures and test infrastructure pod patterns.</p>
+      </section>
+      <section>
+        <h3>v48 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>Claude Code v2.1.129 deferred items (CBP-114–CBP-115).</strong> Two follow-up updates from the v2.1.129 release: <code>skillOverrides</code> setting added to the Notable <code>settings.json</code> Keys callout in Config Cascade — documents the three modes (<code>off</code>, <code>user-invocable-only</code>, <code>name-only</code>) for controlling per-skill model visibility; <code>monitors</code> frontmatter row updated to note that in plugin <code>manifest.json</code> files, <code>monitors</code> and <code>themes</code> should be declared under <code>"experimental": { ... }</code> — top-level declarations still work but trigger a <code>claude plugin validate</code> warning.</p>
+      </section>
+      <section>
+        <h3>v47 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>Claude Code v2.1.129–v2.1.131 auto-update (CBP-109–CBP-113).</strong> Five targeted updates: <kbd>Ctrl+R</kbd> history picker description updated — now searches all projects by default (restored pre-2.1.124 behavior); new <kbd>Ctrl+S</kbd> shortcut row added to narrow to current project/session; <code>--plugin-url &lt;url&gt;</code> CLI flag added to the Cheat Sheet flags table and the Plugins collapsible with usage example; <code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1</code> env var documented in Subprocess Sandboxing (Homebrew/WinGet background auto-upgrade); <code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code> env var documented for terminals where synchronized output auto-detection fails; <code>/model</code> Cheat Sheet row updated to reflect that gateway model discovery is now opt-in via <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> (changed from automatic in v2.1.126–2.1.128).</p>
+      </section>
+      <section>
+        <h3>v46 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Claude Code v2.1.128 follow-up updates (CBP-107–CBP-108).</strong> Two targeted updates: <code>--channels</code> CLI flag added to the Cheat Sheet flags table — documents console (API key) authentication support and the <code>channelsEnabled: true</code> managed-settings org requirement; "Permission Allowlists &amp; <code>settings.local.json</code>" callout added to Config Cascade — explains that "Always allow" at a Bash permission prompt writes the entry to <code>.claude/settings.local.json</code> (gitignored, project-local) and cross-references <code>/less-permission-prompts</code> for bulk allowlist setup.</p>
+      </section>
+      <section>
+        <h3>v45 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Add /sandbox command guidance (CBP-105).</strong> Two targeted updates: <code>/sandbox</code> row added to Cheat Sheet configuration table covering Auto-allow mode, Regular permissions mode, macOS Seatbelt, and Linux bubblewrap + socat requirements; Subprocess Sandboxing Power Usage collapsible significantly expanded with <code>/sandbox</code> as the enablement command, sandbox modes table, full <code>settings.json</code> keys table (8 sandbox keys), and updated Use Case callout for best-practice startup configuration.</p>
+      </section>
+      <section>
+        <h3>v44 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Claude Code v2.1.128 auto-update (CBP-100–CBP-104).</strong> Five targeted updates: <code>/color</code> row updated to note that omitting the argument picks a random session color; <code>--plugin-dir</code> updated to mention <code>.zip</code> archives are accepted in addition to directories; Distributed Tracing bullet updated to clarify <code>OTEL_*</code> config vars are not inherited by subprocesses (Bash, hooks, MCP, LSP) — only <code>TRACEPARENT</code> is passed for trace context; Plugins collapsible gains a reserved-name warning that <code>workspace</code> is a reserved MCP server name (skipped with a warning if used); <code>/mcp</code> Cheat Sheet row updated to mention tool count display per server and flagging of 0-tool servers.</p>
+      </section>
+      <section>
+        <h3>v43 <span class="changelog-date">· 2026-05-04</span></h3>
+        <p><strong>Codex Best Practices parity update (CBP-098).</strong> Major refresh of the Codex page to reflect Codex CLI v0.124–v0.128 and bring it to parity with the Claude Best Practices page. Model default updated to <code>gpt-5.5</code>; new Hooks section (6 event types, TOML config syntax, exit codes, 3 recipes); new Power Usage collapsibles for Permission Profiles, Amazon Bedrock, /goal Workflows, Plugins, and Monitoring; Cheat Sheet expanded with Alt+,/Alt+. shortcuts, /goal, /plugins, /new, /side, /init, /keymap, and 7 more slash commands; Config Reference adds reasoning-effort, service-tier, and OTEL keys; <code>--full-auto</code> marked deprecated; comparison table adds Hooks and Plugins rows; security review cross-reference added to Guidelines; requirements.toml documented.</p>
+      </section>
       <section>
         <h3>v42 <span class="changelog-date">· 2026-05-04</span></h3>
         <p><strong>Claude Code v2.1.121–v2.1.126 follow-up updates (CBP-094–CBP-097).</strong> Four targeted Cheat Sheet and Power Usage updates: <code>/terminal-setup</code> now mentions iTerm2 clipboard access for <code>/copy</code> (including from tmux); <code>/skills</code> row updated to note type-to-filter search in long lists; <code>ANTHROPIC_BEDROCK_SERVICE_TIER</code> env var (default/flex/priority) added to Subprocess Sandboxing env vars table; <code>/model</code> row updated to document gateway <code>/v1/models</code> endpoint discovery when <code>ANTHROPIC_BASE_URL</code> is set.</p>
@@ -8882,7 +9668,7 @@ codex app</code></pre>
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
     'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'add-task-skill': 'workflows', 'commit-changes-skill': 'workflows',
-    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
+    'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'cloud-integrations': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',
     'kpis-hero': 'kpis', 'fsad-metrics': 'kpis'
