@@ -1,5 +1,30 @@
 ## Changes in This Version
 
+### [Unreleased]
+
+### v55 — 2026-05-11
+
+- **CBP-081** — Expanded the "Prompt Caching TTL" collapsible in Power Usage into a comprehensive "Prompt Caching & KV Cache" section. New content explains how the KV cache works (prefix-based attention-state caching at ~10% input-token cost for cache reads), what Claude Code caches in each session (system prompt, CLAUDE.md, read-only docs, conversation history prefix), guidance on choosing between 5-minute (default) and 1-hour TTL, and structural tips for maximising cache hits including the `--exclude-dynamic-system-prompt-sections` flag and OTEL `cacheRead`/`cacheCreation` observability.
+
+### v54 — 2026-05-11
+
+**Claude Code v2.1.138 auto-update (CBP-128–CBP-129)**
+
+Two content updates from the v2.1.136 release, covering auto mode policy settings and OTEL enterprise configuration.
+
+- **CBP-128** — Added `settings.autoMode.hard_deny` to the Notable `settings.json` Keys callout in the Config Cascade section. Documents that hard-deny rules block unconditionally regardless of user intent or allow exceptions, distinguishing them from regular deny rules which the classifier can override.
+- **CBP-129** — Added `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1` bullet to the Enterprise Configuration collapsible in the Monitoring section. Documents that the session quality survey is suppressed by default when OTEL is active (to avoid polluting telemetry pipelines) and this flag opts enterprises back in.
+
+### v53 — 2026-05-08
+
+**Claude Code v2.1.133 auto-update (CBP-125–CBP-127)**
+
+Three content updates from the v2.1.133 release, covering hooks context, worktree configuration, and Linux sandbox settings.
+
+- **CBP-125** — Added `$CLAUDE_EFFORT` to the "Environment variables available in hooks" table. The var is injected into hook subprocess environments and Bash tool subprocess commands, letting scripts branch on effort level (`low` | `medium` | `high` | `xhigh` | `max`) without parsing hook JSON. Also noted that `effort.level` is available in the JSON delivered to hook stdin.
+- **CBP-126** — Added `worktree.baseRef` setting table to the Work Trees collapsible. Documents `fresh` (default — branches from `origin/<default-branch>`) vs. `head` (branches from local `HEAD`, preserving unpushed commits) with use-case guidance for parallel agent workflows.
+- **CBP-127** — Added `sandbox.bwrapPath` and `sandbox.socatPath` rows to the Subprocess Sandboxing settings table. Both are Linux/WSL-only managed settings for specifying custom bubblewrap and socat binary paths when these tools are installed in non-standard locations.
+
 ### v52 — 2026-05-07
 
 **Codex CLI v0.129.0 auto-update (CBP-120–CBP-124)**

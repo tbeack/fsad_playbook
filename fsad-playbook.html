@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v52)</title>
+<title>FSAD — Full Stack Agentic Development (v55)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v52</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v54</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3808,7 +3808,8 @@ description: Structured code review with security and quality checks
         <li style="margin-bottom:0.4rem;"><code>prUrlTemplate</code> — Point the footer PR badge to a custom review URL instead of github.com. Useful for GitLab, Bitbucket, or GitHub Enterprise teams.</li>
         <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
         <li style="margin-bottom:0.4rem;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
-        <li style="margin-bottom:0;"><code>skillOverrides</code> — Control per-skill model visibility: <code>{"skill-name": "off"}</code> hides from both model and <code>/</code> menu; <code>"user-invocable-only"</code> hides from model only; <code>"name-only"</code> sends name without description to the model.</li>
+        <li style="margin-bottom:0.4rem;"><code>skillOverrides</code> — Control per-skill model visibility: <code>{"skill-name": "off"}</code> hides from both model and <code>/</code> menu; <code>"user-invocable-only"</code> hides from model only; <code>"name-only"</code> sends name without description to the model.</li>
+        <li style="margin-bottom:0;"><code>settings.autoMode.hard_deny</code> — Auto mode classifier rules that block unconditionally regardless of user intent or allow exceptions. Unlike regular deny rules (which the classifier can override when intent is clear), hard-deny rules are absolute. Use the same pattern array format as <code>allow</code>/<code>deny</code> rules in auto mode settings.</li>
       </ul>
     </div>
 
@@ -6627,7 +6628,17 @@ smoke tests against the staging URL."</code></pre>
 <span class="cm"># Agents can work simultaneously without conflicts</span>
 <span class="cm"># Changes are merged back via standard git merge/PR</span></code></pre>
         </div>
-        <div class="callout callout-tip" style="margin-bottom:0;">
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong><code>worktree.baseRef</code> setting</strong> — controls the branch base for all worktrees (<code>--worktree</code>, <code>EnterWorktree</code>, and agent-isolation worktrees). Set in <code>.claude/settings.json</code>:</p>
+        <div class="table-wrap" style="margin-top:0.5rem;">
+          <table class="styled-table">
+            <thead><tr><th>Value</th><th>Branches from</th><th>When to use</th></tr></thead>
+            <tbody>
+              <tr><td><code>fresh</code> (default)</td><td><code>origin/&lt;default-branch&gt;</code></td><td>Clean base — agents always start from the canonical remote state, no local noise</td></tr>
+              <tr><td><code>head</code></td><td>Local <code>HEAD</code></td><td>Share unpushed scaffolding — spawned agents inherit commits you haven't pushed yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-bottom:0; margin-top:0.75rem;">
           <div class="callout-title">Tip</div>
           <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events.</p>
         </div>
@@ -6942,6 +6953,8 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>sandbox.network.allowedDomains</code></td><td>Allowlist of domains Bash subprocesses may reach. New domain requests trigger a permission prompt; use <code>allowManagedDomainsOnly: true</code> to block unapproved domains automatically.</td></tr>
               <tr><td><code>sandbox.network.deniedDomains</code></td><td>Block specific domains even when an <code>allowedDomains</code> wildcard would otherwise permit them — useful for blocking telemetry or third-party endpoints in CI.</td></tr>
               <tr><td><code>sandbox.failIfUnavailable</code></td><td>Set to <code>true</code> to make sandbox startup failure a hard error instead of a warning — intended for managed deployments that require sandboxing as a security gate.</td></tr>
+              <tr><td><code>sandbox.bwrapPath</code></td><td>(Linux/WSL only) Custom path to the <code>bwrap</code> (bubblewrap) binary — use when bubblewrap is installed in a non-standard location on managed systems or container base images.</td></tr>
+              <tr><td><code>sandbox.socatPath</code></td><td>(Linux/WSL only) Custom path to the <code>socat</code> binary — use when socat is installed in a non-standard location on managed systems or container base images.</td></tr>
               <tr><td><code>sandbox.allowUnsandboxedCommands</code></td><td>Set to <code>false</code> to disable the escape hatch — Claude can no longer retry failed commands outside the sandbox. All commands must be sandboxed or listed in <code>excludedCommands</code>.</td></tr>
             </tbody>
           </table>
@@ -6970,15 +6983,27 @@ smoke tests against the staging URL."</code></pre>
       </div></div>
     </div>
 
-    <!-- Prompt Caching TTL -->
+    <!-- Prompt Caching & KV Cache -->
     <div class="collapsible" id="power-usage--prompt-caching">
       <div class="collapsible-header">
-        <h3>Prompt Caching TTL</h3>
+        <h3>Prompt Caching &amp; KV Cache</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Control the prompt cache time-to-live (TTL) for API key, Bedrock, Vertex, and Foundry users. By default Claude Code uses a 5-minute cache; opt into 1-hour caching to improve hit rates in long or recurring sessions.</p>
-        <div class="table-wrap" style="margin-top:0.75rem;">
+        <p>Claude maintains a <strong>key-value (KV) cache</strong> of computed attention states for the leading prefix of each conversation. When a new request shares the same prefix as a cached one, Claude skips recomputing that prefix — delivering faster responses at roughly <strong>10% of the regular input-token cost</strong> for cached tokens.</p>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.8; margin-top:0.75rem;">The cache is prefix-based: content must appear at the <em>beginning</em> of the prompt to be cacheable. The first matching request in a window incurs a small cache-write overhead; every subsequent request within the TTL window is a cheap cache read.</p>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.4rem;">What gets cached in a Claude Code session</p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0;">
+          <li>System prompt injected by Claude Code at session start</li>
+          <li>CLAUDE.md files loaded from the project and user config</li>
+          <li>Large read-only documents attached at the top of the conversation</li>
+          <li>Accumulated conversation history prefix (up to the last assistant turn)</li>
+        </ul>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.4rem;">TTL configuration</p>
+        <div class="table-wrap" style="margin-top:0;">
           <table class="styled-table">
             <thead><tr><th>Env Var</th><th>Effect</th></tr></thead>
             <tbody>
@@ -6987,9 +7012,25 @@ smoke tests against the staging URL."</code></pre>
             </tbody>
           </table>
         </div>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.4rem;">Choosing your TTL</p>
+        <div class="table-wrap" style="margin-top:0;">
+          <table class="styled-table">
+            <thead><tr><th>TTL</th><th>Best for</th></tr></thead>
+            <tbody>
+              <tr><td><strong>5 min</strong> (default)</td><td>Short one-off sessions; acceptable when sessions rarely outlast 5 minutes; lowest storage overhead.</td></tr>
+              <tr><td><strong>1 hour</strong></td><td>Long coding sessions, nightly CI pipelines, any workflow where Claude re-reads the same large codebase context repeatedly. Enable whenever a session is likely to outlast 5 minutes or runs on a schedule.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
-          <div class="callout-title">Cost Tip</div>
-          <p>Use <code>ENABLE_PROMPT_CACHING_1H=1</code> for sessions that share a large system prompt across many requests — reduces repeated input token costs significantly.</p>
+          <div class="callout-title">Structuring Prompts for Maximum Cache Hits</div>
+          <ul style="padding-left:1.25rem; margin:0.25rem 0 0; font-size:0.88rem; line-height:2;">
+            <li><strong>Stable content first</strong> — system prompt, CLAUDE.md, and large reference docs must form a leading prefix; dynamic content (task description, user message) goes last.</li>
+            <li><strong>Multi-user / CI deployments</strong> — use <code>--exclude-dynamic-system-prompt-sections</code> to strip per-user dynamic injections so the shared system-prompt prefix is cacheable across all users.</li>
+            <li><strong>Observe cache activity</strong> — OTEL events include <code>cacheRead</code> and <code>cacheCreation</code> token breakdowns under <code>claude_code.token.usage</code> so you can confirm cache hits in your monitoring.</li>
+          </ul>
         </div>
       </div></div>
     </div>
@@ -7188,6 +7229,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_PLUGIN_ROOT</code></td><td>Plugin installation directory</td></tr>
               <tr><td><code>CLAUDE_PLUGIN_DATA</code></td><td>Plugin persistent data directory</td></tr>
               <tr><td><code>CLAUDE_CODE_SESSION_ID</code></td><td>Current session ID — also injected into the Bash tool subprocess environment, enabling scripts to correlate tool runs with the active session without parsing hook JSON input</td></tr>
+              <tr><td><code>CLAUDE_EFFORT</code></td><td>Active effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>) — injected into Bash tool subprocess commands so scripts can branch on effort without parsing hook JSON. Also available as <code>effort.level</code> in the JSON delivered to hook stdin.</td></tr>
             </tbody>
           </table>
         </div>
@@ -7814,6 +7856,7 @@ claude</code></pre>
           <li><strong>Multi-team segmentation</strong> &mdash; use <code>OTEL_RESOURCE_ATTRIBUTES="department=eng,team.id=platform,cost_center=123"</code> to tag metrics by team</li>
           <li><strong>Dynamic auth</strong> &mdash; set <code>"otelHeadersHelper": "/path/to/script.sh"</code> in settings.json to auto-refresh tokens (runs every 29 min)</li>
           <li><strong>Cardinality control</strong> &mdash; toggle <code>OTEL_METRICS_INCLUDE_SESSION_ID</code>, <code>OTEL_METRICS_INCLUDE_VERSION</code>, and <code>OTEL_METRICS_INCLUDE_ACCOUNT_UUID</code> to tune storage vs. granularity</li>
+          <li><strong>Survey re-opt-in</strong> &mdash; set <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to re-enable the session quality survey for enterprises capturing responses through OpenTelemetry (the survey is suppressed by default when OTEL is active to avoid polluting telemetry pipelines)</li>
         </ul>
       </div></div>
     </div>
@@ -9435,6 +9478,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v54 <span class="changelog-date">· 2026-05-11</span></h3>
+        <p><strong>Claude Code v2.1.138 auto-update (CBP-128–CBP-129).</strong> Added <code>settings.autoMode.hard_deny</code> to the Notable settings.json Keys callout — hard-deny rules block unconditionally regardless of user intent or allow exceptions. Added <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to the Monitoring Enterprise Configuration collapsible — re-enables the session quality survey for enterprises capturing responses through OpenTelemetry (suppressed by default when OTEL is active).</p>
+      </section>
       <section>
         <h3>v51 <span class="changelog-date">· 2026-05-07</span></h3>
         <p><strong>Claude Code v2.1.132 auto-update (CBP-118–CBP-119).</strong> Added <code>CLAUDE_CODE_SESSION_ID</code> to the hooks env vars table (also injected into Bash subprocess environment); added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> to the Subprocess Sandboxing hardening env vars table for opting out of the fullscreen alternate-screen renderer.</p>
