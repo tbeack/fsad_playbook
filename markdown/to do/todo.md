@@ -135,3 +135,8 @@
 - [x] `CBP-122` [Codex] Update Session Management: redesigned resume/fork picker, raw scrollback mode, `/ide` context injection, workspace-aware `/diff` (v0.129.0) → [task-cbp-122.md](task-cbp-122.md)
 - [x] `CBP-123` [Codex] Add `/keymap debug` to Cheat Sheet; update Plugins collapsible with workspace sharing (v0.129.0) → [task-cbp-123.md](task-cbp-123.md)
 - [x] `CBP-124` [Codex] Update Goals section: discoverable goals, paused-across-resume default, multi-day duration (v0.129.0) → [task-cbp-124.md](task-cbp-124.md)
+- [x] `CBP-125` Add `$CLAUDE_EFFORT` env var and `effort.level` JSON field to hooks env vars table (v2.1.133) → [task-cbp-125.md](task-cbp-125.md)
+- [x] `CBP-126` Add `worktree.baseRef` setting to Work Trees collapsible (v2.1.133) → [task-cbp-126.md](task-cbp-126.md)
+- [x] `CBP-127` Add `sandbox.bwrapPath` and `sandbox.socatPath` to Subprocess Sandboxing settings table (v2.1.133) → [task-cbp-127.md](task-cbp-127.md)
+- [x] `CBP-128` Add `settings.autoMode.hard_deny` to Notable settings.json Keys callout in Config Cascade section (v2.1.136) → [task-cbp-128.md](task-cbp-128.md)
+- [x] `CBP-129` Add `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` env var to Monitoring Enterprise Configuration collapsible (v2.1.136) → [task-cbp-129.md](task-cbp-129.md)
