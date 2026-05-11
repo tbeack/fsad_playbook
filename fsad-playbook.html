@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v54)</title>
+<title>FSAD — Full Stack Agentic Development (v55)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v54</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v55</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -6983,15 +6983,27 @@ smoke tests against the staging URL."</code></pre>
       </div></div>
     </div>
 
-    <!-- Prompt Caching TTL -->
+    <!-- Prompt Caching & KV Cache -->
     <div class="collapsible" id="power-usage--prompt-caching">
       <div class="collapsible-header">
-        <h3>Prompt Caching TTL</h3>
+        <h3>Prompt Caching &amp; KV Cache</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Control the prompt cache time-to-live (TTL) for API key, Bedrock, Vertex, and Foundry users. By default Claude Code uses a 5-minute cache; opt into 1-hour caching to improve hit rates in long or recurring sessions.</p>
-        <div class="table-wrap" style="margin-top:0.75rem;">
+        <p>Claude maintains a <strong>key-value (KV) cache</strong> of computed attention states for the leading prefix of each conversation. When a new request shares the same prefix as a cached one, Claude skips recomputing that prefix — delivering faster responses at roughly <strong>10% of the regular input-token cost</strong> for cached tokens.</p>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.8; margin-top:0.75rem;">The cache is prefix-based: content must appear at the <em>beginning</em> of the prompt to be cacheable. The first matching request in a window incurs a small cache-write overhead; every subsequent request within the TTL window is a cheap cache read.</p>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.4rem;">What gets cached in a Claude Code session</p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0;">
+          <li>System prompt injected by Claude Code at session start</li>
+          <li>CLAUDE.md files loaded from the project and user config</li>
+          <li>Large read-only documents attached at the top of the conversation</li>
+          <li>Accumulated conversation history prefix (up to the last assistant turn)</li>
+        </ul>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.4rem;">TTL configuration</p>
+        <div class="table-wrap" style="margin-top:0;">
           <table class="styled-table">
             <thead><tr><th>Env Var</th><th>Effect</th></tr></thead>
             <tbody>
@@ -7000,9 +7012,25 @@ smoke tests against the staging URL."</code></pre>
             </tbody>
           </table>
         </div>
+
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.4rem;">Choosing your TTL</p>
+        <div class="table-wrap" style="margin-top:0;">
+          <table class="styled-table">
+            <thead><tr><th>TTL</th><th>Best for</th></tr></thead>
+            <tbody>
+              <tr><td><strong>5 min</strong> (default)</td><td>Short one-off sessions; acceptable when sessions rarely outlast 5 minutes; lowest storage overhead.</td></tr>
+              <tr><td><strong>1 hour</strong></td><td>Long coding sessions, nightly CI pipelines, any workflow where Claude re-reads the same large codebase context repeatedly. Enable whenever a session is likely to outlast 5 minutes or runs on a schedule.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
-          <div class="callout-title">Cost Tip</div>
-          <p>Use <code>ENABLE_PROMPT_CACHING_1H=1</code> for sessions that share a large system prompt across many requests — reduces repeated input token costs significantly.</p>
+          <div class="callout-title">Structuring Prompts for Maximum Cache Hits</div>
+          <ul style="padding-left:1.25rem; margin:0.25rem 0 0; font-size:0.88rem; line-height:2;">
+            <li><strong>Stable content first</strong> — system prompt, CLAUDE.md, and large reference docs must form a leading prefix; dynamic content (task description, user message) goes last.</li>
+            <li><strong>Multi-user / CI deployments</strong> — use <code>--exclude-dynamic-system-prompt-sections</code> to strip per-user dynamic injections so the shared system-prompt prefix is cacheable across all users.</li>
+            <li><strong>Observe cache activity</strong> — OTEL events include <code>cacheRead</code> and <code>cacheCreation</code> token breakdowns under <code>claude_code.token.usage</code> so you can confirm cache hits in your monitoring.</li>
+          </ul>
         </div>
       </div></div>
     </div>

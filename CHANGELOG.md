@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### [Unreleased]
+
+### v55 — 2026-05-11
+
+- **CBP-081** — Expanded the "Prompt Caching TTL" collapsible in Power Usage into a comprehensive "Prompt Caching & KV Cache" section. New content explains how the KV cache works (prefix-based attention-state caching at ~10% input-token cost for cache reads), what Claude Code caches in each session (system prompt, CLAUDE.md, read-only docs, conversation history prefix), guidance on choosing between 5-minute (default) and 1-hour TTL, and structural tips for maximising cache hits including the `--exclude-dynamic-system-prompt-sections` flag and OTEL `cacheRead`/`cacheCreation` observability.
+
 ### v54 — 2026-05-11
 
 **Claude Code v2.1.138 auto-update (CBP-128–CBP-129)**
