@@ -138,3 +138,5 @@
 - [x] `CBP-125` Add `$CLAUDE_EFFORT` env var and `effort.level` JSON field to hooks env vars table (v2.1.133) → [task-cbp-125.md](task-cbp-125.md)
 - [x] `CBP-126` Add `worktree.baseRef` setting to Work Trees collapsible (v2.1.133) → [task-cbp-126.md](task-cbp-126.md)
 - [x] `CBP-127` Add `sandbox.bwrapPath` and `sandbox.socatPath` to Subprocess Sandboxing settings table (v2.1.133) → [task-cbp-127.md](task-cbp-127.md)
+- [x] `CBP-128` Add `settings.autoMode.hard_deny` to Notable settings.json Keys callout in Config Cascade section (v2.1.136) → [task-cbp-128.md](task-cbp-128.md)
+- [x] `CBP-129` Add `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` env var to Monitoring Enterprise Configuration collapsible (v2.1.136) → [task-cbp-129.md](task-cbp-129.md)

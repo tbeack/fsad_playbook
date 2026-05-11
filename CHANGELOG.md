@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v54 — 2026-05-11
+
+**Claude Code v2.1.138 auto-update (CBP-128–CBP-129)**
+
+Two content updates from the v2.1.136 release, covering auto mode policy settings and OTEL enterprise configuration.
+
+- **CBP-128** — Added `settings.autoMode.hard_deny` to the Notable `settings.json` Keys callout in the Config Cascade section. Documents that hard-deny rules block unconditionally regardless of user intent or allow exceptions, distinguishing them from regular deny rules which the classifier can override.
+- **CBP-129** — Added `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1` bullet to the Enterprise Configuration collapsible in the Monitoring section. Documents that the session quality survey is suppressed by default when OTEL is active (to avoid polluting telemetry pipelines) and this flag opts enterprises back in.
+
 ### v53 — 2026-05-08
 
 **Claude Code v2.1.133 auto-update (CBP-125–CBP-127)**

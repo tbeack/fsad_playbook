@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v53)</title>
+<title>FSAD — Full Stack Agentic Development (v54)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v53</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v54</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3808,7 +3808,8 @@ description: Structured code review with security and quality checks
         <li style="margin-bottom:0.4rem;"><code>prUrlTemplate</code> — Point the footer PR badge to a custom review URL instead of github.com. Useful for GitLab, Bitbucket, or GitHub Enterprise teams.</li>
         <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
         <li style="margin-bottom:0.4rem;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
-        <li style="margin-bottom:0;"><code>skillOverrides</code> — Control per-skill model visibility: <code>{"skill-name": "off"}</code> hides from both model and <code>/</code> menu; <code>"user-invocable-only"</code> hides from model only; <code>"name-only"</code> sends name without description to the model.</li>
+        <li style="margin-bottom:0.4rem;"><code>skillOverrides</code> — Control per-skill model visibility: <code>{"skill-name": "off"}</code> hides from both model and <code>/</code> menu; <code>"user-invocable-only"</code> hides from model only; <code>"name-only"</code> sends name without description to the model.</li>
+        <li style="margin-bottom:0;"><code>settings.autoMode.hard_deny</code> — Auto mode classifier rules that block unconditionally regardless of user intent or allow exceptions. Unlike regular deny rules (which the classifier can override when intent is clear), hard-deny rules are absolute. Use the same pattern array format as <code>allow</code>/<code>deny</code> rules in auto mode settings.</li>
       </ul>
     </div>
 
@@ -7827,6 +7828,7 @@ claude</code></pre>
           <li><strong>Multi-team segmentation</strong> &mdash; use <code>OTEL_RESOURCE_ATTRIBUTES="department=eng,team.id=platform,cost_center=123"</code> to tag metrics by team</li>
           <li><strong>Dynamic auth</strong> &mdash; set <code>"otelHeadersHelper": "/path/to/script.sh"</code> in settings.json to auto-refresh tokens (runs every 29 min)</li>
           <li><strong>Cardinality control</strong> &mdash; toggle <code>OTEL_METRICS_INCLUDE_SESSION_ID</code>, <code>OTEL_METRICS_INCLUDE_VERSION</code>, and <code>OTEL_METRICS_INCLUDE_ACCOUNT_UUID</code> to tune storage vs. granularity</li>
+          <li><strong>Survey re-opt-in</strong> &mdash; set <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to re-enable the session quality survey for enterprises capturing responses through OpenTelemetry (the survey is suppressed by default when OTEL is active to avoid polluting telemetry pipelines)</li>
         </ul>
       </div></div>
     </div>
@@ -9448,6 +9450,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v54 <span class="changelog-date">· 2026-05-11</span></h3>
+        <p><strong>Claude Code v2.1.138 auto-update (CBP-128–CBP-129).</strong> Added <code>settings.autoMode.hard_deny</code> to the Notable settings.json Keys callout — hard-deny rules block unconditionally regardless of user intent or allow exceptions. Added <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to the Monitoring Enterprise Configuration collapsible — re-enables the session quality survey for enterprises capturing responses through OpenTelemetry (suppressed by default when OTEL is active).</p>
+      </section>
       <section>
         <h3>v51 <span class="changelog-date">· 2026-05-07</span></h3>
         <p><strong>Claude Code v2.1.132 auto-update (CBP-118–CBP-119).</strong> Added <code>CLAUDE_CODE_SESSION_ID</code> to the hooks env vars table (also injected into Bash subprocess environment); added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> to the Subprocess Sandboxing hardening env vars table for opting out of the fullscreen alternate-screen renderer.</p>
