@@ -140,3 +140,8 @@
 - [x] `CBP-127` Add `sandbox.bwrapPath` and `sandbox.socatPath` to Subprocess Sandboxing settings table (v2.1.133) → [task-cbp-127.md](task-cbp-127.md)
 - [x] `CBP-128` Add `settings.autoMode.hard_deny` to Notable settings.json Keys callout in Config Cascade section (v2.1.136) → [task-cbp-128.md](task-cbp-128.md)
 - [x] `CBP-129` Add `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` env var to Monitoring Enterprise Configuration collapsible (v2.1.136) → [task-cbp-129.md](task-cbp-129.md)
+- [x] `CBP-130` Add `claude agents` CLI subcommand to Cheat Sheet (v2.1.139) → [task-cbp-130.md](task-cbp-130.md)
+- [x] `CBP-131` Add `/goal` to Claude Cheat Sheet automation table (v2.1.139) → [task-cbp-131.md](task-cbp-131.md)
+- [x] `CBP-132` Add `/scroll-speed` to Cheat Sheet configuration table (v2.1.139) → [task-cbp-132.md](task-cbp-132.md)
+- [x] `CBP-133` Add hook `args: string[]` exec form to Hooks Deep Dive (v2.1.139) → [task-cbp-133.md](task-cbp-133.md)
+- [x] `CBP-134` Add hook `continueOnBlock` PostToolUse option to Hooks Deep Dive (v2.1.139) → [task-cbp-134.md](task-cbp-134.md)
