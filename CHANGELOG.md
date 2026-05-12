@@ -2,6 +2,18 @@
 
 ### [Unreleased]
 
+### v56 — 2026-05-12
+
+**Claude Code v2.1.139 auto-update (CBP-130–CBP-134)**
+
+Five content updates from the v2.1.139 release, covering the new agent view CLI command, /goal for Claude, /scroll-speed, and two hooks enhancements.
+
+- **CBP-130** — Added `claude agents` CLI subcommand row to the "Info & account" table in the Cheat Sheet. Documents the Agent View (Research Preview): a single unified list of every Claude Code session — running, blocked, or done.
+- **CBP-131** — Added `/goal <condition>` to the "Automation & agents" slash commands table in the Claude Cheat Sheet. Documents the turn-until-complete behavior with live elapsed/turns/tokens overlay, and notes it works in interactive, `-p`, and Remote Control modes.
+- **CBP-132** — Added `/scroll-speed` to the "Configuration & setup" slash commands table. Documents the command for tuning mouse wheel scroll speed with a live preview.
+- **CBP-133** — Added exec form documentation for command hooks in the "Five Hook Types" collapsible. The `args: string[]` field spawns the command directly via `execve` without a shell, so path placeholders and special characters never need quoting. Includes a code example alongside the existing shell form.
+- **CBP-134** — Added `continueOnBlock` documentation after the PostToolUse output replacement section in the Exit Codes collapsible. Explains the soft-block pattern: when `"continueOnBlock": true` is set, a block (exit 2) feeds the rejection reason back to Claude as a tool result and the turn continues, enabling self-correction instead of a hard halt.
+
 ### v55 — 2026-05-11
 
 - **CBP-081** — Expanded the "Prompt Caching TTL" collapsible in Power Usage into a comprehensive "Prompt Caching & KV Cache" section. New content explains how the KV cache works (prefix-based attention-state caching at ~10% input-token cost for cache reads), what Claude Code caches in each session (system prompt, CLAUDE.md, read-only docs, conversation history prefix), guidance on choosing between 5-minute (default) and 1-hour TTL, and structural tips for maximising cache hits including the `--exclude-dynamic-system-prompt-sections` flag and OTEL `cacheRead`/`cacheCreation` observability.
