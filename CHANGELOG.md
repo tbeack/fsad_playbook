@@ -2,7 +2,11 @@
 
 ### [Unreleased]
 
-### v57 — 2026-05-13
+### v2.57.0 — 2026-05-13
+
+**Versioning scheme change (CBP-136) + Claude Code v2.1.140 auto-update (CBP-137–CBP-138)**
+
+- **CBP-136** — Transitioned the playbook versioning scheme from simple integer (`v57`) to three-part semver-style (`v2.57.0`). Major version (2) marks the current generation; the previous integer release number becomes the minor component; patch starts at 0. Going forward: bump minor for content releases, patch for fixes, major for generational redesigns.
 
 **Claude Code v2.1.140 auto-update (CBP-137–CBP-138)**
 

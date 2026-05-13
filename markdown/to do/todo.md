@@ -146,6 +146,6 @@
 - [x] `CBP-133` Add hook `args: string[]` exec form to Hooks Deep Dive (v2.1.139) → [task-cbp-133.md](task-cbp-133.md)
 - [x] `CBP-134` Add hook `continueOnBlock` PostToolUse option to Hooks Deep Dive (v2.1.139) → [task-cbp-134.md](task-cbp-134.md)
 - [ ] `CBP-135` Research plugging in a Small Language Model to do natural language interaction and search → [task-cbp-135.md](task-cbp-135.md)
-- [ ] `CBP-136` change the versioning scheme from vnn to vnn.n.n -> transition from v57 to v2.57.0 → [task-cbp-136.md](task-cbp-136.md)
+- [x] `CBP-136` change the versioning scheme from vnn to vnn.n.n -> transition from v57 to v2.57.0 → [task-cbp-136.md](task-cbp-136.md)
 - [x] `CBP-137` Add `allowManagedHooksOnly` to Notable settings.json Keys callout in Config Cascade (v2.1.140) → [task-cbp-137.md](task-cbp-137.md)
 - [x] `CBP-138` Document plugin default folder conflict warning in Plugins collapsible (v2.1.140) → [task-cbp-138.md](task-cbp-138.md)
