@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.57.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.57.2)</title>
 <style>
 /* cyrillic-ext */
 @font-face {
@@ -1254,7 +1254,7 @@
      SHARED COMPONENT STYLES
      ═══════════════════════════════════════ */
   section {
-    padding: 5rem 2.5rem;
+    padding: 1.5rem 2.5rem 2rem;
     max-width: 1100px;
     margin: 0 auto;
   }
@@ -1292,7 +1292,7 @@
 
   /* ─── HERO ─── */
   .hero {
-    padding: 5rem 2.5rem 4rem;
+    padding: 5rem 2.5rem 1.6rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -2515,7 +2515,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v2.57.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.57.1</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3020,7 +3020,7 @@ PostgreSQL. Follow existing patterns.</span>
      ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-pods">
 
-<div class="hero" id="pods-hero" style="padding-bottom: 3rem;">
+<div class="hero" id="pods-hero" style="padding-bottom: 1.2rem;">
   <div class="hero-badge">Team Design for Agentic Development</div>
   <h1>Pod Compositions That <em>Work</em></h1>
   <p>Not every feature needs the same team shape. FSAD defines six pod configurations — each optimized for a different type of work, all unified by the same spec-driven workflow.</p>
@@ -3281,7 +3281,7 @@ PostgreSQL. Follow existing patterns.</span>
      ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-workflows">
 
-<div class="hero" id="workflows-hero" style="padding-bottom: 3rem;">
+<div class="hero" id="workflows-hero" style="padding-bottom: 1.2rem;">
   <div class="hero-badge">Example Workflows for Teams Getting Started</div>
   <h1>Workflows in <em>Practice</em></h1>
   <p>Concrete, end-to-end walkthroughs of the skills and rituals an FSAD pod uses day-to-day. Start here when you want to see <em>how</em> a skill actually runs — not just what it promises.</p>
@@ -5043,7 +5043,7 @@ update();
      ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-practices">
 
-<div class="hero" id="practices-hero" style="padding-bottom: 3rem;">
+<div class="hero" id="practices-hero" style="padding-bottom: 1.2rem;">
   <div class="hero-badge">Practical Implementation Guide</div>
   <h1>Claude Best <em>Practices</em></h1>
   <p>From zero to spec-driven development. Project setup, integrations, skills, cheat sheets, power usage, and open source frameworks for Claude Code.</p>
@@ -8880,6 +8880,13 @@ smoke tests against the staging URL."</code></pre>
           </table>
         </div>
 
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.4rem;">Persisting your TTL setting</p>
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.8; margin-top:0;">Set the env var once in a <code>.env</code> file at the project root — Claude Code reads this file automatically at startup:</p>
+        <pre><code class="language-bash"># .env  (project root — add to .gitignore)
+ENABLE_PROMPT_CACHING_1H=1</code></pre>
+        <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.8; margin-top:0.5rem;">For a global default across all projects, export from your shell profile (<code>~/.zshrc</code> or <code>~/.bashrc</code>):</p>
+        <pre style="margin-bottom:0.75rem;"><code class="language-bash">export ENABLE_PROMPT_CACHING_1H=1</code></pre>
+
         <div class="callout callout-tip" style="margin-top:0.75rem; margin-bottom:0;">
           <div class="callout-title">Structuring Prompts for Maximum Cache Hits</div>
           <ul style="padding-left:1.25rem; margin:0.25rem 0 0; font-size:0.88rem; line-height:2;">
@@ -9930,7 +9937,7 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
      ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-codex">
 
-<div class="hero" id="codex-hero" style="padding-bottom: 3rem;">
+<div class="hero" id="codex-hero" style="padding-bottom: 1.2rem;">
   <div class="hero-badge">OpenAI's Coding Agent</div>
   <h1>Codex Best <em>Practices</em></h1>
   <p>Getting productive with OpenAI's open-source coding agent alongside Claude Code.</p>
@@ -11282,7 +11289,7 @@ codex app</code></pre>
      ═══════════════════════════════════════════════════════ -->
 <div class="page" id="page-kpis">
 
-<div class="hero" id="kpis-hero" style="padding-bottom: 3rem;">
+<div class="hero" id="kpis-hero" style="padding-bottom: 1.2rem;">
   <div class="hero-badge">Measuring Success</div>
   <h1>KPIs to Measure <em>Impact</em></h1>
   <p>Key metrics to track adoption, productivity, and ROI of agentic development.</p>
