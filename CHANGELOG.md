@@ -2,7 +2,17 @@
 
 ### [Unreleased]
 
+### v2.57.2 — 2026-05-13
+
+- **CBP-081** — Enhanced the "Prompt Caching & KV Cache" collapsible (Power Usage section) with a "Persisting your TTL setting" subsection. Shows how to set `ENABLE_PROMPT_CACHING_1H=1` in a `.env` file at the project root (Claude Code reads it automatically at startup) and as a shell-profile export for a global default across all projects.
+
+### v2.57.1 — 2026-05-13
+
+**Dist build pipeline + UI spacing polish (CBP-139–CBP-141)**
+
 - **CBP-139** — Added `scripts/build-dist.py`, a zero-dependency Python 3 build script that produces `dist/fsad-playbook.html` — a fully self-contained, offline-capable single file. The script inlines all 29 Google Font WOFF2 files as base64 data URIs (replacing the CDN `<link>` tag) and embeds both Workflows playground HTML files as `<iframe srcdoc>`. The `dist/` directory is gitignored; regenerate with `python3 scripts/build-dist.py`. `README.md` updated with a `## Build` section.
+- **CBP-140** — Reduced the version number font size in the playbook header by 50% for a less prominent appearance.
+- **CBP-141** — Tightened section spacing throughout the playbook: reduced section top padding from `5rem` to `1.5rem` (matching `fsad-training.html`), section bottom padding from `5rem` to `2rem` (−60%), hero bottom padding from `4rem` to `1.6rem` (−60%), and per-page hero bottom padding from `3rem` to `1.2rem` (−60%).
 
 ### v2.57.0 — 2026-05-13
 
