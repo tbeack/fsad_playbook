@@ -69,9 +69,23 @@ When picking up a task:
 ```bash
 # Open the current version
 open "fsad-playbook.html"
+
+# Build the self-contained dist artifact (inlines fonts + playgrounds)
+python3 scripts/build-dist.py
 ```
 
 All edits happen directly in `fsad-playbook.html`. The file is versioned internally (title tag) and tracked in `README.md`.
+
+### Build + Commit requirement
+
+**Always run the build script before committing.** This applies to every `/tb:ship` and `/tb:do-task` run:
+
+1. Make all edits to `fsad-playbook.html` (and any other source files).
+2. Run `python3 scripts/build-dist.py` — this writes `dist/fsad-playbook.html`.
+3. Stage **both** the source and `dist/` in the same commit: `git add fsad-playbook.html dist/`.
+4. Commit and push as normal.
+
+`dist/fsad-playbook.html` is the fully self-contained build artifact (fonts and playgrounds inlined). It must always be in sync with the source and included in every release commit.
 
 ## Research > Plan > Implement
 

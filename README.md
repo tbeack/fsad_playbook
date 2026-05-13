@@ -35,6 +35,16 @@ Or serve locally for development:
 python -m http.server 8000
 ```
 
+## Build
+
+To produce a fully self-contained distribution file (fonts and playgrounds inlined, no external requests):
+
+```bash
+python3 scripts/build-dist.py
+```
+
+Output: `dist/fsad-playbook.html` — a single file that works offline and can be shared without companion files. The `dist/` directory is tracked in git and included in every release commit.
+
 ## Version
 
 | Field | Value |

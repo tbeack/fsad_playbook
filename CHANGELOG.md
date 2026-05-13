@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+- **CBP-139** — Added `scripts/build-dist.py`, a zero-dependency Python 3 build script that produces `dist/fsad-playbook.html` — a fully self-contained, offline-capable single file. The script inlines all 29 Google Font WOFF2 files as base64 data URIs (replacing the CDN `<link>` tag) and embeds both Workflows playground HTML files as `<iframe srcdoc>`. The `dist/` directory is gitignored; regenerate with `python3 scripts/build-dist.py`. `README.md` updated with a `## Build` section.
+
 ### v2.57.0 — 2026-05-13
 
 **Versioning scheme change (CBP-136) + Claude Code v2.1.140 auto-update (CBP-137–CBP-138)**
