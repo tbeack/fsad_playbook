@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v56)</title>
+<title>FSAD — Full Stack Agentic Development (v57)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1883,7 +1883,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v56</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer;" title="View changelog">· v57</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -3808,6 +3808,7 @@ description: Structured code review with security and quality checks
         <li style="margin-bottom:0.4rem;"><code>prUrlTemplate</code> — Point the footer PR badge to a custom review URL instead of github.com. Useful for GitLab, Bitbucket, or GitHub Enterprise teams.</li>
         <li style="margin-bottom:0.4rem;"><code>otelHeadersHelper</code> — Path to a script that auto-refreshes OTEL auth tokens (runs every 29 min). See Monitoring section.</li>
         <li style="margin-bottom:0.4rem;"><code>disableAllHooks</code> — Set <code>true</code> to disable all hooks globally (useful for troubleshooting).</li>
+        <li style="margin-bottom:0.4rem;"><code>allowManagedHooksOnly</code> — When set to <code>true</code>, only hooks distributed via managed settings (MDM/org policy) are allowed to run; user-defined hooks in project and user <code>settings.json</code> are blocked. Useful for enterprise environments that want to control hook execution centrally.</li>
         <li style="margin-bottom:0.4rem;"><code>skillOverrides</code> — Control per-skill model visibility: <code>{"skill-name": "off"}</code> hides from both model and <code>/</code> menu; <code>"user-invocable-only"</code> hides from model only; <code>"name-only"</code> sends name without description to the model.</li>
         <li style="margin-bottom:0;"><code>settings.autoMode.hard_deny</code> — Auto mode classifier rules that block unconditionally regardless of user intent or allow exceptions. Unlike regular deny rules (which the classifier can override when intent is clear), hard-deny rules are absolute. Use the same pattern array format as <code>allow</code>/<code>deny</code> rules in auto mode settings.</li>
       </ul>
@@ -6839,6 +6840,7 @@ smoke tests against the staging URL."</code></pre>
           <li>Executables under <code>bin/</code> are invokable as bare commands</li>
           <li>Plugin marketplace for discovery and one-click install</li>
           <li><strong>Reserved MCP server name:</strong> <code>workspace</code> is reserved — an <code>mcpServers</code> entry named <code>workspace</code> will be skipped with a warning at startup; rename it to avoid silent breakage</li>
+          <li><strong>Default folder override warning:</strong> if <code>plugin.json</code> explicitly sets a key (e.g. <code>"commands"</code>) that matches a default component folder, that default folder is silently skipped. Claude Code v2.1.140 now warns when this happens — visible in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>. If the override is intentional, no action is needed.</li>
         </ul>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>MCP server <code>alwaysLoad</code> option</strong> — set <code>"alwaysLoad": true</code> in an MCP server config to make all its tools skip tool-search deferral and stay permanently available. Useful for servers whose tools you use in nearly every session.</p>
         <div class="code-block" style="margin-top:0.5rem;">
@@ -9513,6 +9515,14 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v57 <span class="changelog-date">· 2026-05-13</span></h3>
+        <p><strong>Claude Code v2.1.140 auto-update (CBP-137–CBP-138).</strong> Added <code>allowManagedHooksOnly</code> to the Notable settings.json Keys callout in Config Cascade — when <code>true</code>, only MDM/org-distributed hooks run and user-defined hooks are blocked (enterprise policy control). Added a "Default folder override warning" bullet to the Plugins collapsible — when <code>plugin.json</code> sets a key matching a default component folder (e.g. <code>"commands"</code>), that default folder is silently skipped; Claude Code v2.1.140 now warns in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>.</p>
+      </section>
+      <section>
+        <h3>v56 <span class="changelog-date">· 2026-05-12</span></h3>
+        <p><strong>Claude Code v2.1.139 auto-update (CBP-130–CBP-134).</strong> Added <code>claude agents</code> CLI subcommand to the Cheat Sheet Info &amp; account table; added <code>/goal &lt;condition&gt;</code> to the automation slash commands table; added <code>/scroll-speed</code> to configuration commands; added exec form (<code>args: string[]</code>) documentation to the Five Hook Types collapsible for shell-free direct command spawning; added <code>continueOnBlock</code> soft-block pattern to the PostToolUse Exit Codes section.</p>
+      </section>
       <section>
         <h3>v54 <span class="changelog-date">· 2026-05-11</span></h3>
         <p><strong>Claude Code v2.1.138 auto-update (CBP-128–CBP-129).</strong> Added <code>settings.autoMode.hard_deny</code> to the Notable settings.json Keys callout — hard-deny rules block unconditionally regardless of user intent or allow exceptions. Added <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to the Monitoring Enterprise Configuration collapsible — re-enables the session quality survey for enterprises capturing responses through OpenTelemetry (suppressed by default when OTEL is active).</p>

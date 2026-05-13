@@ -2,6 +2,15 @@
 
 ### [Unreleased]
 
+### v57 — 2026-05-13
+
+**Claude Code v2.1.140 auto-update (CBP-137–CBP-138)**
+
+Two content updates from the v2.1.140 release, covering a new enterprise hooks policy setting and a plugin authoring warning.
+
+- **CBP-137** — Added `allowManagedHooksOnly` to the Notable `settings.json` Keys callout in the Config Cascade section, immediately after `disableAllHooks`. Documents that when set to `true`, only hooks distributed via managed settings (MDM/org policy) run; user-defined hooks in project and user settings are blocked. Enterprise use case.
+- **CBP-138** — Added a "Default folder override warning" bullet to the Plugins collapsible. Documents that when `plugin.json` explicitly sets a key (e.g. `"commands"`) matching a default component folder, that default folder is silently skipped. Claude Code v2.1.140 now surfaces a warning for this in `/doctor`, `claude plugin list`, and `/plugin`.
+
 ### v56 — 2026-05-12
 
 **Claude Code v2.1.139 auto-update (CBP-130–CBP-134)**
