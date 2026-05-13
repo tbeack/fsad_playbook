@@ -33,9 +33,11 @@ The current version scheme is `integer` (v57). Version strings appear in three p
    - Change `version_scheme: integer` → `version_scheme: semver`.
    - Update the `notes` block: replace "Version is integer (v36, v37…) — bump by 1 each release" with "Version is semver (v2.57.0…) — bump minor for content releases, patch for fixes, major for generational redesigns."
 
+All criteria verified 2026-05-13 before commit.
+
 ## Acceptance Criteria
-- [ ] `<title>` tag in `fsad-playbook.html` reads `v2.57.0` (no other `v57` references remain)
-- [ ] `README.md` version badge / table reflects `v2.57.0`
-- [ ] `CHANGELOG.md` most-recent header reads `## v2.57.0`
-- [ ] `projects.yaml` `fsad_playbook` entry uses `version_scheme: semver` and updated notes
-- [ ] `tb:ship-it` / `cbp-update` agent correctly applies the new scheme on the next release
+- [x] `<title>` tag in `fsad-playbook.html` reads `v2.57.0` (no other `v57` references remain) — confirmed: title, sidebar badge, and in-app changelog header all read `v2.57.0`; `grep v57` returns no matches
+- [x] `README.md` version badge / table reflects `v2.57.0` — confirmed: `| **Current version** | v2.57.0 |`
+- [x] `CHANGELOG.md` most-recent header reads `## v2.57.0` — confirmed: `### v2.57.0 — 2026-05-13` with scheme-change note added
+- [x] `projects.yaml` `fsad_playbook` entry uses `version_scheme: semver` and updated notes — confirmed in `add-task-projects.yaml`
+- [ ] `tb:ship-it` / `cbp-update` agent correctly applies the new scheme on the next release — deferred; verifiable only on next release run
