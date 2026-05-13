@@ -149,3 +149,4 @@
 - [x] `CBP-136` change the versioning scheme from vnn to vnn.n.n -> transition from v57 to v2.57.0 → [task-cbp-136.md](task-cbp-136.md)
 - [x] `CBP-137` Add `allowManagedHooksOnly` to Notable settings.json Keys callout in Config Cascade (v2.1.140) → [task-cbp-137.md](task-cbp-137.md)
 - [x] `CBP-138` Document plugin default folder conflict warning in Plugins collapsible (v2.1.140) → [task-cbp-138.md](task-cbp-138.md)
+- [x] `CBP-139` — Create a `dist` directory in the root of the project. package up all files required into a single file. Keep the main playbook file name as the dist bundle in the `dist` dir. → [task-cbp-139.md](task-cbp-139.md)
