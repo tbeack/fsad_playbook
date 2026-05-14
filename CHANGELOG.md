@@ -2,6 +2,18 @@
 
 ### [Unreleased]
 
+### v2.57.3 — 2026-05-14
+
+**Claude Code v2.1.141 auto-update (CBP-142–CBP-146)**
+
+Five content updates from the v2.1.141 release, covering a new hook output field, two new env vars, an agents CLI flag, and a rewind menu option.
+
+- **CBP-142** — Added `terminalSequence` hook output documentation to the Exit Codes & Decision Control collapsible. Hooks can now return a `terminalSequence` JSON field (exit 0) to have Claude Code emit OSC escape codes directly to the terminal — enabling desktop notifications, window title updates, and bell sounds without a controlling TTY. Includes a code example and OSC sequence reference.
+- **CBP-143** — Added `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` to the Subprocess Sandboxing env vars table. Forces plugin source cloning from GitHub over HTTPS instead of SSH — useful in environments without a GitHub SSH key (CI/CD runners, corporate proxies that block SSH on port 22).
+- **CBP-144** — Added `ANTHROPIC_WORKSPACE_ID` to the Subprocess Sandboxing env vars table. Scopes the workload identity federation minted token to a specific workspace — required when a federation rule covers more than one workspace in enterprise multi-workspace API deployments.
+- **CBP-145** — Updated the `claude agents` Cheat Sheet row to document the `--cwd <path>` flag. Scopes the agent session list to a specific directory — useful in monorepos where you want to filter sessions by project root.
+- **CBP-146** — Updated the `/rewind` Cheat Sheet row to mention "Summarize up to here" from the rewind menu. This option compresses earlier context while keeping recent turns intact, as an alternative to full checkpoint rollback.
+
 ### v2.57.2 — 2026-05-13
 
 - **CBP-081** — Enhanced the "Prompt Caching & KV Cache" collapsible (Power Usage section) with a "Persisting your TTL setting" subsection. Shows how to set `ENABLE_PROMPT_CACHING_1H=1` in a `.env` file at the project root (Claude Code reads it automatically at startup) and as a shell-profile export for a global default across all projects.
