@@ -152,3 +152,8 @@
 - [x] `CBP-139` — Create a `dist` directory in the root of the project. package up all files required into a single file. Keep the main playbook file name as the dist bundle in the `dist` dir. → [task-cbp-139.md](task-cbp-139.md)
 - [x] `CBP-140` — decrease the font size of the version number in the playbook. reduce it by 50%. → [task-cbp-140.md](task-cbp-140.md)
 - [x] `CBP-141` — reduce the whitespace below the section headers. Copy the spacing used in `/Users/theobeack/Repo/fsad_training/dist/fsad-training.html` → [task-cbp-141.md](task-cbp-141.md)
+- [x] `CBP-142` Add `terminalSequence` hook JSON output field to Hooks Deep Dive Exit Codes section (v2.1.141) → [task-cbp-142.md](task-cbp-142.md)
+- [x] `CBP-143` Add `CLAUDE_CODE_PLUGIN_PREFER_HTTPS` env var to Subprocess Sandboxing table (v2.1.141) → [task-cbp-143.md](task-cbp-143.md)
+- [x] `CBP-144` Add `ANTHROPIC_WORKSPACE_ID` env var to Subprocess Sandboxing hardening env vars table (v2.1.141) → [task-cbp-144.md](task-cbp-144.md)
+- [x] `CBP-145` Update `claude agents` Cheat Sheet row to document `--cwd <path>` flag (v2.1.141) → [task-cbp-145.md](task-cbp-145.md)
+- [x] `CBP-146` Update `/rewind` Cheat Sheet row to mention "Summarize up to here" Rewind menu option (v2.1.141) → [task-cbp-146.md](task-cbp-146.md)

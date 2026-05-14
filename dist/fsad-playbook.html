@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.57.2)</title>
+<title>FSAD — Full Stack Agentic Development (v2.58.0)</title>
 <style>
 /* cyrillic-ext */
 @font-face {
@@ -2515,7 +2515,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.57.1</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.58.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -8066,7 +8066,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them. Paste a GitHub, GitHub Enterprise, GitLab, or Bitbucket PR URL into the search box to jump directly to the session that created that PR.</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
           <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>. Force on: <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>; opt out: <code>=0</code> (also disables the default-on behavior on Bedrock / Vertex / Foundry).</td></tr>
-          <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>)</td></tr>
+          <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>). The Rewind menu also offers <strong>Summarize up to here</strong> — compress earlier context while preserving recent turns, without rolling back state.</td></tr>
           <tr><td><code>/export</code></td><td>Export conversation to file or clipboard</td></tr>
           <tr><td><code>/copy</code> <code>[N]</code></td><td>Copy last response to clipboard (or Nth-last)</td></tr>
           <tr><td><code>/diff</code></td><td>Open interactive diff viewer</td></tr>
@@ -8159,7 +8159,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide from your local Claude Code usage history</td></tr>
           <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number. Also available as <code>claude ultrareview [target]</code> non-interactively from CI/scripts (<code>--json</code> for raw output; exits 0 on completion, 1 on failure).</td></tr>
-          <tr><td><code>claude agents</code></td><td>Agent View (Research Preview) — a single unified list of every Claude Code session: running, blocked on you, or done. Run <code>claude agents</code> to get started.</td></tr>
+          <tr><td><code>claude agents</code></td><td>Agent View — a unified list of every Claude Code session: running, blocked on you, or done. Use <code>--cwd &lt;path&gt;</code> to scope the list to a specific directory (useful in monorepos). Run <code>claude agents</code> to get started.</td></tr>
           <tr><td><code>claude project purge [path]</code></td><td>Delete all Claude Code state for a project — transcripts, tasks, file history, and config entry. Flags: <code>--dry-run</code> (preview), <code>-y</code> (no confirm), <code>-i/--interactive</code>, <code>--all</code> (all known projects).</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
@@ -8829,6 +8829,8 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>ANTHROPIC_BEDROCK_SERVICE_TIER</code></td><td>Select Bedrock service tier: <code>default</code> | <code>flex</code> | <code>priority</code>. Sent as the <code>X-Amzn-Bedrock-Service-Tier</code> header. Use <code>priority</code> for provisioned-capacity deployments.</td></tr>
               <tr><td><code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code></td><td>Force-enables synchronized output mode for terminals where auto-detection fails (e.g. Emacs <code>eat</code>). Fixes garbled or interleaved output in unsupported terminal emulators.</td></tr>
               <tr><td><code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code></td><td>Opts out of the fullscreen alternate-screen renderer — keeps the conversation in the terminal's native scrollback buffer instead. Useful in tmux, GNU screen, or CI environments where alternate-screen mode interferes with log capture.</td></tr>
+              <tr><td><code>CLAUDE_CODE_PLUGIN_PREFER_HTTPS</code></td><td>Clone GitHub plugin sources over HTTPS instead of SSH — use in environments where a GitHub SSH key is unavailable (CI/CD containers, managed desktops, devcontainers).</td></tr>
+              <tr><td><code>ANTHROPIC_WORKSPACE_ID</code></td><td>Workload identity federation — scopes the minted auth token to a specific workspace when a federation rule covers more than one. Set in managed enterprise deployments using identity federation for authentication.</td></tr>
             </tbody>
           </table>
         </div>
@@ -9190,6 +9192,14 @@ ENABLE_PROMPT_CACHING_1H=1</code></pre>
 }</code></pre>
         </div>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.5rem;">When <code>"continueOnBlock": true</code> is set, a hook that exits 2 (block) feeds its rejection reason back to Claude as a tool result and the turn continues — Claude can retry or adjust. Without this option, a block ends the turn immediately. Use <code>continueOnBlock</code> for "soft guard" patterns where you want Claude to self-correct rather than halt.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>Hook <code>terminalSequence</code></strong> — emit terminal escape sequences (desktop notifications, window title, bell) from any hook:</p>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code class="language-json">{
+  "terminalSequence": ""
+}</code></pre>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.5rem;">Return a JSON object with a <code>terminalSequence</code> key from any hook (exit 0). Claude Code writes the value directly to the terminal — even when there is no controlling TTY. Common sequences: <code>""</code> rings the terminal bell; <code>"]2;Task done"</code> sets the window title. Use this to provide ambient feedback without wrapping Claude Code in a shell script or requiring a controlling terminal.</p>
       </div></div>
     </div>
 
@@ -11373,6 +11383,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.58.0 <span class="changelog-date">· 2026-05-14</span></h3>
+        <p><strong>Claude Code v2.1.141 auto-update (CBP-142–CBP-146).</strong> Five targeted updates: added <code>terminalSequence</code> hook JSON output field to the Exit Codes &amp; Decision Control section — hooks can now emit terminal escape sequences (bell, window title, desktop notification triggers) without a controlling TTY; added <code>CLAUDE_CODE_PLUGIN_PREFER_HTTPS</code> and <code>ANTHROPIC_WORKSPACE_ID</code> env vars to the Subprocess Sandboxing hardening table; updated <code>claude agents</code> Cheat Sheet row to document the <code>--cwd &lt;path&gt;</code> flag for scoping the session list to a directory; updated <code>/rewind</code> Cheat Sheet row to mention the new "Summarize up to here" Rewind menu option for targeted context compression.</p>
+      </section>
       <section>
         <h3>v2.57.0 <span class="changelog-date">· 2026-05-13</span></h3>
         <p><strong>Claude Code v2.1.140 auto-update (CBP-137–CBP-138).</strong> Added <code>allowManagedHooksOnly</code> to the Notable settings.json Keys callout in Config Cascade — when <code>true</code>, only MDM/org-distributed hooks run and user-defined hooks are blocked (enterprise policy control). Added a "Default folder override warning" bullet to the Plugins collapsible — when <code>plugin.json</code> sets a key matching a default component folder (e.g. <code>"commands"</code>), that default folder is silently skipped; Claude Code v2.1.140 now warns in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>.</p>
