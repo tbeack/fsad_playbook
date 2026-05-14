@@ -14,6 +14,18 @@
 - **CBP-140** — Reduced the version number font size in the playbook header by 50% for a less prominent appearance.
 - **CBP-141** — Tightened section spacing throughout the playbook: reduced section top padding from `5rem` to `1.5rem` (matching `fsad-training.html`), section bottom padding from `5rem` to `2rem` (−60%), hero bottom padding from `4rem` to `1.6rem` (−60%), and per-page hero bottom padding from `3rem` to `1.2rem` (−60%).
 
+### v2.58.0 — 2026-05-14
+
+**Claude Code v2.1.141 auto-update (CBP-142–CBP-146)**
+
+Five content updates from the v2.1.141 release, covering hook output capabilities, new env vars, and Cheat Sheet updates.
+
+- **CBP-142** — Added `terminalSequence` hook JSON output field documentation to the Exit Codes & Decision Control collapsible in the Hooks Deep Dive. When a hook returns `{"terminalSequence": "..."}` (exit 0), Claude Code writes the value directly to the terminal even without a controlling TTY — enabling hooks to ring the bell, set the window title, or trigger desktop notification integrations without a terminal wrapper.
+- **CBP-143** — Added `CLAUDE_CODE_PLUGIN_PREFER_HTTPS` to the Subprocess Sandboxing hardening env vars table. When set, Claude Code clones GitHub plugin sources over HTTPS instead of SSH — useful in CI/CD containers, managed desktops, and devcontainers where a GitHub SSH key is unavailable.
+- **CBP-144** — Added `ANTHROPIC_WORKSPACE_ID` to the Subprocess Sandboxing hardening env vars table. Scopes the minted authentication token to a specific workspace during workload identity federation — relevant for enterprise deployments where a federation rule covers more than one workspace.
+- **CBP-145** — Updated the `claude agents` row in the Cheat Sheet CLI subcommands table to document the new `--cwd <path>` flag, which scopes the session list to a specific directory. Useful in monorepos or when running multiple projects simultaneously.
+- **CBP-146** — Updated the `/rewind` row in the Cheat Sheet session/history table to mention the new "Summarize up to here" option in the Rewind menu. This option compresses earlier context while keeping recent turns intact — a targeted compaction that doesn't roll back state.
+
 ### v2.57.0 — 2026-05-13
 
 **Versioning scheme change (CBP-136) + Claude Code v2.1.140 auto-update (CBP-137–CBP-138)**
