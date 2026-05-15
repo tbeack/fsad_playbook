@@ -2,6 +2,17 @@
 
 ### [Unreleased]
 
+### v2.59.0 — 2026-05-15
+
+**Claude Code v2.1.142 auto-update (CBP-147–CBP-150)**
+
+Four content updates from the v2.1.142 release, covering new `claude agents` dispatch flags, a fast mode model change, plugin skill shortcut, and plugin details enhancements.
+
+- **CBP-147** — Updated the `claude agents` row in the Cheat Sheet CLI subcommands table to document all eight new v2.1.142 dispatch flags: `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, and `--dangerously-skip-permissions`. These flags configure the dispatched background session when launching from `claude agents`.
+- **CBP-148** — Added `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1` to the Subprocess Sandboxing hardening env vars table. Documents that as of v2.1.142, fast mode (`/fast` / `Option+O`) now defaults to Opus 4.7 (previously Opus 4.6); set this env var to pin back to Opus 4.6.
+- **CBP-149** — Added a "Root-level skill shortcut" bullet to the Plugins collapsible in Power Usage. Documents that a plugin with a top-level `SKILL.md` and no `skills/` subdirectory is automatically surfaced as a skill — no directory structure required for single-skill plugins.
+- **CBP-150** — Updated the `/plugin` Cheat Sheet row to mention `claude plugin details <name>` and its component inventory display. Also added a `claude plugin details` bullet to the Plugins collapsible, noting that it now shows skills, MCP servers, LSP servers, and projected per-session token cost.
+
 ### v2.58.0 — 2026-05-14
 
 **Claude Code v2.1.141 auto-update (CBP-142–CBP-146)**
