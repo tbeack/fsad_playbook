@@ -157,3 +157,7 @@
 - [x] `CBP-144` Add `ANTHROPIC_WORKSPACE_ID` env var to Subprocess Sandboxing hardening env vars table (v2.1.141) → [task-cbp-144.md](completed/task-cbp-144.md)
 - [x] `CBP-145` Update `claude agents` Cheat Sheet row to document `--cwd <path>` flag (v2.1.141) → [task-cbp-145.md](completed/task-cbp-145.md)
 - [x] `CBP-146` Update `/rewind` Cheat Sheet row to mention "Summarize up to here" Rewind menu option (v2.1.141) → [task-cbp-146.md](completed/task-cbp-146.md)
+- [x] `CBP-147` Update `claude agents` Cheat Sheet row with v2.1.142 dispatch flags (`--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, `--dangerously-skip-permissions`) → [task-cbp-147.md](task-cbp-147.md)
+- [x] `CBP-148` Add `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var to Subprocess Sandboxing table (fast mode now defaults to Opus 4.7, v2.1.142) → [task-cbp-148.md](task-cbp-148.md)
+- [x] `CBP-149` Document root-level `SKILL.md` plugin surfacing in Plugins collapsible (no `skills/` subdirectory required, v2.1.142) → [task-cbp-149.md](task-cbp-149.md)
+- [x] `CBP-150` Update `/plugin` Cheat Sheet row and Plugins collapsible to mention `claude plugin details` shows LSP servers (v2.1.142) → [task-cbp-150.md](task-cbp-150.md)
