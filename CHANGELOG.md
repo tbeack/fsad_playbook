@@ -2,6 +2,17 @@
 
 ### [Unreleased]
 
+### v2.61.0 — 2026-05-16
+
+**Claude Code v2.1.143 auto-update (CBP-153–CBP-156)**
+
+Four content updates from the v2.1.143 release, covering worktree background isolation, stop hook block cap, and PowerShell execution policy controls.
+
+- **CBP-153** — Added `worktree.bgIsolation` setting table to the Work Trees collapsible. Two values documented: `worktree` (default, full git worktree isolation) and `none` (background sessions edit the working copy directly — for monorepos or repos where worktrees are impractical).
+- **CBP-154** — Added `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=N` to the Subprocess Sandboxing hardening env vars table. Documents the new default cap of 8 consecutive stop-hook blocks before the turn ends with a warning, and guidance for raising/lowering the limit.
+- **CBP-155** — Added `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1` to the hardening env vars table. Documents that the PowerShell tool now passes `-ExecutionPolicy Bypass` by default and how to opt out.
+- **CBP-156** — Added `CLAUDE_CODE_USE_POWERSHELL_TOOL=0` to the hardening env vars table. Documents that the PowerShell tool is now enabled by default for Bedrock, Vertex, and Foundry users on Windows, with opt-out instructions.
+
 ### v2.60.0 — 2026-05-15
 
 **Self-contained natural language search**

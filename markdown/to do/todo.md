@@ -163,3 +163,7 @@
 - [x] `CBP-150` Update `/plugin` Cheat Sheet row and Plugins collapsible to mention `claude plugin details` shows LSP servers (v2.1.142) → [task-cbp-150.md](task-cbp-150.md)
 - [x] `CBP-151` Self-contained natural language search — MiniSearch inline + pre-computed embeddings + Transformers.js; zero API key, zero setup for recipients → [task-cbp-148.md](completed/task-cbp-148.md)
 - [ ] `CBP-152` Add Natural Language Q&A (Haiku approach) — API key via Cloudflare Worker proxy; HTML-stripped playbook text as context → [task-cbp-151.md](task-cbp-151.md)
+- [x] `CBP-153` Add `worktree.bgIsolation` setting table to Work Trees collapsible (v2.1.143) → [task-cbp-153.md](task-cbp-153.md)
+- [x] `CBP-154` Add `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` env var to Subprocess Sandboxing hardening table (v2.1.143) → [task-cbp-154.md](task-cbp-154.md)
+- [x] `CBP-155` Add `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY` env var to Subprocess Sandboxing hardening table (v2.1.143) → [task-cbp-155.md](task-cbp-155.md)
+- [x] `CBP-156` Add `CLAUDE_CODE_USE_POWERSHELL_TOOL` env var to Subprocess Sandboxing hardening table (v2.1.143) → [task-cbp-156.md](task-cbp-156.md)
