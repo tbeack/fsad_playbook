@@ -2,9 +2,9 @@
 
 ### [Unreleased]
 
-### v2.59.0 — 2026-05-15
+### v2.60.0 — 2026-05-15
 
-**Self-contained natural language search (CBP-148)**
+**Self-contained natural language search**
 
 Replaced the plain `String.includes()` keyword filter with a two-tier search system that requires zero setup for recipients.
 
@@ -12,6 +12,17 @@ Replaced the plain `String.includes()` keyword filter with a two-tier search sys
 - **Tier 2 — Transformers.js semantic layer** (progressive enhancement): lazy-loads `Xenova/all-MiniLM-L6-v2` (~24 MB, browser-cached after first load) and embeds 219 pre-extracted text chunks at runtime. Queries ≥3 words or containing `?` blend keyword and cosine-similarity semantic results; semantic matches are badged `✦` in the results popover. Embedding vectors cache in IndexedDB for instant load on subsequent sessions.
 - **Build pipeline**: `scripts/build-embeddings.py` (stdlib-only Python) extracts 219 section/collapsible chunks from the playbook HTML and writes `dist/embeddings.json`. `scripts/build-dist.py` now calls the embeddings script and injects `PLAYBOOK_EMBEDDINGS` directly into the dist HTML, requiring no network dependency for the chunk corpus.
 - **Graceful degradation**: if the CDN is unreachable, MiniSearch results appear immediately with no error. A status indicator ("Loading smart search…" / "Smart search ready" / "Using keyword search") is displayed at the bottom of the search popover.
+
+### v2.59.0 — 2026-05-15
+
+**Claude Code v2.1.142 auto-update (CBP-147–CBP-150)**
+
+Four content updates from the v2.1.142 release, covering new `claude agents` dispatch flags, a fast mode model change, plugin skill shortcut, and plugin details enhancements.
+
+- **CBP-147** — Updated the `claude agents` row in the Cheat Sheet CLI subcommands table to document all eight new v2.1.142 dispatch flags: `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, and `--dangerously-skip-permissions`. These flags configure the dispatched background session when launching from `claude agents`.
+- **CBP-148** — Added `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1` to the Subprocess Sandboxing hardening env vars table. Documents that as of v2.1.142, fast mode (`/fast` / `Option+O`) now defaults to Opus 4.7 (previously Opus 4.6); set this env var to pin back to Opus 4.6.
+- **CBP-149** — Added a "Root-level skill shortcut" bullet to the Plugins collapsible in Power Usage. Documents that a plugin with a top-level `SKILL.md` and no `skills/` subdirectory is automatically surfaced as a skill — no directory structure required for single-skill plugins.
+- **CBP-150** — Updated the `/plugin` Cheat Sheet row to mention `claude plugin details <name>` and its component inventory display. Also added a `claude plugin details` bullet to the Plugins collapsible, noting that it now shows skills, MCP servers, LSP servers, and projected per-session token cost.
 
 ### v2.58.0 — 2026-05-14
 

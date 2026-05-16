@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.59.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.60.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1896,7 +1896,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.59.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.60.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -6289,7 +6289,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/mcp</code></td><td>Manage MCP server connections; shows tool count per server and flags servers with 0 tools (usually a misconfiguration)</td></tr>
           <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
           <tr><td><code>/skills</code></td><td>List available skills; type to filter by name in long lists</td></tr>
-          <tr><td><code>/plugin</code></td><td>Manage Claude Code plugins</td></tr>
+          <tr><td><code>/plugin</code></td><td>Manage Claude Code plugins. Use <code>claude plugin details &lt;name&gt;</code> to view a plugin's component inventory: skills, MCP servers, LSP servers, and projected token cost.</td></tr>
           <tr><td><code>/reload-plugins</code></td><td>Reload plugins without restart</td></tr>
         </tbody>
       </table>
@@ -6322,7 +6322,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide from your local Claude Code usage history</td></tr>
           <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number. Also available as <code>claude ultrareview [target]</code> non-interactively from CI/scripts (<code>--json</code> for raw output; exits 0 on completion, 1 on failure).</td></tr>
-          <tr><td><code>claude agents</code></td><td>Agent View — a unified list of every Claude Code session: running, blocked on you, or done. Use <code>--cwd &lt;path&gt;</code> to scope the list to a specific directory (useful in monorepos). Run <code>claude agents</code> to get started.</td></tr>
+          <tr><td><code>claude agents</code></td><td>Agent View — a unified list of every Claude Code session: running, blocked on you, or done. Use <code>--cwd &lt;path&gt;</code> to scope the list to a directory. When dispatching a background session, configure it with: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, <code>--dangerously-skip-permissions</code>.</td></tr>
           <tr><td><code>claude project purge [path]</code></td><td>Delete all Claude Code state for a project — transcripts, tasks, file history, and config entry. Flags: <code>--dry-run</code> (preview), <code>-y</code> (no confirm), <code>-i/--interactive</code>, <code>--all</code> (all known projects).</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
@@ -6853,6 +6853,8 @@ smoke tests against the staging URL."</code></pre>
           <li>Plugins add skills invokable via <code>/skill-name</code></li>
           <li>Executables under <code>bin/</code> are invokable as bare commands</li>
           <li>Plugin marketplace for discovery and one-click install</li>
+          <li><strong>Root-level skill shortcut:</strong> a plugin with a top-level <code>SKILL.md</code> and no <code>skills/</code> subdirectory is automatically surfaced as a skill — no directory structure required for single-skill plugins</li>
+          <li><strong><code>claude plugin details &lt;name&gt;</code></strong> shows the plugin's component inventory: skills, MCP servers, LSP servers, and projected per-session token cost</li>
           <li><strong>Reserved MCP server name:</strong> <code>workspace</code> is reserved — an <code>mcpServers</code> entry named <code>workspace</code> will be skipped with a warning at startup; rename it to avoid silent breakage</li>
           <li><strong>Default folder override warning:</strong> if <code>plugin.json</code> explicitly sets a key (e.g. <code>"commands"</code>) that matches a default component folder, that default folder is silently skipped. Claude Code v2.1.140 now warns when this happens — visible in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>. If the override is intentional, no action is needed.</li>
         </ul>
@@ -6994,6 +6996,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code></td><td>Opts out of the fullscreen alternate-screen renderer — keeps the conversation in the terminal's native scrollback buffer instead. Useful in tmux, GNU screen, or CI environments where alternate-screen mode interferes with log capture.</td></tr>
               <tr><td><code>CLAUDE_CODE_PLUGIN_PREFER_HTTPS</code></td><td>Clone GitHub plugin sources over HTTPS instead of SSH — use in environments where a GitHub SSH key is unavailable (CI/CD containers, managed desktops, devcontainers).</td></tr>
               <tr><td><code>ANTHROPIC_WORKSPACE_ID</code></td><td>Workload identity federation — scopes the minted auth token to a specific workspace when a federation rule covers more than one. Set in managed enterprise deployments using identity federation for authentication.</td></tr>
+              <tr><td><code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code></td><td>Pin fast mode (<code>/fast</code> / <kbd>Option+O</kbd>) to Opus 4.6 instead of the v2.1.142+ default of Opus 4.7.</td></tr>
             </tbody>
           </table>
         </div>
@@ -9547,8 +9550,12 @@ codex app</code></pre>
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v2.60.0 <span class="changelog-date">· 2026-05-15</span></h3>
+        <p><strong>Self-contained natural language search.</strong> Replaced the plain <code>String.includes()</code> keyword filter with a two-tier search system that requires zero setup for recipients. <strong>Tier 1 — MiniSearch v7.1.1</strong> (MIT, ~19 KB, fully inlined): BM25-ranked fuzzy search with prefix matching and field weighting (<code>title</code> ×3, <code>label</code> ×2, <code>text</code> ×1) — typo-tolerant queries like "effor level" and "kv cach" return correct sections immediately with no CDN dependency. <strong>Tier 2 — Transformers.js semantic layer</strong> (progressive enhancement): lazy-loads <code>Xenova/all-MiniLM-L6-v2</code> (~24 MB, browser-cached after first load) and embeds 219 pre-extracted section/collapsible text chunks at runtime; queries ≥3 words or containing <code>?</code> blend keyword and cosine-similarity semantic results, with semantic matches badged <code>✦</code>; embedding vectors cache in IndexedDB for instant load on subsequent sessions. <strong>Build pipeline</strong>: <code>scripts/build-embeddings.py</code> (stdlib-only Python) extracts chunks from the source HTML; <code>scripts/build-dist.py</code> now calls the embeddings script and injects <code>PLAYBOOK_EMBEDDINGS</code> directly into the dist artifact. Graceful degradation: if CDN is unreachable, Tier 1 answers immediately. A status indicator in the search popover shows "Loading smart search…" / "Smart search ready" / "Using keyword search".</p>
+      </section>
+      <section>
         <h3>v2.59.0 <span class="changelog-date">· 2026-05-15</span></h3>
-        <p><strong>Self-contained natural language search (CBP-148).</strong> Replaced the plain <code>String.includes()</code> keyword filter with a two-tier search system that requires zero setup for recipients. <strong>Tier 1 — MiniSearch v7.1.1</strong> (MIT, ~19 KB, fully inlined): BM25-ranked fuzzy search with prefix matching and field weighting (<code>title</code> ×3, <code>label</code> ×2, <code>text</code> ×1) — typo-tolerant queries like "effor level" and "kv cach" return correct sections immediately with no CDN dependency. <strong>Tier 2 — Transformers.js semantic layer</strong> (progressive enhancement): lazy-loads <code>Xenova/all-MiniLM-L6-v2</code> (~24 MB, browser-cached after first load) and embeds 219 pre-extracted section/collapsible text chunks at runtime; queries ≥3 words or containing <code>?</code> blend keyword and cosine-similarity semantic results, with semantic matches badged <code>✦</code>; embedding vectors cache in IndexedDB for instant load on subsequent sessions. <strong>Build pipeline</strong>: <code>scripts/build-embeddings.py</code> (stdlib-only Python) extracts chunks from the source HTML; <code>scripts/build-dist.py</code> now calls the embeddings script and injects <code>PLAYBOOK_EMBEDDINGS</code> directly into the dist artifact. Graceful degradation: if CDN is unreachable, Tier 1 answers immediately. A status indicator in the search popover shows "Loading smart search…" / "Smart search ready" / "Using keyword search".</p>
+        <p><strong>Claude Code v2.1.142 auto-update (CBP-147–CBP-150).</strong> Four targeted updates: updated <code>claude agents</code> Cheat Sheet row to list all eight new v2.1.142 dispatch flags (<code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, <code>--dangerously-skip-permissions</code>); added <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code> env var to Subprocess Sandboxing table (fast mode now defaults to Opus 4.7); added root-level <code>SKILL.md</code> plugin shortcut and <code>claude plugin details</code> LSP server display bullets to the Plugins collapsible; updated <code>/plugin</code> Cheat Sheet row to mention <code>claude plugin details</code> with LSP server inventory.</p>
       </section>
       <section>
         <h3>v2.58.0 <span class="changelog-date">· 2026-05-14</span></h3>
