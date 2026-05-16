@@ -15,8 +15,10 @@ Requirements: Python 3.6+, stdlib only.
 
 import base64
 import html
+import json
 import os
 import re
+import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -25,6 +27,8 @@ ROOT = Path(__file__).parent.parent
 SRC = ROOT / "fsad-playbook.html"
 DIST_DIR = ROOT / "dist"
 OUT = DIST_DIR / "fsad-playbook.html"
+EMBEDDINGS_JSON = DIST_DIR / "embeddings.json"
+EMBEDDINGS_SCRIPT = Path(__file__).parent / "build-embeddings.py"
 
 FONTS_URL = (
     "https://fonts.googleapis.com/css2"
@@ -122,6 +126,31 @@ def inline_playground(content, filename):
     return result
 
 
+def build_embeddings():
+    print(f"  Running {EMBEDDINGS_SCRIPT.name}...")
+    result = subprocess.run(
+        [sys.executable, str(EMBEDDINGS_SCRIPT)],
+        capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        print(f"  ERROR: {result.stderr.strip()}", file=sys.stderr)
+        sys.exit(1)
+    for line in result.stdout.strip().splitlines():
+        print(f"    {line}")
+
+
+def inject_embeddings(content):
+    chunks = json.loads(EMBEDDINGS_JSON.read_text(encoding="utf-8"))
+    payload = json.dumps(chunks, ensure_ascii=False, separators=(",", ":"))
+    old = "if (typeof PLAYBOOK_EMBEDDINGS === 'undefined') { var PLAYBOOK_EMBEDDINGS = []; }"
+    new = f"var PLAYBOOK_EMBEDDINGS = {payload};"
+    if old not in content:
+        print("  WARNING: PLAYBOOK_EMBEDDINGS fallback not found — nothing injected.")
+        return content
+    print(f"  Injected PLAYBOOK_EMBEDDINGS ({len(chunks)} chunks, {len(payload):,} chars).")
+    return content.replace(old, new, 1)
+
+
 def main():
     if not SRC.exists():
         print(f"ERROR: source file not found: {SRC}")
@@ -138,8 +167,12 @@ def main():
     for filename in PLAYGROUNDS:
         content = inline_playground(content, filename)
 
-    print("\nStep 3 — Writing output")
+    print("\nStep 3 — Injecting PLAYBOOK_EMBEDDINGS")
     DIST_DIR.mkdir(exist_ok=True)
+    build_embeddings()
+    content = inject_embeddings(content)
+
+    print("\nStep 4 — Writing output")
     OUT.write_text(content, encoding="utf-8")
     size_mb = OUT.stat().st_size / 1_048_576
     print(f"  Written: {OUT} ({size_mb:.1f} MB)")
