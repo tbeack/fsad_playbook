@@ -2,6 +2,17 @@
 
 ### [Unreleased]
 
+### v2.59.0 — 2026-05-15
+
+**Self-contained natural language search (CBP-148)**
+
+Replaced the plain `String.includes()` keyword filter with a two-tier search system that requires zero setup for recipients.
+
+- **Tier 1 — MiniSearch v7.1.1** (MIT, ~19 KB, fully inlined): BM25-ranked fuzzy search with prefix matching and field weighting (`title` ×3, `label` ×2, `text` ×1). Typo-tolerant: "effor level" and "kv cach" return correct sections immediately with no CDN dependency.
+- **Tier 2 — Transformers.js semantic layer** (progressive enhancement): lazy-loads `Xenova/all-MiniLM-L6-v2` (~24 MB, browser-cached after first load) and embeds 219 pre-extracted text chunks at runtime. Queries ≥3 words or containing `?` blend keyword and cosine-similarity semantic results; semantic matches are badged `✦` in the results popover. Embedding vectors cache in IndexedDB for instant load on subsequent sessions.
+- **Build pipeline**: `scripts/build-embeddings.py` (stdlib-only Python) extracts 219 section/collapsible chunks from the playbook HTML and writes `dist/embeddings.json`. `scripts/build-dist.py` now calls the embeddings script and injects `PLAYBOOK_EMBEDDINGS` directly into the dist HTML, requiring no network dependency for the chunk corpus.
+- **Graceful degradation**: if the CDN is unreachable, MiniSearch results appear immediately with no error. A status indicator ("Loading smart search…" / "Smart search ready" / "Using keyword search") is displayed at the bottom of the search popover.
+
 ### v2.58.0 — 2026-05-14
 
 **Claude Code v2.1.141 auto-update (CBP-142–CBP-146)**
