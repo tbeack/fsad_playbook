@@ -2,6 +2,19 @@
 
 ### [Unreleased]
 
+### v2.61.0 — 2026-05-17
+
+**Claude Code v2.1.143 auto-update (CBP-153–CBP-156) + Codex CLI v0.130.0 (CBP-157–CBP-158)**
+
+Six targeted updates across two CLI releases.
+
+- **CBP-153** — Added plugin dependency enforcement bullet to the Plugins collapsible. `claude plugin disable` now refuses when another enabled plugin depends on the target and shows a copy-pasteable disable-chain hint; `claude plugin enable` automatically force-enables transitive dependencies.
+- **CBP-154** — Added `worktree.bgIsolation` setting table to the Work Trees collapsible. Documents `"worktree"` (default — background sessions use isolated `EnterWorktree`) vs. `"none"` (background sessions edit the working copy directly, skipping `EnterWorktree`, for repos where worktrees are impractical).
+- **CBP-155** — Added `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1` to the Subprocess Sandboxing hardening env vars table. Opts out of the v2.1.143 default that passes `-ExecutionPolicy Bypass` to the PowerShell tool, restoring system execution-policy enforcement in managed Windows environments.
+- **CBP-156** — Added `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` to the Subprocess Sandboxing hardening env vars table. Overrides the new default limit of 8 consecutive stop-hook blocks before the turn ends with a warning; set to a higher integer or `0` to disable the cap.
+- **CBP-157** — [Codex] Added `codex remote-control` subcommand row to the Codex Cheat Sheet CLI flags table. Documents it as a simpler entrypoint for starting a headless, remotely controllable app-server without the full app-server configuration stack.
+- **CBP-158** — [Codex] Updated the Codex Plugins collapsible to note that the plugin details view (v0.130.0) now shows all bundled hooks alongside skills and tools, making it easier to audit plugin automation before installing.
+
 ### v2.60.0 — 2026-05-15
 
 **Self-contained natural language search**
