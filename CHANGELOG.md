@@ -2,6 +2,18 @@
 
 ### [Unreleased]
 
+### v2.61.0 — 2026-05-17
+
+**Claude Code v2.1.143 auto-update (CBP-153–CBP-157)**
+
+Five content updates from the v2.1.143 release, covering plugin dependency enforcement, projected context costs, worktree background isolation setting, PowerShell env vars, and the stop-hook block cap.
+
+- **CBP-153** — Added plugin dependency enforcement documentation to the Plugins collapsible. `claude plugin disable` is now blocked when another enabled plugin depends on the target, with the error showing a copy-pasteable chain command. `claude plugin enable` auto-enables all transitive dependencies. Added two new CLI commands to the code block and a dependency enforcement bullet to the feature list.
+- **CBP-154** — Updated the `/plugin` Cheat Sheet row and the `claude plugin details` bullet in the Plugins collapsible to document that the marketplace browse pane now shows projected per-turn and per-invocation token cost estimates directly — useful for comparing plugin overhead before installing.
+- **CBP-155** — Added `worktree.bgIsolation` setting table to the Work Trees collapsible. The new `"none"` value lets background sessions edit the working copy directly without `EnterWorktree`, for repos where worktrees are impractical (e.g. monorepos with non-relocatable build artifacts). Default remains `"worktree"`.
+- **CBP-156** — Added `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1` and `CLAUDE_CODE_USE_POWERSHELL_TOOL=0` to the Subprocess Sandboxing hardening env vars table. The PowerShell tool now defaults to `-ExecutionPolicy Bypass` and is enabled by default on Windows for Bedrock, Vertex, and Foundry users — these opt-outs cover enforced-policy and tool-disabled environments.
+- **CBP-157** — Added `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=N` to the Subprocess Sandboxing hardening env vars table. Stop hooks that block repeatedly now loop at most 8 times (the default) before the turn ends with a warning. Configurable up or down depending on hook retry requirements.
+
 ### v2.60.0 — 2026-05-15
 
 **Self-contained natural language search**

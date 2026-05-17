@@ -163,3 +163,8 @@
 - [x] `CBP-150` Update `/plugin` Cheat Sheet row and Plugins collapsible to mention `claude plugin details` shows LSP servers (v2.1.142) → [task-cbp-150.md](task-cbp-150.md)
 - [x] `CBP-151` Self-contained natural language search — MiniSearch inline + pre-computed embeddings + Transformers.js; zero API key, zero setup for recipients → [task-cbp-148.md](completed/task-cbp-148.md)
 - [ ] `CBP-152` Add Natural Language Q&A (Haiku approach) — API key via Cloudflare Worker proxy; HTML-stripped playbook text as context → [task-cbp-151.md](task-cbp-151.md)
+- [x] `CBP-153` Plugin dependency enforcement: `claude plugin disable` refuses when dependents are enabled; `claude plugin enable` force-enables transitive deps → [task-cbp-153.md](task-cbp-153.md)
+- [x] `CBP-154` Projected context cost in `/plugin` marketplace browse pane (per-turn and per-invocation estimates) → [task-cbp-154.md](task-cbp-154.md)
+- [x] `CBP-155` Add `worktree.bgIsolation: "none"` setting to Work Trees collapsible → [task-cbp-155.md](task-cbp-155.md)
+- [x] `CBP-156` Add `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1` and `CLAUDE_CODE_USE_POWERSHELL_TOOL=0` env vars to Subprocess Sandboxing table → [task-cbp-156.md](task-cbp-156.md)
+- [x] `CBP-157` Add `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` env var to Subprocess Sandboxing table → [task-cbp-157.md](task-cbp-157.md)
