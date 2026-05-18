@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.62.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.63.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1896,7 +1896,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.62.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.63.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -8660,6 +8660,24 @@ codex mcp add google-workspace -- /path/to/google_workspace_mcp</code></pre>
       <div class="callout-title">Codex as MCP Server</div>
       <p>Unlike Claude Code, Codex can also act as an MCP server (<code>codex mcp-server</code>), allowing other agents to invoke Codex as a tool. Full docs at <a href="https://developers.openai.com/codex/mcp/" target="_blank" style="color:var(--accent-blue);">developers.openai.com/codex/mcp</a>.</p>
     </div>
+
+    <!-- Chrome Extension -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:0.75rem;">Codex Chrome Extension</h3>
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.92rem; color:var(--text-secondary);">OpenAI released a Codex Chrome extension (May 2026) that gives Codex direct browser access — a different integration model from MCP. Instead of routing through an API, Codex reads and acts on the current browser context.</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Capability</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td>Parallel tab operation</td><td>Runs across multiple tabs simultaneously without taking over the browser</td></tr>
+          <tr><td>Per-site access control</td><td>Users grant Codex access on a site-by-site basis — not all-or-nothing</td></tr>
+          <tr><td>Browser context injection</td><td>Codex can read page content, fill forms, and interact with web-based tools (Jira, Figma, Notion, Linear) without an MCP server</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-tip" style="margin-top:1rem;">
+      <div class="callout-title">Chrome Extension vs. MCP</div>
+      <p>Use the Chrome extension for web-based tools where you need direct page interaction (reading tickets, filling fields, navigating UI). Use MCP for tools with stable APIs — MCP is more reliable for structured data and automated pipelines. Both can be active simultaneously.</p>
+    </div>
   </section>
 
 <hr class="divider">
@@ -8865,7 +8883,12 @@ Guided deployment to staging and production environments.
     <h2 class="section-title">Hooks — Automation &amp; Guardrails</h2>
     <p class="section-subtitle">Event-driven shell commands that fire deterministically at specific points in the agent loop. Models forget. Hooks don't.</p>
 
-    <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem; font-size:0.92rem; color:var(--text-secondary);">Hooks inject scripts into Codex's agentic loop at named lifecycle events. Unlike instructions in AGENTS.md that the model may or may not follow, hooks <strong>always</strong> execute when their event triggers — making them ideal for audit logging, policy enforcement, and automated validation.</p>
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.92rem; color:var(--text-secondary);">Hooks inject scripts into Codex's agentic loop at named lifecycle events. Unlike instructions in AGENTS.md that the model may or may not follow, hooks <strong>always</strong> execute when their event triggers — making them ideal for audit logging, policy enforcement, and automated validation.</p>
+
+    <div class="callout callout-tip" style="margin-bottom:1.5rem;">
+      <div class="callout-title">Generally Available — May 2026</div>
+      <p>Codex Hooks reached General Availability on 2026-05-14. They are production-ready with no feature flag required — <code>[features] codex_hooks = true</code> is the default and stable for use in production pipelines, enterprise environments, and automated workflows.</p>
+    </div>
 
     <!-- Hook Types -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Hook Event Types</h3>
@@ -9275,6 +9298,34 @@ codex exec --ephemeral "check for unused imports"</code></pre>
       </div></div>
     </div>
 
+    <!-- Codex Access Tokens -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Codex Access Tokens</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex access tokens let ChatGPT Enterprise workspace members run fully non-interactive Codex workflows without manual browser-based authentication. Tokens carry the user's ChatGPT workspace identity and are ideal for scripts, schedulers, and private CI runners that can't go through an OAuth flow.</p>
+        <p style="margin-top:0.75rem;"><strong>Who can create tokens:</strong> ChatGPT Enterprise workspace owners must first authorize members to generate tokens via the workspace admin settings. Once authorized, members create tokens in their account settings and reference them at runtime.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Set the access token via environment variable</span>
+<span class="kw">export</span> CODEX_ACCESS_TOKEN=your-token-here
+
+<span class="cm"># Non-interactive execution — no browser prompt</span>
+codex exec --approval-mode never <span class="str">"run all tests and report failures"</span>
+
+<span class="cm"># Use in a CI runner (GitHub Actions example)</span>
+<span class="kw">env</span>:
+  CODEX_ACCESS_TOKEN: <span class="val">${{ secrets.CODEX_ACCESS_TOKEN }}</span></code></pre>
+        </div>
+        <div class="callout callout-warning" style="margin-top:1rem;">
+          <div class="callout-title">Treat Like an API Key</div>
+          <p>Access tokens grant full Codex execution rights under your workspace identity. Store them in secrets managers (AWS Secrets Manager, GitHub Secrets, HashiCorp Vault) — never commit to version control or log in CI output. Rotate tokens if exposure is suspected.</p>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use cases: nightly background refactors, automated spec-to-code pipelines, private on-premise CI runners that need Codex without a browser session. Pairs well with <code>--approval-mode never</code> permission profiles for fully autonomous runs.</p>
+      </div></div>
+    </div>
+
     <!-- Multi-Provider Models -->
     <div class="collapsible">
       <div class="collapsible-header">
@@ -9458,7 +9509,7 @@ codex plugin sync</code></pre>
     <!-- Codex Cloud -->
     <div class="collapsible">
       <div class="collapsible-header">
-        <h3>Codex Cloud</h3>
+        <h3>Codex Cloud &amp; Mobile</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -9471,6 +9522,24 @@ codex cloud
 codex app</code></pre>
         </div>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Cloud execution is useful for long-running tasks, team-shared environments, and when you want to offload compute from your local machine.</p>
+
+        <h4 style="margin-top:1.5rem; margin-bottom:0.5rem; font-size:1rem;">ChatGPT Mobile App Connection</h4>
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.7;">Since May 2026 you can control a local Codex session from the ChatGPT mobile app (iOS / Android). Useful for monitoring long-running goals, submitting follow-up prompts, or checking progress while away from your desk.</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Step</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Start the Codex desktop app on your Mac and sign in with your ChatGPT account</td></tr>
+              <tr><td>2</td><td>Open the ChatGPT mobile app on iOS or Android (same account)</td></tr>
+              <tr><td>3</td><td>Navigate to the Codex section and select the active Mac session to connect</td></tr>
+              <tr><td>4</td><td>Submit prompts, review output, or pause/resume goals from mobile</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Best Use Case</div>
+          <p>Pair mobile control with <code>/goal</code> workflows. Start a multi-day goal on your Mac, then monitor and steer it from your phone — without needing to sit at a desktop between turns.</p>
+        </div>
       </div></div>
     </div>
   </section>
@@ -9570,6 +9639,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.63.0 <span class="changelog-date">· 2026-05-18</span></h3>
+        <p><strong>Codex developers changelog update (CBP-162–CBP-165).</strong> Four updates sourced from the OpenAI Codex developers changelog (developers.openai.com/codex/changelog): [Codex] added a "Generally Available — May 2026" callout to the Codex Hooks section, marking hooks as production-ready with no feature flag required; [Codex] added a "Codex Access Tokens" collapsible to Codex Power Usage covering workspace-scoped non-interactive tokens for CI runners, schedulers, and private scripts (Enterprise feature); [Codex] added a "Codex Chrome Extension" subsection to Codex Integrations documenting parallel-tab browser integration and per-site access control, with guidance on Chrome extension vs. MCP; [Codex] expanded the Codex Cloud collapsible into "Codex Cloud &amp; Mobile" with a ChatGPT mobile app connection guide for controlling local Codex sessions from iOS/Android.</p>
+      </section>
       <section>
         <h3>v2.62.0 <span class="changelog-date">· 2026-05-18</span></h3>
         <p><strong>Codex CLI v0.130.0 auto-update (CBP-158–CBP-160).</strong> Three targeted updates: added <code>codex remote-control</code> to the Codex Cheat Sheet CLI flags table — starts a headless, remotely controllable app-server and allows external clients to drive a Codex session via the protocol API; updated the Codex Plugins collapsible to note that the plugin details view (accessible from <code>/plugins</code>) now shows all bundled hooks alongside skills and tools; updated the Amazon Bedrock collapsible to document that <code>aws login</code> console-login credentials are supported for Bedrock auth in addition to standard AWS credential env vars and named profiles.</p>

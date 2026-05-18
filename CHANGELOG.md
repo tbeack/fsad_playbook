@@ -2,6 +2,21 @@
 
 ### [Unreleased]
 
+### v2.63.0 — 2026-05-18
+
+**Codex developers changelog update + auto-update agent improvement (CBP-161–CBP-165)**
+
+- **CBP-161** — Updated the `playbook-updater` agent to cross-reference `https://developers.openai.com/codex/changelog` on every run. The OpenAI developers changelog is now fetched as a mandatory step before the stop condition, so new Codex content surfaces even when the GitHub CLI release version hasn't changed.
+
+**Codex developers changelog update (CBP-162–CBP-165)**
+
+Four updates sourced from entries in the OpenAI Codex developers changelog (developers.openai.com/codex/changelog) that post-date the last tracked CLI release.
+
+- **[Codex] CBP-162** — Added a "Generally Available — May 2026" callout to the Codex Hooks section. Hooks reached GA on 2026-05-14 — no feature flag required, `[features] codex_hooks = true` is the stable default for production pipelines and enterprise environments.
+- **[Codex] CBP-163** — Added a "Codex Access Tokens" collapsible to Codex Power Usage. Access tokens let ChatGPT Enterprise workspace members run non-interactive Codex workflows (CI runners, schedulers, private scripts) without browser-based OAuth. Covers who can create tokens, env var usage, GitHub Actions example, and a security warning to treat tokens like API keys.
+- **[Codex] CBP-164** — Added a "Codex Chrome Extension" subsection to Codex Integrations. The extension (released May 2026) enables browser integration, running in parallel across tabs without taking over the browser. Includes a capabilities table and guidance on Chrome extension vs. MCP (direct page interaction vs. structured API access).
+- **[Codex] CBP-165** — Expanded the Codex Cloud collapsible into "Codex Cloud & Mobile" with a ChatGPT mobile app connection guide. Users can connect to a local Codex Mac session from the ChatGPT iOS/Android app — useful for monitoring and steering multi-day goals without being at a desktop. Includes a four-step setup table and a best-use-case callout.
+
 ### v2.62.0 — 2026-05-18
 
 **Codex CLI v0.130.0 auto-update (CBP-158–CBP-160)**
