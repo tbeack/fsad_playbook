@@ -171,3 +171,8 @@
 - [x] `CBP-158` [Codex] Add `codex remote-control` subcommand to Codex Cheat Sheet CLI flags table (v0.130.0) → [task-cbp-158.md](task-cbp-158.md)
 - [x] `CBP-159` [Codex] Update Codex Plugins collapsible: plugin details view now shows bundled hooks alongside skills and tools (v0.130.0) → [task-cbp-159.md](task-cbp-159.md)
 - [x] `CBP-160` [Codex] Update Amazon Bedrock collapsible: Bedrock auth now supports `aws login` console-login profiles (v0.130.0) → [task-cbp-160.md](task-cbp-160.md)
+- [x] `CBP-161` update the auto_update_agent to add the following URL to it instuctions when peforming the daily update check. https://developers.openai.com/codex/changelog → [task-cbp-161.md](task-cbp-161.md)
+- [x] `CBP-162` [Codex] Add Hooks GA callout to Codex Hooks section (hooks reached GA 2026-05-14) → [task-cbp-162.md](task-cbp-162.md)
+- [x] `CBP-163` [Codex] Add Codex Access Tokens collapsible to Power Usage (trusted automation for CI/scripts/schedulers) → [task-cbp-163.md](task-cbp-163.md)
+- [x] `CBP-164` [Codex] Add Codex Chrome Extension to Integrations section (browser integration, parallel tabs, per-site access control) → [task-cbp-164.md](task-cbp-164.md)
+- [x] `CBP-165` [Codex] Add ChatGPT mobile app connection to Power Usage (connect to Mac Codex app from mobile) → [task-cbp-165.md](task-cbp-165.md)
