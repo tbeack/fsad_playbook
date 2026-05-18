@@ -1,6 +1,12 @@
 ## Changes in This Version
 
+### [Unreleased]
+
 ### v2.63.0 — 2026-05-18
+
+**Codex developers changelog update + auto-update agent improvement (CBP-161–CBP-165)**
+
+- **CBP-161** — Updated the `playbook-updater` agent to cross-reference `https://developers.openai.com/codex/changelog` on every run. The OpenAI developers changelog is now fetched as a mandatory step before the stop condition, so new Codex content surfaces even when the GitHub CLI release version hasn't changed.
 
 **Codex developers changelog update (CBP-162–CBP-165)**
 
