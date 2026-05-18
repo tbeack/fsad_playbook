@@ -168,3 +168,6 @@
 - [x] `CBP-155` Add `worktree.bgIsolation: "none"` setting to Work Trees collapsible → [task-cbp-155.md](task-cbp-155.md)
 - [x] `CBP-156` Add `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1` and `CLAUDE_CODE_USE_POWERSHELL_TOOL=0` env vars to Subprocess Sandboxing table → [task-cbp-156.md](task-cbp-156.md)
 - [x] `CBP-157` Add `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` env var to Subprocess Sandboxing table → [task-cbp-157.md](task-cbp-157.md)
+- [x] `CBP-158` [Codex] Add `codex remote-control` subcommand to Codex Cheat Sheet CLI flags table (v0.130.0) → [task-cbp-158.md](task-cbp-158.md)
+- [x] `CBP-159` [Codex] Update Codex Plugins collapsible: plugin details view now shows bundled hooks alongside skills and tools (v0.130.0) → [task-cbp-159.md](task-cbp-159.md)
+- [x] `CBP-160` [Codex] Update Amazon Bedrock collapsible: Bedrock auth now supports `aws login` console-login profiles (v0.130.0) → [task-cbp-160.md](task-cbp-160.md)

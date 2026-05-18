@@ -15,7 +15,7 @@ The security review section (`<section id="security-review">`, `fsad-playbook.ht
 - **New (this task):** "Complementary: Bulk Vulnerability Hunting" H3 + collapsible
 - "Install the Skill" heading + git sparse-checkout instructions
 
-The `vuln_hunter` project lives at `/Users/theobeack/Desktop/AI/vuln_hunter/src/vuln_hunter.py`. It implements Nicholas Carlini's two-stage pipeline:
+The `vuln_hunter` project lives at `/Users/theobeack/Repo/vuln_hunter/src/vuln_hunter.py`. It implements Nicholas Carlini's two-stage pipeline:
 - **Stage 1 (find):** For every source file, invokes `claude -p "<prompt>"` asking Claude to find an exploitable vulnerability starting from that file; writes a `vuln_reports/<path>.vuln.md`.
 - **Stage 2 (verify):** For each report, invokes Claude again to confirm or reject — appending `## Verification: CONFIRMED` or `## Verification: REJECTED`.
 - **Summarize:** Tallies CONFIRMED / REJECTED / unverified counts.

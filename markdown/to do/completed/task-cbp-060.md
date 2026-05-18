@@ -33,7 +33,7 @@ The Security Review sub-section (CBP-008) already exists on the Claude Best Prac
 
 ## Acceptance Criteria
 - [x] `markdown/design/Team_of_security_agents.md` and the embedded copy in `fsad-playbook.html` are confirmed in sync (verified verbatim match; no reconciliation needed)
-- [x] Full 6-specialist team run completed on Opus 4.7 against a documented scope (target: `/Users/theobeack/Desktop/AI/claude_projects/recall`, full tree)
+- [x] Full 6-specialist team run completed on Opus 4.7 against a documented scope (target: `/Users/theobeack/Repo/claude_projects/recall`, full tree)
 - [x] All 6 specialist agents spawned, completed, and wrote findings files; lead agent produced a consolidated report (see `recall/.planning/security-review/REPORT.md`)
 - [x] Findings reviewed for substance (no hallucinated CVEs, no empty outputs); any prompt tweaks needed for 4.7 are captured — **none needed**; prompt works as-authored
 - [x] Test run artifacts saved to `markdown/research/security-review-opus-4.7-validation.md`

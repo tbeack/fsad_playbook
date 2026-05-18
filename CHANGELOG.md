@@ -2,6 +2,16 @@
 
 ### [Unreleased]
 
+### v2.62.0 — 2026-05-18
+
+**Codex CLI v0.130.0 auto-update (CBP-158–CBP-160)**
+
+Three content updates from the v0.130.0 release, covering the new `codex remote-control` subcommand, plugin details bundled hooks display, and Amazon Bedrock `aws login` profile support.
+
+- **CBP-158** — Added `codex remote-control` to the Codex Cheat Sheet CLI flags table. The command starts a headless, remotely controllable app-server and allows external clients to drive a Codex session via the protocol API. Added in v0.130.0 as a simpler entrypoint than configuring the full app-server stack.
+- **CBP-159** — Updated the Codex Plugins collapsible to note that the plugin details view (accessible from `/plugins`) now shows all bundled hooks alongside skills and tools as of v0.130.0.
+- **CBP-160** — Updated the Amazon Bedrock collapsible to document that `aws login` console-login credentials are supported for Bedrock auth in addition to standard AWS credential env vars and named profiles, as of v0.130.0.
+
 ### v2.61.0 — 2026-05-17
 
 **Claude Code v2.1.143 auto-update (CBP-153–CBP-157)**
