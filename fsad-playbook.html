@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.61.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.62.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1896,7 +1896,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.61.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.62.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9099,6 +9099,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>--output-schema</code></td><td>Enforce JSON Schema on response (use with <code>exec</code>)</td></tr>
           <tr><td><code>--ephemeral</code></td><td>No session persistence (use with <code>exec</code>)</td></tr>
           <tr><td><code>codex update</code></td><td>Update Codex CLI to the latest version</td></tr>
+          <tr><td><code>codex remote-control</code></td><td>Start a headless, remotely controllable app-server — a simpler entrypoint than configuring the full app-server stack. Allows external clients to drive a Codex session via the protocol API. Added in v0.130.0.</td></tr>
         </tbody>
       </table>
     </div>
@@ -9360,7 +9361,7 @@ codex exec --ephemeral "check for unused imports"</code></pre>
 <span class="cm"># Credentials via standard AWS env vars also work:</span>
 <span class="cm"># AWS_PROFILE=my-profile AWS_REGION=us-west-2 codex</span></code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch. In addition to standard AWS credential env vars and named profiles, <code>aws login</code> console-login credentials (from <code>aws login</code> profiles) are supported for Bedrock auth as of v0.130.0.</p>
       </div></div>
     </div>
 
@@ -9414,7 +9415,7 @@ codex plugin sync</code></pre>
           <li><strong>Project</strong> (<code>.codex/</code>) — loaded only in trusted projects</li>
           <li><strong>Workspace-shared</strong> — install once, available to teammates via workspace share link; admin-disabled plugins are flagged in <code>/plugins</code></li>
         </ul>
-        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration. As of v0.130.0, the plugin details view (accessible from <code>/plugins</code>) shows all bundled hooks alongside skills and tools.</p>
         <div class="callout callout-tip" style="margin-top:1rem;">
           <div class="callout-title">Claude Code Equivalent</div>
           <p>Codex plugins map to Claude Code's plugin system — both use a marketplace model with skill + hook bundling. The key difference: Codex plugins install via <code>codex plugin install</code>; Claude plugins install via <code>claude plugin install</code>.</p>
@@ -9569,6 +9570,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.62.0 <span class="changelog-date">· 2026-05-18</span></h3>
+        <p><strong>Codex CLI v0.130.0 auto-update (CBP-158–CBP-160).</strong> Three targeted updates: added <code>codex remote-control</code> to the Codex Cheat Sheet CLI flags table — starts a headless, remotely controllable app-server and allows external clients to drive a Codex session via the protocol API; updated the Codex Plugins collapsible to note that the plugin details view (accessible from <code>/plugins</code>) now shows all bundled hooks alongside skills and tools; updated the Amazon Bedrock collapsible to document that <code>aws login</code> console-login credentials are supported for Bedrock auth in addition to standard AWS credential env vars and named profiles.</p>
+      </section>
       <section>
         <h3>v2.61.0 <span class="changelog-date">· 2026-05-17</span></h3>
         <p><strong>Claude Code v2.1.143 auto-update (CBP-153–CBP-157).</strong> Five targeted updates: added plugin dependency enforcement docs to the Plugins collapsible (<code>claude plugin disable</code> is blocked when dependents are enabled and shows a chain hint; <code>claude plugin enable</code> auto-enables transitive deps); updated <code>/plugin</code> Cheat Sheet row and Plugins collapsible to document projected per-turn and per-invocation token cost estimates in the marketplace browse pane; added <code>worktree.bgIsolation</code> setting table to the Work Trees collapsible (<code>none</code> lets background sessions edit the working copy directly, for repos where worktrees are impractical); added <code>CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1</code> and <code>CLAUDE_CODE_USE_POWERSHELL_TOOL=0</code> env vars to the Subprocess Sandboxing hardening table (PowerShell tool now defaults on for Bedrock/Vertex/Foundry Windows users); added <code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=N</code> env var (default 8 consecutive blocks before turn ends with warning).</p>
