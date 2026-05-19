@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.63.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.64.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════
@@ -1896,7 +1896,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.63.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.64.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -6226,7 +6226,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/compact</code> <code>[focus]</code></td><td>Compress context to save tokens. Optional: tell it what to keep.</td></tr>
           <tr><td><code>/context</code></td><td>Visualize context usage with optimization suggestions</td></tr>
           <tr><td><code>/clear</code></td><td>Clear conversation history (aliases: <code>/reset</code>, <code>/new</code>)</td></tr>
-          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them. Paste a GitHub, GitHub Enterprise, GitLab, or Bitbucket PR URL into the search box to jump directly to the session that created that PR.</td></tr>
+          <tr><td><code>/resume</code> <code>[session]</code></td><td>Resume conversation by ID or name (alias: <code>/continue</code>). Offers to summarize stale large sessions before re-reading them. Paste a GitHub, GitHub Enterprise, GitLab, or Bitbucket PR URL into the search box to jump directly to the session that created that PR. Background sessions started via <code>--bg</code> or agent view now appear in the picker, marked with <code>bg</code>.</td></tr>
           <tr><td><code>/rename</code> <code>[name]</code></td><td>Rename session or auto-generate a name</td></tr>
           <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>. Force on: <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>; opt out: <code>=0</code> (also disables the default-on behavior on Bedrock / Vertex / Foundry).</td></tr>
           <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>). The Rewind menu also offers <strong>Summarize up to here</strong> — compress earlier context while preserving recent turns, without rolling back state.</td></tr>
@@ -6242,13 +6242,14 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model. Selection persists across restarts, overriding project-pinned models. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129).</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model for the current session only. Press <code>d</code> in the picker to set a default for new sessions. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129).</td></tr>
           <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>)</td></tr>
           <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab.</td></tr>
+          <tr><td><code>/usage-credits</code></td><td>View usage credits balance (alias: <code>/extra-usage</code>). Added in v2.1.144.</td></tr>
         </tbody>
       </table>
     </div>
@@ -6283,7 +6284,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/terminal-setup</code></td><td>Setup Shift+Enter for multi-line input; also configures scroll sensitivity in VS Code, Cursor, and Windsurf terminals; enables iTerm2 clipboard access for <code>/copy</code> (including from tmux)</td></tr>
           <tr><td><code>/scroll-speed</code></td><td>Tune mouse wheel scroll speed with a live preview</td></tr>
           <tr><td><code>/keybindings</code></td><td>Open / create keybindings configuration</td></tr>
-          <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check</td></tr>
+          <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check. Shows an exec-form example hint when a command hook is missing the <code>command</code> field. Run for the full skill-listing breakdown (truncation no longer shown as a startup notification).</td></tr>
           <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
           <tr><td><code>/sandbox</code></td><td>Enable OS-level sandboxing for Bash subprocesses — choose <strong>Auto-allow</strong> mode (sandboxed commands run without approval prompts) or <strong>Regular permissions</strong> mode (standard flow, sandbox still enforces boundaries). macOS: built-in via Seatbelt. Linux / WSL2: requires <code>bubblewrap</code> and <code>socat</code>.</td></tr>
           <tr><td><code>/mcp</code></td><td>Manage MCP server connections; shows tool count per server and flags servers with 0 tools (usually a misconfiguration)</td></tr>
@@ -9059,7 +9060,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><kbd>Ctrl+L</kbd></td><td>Clear screen</td></tr>
           <tr><td><kbd>Ctrl+G</kbd></td><td>Open external editor for longer prompts</td></tr>
           <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Edit previous user message (keep pressing to walk back)</td></tr>
-          <tr><td><kbd>Tab</kbd></td><td>File fuzzy search (prefix with <code>@</code>)</td></tr>
+          <tr><td><kbd>Tab</kbd> / <code>@</code></td><td>Unified context picker — type <code>@</code> to search files, directories, plugins, and skills in one picker (backed by app-server plugin metadata). Added in v0.131.0.</td></tr>
           <tr><td><kbd>&#8593;</kbd> / <kbd>&#8595;</kbd></td><td>Navigate draft history in composer</td></tr>
           <tr><td><kbd>Alt+,</kbd></td><td>Lower reasoning level for current model</td></tr>
           <tr><td><kbd>Alt+.</kbd></td><td>Raise reasoning level for current model</td></tr>
@@ -9123,6 +9124,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>--ephemeral</code></td><td>No session persistence (use with <code>exec</code>)</td></tr>
           <tr><td><code>codex update</code></td><td>Update Codex CLI to the latest version</td></tr>
           <tr><td><code>codex remote-control</code></td><td>Start a headless, remotely controllable app-server — a simpler entrypoint than configuring the full app-server stack. Allows external clients to drive a Codex session via the protocol API. Added in v0.130.0.</td></tr>
+          <tr><td><code>codex doctor</code></td><td>Run support-ready diagnostics across runtime, auth, terminal, network, config, and local state. Added in v0.131.0.</td></tr>
         </tbody>
       </table>
     </div>
@@ -9466,7 +9468,7 @@ codex plugin sync</code></pre>
           <li><strong>Project</strong> (<code>.codex/</code>) — loaded only in trusted projects</li>
           <li><strong>Workspace-shared</strong> — install once, available to teammates via workspace share link; admin-disabled plugins are flagged in <code>/plugins</code></li>
         </ul>
-        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration. As of v0.130.0, the plugin details view (accessible from <code>/plugins</code>) shows all bundled hooks alongside skills and tools.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration. As of v0.130.0, the plugin details view (accessible from <code>/plugins</code>) shows all bundled hooks alongside skills and tools. As of v0.131.0, plugin workflows gained marketplace CLI commands (<code>codex plugin share</code>, version-aware publish and checkout), clearer shared-workspace buckets, and plugin hooks are now default-enabled on install.</p>
         <div class="callout callout-tip" style="margin-top:1rem;">
           <div class="callout-title">Claude Code Equivalent</div>
           <p>Codex plugins map to Claude Code's plugin system — both use a marketplace model with skill + hook bundling. The key difference: Codex plugins install via <code>codex plugin install</code>; Claude plugins install via <code>claude plugin install</code>.</p>
@@ -9639,6 +9641,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.64.0 <span class="changelog-date">· 2026-05-19</span></h3>
+        <p><strong>Claude Code v2.1.144 + Codex CLI v0.131.0 auto-update (CBP-166–CBP-172).</strong> Seven targeted updates: updated <code>/resume</code> Cheat Sheet row to note that background sessions started via <code>--bg</code> or agent view now appear in the picker, marked with <code>bg</code> (CBP-166); updated <code>/model</code> row to reflect that it now changes the current session only — press <code>d</code> in the picker to set a default for new sessions (CBP-167); added <code>/usage-credits</code> (alias: <code>/extra-usage</code>) to the Model/Mode/Usage table (CBP-168); expanded <code>/doctor</code> description to mention exec-form hook hint for missing <code>command</code> fields and that full skill-listing breakdown is available there (CBP-169); [Codex] added <code>codex doctor</code> CLI subcommand row to the Codex Cheat Sheet — support-ready diagnostics across runtime, auth, terminal, network, config, and local state (CBP-170); [Codex] updated the keyboard shortcuts <code>@</code> / <code>Tab</code> row to reflect the new unified context picker for files, directories, plugins, and skills (CBP-171); [Codex] updated the Codex Plugins collapsible to document v0.131.0 marketplace CLI commands, version-aware sharing/checkout, and default-enabled plugin hooks (CBP-172).</p>
+      </section>
       <section>
         <h3>v2.63.0 <span class="changelog-date">· 2026-05-18</span></h3>
         <p><strong>Codex developers changelog update (CBP-162–CBP-165).</strong> Four updates sourced from the OpenAI Codex developers changelog (developers.openai.com/codex/changelog): [Codex] added a "Generally Available — May 2026" callout to the Codex Hooks section, marking hooks as production-ready with no feature flag required; [Codex] added a "Codex Access Tokens" collapsible to Codex Power Usage covering workspace-scoped non-interactive tokens for CI runners, schedulers, and private scripts (Enterprise feature); [Codex] added a "Codex Chrome Extension" subsection to Codex Integrations documenting parallel-tab browser integration and per-site access control, with guidance on Chrome extension vs. MCP; [Codex] expanded the Codex Cloud collapsible into "Codex Cloud &amp; Mobile" with a ChatGPT mobile app connection guide for controlling local Codex sessions from iOS/Android.</p>
