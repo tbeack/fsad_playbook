@@ -183,3 +183,4 @@
 - [x] `CBP-170` [Codex] Add `codex doctor` to Codex Cheat Sheet CLI subcommands (v0.131.0) → [task-cbp-170.md](task-cbp-170.md)
 - [x] `CBP-171` [Codex] Update Codex `@mention` — unified picker for files, dirs, plugins, and skills (v0.131.0) → [task-cbp-171.md](task-cbp-171.md)
 - [x] `CBP-172` [Codex] Update Codex Plugins collapsible — marketplace CLI commands + version-aware sharing (v0.131.0) → [task-cbp-172.md](task-cbp-172.md)
+- [x] `CBP-173` — add vercel analytics tracking to app with `import { Analytics } from "@vercel/analytics/next"` → [task-cbp-173.md](task-cbp-173.md)
