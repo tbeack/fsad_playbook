@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### v2.65.0 — 2026-05-19
+
 **Vercel Analytics integration (CBP-173)**
 
 - **CBP-173** — Added Vercel Web Analytics to the app. A single `<script defer src="/_vercel/insights/script.js"></script>` tag in `<head>` enables Vercel's auto-served analytics script on all Vercel deployments. No API key or configuration required. Propagated to `dist/fsad-playbook.html` via the build script.
