@@ -1897,7 +1897,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.64.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.65.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9642,6 +9642,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.65.0 <span class="changelog-date">· 2026-05-19</span></h3>
+        <p><strong>Vercel Analytics integration (CBP-173).</strong> Added Vercel Web Analytics to the app. A <code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code> tag in <code>&lt;head&gt;</code> enables Vercel's auto-served analytics script on all Vercel deployments — no API key or configuration required.</p>
+      </section>
       <section>
         <h3>v2.64.0 <span class="changelog-date">· 2026-05-19</span></h3>
         <p><strong>Claude Code v2.1.144 + Codex CLI v0.131.0 auto-update (CBP-166–CBP-172).</strong> Seven targeted updates: updated <code>/resume</code> Cheat Sheet row to note that background sessions started via <code>--bg</code> or agent view now appear in the picker, marked with <code>bg</code> (CBP-166); updated <code>/model</code> row to reflect that it now changes the current session only — press <code>d</code> in the picker to set a default for new sessions (CBP-167); added <code>/usage-credits</code> (alias: <code>/extra-usage</code>) to the Model/Mode/Usage table (CBP-168); expanded <code>/doctor</code> description to mention exec-form hook hint for missing <code>command</code> fields and that full skill-listing breakdown is available there (CBP-169); [Codex] added <code>codex doctor</code> CLI subcommand row to the Codex Cheat Sheet — support-ready diagnostics across runtime, auth, terminal, network, config, and local state (CBP-170); [Codex] updated the keyboard shortcuts <code>@</code> / <code>Tab</code> row to reflect the new unified context picker for files, directories, plugins, and skills (CBP-171); [Codex] updated the Codex Plugins collapsible to document v0.131.0 marketplace CLI commands, version-aware sharing/checkout, and default-enabled plugin hooks (CBP-172).</p>
