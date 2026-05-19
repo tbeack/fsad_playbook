@@ -2,6 +2,20 @@
 
 ### [Unreleased]
 
+### v2.64.0 — 2026-05-19
+
+**Claude Code v2.1.144 + Codex CLI v0.131.0 auto-update (CBP-166–CBP-172)**
+
+Four Claude Code updates and three Codex CLI updates from the combined v2.1.144 / v0.131.0 releases.
+
+- **CBP-166** — Updated `/resume` Cheat Sheet row to note that background sessions started via `--bg` or agent view now appear in the picker, marked with `bg`.
+- **CBP-167** — Updated `/model` Cheat Sheet row to reflect that it now changes the model for the current session only. Press `d` in the model picker to set a default for new sessions.
+- **CBP-168** — Added `/usage-credits` row to the Model/Mode/Usage table in the Cheat Sheet. The command was renamed from `/extra-usage` in v2.1.144 (old name still works as an alias).
+- **CBP-169** — Expanded `/doctor` Cheat Sheet description to mention that it shows an exec-form hint when a command hook is missing the `command` field, and that the full skill-listing breakdown is available there (truncation no longer shown as a startup notification).
+- **[Codex] CBP-170** — Added `codex doctor` to the Codex Cheat Sheet CLI subcommands table. The command runs support-ready diagnostics across runtime, auth, terminal, network, config, and local state. Added in v0.131.0.
+- **[Codex] CBP-171** — Updated the keyboard shortcuts `@` / `Tab` row to reflect the new unified context picker in v0.131.0 — `@` now searches files, directories, plugins, and skills in one picker, backed by app-server plugin metadata.
+- **[Codex] CBP-172** — Updated the Codex Plugins collapsible to document v0.131.0 enhancements: marketplace CLI commands (`codex plugin share`, version-aware publish and checkout), clearer shared-workspace buckets, and plugin hooks now default-enabled on install.
+
 ### v2.63.0 — 2026-05-18
 
 **Codex developers changelog update + auto-update agent improvement (CBP-161–CBP-165)**
