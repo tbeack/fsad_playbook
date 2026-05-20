@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.66.0 — 2026-05-19
+
+**Plugin last-updated display (CBP-174)**
+
+- **CBP-174** — Updated the `/plugin` Cheat Sheet row and Plugins collapsible deep-dive to note that the marketplace browse and discover panes now show when each plugin was last updated, alongside the existing per-turn and per-invocation token cost estimates. Sourced from Claude Code v2.1.144.
+
 ### v2.65.0 — 2026-05-19
 
 **Vercel Analytics integration (CBP-173)**
