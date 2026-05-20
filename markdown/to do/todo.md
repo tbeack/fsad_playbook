@@ -188,3 +188,5 @@
 - [x] `CBP-175` Add `claude agents --json` flag to Cheat Sheet — JSON output for scripting (tmux-resurrect, status bars, session pickers) (v2.1.145) → [task-cbp-175.md](task-cbp-175.md)
 - [x] `CBP-176` Add `background_tasks` and `session_crons` fields to Stop/SubagentStop hook rows (v2.1.145) → [task-cbp-176.md](task-cbp-176.md)
 - [x] `CBP-177` Update `/plugin` row and Plugins collapsible with pre-install component preview — commands, agents, skills, hooks, MCP/LSP (v2.1.145) → [task-cbp-177.md](task-cbp-177.md)
+- [x] `CBP-178` [Codex] Add `codex exec resume` with `--output-schema` to Session Management and CI/CD collapsibles (v0.132.0) → [task-cbp-178.md](task-cbp-178.md)
+- [x] `CBP-179` [Codex] Update Session Management collapsible: renamed-thread resume hints and paste in picker (v0.132.0) → [task-cbp-179.md](task-cbp-179.md)
