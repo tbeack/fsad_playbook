@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.67.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.68.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1897,7 +1897,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.67.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.68.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9251,13 +9251,16 @@ vim_mode = true
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Codex saves sessions automatically. Resume previous work without re-explaining context. The redesigned resume/fork picker lets you select, resume, or fork any saved session in a single UI — no need to know the session ID upfront.</p>
+        <p>Codex saves sessions automatically. Resume previous work without re-explaining context. The redesigned resume/fork picker lets you select, resume, or fork any saved session in a single UI — no need to know the session ID upfront. Renamed threads appear as <code>name (thread-id)</code> in resume hints for easy identification, and you can paste text directly into the picker search box to filter sessions.</p>
         <div class="code-block" style="margin-top:1rem;">
           <pre><code><span class="cm"># Show session picker (redesigned resume/fork picker in v0.129.0)</span>
 codex resume
 
 <span class="cm"># Resume the most recent session</span>
 codex resume --last
+
+<span class="cm"># Resume in headless exec mode — keeps session context, enforces JSON output</span>
+codex exec resume --output-schema schema.json "continue analyzing endpoints"
 
 <span class="cm"># Run a throwaway session (no persistence)</span>
 codex exec --ephemeral "quick fix: update version in package.json"
@@ -9288,6 +9291,9 @@ codex exec --json "analyze this codebase for security issues"
 
 <span class="cm"># Structured response with schema enforcement</span>
 codex exec --output-schema schema.json "list all API endpoints"
+
+<span class="cm"># Resume a prior session in headless mode — preserves context, enforces schema</span>
+codex exec resume --output-schema schema.json "continue from last checkpoint"
 
 <span class="cm"># Autonomous execution via permission profile (replaces deprecated --full-auto)</span>
 codex exec --approval-mode never "update dependencies and fix breaking changes"
@@ -9642,6 +9648,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.68.0 <span class="changelog-date">· 2026-05-20</span></h3>
+        <p><strong>Codex CLI v0.132.0 auto-update (CBP-178–CBP-179).</strong> Two targeted Codex updates: added <code>codex exec resume</code> examples to both the Session Management and CI/CD Integration collapsibles — <code>exec resume</code> lets headless pipelines resume a prior session while enforcing structured JSON output via <code>--output-schema</code> (CBP-178); updated the Session Management intro to note that renamed threads now display as <code>name (thread-id)</code> in resume hints, and that pasted text now works in the session picker search box (CBP-179).</p>
+      </section>
       <section>
         <h3>v2.67.0 <span class="changelog-date">· 2026-05-20</span></h3>
         <p><strong>Claude Code v2.1.145 auto-update (CBP-175–CBP-177).</strong> Three targeted Cheat Sheet updates: added <code>--json</code> flag to the <code>claude agents</code> row for JSON-formatted session listing (scripting, tmux-resurrect, status bars); updated <code>Stop</code> and <code>SubagentStop</code> hook rows to document the new <code>background_tasks</code> and <code>session_crons</code> hook input fields available to hooks for conditional continuation logic; updated the <code>/plugin</code> row and Plugins collapsible to surface the new pre-install component preview in Discover/Browse screens — commands, agents, skills, hooks, and MCP/LSP servers are all shown before installation.</p>

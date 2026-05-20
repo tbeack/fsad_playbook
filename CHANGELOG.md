@@ -2,6 +2,15 @@
 
 ### [Unreleased]
 
+### v2.68.0 — 2026-05-20
+
+**Codex CLI v0.132.0 auto-update (CBP-178–CBP-179)**
+
+Two targeted Codex updates covering `exec resume` and session picker improvements.
+
+- **CBP-178** — Added `codex exec resume` examples to the Session Management and CI/CD Integration collapsibles. `codex exec resume` resumes a prior session in headless mode while preserving session context; combining it with `--output-schema` enforces structured JSON output — previously only documented for fresh `codex exec` runs.
+- **CBP-179** — Updated the Session Management intro paragraph to note that renamed threads now display as `name (thread-id)` in resume hints for easy identification, and that pasted text now works in the session picker search box.
+
 ### v2.67.0 — 2026-05-20
 
 **Claude Code v2.1.145 auto-update (CBP-175–CBP-177)**
