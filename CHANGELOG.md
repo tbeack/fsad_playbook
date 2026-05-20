@@ -2,6 +2,16 @@
 
 ### [Unreleased]
 
+### v2.67.0 — 2026-05-20
+
+**Claude Code v2.1.145 auto-update (CBP-175–CBP-177)**
+
+Three Cheat Sheet updates covering new scripting capabilities, hook input fields, and plugin pre-install previews.
+
+- **CBP-175** — Updated `claude agents` row to document `--json` flag: outputs the live session list as JSON for scripting use cases (tmux-resurrect, status bars, session pickers).
+- **CBP-176** — Updated `Stop` and `SubagentStop` hook rows to document two new hook input fields: `background_tasks` (list of active background tasks) and `session_crons` (scheduled session crons). Hooks can use these fields for conditional continuation logic.
+- **CBP-177** — Updated `/plugin` Cheat Sheet row and Plugins collapsible deep-dive to surface the new pre-install component preview: the Discover and Browse screens now show a plugin's full inventory (commands, agents, skills, hooks, MCP/LSP servers) before installation.
+
 ### v2.66.0 — 2026-05-19
 
 **Plugin last-updated display (CBP-174)**
