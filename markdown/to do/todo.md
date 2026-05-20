@@ -185,3 +185,6 @@
 - [x] `CBP-172` [Codex] Update Codex Plugins collapsible — marketplace CLI commands + version-aware sharing (v0.131.0) → [task-cbp-172.md](task-cbp-172.md)
 - [x] `CBP-173` — add vercel analytics tracking to app with `import { Analytics } from "@vercel/analytics/next"` → [task-cbp-173.md](task-cbp-173.md)
 - [x] `CBP-174` Update `/plugin` Cheat Sheet row and Plugins collapsible: browse/discover panes now show plugin last-updated date (v2.1.144) → [task-cbp-174.md](task-cbp-174.md)
+- [x] `CBP-175` Add `claude agents --json` flag to Cheat Sheet — JSON output for scripting (tmux-resurrect, status bars, session pickers) (v2.1.145) → [task-cbp-175.md](task-cbp-175.md)
+- [x] `CBP-176` Add `background_tasks` and `session_crons` fields to Stop/SubagentStop hook rows (v2.1.145) → [task-cbp-176.md](task-cbp-176.md)
+- [x] `CBP-177` Update `/plugin` row and Plugins collapsible with pre-install component preview — commands, agents, skills, hooks, MCP/LSP (v2.1.145) → [task-cbp-177.md](task-cbp-177.md)
