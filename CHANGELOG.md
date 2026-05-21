@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+**CBP-182** — Added `fsd:` skill library under `skills/`: 10 task-management and code-review skills (do-task, ship-it, ship, add-task, next, sync, ac, code-review-team, estimate, init) copied from tb_skills and re-namespaced from `tb:` to `fsd:`. Removed `tb:log` calls not included in this distribution. Updated CLAUDE.md project structure to document the `skills/` directory.
+
 ### v2.69.0 — 2026-05-21
 
 **Claude Code v2.1.146 auto-update (CBP-180–CBP-181)**
