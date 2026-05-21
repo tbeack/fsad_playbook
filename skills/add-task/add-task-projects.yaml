@@ -39,13 +39,13 @@ projects:
     insert_before_section: "## Bug Details"
     use_full_template: true
     changelog_file: CHANGELOG.md
-    version_scheme: integer   # vNN (e.g. v36, v37)
+    version_scheme: semver   # vNN.NN.N (e.g. v2.36.0, v2.37.1)
     version_files:
       - fsad-playbook.html    # <title> tag
       - README.md             # version table row
     notes: |
       Em-dash heading style. CBP-### with leading zeros. Reference task-cbp-030.md
-      for formatting cues. Version is integer (v36, v37…) — bump by 1 each release.
+      for formatting cues. Version is semver (v2.36.0, v2.37.1…) — bump by 1 each release.
       Keep fsad-playbook.html title tag, README version table, and CHANGELOG aligned.
 
   fsad_training:
