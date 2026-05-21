@@ -49,11 +49,32 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v2.69.0 |
+| **Current version** | v2.70.0 |
 | **Date updated** | 2026-05-21 |
 | **File** | `fsad-playbook.html` |
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes by version.
+
+## Skills (`fsd:` plugin namespace)
+
+Reusable Claude Code skills bundled under `skills/`. Install as a plugin to invoke via `/fsd:<name>`.
+
+| Skill | Description |
+|-------|-------------|
+| `do-task` | Plan or execute a task in any registered project (plan mode → execute mode) |
+| `ship-it` | Wrap up finished work — CHANGELOG, version bump, commit, push, PR |
+| `ship` | Short alias for `fsd:ship-it` |
+| `add-task` | Add a new task to any registered project's todo file |
+| `next` | Auto-pick the next open task and hand off to `fsd:do-task` |
+| `sync` | Pre-flight sync check across registered projects |
+| `ac` | Verify acceptance criteria independently from task execution |
+| `code-review-team` | Multi-agent code review (6 specialists in parallel) |
+| `estimate` | Fibonacci story point estimation for epics and tasks |
+| `init` | Initialize a new project with standard folder structure and config |
+| `sec-review-team` | Multi-agent security review (specialist roster selected by stack) |
+| `sec-review-fixes` | Opens fix PRs for High findings from a `sec-review-team` report |
+
+All skills read project conventions from `~/.claude/commands/tb/projects.yaml` — copy `skills/add-task/add-task-projects.yaml` to that path and customize for your projects.
 
 ## Companion Files
 

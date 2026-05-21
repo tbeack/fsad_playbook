@@ -192,3 +192,4 @@
 - [x] `CBP-179` [Codex] Update Session Management collapsible: renamed-thread resume hints and paste in picker (v0.132.0) → [task-cbp-179.md](task-cbp-179.md)
 - [x] `CBP-180` Add `/code-review [effort]` to Cheat Sheet — renamed from `/simplify`, optional effort level (v2.1.146) → [task-cbp-180.md](task-cbp-180.md)
 - [x] `CBP-181` Add `claude_code.tool` OTEL span row with `agent_id`/`parent_agent_id` to Monitoring events table (v2.1.145, carried) → [task-cbp-181.md](task-cbp-181.md)
+- [x] `CBP-182` — Add a `/skills` directory to the playbook folder structure. Recommend where to place it, but confirm. Copy `tb:skills` into this directory. replace `tb:` prefix with `:`. → [task-cbp-182.md](task-cbp-182.md)
