@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
+.remember/
+
+# IDE
+.zed/
+
+# Worktrees
+.worktrees/
+
+# launchd logs from playbook-updater
+logs/
+
+# Cleanup tracking
+delete.md
+
+# Local reference docs (to do/, updates/ are tracked; design/ and research/ stay local)
+docs/
