@@ -2,6 +2,14 @@
 
 ### [Unreleased]
 
+### v2.69.0 — 2026-05-21
+
+**Claude Code v2.1.146 auto-update (CBP-180)**
+
+One Cheat Sheet addition for the `/code-review` command rename.
+
+- **CBP-180** — Added `/code-review [effort]` to the Cheat Sheet "Automation & agents" slash commands table. The command was renamed from `/simplify` in v2.1.146 and now accepts an optional effort level (`low` | `medium` | `high`) to tune review depth.
+
 ### v2.68.0 — 2026-05-20
 
 **Codex CLI v0.132.0 auto-update (CBP-178–CBP-179)**
