@@ -26,6 +26,7 @@ FSAD Playbook — a single-file interactive HTML guide documenting Full Stack Ag
 ├── feedback.md               # Stakeholder feedback (JZ, etc.)
 ├── example_claude.md         # Example CLAUDE.md embedded in the app
 ├── delete.md                 # Cleanup tracking (gitignored)
+├── skills/                   # Installable Claude Code skills (fsd: plugin namespace)
 ├── markdown/                 # Local reference docs (gitignored)
 │   ├── design/               # Design plans, UX reviews, specs
 │   ├── research/             # Research notes
@@ -78,7 +79,7 @@ All edits happen directly in `fsad-playbook.html`. The file is versioned interna
 
 ### Build + Commit requirement
 
-**Always run the build script before committing.** This applies to every `/tb:ship` and `/tb:do-task` run:
+**Always run the build script before committing.** This applies to every `/fsd:ship` and `/fsd:do-task` run:
 
 1. Make all edits to `fsad-playbook.html` (and any other source files).
 2. Run `python3 scripts/build-dist.py` — this writes `dist/fsad-playbook.html`.
