@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.70.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.71.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1958,6 +1958,7 @@
         <a class="nav-sub-item" href="#workflows/project-create-spec" onclick="scrollToSection('project-create-spec')">Project Create-Spec</a>
         <a class="nav-sub-item" href="#workflows/add-task-skill" onclick="scrollToSection('add-task-skill')">Add-Task</a>
         <a class="nav-sub-item" href="#workflows/commit-changes-skill" onclick="scrollToSection('commit-changes-skill')">Commit-Changes</a>
+        <a class="nav-sub-item" href="#workflows/skills-library" onclick="scrollToSection('skills-library')">Skills Library</a>
       </div>
     </div>
 
@@ -3184,6 +3185,133 @@ git diff --stat</pre>
     </p>
   </div>
   <!-- END: commit-changes playground embed -->
+</section>
+
+<hr class="divider">
+
+<section id="skills-library">
+  <span class="section-label">05 — Skills in this Playbook</span>
+  <h2 class="section-title">The <code style="font-family: var(--font-mono); font-size: 0.82em;">fsd:</code> Skill Library</h2>
+  <p class="section-subtitle">Eleven installable skills for FSAD pods — task management, code review, and security. Each skill lives in this repo's <code>skills/</code> directory as a <code>SKILL.md</code> file. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsd:&lt;name&gt;</code>.</p>
+
+  <div class="wf-card" style="margin-bottom: 2rem; max-width: 720px;">
+    <span class="wf-card-label">Installation</span>
+    <h4>Install via the Claude Code plugin system</h4>
+    <pre>claude plugin install https://github.com/tbeack/fsad_playbook</pre>
+    <p class="wf-card-footnote">Skills install under the <code>fsd:</code> namespace. Invoke any skill with <code>/fsd:&lt;name&gt;</code>. The plugin exposes all skills to the current Claude Code session via the standard plugin cascade.</p>
+  </div>
+
+  <span class="section-label" style="display: block; margin-bottom: 0.75rem;">Workflow Management</span>
+  <div class="wf-grid">
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:do-task &lt;ID&gt;</span>
+      <h4>Plan or execute any task</h4>
+      <p>Mode-switching skill: if no task file exists it interviews you and writes the plan; if a plan exists it implements it, verifies every acceptance criterion, and marks the task complete.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">plan mode</span>
+        <span class="wf-chip">execute mode</span>
+        <span class="wf-chip">AC verification</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:add-task [title]</span>
+      <h4>Capture a new task</h4>
+      <p>Auto-detects the current project, finds the next task number, and adds a numbered entry to the todo file — then interviews you one question at a time to write the task detail file.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">auto-numbered</span>
+        <span class="wf-chip">one-at-a-time interview</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:ship-it</span>
+      <h4>Wrap up a finished batch</h4>
+      <p>Four sequential phases: README check, CHANGELOG versioning, completed-task cleanup, then commit + push + PR. Run after <code>do-task</code> marks one or more tasks done.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">version bump</span>
+        <span class="wf-chip">commit</span>
+        <span class="wf-chip">PR</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:next</span>
+      <h4>Pick the next open task and run it</h4>
+      <p>Reads the project's todo file, finds the first unchecked item, and hands it straight to <code>fsd:do-task</code>. No arguments needed.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">hands off to do-task</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:sync</span>
+      <h4>Pre-flight sync check</h4>
+      <p>Fetches from the remote and reports local branch state before you start work. Handles all four states: up-to-date, ahead, behind (auto-pulls), and diverged (warns).</p>
+      <div class="wf-chips">
+        <span class="wf-chip">up-to-date</span>
+        <span class="wf-chip">ahead</span>
+        <span class="wf-chip">behind</span>
+        <span class="wf-chip">diverged</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:ac &lt;ID&gt;</span>
+      <h4>Verify acceptance criteria</h4>
+      <p>Walks every unchecked AC in a task file, inspects the codebase for evidence, and marks each passing criterion immediately. Useful for re-running ACs after implementation or in a follow-up session.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">progressive marks</span>
+        <span class="wf-chip">evidence-first</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:estimate</span>
+      <h4>Story point estimation</h4>
+      <p>Estimates work items on a Fibonacci scale (1–21) using a three-factor rubric: complexity, effort, and risk. Accepts bullet lists, numbered lists, or free prose as input.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">Fibonacci scale</span>
+        <span class="wf-chip">complexity + effort + risk</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:init</span>
+      <h4>Initialize a new project</h4>
+      <p>Creates the standard FSAD folder structure, writes template files, and initializes a local + remote git repository — all in one shot from the current directory.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">folder structure</span>
+        <span class="wf-chip">templates</span>
+        <span class="wf-chip">git repo</span>
+      </div>
+    </div>
+  </div>
+
+  <span class="section-label" style="display: block; margin-top: 2rem; margin-bottom: 0.75rem;">Review &amp; Security</span>
+  <div class="wf-grid">
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:code-review-team</span>
+      <h4>Multi-agent code review</h4>
+      <p>Dispatches 6 specialist reviewers in parallel (correctness, design, performance, maintainability, testing, API contract), then consolidates findings into a severity-ranked <code>REVIEW-REPORT.md</code> with a merge recommendation.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">6 specialists</span>
+        <span class="wf-chip">REVIEW-REPORT.md</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:sec-review-team</span>
+      <h4>Multi-agent security review</h4>
+      <p>Picks a specialist roster based on detected stack signals (webapp, IaC, LLM-agent, container, backend, etc.) from a library of 13 specialists. Produces a severity-ranked <code>REPORT.md</code> with deduped root issues.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">13 specialists</span>
+        <span class="wf-chip">stack-signal detection</span>
+        <span class="wf-chip">REPORT.md</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:sec-review-fixes</span>
+      <h4>Apply security fix PRs</h4>
+      <p>Companion to <code>sec-review-team</code>. Takes a <code>REPORT.md</code> or <code>findings.jsonl</code> and produces fix PRs per finding — each with a regression test. Safeguards: branch-only commits, no force-push, clean working tree required.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">per-finding PRs</span>
+        <span class="wf-chip">regression tests</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <hr class="divider">

@@ -2,6 +2,10 @@
 
 ### [Unreleased]
 
+### v2.71.0 — 2026-05-21
+
+**CBP-183** — Added "Skills Library" section to the Workflows page and nav. A new `<section id="skills-library">` (labeled `05 — Skills in this Playbook`) presents all 11 `fsd:` skills as card pairs (Workflow Management: do-task, add-task, ship-it, next, sync, ac, estimate, init; Review & Security: code-review-team, sec-review-team, sec-review-fixes). Each card shows the `/fsd:<name>` invocation, what the skill does, and key behavior chips. An installation card shows `claude plugin install https://github.com/tbeack/fsad_playbook`. "Skills Library" added as the fifth sub-item in the Workflows left nav.
+
 ### v2.70.0 — 2026-05-21
 
 **CBP-182** — Added `fsd:` skill library under `skills/`: 10 task-management and code-review skills (do-task, ship-it, ship, add-task, next, sync, ac, code-review-team, estimate, init) copied from tb_skills and re-namespaced from `tb:` to `fsd:`. Removed `tb:log` calls not included in this distribution. Updated CLAUDE.md project structure to document the `skills/` directory.
