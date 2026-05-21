@@ -190,4 +190,5 @@
 - [x] `CBP-177` Update `/plugin` row and Plugins collapsible with pre-install component preview — commands, agents, skills, hooks, MCP/LSP (v2.1.145) → [task-cbp-177.md](task-cbp-177.md)
 - [x] `CBP-178` [Codex] Add `codex exec resume` with `--output-schema` to Session Management and CI/CD collapsibles (v0.132.0) → [task-cbp-178.md](task-cbp-178.md)
 - [x] `CBP-179` [Codex] Update Session Management collapsible: renamed-thread resume hints and paste in picker (v0.132.0) → [task-cbp-179.md](task-cbp-179.md)
-- [x] `CBP-180` Add `/code-review [effort]` to Cheat Sheet Automation & agents slash commands table (renamed from `/simplify`, v2.1.146) → [task-cbp-180.md](task-cbp-180.md)
+- [x] `CBP-180` Add `/code-review [effort]` to Cheat Sheet — renamed from `/simplify`, optional effort level (v2.1.146) → [task-cbp-180.md](task-cbp-180.md)
+- [x] `CBP-181` Add `claude_code.tool` OTEL span row with `agent_id`/`parent_agent_id` to Monitoring events table (v2.1.145, carried) → [task-cbp-181.md](task-cbp-181.md)

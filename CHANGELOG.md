@@ -4,11 +4,12 @@
 
 ### v2.69.0 — 2026-05-21
 
-**Claude Code v2.1.146 auto-update (CBP-180)**
+**Claude Code v2.1.146 auto-update (CBP-180–CBP-181)**
 
-One Cheat Sheet addition for the `/code-review` command rename.
+Two content updates: the `/simplify`→`/code-review` rename and the missing `claude_code.tool` OTEL span from v2.1.145.
 
-- **CBP-180** — Added `/code-review [effort]` to the Cheat Sheet "Automation & agents" slash commands table. The command was renamed from `/simplify` in v2.1.146 and now accepts an optional effort level (`low` | `medium` | `high`) to tune review depth.
+- **CBP-180** — Added `/code-review [effort]` to the Cheat Sheet info-and-account table, placed after `/ultrareview`. Documents the rename from `/simplify` (v2.1.146) and the optional effort-level argument (e.g., `/code-review high`).
+- **CBP-181** — Added a `claude_code.tool` row to the OTEL Events table in the Monitoring section, documenting the `agent_id` and `parent_agent_id` span attributes and the trace-parenting fix that correctly nests background subagent spans under the dispatching Agent tool span (v2.1.145, carried over from prior run).
 
 ### v2.68.0 — 2026-05-20
 

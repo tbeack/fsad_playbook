@@ -6267,7 +6267,6 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/agents</code></td><td>Browse agent library and manage live subagents (Running + Library tabs)</td></tr>
           <tr><td><code>/goal</code> <code>&lt;condition&gt;</code></td><td>Set a completion condition and Claude works across turns until it's met — shows live elapsed/turns/tokens overlay. Works in interactive, <code>-p</code>, and Remote Control.</td></tr>
           <tr><td><code>/security-review</code></td><td>Analyze pending changes for security issues</td></tr>
-          <tr><td><code>/code-review</code> <code>[effort]</code></td><td>AI-assisted code review of the current diff — flags bugs, security issues, and style problems without modifying files. Optional effort level: <code>low</code> | <code>medium</code> | <code>high</code>. Renamed from <code>/simplify</code> in v2.1.146.</td></tr>
         </tbody>
       </table>
     </div>
@@ -6325,6 +6324,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide from your local Claude Code usage history</td></tr>
           <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number. Also available as <code>claude ultrareview [target]</code> non-interactively from CI/scripts (<code>--json</code> for raw output; exits 0 on completion, 1 on failure).</td></tr>
+          <tr><td><code>/code-review</code> <code>[effort]</code></td><td>Run an in-session interactive code review on the current branch. Optionally pass an effort level (e.g., <code>/code-review high</code>) to override the default. Renamed from <code>/simplify</code> in v2.1.146.</td></tr>
           <tr><td><code>claude agents</code></td><td>Agent View — a unified list of every Claude Code session: running, blocked on you, or done. Use <code>--cwd &lt;path&gt;</code> to scope the list to a directory. Add <code>--json</code> to output the session list as JSON for scripting (tmux-resurrect, status bars, session pickers). When dispatching a background session, configure it with: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, <code>--dangerously-skip-permissions</code>.</td></tr>
           <tr><td><code>claude project purge [path]</code></td><td>Delete all Claude Code state for a project — transcripts, tasks, file history, and config entry. Flags: <code>--dry-run</code> (preview), <code>-y</code> (no confirm), <code>-i/--interactive</code>, <code>--all</code> (all known projects).</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
@@ -7911,6 +7911,7 @@ claude</code></pre>
             <thead><tr><th>Event</th><th>Fires When</th><th>Key Attributes</th></tr></thead>
             <tbody>
               <tr><td><code>claude_code.user_prompt</code></td><td>User submits a prompt</td><td>prompt_length, prompt (opt-in)</td></tr>
+              <tr><td><code>claude_code.tool</code></td><td>Tool call trace span</td><td>agent_id, parent_agent_id — background subagent spans nest under the dispatching Agent tool span for correct trace hierarchy</td></tr>
               <tr><td><code>claude_code.tool_result</code></td><td>Tool finishes executing</td><td>tool_name, success, duration_ms, tool_use_id, tool_input_size_bytes</td></tr>
               <tr><td><code>claude_code.api_request</code></td><td>API call to Claude completes</td><td>model, cost_usd, input/output tokens</td></tr>
               <tr><td><code>claude_code.api_error</code></td><td>API call fails (after retries)</td><td>error, status_code, attempt count</td></tr>
@@ -9651,7 +9652,7 @@ codex app</code></pre>
     <div class="changelog-body">
       <section>
         <h3>v2.69.0 <span class="changelog-date">· 2026-05-21</span></h3>
-        <p><strong>Claude Code v2.1.146 auto-update (CBP-180).</strong> Added <code>/code-review [effort]</code> to the Cheat Sheet "Automation &amp; agents" slash commands table. The command was renamed from <code>/simplify</code> in v2.1.146 and accepts an optional effort level (<code>low</code> | <code>medium</code> | <code>high</code>) to tune review depth without modifying files.</p>
+        <p><strong>Claude Code v2.1.146 auto-update (CBP-180–CBP-181).</strong> Two targeted updates: added <code>/code-review [effort]</code> to the Cheat Sheet — the renamed <code>/simplify</code> command, now accepting an optional effort level (e.g., <code>/code-review high</code>); added <code>claude_code.tool</code> OTEL span row to the Monitoring events table with <code>agent_id</code> and <code>parent_agent_id</code> attributes for correct background subagent trace hierarchy.</p>
       </section>
       <section>
         <h3>v2.68.0 <span class="changelog-date">· 2026-05-20</span></h3>
