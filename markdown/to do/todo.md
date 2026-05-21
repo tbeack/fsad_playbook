@@ -194,3 +194,4 @@
 - [x] `CBP-181` Add `claude_code.tool` OTEL span row with `agent_id`/`parent_agent_id` to Monitoring events table (v2.1.145, carried) → [task-cbp-181.md](task-cbp-181.md)
 - [x] `CBP-182` — Add a `/skills` directory to the playbook folder structure. Recommend where to place it, but confirm. Copy `tb:skills` into this directory. replace `tb:` prefix with `:`. → [task-cbp-182.md](task-cbp-182.md)
 - [x] `CBP-183` — Add a new "Skills" Section in the left nav bar. place it under "Workflows".  then add in an orientation on the skills in the `skills` directory. → [task-cbp-183.md](task-cbp-183.md)
+- [x] `CBP-184` — move the skills section to it's own main section in the left nav. Put it after "Workflows". → [task-cbp-184.md](task-cbp-184.md)
