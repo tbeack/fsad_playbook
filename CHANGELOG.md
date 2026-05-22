@@ -2,6 +2,15 @@
 
 ### [Unreleased]
 
+### v2.73.0 — 2026-05-22
+
+**Claude Code v2.1.147–v2.1.148 auto-update (CBP-185–CBP-186)**
+
+Two targeted Cheat Sheet updates covering the `/code-review` command and `Ctrl+T` keyboard shortcut.
+
+- **CBP-185** — Updated `/code-review [effort]` Cheat Sheet row to add the `--comment` flag (posts findings as inline GitHub PR comments) and corrected the version reference from v2.1.146 to v2.1.147 (the actual release that renamed `/simplify`).
+- **CBP-186** — Updated `Ctrl+T` keyboard shortcut row to document context-sensitive behavior in `claude agents` view: pressing `Ctrl+T` pins or unpins the selected background session, keeping pinned sessions alive when idle and restarting them in place on Claude Code updates.
+
 ### v2.72.0 — 2026-05-21
 
 **CBP-184** — Promoted the Skills Library from a sub-section of the Workflows page into a standalone top-level page. "Skills Library" now appears as its own left-nav group (between Workflows and Claude Best Practices) with its own hero and all 11 `fsd:` skill cards. The Workflows nav group no longer includes the Skills Library sub-item. Routing updated: `sectionToPageMap` and `pageTitles` both include the new `skills` page key.
