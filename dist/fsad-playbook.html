@@ -8242,7 +8242,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>). The Rewind menu also offers <strong>Summarize up to here</strong> — compress earlier context while preserving recent turns, without rolling back state.</td></tr>
           <tr><td><code>/export</code></td><td>Export conversation to file or clipboard</td></tr>
           <tr><td><code>/copy</code> <code>[N]</code></td><td>Copy last response to clipboard (or Nth-last)</td></tr>
-          <tr><td><code>/diff</code></td><td>Open interactive diff viewer</td></tr>
+          <tr><td><code>/diff</code></td><td>Open interactive diff viewer. In the detail view, scroll with arrow keys, <kbd>j</kbd>/<kbd>k</kbd>, <kbd>PgUp</kbd>/<kbd>PgDn</kbd>, <kbd>Space</kbd>, <kbd>Home</kbd>/<kbd>End</kbd> (v2.1.149).</td></tr>
         </tbody>
       </table>
     </div>
@@ -8258,7 +8258,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>)</td></tr>
-          <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab.</td></tr>
+          <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. Includes a per-category breakdown showing what's driving limits usage — skills, subagents, plugins, and per-MCP-server cost (v2.1.149). <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab.</td></tr>
           <tr><td><code>/usage-credits</code></td><td>View usage credits balance (alias: <code>/extra-usage</code>). Added in v2.1.144.</td></tr>
         </tbody>
       </table>
@@ -11660,8 +11660,8 @@ codex app</code></pre>
     </header>
     <div class="changelog-body">
       <section>
-        <h3>v2.73.0 <span class="changelog-date">· 2026-05-22</span></h3>
-        <p><strong>Claude Code v2.1.147–v2.1.148 auto-update (CBP-185–CBP-186).</strong> Two targeted Cheat Sheet updates: updated <code>/code-review [effort]</code> row to add the <code>--comment</code> flag (posts findings as inline GitHub PR comments) and corrected the version reference to v2.1.147; updated <code>Ctrl+T</code> keyboard shortcut to document pin/unpin behavior in <code>claude agents</code> view — pinned sessions stay alive when idle and are restarted in place on updates (CBP-186).</p>
+        <h3>v2.73.0 <span class="changelog-date">· 2026-05-23</span></h3>
+        <p><strong>Claude Code v2.1.147–v2.1.150 auto-update (CBP-185–CBP-188).</strong> Four targeted Cheat Sheet updates: updated <code>/code-review [effort]</code> row to add the <code>--comment</code> flag and corrected the version reference to v2.1.147 (CBP-185); updated <code>Ctrl+T</code> keyboard shortcut to document pin/unpin behavior in <code>claude agents</code> view (CBP-186); updated <code>/usage</code> to document the new per-category breakdown — skills, subagents, plugins, and per-MCP-server cost (CBP-187); updated <code>/diff</code> to document keyboard navigation in the detail view — arrow keys, <code>j</code>/<code>k</code>, <code>PgUp</code>/<code>PgDn</code>, <code>Space</code>, <code>Home</code>/<code>End</code> (CBP-188).</p>
       </section>
       <section>
         <h3>v2.69.0 <span class="changelog-date">· 2026-05-21</span></h3>

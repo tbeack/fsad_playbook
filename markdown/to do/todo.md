@@ -197,3 +197,5 @@
 - [x] `CBP-184` — move the skills section to it's own main section in the left nav. Put it after "Workflows". → [task-cbp-184.md](task-cbp-184.md)
 - [x] `CBP-185` Update `/code-review` Cheat Sheet entry: add `--comment` flag and correct version reference to v2.1.147 → [task-cbp-185.md](task-cbp-185.md)
 - [x] `CBP-186` Update `Ctrl+T` keyboard shortcut to document pin/unpin behavior in `claude agents` view (v2.1.147) → [task-cbp-186.md](task-cbp-186.md)
+- [x] `CBP-187` Update `/usage` Cheat Sheet row: add per-category breakdown (skills, subagents, plugins, MCP servers) (v2.1.149) → [task-cbp-187.md](task-cbp-187.md)
+- [x] `CBP-188` Update `/diff` Cheat Sheet row: add keyboard navigation in detail view (v2.1.149) → [task-cbp-188.md](task-cbp-188.md)
