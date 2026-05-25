@@ -2,6 +2,17 @@
 
 ### [Unreleased]
 
+### v2.73.0 — 2026-05-25
+
+**Claude Code v2.1.150 auto-update (CBP-185–CBP-188)**
+
+Four targeted Cheat Sheet updates for Claude Code v2.1.147–v2.1.150 (no user-facing changes in v2.1.148 and v2.1.150).
+
+- **CBP-185** — Updated `/usage` Cheat Sheet row to document the new per-category breakdown added in v2.1.149: the plan usage tab now shows what's driving limits usage across skills, subagents, plugins, and individual MCP servers.
+- **CBP-186** — Updated `/diff` Cheat Sheet row to document keyboard scrolling in the detail view (v2.1.149): arrow keys, `j`/`k`, `PgUp`/`PgDn`, `Space`, `Home`/`End`.
+- **CBP-187** — Updated `/code-review` Cheat Sheet row to document the `--comment` flag (v2.1.147) that posts code review findings as inline GitHub PR comments.
+- **CBP-188** — Updated `claude agents` Cheat Sheet row to document `Ctrl+T` session pinning (v2.1.147): pinned sessions stay alive when idle, restart in place when Claude Code updates, and are shed last under memory pressure.
+
 ### v2.72.0 — 2026-05-21
 
 **CBP-184** — Promoted the Skills Library from a sub-section of the Workflows page into a standalone top-level page. "Skills Library" now appears as its own left-nav group (between Workflows and Claude Best Practices) with its own hero and all 11 `fsd:` skill cards. The Workflows nav group no longer includes the Skills Library sub-item. Routing updated: `sectionToPageMap` and `pageTitles` both include the new `skills` page key.

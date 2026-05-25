@@ -195,3 +195,7 @@
 - [x] `CBP-182` — Add a `/skills` directory to the playbook folder structure. Recommend where to place it, but confirm. Copy `tb:skills` into this directory. replace `tb:` prefix with `:`. → [task-cbp-182.md](task-cbp-182.md)
 - [x] `CBP-183` — Add a new "Skills" Section in the left nav bar. place it under "Workflows".  then add in an orientation on the skills in the `skills` directory. → [task-cbp-183.md](task-cbp-183.md)
 - [x] `CBP-184` — move the skills section to it's own main section in the left nav. Put it after "Workflows". → [task-cbp-184.md](task-cbp-184.md)
+- [x] `CBP-185` Update `/usage` Cheat Sheet row — per-category breakdown (skills, subagents, plugins, MCP) in plan usage tab (v2.1.149) → [task-cbp-185.md](task-cbp-185.md)
+- [x] `CBP-186` Update `/diff` Cheat Sheet row — keyboard scrolling in detail view (v2.1.149) → [task-cbp-186.md](task-cbp-186.md)
+- [x] `CBP-187` Update `/code-review` Cheat Sheet row — add `--comment` flag for inline GitHub PR comments (v2.1.147) → [task-cbp-187.md](task-cbp-187.md)
+- [x] `CBP-188` Update `claude agents` Cheat Sheet row — `Ctrl+T` pinned sessions in agents view (v2.1.147) → [task-cbp-188.md](task-cbp-188.md)
