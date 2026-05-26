@@ -195,3 +195,5 @@
 - [x] `CBP-182` — Add a `/skills` directory to the playbook folder structure. Recommend where to place it, but confirm. Copy `tb:skills` into this directory. replace `tb:` prefix with `:`. → [task-cbp-182.md](task-cbp-182.md)
 - [x] `CBP-183` — Add a new "Skills" Section in the left nav bar. place it under "Workflows".  then add in an orientation on the skills in the `skills` directory. → [task-cbp-183.md](task-cbp-183.md)
 - [x] `CBP-184` — move the skills section to it's own main section in the left nav. Put it after "Workflows". → [task-cbp-184.md](task-cbp-184.md)
+- [x] `CBP-185` Update `/code-review` Cheat Sheet entry: add `--comment` flag and correct version reference to v2.1.147 → [task-cbp-185.md](task-cbp-185.md)
+- [x] `CBP-186` Update `Ctrl+T` keyboard shortcut to document pin/unpin behavior in `claude agents` view (v2.1.147) → [task-cbp-186.md](task-cbp-186.md)
