@@ -2,14 +2,16 @@
 
 ### [Unreleased]
 
-### v2.73.0 — 2026-05-22
+### v2.73.0 — 2026-05-23
 
-**Claude Code v2.1.147–v2.1.148 auto-update (CBP-185–CBP-186)**
+**Claude Code v2.1.147–v2.1.150 auto-update (CBP-185–CBP-188)**
 
-Two targeted Cheat Sheet updates covering the `/code-review` command and `Ctrl+T` keyboard shortcut.
+Four targeted Cheat Sheet updates covering the `/code-review` command, `Ctrl+T` keyboard shortcut, `/usage` breakdown, and `/diff` keyboard navigation.
 
 - **CBP-185** — Updated `/code-review [effort]` Cheat Sheet row to add the `--comment` flag (posts findings as inline GitHub PR comments) and corrected the version reference from v2.1.146 to v2.1.147 (the actual release that renamed `/simplify`).
 - **CBP-186** — Updated `Ctrl+T` keyboard shortcut row to document context-sensitive behavior in `claude agents` view: pressing `Ctrl+T` pins or unpins the selected background session, keeping pinned sessions alive when idle and restarting them in place on Claude Code updates.
+- **CBP-187** — Updated the `/usage` Cheat Sheet row (Model/Mode/Usage table) to document the new per-category breakdown showing what's driving limits usage — skills, subagents, plugins, and per-MCP-server cost (v2.1.149).
+- **CBP-188** — Updated the `/diff` Cheat Sheet row (Session/History table) to document keyboard navigation in the detail view: arrow keys, `j`/`k`, `PgUp`/`PgDn`, `Space`, `Home`/`End` (v2.1.149).
 
 ### v2.72.0 — 2026-05-21
 
