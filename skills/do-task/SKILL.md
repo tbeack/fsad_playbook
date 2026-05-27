@@ -1,5 +1,5 @@
 ---
-description: Execute or plan a task in any of Theo's local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/tb/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says "do CBP-087", "work on FSD-031", "execute task 12", or similar.
+description: Execute or plan a task in any of your local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/fsd/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says "do CBP-087", "work on FSD-031", "execute task 12", or similar.
 argument-hint: `<PREFIX-NNN | NNN> [PREFIX-NNN | NNN...]`
 ---
 
@@ -15,7 +15,7 @@ A task-detail file is **always required** before executing — even for projects
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project's `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:

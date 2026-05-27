@@ -9,7 +9,7 @@ You find the first unchecked task in the current project's todo file and invoke 
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project's `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
