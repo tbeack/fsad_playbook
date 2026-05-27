@@ -74,7 +74,7 @@ Reusable Claude Code skills bundled under `skills/`. Install as a plugin to invo
 | `sec-review-team` | Multi-agent security review (specialist roster selected by stack) |
 | `sec-review-fixes` | Opens fix PRs for High findings from a `sec-review-team` report |
 
-All skills read project conventions from `~/.claude/commands/tb/projects.yaml` — copy `skills/add-task/add-task-projects.yaml` to that path and customize for your projects.
+All skills read project conventions from `~/.claude/commands/fsd/projects.yaml` — copy `skills/add-task/add-task-projects.yaml` to that path and customize for your projects.
 
 ## Companion Files
 
