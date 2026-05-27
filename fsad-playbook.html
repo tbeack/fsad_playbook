@@ -1897,7 +1897,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.74.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.75.1</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -11898,6 +11898,14 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.75.1 <span class="changelog-date">· 2026-05-27</span></h3>
+        <p><strong>Remove personal references from Skills section (CBP-196).</strong> Replaced "Theo's local projects" with "your local projects" in the <code>fsd:do-task</code> and <code>fsd:add-task</code> skill descriptions. Renamed all <code>~/.claude/commands/tb/projects.yaml</code> path references to <code>~/.claude/commands/fsd/projects.yaml</code> across seven skill files and their embedded code blocks in the Skills Library. Updated the generic path example in the <code>fsd:init</code> skill body from <code>/Users/theobeack/</code> to <code>/Users/username/</code>. Dist artifact regenerated.</p>
+      </section>
+      <section>
+        <h3>v2.75.0 <span class="changelog-date">· 2026-05-27</span></h3>
+        <p><strong>Skill Definitions section added to Skills Library (CBP-195).</strong> Added a "Skill Definitions" section (<code>#skills-definitions</code>) to the Skills Library page, mirroring the Specialist Definitions pattern from the Multi-Agent Security Review Team section. Each of the eleven unique <code>fsd:</code> skills now has a collapsible card that embeds the full <code>SKILL.md</code> source with a copy-to-clipboard block. Skills are organized into two groups — Workflow Management (<code>do-task</code>, <code>add-task</code>, <code>ship-it</code>, <code>next</code>, <code>sync</code>, <code>ac</code>, <code>estimate</code>, <code>init</code>) and Review &amp; Security (<code>code-review-team</code>, <code>sec-review-team</code>, <code>sec-review-fixes</code>). Updated sidebar nav with a "Definitions" sub-item and added <code>skills-definitions</code> to the <code>sectionToPageMap</code> for deep-link support.</p>
+      </section>
       <section>
         <h3>v2.74.0 <span class="changelog-date">· 2026-05-27</span></h3>
         <p><strong>Claude Code v2.1.152 auto-update (CBP-189–CBP-193).</strong> Five targeted updates: added <code>disallowed-tools</code> frontmatter field to the Frontmatter Reference table — the inverse of <code>allowed-tools</code>, removes tools while a skill is active (CBP-189); added <code>/reload-skills</code> to the configuration commands table — re-scans skill directories without restarting (CBP-190); added <code>MessageDisplay</code> hook event to the Core hooks table and updated event count from 26 to 27 (CBP-191); updated <code>/code-review</code> entry to document <code>--fix</code> (applies findings to working tree) and note that <code>/simplify</code> now invokes <code>/code-review --fix</code> (CBP-192); updated <code>SessionStart</code> hook row to document <code>reloadSkills: true</code> output and <code>hookSpecificOutput.sessionTitle</code>, and updated <code>--fallback-model</code> description to reflect it now applies to interactive sessions (not just print mode) (CBP-193).</p>
