@@ -1,18 +1,18 @@
 ---
-description: Add a new task to any of Theo's local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project's conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/tb/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.
+description: Add a new task to any of your local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project's conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/fsd/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.
 argument-hint: `[brief task title]`
 ---
 
 # fsd:add-task — multi-project task adder
 
-You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/tb/projects.yaml` — always read that file before doing anything else.
+You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/fsd/projects.yaml` — always read that file before doing anything else.
 
 `$ARGUMENTS` (if present) is the brief task title.
 
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project's `match_paths` (expand `~`). The cwd may be a descendant of a match path. If multiple match, prefer the longest (most specific) match.
 4. If a project matches, refer to its entry as `cfg` and proceed.
 5. If **no** project matches:

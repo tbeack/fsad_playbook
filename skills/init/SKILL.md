@@ -145,7 +145,7 @@ Invoke the `p_mon` skill via the Skill tool, passing `add-project PROJECT_NAME` 
 
 ## Step 8 — Register in projects.yaml
 
-Read `~/.claude/commands/tb/projects.yaml`. Check whether an entry for this project already exists by scanning for the resolved `match_paths` value (see below).
+Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists by scanning for the resolved `match_paths` value (see below).
 
 **If already present:** skip and note in the output checklist.
 

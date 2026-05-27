@@ -3367,10 +3367,10 @@ git diff --stat</pre>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Execute or plan a task in any of Theo&#x27;s local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/tb/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Execute or plan a task in any of your local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/fsd/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
-description: Execute or plan a task in any of Theo&#x27;s local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/tb/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.
+description: Execute or plan a task in any of your local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/fsd/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.
 argument-hint: `&lt;PREFIX-NNN | NNN&gt; [PREFIX-NNN | NNN...]`
 ---
 
@@ -3386,7 +3386,7 @@ A task-detail file is **always required** before executing — even for projects
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
@@ -3647,23 +3647,23 @@ Then provide a concise summary covering: what was implemented, which ACs were ve
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Add a new task to any of Theo&#x27;s local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/tb/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Add a new task to any of your local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/fsd/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
-description: Add a new task to any of Theo&#x27;s local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/tb/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.
+description: Add a new task to any of your local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/fsd/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.
 argument-hint: `[brief task title]`
 ---
 
 # fsd:add-task — multi-project task adder
 
-You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/tb/projects.yaml` — always read that file before doing anything else.
+You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/fsd/projects.yaml` — always read that file before doing anything else.
 
 `$ARGUMENTS` (if present) is the brief task title.
 
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). The cwd may be a descendant of a match path. If multiple match, prefer the longest (most specific) match.
 4. If a project matches, refer to its entry as `cfg` and proceed.
 5. If **no** project matches:
@@ -3813,7 +3813,7 @@ You run four sequential phases to close out a batch of completed work: README ch
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
@@ -3970,7 +3970,7 @@ You find the first unchecked task in the current project&#x27;s todo file and in
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
@@ -4031,8 +4031,8 @@ Run this before starting any work session to confirm your local repo(s) are in s
 
 1. Inspect the arguments passed to the skill.
 2. **No arguments** → single-project mode. Proceed to Step 1 to detect the project from cwd.
-3. **Single argument `ALL`** (case-insensitive) → multi-project mode. Load `~/.claude/commands/tb/projects.yaml`. For every project key, resolve `match_paths[0]` (expand `~`) as that project&#x27;s `project_root`. Build the full project list. Proceed to Step 2.
-4. **One or more project keys** → multi-project mode. Load `~/.claude/commands/tb/projects.yaml`. For each key:
+3. **Single argument `ALL`** (case-insensitive) → multi-project mode. Load `~/.claude/commands/fsd/projects.yaml`. For every project key, resolve `match_paths[0]` (expand `~`) as that project&#x27;s `project_root`. Build the full project list. Proceed to Step 2.
+4. **One or more project keys** → multi-project mode. Load `~/.claude/commands/fsd/projects.yaml`. For each key:
    - If found: add `(key, expand(match_paths[0]))` to the list.
    - If **not found**: print `Unknown project: &#x27;&lt;key&gt;&#x27; — skipping.` and continue.
    - If all keys are unknown (list is empty after skipping): print `No valid projects to sync.` and stop.
@@ -4041,7 +4041,7 @@ Run this before starting any work session to confirm your local repo(s) are in s
 ## Step 1 — Detect the project (single-project mode only)
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest match.
 4. If a project matches, note `project_root`. Build a one-item list: `[(matched_key, project_root)]`. Proceed to Step 2.
 5. If **no project matches**: use cwd as `project_root` — sync is useful in any git repo. Build a one-item list: `[(&quot;(unregistered)&quot;, cwd)]`. Proceed to Step 2.
@@ -4143,7 +4143,7 @@ Walk every unchecked AC in a task file, prove each one with evidence, and mark i
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest match if multiple match.
 4. If a project matches, use its entry as `cfg` and resolve `project_root`. Proceed.
 5. If **no project matches**:
@@ -4460,7 +4460,7 @@ Invoke the `p_mon` skill via the Skill tool, passing `add-project PROJECT_NAME` 
 
 ## Step 8 — Register in projects.yaml
 
-Read `~/.claude/commands/tb/projects.yaml`. Check whether an entry for this project already exists by scanning for the resolved `match_paths` value (see below).
+Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists by scanning for the resolved `match_paths` value (see below).
 
 **If already present:** skip and note in the output checklist.
 
@@ -4486,7 +4486,7 @@ Read `~/.claude/commands/tb/projects.yaml`. Check whether an entry for this proj
 Resolve the placeholders as follows:
 
 - `PROJECT_NAME` — the directory name from Step 1.
-- `RELATIVE_PATH` — derive from `pwd`: replace the home directory prefix (`/Users/&lt;username&gt;`) with `~`. For example `/Users/theobeack/repo/my_project` → `~/repo/my_project`.
+- `RELATIVE_PATH` — derive from `pwd`: replace the home directory prefix (`/Users/&lt;username&gt;`) with `~`. For example `/Users/username/repo/my_project` → `~/repo/my_project`.
 - `TASK_PREFIX` — the confirmed prefix from Step 2.
 
 Use the `Edit` tool to insert the block, not a full file rewrite. Use the `# Fallback` comment line as the unique anchor for the `old_string`.

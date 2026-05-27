@@ -15,8 +15,8 @@ Run this before starting any work session to confirm your local repo(s) are in s
 
 1. Inspect the arguments passed to the skill.
 2. **No arguments** → single-project mode. Proceed to Step 1 to detect the project from cwd.
-3. **Single argument `ALL`** (case-insensitive) → multi-project mode. Load `~/.claude/commands/tb/projects.yaml`. For every project key, resolve `match_paths[0]` (expand `~`) as that project's `project_root`. Build the full project list. Proceed to Step 2.
-4. **One or more project keys** → multi-project mode. Load `~/.claude/commands/tb/projects.yaml`. For each key:
+3. **Single argument `ALL`** (case-insensitive) → multi-project mode. Load `~/.claude/commands/fsd/projects.yaml`. For every project key, resolve `match_paths[0]` (expand `~`) as that project's `project_root`. Build the full project list. Proceed to Step 2.
+4. **One or more project keys** → multi-project mode. Load `~/.claude/commands/fsd/projects.yaml`. For each key:
    - If found: add `(key, expand(match_paths[0]))` to the list.
    - If **not found**: print `Unknown project: '<key>' — skipping.` and continue.
    - If all keys are unknown (list is empty after skipping): print `No valid projects to sync.` and stop.
@@ -25,7 +25,7 @@ Run this before starting any work session to confirm your local repo(s) are in s
 ## Step 1 — Detect the project (single-project mode only)
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project's `match_paths` (expand `~`). Prefer the longest match.
 4. If a project matches, note `project_root`. Build a one-item list: `[(matched_key, project_root)]`. Proceed to Step 2.
 5. If **no project matches**: use cwd as `project_root` — sync is useful in any git repo. Build a one-item list: `[("(unregistered)", cwd)]`. Proceed to Step 2.

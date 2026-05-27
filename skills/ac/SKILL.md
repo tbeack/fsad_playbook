@@ -10,7 +10,7 @@ Walk every unchecked AC in a task file, prove each one with evidence, and mark i
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/tb/projects.yaml`.
+2. Read `~/.claude/commands/fsd/projects.yaml`.
 3. Match cwd against each project's `match_paths` (expand `~`). Prefer the longest match if multiple match.
 4. If a project matches, use its entry as `cfg` and resolve `project_root`. Proceed.
 5. If **no project matches**:
