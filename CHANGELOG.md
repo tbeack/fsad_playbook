@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.75.1 — 2026-05-27
+
+**CBP-196 — Remove personal references from Skills section**
+
+Removed all personal name ("Theo's") and `tb` namespace references from the Skills Library. Descriptions in `fsd:do-task` and `fsd:add-task` now read "your local projects" instead of "Theo's local projects". All `~/.claude/commands/tb/projects.yaml` path references across seven skill files and the embedded HTML code blocks are now `~/.claude/commands/fsd/projects.yaml`. The `/Users/theobeack/` path example in `fsd:init` is now the generic `/Users/username/`. Dist artifact regenerated.
+
 ### v2.75.0 — 2026-05-27
 
 **Skill Definitions section added to Skills Library (CBP-195)**
