@@ -199,3 +199,8 @@
 - [x] `CBP-186` Update `Ctrl+T` keyboard shortcut to document pin/unpin behavior in `claude agents` view (v2.1.147) → [task-cbp-186.md](task-cbp-186.md)
 - [x] `CBP-187` Update `/usage` Cheat Sheet row: add per-category breakdown (skills, subagents, plugins, MCP servers) (v2.1.149) → [task-cbp-187.md](task-cbp-187.md)
 - [x] `CBP-188` Update `/diff` Cheat Sheet row: add keyboard navigation in detail view (v2.1.149) → [task-cbp-188.md](task-cbp-188.md)
+- [x] `CBP-189` Add `disallowed-tools` row to Frontmatter Reference table (v2.1.152) → [task-cbp-189.md](task-cbp-189.md)
+- [x] `CBP-190` Add `/reload-skills` to configuration commands table in Cheat Sheet (v2.1.152) → [task-cbp-190.md](task-cbp-190.md)
+- [x] `CBP-191` Add `MessageDisplay` hook event to hooks tables + update event count to 27 (v2.1.152) → [task-cbp-191.md](task-cbp-191.md)
+- [x] `CBP-192` Update `/code-review` Cheat Sheet entry: add `--fix` flag and note `/simplify` now invokes it (v2.1.152) → [task-cbp-192.md](task-cbp-192.md)
+- [x] `CBP-193` Update `SessionStart` hook description (reloadSkills, sessionTitle) + `--fallback-model` flag description (v2.1.152) → [task-cbp-193.md](task-cbp-193.md)
