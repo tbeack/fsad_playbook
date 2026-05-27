@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.74.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.75.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1970,6 +1970,7 @@
       </button>
       <div class="nav-sub-items" data-group="skills">
         <a class="nav-sub-item" href="#skills/skills-library" onclick="scrollToSection('skills-library')">Overview</a>
+        <a class="nav-sub-item" href="#skills/skills-definitions" onclick="scrollToSection('skills-definitions')">Definitions</a>
       </div>
     </div>
 
@@ -3350,6 +3351,2092 @@ git diff --stat</pre>
       </div>
     </div>
   </div>
+</section>
+
+<hr class="divider">
+
+<section id="skills-definitions">
+  <span class="section-label">02 — Skill Definitions</span>
+  <h2 class="section-title">Skill Definitions</h2>
+  <p class="section-subtitle">Each card mirrors the live skill file under <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills"><code>skills/</code></a> in the repo. Open a card to read the full skill source — click the <code>pre</code> block to copy it directly.</p>
+
+  <span class="section-label" style="display:block; margin-bottom:0.75rem;">Workflow Management</span>
+    <div class="collapsible" id="skill-def--do-task" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:do-task <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;ID&gt;</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Execute or plan a task in any of Theo&#x27;s local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/tb/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Execute or plan a task in any of Theo&#x27;s local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/tb/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.
+argument-hint: `&lt;PREFIX-NNN | NNN&gt; [PREFIX-NNN | NNN...]`
+---
+
+# fsd:do-task — multi-project task executor
+
+You help the user make progress on a single task in any registered project. The skill is **mode-switching**:
+
+- **Plan mode** — task entry exists in the todo file but no task-detail file exists yet. Draft the plan; stop.
+- **Execute mode** — both the entry and the task file exist. Implement the plan, verify ACs, update CHANGELOG, mark complete.
+
+A task-detail file is **always required** before executing — even for projects with `use_full_template: false`. Plan mode runs first, execute mode second.
+
+## Step 0 — Detect the project
+
+1. Determine the current working directory.
+2. Read `~/.claude/commands/tb/projects.yaml`.
+3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
+4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
+5. If **no project matches**:
+   - Tell the user the project is not registered.
+   - Suggest running `/fsd:add-task` from the project to register it, or offer to register it now.
+   - Stop.
+
+## Step 0.5 — Multi-task dispatch
+
+Split `$ARGUMENTS` on whitespace to get a list of tokens.
+
+- If there is **only one token**: skip this step entirely. Continue to Step 1 with that single token as `$ARGUMENTS`.
+- If there are **two or more tokens**:
+  1. Tell the user: &quot;Dispatching N tasks concurrently: TOKEN1, TOKEN2, …&quot;
+  2. Write an aggregate badge to the main project root so the statusline shows all dispatched IDs immediately. Use the absolute `project_root` path resolved in Step 0 (not the literal string, not a relative path) and quote it to handle spaces:
+     ```
+     echo &quot;orange:TOKEN1+TOKEN2+…&quot; &gt; &quot;{project_root}/.pmon-session-task&quot;
+     ```
+  3. For each token, spawn one Agent using the `Agent` tool with `isolation: &quot;worktree&quot;` so each agent works on its own branch. Each agent&#x27;s prompt must include:
+     - The current working directory (project root).
+     - The single task ID assigned to that agent.
+     - The full instruction to run the complete `fsd:do-task` flow for that ID — entering plan mode if no task-detail file exists yet, or execute mode if it does. The agent must follow all steps (Step 0 through the relevant terminal step) exactly as this skill describes, operating on its one assigned ID only.
+     - An explicit note: **do NOT write or delete `.pmon-session-task`** — badge ownership belongs to the orchestrator.
+  4. Send **all Agent calls in a single message** so they run concurrently.
+  5. After all agents return, print a summary table:
+     ```
+     TBS-012   plan mode    task file written — changes isolated in worktree branch
+     TBS-013   execute mode  ACs verified, CHANGELOG updated, marked complete — changes isolated in worktree branch
+     ```
+     Then remove the badge file and tell the user: &quot;Each agent&#x27;s changes are in an isolated worktree branch. Run `fsd:ship-it` to merge them sequentially into your working tree before committing.&quot;
+     ```
+     rm -f &quot;{project_root}/.pmon-session-task&quot;
+     ```
+  6. **Stop here.** Do not continue to Step 1.
+
+## Step 1 — Resolve the task identifier
+
+Read `$ARGUMENTS` and normalize to canonical form `PREFIX-NNN`:
+
+| Input | Canonical (CBP project) |
+|-------|-------------------------|
+| `CBP-087` | `CBP-087` |
+| `cbp-87`  | `CBP-087` |
+| `087`     | `CBP-087` |
+| `87`      | `CBP-087` |
+
+Rules:
+- Prefix: `cfg.prefix` (preserve exact casing — e.g., `FSD_Train`, `KHB-Todo`).
+- Number: zero-pad to `cfg.number_digits` digits.
+- If `$ARGUMENTS` is empty, ask: `&quot;Which [cfg.prefix] task? (e.g., [cfg.prefix]-001)&quot;`
+
+Do not guess. Do not pick &quot;the next open one&quot; without being asked.
+
+## Step 2 — Verify the task exists in the tracker
+
+Read `cfg.todo_file` (resolved relative to `project_root`). Find the line containing the canonical identifier.
+
+- **Not found** — Tell the user the task isn&#x27;t in the tracker. Suggest `/fsd:add-task [title]` to create it first. Stop.
+- **Already checked (`- [x]`)** — Tell the user it&#x27;s already marked complete. Ask whether to re-execute (rare). Default: stop.
+- **Open (`- [ ]`)** — Continue.
+
+## Step 3 — Branch on whether the task file exists
+
+Resolve the task file path using the same token substitution as `add-task`:
+- `{nnn}` = zero-padded number
+- `{prefix_lower}` = `cfg.prefix_in_filename` if set, else `cfg.prefix` lowercased
+- `{ID}` = canonical identifier
+- `{slug}` = title lowercased, non-alphanumerics → `_`, collapsed, trimmed (only needed if template uses it)
+
+```
+{project_root}/{cfg.task_dir}/{rendered cfg.task_filename_template}
+```
+
+- **File missing** → go to Step 4 (Plan mode).
+- **File exists** → read it end-to-end. If it has no `## Plan` section or no `## Acceptance Criteria`, treat it as incomplete and ask the user to confirm before overwriting. Otherwise, go to Step 5 (Execute mode).
+
+State the mode before continuing: &quot;Task file missing — entering plan mode.&quot; or &quot;Task file found — entering execute mode.&quot;
+
+## Step 4 — Plan mode: draft the workup
+
+Ask questions **one at a time** (never dump a form):
+
+1. **Source** — Where did this task come from? (skip if not applicable)
+2. **Summary** — What needs to change and why? 1–3 sentences.
+3. **Assessment** — Current state? Where does the relevant code/content live? Inspect the repo before asking — don&#x27;t ask things you could verify yourself.
+4. **Plan** — Step-by-step implementation. File paths and line numbers where possible. Group into phases if non-trivial.
+5. **Acceptance Criteria** — `- [ ]` checkboxes. Falsifiable (&quot;button renders at 44px touch target on mobile&quot;), not vague (&quot;looks right&quot;).
+
+If the user says &quot;use your best judgment&quot; or &quot;fill it in&quot;, proceed without blocking — infer from the title and project context.
+
+Write the task file at the resolved path:
+
+```markdown
+# {ID} — {title}
+
+## Source
+[Where this came from — or omit this section if not applicable]
+
+## Summary
+[1–3 sentences: what&#x27;s changing and why]
+
+## Assessment
+[Current state. Does it exist? Where? What needs to change?]
+
+**Location:** `[file path]` — [section/line reference]
+
+## Plan
+
+1. [Step one]
+2. [Step two]
+
+## Acceptance Criteria
+- [ ] [Verification step 1]
+- [ ] [Verification step 2]
+```
+
+Then update the todo entry to link the new task file. Match the existing linked-entry style in `cfg.todo_file` (em-dash, backtick-wrapped identifier, parenthesized link). Use `Edit` with unique surrounding context. Do not rewrite the whole file.
+
+If `cfg.notes` mentions style cues (e.g. &quot;reference task-cbp-030.md&quot;), peek at that file first and match its tone.
+
+**Stop here.** Tell the user the plan is ready and that they can re-invoke `/fsd:do-task {ID}` to execute it. Do **not** start implementing.
+
+## Step 5 — Execute mode: implement the plan
+
+### 5a. Review critically before touching anything
+
+Read the task file end-to-end. Identify concerns — ambiguous steps, missing context, factual claims about the codebase that no longer hold (file paths moved, exports renamed, etc.). Raise anything unclear before starting. Do not guess.
+
+### 5b. Build a working task list
+
+Before creating any tasks, write the session badge so the task-id appears as an orange badge in the Claude Code statusline. Use the absolute `project_root` path resolved in Step 0 — not the literal string `{project_root}` and not a relative path. Quote the path to handle directory names with spaces:
+
+```bash
+echo &quot;orange:{taskId}&quot; &gt; &quot;{project_root}/.pmon-session-task&quot;
+```
+
+Then use `TaskCreate` to add one task per phase or major step in the plan. Mark each `in_progress` before starting and `completed` when done — don&#x27;t batch.
+
+At step 5i (hand off), clean up the tag file using the same absolute path:
+
+```bash
+rm -f &quot;{project_root}/.pmon-session-task&quot;
+```
+
+### 5c. Sync and create worktree
+
+Before touching any files, ensure the branch is up to date and create an isolated worktree:
+
+1. **Sync check** — run `git fetch origin` then `git status -uno` to determine the local branch&#x27;s state relative to the remote:
+   - **Up to date or ahead** — proceed.
+   - **Behind** — run `git pull --ff-only`. If the pull fails (uncommitted changes, non-fast-forward), stop and ask the user to resolve before continuing.
+   - **Diverged** — stop. Warn the user and do not create the worktree.
+
+2. **Create worktree** — call `EnterWorktree` with `name` set to the task ID slugified (e.g., `task-tbs-024`). This creates a new branch (`worktree-task-tbs-024`) inside `.claude/worktrees/` and switches the session into it. All file writes from this point forward happen inside the worktree — not in the main working tree.
+
+Note the worktree branch name; report it in the handoff (Step 5i).
+
+### 5d. Implement the plan steps
+
+Follow the plan&#x27;s steps in order. If the plan turns out to be wrong, **stop and re-plan with the user** rather than silently deviating. Authorization stands for the scope specified, not beyond.
+
+### 5e. Verify acceptance criteria one-by-one
+
+Walk through every AC in the task file and prove it with evidence (file location, output, browser inspection, etc.). Print a verdict per AC: PASS with evidence, or FAIL with what broke.
+
+As each AC passes, edit the task file to flip `- [ ]` to `- [x]`. **Mark progressively** — a partial failure leaves an honest record.
+
+Use enough surrounding AC text in `old_string` to make `Edit` matches unambiguous. For ≥3 ACs verified together at the end of a phase, replacing the entire AC block in one `Edit` is acceptable — provided you proved each individually.
+
+When all ACs are `[x]`, add a note immediately above the AC list:
+```
+All criteria verified YYYY-MM-DD before commit.
+```
+
+If any AC fails, stop and report. Never edit AC text to make it pass.
+
+### 5f. Optional code review
+
+All ACs have passed. Ask the user exactly once:
+
+&gt; &quot;All acceptance criteria passed. Would you like to run `/fsd:code-review-team` on this diff before wrapping up?&quot;
+
+- **Yes** — Invoke the `fsd:code-review-team` skill (via `Skill` tool). Wait for it to complete. The skill writes `REVIEW-REPORT.md`; note any critical findings in the handoff message. Then continue to 5g.
+- **No / no response** — Skip directly to 5g. Do not run the review.
+
+Do not run the review without explicit user confirmation.
+
+### 5g. Update CHANGELOG and version
+
+**Locate the CHANGELOG:**
+1. Check `cfg.changelog_file` in the YAML (if set, resolve relative to `project_root`). Otherwise look for `CHANGELOG.md` at `project_root`.
+2. If no CHANGELOG exists, **create `{project_root}/CHANGELOG.md`** using Keep-a-Changelog format with an `## [Unreleased]` header and `### Added` / `### Changed` / `### Fixed` subsections.
+
+**Detect the versioning scheme:**
+1. Check `cfg.version_files` in the YAML (if set) — these are the authoritative version locations, relative to `project_root`.
+2. If not set, scan `project_root` for common version carriers: `package.json` (`.version`), `plugin.json` / `plugin/.claude-plugin/plugin.json` (`.version`), `*.html` (version string in `&lt;title&gt;`), `README.md` (version badge or header line).
+3. If a scheme is found but not configured in the YAML, show the user what you found and ask for confirmation before bumping.
+4. If **no versioning is in use**, propose a scheme before writing anything. Default recommendation: **semver (`v1.0.0`)** for software; **CalVer (`YYYY.MM.DD`)** for documentation-only projects. Explain the tradeoff (semver = intent-driven, CalVer = timeline-driven) and ask the user to choose.
+
+**Write the CHANGELOG entry:**
+- If the task plan specifies CHANGELOG content, write it exactly as specified.
+- If not, propose a one-paragraph entry (placed above the most recent version block) and wait for user approval before writing.
+- Match the existing format in the file. For projects using integer versioning (e.g. `v36`), continue that pattern.
+
+**Bump the version:**
+- Only bump when the task plan explicitly calls for it.
+- When bumping, update every file identified by `cfg.version_files` (or the scan). Keep all sources aligned — never leave one file on the old version.
+- Apply the project&#x27;s bump type (patch/minor/major for semver; integer increment for vNN; new date for CalVer) as specified in the plan or by the user.
+- If the plan does not call for a version bump, skip it and note that in the handoff message.
+
+### 5h. Mark the task complete in the todo file
+
+&gt; **Write directly to the main working tree.** Use the absolute path `{project_root}/{cfg.todo_file}` — not a relative path. The CWD is the worktree; a relative path would write to the worktree copy and create a merge conflict at ship time. The `[x]` mark is intentionally committed from main, not included in the worktree branch.
+
+Change the entry&#x27;s `- [ ]` to `- [x]` at `{project_root}/{cfg.todo_file}`. Use `Edit` with unique surrounding context. Do not reorder lines or touch other entries.
+
+### 5i. Hand off — do not auto-commit
+
+Call `ExitWorktree` with `action: &quot;keep&quot;` to return the session to the original working directory while leaving the worktree branch intact on disk.
+
+Open the handoff message with a bold header on its own line:
+
+```
+**{ID} — {title}**
+```
+
+Then provide a concise summary covering: what was implemented, which ACs were verified, which files changed, whether the CHANGELOG was updated, whether the todo entry was marked done, whether a version was bumped (or why it was skipped), whether the code review was run (e.g., &quot;Code review report written to `REVIEW-REPORT.md`&quot;) or skipped. Include the worktree branch name (e.g., `worktree-task-tbs-024`) and tell the user their changes are isolated on that branch. Suggest running `fsd:ship-it` (or `git merge &lt;branch&gt;`) to bring the changes into the main branch before pushing. **Wait for the user to say &quot;commit&quot;** before doing so.
+
+## Conventions to honour
+
+- **Identifier format:** always canonical `PREFIX-NNN` (zero-padded, exact prefix casing) in messages, file names, and edits.
+- **Task file location:** `{project_root}/{cfg.task_dir}/{cfg.task_filename_template}` — even for lightweight projects.
+- **Heading separator:** em-dash (`—`), not hyphen.
+- **AC checkbox style:** `- [ ]` / `- [x]`.
+- **One question at a time** in plan mode.
+- **Trust `cfg.notes`** — if it calls out style cues, honour them.
+
+## Guardrails
+
+- **Always read the todo file first** — never infer task state from memory.
+- **Always create a task file before executing** — plan mode first, execute mode second; no exceptions for lightweight projects.
+- **Don&#x27;t switch tasks mid-flow** — re-invoke with the new identifier if the user changes their mind.
+- **Plan mode never writes code** — only the task file and the todo link update.
+- **Execute mode never edits the plan to match the implementation** — if reality drifts, stop and re-plan.
+- **Never mark an AC complete without evidence.**
+- **Mark ACs progressively, not in a batch.**
+- **Don&#x27;t propose CHANGELOG content not anticipated by the plan without asking.** Surprise changelog churn is hard to undo.
+- **Don&#x27;t bump versions opportunistically** — only when the plan explicitly calls for it. When bumping, keep all version sources aligned.
+- **Don&#x27;t auto-commit or push.** The user owns the release decision.
+- **Don&#x27;t run destructive git operations** at any point.
+- **Always enter a worktree in single-task execute mode** — call `EnterWorktree` in Step 5c before any file modifications. Never modify the main working tree directly during execution.
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--add-task" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:add-task <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[title]</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Add a new task to any of Theo&#x27;s local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/tb/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Add a new task to any of Theo&#x27;s local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/tb/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.
+argument-hint: `[brief task title]`
+---
+
+# fsd:add-task — multi-project task adder
+
+You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/tb/projects.yaml` — always read that file before doing anything else.
+
+`$ARGUMENTS` (if present) is the brief task title.
+
+## Step 0 — Detect the project
+
+1. Determine the current working directory.
+2. Read `~/.claude/commands/tb/projects.yaml`.
+3. Match cwd against each project&#x27;s `match_paths` (expand `~`). The cwd may be a descendant of a match path. If multiple match, prefer the longest (most specific) match.
+4. If a project matches, refer to its entry as `cfg` and proceed.
+5. If **no** project matches:
+   - Tell the user the project is not registered.
+   - Show the values you&#x27;d use from the `default` block.
+   - Ask whether to (a) proceed using the defaults this once, (b) register the project now, or (c) abort.
+   - If (b), collect the following fields one at a time, showing the suggested default for each:
+     - `name` — project key in the YAML (e.g. `my_project`)
+     - `match_paths` — root path (default: current working directory)
+     - `prefix` — task identifier prefix (e.g. `MYP`)
+     - `number_digits` — zero-pad width (default: `3`)
+     - `todo_file` — relative path to the todo file (default: `planning/to do/todo.md`)
+     - `task_dir` — relative path to the task detail directory (default: `planning/to do`)
+     - `use_full_template` — whether to create per-task detail files (default: `true`)
+     - `version_scheme` — versioning convention: `semver`, `integer`, `calver`, or `none` (default: `semver`)
+     - `version_files` — file(s) that carry the version string (default: `README.md`; user may specify `package.json` or others)
+   - Write all collected fields as a new entry under `projects:` in the YAML before continuing.
+
+## Step 1 — Compute the next number
+
+1. Read `cfg.todo_file` (resolved relative to the matched project root).
+2. **Clean up empty placeholder entries** — scan for lines that match the pattern `- [ ] \`{prefix}-NNN\`` where the title portion is empty (nothing or only whitespace after the closing backtick). These are artifacts left by the `init` template. If any are found, remove them from the file using `Edit` before proceeding. If the removed entry was the only one in the file (no real tasks yet), treat the file as empty and start numbering from 1 — so the first real task gets 001.
+3. Find every line containing the prefix and extract the highest number.
+4. Increment by 1; zero-pad to `cfg.number_digits` digits → `nnn`.
+5. Build:
+   - `ID = &quot;{prefix}-{nnn}&quot;` (e.g. `CBP-031`, `KHB-Todo-0010`, `FSD_Train-012`).
+   - `prefix_lower` = `cfg.prefix_in_filename` if set, otherwise the prefix lowercased.
+   - `slug` (only if the filename template uses it) = title lowercased, non-alphanumerics → `_`, collapsed runs of `_`, trimmed.
+
+## Step 2 — Get the title
+
+If `$ARGUMENTS` is non-empty, use it. Otherwise ask:
+&gt; What&#x27;s the task title? (one-liner — I&#x27;ll prompt for details next.)
+
+Before adding, scan the todo file for an existing entry with a similar title. If one exists, surface it and ask whether to proceed, edit the existing one, or abandon.
+
+## Step 3 — Add the bullet to the todo file
+
+Render `cfg.todo_entry_template` by substituting `{ID}`, `{title}`, `{nnn}`, `{prefix_lower}`.
+
+Insertion point:
+- If `cfg.insert_before_section` is set → insert the bullet immediately before that heading line.
+- Else if `cfg.insert_under_section` is set → insert as the last bullet of that section (just before the next heading or the end of the file, whichever comes first).
+- Else → append after the last existing bullet in the top-level list.
+
+Use the `Edit` tool with enough surrounding context to be unique. Don&#x27;t rewrite the whole file.
+
+## Step 4 — Gather task details
+
+Skip this step if `cfg.use_full_template` is `false`.
+
+Ask one question at a time (don&#x27;t dump a form):
+
+1. **Source** — Where did this task come from? (release note, feedback, bug report, own idea). Omit the section if not applicable.
+2. **Summary** — What&#x27;s changing and why? 1-3 sentences.
+3. **Assessment** — Current state? Where does the relevant content live? File paths and line numbers if you have them.
+4. **Plan** — Step-by-step implementation.
+5. **Acceptance Criteria** — `- [ ]` checkbox list of verification steps.
+
+If the user says &quot;use your best judgment&quot;, &quot;fill it in&quot;, or similar, proceed without blocking — infer from the title and project context.
+
+## Step 5 — Write the task-detail file
+
+Skip this step if `cfg.use_full_template` is `false`.
+
+Resolve the path:
+
+```
+{project_root}/{cfg.task_dir}/{rendered cfg.task_filename_template}
+```
+
+Write this content (em-dash, not hyphen, in the H1):
+
+```markdown
+# {ID} — {title}
+
+## Source
+[Where this came from — or omit this section if not applicable]
+
+## Summary
+[1-3 sentences: what&#x27;s changing and why]
+
+## Assessment
+[Current state of the relevant content. Does it exist? Where? What needs to change?]
+
+**Location:** `[file path]` — [section/line reference]
+
+## Plan
+
+[Step-by-step implementation]
+
+1. [Step one]
+2. [Step two]
+
+## Acceptance Criteria
+- [ ] [Verification step 1]
+- [ ] [Verification step 2]
+```
+
+If `cfg.notes` mentions style cues (e.g. &quot;reference task-cbp-030.md&quot;), peek at that file first and match its tone.
+
+## Step 6 — Confirm completion
+
+In one short response, report:
+- The project that was matched (and its root path).
+- The new `ID`.
+- That the bullet was appended to `cfg.todo_file`.
+- The task-detail file path (if one was created).
+
+
+## Conventions to honour
+
+- **Number format:** always zero-pad to `cfg.number_digits` digits.
+- **Filename casing:** lowercase the prefix unless `cfg.prefix_in_filename` overrides.
+- **Heading separator:** em-dash (`—`), not hyphen.
+- **Identifier casing in IDs:** preserve `cfg.prefix` exactly (e.g. `FSD_Train-012`, `KHB-Todo-0010`).
+- **One question at a time** when gathering details.
+
+## Guardrails
+
+- **Always read the todo file first** — never guess the next number.
+- **Never duplicate titles** — scan existing entries before creating.
+- **Trust the file over the cfg.** If the file&#x27;s existing entries clearly use a different format than `cfg.todo_entry_template`, follow the file and flag the drift to the user (the cfg may be stale).
+- **Don&#x27;t modify other projects.** Only touch the matched project&#x27;s files.
+- **Don&#x27;t implement the task.** Only create planning artifacts; the user will do the work separately.
+- **Don&#x27;t add a task-detail file when `cfg.use_full_template` is false.** Lightweight projects (e.g. hangman) intentionally keep the bullet alone.
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--ship-it" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:ship-it</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsd:do-task` has marked one or more tasks done. Takes no arguments.</p>
+    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0; margin-bottom:0.75rem;">Also available as <code>/fsd:ship</code> (alias — same behaviour, shorter to type).</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsd:do-task` has marked one or more tasks done. Takes no arguments.
+---
+
+# fsd:ship-it — wrap up and ship
+
+You run four sequential phases to close out a batch of completed work: README check, CHANGELOG versioning, completed-task file cleanup, and commit + push + PR. Do not skip phases or reorder them.
+
+## Step 0 — Detect the project
+
+1. Determine the current working directory.
+2. Read `~/.claude/commands/tb/projects.yaml`.
+3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
+4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
+5. If **no project matches**:
+   - Tell the user the project is not registered.
+   - Suggest running `/fsd:add-task` from the project to register it.
+   - Stop.
+
+## Step 0.5 — Merge pending worktrees
+
+1. Run `git worktree list --porcelain` from `project_root`. Parse the output to get all worktrees (each block starts with `worktree &lt;path&gt;`).
+2. Filter out the main worktree — the one whose path equals `project_root`.
+3. If **no additional worktrees** exist: skip this step entirely and proceed to Step 1.
+4. If additional worktrees exist:
+   - List them for the user: path and branch name (the `branch` field from the porcelain output).
+   - Ask: &quot;Merge these worktree branches sequentially into the main worktree? (y/n)&quot;
+   - If **no**: leave them in place and proceed to Step 1.
+   - If **yes**: for each worktree in order:
+     a. Check for uncommitted changes: `git -C &lt;path&gt; status --porcelain`. If any are present, commit them: `git -C &lt;path&gt; add -A &amp;&amp; git -C &lt;path&gt; commit -m &quot;&lt;branch-name&gt;: parallel do-task changes&quot;`.
+     b. Merge the branch into the main worktree: `git merge --no-ff &lt;branch&gt;`.
+     c. If the merge produces a conflict: **stop immediately**. Tell the user which file(s) conflict. Ask them to resolve the conflicts and run `git commit` before re-running `fsd:ship-it`. Do not proceed to Step 1.
+     d. On clean merge: remove the worktree (`git worktree remove --force &lt;path&gt;`) and delete the branch (`git branch -d &lt;branch&gt;`).
+5. After all worktrees are merged and removed: tell the user &quot;Worktrees merged.&quot; and proceed to Step 1.
+
+## Step 1 — Pre-flight: README check
+
+1. List all subdirectories in `{project_root}/skills/`. Each directory name is a skill.
+2. Read `{project_root}/README.md`.
+3. For every skill directory, check that a corresponding row exists in the README skills table (match on the directory name).
+4. If any skill is **missing** from the README:
+   - Tell the user which skills are absent (e.g. `ship-it`, `next`).
+   - Ask them to update the README before continuing.
+   - Stop. Do not proceed to Step 2 until the user says it&#x27;s done and re-invokes.
+5. If the README is current: tell the user &quot;README check passed.&quot; and proceed.
+
+## Step 2 — Pre-flight: CHANGELOG + version
+
+1. Read `{project_root}/CHANGELOG.md`.
+2. Find the `## [Unreleased]` section. Collect everything between that heading and the next `## [` heading — that is the pending content.
+3. If the `[Unreleased]` section is **empty** (no bullet points or subsections):
+   - Tell the user: &quot;The [Unreleased] section has no content — there may be nothing to release. Proceed anyway? (y/n)&quot;
+   - If the user says no: stop.
+   - If the user says yes: skip the version-bump sub-steps and go to Step 3.
+4. If the `[Unreleased]` section **has content**:
+   - Show the user the pending content.
+   - **2a — Read version config:** Read `cfg.version_scheme` and `cfg.version_files` from the project config (loaded in Step 0).
+   - **2b — Derive current version:** If `cfg.version_files` is set, read the first file in the list and extract the current version string:
+     - JSON file (e.g., `package.json`, `plugin.json`): read the `&quot;version&quot;` field.
+     - `README.md`: find the version table row (e.g., `| **Current version** | v3.2.0 |`).
+     - HTML file: find the version string in the `&lt;title&gt;` tag.
+   - **2c — Propose next version** based on `cfg.version_scheme`:
+     - `semver`: parse the current version and bump the **patch** component by default (e.g., `v3.2.0 → v3.2.1`). Tell the user they can type `minor` or `major` to request a different bump level instead.
+     - `integer`: increment the integer suffix by 1 (e.g., `v36 → v37`).
+     - `calver`: use today&#x27;s date in `YYYY.MM.DD` format.
+     - **No `version_scheme` configured:** ask the user: &quot;Cut a new version? If yes, what tag? (e.g. v4)&quot; and use whatever they provide.
+   - **2d — Confirm:** Present: &quot;Suggested version: **[tag]** — confirm, type a different tag, or type `no` to skip.&quot;
+     - If the user says `no` or skips: proceed to Step 3 without modifying the CHANGELOG or version files.
+     - If the user says `minor` or `major` (semver only): recompute the tag at that level and re-present 2d.
+     - If the user confirms or provides a different tag: use that tag and continue.
+   - **2e — Write version files:** Update every file in `cfg.version_files` with the new version string, preserving the format already in each file:
+     - JSON: update the `&quot;version&quot;` field value in-place (string replacement, preserve surrounding formatting).
+     - `README.md` version table: replace the old version string in the table row only.
+     - HTML `&lt;title&gt;`: replace the old version string in the title tag only.
+   - **2f — Update CHANGELOG:**
+     - Replace the `## [Unreleased]` heading with `## [vN] — YYYY-MM-DD` using today&#x27;s date.
+     - Insert a fresh empty `## [Unreleased]` block above it so future entries have a home.
+     - Write the updated file.
+     - Tell the user: &quot;CHANGELOG updated — [vN] cut.&quot;
+
+## Step 3 — Move completed task files
+
+1. Scan `{project_root}/{cfg.task_dir}/` for files matching the task filename pattern (e.g. `task-tbs-NNN.md`) that are **not** already inside the `completed/` subdirectory.
+2. For each file found, look up the corresponding task identifier in `cfg.todo_file`.
+   - If the entry is `- [x]` (done): mark the file as a candidate to move.
+   - If the entry is `- [ ]` (still open) or not found: leave the file in place.
+3. If **no candidates** exist: tell the user &quot;No completed task files to move.&quot; and skip to Step 4.
+4. If candidates exist:
+   - List them for the user.
+   - Ask: &quot;Move these to `completed/`? (y/n)&quot;
+   - If yes: `git mv` each file into `{project_root}/{cfg.task_dir}/completed/`.
+   - If no: leave them and proceed.
+
+## Step 4 — Commit, push, PR
+
+### 4.0 — Branch guard
+
+1. Run `git rev-parse --abbrev-ref HEAD` to get the current branch name.
+2. If the branch is `main` or `master`:
+   - Propose a feature branch name:
+     - If a version was cut in Step 2: suggest `release/{version}` (e.g. `release/v4`).
+     - Otherwise: suggest `task/{task-ids}` using any task IDs marked done during this session (e.g. `task/tbs-007`), or `ship/{YYYY-MM-DD}` if no IDs are in scope.
+   - Ask the user: &quot;Create and switch to `{branch}`? (y/n or type a different name)&quot;
+   - On confirmation: run `git checkout -b {branch}`.
+3. If already on a non-default branch:
+   - Tell the user &quot;Already on branch `{branch}`.&quot;
+   - If a version was cut in Step 2 **and** the current branch matches the pattern `release/vX.Y.Z` **and** `vX.Y.Z` does not equal the newly cut version:
+     - Propose renaming: &quot;Branch name `{branch}` is stale — rename to `release/{version}`? (y/n)&quot;
+     - If yes:
+       a. `git branch -m {branch} release/{version}` — rename locally.
+       b. `git push origin release/{version}` — push the new name.
+       c. `git push origin --delete {branch}` — delete the old remote branch (ignore error if it didn&#x27;t exist remotely).
+       d. `git branch -u origin/release/{version}` — update tracking ref.
+       e. Tell the user &quot;Branch renamed to `release/{version}`.&quot;
+     - If no: continue on the current branch name.
+   - Otherwise: continue without renaming.
+
+1. Run `git status` to see what&#x27;s staged and unstaged. Stage all relevant changed files by name (do **not** use `git add -A` or `git add .`):
+   - Modified: `CHANGELOG.md`, `README.md`, todo file, any other files changed during this work session.
+   - Moved task files (already staged by `git mv`).
+2. Run `git log --oneline -5` to read recent commit message style.
+3. Draft a commit message:
+   - If a version was cut in Step 2: use `release [vN] — &lt;one-line summary of what&#x27;s in the release&gt;`.
+   - If no version was cut: summarize the batch of completed work in one line.
+   - Append: `Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;`
+   - Pass via heredoc to avoid shell quoting issues.
+4. Show the user the draft commit message and ask for confirmation before committing.
+5. On confirmation: create the commit.
+6. Push: `git push -u origin HEAD`.
+7. Create PR with `gh pr create`:
+   - Detect the default branch: `git remote show origin | grep &#x27;HEAD branch&#x27; | awk &#x27;{print $NF}&#x27;` (typically `main` or `master`).
+   - Title: same one-liner used in the commit.
+   - Include `--base {default_branch}` so the PR always targets the default branch.
+   - Body (heredoc):
+     ```
+     ## Summary
+     &lt;CHANGELOG content for this version, or a bullet-list summary if no version was cut&gt;
+
+     ## Test plan
+     - [ ] Skill files deployed and appear in `/fsd:*` command list
+     - [ ] README skills table is accurate
+     - [ ] CHANGELOG entry is present and correctly formatted
+
+     🤖 Generated with [Claude Code](https://claude.com/claude-code)
+     ```
+8. Return the PR URL to the user.
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--next" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:next</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Pick the next open task from the current project&#x27;s todo file and invoke `/fsd:do-task` with that task ID. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says &quot;do the next task&quot;, &quot;what&#x27;s next&quot;, &quot;next task&quot;, or similar.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Pick the next open task from the current project&#x27;s todo file and invoke `/fsd:do-task` with that task ID. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says &quot;do the next task&quot;, &quot;what&#x27;s next&quot;, &quot;next task&quot;, or similar.
+---
+
+# fsd:next — pick the next open task and hand off to do-task
+
+You find the first unchecked task in the current project&#x27;s todo file and invoke `fsd:do-task` with that task ID. There are no arguments.
+
+## Step 0 — Detect the project
+
+1. Determine the current working directory.
+2. Read `~/.claude/commands/tb/projects.yaml`.
+3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
+4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
+5. If **no project matches**:
+   - Tell the user the project is not registered.
+   - Suggest running `/fsd:add-task` from the project to register it.
+   - Stop.
+
+## Step 1 — Find the next open task
+
+Read `cfg.todo_file` (resolved relative to `project_root`).
+
+Scan the lines top-to-bottom. Find the **first** line that:
+- Starts with `- [ ]` (unchecked), and
+- Contains the project&#x27;s `cfg.prefix` (e.g. `TBS`, `CBP`, `FSD`)
+
+Extract the full canonical task identifier from that line (e.g. `TBS-006`).
+
+## Step 2 — No open tasks
+
+If no matching unchecked line is found, tell the user:
+
+&gt; No open tasks found in `[cfg.todo_file]`. All done!
+
+Then stop.
+
+## Step 3 — Hand off to do-task
+
+Tell the user which task was selected, e.g.:
+
+&gt; Next task: **TBS-006** — &quot;Add a new skill `fsd:next`&quot;. Handing off to `fsd:do-task`…
+
+Then invoke `fsd:do-task` via the Skill tool, passing the canonical task identifier as the argument.
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--sync" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:sync</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsd:sync key1 key2), and full-sync (fsd:sync ALL) modes.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsd:sync key1 key2), and full-sync (fsd:sync ALL) modes.
+---
+
+# fsd:sync — pre-flight sync check
+
+Run this before starting any work session to confirm your local repo(s) are in sync with the remote.
+
+**Invocation:**
+- `fsd:sync` — sync the project for the current working directory
+- `fsd:sync ALL` — sync every project in `projects.yaml`
+- `fsd:sync &lt;key1&gt; &lt;key2&gt; …` — sync one or more named projects by YAML key
+
+## Step 0 — Parse arguments
+
+1. Inspect the arguments passed to the skill.
+2. **No arguments** → single-project mode. Proceed to Step 1 to detect the project from cwd.
+3. **Single argument `ALL`** (case-insensitive) → multi-project mode. Load `~/.claude/commands/tb/projects.yaml`. For every project key, resolve `match_paths[0]` (expand `~`) as that project&#x27;s `project_root`. Build the full project list. Proceed to Step 2.
+4. **One or more project keys** → multi-project mode. Load `~/.claude/commands/tb/projects.yaml`. For each key:
+   - If found: add `(key, expand(match_paths[0]))` to the list.
+   - If **not found**: print `Unknown project: &#x27;&lt;key&gt;&#x27; — skipping.` and continue.
+   - If all keys are unknown (list is empty after skipping): print `No valid projects to sync.` and stop.
+   Proceed to Step 2 with the resolved list.
+
+## Step 1 — Detect the project (single-project mode only)
+
+1. Determine the current working directory.
+2. Read `~/.claude/commands/tb/projects.yaml`.
+3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest match.
+4. If a project matches, note `project_root`. Build a one-item list: `[(matched_key, project_root)]`. Proceed to Step 2.
+5. If **no project matches**: use cwd as `project_root` — sync is useful in any git repo. Build a one-item list: `[(&quot;(unregistered)&quot;, cwd)]`. Proceed to Step 2.
+
+## Step 2 — Sync each project in the list
+
+For each `(project_key, project_root)` in the list:
+- If there is **more than one project**, print a separator header before each:
+  ```
+  ─── Syncing &lt;project_key&gt; (&lt;project_root&gt;) ───
+  ```
+- Run Steps 3–6 for this project.
+- Collect the one-line status result from Step 6 for the final summary.
+
+## Step 3 — Fetch
+
+Run `git fetch` from `project_root`.
+
+If `git fetch` fails (no remote, no network): record `✗ Fetch failed — &lt;error&gt;` for this project, skip Steps 4–6 for this project, and continue to the next project.
+
+## Step 4 — Branch name check
+
+1. Run `git rev-parse --abbrev-ref HEAD` to get the current branch name.
+2. If the branch matches the pattern `release/vX.Y.Z` (starts with `release/v` followed by a version string):
+   a. Read the project version from `cfg.version_files` (first file). If the project is unregistered or has no `version_files`, skip the rest of this step.
+   b. Derive the expected branch name from `cfg.release_branch_pattern` (default: `release/{version}`).
+   c. If the local branch name does not equal the expected name, warn:
+      &gt; &quot;Branch `&lt;local&gt;` is stale — current version is `&lt;version&gt;`, expected `&lt;expected&gt;`. Run `/fsd:ship` to rename it.&quot;
+   d. Run `git ls-remote --heads origin &lt;expected&gt;` to check remote presence.
+      - Not found: note &quot;Expected branch `&lt;expected&gt;` has not been pushed to the remote yet.&quot;
+      - Found and name is already correct: no action.
+3. If the branch does not match `release/vX.Y.Z`: skip this step entirely.
+
+## Step 5 — Check uncommitted changes
+
+Run `git status --porcelain` from `project_root`.
+
+If output is non-empty: list the dirty files, prefixed with &quot;Uncommitted changes detected:&quot;. Informational only — do not stop.
+
+## Step 6 — Compare local vs remote
+
+```bash
+git rev-list --count HEAD..@{u}   # commits behind remote
+git rev-list --count @{u}..HEAD   # commits ahead of remote
+```
+
+| State | behind | ahead | Action |
+|-------|--------|-------|--------|
+| **Up-to-date** | 0 | 0 | Report &quot;Repo is up to date with remote.&quot; |
+| **Behind** | &gt; 0 | 0 | Warn: &quot;Local is N commit(s) behind remote.&quot; → run `git pull`. Confirm &quot;Pulled N commit(s). Repo is now up to date.&quot; |
+| **Ahead** | 0 | &gt; 0 | Report &quot;Local is N commit(s) ahead of remote — ready to push.&quot; |
+| **Diverged** | &gt; 0 | &gt; 0 | Warn: &quot;Local and remote have diverged (N behind, M ahead). Manual resolution required — do not start work until resolved.&quot; Do NOT pull. Tell the user to run `git pull --rebase` or `git merge origin/&lt;branch&gt;`. |
+
+## Step 7 — Print summary
+
+**Single-project mode** — one banner line:
+
+```
+[fsd:sync] ✓ Up to date — safe to start work.
+[fsd:sync] ✓ Pulled 3 commit(s) — repo now up to date.
+[fsd:sync] ⚠ 2 commit(s) ahead — push when ready.
+[fsd:sync] ✗ Diverged — resolve before starting work.
+```
+
+Append `(uncommitted changes present)` if Step 5 found dirty files.
+
+**Multi-project mode** — summary table after all projects have been processed:
+
+```
+Project           Status
+──────────────────────────────────────────────────────
+tb_skills         ✓ Up to date
+fsad_playbook     ✓ Pulled 2 commit(s) — now up to date
+fsd               ⚠ 2 commit(s) ahead — push when ready
+hangman           ✗ Diverged — resolve before starting work
+```
+
+Append `(uncommitted)` after the status text for any project that had dirty files in Step 5.
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--ac" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:ac <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;ID&gt;</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Verify acceptance criteria for a task. Reads the task&#x27;s detail file, walks every unchecked AC one by one, inspects the codebase for evidence, marks each passing AC [x] immediately, and inserts a &quot;All criteria verified&quot; timestamp when all pass. Use when you want to run or re-run ACs independently of task execution — e.g. after implementation, in a follow-up session, or to get an honest mid-task progress check.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Verify acceptance criteria for a task. Reads the task&#x27;s detail file, walks every unchecked AC one by one, inspects the codebase for evidence, marks each passing AC [x] immediately, and inserts a &quot;All criteria verified&quot; timestamp when all pass. Use when you want to run or re-run ACs independently of task execution — e.g. after implementation, in a follow-up session, or to get an honest mid-task progress check.
+argument-hint: `&lt;PREFIX-NNN | NNN&gt;`
+---
+
+# fsd:ac — acceptance criteria verifier
+
+Walk every unchecked AC in a task file, prove each one with evidence, and mark it done progressively.
+
+## Step 0 — Detect the project
+
+1. Determine the current working directory.
+2. Read `~/.claude/commands/tb/projects.yaml`.
+3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest match if multiple match.
+4. If a project matches, use its entry as `cfg` and resolve `project_root`. Proceed.
+5. If **no project matches**:
+   - Tell the user: &quot;This directory isn&#x27;t registered. Run `/fsd:add-task` from the project to register it.&quot;
+   - Stop.
+
+## Step 1 — Resolve the task identifier
+
+Normalize `$ARGUMENTS` to canonical form `PREFIX-NNN`:
+
+- Prefix: `cfg.prefix` (exact casing — e.g. `TBS`, `CBP`, `FSD_Train`).
+- Number: zero-padded to `cfg.number_digits` digits.
+- If `$ARGUMENTS` is empty, ask: &quot;Which `[cfg.prefix]` task? (e.g. `[cfg.prefix]-001`)&quot;
+
+## Step 2 — Locate the task file
+
+Resolve the path using the same rules as `do-task`:
+
+- `{nnn}` = zero-padded number
+- `{prefix_lower}` = `cfg.prefix_in_filename` if set, else `cfg.prefix` lowercased
+- `{ID}` = canonical identifier
+
+```
+{project_root}/{cfg.task_dir}/{rendered cfg.task_filename_template}
+```
+
+- **File not found**: Tell the user the task file doesn&#x27;t exist. Suggest running `/fsd:do-task {ID}` to create it first. Stop.
+- **File found**: Read it end-to-end. Continue.
+
+## Step 3 — Find the Acceptance Criteria section
+
+Scan the task file for a `## Acceptance Criteria` heading.
+
+- **Section absent**: Tell the user: &quot;No `## Acceptance Criteria` section found in `{task_file_path}`. Add one before running `/fsd:ac`.&quot; Stop.
+- **Section present but all items already `[x]`**: Tell the user all ACs are already checked. Check whether the &quot;All criteria verified&quot; timestamp line exists above the list. If it&#x27;s missing, add it (Step 5). Otherwise report: &quot;All ACs already verified — nothing to do.&quot; Stop.
+- **At least one `- [ ]` item present**: Continue.
+
+## Step 4 — Verify each unchecked AC
+
+For every `- [ ]` item in the `## Acceptance Criteria` section, in order:
+
+1. **Print the AC text** so the user can see which one is being checked.
+2. **Gather evidence** — inspect the codebase, read relevant files, run safe read-only commands (e.g. `grep`, `ls`, checking file contents). Do not run destructive commands.
+3. **Print a verdict**:
+   - `PASS — &lt;one-sentence evidence summary&gt;` (e.g. file path, line number, output snippet)
+   - `FAIL — &lt;what&#x27;s missing or broken&gt;`
+4. **On PASS**: immediately edit the task file to flip `- [ ]` → `- [x]` for that item. Use enough surrounding context in `old_string` to make the match unambiguous.
+5. **On FAIL**: record the failure, continue to the next AC. Do **not** flip it to `[x]`.
+
+Never edit AC text to make a failing item pass.
+
+## Step 5 — Insert the verified timestamp (all-pass only)
+
+When all ACs in the section are `[x]` (either just verified or already checked from before):
+
+Insert the following line immediately above the `## Acceptance Criteria` heading:
+
+```
+All criteria verified YYYY-MM-DD before commit.
+```
+
+Substitute today&#x27;s date in `YYYY-MM-DD` format. If the line is already present, skip this step.
+
+## Step 6 — Report
+
+Print a summary table:
+
+```
+AC                                                     Verdict
+------------------------------------------------------  -------
+[AC text, truncated to 50 chars if long]               PASS
+[AC text]                                              FAIL
+```
+
+Then:
+
+- If **all passed**: &quot;All ACs verified. Timestamp added to task file. Ready to commit.&quot;
+- If **any failed**: List each failing AC and what evidence was missing. Tell the user: &quot;Fix the failing ACs and re-run `/fsd:ac {ID}`.&quot;
+
+## Guardrails
+
+- **Never mark an AC `[x]` without evidence.** Print the evidence before flipping.
+- **Mark progressively** — flip each item the moment it passes, not in a batch at the end.
+- **Never edit AC text** to make a failing item pass — that&#x27;s falsifying the record.
+- **Do not run destructive commands** while gathering evidence (no `rm`, `git reset`, etc.).
+- **Do not modify the Plan or Summary sections** of the task file — only the AC checkboxes and the verified timestamp line.
+- **Re-entrant**: if some ACs are already `[x]` from a prior run, skip them and only verify the remaining `- [ ]` items.
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--estimate" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:estimate</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Estimate story points for epics, stories, and tasks using Fibonacci scale</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Estimate story points for epics, stories, and tasks using Fibonacci scale
+---
+
+# Story Point Estimator
+
+Estimate story points for work items using a Fibonacci scale (1, 2, 3, 5, 8, 13, 21) and a three-factor rubric: Complexity, Effort, and Risk.
+
+## Input
+
+The user provides work items after invoking `/fsd:estimate`. Items can be in any format:
+- Bullet list
+- Numbered list
+- Paragraphs
+- Mixed formats
+
+Each item needs at minimum a title. Descriptions are optional but improve accuracy.
+
+If no work items are provided after the command, ask the user to provide them.
+
+## Estimation Rubric
+
+For each work item, evaluate three factors independently:
+
+| Points | Complexity | Effort | Risk |
+|--------|-----------|--------|------|
+| 1 | Trivial, well-understood | &lt; 1 hour of focused work | Near-zero unknowns |
+| 2 | Simple, minor logic | A few hours | Minimal unknowns |
+| 3 | Moderate, some moving parts | Half a day to a day | Some unknowns, manageable |
+| 5 | Significant, multiple components | 1-3 days | Notable unknowns or dependencies |
+| 8 | Complex, cross-cutting concerns | 3-5 days | Significant unknowns or external dependencies |
+| 13 | Very complex, architectural impact | 1-2 weeks | High uncertainty, consider breaking down |
+| 21 | Extremely complex, system-wide | 2+ weeks | Very high uncertainty, must break down |
+
+**Scoring method:** The highest individual factor score becomes the point value. The riskiest/hardest dimension dominates.
+
+## Process
+
+1. Parse the input to identify each distinct work item (title + optional description)
+2. For each item, silently evaluate Complexity, Effort, and Risk against the rubric
+3. Assign the highest factor score as the final point value
+4. Output the results table
+
+## Output Format
+
+Output a simple markdown table:
+
+| Item | Points |
+|------|--------|
+| [Item name] | [N] |
+| [Item name] | [N] |
+| **Total** | **[sum]** |
+
+## Rules
+
+- If any item scores 13 or higher, add a note below the table: &quot;[Item name]: Consider breaking this down into smaller stories.&quot;
+- If an item is too vague to estimate (e.g., &quot;improve performance&quot; with no context), ask the user to clarify before estimating that specific item. Estimate the rest normally.
+- Treat epics, stories, and tasks the same — estimate whatever is provided regardless of hierarchy labels.
+- Do NOT show the individual Complexity/Effort/Risk scores — only the final point value.
+- Do NOT add lengthy justifications. Keep output concise.
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--init" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:init</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Initialize a new project with a standard directory structure, template files, and a git repository. Use this skill whenever the user starts a new project, types /init, asks to &quot;set up a new project&quot;, &quot;initialize a repo&quot;, &quot;scaffold a project&quot;, or wants to create the standard folder layout. Run once per project at the start of the work. Even if the user only mentions creating a repo or setting up folders, trigger this skill — it handles all of it in one shot.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: &gt;
+  Initialize a new project with a standard directory structure, template files, and a git repository.
+  Use this skill whenever the user starts a new project, types /init, asks to &quot;set up a new project&quot;,
+  &quot;initialize a repo&quot;, &quot;scaffold a project&quot;, or wants to create the standard folder layout. Run once
+  per project at the start of the work. Even if the user only mentions creating a repo or setting up
+  folders, trigger this skill — it handles all of it in one shot.
+---
+
+# Project Init Skill
+
+Sets up a new project in the current working directory: creates the standard folder structure, writes
+template files for any that are missing, and initializes a local + remote git repository.
+
+**Project name** is always taken from the current directory name — never ask for it.
+
+---
+
+## Step 1 — Establish project name
+
+Use the Bash tool to run `pwd`, then take the last path segment (everything after the final `/`) as the project name. Store this as `PROJECT_NAME`. Use it to personalize template content where indicated below.
+
+---
+
+## Step 2 — Determine task prefix
+
+The task prefix is a short uppercase identifier used to tag tasks in `todo.md` (e.g., `FSAD-001`,
+`TBS-042`). Each project gets a unique prefix so tasks are globally unambiguous across repos.
+
+### 2a — Derive a suggestion from the directory name
+
+Apply these rules to `PROJECT_NAME` to produce a 3–4 character uppercase suggestion:
+
+- Split on `_`, `-`, spaces, and camelCase word boundaries to get a list of words
+- **Multi-word name**: take the first letter of each word, uppercase. If that gives fewer than 3
+  characters, append the next letters of the longest word until you reach 3.
+  - `fsad_playbook` → `FP` → pad to `FPL` (3 chars from &quot;playbook&quot;)
+  - `tb_skills` → `TBS`
+  - `my_new_app` → `MNA`
+- **Single-word name**: take the first 3–4 consonant-dominant characters, uppercase.
+  - `recall` → `RCL`
+  - `dashboard` → `DASH`
+- Cap at 4 characters.
+
+### 2b — Check for conflicts in sibling projects
+
+Scan the parent directory for existing `todo.md` files to find prefixes already in use. Use the Bash tool to run a grep across `../*/planning/to do/todo.md` looking for lines that contain a task identifier pattern (backtick, 2–5 uppercase letters, hyphen, digit), extract just the prefix, and sort for uniqueness.
+
+If the suggested prefix appears in the results, note the conflict and adjust:
+append a digit or swap one letter to make it unique (e.g., `TBS` → `TBS2`).
+
+### 2c — Confirm with the user
+
+Present your suggestion and the conflict check result, then ask the user to confirm or override:
+
+&gt; Suggested task prefix: **`TBS`** (from `tb_skills`) — no conflicts found in sibling projects.
+&gt; Use this prefix, or type a different one?
+
+Wait for the user&#x27;s response before continuing. Store the confirmed value as `TASK_PREFIX`.
+
+---
+
+## Step 3 — Create directory structure
+
+Create each of the following directories if they don&#x27;t already exist. Never delete or modify
+directories that already exist.
+
+```
+planning/
+planning/design/
+planning/research/
+planning/plan/
+planning/to do/
+planning/to do/completed/
+```
+
+On macOS/Linux, `mkdir -p` is idempotent — safe to run even if the directory exists.
+
+---
+
+## Step 4 — Write template files
+
+For each file below, check whether it already exists in the project root. If it does, **skip it
+entirely** — never overwrite existing files. If it doesn&#x27;t exist, copy the corresponding template
+from this skill&#x27;s `templates/` directory.
+
+| File to create | Template source |
+|---|---|
+| `README.md` | `templates/README.md` |
+| `CHANGELOG.md` | `templates/CHANGELOG.md` |
+| `CLAUDE.md` | `templates/CLAUDE.md` |
+| `planning/to do/todo.md` | `templates/todo.md` |
+| `.gitignore` | `templates/.gitignore` |
+
+Read each template with the Read tool. Before writing, substitute these placeholders:
+
+| Placeholder | Replace with |
+|---|---|
+| `{{PROJECT_NAME}}` | The directory name from Step 1 |
+| `{{TASK_PREFIX}}` | The confirmed prefix from Step 2 |
+| `{{DATE}}` | Today&#x27;s date in `YYYY-MM-DD` format |
+
+Then write the result to the destination with the Write tool.
+
+---
+
+## Step 5 — Initialize git repository
+
+Check whether `.git/` already exists in the project root.
+
+**If it does not exist:**
+```bash
+git init
+git add .
+git commit -m &quot;Initial commit&quot;
+```
+
+**If it already exists:** skip git init and the initial commit. The repo is already set up.
+
+---
+
+## Step 6 — Create GitHub remote
+
+Check whether a remote named `origin` already exists:
+```bash
+git remote -v
+```
+
+**If no `origin` remote exists:**
+```bash
+gh repo create PROJECT_NAME --private --source=. --remote=origin --push
+```
+
+Replace `PROJECT_NAME` with the actual directory name. Use `--private` by default.
+
+**If `origin` already exists:** skip this step.
+
+---
+
+## Step 7 — Register in p_mon
+
+Invoke the `p_mon` skill via the Skill tool, passing `add-project PROJECT_NAME` as the argument (substitute the actual project name). This appends the project to `~/repo/p_mon/p_mon.config.json` if not already present, or reports it as already registered.
+
+---
+
+## Step 8 — Register in projects.yaml
+
+Read `~/.claude/commands/tb/projects.yaml`. Check whether an entry for this project already exists by scanning for the resolved `match_paths` value (see below).
+
+**If already present:** skip and note in the output checklist.
+
+**If absent:** construct and insert the following entry immediately before the `# Fallback` comment block (the line that begins `# Fallback when no project matches`):
+
+```yaml
+  PROJECT_NAME:
+    match_paths:
+      - ~/RELATIVE_PATH
+    prefix: TASK_PREFIX
+    number_digits: 3
+    todo_file: planning/to do/todo.md
+    task_dir: planning/to do
+    task_filename_template: task-{prefix_lower}-{nnn}.md
+    todo_entry_template: &quot;- [ ] `{ID}` — {title} → [task-{prefix_lower}-{nnn}.md](task-{prefix_lower}-{nnn}.md)&quot;
+    use_full_template: true
+    changelog_file: CHANGELOG.md
+    version_scheme: semver
+    version_files:
+      - package.json
+```
+
+Resolve the placeholders as follows:
+
+- `PROJECT_NAME` — the directory name from Step 1.
+- `RELATIVE_PATH` — derive from `pwd`: replace the home directory prefix (`/Users/&lt;username&gt;`) with `~`. For example `/Users/theobeack/repo/my_project` → `~/repo/my_project`.
+- `TASK_PREFIX` — the confirmed prefix from Step 2.
+
+Use the `Edit` tool to insert the block, not a full file rewrite. Use the `# Fallback` comment line as the unique anchor for the `old_string`.
+
+---
+
+## Step 9 — Output results
+
+Print a checklist of every action taken. Use this format exactly:
+
+```
+Project initialized: PROJECT_NAME
+─────────────────────────────────────
+Directories
+  ✓ planning/
+  ✓ planning/design/
+  ✓ planning/research/
+  ✓ planning/plan/
+  ✓ planning/to do/
+  ✓ planning/to do/completed/
+  — planning/             (already existed, skipped)   ← example of a skip
+
+Files
+  ✓ README.md
+  ✓ CHANGELOG.md
+  ✓ CLAUDE.md
+  ✓ planning/to do/todo.md
+  ✓ .gitignore
+  — CLAUDE.md             (already existed, skipped)   ← example of a skip
+
+Git
+  ✓ git init + initial commit
+  ✓ GitHub remote created (private): github.com/USERNAME/PROJECT_NAME
+  — git already initialized, skipped
+  — remote origin already exists, skipped
+
+p_mon
+  ✓ PROJECT_NAME registered in p_mon
+  — PROJECT_NAME already registered, skipped
+
+Task tracking
+  ✓ PROJECT_NAME registered in projects.yaml
+  — PROJECT_NAME already registered in projects.yaml, skipped
+```
+
+Show only the items that are relevant — don&#x27;t show both the &quot;created&quot; and &quot;skipped&quot; lines for the
+same item. A `✓` means the action was taken; a `—` means it was skipped because it already existed.
+</code></pre>
+      </div></div>
+    </div>
+
+  <span class="section-label" style="display:block; margin-top:2rem; margin-bottom:0.75rem;">Review &amp; Security</span>
+    <div class="collapsible" id="skill-def--code-review-team" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:code-review-team <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Run a multi-agent code review TEAM over a codebase diff or path. Dispatches 6 specialist reviewers in parallel (correctness, design, performance, maintainability, testing, api-contract), consolidates findings into a severity-ranked REVIEW-REPORT.md with inter-agent agreement scoring and a merge recommendation. Use when the user says &quot;code review team&quot;, &quot;multi-agent code review&quot;, &quot;team review&quot;, &quot;review this diff with a team&quot;, or similar. Review-only — no fixes.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Run a multi-agent code review TEAM over a codebase diff or path. Dispatches 6 specialist reviewers in parallel (correctness, design, performance, maintainability, testing, api-contract), consolidates findings into a severity-ranked REVIEW-REPORT.md with inter-agent agreement scoring and a merge recommendation. Use when the user says &quot;code review team&quot;, &quot;multi-agent code review&quot;, &quot;team review&quot;, &quot;review this diff with a team&quot;, or similar. Review-only — no fixes.
+argument-hint: `[target path] [scope: all | &lt;subdir&gt; | diff vs main] [--lite] [--yes]`
+---
+
+# Multi-Agent Code Review Team — Orchestration
+
+Follow these steps. Review-only. Never apply fixes.
+
+## Step 0: Pre-run confirmation
+
+Never spawn specialists without showing this block (unless `--yes` / `auto-approve` is passed).
+
+### 0.1 Parse arguments
+
+- **Target path** — absolute path to the repo or directory to review. If missing, ask: *&quot;What repo should I review? (absolute path)&quot;* Verify it exists and is readable.
+- **Scope** — one of:
+  - `all` — full tree
+  - `&lt;subdir&gt;` — a subdirectory, e.g. `src/api/`
+  - `diff vs main` (or `diff vs &lt;branch&gt;`) — only files changed on current branch vs target branch
+  If missing, ask: *&quot;What scope? Full tree, a subdirectory, or diff vs main?&quot;*
+- **Flags:**
+  - `--yes` / `-y` — skip confirmation block. Default: confirm.
+  - `--lite` / `-l` — run only correctness, design, performance specialists (3-agent subset). Auto-activated when scope is a diff with ≤25 changed files.
+
+### 0.2 Enumerate scope
+
+Use git-aware commands (fall back to `find` if not a git repo):
+
+```bash
+cd &quot;&lt;TARGET&gt;&quot;
+if [[ &quot;&lt;SCOPE&gt;&quot; == &quot;all&quot; ]]; then
+  FILE_COUNT=$(git ls-files 2&gt;/dev/null | wc -l || find . -type f | wc -l)
+  LINE_COUNT=$(git ls-files 2&gt;/dev/null | xargs wc -l 2&gt;/dev/null | tail -1 | awk &#x27;{print $1}&#x27;)
+elif [[ &quot;&lt;SCOPE&gt;&quot; == diff* ]]; then
+  BASE=&quot;${SCOPE#diff vs }&quot;; BASE=&quot;${BASE:-main}&quot;
+  FILES=$(git diff --name-only &quot;$BASE&quot;...HEAD)
+  FILE_COUNT=$(echo &quot;$FILES&quot; | grep -c .)
+  LINE_COUNT=$(echo &quot;$FILES&quot; | xargs wc -l 2&gt;/dev/null | tail -1 | awk &#x27;{print $1}&#x27;)
+  # Auto-lite: activate if FILE_COUNT ≤ 25 and --lite not explicitly passed
+else
+  FILE_COUNT=$(git ls-files &quot;&lt;SCOPE&gt;&quot; 2&gt;/dev/null | wc -l || find &quot;&lt;SCOPE&gt;&quot; -type f | wc -l)
+  LINE_COUNT=$(git ls-files &quot;&lt;SCOPE&gt;&quot; 2&gt;/dev/null | xargs wc -l 2&gt;/dev/null | tail -1 | awk &#x27;{print $1}&#x27;)
+fi
+```
+
+Cap `LINE_COUNT` at 500k — if larger, warn and suggest narrowing scope.
+
+### 0.3 Detect language signals
+
+Read cheapest manifests: `README.md` (top 30 lines), `package.json`, `pyproject.toml` / `setup.py` / `requirements.txt`, `go.mod`, `Cargo.toml`, `Gemfile`, `pom.xml` / `build.gradle`. Two or three reads is enough. Identify primary languages (Python, TypeScript/JavaScript, Go, Rust, Java, Ruby, etc.) — used only to select pre-pass linters and specialise the specialist briefs.
+
+### 0.4 Select roster
+
+**Full roster (default):** all 6 specialists
+- `correctness-reviewer`
+- `design-reviewer`
+- `performance-reviewer`
+- `maintainability-reviewer`
+- `testing-reviewer`
+- `api-contract-reviewer`
+
+**Lite roster** (`--lite` or diff ≤ 25 files):
+- `correctness-reviewer`
+- `design-reviewer`
+- `performance-reviewer`
+
+### 0.5 Detect pre-pass linter availability
+
+Run `command -v &lt;tool&gt;` for each linter. Flag available vs missing. Missing linters reduce pre-pass coverage but don&#x27;t block the run.
+
+| Tool | Language | Feeds specialist |
+|---|---|---|
+| `ruff` | Python | maintainability-reviewer, correctness-reviewer |
+| `pylint` | Python | design-reviewer, correctness-reviewer |
+| `eslint` | JS/TS | maintainability-reviewer, correctness-reviewer |
+| `biome` | JS/TS/JSON | maintainability-reviewer |
+| `golangci-lint` | Go | correctness-reviewer, design-reviewer |
+| `clippy` (`cargo clippy`) | Rust | correctness-reviewer, design-reviewer |
+| `rubocop` | Ruby | maintainability-reviewer |
+| `shellcheck` | Shell | correctness-reviewer |
+
+### 0.6 Estimate runtime + tokens + cost
+
+- **Input tokens per specialist:** `~min(35k, 25 + 0.015 × LINE_COUNT)` k tokens
+- **Output tokens per specialist:** `~5–8k`
+- **Total tokens:** `N_specialists × (input + output)`
+- **Runtime:** longest-path specialist ≈ 2–3 min baseline; range = `longest × 1.1` to `longest × 1.5`
+- **Cost** (Sonnet 4.6 pricing — $3/MTok input, $15/MTok output): `(input × 3 + output × 15) / 1_000_000`. Print as `$X.XX`. Use Opus 4.7 pricing ($5/$25) if running on Opus.
+
+### 0.7 Render confirmation block
+
+```
+╭─ code-review-team ─────────────────────────────────────────╮
+│                                                            │
+│  Target:     &lt;absolute path&gt;                               │
+│  Scope:      &lt;scope&gt;                                       │
+│              &lt;N&gt; files, &lt;N&gt; lines                          │
+│                                                            │
+│  Languages:  &lt;detected, comma-separated&gt;                   │
+│  Model:      &lt;current model ID&gt;                            │
+│  Mode:       &lt;full | lite&gt;                                 │
+│                                                            │
+│  Specialists (&lt;N&gt; in roster):                              │
+│    ✓ correctness-reviewer                                  │
+│    ✓ design-reviewer                                       │
+│    ✓ performance-reviewer                                  │
+│    ✓ maintainability-reviewer    (full mode)               │
+│    ✓ testing-reviewer            (full mode)               │
+│    ✓ api-contract-reviewer       (full mode)               │
+│                                                            │
+│  Pre-pass linters:                                         │
+│    ✓ ruff             (found on PATH)                      │
+│    ✗ eslint           (missing — skip)                     │
+│    ✓ shellcheck                                            │
+│                                                            │
+│  Estimated:                                                │
+│    Tokens:    ~&lt;N&gt;k input / ~&lt;N&gt;k output                   │
+│    Runtime:   &lt;N&gt;–&lt;N&gt; min (wall-clock)                     │
+│    Cost:      ~$&lt;N.NN&gt; (&lt;model pricing tier&gt;)              │
+│                                                            │
+│  Output:     &lt;TARGET&gt;/.planning/code-review/               │
+│                                                            │
+╰────────────────────────────────────────────────────────────╯
+
+Proceed? [y / lite / narrow / add-specialist / drop-specialist / abort]
+```
+
+### 0.8 Handle response
+
+- **y** / **yes** / (`--yes` flag) → continue to Step 1.
+- **lite** → switch to lite roster, re-render 0.7.
+- **narrow** → prompt: *&quot;Narrow to which subdirectory or diff?&quot;* — re-run 0.2–0.7 with new scope.
+- **add-specialist `&lt;name&gt;`** → append if present in `~/.claude/skills/code-review-team/specialists/`, reject if unknown, re-render 0.7.
+- **drop-specialist `&lt;name&gt;`** → remove from roster, re-render 0.7.
+- **abort** / **n** / **no** → exit cleanly. Do NOT create output dir. Do NOT spawn any agent.
+
+### 0.9 Run-metadata capture
+
+After confirmation, write `&lt;TARGET&gt;/.planning/code-review/run-metadata.json`:
+
+```json
+{
+  &quot;run_id&quot;: &quot;&lt;ISO timestamp&gt;&quot;,
+  &quot;target&quot;: &quot;&lt;absolute path&gt;&quot;,
+  &quot;scope&quot;: &quot;&lt;scope&gt;&quot;,
+  &quot;languages&quot;: [&quot;...&quot;],
+  &quot;roster&quot;: [&quot;...&quot;],
+  &quot;mode&quot;: &quot;full | lite&quot;,
+  &quot;linters_available&quot;: [&quot;...&quot;],
+  &quot;linters_missing&quot;: [&quot;...&quot;],
+  &quot;model&quot;: &quot;&lt;model ID&gt;&quot;,
+  &quot;estimated_tokens_input&quot;: 0,
+  &quot;estimated_tokens_output&quot;: 0,
+  &quot;estimated_cost_usd&quot;: 0.0,
+  &quot;confirmed_at&quot;: &quot;&lt;ISO timestamp&gt;&quot;
+}
+```
+
+## Step 1: Prepare findings directory
+
+Create `&lt;TARGET&gt;/.planning/code-review/` if absent.
+
+**Gitignore check:** run `git check-ignore &lt;TARGET&gt;/.planning/` (or grep `.gitignore`). If `.planning/` is NOT ignored, warn:
+&gt; &quot;⚠ `.planning/` is not in .gitignore. Findings land inside the repo. Options: (a) add to .gitignore, (b) write to /tmp/code-review-&lt;timestamp&gt;/ instead, (c) proceed.&quot;
+
+Respect choice. Default (no response): proceed.
+
+## Step 2: Pre-pass linter run
+
+Run available linters before spawning LLM specialists. Linter output feeds specialists as triage context, reducing hallucinations and saving tokens (specialists don&#x27;t re-derive what a linter can catch deterministically).
+
+### 2.1 Invocation
+
+For each available linter:
+
+```bash
+if command -v &lt;linter&gt; &gt;/dev/null 2&gt;&amp;1; then
+  run linter, capture stdout
+  normalize output to finding.schema.json format
+  append to &lt;TARGET&gt;/.planning/code-review/linter-prepass.jsonl
+else
+  log &quot;linter &lt;name&gt; not available — skipping&quot;
+fi
+```
+
+Run linters in parallel. Wall-clock ceiling per linter: 60 s.
+
+### 2.2 Normalization
+
+Normalize each finding to:
+- `id` — `linter-&lt;name&gt;-&lt;index&gt;` (e.g. `linter-ruff-001`)
+- `specialist` — specialist this routes to (see linter table in 0.5)
+- `source` — `&quot;linter-&lt;name&gt;&quot;`
+- `severity` — map linter severity to `major` / `minor` / `nit`; linters rarely emit `critical`
+- `confidence` — `certain` for deterministic rule hits
+- `title`, `root_issue`, `file`, `line_range`, `evidence` — from linter output
+
+Save to `&lt;TARGET&gt;/.planning/code-review/linter-prepass.jsonl`.
+
+### 2.3 Feed specialists
+
+When spawning each specialist, include a &quot;Pre-pass context&quot; section:
+
+```
+Pre-pass linter findings for your scope (from linter-prepass.jsonl):
+  [N findings from ruff]
+  [M findings from eslint for your category]
+
+Triage rules:
+  1. For each linter finding, decide: true-positive / false-positive / needs-investigation.
+     Emit a finding entry in your JSONL with source: &quot;linter-&lt;name&gt;-confirmed&quot; (true-positive)
+     or source: &quot;linter-&lt;name&gt;-false-positive&quot; (false-positive triaged out).
+  2. After triage, find what linters missed via architectural/cross-file analysis — emit with
+     source: &quot;specialist&quot; as usual.
+```
+
+If zero linters are available, the run continues in LLM-only mode. Log a caveat in REVIEW-REPORT.md.
+
+## Step 3: Spawn specialists in parallel
+
+Issue one `Agent` tool call per specialist in a **single assistant message** — this is what makes them run concurrently.
+
+For each specialist:
+- Read its brief from `~/.claude/skills/code-review-team/specialists/&lt;name&gt;.md`
+- Substitute `&lt;TARGET&gt;`, `&lt;SCOPE&gt;`, `&lt;LANGUAGES&gt;`, and include the pre-pass linter findings routed to this specialist
+- Use `general-purpose` subagent type
+
+Print before the parallel batch:
+
+```
+Spawning &lt;N&gt; specialists in parallel against &lt;TARGET&gt; (scope: &lt;SCOPE&gt;, mode: &lt;mode&gt;).
+
+Each specialist writes to &lt;TARGET&gt;/.planning/code-review/&lt;name&gt;.{md,findings.jsonl,coverage.jsonl,status.json}.
+
+Live progress:
+  tail -f &lt;TARGET&gt;/.planning/code-review/*.status.json
+
+Spawning now.
+```
+
+### 3.1 Heartbeat contract (per specialist)
+
+Each specialist writes `&lt;name&gt;.status.json` at spawn and updates as it progresses:
+
+```json
+{
+  &quot;agent&quot;: &quot;&lt;specialist-name&gt;&quot;,
+  &quot;status&quot;: &quot;starting | scanning | writing-findings | completed | errored&quot;,
+  &quot;started_at&quot;: &quot;&lt;ISO&gt;&quot;,
+  &quot;finished_at&quot;: &quot;&lt;ISO|null&gt;&quot;,
+  &quot;files_read&quot;: 0,
+  &quot;findings_written&quot;: 0,
+  &quot;current_file&quot;: &quot;&lt;path|null&gt;&quot;,
+  &quot;severity_counts&quot;: { &quot;critical&quot;: 0, &quot;major&quot;: 0, &quot;minor&quot;: 0, &quot;nit&quot;: 0 },
+  &quot;error&quot;: &quot;&lt;message|null&gt;&quot;
+}
+```
+
+Write on spawn with `status: &quot;starting&quot;`. Update every ~5 file reads. On completion: `status: &quot;completed&quot;`, `finished_at`, final counts.
+
+### 3.2 Interim reporting (orchestrator-side)
+
+As each specialist returns, print one line:
+
+```
+✓ correctness-reviewer      done    (1C / 2M / 3m / 1N)   [2m 45s]   8 files read
+✓ design-reviewer           done    (0C / 1M / 2m / 3N)   [3m 12s]   11 files read
+✗ testing-reviewer          errored after 4m — timeout. Partial findings preserved.
+```
+
+Errored specialists don&#x27;t block the run. After all specialists return:
+
+```
+All &lt;N&gt; specialists completed (&lt;X&gt; done, &lt;Y&gt; errored). Consolidating...
+```
+
+### 3.3 Output files per specialist
+
+Each specialist writes four files to `&lt;TARGET&gt;/.planning/code-review/`:
+- `&lt;name&gt;.md` — prose findings, human-readable, grouped by severity
+- `&lt;name&gt;.findings.jsonl` — structured findings (see schema below)
+- `&lt;name&gt;.coverage.jsonl` — dimensions covered, per coverage schema
+- `&lt;name&gt;.status.json` — heartbeat / final state
+
+**Finding JSONL schema** (per finding):
+
+```json
+{
+  &quot;id&quot;: &quot;&lt;specialist-name&gt;-&lt;zero-padded-index&gt;&quot;,
+  &quot;specialist&quot;: &quot;&lt;specialist-name&gt;&quot;,
+  &quot;source&quot;: &quot;specialist | linter-&lt;name&gt;-confirmed | linter-&lt;name&gt;-false-positive&quot;,
+  &quot;severity&quot;: &quot;critical | major | minor | nit&quot;,
+  &quot;confidence&quot;: &quot;certain | likely | possible | unverified&quot;,
+  &quot;title&quot;: &quot;&lt;short title&gt;&quot;,
+  &quot;root_issue&quot;: &quot;&lt;slug, used for deduplication across specialists&gt;&quot;,
+  &quot;file&quot;: &quot;&lt;absolute path&gt;&quot;,
+  &quot;line_range&quot;: &quot;&lt;start&gt;-&lt;end&gt;&quot;,
+  &quot;evidence&quot;: &quot;&lt;exact code snippet or config excerpt&gt;&quot;,
+  &quot;fix&quot;: &quot;&lt;recommended fix, concrete&gt;&quot;,
+  &quot;related&quot;: [&quot;&lt;other finding IDs&gt;&quot;],
+  &quot;merge_recommendation&quot;: &quot;block | recommend-fix | defer | optional&quot;
+}
+```
+
+**Coverage JSONL schema** (per dimension):
+
+```json
+{
+  &quot;specialist&quot;: &quot;&lt;name&gt;&quot;,
+  &quot;category&quot;: &quot;&lt;dimension slug&gt;&quot;,
+  &quot;status&quot;: &quot;checked-clean | checked-issues-found | not-checked | deferred-to-other-specialist&quot;,
+  &quot;confidence&quot;: &quot;high | medium | low&quot;,
+  &quot;searches&quot;: [&quot;&lt;grep patterns or file reads performed&gt;&quot;],
+  &quot;files_read&quot;: 0,
+  &quot;search_limits&quot;: &quot;&lt;what couldn&#x27;t be checked&gt;&quot;
+}
+```
+
+## Step 4: Consolidate
+
+Read all `*.findings.jsonl` and `*.coverage.jsonl`. Apply `~/.claude/skills/code-review-team/docs/consolidation-template.md`:
+
+1. Group findings by `root_issue` (dedupe across specialists).
+2. For each group: `max(severity)`, `max(confidence)`, `distinct(specialist) → raised_by`, `confirmed_by: [list of specialists]`.
+3. Rank by: `confirmed_by.length DESC`, then `severity DESC`, then `confidence DESC`.
+4. Split actionable (`certain|likely`) from worth-investigating (`possible|unverified`).
+5. Derive `merge_recommendation`: if any Critical exists → &quot;Request Changes — Critical issues present&quot;; else if Major count &gt; 0 → &quot;Request Changes — Major issues found&quot;; else → &quot;Approved with suggestions&quot;.
+6. Build coverage matrix (dimension × specialist).
+7. Render `REVIEW-REPORT.md` from consolidation template.
+
+## Step 5: Deliver
+
+Tell the user:
+- Path to `REVIEW-REPORT.md` and the four per-specialist files
+- **Merge recommendation** (headline)
+- Headline severity counts (deduped): `Critical: N | Major: N | Minor: N | Nit: N`
+- Top 3 findings by impact (title + one-line fix)
+- Tooling caveats (linters unavailable, specialists errored)
+
+Do NOT apply fixes. Fix workflow: open the relevant file, address findings manually, re-run `/fsd:code-review-team diff vs main` to verify.
+
+---
+
+## Related
+
+- **Specialist library:** `~/.claude/skills/code-review-team/specialists/` (6 briefs)
+- **Consolidation template:** `~/.claude/skills/code-review-team/docs/consolidation-template.md`
+- **Research basis:** `planning/research/code-review-agents-research.md` (TBS-022)
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--sec-review-team" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:sec-review-team <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[target path] [scope: all | <subdir> | diff vs main] [--yes]</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Run a multi-agent security review TEAM over a codebase or recent diff. Picks a specialist roster based on detected stack signals (webapp / desktop / iac / llm-agent / container / backend / etc.) from a library of 13 specialists. Each specialist writes structured JSONL + prose findings in parallel; orchestrator consolidates into a single severity-ranked REPORT.md with deduped root issues. Distinct from the built-in `/security-review` (which is a single-pass branch review). Use when the user says &quot;multi-agent security review&quot;, &quot;security review team&quot;, &quot;sec-review team&quot;, &quot;audit this branch with a team&quot;, &quot;pre-release hardening team pass&quot;, or similar. Review-only — no fixes. Validated on Opus 4.7 (see markdown/research/security-review-opus-4.7-validation.md).</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+name: sec-review-team
+description: Run a multi-agent security review TEAM over a codebase or recent diff. Picks a specialist roster based on detected stack signals (webapp / desktop / iac / llm-agent / container / backend / etc.) from a library of 13 specialists. Each specialist writes structured JSONL + prose findings in parallel; orchestrator consolidates into a single severity-ranked REPORT.md with deduped root issues. Distinct from the built-in `/security-review` (which is a single-pass branch review). Use when the user says &quot;multi-agent security review&quot;, &quot;security review team&quot;, &quot;sec-review team&quot;, &quot;audit this branch with a team&quot;, &quot;pre-release hardening team pass&quot;, or similar. Review-only — no fixes. Validated on Opus 4.7 (see markdown/research/security-review-opus-4.7-validation.md).
+argument-hint: `[target path] [scope: all | &lt;subdir&gt; | diff vs main] [--yes]`
+---
+
+# Multi-Agent Security Review Team — Orchestration
+
+Follow these steps. Review-only. Never apply fixes.
+
+## Step 0: Pre-run confirmation
+
+The skill&#x27;s largest user-facing safety gate. Never spawn specialists without showing this block (unless `--yes` / `auto-approve` is passed).
+
+### 0.1 Parse arguments
+
+- **Target path** — absolute path. If missing, ask: *&quot;What repo should I review? (absolute path)&quot;* Verify it exists and is readable.
+- **Scope** — one of:
+  - `all` — full tree
+  - `&lt;subdir&gt;` — a subdirectory, e.g. `src/api/`
+  - `diff vs main` (or `diff vs &lt;branch&gt;`) — only files changed on current branch vs target branch
+  If missing, ask: *&quot;What scope? Full tree, a subdirectory, or a diff?&quot;*
+- **Flags:** `--yes` / `-y` skips confirmation entirely. Default is to confirm.
+
+### 0.2 Enumerate scope
+
+Use git-aware commands (fall back to `find` if not a git repo):
+
+```bash
+# File count + line count (scoped)
+cd &quot;&lt;TARGET&gt;&quot;
+if [[ &quot;&lt;SCOPE&gt;&quot; == &quot;all&quot; ]]; then
+  FILE_COUNT=$(git ls-files | wc -l)
+  LINE_COUNT=$(git ls-files | xargs wc -l 2&gt;/dev/null | tail -1 | awk &#x27;{print $1}&#x27;)
+elif [[ &quot;&lt;SCOPE&gt;&quot; == diff* ]]; then
+  BASE=&quot;${SCOPE#diff vs }&quot;; BASE=&quot;${BASE:-main}&quot;
+  FILES=$(git diff --name-only &quot;$BASE&quot;...HEAD)
+  FILE_COUNT=$(echo &quot;$FILES&quot; | wc -l)
+  LINE_COUNT=$(echo &quot;$FILES&quot; | xargs wc -l 2&gt;/dev/null | tail -1 | awk &#x27;{print $1}&#x27;)
+else
+  FILE_COUNT=$(git ls-files &quot;&lt;SCOPE&gt;&quot; | wc -l)
+  LINE_COUNT=$(git ls-files &quot;&lt;SCOPE&gt;&quot; | xargs wc -l 2&gt;/dev/null | tail -1 | awk &#x27;{print $1}&#x27;)
+fi
+```
+
+Cap `LINE_COUNT` at 500k (anything larger: warn and suggest scope narrowing).
+
+### 0.3 Detect stack signals
+
+Read the highest-signal manifests first (cheapest): `README.md` top 50 lines, `package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, `Gemfile`, `tauri.conf.json`, `Dockerfile`, `.github/workflows/` (existence only), `requirements.txt`. Two or three file-reads is enough.
+
+Apply each rule in `stack-signals.md` against what you observe. Collect matching signals (multiple can match). Example: a Tauri note app emits `desktop` + `desktop-with-webview`.
+
+### 0.4 Pick default roster
+
+Per `stack-signals.md`: union the specialist sets across all matching stack signals. Always include the baseline 4 (`secrets-crypto-auditor`, `dependency-supplychain-auditor`, `silent-failure-hunter`, `data-exposure-auditor`).
+
+### 0.5 Detect scanner availability
+
+For each scanner in Step 2.5&#x27;s pre-pass list, run `command -v &lt;name&gt;`. Flag available vs missing. Missing scanners don&#x27;t block — they just reduce pre-pass coverage; dependent specialists will work in manual mode.
+
+### 0.6 Estimate runtime + tokens + cost
+
+Use these baselines (from CBP-060 reference run against `recall` on Opus 4.7):
+
+- **Input tokens per specialist:** `~min(40k, 30 + 0.02 × LINE_COUNT)` k tokens — small repos float near 30k overhead; large repos grow linearly with source lines but the agent self-caps reads.
+- **Output tokens per specialist:** `~5–10k` regardless of repo size (findings + prose).
+- **Total tokens:** `N_specialists × (input + output)`.
+- **Runtime:** longest-path specialist `≈ 3 min` baseline; add `0.6 sec / file read`. Dependency auditor is typically slowest (`~20–30 min` on a repo with a 700-package `node_modules`). Report estimate as a range: `longest × 1.1` to `longest × 1.5`.
+- **Cost** (on Opus 4.7 pricing — $5/MTok input, $25/MTok output, April 2026): `(input_tokens × 5 + output_tokens × 25) / 1_000_000`. Print `$X.XX`.
+
+Use `claude-opus-4-7[1m]` pricing if the orchestrator is running on the 1M-context variant; otherwise standard Opus 4.7. Print the pricing assumption.
+
+### 0.7 Render confirmation block
+
+```
+╭─ sec-review-team ──────────────────────────────────────────╮
+│                                                            │
+│  Target:     &lt;absolute path&gt;                               │
+│  Scope:      &lt;scope&gt;                                       │
+│              &lt;N&gt; files, &lt;N&gt; lines                          │
+│                                                            │
+│  Stack:      &lt;detected signals, comma-separated&gt;           │
+│  Model:      &lt;current model ID&gt;                            │
+│                                                            │
+│  Specialists (&lt;N&gt; in roster):                              │
+│    ✓ secrets-crypto-auditor                                │
+│    ✓ dependency-supplychain-auditor                        │
+│    ✓ silent-failure-hunter                                 │
+│    ✓ data-exposure-auditor                                 │
+│    ✓ &lt;stack-specific additions&gt;                            │
+│                                                            │
+│  Pre-pass scanners:                                        │
+│    ✓ gitleaks          (found on PATH)                     │
+│    ✗ trufflehog        (missing — skip)                    │
+│    ✓ semgrep                                               │
+│    ✓ npm audit                                             │
+│    ✗ cargo audit       (missing — skip)                    │
+│                                                            │
+│  Estimated:                                                │
+│    Tokens:    ~&lt;N&gt;k input / ~&lt;N&gt;k output                   │
+│    Runtime:   &lt;N&gt;–&lt;N&gt; min (wall-clock)                     │
+│    Cost:      ~$&lt;N.NN&gt; (&lt;model pricing tier&gt;)              │
+│                                                            │
+│  Output:      &lt;TARGET&gt;/.planning/security-review/          │
+│                                                            │
+╰────────────────────────────────────────────────────────────╯
+
+Proceed? [y / narrow / add-specialist / drop-specialist / abort]
+```
+
+### 0.8 Handle response
+
+- **y** / **yes** / (`--yes` flag) → continue to Step 1.
+- **narrow** → prompt: *&quot;Narrow to which subdirectory or diff?&quot;* — re-run 0.2–0.7 with the new scope.
+- **add-specialist `&lt;name&gt;`** → append the named specialist if present in `specialists/`, reject if unknown, re-render 0.7.
+- **drop-specialist `&lt;name&gt;`** → remove from roster, warn if dropping a baseline specialist (*&quot;secrets-crypto is in the baseline. Drop anyway?&quot;*), re-render 0.7.
+- **abort** / **n** / **no** / empty response after 60 s (if interactive) → exit cleanly. Do NOT create `.planning/security-review/`. Do NOT spawn any agent.
+
+### 0.9 Run-metadata capture
+
+After confirmation, before Step 1, write `&lt;TARGET&gt;/.planning/security-review/run-metadata.json`:
+
+```json
+{
+  &quot;run_id&quot;: &quot;&lt;ISO timestamp&gt;&quot;,
+  &quot;target&quot;: &quot;&lt;absolute path&gt;&quot;,
+  &quot;scope&quot;: &quot;&lt;scope&gt;&quot;,
+  &quot;stack_signals&quot;: [&quot;...&quot;],
+  &quot;roster&quot;: [&quot;...&quot;],
+  &quot;scanners_available&quot;: [&quot;...&quot;],
+  &quot;scanners_missing&quot;: [&quot;...&quot;],
+  &quot;model&quot;: &quot;&lt;model ID&gt;&quot;,
+  &quot;estimated_tokens_input&quot;: &lt;N&gt;,
+  &quot;estimated_tokens_output&quot;: &lt;N&gt;,
+  &quot;estimated_cost_usd&quot;: &lt;N.NN&gt;,
+  &quot;confirmed_at&quot;: &quot;&lt;ISO timestamp&gt;&quot;
+}
+```
+
+This is consumed later by the consolidation step (fills in REPORT.md header), by re-run comparison (CBP-066), and by telemetry if enabled.
+
+## Step 1: Final roster
+
+Load only the specialist brief files from `specialists/` that match the confirmed roster. Do not load briefs for specialists not in the roster.
+
+## Step 2: Prepare findings directory
+
+Create `&lt;TARGET&gt;/.planning/security-review/` if absent.
+
+**Pollution check:** run `git check-ignore &lt;TARGET&gt;/.planning/` (or grep `.gitignore`). If `.planning/` is NOT ignored, warn the user:
+&gt; &quot;⚠ `.planning/` is not in the target&#x27;s .gitignore. Findings land inside the repo. Options: (a) add to .gitignore, (b) write to /tmp/sec-review-&lt;timestamp&gt;/ instead, (c) proceed.&quot;
+
+Respect choice. Default (no response) is (c).
+
+## Step 2.5: Scanner pre-pass
+
+Deterministic scanners run before the LLM specialists. This is the biggest accuracy-per-token lever in the skill — specialists spend tokens on signal tools can&#x27;t catch (architectural, multi-step, context-dependent), not re-deriving secret-detection regexes.
+
+### 2.5.1 Scanner inventory
+
+| Scanner | Detects | Command | Feeds specialist |
+|---|---|---|---|
+| `gitleaks` | secrets at rest | `gitleaks detect --source &lt;TARGET&gt; --report-format json --report-path -` | secrets-crypto-auditor |
+| `trufflehog` | secrets (git history + fs) | `trufflehog filesystem &lt;TARGET&gt; --json` | secrets-crypto-auditor |
+| `semgrep` | pattern-based SAST | `semgrep scan --config auto --json --output -` | multi: input-validation, data-exposure, silent-failure (by rule category) |
+| `npm audit` | npm CVEs | `cd &lt;TARGET&gt; &amp;&amp; npm audit --json` | dependency-supplychain-auditor |
+| `cargo audit` | crate CVEs | `cd &lt;TARGET&gt; &amp;&amp; cargo audit --json` | dependency-supplychain-auditor |
+| `pip-audit` | Python CVEs | `pip-audit -r &lt;TARGET&gt;/requirements.txt -f json` | dependency-supplychain-auditor |
+| `osv-scanner` | multi-ecosystem CVEs | `osv-scanner -r &lt;TARGET&gt; --format json` | dependency-supplychain-auditor |
+| `bandit` | Python SAST | `bandit -r &lt;TARGET&gt; -f json` | input-validation-auditor (Python targets) |
+| `hadolint` | Dockerfile lint | `hadolint &lt;file&gt; -f json` | container-runtime-auditor |
+| `trivy image` | base image CVEs | `trivy image --format json &lt;image&gt;` | container-runtime-auditor |
+| `actionlint` | GHA syntax + security | `actionlint -format &#x27;{{json .}}&#x27;` | ci-cd-security-auditor |
+| `tfsec` | Terraform security | `tfsec &lt;TARGET&gt; --format json` | iac-auditor |
+| `checkov` | IaC security | `checkov -d &lt;TARGET&gt; --output json` | iac-auditor |
+| `retire.js` | known-vulnerable JS libs | `retire --path &lt;TARGET&gt; --outputformat json` | frontend-security-auditor |
+
+Full mapping: see [`docs/scanner-coverage.md`](docs/scanner-coverage.md).
+
+### 2.5.2 Detection + invocation
+
+For each scanner in the inventory:
+
+```bash
+if command -v &lt;scanner&gt; &gt;/dev/null 2&gt;&amp;1; then
+  run the scanner, capture stdout
+  parse JSON output
+  normalize to finding.schema.json format (see 2.5.3)
+  append to &lt;TARGET&gt;/.planning/security-review/scanner-prepass.jsonl
+else
+  log &quot;scanner &lt;name&gt; not available — skipping&quot;
+fi
+```
+
+Run scanners in parallel where safe (no shared-state conflicts). Wall-clock ceiling per scanner: 120 s (kill if exceeded; log partial results).
+
+### 2.5.3 Normalization
+
+Every scanner emits different JSON. Normalize each finding to `finding.schema.json` with:
+
+- `id` — `scanner-&lt;name&gt;-&lt;index&gt;` (e.g. `scanner-gitleaks-001`)
+- `specialist` — the specialist this finding is routed to (see inventory above). Even scanner findings get routed; specialists triage them.
+- `source` — `&quot;scanner-&lt;name&gt;&quot;` (so provenance is visible)
+- `severity` — mapped from scanner&#x27;s severity (`HIGH` → `high`, `MEDIUM` → `medium`, etc.)
+- `confidence` — scanners get `certain` for deterministic rule hits, `likely` for heuristic rules
+- `title`, `root_issue` — from scanner output, slug-normalized
+- `file`, `line_range`, `evidence` — from scanner output
+- `exploit`, `fix` — scanners often omit these; leave `&quot;&quot;` and let the specialist agent fill during triage
+
+Save to `&lt;TARGET&gt;/.planning/security-review/scanner-prepass.jsonl`.
+
+### 2.5.4 Feed specialists
+
+When spawning each specialist in Step 3, include a &quot;Pre-pass context&quot; section in the brief:
+
+```
+Pre-pass scanner findings relevant to your specialist (from `&lt;TARGET&gt;/.planning/security-review/scanner-prepass.jsonl`):
+
+  [N findings from gitleaks]
+  [M findings from semgrep for your category]
+
+Triage rules:
+  1. For each scanner-sourced finding, decide: true-positive / false-positive / needs-investigation.
+     Emit a finding entry in your JSONL with `source: &quot;scanner-&lt;name&gt;-confirmed&quot;` (for true-positive) or
+     `source: &quot;scanner-&lt;name&gt;-false-positive&quot;` (for false-positive triaged out).
+  2. After triage, find what the scanner missed via architectural / cross-file analysis — these go in your
+     JSONL with `source: &quot;specialist&quot;` as usual.
+```
+
+Specialists are not obligated to re-derive secret regexes. Their job is triage + judgment.
+
+### 2.5.5 REPORT.md provenance
+
+The consolidation step (Step 4) renders `REPORT.md` with a &quot;Source&quot; column for each finding so the reader sees which scanner (if any) caught it and whether a specialist confirmed or overturned the triage. Scanner-only confirmations (no specialist review) are flagged with `⚠ unreviewed by specialist` — this happens when a specialist errored before triaging the scanner pre-pass.
+
+### 2.5.6 Scanner unavailability
+
+If zero scanners are available in the environment, the run continues — specialists do the full job themselves, which is the CBP-060 baseline mode. Log a tooling caveat in REPORT.md so the reader knows coverage is LLM-only.
+
+## Step 3: Spawn specialists in parallel
+
+Issue one `Agent` tool call per specialist in a **single assistant message** — this is what makes them run concurrently.
+
+For each specialist:
+
+- Read its brief file (`specialists/&lt;name&gt;.md`).
+- Substitute `&lt;TARGET&gt;`, `&lt;SCOPE&gt;`, `&lt;STACK CONTEXT&gt;`, `&lt;THREAT_MODEL&gt;`.
+- Pass `allowed-tools` per the specialist&#x27;s `## Allowed tools` section (hard read-only; Write scoped to the four output-file paths only).
+- Use `preferred_subagent_type` from frontmatter; fall back to `fallback_subagent_type` if unregistered.
+
+Print to the user before the parallel batch returns:
+
+```
+Spawning &lt;N&gt; specialists in parallel against &lt;TARGET&gt; (scope: &lt;SCOPE&gt;).
+
+Each specialist writes to &lt;TARGET&gt;/.planning/security-review/&lt;name&gt;.{md, findings.jsonl, coverage.jsonl, status.json}.
+
+Live progress (run in a separate terminal):
+  watch -n 5 &#x27;jq -s &quot;sort_by(.agent) | map({agent, status, files_read, findings_written})&quot; &lt;TARGET&gt;/.planning/security-review/*.status.json&#x27;
+
+Or:
+  tail -f &lt;TARGET&gt;/.planning/security-review/*.status.json
+
+Spawning now. Interim status lines will appear as each specialist returns.
+```
+
+### 3.1 Heartbeat contract (per specialist)
+
+Every specialist brief instructs the agent to write `&lt;name&gt;.status.json` at spawn time and to update it as progress happens. Format:
+
+```json
+{
+  &quot;agent&quot;: &quot;&lt;specialist-name&gt;&quot;,
+  &quot;status&quot;: &quot;starting | scanning | writing-findings | completed | errored&quot;,
+  &quot;started_at&quot;: &quot;&lt;ISO&gt;&quot;,
+  &quot;finished_at&quot;: &quot;&lt;ISO|null&gt;&quot;,
+  &quot;files_read&quot;: &lt;int&gt;,
+  &quot;findings_written&quot;: &lt;int&gt;,
+  &quot;current_file&quot;: &quot;&lt;path|null&gt;&quot;,
+  &quot;severity_counts&quot;: { &quot;critical&quot;: 0, &quot;high&quot;: 0, &quot;medium&quot;: 0, &quot;low&quot;: 0 },
+  &quot;error&quot;: &quot;&lt;message|null&gt;&quot;
+}
+```
+
+- On spawn: write with `status: &quot;starting&quot;`, `started_at`, counters at 0.
+- Every ~5 file reads: update `files_read`, `current_file`, set `status: &quot;scanning&quot;`.
+- On each finding: increment `findings_written`, update `severity_counts`.
+- On completion: set `status: &quot;completed&quot;`, `finished_at`, final counts.
+- On error: set `status: &quot;errored&quot;`, `finished_at`, populate `error`.
+
+The agent must flush `.status.json` to disk **before returning from its `Agent` tool call**, so the orchestrator sees the final state once the subagent completes.
+
+### 3.2 Interim reports (orchestrator-side)
+
+Batched `Agent` calls in a single message run concurrently, but the orchestrator receives their results serialized — one completion at a time. As each specialist returns:
+
+1. Read the specialist&#x27;s `status.json` file to confirm final state.
+2. Print **one line** to the user:
+
+```
+✓ auth-authz-auditor       done    (0C / 2H / 2M / 1L)   [4m 22s]   12 files read
+✓ input-validation-auditor done    (0C / 0H / 0M / 3L)   [3m 15s]    8 files read
+✗ dependency-supplychain-auditor errored after 18m — node_modules walk timed out. Partial findings preserved.
+✓ silent-failure-hunter    done    (0C / 2H / 3M / 3L)   [5m 03s]   14 files read
+...
+```
+
+3. Errored specialists don&#x27;t block the run. Keep processing completions from the remaining specialists. In Step 4 (consolidate), errored specialists are flagged in REPORT.md with their last-known `status.json` state.
+
+4. After the last specialist returns, print:
+```
+All &lt;N&gt; specialists completed (&lt;X&gt; done, &lt;Y&gt; errored). Consolidating...
+```
+
+### 3.3 Output files per specialist
+
+Each specialist writes four files:
+
+- `&lt;name&gt;.md` — prose findings (human-readable)
+- `&lt;name&gt;.findings.jsonl` — per `schema/finding.schema.json`
+- `&lt;name&gt;.coverage.jsonl` — per `schema/coverage.schema.json`
+- `&lt;name&gt;.status.json` — heartbeat / final state
+
+## Step 4: Consolidate
+
+Read all `*.findings.jsonl` and `*.coverage.jsonl`. Apply `docs/consolidation-template.md`:
+
+1. Group findings by `root_issue` (dedupe).
+2. For each group: `max(severity)`, `max(confidence)`, `distinct(specialist) → raised_by`.
+3. Split actionable (`certain|likely`) from worth-investigating (`possible|unverified`).
+4. Build coverage matrix (category × specialist) from coverage.jsonl.
+5. Render `REPORT.md` from template.
+
+If any specialist failed schema validation on its JSONL, fall back to prose parse for that specialist and log a warning in REPORT.md.
+
+As each specialist returns, print an interim-status line: `✓ &lt;name&gt; done (&lt;counts&gt;) [&lt;runtime&gt;]` or `✗ &lt;name&gt; errored: &lt;msg&gt;`. Don&#x27;t block on errored specialists.
+
+## Step 5: Deliver
+
+Tell the user:
+- Path to `REPORT.md` and the four per-specialist files each
+- Headline severity counts (deduped)
+- Top 2–3 fixes by impact
+- Tooling caveats (scanners unavailable, fallbacks taken, specialists errored)
+- Coverage completeness score
+
+Do NOT apply fixes. Fix workflow → companion skill `/sec-review-fixes` (CBP-070).
+
+---
+
+## Related
+- **Specialist library:** `specialists/` (13 briefs)
+- **Stack signals:** `stack-signals.md`
+- **Schemas:** `schema/finding.schema.json`, `schema/coverage.schema.json`
+- **Consolidation template:** `docs/consolidation-template.md`
+- **Design tradeoffs:** `docs/tradeoffs.md`
+- **Canonical prompt source:** [`markdown/design/Team_of_security_agents.md`](../../../markdown/design/Team_of_security_agents.md)
+- **Embedded playbook section:** `fsad-playbook.html` → `#practices/security-review`
+- **Opus 4.7 validation:** [`markdown/research/security-review-opus-4.7-validation.md`](../../../markdown/research/security-review-opus-4.7-validation.md)
+- **Improvement recommendations:** [`markdown/research/sec-review-recommendations.md`](../../../markdown/research/sec-review-recommendations.md)
+</code></pre>
+      </div></div>
+    </div>
+    <div class="collapsible" id="skill-def--sec-review-fixes" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:sec-review-fixes <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[path to REPORT.md or findings.jsonl] [--dry-run | --re-verify <id>...] [--one-pr | --pr-per-finding]</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Companion to `sec-review-team`. Takes the `REPORT.md` or `findings.jsonl` from a security review run and produces fix PRs (one per finding or one consolidated) with interactive approval. Each candidate finding becomes a proposed diff + a regression test that would have caught it + a commit/PR citing the finding ID. Filters by default to `severity IN (critical, high) AND confidence IN (certain, likely)`. Modes: interactive (default), `--dry-run` (produces a fix-plan document with no code changes), `--re-verify` (re-runs sec-review-team against a specific set of finding IDs and reports fixed / still-present / inconclusive). Safeguards: branch-only commits (never main), no force-push, clean-working-tree required, regression-test must pass before commit lands. Use when the user says &quot;fix the security findings&quot;, &quot;apply sec-review fixes&quot;, &quot;open PRs for the security report&quot;, &quot;re-verify the security fixes&quot;, or similar.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+name: sec-review-fixes
+description: Companion to `sec-review-team`. Takes the `REPORT.md` or `findings.jsonl` from a security review run and produces fix PRs (one per finding or one consolidated) with interactive approval. Each candidate finding becomes a proposed diff + a regression test that would have caught it + a commit/PR citing the finding ID. Filters by default to `severity IN (critical, high) AND confidence IN (certain, likely)`. Modes: interactive (default), `--dry-run` (produces a fix-plan document with no code changes), `--re-verify` (re-runs sec-review-team against a specific set of finding IDs and reports fixed / still-present / inconclusive). Safeguards: branch-only commits (never main), no force-push, clean-working-tree required, regression-test must pass before commit lands. Use when the user says &quot;fix the security findings&quot;, &quot;apply sec-review fixes&quot;, &quot;open PRs for the security report&quot;, &quot;re-verify the security fixes&quot;, or similar.
+argument-hint: `[path to REPORT.md or findings.jsonl] [--dry-run | --re-verify &lt;id&gt;...] [--one-pr | --pr-per-finding]`
+---
+
+# sec-review-fixes — Fix-Workflow Orchestration
+
+Companion to `sec-review-team`. Never applies a code change without explicit user approval.
+
+## Step 0: Locate findings source
+
+Parse `$ARGUMENTS`:
+- **Source path** — either a `REPORT.md` or a `&lt;agent&gt;.findings.jsonl` file (or a directory containing them, e.g. `&lt;target&gt;/.planning/security-review/`).
+  - If source is a directory, aggregate every `*.findings.jsonl` in it.
+  - If source is `REPORT.md`, prefer the sibling `*.findings.jsonl` files if they exist (structured parse). Fall back to parsing the markdown if only the prose report is available.
+- **Mode:**
+  - default = interactive
+  - `--dry-run` = write a fix-plan markdown, no code changes
+  - `--re-verify &lt;id&gt;...` = re-run sec-review-team on the specified finding IDs and report status (skip Steps 2–5)
+- **PR granularity:** `--one-pr` (all fixes in one PR) or `--pr-per-finding` (default for ≤ 3 fixes; for ≥ 4, default switches to one-PR to avoid PR storm).
+
+Do **not** operate on the source target repo yet. Just read metadata.
+
+## Step 1: Filter candidate findings
+
+Apply default filter:
+- `severity IN (critical, high)` — medium/low need manual review first, they are not eligible for auto-fix.
+- `confidence IN (certain, likely)` — `possible`/`unverified` require human triage first; they are not eligible for auto-fix.
+- User may relax the filter explicitly (prompt: &quot;N findings matched default filter. X additional findings available at lower severity/confidence — include them?&quot;).
+
+For `--re-verify`, skip filtering; use the specified IDs literally.
+
+## Step 2: Safety preflight
+
+Before touching any file, verify:
+
+1. **Target git state:** Working tree clean (`git status --porcelain` empty). If dirty, abort with explanation. The user must stash/commit first.
+2. **Current branch is NOT `main` / `master` / `trunk` / default-branch.** If it is, offer to create `sec-review-fix/&lt;timestamp&gt;` and switch. Never operate directly on default.
+3. **No in-progress rebase / merge / cherry-pick** (`git status` shows no in-progress operation).
+4. **Remote reachable** (if PR mode, not dry-run): `git ls-remote --exit-code origin` succeeds.
+5. **`gh` CLI available and authenticated** (if PR mode).
+
+If any check fails, abort with a specific message. Never proceed past a failed safety check.
+
+## Step 3: Per-finding fix authoring (spawn subagents in parallel)
+
+For each candidate finding, spawn a `fix-author` `Agent` with:
+
+- **Subagent type:** `general-purpose` (or a typed `code-writer` if available).
+- **Brief:** &quot;Here is one security finding from sec-review-team: `&lt;finding&gt;`. The current state of the code at `&lt;file&gt;:&lt;line_range&gt;` is `&lt;snippet&gt;`. Produce (1) a diff that implements the `fix` field, (2) a regression test that would fail before the fix and pass after. Write to `&lt;TARGET&gt;/.planning/sec-review-fixes/&lt;id&gt;.diff` and `&lt;id&gt;.test.&lt;ext&gt;` respectively. Also write a one-paragraph commit message at `&lt;id&gt;.commit-msg.txt`.&quot;
+- **Allowed tools:** `Read`, `Grep`, `Glob`, read-only `Bash` allowlist. `Write` scoped to the three output paths only. **No `Edit` on target files** — the orchestrator applies diffs later, not the subagent.
+
+Subagents don&#x27;t mutate target code. They produce candidate artifacts.
+
+## Step 4: Interactive approval (one finding at a time)
+
+For each candidate:
+
+```
+━━ Finding &lt;id&gt;: &lt;title&gt; ━━
+  Severity:    &lt;sev&gt;
+  Confidence:  &lt;conf&gt;
+  File:        &lt;file&gt;:&lt;line_range&gt;
+  Root issue:  &lt;root_issue&gt;
+
+Exploit:
+  &lt;exploit&gt;
+
+Proposed fix:
+  &lt;fix&gt;
+
+Proposed diff:
+  &lt;diff contents&gt;
+
+Proposed regression test:
+  &lt;test contents&gt;
+
+Approve / edit-fix / skip / abort? [a/e/s/x]
+```
+
+- **a** (approve) — move to Step 5 for this finding.
+- **e** (edit-fix) — let the user type revised instructions; respawn the fix-author with the revised brief.
+- **s** (skip) — finding stays un-fixed; continue to next.
+- **x** (abort) — stop all further processing; do not apply any pending approved fixes that haven&#x27;t been committed yet.
+
+Default if no response: treat as skip (never auto-approve).
+
+Exception: `--dry-run` skips this step entirely. The fix-plan is just the collected proposals.
+
+## Step 5: Apply + test + commit + push + PR (per approved finding)
+
+**Still safeguarded.** Even after approval:
+
+1. **Create or checkout the fix branch:** `sec-review-fix/&lt;finding-id&gt;` (for per-PR mode) or `sec-review-fix/&lt;timestamp&gt;` (for one-PR mode). Never operate on main.
+2. **Apply the diff** via `git apply &lt;id&gt;.diff`. On failure: mark finding as `apply-failed`, do not commit, continue to next.
+3. **Run the regression test.** How: detect target&#x27;s test runner (`package.json scripts.test`, `cargo test`, `pytest`, `go test`, etc.) and invoke. The test must pass before proceeding. If it fails, revert (`git checkout -- &lt;affected&gt;`), mark as `regression-test-failed`, continue to next.
+4. **Commit with message:** the contents of `&lt;id&gt;.commit-msg.txt`, plus a trailer `Fixes-finding: &lt;id&gt;` + `Ref: &lt;source path of findings&gt;`. Default commit message ends with `Co-Authored-By: Claude (sec-review-fixes) &lt;noreply@anthropic.com&gt;`.
+5. **Push to origin** (for PR mode only). `git push -u origin &lt;branch&gt;`.
+6. **Open PR** via `gh pr create`:
+   - Title: `fix(security): &lt;finding title&gt;`
+   - Body: full finding (exploit + fix + evidence), the regression test description, a checklist for the reviewer (manual verification + security implications + adjacent review).
+   - Label: `security`, `sec-review-team`.
+
+Safeguards that stay on throughout:
+- **Never force-push.**
+- **Never push to main.**
+- **Never amend an existing commit.**
+- **Never modify `.git/` directly.**
+- If any safeguard tripping is requested, abort and surface it to the user.
+
+## Step 6: Report
+
+Emit a summary table:
+
+| Finding | Status | PR | Branch |
+|---|---|---|---|
+| auth-001 | fixed + PR opened | #1234 | sec-review-fix/auth-001 |
+| iv-003 | skipped | — | — |
+| sc-001 | regression-test-failed | — | — |
+| de-002 | apply-failed | — | — |
+
+Print absolute paths to `.planning/sec-review-fixes/` artifacts for every candidate (even skipped ones, so the user can come back later).
+
+## `--re-verify` mode
+
+Alternate flow triggered by `--re-verify &lt;id&gt;...`:
+
+1. Parse the finding IDs from args.
+2. For each ID, look up the original finding metadata (severity, file, root_issue, evidence) from the source `findings.jsonl`.
+3. Invoke `sec-review-team` against the same target and same scope. Wait for new `findings.jsonl`.
+4. For each requested ID:
+   - If no finding with the same `root_issue` + `file` appears in the new run → **fixed**.
+   - If a finding with the same `root_issue` appears → **still-present**. Show the diff between old and new evidence.
+   - If the specialist that would cover this category is not in the new roster (stack changed), or the category was `not-checked` → **inconclusive** (explain why).
+5. Emit a re-verify report at `.planning/sec-review-fixes/re-verify-&lt;timestamp&gt;.md`.
+
+Never apply fixes in re-verify mode. Pure audit.
+
+## `--dry-run` mode
+
+Triggered by `--dry-run`. Steps 2, 4 (modified), 5 are skipped:
+
+- Step 2 safety preflight still runs (we still inspect repo state) but doesn&#x27;t require branch-switching.
+- Step 3 still spawns fix-authors (artifact-only).
+- Step 4 shows proposals but doesn&#x27;t prompt for apply — just collects them.
+- Step 5 is skipped entirely.
+- Instead: write `.planning/sec-review-fixes/fix-plan.md` — a human-readable document with every proposed fix + test + commit message, organized by severity. User can hand off to a team for manual implementation.
+
+## Related
+
+- **Companion skill:** [`sec-review-team`](../sec-review-team/SKILL.md) produces the input to this skill.
+- **Schema:** [`sec-review-team/schema/finding.schema.json`](../sec-review-team/schema/finding.schema.json) — what `findings.jsonl` lines conform to.
+- **Safeguard details:** [`docs/safeguards.md`](docs/safeguards.md)
+- **Design tradeoffs:** [`sec-review-team/docs/tradeoffs.md`](../sec-review-team/docs/tradeoffs.md) — item #5 (no-auto-fix) explains why this skill exists separately.
+</code></pre>
+      </div></div>
+    </div>
 </section>
 
 <footer>
@@ -10101,7 +12188,7 @@ codex app</code></pre>
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
     'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'add-task-skill': 'workflows', 'commit-changes-skill': 'workflows',
-    'skills-hero': 'skills', 'skills-library': 'skills',
+    'skills-hero': 'skills', 'skills-library': 'skills', 'skills-definitions': 'skills',
     'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'security-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'cloud-integrations': 'practices', 'monitoring': 'practices', 'open-source': 'practices',
     'hub': 'practices', 'foundations': 'practices', 'skills-hooks': 'practices', 'operations': 'practices', 'reference': 'practices',
     'codex-hero': 'codex', 'codex-best-practices': 'codex', 'codex-project-anatomy': 'codex', 'codex-integrations': 'codex', 'codex-code-review': 'codex', 'codex-building-skills': 'codex', 'codex-guidelines': 'codex', 'codex-cheat-sheet': 'codex', 'codex-power-usage': 'codex',

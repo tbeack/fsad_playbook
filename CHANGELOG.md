@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.75.0 — 2026-05-27
+
+**Skill Definitions section added to Skills Library (CBP-195)**
+
+Added a "Skill Definitions" section (`#skills-definitions`) to the Skills Library page, mirroring the Specialist Definitions pattern from the Multi-Agent Security Review Team section. Each of the eleven unique `fsd:` skills now has a collapsible card that embeds the full `SKILL.md` source with a copy-to-clipboard block. Skills are organized into two groups — Workflow Management (do-task, add-task, ship-it, next, sync, ac, estimate, init) and Review & Security (code-review-team, sec-review-team, sec-review-fixes). Updated sidebar nav with a "Definitions" sub-item and added `skills-definitions` to the `sectionToPageMap` for deep-link support.
+
 ### v2.74.0 — 2026-05-27
 
 **Claude Code v2.1.152 auto-update (CBP-189–CBP-193)**
