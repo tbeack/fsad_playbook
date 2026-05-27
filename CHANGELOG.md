@@ -2,6 +2,18 @@
 
 ### [Unreleased]
 
+### v2.74.0 — 2026-05-27
+
+**Claude Code v2.1.152 auto-update (CBP-189–CBP-193)**
+
+Five targeted updates covering new frontmatter fields, slash commands, hook events, and updated descriptions for existing commands.
+
+- **CBP-189** — Added `disallowed-tools` row to the Frontmatter Reference table (Building Skills page). Documents the new frontmatter field that removes tools from the model while a skill is active — the inverse of `allowed-tools`. Placed directly after the `allowed-tools` row.
+- **CBP-190** — Added `/reload-skills` row to the configuration commands table in the Cheat Sheet. Documents the new command that re-scans skill directories and reloads skills without restarting the session. Placed after `/reload-plugins`.
+- **CBP-191** — Added `MessageDisplay` hook event row to the Core hooks table. Updated event count from 26 to 27 in the section heading and in the Codex vs. Claude comparison table. `MessageDisplay` fires before assistant message text is displayed, allowing hooks to transform or hide the output.
+- **CBP-192** — Updated `/code-review [effort]` Cheat Sheet entry to document the new `--fix` flag (applies review findings — reuse, simplification, efficiency — directly to the working tree after review). Also noted that `/simplify` now invokes `/code-review --fix`.
+- **CBP-193** — Updated `SessionStart` hook description to document `reloadSkills: true` JSON output (re-scans skill directories, making hook-installed skills available immediately) and `hookSpecificOutput.sessionTitle` (sets session title on startup/resume). Updated `--fallback-model` CLI flag description: now switches model for the full session (interactive and print mode) when the primary model is not found, not just in print mode.
+
 ### v2.73.0 — 2026-05-23
 
 **Claude Code v2.1.147–v2.1.150 auto-update (CBP-185–CBP-188)**
