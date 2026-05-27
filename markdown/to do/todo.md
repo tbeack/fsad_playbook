@@ -204,3 +204,4 @@
 - [x] `CBP-191` Add `MessageDisplay` hook event to hooks tables + update event count to 27 (v2.1.152) → [task-cbp-191.md](task-cbp-191.md)
 - [x] `CBP-192` Update `/code-review` Cheat Sheet entry: add `--fix` flag and note `/simplify` now invokes it (v2.1.152) → [task-cbp-192.md](task-cbp-192.md)
 - [x] `CBP-193` Update `SessionStart` hook description (reloadSkills, sessionTitle) + `--fallback-model` flag description (v2.1.152) → [task-cbp-193.md](task-cbp-193.md)
+- [x] `CBP-194` — update `cbp_auto_updater_agent` agent to merge the pr after successfully committing the code. → [task-cbp-194.md](task-cbp-194.md)
