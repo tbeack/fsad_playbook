@@ -205,3 +205,4 @@
 - [x] `CBP-192` Update `/code-review` Cheat Sheet entry: add `--fix` flag and note `/simplify` now invokes it (v2.1.152) → [task-cbp-192.md](task-cbp-192.md)
 - [x] `CBP-193` Update `SessionStart` hook description (reloadSkills, sessionTitle) + `--fallback-model` flag description (v2.1.152) → [task-cbp-193.md](task-cbp-193.md)
 - [x] `CBP-194` — update `cbp_auto_updater_agent` agent to merge the pr after successfully committing the code. → [task-cbp-194.md](task-cbp-194.md)
+- [x] `CBP-195` — Add the skills files to the skills section. implement the same was the the `Multi-Agent Security Review Team`. → [task-cbp-195.md](task-cbp-195.md)
