@@ -2,6 +2,14 @@
 
 ### [Unreleased]
 
+### v2.76.0 — 2026-05-28
+
+**Claude Code v2.1.153 auto-update (CBP-197)**
+
+One targeted correction: the `/model` Cheat Sheet row is updated to reflect the v2.1.153 behavior reversal.
+
+- **CBP-197** — Corrected `/model` Cheat Sheet row: v2.1.153 reverted the v2.1.144 change (CBP-167). Model selection is now saved as the default for new sessions again. Press `s` in the picker to switch models for the current session only. The keybinding `modelPicker:setAsDefault` was renamed to `modelPicker:thisSessionOnly` (`d` → `s`).
+
 ### v2.75.1 — 2026-05-27
 
 **CBP-196 — Remove personal references from Skills section**
