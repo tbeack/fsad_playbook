@@ -1,25 +1,33 @@
-# Welcome to FSAD
+# Welcome to FSAD Playbook
 
 ## How We Use Claude
 
-Based on Theo Beack's usage over the last 30 days:
+Based on Theo Beack's usage over the last 30 days across 40 sessions:
 
 Work Type Breakdown:
-  Build Feature    ████████████░░░░░░░░  61%
-  Plan / Design    ███░░░░░░░░░░░░░░░░░  17%
-  Debug / Fix      ██░░░░░░░░░░░░░░░░░░  11%
-  Improve Quality  ██░░░░░░░░░░░░░░░░░░  11%
+```
+  Build Feature    ████████████░░░░░░░░  63%
+  Plan / Design    ██░░░░░░░░░░░░░░░░░░  12%
+  Debug / Fix      ██░░░░░░░░░░░░░░░░░░  10%
+  Improve Quality  █░░░░░░░░░░░░░░░░░░░   8%
+  Prototype        █░░░░░░░░░░░░░░░░░░░   5%
+  Write Docs       ░░░░░░░░░░░░░░░░░░░░   2%
+```
 
 Top Skills & Commands:
-  /cbp-update    ████████████████████  4x/month
-  /tb:do-task    ████████████████████  4x/month
-  /tb:sync       ███████████████░░░░░  3x/month
-  /tb:add-task   ██████████░░░░░░░░░░  2x/month
-  /tb:ship       ██████████░░░░░░░░░░  2x/month
-  /tb:dt         ██████████░░░░░░░░░░  2x/month
+```
+  /tb:do-task      █████████████░░░░░░░  17x/month
+  /tb:ship         ██████░░░░░░░░░░░░░░  10x/month
+  /rename          ████░░░░░░░░░░░░░░░░   7x/month
+  /exit            ███░░░░░░░░░░░░░░░░░   5x/month
+  /cbp-update      ██░░░░░░░░░░░░░░░░░░   4x/month
+  /tb:sync         █░░░░░░░░░░░░░░░░░░░   3x/month
+  /clear           █░░░░░░░░░░░░░░░░░░░   3x/month
+  /tb:timesheet    █░░░░░░░░░░░░░░░░░░░   3x/month
+```
 
 Top MCP Servers:
-  _(none configured)_
+  _(None configured in the scanned window)_
 
 ## Your Setup Checklist
 
@@ -32,15 +40,19 @@ Top MCP Servers:
 - [ ] p_mon — https://github.com/tbeack/p_mon
 
 ### MCP Servers to Activate
-_(none required)_
+  _(None were active in the scanned window — check with Theo if any are in use for your project)_
 
 ### Skills to Know About
-- `/cbp-update` — Runs the FSAD Playbook auto-updater: checks for new Claude Code releases, assesses impact, creates CBP tasks, implements them, and opens a PR. Run this when you want to sync the playbook with a new Claude Code release.
-- `/tb:do-task` — Execute or plan a task in any registered project. Auto-detects the project from your working directory and either drafts a task plan or implements an existing one. Use this to work through backlog items.
-- `/tb:sync` — Pre-flight sync check: fetches from remote, reports uncommitted changes, and warns if you're behind or diverged. Run before starting work on any registered project.
-- `/tb:add-task` — Add a new task (CBP-### style) to the current project's task list. Handles CHANGELOG and todo.md updates automatically.
-- `/tb:ship` — Wrap up finished work: verifies README/CHANGELOG, bumps the version, moves completed task files, commits, pushes, and opens a PR. Run after a task is done.
-- `/tb:dt` — Short alias for displaying the current task detail file. Quick way to review what you're working on mid-session.
+- `/tb:do-task` — picks up the next open task from `todo.md` and executes it; the primary day-to-day driver for feature work
+- `/tb:ship` — wraps up finished work, cuts a version, commits, pushes, and opens a PR; run after `do-task` is done
+- `/tb:sync` — pre-flight sync check: fetches from remote, reports uncommitted changes, warns if behind or diverged; run before starting work
+- `/tb:add-task` — adds a new task with a CBP-### identifier to the current project's task list
+- `/cbp-update` — runs the playbook-updater agent to detect and apply Claude Code CLI updates to the playbook
+- `/tb:dt` — displays the current task detail file; quick way to review what you're working on mid-session
+- `/tb:timesheet` — generates a monthly timesheet from calendar screenshots
+- `/tb:code-review-team` — launches a multi-agent code review team against current changes
+- `/clear` — clears the conversation context when it gets noisy; good habit between distinct tasks
+- `/compact` — compresses context without losing thread; use in long sessions before context fills up
 
 ## Team Tips
 
