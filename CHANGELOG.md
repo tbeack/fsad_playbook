@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+**CBP-201 — Research: real-world dynamic workflow use in legacy code refactoring**
+
+Deep-research sweep (109 agents, 26 sources, 25 adversarially verified claims) into credible real-world applications of agentic/multi-agent workflows for legacy code refactoring. Findings written to `markdown/research/research-cbp-201-dynamic-workflows-legacy.md`.
+
+- **CBP-201** — Six case studies documented: Spotify Honk (1,500+ merged PRs, 60–90% time savings — HIGH confidence), RefAgent/Polytechnique Montréal (90% test pass rate on Apache Java codebases vs. 44.5% single-agent baseline — HIGH), SWE-Refactor/Concordia (Developer+Reviewer pipeline 52.7% vs. 39.9% single-pass — HIGH), Wiz pypdf→Go migration (50K Python → 18K Go in ~20 hours — MEDIUM), ING Amsterdam LegacyTranslate (2.5M LOC PL/SQL→Java — MEDIUM), and ChatGPT refactoring quality study (Springer ASE 2025, 63.6% solutions comparable to experts — HIGH). Credibility filter: 4 refuted marketing claims documented. No version bump — research file only.
+
 ### v2.78.0 — 2026-05-28
 
 **CBP-199 — Dynamic Workflows subsection added to Power Usage**
