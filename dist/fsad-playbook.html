@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.75.1)</title>
+<title>FSAD — Full Stack Agentic Development (v2.76.0)</title>
 <style>
 /* cyrillic-ext */
 @font-face {
@@ -2529,7 +2529,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.75.1</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.76.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -10340,7 +10340,7 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>/model</code></td><td>Select or change AI model for the current session only. Press <code>d</code> in the picker to set a default for new sessions. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129).</td></tr>
+          <tr><td><code>/model</code></td><td>Select or change AI model — selection is saved as the default for new sessions. Press <code>s</code> in the picker to switch models for the current session only. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129).</td></tr>
           <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Pro/Max on Opus 4.6/Sonnet 4.6; <code>medium</code> for all other tiers/models.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output)</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
@@ -13749,6 +13749,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.76.0 <span class="changelog-date">· 2026-05-28</span></h3>
+        <p><strong>Claude Code v2.1.153 auto-update (CBP-197).</strong> Corrected the <code>/model</code> Cheat Sheet row: v2.1.153 reversed the behavior introduced in v2.1.144 (CBP-167). Model selection is now saved as the default for new sessions again. Press <code>s</code> in the picker to switch models for the current session only (the <code>d</code> keybinding for session-only was replaced by <code>s</code>; if you customized <code>modelPicker:setAsDefault</code>, rename it to <code>modelPicker:thisSessionOnly</code> in keybindings.json).</p>
+      </section>
       <section>
         <h3>v2.75.1 <span class="changelog-date">· 2026-05-27</span></h3>
         <p><strong>Remove personal references from Skills section (CBP-196).</strong> Replaced "Theo's local projects" with "your local projects" in the <code>fsd:do-task</code> and <code>fsd:add-task</code> skill descriptions. Renamed all <code>~/.claude/commands/tb/projects.yaml</code> path references to <code>~/.claude/commands/fsd/projects.yaml</code> across seven skill files and their embedded code blocks in the Skills Library. Updated the generic path example in the <code>fsd:init</code> skill body from <code>/Users/theobeack/</code> to <code>/Users/username/</code>. Dist artifact regenerated.</p>
