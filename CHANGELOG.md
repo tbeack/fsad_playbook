@@ -8,6 +8,14 @@ Deep-research sweep (109 agents, 26 sources, 25 adversarially verified claims) i
 
 - **CBP-201** — Six case studies documented: Spotify Honk (1,500+ merged PRs, 60–90% time savings — HIGH confidence), RefAgent/Polytechnique Montréal (90% test pass rate on Apache Java codebases vs. 44.5% single-agent baseline — HIGH), SWE-Refactor/Concordia (Developer+Reviewer pipeline 52.7% vs. 39.9% single-pass — HIGH), Wiz pypdf→Go migration (50K Python → 18K Go in ~20 hours — MEDIUM), ING Amsterdam LegacyTranslate (2.5M LOC PL/SQL→Java — MEDIUM), and ChatGPT refactoring quality study (Springer ASE 2025, 63.6% solutions comparable to experts — HIGH). Credibility filter: 4 refuted marketing claims documented. No version bump — research file only.
 
+### v2.79.0 — 2026-05-28
+
+**Team onboarding guide added (ONBOARDING.md)**
+
+Added `ONBOARDING.md` — a Claude-powered interactive onboarding guide for teammates new to Claude Code. When pasted into Claude Code, it gives a guided walkthrough covering the team's usage patterns, setup checklist, and key skills.
+
+- Added `ONBOARDING.md` generated from 30-day usage data (40 sessions). Includes: work-type breakdown (Build Feature 63%, Plan/Design 12%, Debug/Fix 10%, Improve Quality 8%, Prototype 5%, Write Docs 2%), top commands by frequency (`/tb:do-task` 17x, `/tb:ship` 10x, `/rename` 7x, `/exit` 5x, `/cbp-update` 4x), setup checklist covering all sibling repos (fsad_playbook, fsad_sec_playbook, fsad_training, fsd, tb_skills, p_mon) and 10 key skills with descriptions, and a built-in Claude instruction block that turns the file into an interactive onboarding tour when pasted into a new Claude Code session.
+
 ### v2.78.0 — 2026-05-28
 
 **CBP-199 — Dynamic Workflows subsection added to Power Usage**
