@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.76.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.77.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1897,7 +1897,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.76.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.77.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -4897,6 +4897,587 @@ Do NOT apply fixes. Fix workflow: open the relevant file, address findings manua
 - **Consolidation template:** `~/.claude/skills/code-review-team/docs/consolidation-template.md`
 - **Research basis:** `planning/research/code-review-agents-research.md` (TBS-022)
 </code></pre>
+
+        <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">Specialist Definitions</h3>
+        <p style="color:var(--text-secondary); margin-bottom:1rem;">Each card mirrors the live specialist file under <a href="https://github.com/tbeack/fsad_playbook/tree/main/skills/code-review-team/specialists" style="color:var(--accent);"><code>skills/code-review-team/specialists/</code></a> in the repo. <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">lite</span> specialists run in both full and <code>--lite</code> mode; <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">full</span> specialists are added in full mode only.</p>
+
+        <table style="width:100%; border-collapse:collapse; font-size:0.875rem; margin-bottom:1.5rem; border:1px solid var(--border); border-radius:6px; overflow:hidden;">
+          <thead>
+            <tr style="background:var(--surface-2);">
+              <th style="padding:0.5rem 0.8rem; text-align:left; color:var(--text-secondary); font-weight:600;">Specialist</th>
+              <th style="padding:0.5rem 0.8rem; text-align:left; color:var(--text-secondary); font-weight:600;">Reviews</th>
+              <th style="padding:0.5rem 0.8rem; text-align:left; color:var(--text-secondary); font-weight:600;">Mode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">correctness-reviewer</strong></td><td style="padding:0.5rem 0.8rem;">Logic bugs, edge cases, error handling, data flow, API misuse</td><td style="padding:0.5rem 0.8rem;"><span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">lite</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">design-reviewer</strong></td><td style="padding:0.5rem 0.8rem;">Architecture, coupling, cohesion, SOLID violations, code smells</td><td style="padding:0.5rem 0.8rem;"><span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">lite</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">performance-reviewer</strong></td><td style="padding:0.5rem 0.8rem;">Algorithmic complexity, N+1, I/O, memory, caching, concurrency</td><td style="padding:0.5rem 0.8rem;"><span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">lite</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">maintainability-reviewer</strong></td><td style="padding:0.5rem 0.8rem;">Naming, readability, complexity, duplication, dead code, comments</td><td style="padding:0.5rem 0.8rem;"><span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">full</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">testing-reviewer</strong></td><td style="padding:0.5rem 0.8rem;">Test coverage, assertion quality, isolation, flaky patterns, testability</td><td style="padding:0.5rem 0.8rem;"><span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">full</span></td></tr>
+            <tr><td style="padding:0.5rem 0.8rem;"><strong style="color:var(--text-primary);">api-contract-reviewer</strong></td><td style="padding:0.5rem 0.8rem;">Breaking changes, backward compatibility, versioning, REST/RPC contracts</td><td style="padding:0.5rem 0.8rem;"><span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">full</span></td></tr>
+          </tbody>
+        </table>
+
+    <div class="collapsible" id="crt-spec--correctness" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>correctness-reviewer <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">lite</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Logic correctness, runtime errors, edge cases, and data flow bugs.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Logic errors — incorrect conditionals, inverted boolean predicates, off-by-one indices, wrong operator precedence.</li>
+          <li>Edge case gaps — empty collections, null/nil/undefined inputs, zero values, max/min boundaries not handled.</li>
+          <li>Error handling — errors silently swallowed, errors returned without context, panics/exceptions thrown where a return value is correct.</li>
+          <li>Data flow bugs — variables used before initialization, stale data read after mutation, race conditions in shared state.</li>
+          <li>API misuse — calling SDK/library functions with wrong arguments, ignoring documented preconditions, misunderstanding return semantics.</li>
+          <li>Cross-file tracing — follow function calls and data references into related files to understand impact; do not limit review to the diff alone.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage dimensions owned</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0 0 1rem;"><code>logic-errors</code>, <code>edge-cases</code>, <code>error-handling</code>, <code>data-flow-bugs</code>, <code>api-misuse</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># correctness-reviewer
+
+## Primary scope
+
+Logic correctness, runtime errors, edge cases, and data flow bugs.
+
+- Logic errors — incorrect conditionals, inverted boolean predicates, off-by-one indices, wrong operator precedence.
+- Edge case gaps — empty collections, null/nil/undefined inputs, zero values, max/min boundaries not handled.
+- Error handling — errors silently swallowed, errors returned without context, panics/exceptions thrown where a return value is correct.
+- Data flow bugs — variables used before initialization, stale data read after mutation, race conditions in shared state.
+- API misuse — calling SDK/library functions with wrong arguments, ignoring documented preconditions, misunderstanding return semantics.
+- Cross-file tracing — follow function calls and data references into related files to understand impact; do not limit review to the diff alone.
+
+## Overlap with other specialists
+
+- **Primary owner of:** logic bugs, edge case gaps, error propagation, API contract misuse at call sites.
+- **Cross-cuts with:**
+  - `design-reviewer` — architectural decisions that enable logic bugs are design's scope; the bug itself is yours.
+  - `performance-reviewer` — correctness bugs that also degrade performance (e.g., N+1 in a loop) note to both.
+  - `testing-reviewer` — missing tests for an edge case you found: emit in your findings, testing-reviewer will independently flag the coverage gap.
+
+## Brief (passed to the Agent)
+
+&gt; Review `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`) for logic errors, edge cases, error handling gaps, data flow bugs, and API misuse. Languages: `&lt;LANGUAGES&gt;`.
+&gt;
+&gt; **Do not limit your review to the diff.** Follow references into related files to understand the impact of changes. Trace data flow from inputs to outputs.
+&gt;
+&gt; Pre-pass linter findings routed to you:
+&gt; ```
+&gt; &lt;LINTER_PREPASS_FINDINGS_FOR_correctness-reviewer&gt;
+&gt; ```
+&gt; Triage each: `linter-&lt;name&gt;-confirmed` (true-positive), `linter-&lt;name&gt;-false-positive` (false-positive). Then find what linters missed.
+&gt;
+&gt; **Severity guidance:**
+&gt; - `critical` — definite bug that causes wrong results, data loss, crashes, or security-relevant misbehaviour in normal operation.
+&gt; - `major` — bug reachable under expected inputs; concrete and reproducible.
+&gt; - `minor` — bug reachable only under unusual but valid inputs; low-impact path.
+&gt; - `nit` — pedantic; no realistic impact but still incorrect.
+&gt;
+&gt; **Confidence guidance:**
+&gt; - `certain` — directly observed, fix is mechanical.
+&gt; - `likely` — observed + one inference step.
+&gt; - `possible` — indirect evidence or architectural smell.
+&gt; - `unverified` — cannot confirm without runtime or test execution.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/code-review/`):**
+&gt; 1. `correctness-reviewer.md` — prose findings, grouped by severity. Open with "Scope reviewed: &lt;summary&gt;". Close with severity counts.
+&gt; 2. `correctness-reviewer.findings.jsonl` — one JSON object per finding. Required fields: `id`, `specialist` ("correctness-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence` (exact code snippet), `fix`, `related`, `merge_recommendation`.
+&gt; 3. `correctness-reviewer.coverage.jsonl` — one record per dimension you own (logic-errors, edge-cases, error-handling, data-flow, api-misuse). Include searches performed and files read.
+&gt; 4. `correctness-reviewer.status.json` — write `{status:"starting", started_at, files_read:0, findings_written:0}` at spawn. Update every ~5 reads. Final: `{status:"completed", finished_at, severity_counts}`.
+&gt;
+&gt; **Hard rules:** read-only; cite exact code evidence (file + line); no speculation; if a dimension is clean, emit a coverage entry with searches that prove it; don't overlap with other specialists — defer via `status: "deferred-to-other-specialist"`.
+&gt;
+&gt; Report back: absolute paths of four output files + one-line severity counts.
+
+## Output files
+
+- `correctness-reviewer.md`
+- `correctness-reviewer.findings.jsonl`
+- `correctness-reviewer.coverage.jsonl`
+- `correctness-reviewer.status.json`
+
+## Allowed tools
+
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `correctness-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
+
+## Coverage dimensions owned
+
+`logic-errors`, `edge-cases`, `error-handling`, `data-flow-bugs`, `api-misuse`
+</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="crt-spec--design" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>design-reviewer <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">lite</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Architectural decisions, coupling, cohesion, code smells, and SOLID principle violations.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Coupling — unnecessary dependencies between modules, god classes, circular imports, tight coupling to concrete implementations.</li>
+          <li>Cohesion — single-responsibility violations, methods that do more than one thing, mixed abstraction levels.</li>
+          <li>Code smells — feature envy, inappropriate intimacy, shotgun surgery, speculative generality, dead code that still lives in the diff.</li>
+          <li>SOLID violations — open/closed violations, Liskov substitution failures, interface segregation issues, dependency inversion anti-patterns.</li>
+          <li>Abstraction — wrong level of abstraction (leaking internals, over-engineering, under-engineering), premature abstraction, unnecessary indirection.</li>
+          <li>Naming and structure — misleading names for types/modules/functions that indicate a wrong mental model.</li>
+          <li>Cross-file tracing — follow module boundaries and imports to understand the full impact of structural decisions.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage dimensions owned</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0 0 1rem;"><code>coupling</code>, <code>cohesion</code>, <code>solid-violations</code>, <code>code-smells</code>, <code>abstraction-correctness</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># design-reviewer
+
+## Primary scope
+
+Architectural decisions, coupling, cohesion, code smells, and SOLID principle violations.
+
+- Coupling — unnecessary dependencies between modules, god classes, circular imports, tight coupling to concrete implementations.
+- Cohesion — single-responsibility violations, methods that do more than one thing, mixed abstraction levels.
+- Code smells — feature envy (method uses another class's data more than its own), inappropriate intimacy, shotgun surgery (one change requires edits in many places), speculative generality, dead code that still lives in the diff.
+- SOLID violations — open/closed violations (must modify existing code for extension), Liskov substitution failures, interface segregation issues, dependency inversion anti-patterns (depending on concrete implementations instead of interfaces).
+- Abstraction — wrong level of abstraction (leaking internals, over-engineering, under-engineering), premature abstraction, unnecessary indirection.
+- Naming and structure — misleading names for types/modules/functions that indicate a wrong mental model.
+- Cross-file tracing — follow module boundaries and imports to understand the full impact of structural decisions.
+
+## Overlap with other specialists
+
+- **Primary owner of:** architectural structure, coupling/cohesion, SOLID, code smells, abstraction correctness.
+- **Cross-cuts with:**
+  - `correctness-reviewer` — a design problem that directly enables a bug should be noted here; the bug itself is theirs.
+  - `maintainability-reviewer` — readability issues within a single function are theirs; structural problems spanning modules are yours.
+  - `api-contract-reviewer` — public interface design is shared: you own internal structure, they own the public contract and versioning.
+  - `performance-reviewer` — design decisions that structurally constrain performance (e.g., forced N+1 by data model) are yours to flag; micro-level optimization is theirs.
+
+## Brief (passed to the Agent)
+
+&gt; Review `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`) for architectural design issues: coupling, cohesion, SOLID violations, code smells, and abstraction correctness. Languages: `&lt;LANGUAGES&gt;`.
+&gt;
+&gt; **Follow imports and module boundaries** into related files. Design issues are rarely visible in a single file.
+&gt;
+&gt; Pre-pass linter findings routed to you:
+&gt; ```
+&gt; &lt;LINTER_PREPASS_FINDINGS_FOR_design-reviewer&gt;
+&gt; ```
+&gt; Triage each: `linter-&lt;name&gt;-confirmed` (true-positive), `linter-&lt;name&gt;-false-positive` (false-positive). Then find structural issues linters can't detect.
+&gt;
+&gt; **Severity guidance:**
+&gt; - `critical` — design flaw that makes the system fundamentally unmaintainable or that will definitely cause multiple cascading bugs; no safe path to extend without a rewrite.
+&gt; - `major` — clear violation of a design principle with concrete negative consequences; identifiable refactoring path exists.
+&gt; - `minor` — design smell that adds friction but doesn't block progress; low-effort improvement available.
+&gt; - `nit` — subjective preference with no concrete negative consequence.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/code-review/`):**
+&gt; 1. `design-reviewer.md` — prose findings, grouped by severity. Open with "Scope reviewed: &lt;summary&gt;".
+&gt; 2. `design-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("design-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence` (concrete code showing the smell), `fix`, `related`, `merge_recommendation`.
+&gt; 3. `design-reviewer.coverage.jsonl` — one record per owned dimension. Include searches performed.
+&gt; 4. `design-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
+&gt;
+&gt; **Hard rules:** cite exact code evidence; no "you should refactor this" without a concrete proposal; defer style/readability to maintainability-reviewer; defer public-API contract concerns to api-contract-reviewer.
+&gt;
+&gt; Report back: absolute paths of four output files + one-line severity counts.
+
+## Output files
+
+- `design-reviewer.md`
+- `design-reviewer.findings.jsonl`
+- `design-reviewer.coverage.jsonl`
+- `design-reviewer.status.json`
+
+## Allowed tools
+
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `design-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
+
+## Coverage dimensions owned
+
+`coupling`, `cohesion`, `solid-violations`, `code-smells`, `abstraction-correctness`
+</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="crt-spec--performance" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>performance-reviewer <span class="badge" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">lite</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Algorithmic efficiency, resource consumption, and concurrency performance.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Algorithmic complexity — O(n²) or worse where O(n log n) or better exists, nested loops over large collections, redundant iteration.</li>
+          <li>Database / storage patterns — N+1 query patterns, missing indexes on filtered/sorted columns, unbounded fetches without pagination.</li>
+          <li>Memory — unnecessary allocations in hot paths, string concatenation in loops, large data structures kept in memory when streaming would suffice.</li>
+          <li>I/O — blocking I/O on the main thread, synchronous disk reads in request handlers, missing batching or buffering, missing connection pooling.</li>
+          <li>Caching — expensive computations repeated without caching, cache invalidation that's too aggressive or not aggressive enough.</li>
+          <li>Concurrency — excessive locking, lock contention, serial execution where parallelism is safe, missed opportunity to batch concurrent requests.</li>
+          <li>Startup / initialization — expensive work done eagerly that could be deferred or done once.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage dimensions owned</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0 0 1rem;"><code>algorithmic-complexity</code>, <code>database-query-patterns</code>, <code>memory-allocation</code>, <code>io-patterns</code>, <code>caching</code>, <code>concurrency-performance</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># performance-reviewer
+
+## Primary scope
+
+Algorithmic efficiency, resource consumption, and concurrency performance.
+
+- Algorithmic complexity — O(n²) or worse where O(n log n) or better exists, nested loops over large collections, redundant iteration.
+- Database / storage patterns — N+1 query patterns, missing indexes on filtered/sorted columns, unbounded fetches without pagination, unnecessary full-table scans.
+- Memory — unnecessary allocations in hot paths, string concatenation in loops, large data structures kept in memory when streaming would suffice, missing object pooling.
+- I/O — blocking I/O on the main thread, synchronous disk reads in request handlers, missing batching or buffering, missing connection pooling.
+- Caching — expensive computations repeated without caching, cache invalidation that's too aggressive or not aggressive enough, unnecessary re-fetching of immutable data.
+- Concurrency — excessive locking, lock contention, serial execution where parallelism is safe, missed opportunity to batch concurrent requests.
+- Startup / initialization — expensive work done eagerly that could be deferred or done once.
+- Cross-file tracing — follow call chains to understand where hot paths originate; a single function call can mask O(n²) in a dependency.
+
+## Overlap with other specialists
+
+- **Primary owner of:** algorithmic complexity, I/O patterns, caching, memory allocation in hot paths, database query patterns.
+- **Cross-cuts with:**
+  - `correctness-reviewer` — a performance bug that also causes wrong results (e.g., race condition corrupting state) is theirs; pure perf is yours.
+  - `design-reviewer` — a data model that structurally forces N+1 is a design issue; the N+1 call site itself is yours.
+  - `testing-reviewer` — missing performance benchmarks: note it, testing-reviewer will flag test coverage gaps independently.
+
+## Brief (passed to the Agent)
+
+&gt; Review `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`) for performance problems: algorithmic complexity, N+1 patterns, unnecessary allocations, blocking I/O, missing caching, and concurrency bottlenecks. Languages: `&lt;LANGUAGES&gt;`.
+&gt;
+&gt; **Follow call chains** into related files. A loop in the diff may call a library function that does O(n) work per call — trace it.
+&gt;
+&gt; Pre-pass linter findings routed to you:
+&gt; ```
+&gt; &lt;LINTER_PREPASS_FINDINGS_FOR_performance-reviewer&gt;
+&gt; ```
+&gt; Triage each, then find what linters can't detect (architectural-level perf patterns).
+&gt;
+&gt; **Severity guidance:**
+&gt; - `critical` — measurable performance regression under expected load; will cause timeouts, OOM, or SLA breach.
+&gt; - `major` — concrete perf problem reproducible under realistic load; identifiable optimization path.
+&gt; - `minor` — perf smell that adds overhead but doesn't reach a threshold under expected usage; optimization worth doing.
+&gt; - `nit` — micro-optimization; negligible impact.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/code-review/`):**
+&gt; 1. `performance-reviewer.md` — prose findings grouped by severity. Open with scope summary.
+&gt; 2. `performance-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("performance-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence` (exact code), `fix`, `related`, `merge_recommendation`.
+&gt; 3. `performance-reviewer.coverage.jsonl` — one record per owned dimension.
+&gt; 4. `performance-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
+&gt;
+&gt; **Hard rules:** cite exact code evidence; quantify expected impact when possible ("this adds O(n) DB queries per request"); defer architectural data model decisions to design-reviewer.
+&gt;
+&gt; Report back: absolute paths of four output files + one-line severity counts.
+
+## Output files
+
+- `performance-reviewer.md`
+- `performance-reviewer.findings.jsonl`
+- `performance-reviewer.coverage.jsonl`
+- `performance-reviewer.status.json`
+
+## Allowed tools
+
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `performance-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
+
+## Coverage dimensions owned
+
+`algorithmic-complexity`, `database-query-patterns`, `memory-allocation`, `io-patterns`, `caching`, `concurrency-performance`
+</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="crt-spec--maintainability" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>maintainability-reviewer <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">full</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Readability, naming, cyclomatic complexity, duplication, and day-to-day maintainability friction.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Naming — misleading variable/function/class names, overly abbreviated identifiers, inconsistent naming conventions within the codebase.</li>
+          <li>Readability — deeply nested control flow, long functions that do too much in a single read, cryptic one-liners.</li>
+          <li>Magic numbers/strings — unexplained literals used inline; should be named constants.</li>
+          <li>Dead code — unreachable branches, unused imports, commented-out code blocks, stale feature flags.</li>
+          <li>Duplication — copy-pasted logic that should be a shared utility.</li>
+          <li>Cyclomatic complexity — deeply nested conditionals, long switch/match arms, functions with too many early-returns that obscure the happy path.</li>
+          <li>Comments — missing WHY comments, redundant comments that restate what the code says, outdated comments that contradict the current code.</li>
+          <li>Consistency — deviations from the codebase's established style patterns.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage dimensions owned</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0 0 1rem;"><code>naming</code>, <code>readability</code>, <code>cyclomatic-complexity</code>, <code>duplication</code>, <code>dead-code</code>, <code>magic-literals</code>, <code>comment-quality</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># maintainability-reviewer
+
+## Primary scope
+
+Readability, naming, cyclomatic complexity, duplication, and day-to-day maintainability friction.
+
+- Naming — misleading variable/function/class names, overly abbreviated identifiers, inconsistent naming conventions within the codebase.
+- Readability — deeply nested control flow, long functions that do too much in a single read, missing blank lines between logical sections, cryptic one-liners.
+- Magic numbers/strings — unexplained literals used inline; should be named constants.
+- Dead code — unreachable branches, unused imports, commented-out code blocks, stale feature flags.
+- Duplication — copy-pasted logic that should be a shared utility (but is NOT the same as a design smell — don't escalate to design-reviewer unless the duplication indicates a structural problem).
+- Cyclomatic complexity — deeply nested conditionals, long switch/match arms, functions with too many early-returns that obscure the happy path.
+- Comments — missing comments where the WHY is non-obvious; redundant comments that restate what the code already says; outdated comments that contradict the current code.
+- Consistency — deviations from the codebase's established style patterns (check adjacent files for the baseline).
+
+## Overlap with other specialists
+
+- **Primary owner of:** naming, readability, complexity, duplication within a function, dead code, comments.
+- **Cross-cuts with:**
+  - `design-reviewer` — duplication that spans modules and indicates a missing abstraction is theirs; intra-function duplication is yours.
+  - `correctness-reviewer` — a misleading name that caused a bug is yours to flag (naming); the bug itself is theirs.
+  - `api-contract-reviewer` — confusing public API naming is shared; they own the contract, you own the readability of the implementation internals.
+
+## Brief (passed to the Agent)
+
+&gt; Review `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`) for maintainability issues: naming, readability, cyclomatic complexity, duplication, dead code, magic literals, and comment quality. Languages: `&lt;LANGUAGES&gt;`.
+&gt;
+&gt; Check adjacent unchanged files to understand the codebase's established style and naming conventions before flagging deviations.
+&gt;
+&gt; Pre-pass linter findings routed to you:
+&gt; ```
+&gt; &lt;LINTER_PREPASS_FINDINGS_FOR_maintainability-reviewer&gt;
+&gt; ```
+&gt; Triage each, then find what linters miss (semantic naming issues, readability, comment quality).
+&gt;
+&gt; **Severity guidance:**
+&gt; - `critical` — naming or readability so bad that the code is actively misleading; a reader would confidently draw the wrong conclusion about behaviour.
+&gt; - `major` — significant friction that slows down all future changes to this code.
+&gt; - `minor` — clear improvement available with low effort; current state acceptable but suboptimal.
+&gt; - `nit` — style preference; no concrete friction.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/code-review/`):**
+&gt; 1. `maintainability-reviewer.md` — prose findings grouped by severity. Open with scope summary.
+&gt; 2. `maintainability-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("maintainability-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence`, `fix`, `related`, `merge_recommendation`.
+&gt; 3. `maintainability-reviewer.coverage.jsonl` — one record per owned dimension.
+&gt; 4. `maintainability-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
+&gt;
+&gt; **Hard rules:** cite exact code evidence; do not flag style preferences as major issues; check codebase conventions before flagging "inconsistency"; defer structural (multi-module) problems to design-reviewer.
+&gt;
+&gt; Report back: absolute paths of four output files + one-line severity counts.
+
+## Output files
+
+- `maintainability-reviewer.md`
+- `maintainability-reviewer.findings.jsonl`
+- `maintainability-reviewer.coverage.jsonl`
+- `maintainability-reviewer.status.json`
+
+## Allowed tools
+
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `maintainability-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
+
+## Coverage dimensions owned
+
+`naming`, `readability`, `cyclomatic-complexity`, `duplication`, `dead-code`, `magic-literals`, `comment-quality`
+</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="crt-spec--testing" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>testing-reviewer <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">full</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Test coverage quality, assertion strength, test isolation, and the testability of the implementation under review.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Coverage gaps — paths through the changed code that have no corresponding test: edge cases, happy-path-only test suites.</li>
+          <li>Assertion quality — tests that pass without proving anything (missing assertions, asserting on the wrong value).</li>
+          <li>Test isolation — tests that depend on external services, filesystem state, or other test execution order; mutable shared state between test cases.</li>
+          <li>Flaky test patterns — time-dependent assertions (sleep-based waits), randomized inputs without a seed, tests that pass only in CI or only locally.</li>
+          <li>Testability of the implementation — code that's hard to test because of hidden dependencies, singletons, or inability to inject mocks.</li>
+          <li>Test structure — missing test descriptions, tests that test too many things in one case, test helper duplication.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage dimensions owned</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0 0 1rem;"><code>coverage-gaps</code>, <code>assertion-quality</code>, <code>test-isolation</code>, <code>flaky-patterns</code>, <code>testability</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># testing-reviewer
+
+## Primary scope
+
+Test coverage quality, assertion strength, test isolation, and the testability of the implementation under review.
+
+- Coverage gaps — paths through the changed code that have no corresponding test: edge cases from correctness-reviewer's scope that are also missing tests, happy-path-only test suites.
+- Assertion quality — tests that pass without proving anything (missing assertions, assertTrue(true), asserting on the wrong value), tests that verify implementation details instead of behaviour.
+- Test isolation — tests that depend on external services, filesystem state, or other test execution order; mutable shared state between test cases; lack of mocking/stubbing where appropriate.
+- Flaky test patterns — time-dependent assertions (sleep-based waits), randomized inputs without a seed, tests that pass only in CI or only locally.
+- Testability of the implementation — code that's hard to test because of hidden dependencies, singletons, tight coupling, or inability to inject mocks; flag these even if no tests exist yet.
+- Test structure — missing test descriptions, tests that test too many things in one case, missing setup/teardown, test helper duplication.
+
+## Overlap with other specialists
+
+- **Primary owner of:** test quality, coverage gaps for the diff's changed paths, test isolation, flaky patterns, testability of the implementation.
+- **Cross-cuts with:**
+  - `correctness-reviewer` — edge cases you flag as missing tests may already be flagged as bugs by them. Cross-reference, don't duplicate.
+  - `design-reviewer` — testability issues rooted in architectural coupling are design's scope; you flag the testability consequence.
+  - `maintainability-reviewer` — test readability and naming is shared; you own test correctness, they own test clarity.
+
+## Brief (passed to the Agent)
+
+&gt; Review `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`) for testing quality: coverage gaps, assertion strength, test isolation, flaky patterns, and testability of the implementation. Languages: `&lt;LANGUAGES&gt;`.
+&gt;
+&gt; **Cross-reference with changed code.** For each function or code path in the diff, check whether an adequate test exists. Don't flag untested code that was not changed.
+&gt;
+&gt; Pre-pass linter findings routed to you:
+&gt; ```
+&gt; &lt;LINTER_PREPASS_FINDINGS_FOR_testing-reviewer&gt;
+&gt; ```
+&gt; Triage, then find what linters can't detect (semantic test quality, coverage gaps).
+&gt;
+&gt; **Severity guidance:**
+&gt; - `critical` — critical changed code path (error handling, security-adjacent logic, core business rule) has no test; a bug here would not be caught.
+&gt; - `major` — important changed path lacks tests; test assertions pass even when the code is wrong.
+&gt; - `minor` — test coverage is present but incomplete for edge cases; tests could be stronger.
+&gt; - `nit` — test style, naming, or structure preference.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/code-review/`):**
+&gt; 1. `testing-reviewer.md` — prose findings grouped by severity. Open with scope summary. Include list of changed functions/paths and their test coverage status.
+&gt; 2. `testing-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("testing-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence`, `fix`, `related`, `merge_recommendation`.
+&gt; 3. `testing-reviewer.coverage.jsonl` — one record per owned dimension.
+&gt; 4. `testing-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
+&gt;
+&gt; **Hard rules:** cite exact code and test evidence; never flag as missing-test if the path is covered (check thoroughly); don't demand 100% coverage — focus on meaningful paths; defer structural testability root causes to design-reviewer.
+&gt;
+&gt; Report back: absolute paths of four output files + one-line severity counts.
+
+## Output files
+
+- `testing-reviewer.md`
+- `testing-reviewer.findings.jsonl`
+- `testing-reviewer.coverage.jsonl`
+- `testing-reviewer.status.json`
+
+## Allowed tools
+
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `testing-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
+
+## Coverage dimensions owned
+
+`coverage-gaps`, `assertion-quality`, `test-isolation`, `flaky-patterns`, `testability`
+</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="crt-spec--api-contract" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>api-contract-reviewer <span class="badge" style="background:rgba(59,130,246,0.15); color:var(--accent-blue);">full</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Primary scope</h4>
+        <p style="margin-bottom:0.5rem;">Public interface design, backward compatibility, breaking changes, and versioning discipline.</p>
+        <ul style="margin: 0 0 1rem 1.2rem; color:var(--text-secondary); font-size:0.9rem;">
+          <li>Breaking changes — removed or renamed public functions, types, or fields; changed required parameter types or return type shape.</li>
+          <li>Backward compatibility — additions that could break callers via interface widening, deprecation without migration path.</li>
+          <li>Versioning discipline — breaking changes without a major version bump, missing deprecation notices, CHANGELOG entries missing for breaking changes.</li>
+          <li>Interface design quality — overly broad function signatures, callback-heavy APIs where promise-based would be simpler, inconsistent naming across the public API surface.</li>
+          <li>API surface size — exposing internals that should be private, excessive public surface that creates future maintenance burden.</li>
+          <li>REST / RPC contracts — changed HTTP method, path, or status codes; removed request/response fields; non-backwards-compatible schema changes.</li>
+          <li>Cross-file tracing — follow all call sites of changed public APIs to understand the blast radius of an interface change.</li>
+        </ul>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0 0 0.5rem;">Coverage dimensions owned</h4>
+        <p style="font-size:0.85rem; line-height:1.8; margin:0 0 1rem;"><code>breaking-changes</code>, <code>backward-compatibility</code>, <code>versioning-discipline</code>, <code>interface-design</code>, <code>rest-rpc-contracts</code></p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:1.2rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code># api-contract-reviewer
+
+## Primary scope
+
+Public interface design, backward compatibility, breaking changes, and versioning discipline.
+
+- Breaking changes — removed or renamed public functions, types, or fields; changed required parameter types or order; changed return type shape or error contract; removed exported constants or enums.
+- Backward compatibility — additions that could break callers via interface widening (e.g., adding a required field to a struct used as a function argument in calling code), deprecation without migration path.
+- Versioning discipline — breaking changes without a major version bump, missing deprecation notices, CHANGELOG entries missing for breaking or significant changes.
+- Interface design quality — overly broad function signatures that take `any`/`interface{}`/`object` where concrete types exist, callback-heavy APIs where promise-based would be simpler, inconsistent naming conventions across the public API surface.
+- API surface size — exposing internals that should be private, excessive public surface that creates future maintenance burden.
+- REST / RPC contracts — changed HTTP method, path, or status codes; removed request/response fields; non-backwards-compatible schema changes; missing deprecation headers.
+- Cross-file tracing — follow all call sites of changed public APIs to understand the blast radius of an interface change.
+
+## Overlap with other specialists
+
+- **Primary owner of:** public API contracts, breaking changes, versioning, REST/RPC schema changes.
+- **Cross-cuts with:**
+  - `design-reviewer` — internal structural design is theirs; the public contract surface is yours.
+  - `correctness-reviewer` — if a changed API contract causes bugs in callers, you flag the contract change, they flag the bug.
+  - `maintainability-reviewer` — confusing API naming is shared; you own contract stability, they own implementation readability.
+
+## Brief (passed to the Agent)
+
+&gt; Review `&lt;TARGET&gt;` (scope: `&lt;SCOPE&gt;`) for public API contract issues: breaking changes, backward compatibility, versioning discipline, and interface design quality. Languages: `&lt;LANGUAGES&gt;`.
+&gt;
+&gt; **Map every public/exported symbol in the diff.** For each changed public API, check all call sites (inside the repo) to understand impact. Check CHANGELOG and version files to verify breaking changes are documented and versioned correctly.
+&gt;
+&gt; Pre-pass linter findings routed to you:
+&gt; ```
+&gt; &lt;LINTER_PREPASS_FINDINGS_FOR_api-contract-reviewer&gt;
+&gt; ```
+&gt; Triage, then find what linters can't detect (semantic contract changes, versioning gaps).
+&gt;
+&gt; **Severity guidance:**
+&gt; - `critical` — undocumented breaking change to a public API; callers in the repo already broken; missing major version bump for a breaking library change.
+&gt; - `major` — breaking change that is documented but the migration path is incomplete or wrong; interface design that will require a future breaking change to fix.
+&gt; - `minor` — API design improvement available; deprecation notice missing but no callers broken yet.
+&gt; - `nit` — naming or documentation preference for a public symbol.
+&gt;
+&gt; **Output contract (four files in `&lt;TARGET&gt;/.planning/code-review/`):**
+&gt; 1. `api-contract-reviewer.md` — prose findings grouped by severity. Open with a list of public API changes found in the diff (added / changed / removed), then group findings by severity.
+&gt; 2. `api-contract-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("api-contract-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence`, `fix`, `related`, `merge_recommendation`.
+&gt; 3. `api-contract-reviewer.coverage.jsonl` — one record per owned dimension.
+&gt; 4. `api-contract-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
+&gt;
+&gt; **Hard rules:** cite exact diff evidence for every breaking change; check call sites before claiming "breaking change" (the change might only affect internal code); defer internal structural decisions to design-reviewer.
+&gt;
+&gt; Report back: absolute paths of four output files + one-line severity counts.
+
+## Output files
+
+- `api-contract-reviewer.md`
+- `api-contract-reviewer.findings.jsonl`
+- `api-contract-reviewer.coverage.jsonl`
+- `api-contract-reviewer.status.json`
+
+## Allowed tools
+
+- `Read` — any file under target
+- `Grep`, `Glob` — any file under target
+- `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
+- `Write` — **scoped** to `api-contract-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
+
+## Coverage dimensions owned
+
+`breaking-changes`, `backward-compatibility`, `versioning-discipline`, `interface-design`, `rest-rpc-contracts`
+</code></pre>
+      </div></div>
+    </div>
+
+
       </div></div>
     </div>
     <div class="collapsible" id="skill-def--sec-review-team" style="margin-top:0.6rem;">
@@ -11898,6 +12479,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.77.0 <span class="changelog-date">· 2026-05-28</span></h3>
+        <p><strong>Code Review Team: Specialist Definitions added to Skills Library (CBP-198).</strong> Added a &ldquo;Specialist Definitions&rdquo; sub-section inside the <code>/fsd:code-review-team</code> collapsible in the Skills Library. Six specialist cards now appear below the SKILL.md orchestration block — one per specialist (<code>correctness-reviewer</code>, <code>design-reviewer</code>, <code>performance-reviewer</code>, <code>maintainability-reviewer</code>, <code>testing-reviewer</code>, <code>api-contract-reviewer</code>) — each showing Primary scope, Coverage dimensions, and a copyable Definition file. A roster table distinguishes <em>lite</em> specialists (run in all modes) from <em>full</em> specialists (added in full mode only).</p>
+      </section>
       <section>
         <h3>v2.76.0 <span class="changelog-date">· 2026-05-28</span></h3>
         <p><strong>Claude Code v2.1.153 auto-update (CBP-197).</strong> Corrected the <code>/model</code> Cheat Sheet row: v2.1.153 reversed the behavior introduced in v2.1.144 (CBP-167). Model selection is now saved as the default for new sessions again. Press <code>s</code> in the picker to switch models for the current session only (the <code>d</code> keybinding for session-only was replaced by <code>s</code>; if you customized <code>modelPicker:setAsDefault</code>, rename it to <code>modelPicker:thisSessionOnly</code> in keybindings.json).</p>

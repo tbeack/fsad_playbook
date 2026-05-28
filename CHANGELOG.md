@@ -2,6 +2,14 @@
 
 ### [Unreleased]
 
+### v2.77.0 — 2026-05-28
+
+**CBP-198 — Code Review Team: Specialist Definitions added to Skills Library**
+
+Added a "Specialist Definitions" sub-section inside the `/fsd:code-review-team` collapsible in the Skills Library (Skill Definitions page). Six specialist cards now appear below the SKILL.md orchestration block, mirroring the pattern used by the Multi-Agent Security Review Team section.
+
+- **CBP-198** — Each of the 6 specialist briefs (`correctness-reviewer`, `design-reviewer`, `performance-reviewer`, `maintainability-reviewer`, `testing-reviewer`, `api-contract-reviewer`) is now an expandable collapsible card showing: Primary scope bullets, Coverage dimensions owned, and a copyable Definition file block. A roster table above the cards summarises each specialist's focus and whether they run in lite or full mode. Specialist files mirror the live sources in `skills/code-review-team/specialists/`.
+
 ### v2.76.0 — 2026-05-28
 
 **Claude Code v2.1.153 auto-update (CBP-197)**
