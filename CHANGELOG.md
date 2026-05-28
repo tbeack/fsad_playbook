@@ -2,6 +2,25 @@
 
 ### [Unreleased]
 
+### v2.78.0 — 2026-05-28
+
+**CBP-199 — Dynamic Workflows subsection added to Power Usage**
+
+Added a new "Dynamic Workflows — Self-Paced Loops" collapsible to the Claude Power Usage section, documenting the no-interval `/loop` mode where Claude uses `ScheduleWakeup` to self-pace its wakeup schedule.
+
+- **CBP-199** — New `power-usage--dynamic-workflows` collapsible inserted after the `/loop` collapsible. Explains omitting the interval so Claude picks its own delay based on what it's watching. Includes 3 realistic no-interval `/loop` examples (CI check/fix, issue triage, deploy monitoring), a "Prompt Cache Warmth" callout explaining the 5-minute TTL, a delay-range reference table (60–270s warm / 300–3600s one miss / 1200–1800s idle default), and an "Avoid 300s" warning callout. Left nav gains a "Dynamic Workflows" leaf item after "/loop". Dist artifact regenerated.
+
+**CBP-200 — Model comparison updated to include Opus 4.8**
+
+Updated the Model & Effort section (§12.5) to reflect Opus 4.8 (`claude-opus-4-8`) as the new frontier model, released May 28, 2026. Adds a new Opus 4.8 column to the model lineup table alongside the existing Opus 4.7 / Sonnet 4.6 / Haiku 4.5 columns; updates aliases, workload recommendations, effort callouts, and all secondary cross-references.
+
+- **CBP-200** — New Opus 4.8 column in the model lineup table: API ID `claude-opus-4-8`, $5/$25 per MTok (same as 4.7), 1M context, 128K max output, adaptive thinking with `high` as default effort on all surfaces (API, Claude Code, Bedrock, Vertex, Foundry). Updated positioning description to "Most capable — frontier reasoning, agentic coding, long-horizon autonomy".
+- **CBP-200** — `best`/`opus` model alias updated to resolve to Opus 4.8 on API, Bedrock, Vertex, and Foundry. `default` alias for Max / Team Premium tier now maps to Opus 4.8.
+- **CBP-200** — Workload combinations table updated: all "Opus 4.7" frontier planning/execution entries now reference Opus 4.8 (greenfield feature, architectural refactor, long-session monorepo, production incident / RCA rows).
+- **CBP-200** — Key Dates callout updated: added May 28, 2026 Opus 4.8 release entry; updated June 15 retirement notice migration target from Opus 4.7 to Opus 4.8.
+- **CBP-200** — `xhigh` effort notes updated from "Opus 4.7 only" to "Opus 4.7 / Opus 4.8" in the effort table, code block, Cheat Sheet `/effort` row, CLI flags table, and practice table.
+- **CBP-200** — Default Effort callout updated to document Opus 4.8's `high` default on all surfaces. Adaptive thinking paragraph broadened to include Opus 4.8. `budget_tokens` deprecation note updated to include Opus 4.8.
+
 ### v2.77.0 — 2026-05-28
 
 **CBP-198 — Code Review Team: Specialist Definitions added to Skills Library**

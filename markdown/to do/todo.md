@@ -209,3 +209,5 @@
 - [x] `CBP-196` — remove any reference to "Theo" in the skills section. also change any references of "tb" to "fsd", example: ~/.claude/commands/tb/projects.yaml → [task-cbp-196.md](task-cbp-196.md)
 - [x] `CBP-197` Update `/model` Cheat Sheet row to v2.1.153 behavior: selection saves as default; press `s` for session-only (reversal of CBP-167) → [task-cbp-197.md](task-cbp-197.md)
 - [x] `CBP-198` — Add code review specialist definitions to the playbook → [task-cbp-198.md](task-cbp-198.md)
+- [x] `CBP-199` — add a new subsection about `Dynamic Workflows` to the playbook. Add under the `Power Usage` section. → [task-cbp-199.md](task-cbp-199.md)
+- [x] `CBP-200` — Update the model comparison to include `Opus 4.8` → [task-cbp-200.md](task-cbp-200.md)
