@@ -6,9 +6,9 @@
 
 **CBP-199 — Dynamic Workflows subsection added to Power Usage**
 
-Added a new "Dynamic Workflows — Self-Paced Loops" collapsible to the Claude Power Usage section, documenting the no-interval `/loop` mode where Claude uses `ScheduleWakeup` to self-pace its wakeup schedule.
+Added a "Dynamic Workflows — Parallel Multi-Agent Orchestration" collapsible to the Claude Power Usage section, documenting how dynamic workflows run tens to hundreds of parallel subagents for tasks too large for a single-pass solution.
 
-- **CBP-199** — New `power-usage--dynamic-workflows` collapsible inserted after the `/loop` collapsible. Explains omitting the interval so Claude picks its own delay based on what it's watching. Includes 3 realistic no-interval `/loop` examples (CI check/fix, issue triage, deploy monitoring), a "Prompt Cache Warmth" callout explaining the 5-minute TTL, a delay-range reference table (60–270s warm / 300–3600s one miss / 1200–1800s idle default), and an "Avoid 300s" warning callout. Left nav gains a "Dynamic Workflows" leaf item after "/loop". Dist artifact regenerated.
+- **CBP-199** — New `power-usage--dynamic-workflows` collapsible. Covers: activation via natural-language prompt ("Create a workflow…") or `ultracode` effort setting; use-case table (codebase analysis, large migrations, critical validation); real-world scale callout (Bun Zig→Rust, 750k lines, 11 days, hundreds of agents); token-cost warning with Max/Team/Enterprise availability note. Description corrected to reflect actual Anthropic Dynamic Workflows feature (parallel multi-agent orchestration) per the official blog post. Dist artifact regenerated.
 
 **CBP-200 — Model comparison updated to include Opus 4.8**
 

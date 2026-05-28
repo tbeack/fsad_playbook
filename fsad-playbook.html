@@ -9597,38 +9597,37 @@ smoke tests against the staging URL."</code></pre>
     <!-- Dynamic Workflows -->
     <div class="collapsible" id="power-usage--dynamic-workflows">
       <div class="collapsible-header">
-        <h3>Dynamic Workflows — Self-Paced Loops</h3>
+        <h3>Dynamic Workflows — Parallel Multi-Agent Orchestration</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Omit the interval from <code>/loop</code> and Claude decides its own wakeup schedule. Instead of sleeping a fixed duration, it uses <code>ScheduleWakeup</code> with a delay it reasons about — matching the wait to what it's actually watching. This is the right mode when the task itself determines how long to wait: a CI run that takes 8 minutes shouldn't be polled every 30 seconds.</p>
+        <p>Dynamic workflows run tens to hundreds of parallel subagents in a single session — tackling problems too large for a single-pass solution. Claude decomposes the prompt, distributes subtasks across agents working simultaneously, verifies results through independent checking and adversarial refutation, and iterates until answers converge. <em>"Work you'd normally plan in quarters now finishes in days."</em></p>
         <div class="code-block" style="margin-top:0.75rem;">
-          <pre><code class="language-bash"><span class="cm"># No interval — Claude picks its own wakeup delay</span>
-/loop watch for failing CI checks and open fix PRs automatically
+          <pre><code class="language-bash"><span class="cm"># Ask Claude directly to create a workflow</span>
+<span class="str">"Create a workflow to find all security vulnerabilities across the codebase"</span>
+<span class="str">"Create a workflow to migrate all API calls from v1 to v2"</span>
 
-<span class="cm"># Complex multi-phase task: Claude decides when each phase is done</span>
-/loop triage new GitHub issues, label them, and assign to the right milestone
-
-<span class="cm"># Long-running research: Claude paces itself across the work</span>
-/loop monitor the deploy pipeline and summarize any regressions</code></pre>
+<span class="cm"># Or enable ultracode — Claude decides when to use workflows automatically</span>
+/effort ultracode</code></pre>
         </div>
-        <div class="callout callout-tip" style="margin-top:0.75rem;">
-          <div class="callout-title">Prompt Cache Warmth</div>
-          <p>Claude's prompt cache has a 5-minute TTL. Sleeping past 300 seconds means the next wakeup reads the full context uncached — slower and more expensive. Dynamic loops reason about this automatically, but the thresholds are worth knowing:</p>
-        </div>
-        <div class="table-wrap" style="margin-top:0.75rem;">
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:0.75rem; margin-bottom:0.5rem;">Best-fit use cases</p>
+        <div class="table-wrap">
           <table class="styled-table">
-            <thead><tr><th>Delay range</th><th>Cache state</th><th>When to use</th></tr></thead>
+            <thead><tr><th>Category</th><th>Examples</th></tr></thead>
             <tbody>
-              <tr><td><strong>60s–270s</strong></td><td>Cache stays warm</td><td>Actively polling fast-changing external state (CI run in progress, live deploy)</td></tr>
-              <tr><td><strong>300s–3600s</strong></td><td>Cache miss (pay once)</td><td>Waiting on something that takes minutes to change; idle between meaningful events</td></tr>
-              <tr><td><strong>1200s–1800s</strong> (default idle)</td><td>Cache miss (amortized)</td><td>No specific signal to watch; periodic heartbeat check</td></tr>
+              <tr><td><strong>Codebase analysis</strong></td><td>Bug hunts, security audits, optimization reviews across entire services</td></tr>
+              <tr><td><strong>Large migrations</strong></td><td>Framework swaps, API deprecations, language ports spanning thousands of files</td></tr>
+              <tr><td><strong>Critical validation</strong></td><td>Independent multi-angle attempts when wrong answers carry high costs</td></tr>
             </tbody>
           </table>
         </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem;">
+          <div class="callout-title">Real-World Scale</div>
+          <p>Jarred Sumner used dynamic workflows to port Bun from Zig to Rust — 750,000 lines of code, 99.8% test suite compatibility, in eleven days, with hundreds of agents working in parallel and two reviewers on each file.</p>
+        </div>
         <div class="callout callout-warning" style="margin-top:0.75rem; margin-bottom:0;">
-          <div class="callout-title">Avoid 300s</div>
-          <p><strong>Don't sleep exactly 300 seconds.</strong> It's the worst of both: you pay the cache miss without any benefit. Either stay under 270s (cache warm) or commit to 1200s+ (one miss buys a much longer wait). Think in terms of what you're watching, not round-number minutes.</p>
+          <div class="callout-title">Token Cost</div>
+          <p>Dynamic workflows can consume substantially more tokens than a typical Claude Code session. Available on <strong>Max, Team, and Enterprise plans</strong>. On Enterprise, off by default at launch — admins enable via Claude Code settings.</p>
         </div>
       </div></div>
     </div>
