@@ -2076,6 +2076,7 @@
               <a class="nav-leaf-item" href="#practices/power-usage/session-logs" data-leaf="power-usage--session-logs" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--session-logs', 'reference')">Session Logs</a>
               <a class="nav-leaf-item" href="#practices/power-usage/insights" data-leaf="power-usage--insights" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--insights', 'reference')">/insights</a>
               <a class="nav-leaf-item" href="#practices/power-usage/loop" data-leaf="power-usage--loop" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--loop', 'reference')">/loop</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/dynamic-workflows" data-leaf="power-usage--dynamic-workflows" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--dynamic-workflows', 'reference')">Dynamic Workflows</a>
               <a class="nav-leaf-item" href="#practices/power-usage/remote-control" data-leaf="power-usage--remote-control" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--remote-control', 'reference')">Remote Control</a>
               <a class="nav-leaf-item" href="#practices/power-usage/chrome" data-leaf="power-usage--chrome" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--chrome', 'reference')">Chrome</a>
               <a class="nav-leaf-item" href="#practices/power-usage/batch" data-leaf="power-usage--batch" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--batch', 'reference')">Batch Ops</a>
@@ -9587,6 +9588,45 @@ smoke tests against the staging URL."</code></pre>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">For Persistence</div>
           <p>Session-scoped loops stop when the terminal closes. For persistent cloud scheduling, use <code>/schedule</code> to create cron-based tasks that run without an active terminal.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Dynamic Workflows -->
+    <div class="collapsible" id="power-usage--dynamic-workflows">
+      <div class="collapsible-header">
+        <h3>Dynamic Workflows — Self-Paced Loops</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Omit the interval from <code>/loop</code> and Claude decides its own wakeup schedule. Instead of sleeping a fixed duration, it uses <code>ScheduleWakeup</code> with a delay it reasons about — matching the wait to what it's actually watching. This is the right mode when the task itself determines how long to wait: a CI run that takes 8 minutes shouldn't be polled every 30 seconds.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-bash"><span class="cm"># No interval — Claude picks its own wakeup delay</span>
+/loop watch for failing CI checks and open fix PRs automatically
+
+<span class="cm"># Complex multi-phase task: Claude decides when each phase is done</span>
+/loop triage new GitHub issues, label them, and assign to the right milestone
+
+<span class="cm"># Long-running research: Claude paces itself across the work</span>
+/loop monitor the deploy pipeline and summarize any regressions</code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0.75rem;">
+          <div class="callout-title">Prompt Cache Warmth</div>
+          <p>Claude's prompt cache has a 5-minute TTL. Sleeping past 300 seconds means the next wakeup reads the full context uncached — slower and more expensive. Dynamic loops reason about this automatically, but the thresholds are worth knowing:</p>
+        </div>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Delay range</th><th>Cache state</th><th>When to use</th></tr></thead>
+            <tbody>
+              <tr><td><strong>60s–270s</strong></td><td>Cache stays warm</td><td>Actively polling fast-changing external state (CI run in progress, live deploy)</td></tr>
+              <tr><td><strong>300s–3600s</strong></td><td>Cache miss (pay once)</td><td>Waiting on something that takes minutes to change; idle between meaningful events</td></tr>
+              <tr><td><strong>1200s–1800s</strong> (default idle)</td><td>Cache miss (amortized)</td><td>No specific signal to watch; periodic heartbeat check</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-warning" style="margin-top:0.75rem; margin-bottom:0;">
+          <div class="callout-title">Avoid 300s</div>
+          <p><strong>Don't sleep exactly 300 seconds.</strong> It's the worst of both: you pay the cache miss without any benefit. Either stay under 270s (cache warm) or commit to 1200s+ (one miss buys a much longer wait). Think in terms of what you're watching, not round-number minutes.</p>
         </div>
       </div></div>
     </div>
