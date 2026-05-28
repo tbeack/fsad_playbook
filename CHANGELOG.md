@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+**CBP-199 — Dynamic Workflows subsection added to Power Usage**
+
+Added a new "Dynamic Workflows — Self-Paced Loops" collapsible to the Claude Power Usage section, documenting the no-interval `/loop` mode where Claude uses `ScheduleWakeup` to self-pace its wakeup schedule.
+
+- **CBP-199** — New `power-usage--dynamic-workflows` collapsible inserted after the `/loop` collapsible. Explains omitting the interval so Claude picks its own delay based on what it's watching. Includes 3 realistic no-interval `/loop` examples (CI check/fix, issue triage, deploy monitoring), a "Prompt Cache Warmth" callout explaining the 5-minute TTL, a delay-range reference table (60–270s warm / 300–3600s one miss / 1200–1800s idle default), and an "Avoid 300s" warning callout. Left nav gains a "Dynamic Workflows" leaf item after "/loop". Dist artifact regenerated.
+
 ### v2.77.0 — 2026-05-28
 
 **CBP-198 — Code Review Team: Specialist Definitions added to Skills Library**
