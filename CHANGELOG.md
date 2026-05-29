@@ -2,6 +2,14 @@
 
 ### [Unreleased]
 
+### v2.81.1 — 2026-05-29
+
+**CBP-207 — FSAD Training link added to sidebar nav**
+
+Added an external link to the FSAD Training playbook (`https://fsad-training.vercel.app/`) to the left sidebar, positioned directly after the Workflows nav group. The entry uses the standard `nav-group-toggle` styling with a `↗` indicator to signal it opens in a new tab.
+
+- **CBP-207** — New `<!-- External: FSAD Training -->` nav group: `<a class="nav-group-toggle">` with `href="https://fsad-training.vercel.app/"`, `target="_blank"`, `rel="noopener noreferrer"`, ◆ icon, and ↗ chevron. Positioned between Workflows (GROUP 3) and Skills Library (GROUP 3.5).
+
 ### v2.81.0 — 2026-05-29
 
 **CBP-206 — `fsd:prd` skill added to Skills Library**
