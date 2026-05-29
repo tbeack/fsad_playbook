@@ -49,7 +49,7 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v2.80.0 |
+| **Current version** | v2.81.0 |
 | **Date updated** | 2026-05-29 |
 | **File** | `fsad-playbook.html` |
 
@@ -73,6 +73,7 @@ Reusable Claude Code skills bundled under `skills/`. Install as a plugin to invo
 | `init` | Initialize a new project with standard folder structure and config |
 | `sec-review-team` | Multi-agent security review (specialist roster selected by stack) |
 | `sec-review-fixes` | Opens fix PRs for High findings from a `sec-review-team` report |
+| `prd` | Write a PRD or feature spec — four-phase gated flow (Discovery → Specify → Plan → Tasks) |
 
 All skills read project conventions from `~/.claude/commands/fsd/projects.yaml` — copy `skills/add-task/add-task-projects.yaml` to that path and customize for your projects.
 

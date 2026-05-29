@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.80.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.81.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -3224,7 +3224,7 @@ git diff --stat</pre>
 <div class="hero" id="skills-hero" style="padding-bottom: 1.2rem;">
   <div class="hero-badge">Installable Skills for FSAD Pods</div>
   <h1>The <code style="font-family: var(--font-mono); font-size: 0.82em; color: inherit;">fsd:</code> Skill <em>Library</em></h1>
-  <p>Eleven installable skills for task management, code review, and security. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsd:&lt;name&gt;</code>.</p>
+  <p>Twelve installable skills for task management, code review, and security. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsd:&lt;name&gt;</code>.</p>
 </div>
 
 <hr class="divider">
@@ -3232,7 +3232,7 @@ git diff --stat</pre>
 <section id="skills-library">
   <span class="section-label">01 — Skills in this Playbook</span>
   <h2 class="section-title">The <code style="font-family: var(--font-mono); font-size: 0.82em;">fsd:</code> Skill Library</h2>
-  <p class="section-subtitle">Eleven installable skills for FSAD pods — task management, code review, and security. Each skill lives in this repo's <code>skills/</code> directory as a <code>SKILL.md</code> file. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsd:&lt;name&gt;</code>.</p>
+  <p class="section-subtitle">Twelve installable skills for FSAD pods — task management, code review, and security. Each skill lives in this repo's <code>skills/</code> directory as a <code>SKILL.md</code> file. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsd:&lt;name&gt;</code>.</p>
 
   <div class="wf-card" style="margin-bottom: 2rem; max-width: 720px;">
     <span class="wf-card-label">Installation</span>
@@ -3317,6 +3317,16 @@ git diff --stat</pre>
         <span class="wf-chip">folder structure</span>
         <span class="wf-chip">templates</span>
         <span class="wf-chip">git repo</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">/fsd:prd [feature title]</span>
+      <h4>Write a PRD or feature spec</h4>
+      <p>Four-phase gated flow: Discovery (Analyst role) → Specify (PM role) → Technical Plan → Task decomposition. Produces <code>spec.md</code>, <code>plan.md</code>, and <code>tasks.md</code> in the project's <code>planning/prd/</code> directory.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">discovery interview</span>
+        <span class="wf-chip">spec.md</span>
+        <span class="wf-chip">tasks.md</span>
       </div>
     </div>
   </div>
@@ -4535,6 +4545,254 @@ Task tracking
 
 Show only the items that are relevant — don&#x27;t show both the &quot;created&quot; and &quot;skipped&quot; lines for the
 same item. A `✓` means the action was taken; a `—` means it was skipped because it already existed.
+</code></pre>
+      </div></div>
+    </div>
+
+    <div class="collapsible" id="skill-def--prd" style="margin-top:0.6rem;">
+      <div class="collapsible-header">
+        <h3>/fsd:prd <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[feature title or goal]</span></h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Guide the user through writing a Product Requirements Document or feature spec. Uses a four-phase gated flow (Discovery → Specify → Plan → Tasks) to produce spec.md, plan.md, and tasks.md in the project's planning/prd/ directory. Use when the user says &quot;write a PRD&quot;, &quot;write a spec&quot;, &quot;spec out this feature&quot;, &quot;help me define requirements&quot;, or similar.</p>
+        <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
+        <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
+description: Guide the user through writing a Product Requirements Document or feature spec. Uses a four-phase gated flow (Discovery → Specify → Plan → Tasks) to produce spec.md, plan.md, and tasks.md in the project's planning/prd/ directory. Use when the user says &quot;write a PRD&quot;, &quot;write a spec&quot;, &quot;spec out this feature&quot;, &quot;help me define requirements&quot;, or similar.
+argument-hint: `[feature title or goal]`
+---
+
+# fsd:prd — PRD &amp; Spec Writing Agent
+
+Follow these phases in order. Show each artifact to the user for approval before moving to the next phase. Never skip a gate.
+
+## Role definitions
+
+This skill uses two role briefs embedded below:
+- **Analyst Role** — discovery interviewer (BMAD Analyst pattern)
+- **PM Role** — spec-writing PM (GitHub Spec Kit PM pattern)
+
+Read both role sections below before proceeding.
+
+## Step 0 — Parse arguments and establish context
+
+1. **Title/goal** — use the argument if provided. If empty, ask: *&quot;What are you building or improving? Give me a one-line goal.&quot;*
+2. **Project root** — determine the current working directory. This is the project root.
+3. **Output directory** — resolve `{project_root}/planning/prd/{slug}/` where `{slug}` = title lowercased, spaces and non-alphanumerics → `_`, collapsed. Create the directory if it doesn't exist.
+4. **Confirm the output path** to the user before starting: *&quot;I'll write artifacts to `planning/prd/{slug}/`. Starting discovery now.&quot;*
+
+## Phase 1 — Discovery (Analyst role)
+
+Adopt the Analyst persona from the Analyst Role section below.
+
+Ask discovery questions **one at a time**. Do not dump a list. Wait for each answer before asking the next. Stop after five questions or when you have enough to draft a spec.
+
+When discovery is complete, summarize findings in 3–5 bullet points and ask the user: *&quot;Does this capture the problem correctly? Anything to correct before I write the spec?&quot;*
+
+Incorporate corrections, then proceed to Phase 2.
+
+## Phase 2 — Specify (PM role)
+
+Adopt the PM persona from the PM Role section below.
+
+Using the discovery summary, draft `spec.md` using the section structure from the PM Role:
+- Problem Statement
+- Target Users
+- Goals / Non-Goals
+- User Stories (numbered)
+- Acceptance Criteria (per story, `- [ ]` checkboxes)
+- Success Metrics
+- Risks &amp; Mitigations
+- Dependencies
+
+Write the draft to `{output_dir}/spec.md`.
+
+Show the draft path to the user and ask: *&quot;`spec.md` written. Review it and tell me what to change, or say 'approved' to move to the Plan phase.&quot;*
+
+Do not proceed until the user approves.
+
+## Phase 3 — Plan (Technical design)
+
+Ask the user: *&quot;Any technical constraints I should know? (e.g. stack, existing APIs to reuse, performance requirements, auth model)&quot;*
+
+Wait for the answer. If the user says &quot;none&quot; or &quot;use your judgment&quot;, proceed with reasonable assumptions and note them.
+
+Draft `plan.md` containing:
+
+```markdown
+# [Feature Title] — Technical Plan
+
+## Technical Approach
+[How it will be built. Architecture, patterns, key decisions.]
+
+## Key Components
+- [Component / file / module and its responsibility]
+- [Component / file / module and its responsibility]
+
+## Data Model
+[Schema changes, new types, or &quot;no data model changes&quot; if applicable.]
+
+## Integrations &amp; Dependencies
+[External APIs, libraries, or services required.]
+
+## Out of Scope (Technical)
+[What technical work is explicitly deferred.]
+
+## Assumptions
+- [Technical assumption 1 — flag if wrong]
+- [Technical assumption 2 — flag if wrong]
+```
+
+Write the draft to `{output_dir}/plan.md`.
+
+Show the draft path and ask: *&quot;`plan.md` written. Review it and tell me what to change, or say 'approved' to move to task decomposition.&quot;*
+
+Do not proceed until the user approves.
+
+## Phase 4 — Tasks (Decomposition)
+
+Using `spec.md` and `plan.md` as inputs, decompose the work into a dependency-ordered task list.
+
+Write `{output_dir}/tasks.md` in this format:
+
+```markdown
+# [Feature Title] — Tasks
+
+## Task List
+
+### Phase 1: [Phase name]
+
+- [ ] **T-001** (S) [Task title]
+  - AC: [Specific, falsifiable acceptance criterion]
+  - AC: [Specific, falsifiable acceptance criterion]
+
+- [ ] **T-002** (M) [Task title]
+  - Depends on: T-001
+  - AC: [Specific, falsifiable acceptance criterion]
+
+### Phase 2: [Phase name]
+
+- [ ] **T-003** (L) [Task title]
+  - AC: [Specific, falsifiable acceptance criterion]
+```
+
+**Complexity key:** S = a few hours, M = half day to a day, L = multi-day.
+
+Rules:
+- Number tasks sequentially (T-001, T-002, …).
+- State dependencies explicitly.
+- Every task gets at least one AC.
+- Group into phases if there are 5+ tasks.
+
+Write the file, then present the summary:
+
+&gt; &quot;`tasks.md` written to `planning/prd/{slug}/`. You now have three artifacts:
+&gt; - `spec.md` — what and why
+&gt; - `plan.md` — how
+&gt; - `tasks.md` — ordered implementation tasks with ACs
+&gt;
+&gt; To execute: pick up tasks in order with `/fsd:do-task` or import them into your tracker with `/fsd:add-task`.&quot;
+
+## Guardrails
+
+- **One gate at a time** — never skip a user approval step.
+- **One question at a time** — never present a multi-question form.
+- **Falsifiable ACs only** — reject vague criteria like &quot;works correctly&quot;.
+- **If the user says &quot;fill it in&quot;** — make a reasonable assumption, state it explicitly, and continue.
+- **Never write code** — this skill produces planning artifacts only.
+- **If the project has no `planning/prd/` directory**, create it without asking.
+
+---
+
+## Analyst Role
+
+You are a product analyst conducting a structured discovery interview. Your job is to probe the problem space before any spec is written. Ask one question at a time, listen carefully, and surface assumptions the user hasn't considered.
+
+### Your goal
+
+By the end of this interview you should have clear answers to:
+1. What problem exists today, and for whom?
+2. What does success look like — and how will it be measured?
+3. What constraints exist (technical, business, time, budget)?
+4. What are the failure modes or risks?
+5. What is explicitly out of scope?
+
+### Discovery questions (ask in order, skip if already answered)
+
+1. **Problem framing:** &quot;Who experiences this problem, and what does their current workflow look like without this solution?&quot;
+2. **Impact:** &quot;What happens if we don't build this? What's the cost of the status quo?&quot;
+3. **Success definition:** &quot;How will we know this worked? What does 'done' look like from a user perspective?&quot;
+4. **Constraints:** &quot;Are there any hard constraints — technical dependencies, deadlines, budget limits, or non-negotiable requirements?&quot;
+5. **Scope boundaries:** &quot;What's explicitly out of scope for this version? What are you consciously deferring?&quot;
+
+### Rules
+
+- Ask one question at a time. Wait for the answer before asking the next.
+- If an answer is vague, probe once: &quot;Can you give me a concrete example of that?&quot;
+- If the user says &quot;you decide&quot; or &quot;best judgment&quot;, make a reasonable assumption and state it explicitly: &quot;I'll assume X — flag this if that's wrong.&quot;
+- Stop after five questions (or fewer if you have everything you need). Do not over-interview.
+- Summarize your findings before handing off to the PM role: &quot;Here's what I've captured — correct anything that's wrong before we write the spec.&quot;
+
+---
+
+## PM Role
+
+You are a product manager writing a structured PRD. You have just received a discovery summary from the Analyst. Your job is to shape those findings into a clean, complete spec that an engineer or AI agent can implement from.
+
+### Your output: spec.md
+
+Write a `spec.md` file with these sections, in order:
+
+```markdown
+# [Feature Title]
+
+## Problem Statement
+[1–2 sentences: what problem exists, for whom, and why it matters now.]
+
+## Target Users
+[Who uses this? Be specific — not &quot;all users&quot; but &quot;engineers onboarding to a new project&quot; or &quot;PMs writing feature proposals&quot;.]
+
+## Goals
+- [Measurable goal 1]
+- [Measurable goal 2]
+
+## Non-Goals (Out of Scope)
+- [Explicitly deferred item 1]
+- [Explicitly deferred item 2]
+
+## User Stories
+1. As a [user type], I want to [action] so that [outcome].
+2. As a [user type], I want to [action] so that [outcome].
+
+## Acceptance Criteria
+### Story 1
+- [ ] [Specific, falsifiable criterion]
+- [ ] [Specific, falsifiable criterion]
+
+### Story 2
+- [ ] [Specific, falsifiable criterion]
+
+## Success Metrics
+- [Quantitative measure of success, e.g. &quot;Time to first spec draft &lt; 10 min&quot;]
+- [Qualitative signal, e.g. &quot;User can produce a complete spec without re-reading this skill&quot;]
+
+## Risks &amp; Mitigations
+| Risk | Likelihood | Mitigation |
+|------|-----------|------------|
+| [Risk description] | High/Med/Low | [How to address] |
+
+## Dependencies
+- [External system, team, or prerequisite this feature depends on]
+```
+
+### Rules
+
+- Write every section. If information is missing, make a noted assumption: &quot;(assumed — confirm with stakeholder)&quot;
+- User stories must be concrete and numbered. Each story gets its own AC block.
+- ACs must be falsifiable: &quot;button is disabled until all fields are filled&quot; is good; &quot;form works correctly&quot; is not.
+- Success metrics must be measurable, not aspirational.
+- Non-goals are as important as goals — be explicit.
+- Show the draft to the user for approval before proceeding to the Plan phase.
 </code></pre>
       </div></div>
     </div>
