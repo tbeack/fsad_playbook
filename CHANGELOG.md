@@ -1,16 +1,5 @@
 ## Changes in This Version
 
-### v2.80.0 — 2026-05-29
-
-**Claude Code v2.1.154–v2.1.156 auto-update (CBP-202–CBP-205)**
-
-Four targeted Cheat Sheet and Power Usage updates for Claude Code v2.1.154 and v2.1.156.
-
-- **CBP-202** — Fixed `/code-review` Cheat Sheet row: v2.1.154 reverted `/simplify` to a standalone cleanup-only review (reuse, simplification, efficiency, altitude) that applies fixes directly. Removed stale text saying `/simplify` invokes `/code-review --fix` (reversed CBP-192).
-- **CBP-203** — Added `/workflows` to the Cheat Sheet automation table: view and manage dynamic workflow runs where Claude orchestrates tens to hundreds of parallel agents. Available on Max, Team, and Enterprise plans.
-- **CBP-204** — Updated `claude agents` Cheat Sheet row with v2.1.154 feature: type `! <command>` in the agents view to launch any shell command as a background session you can attach to and detach from. CLI equivalent: `claude --bg --exec '<command>'`.
-- **CBP-205** — Updated `CLAUDE_CODE_SESSION_ID` env var row in hooks env vars table: now also injected into stdio MCP server subprocess environments. Documented `CLAUDECODE=1` as an additional env var MCP servers receive to confirm they are running inside Claude Code.
-
 ### [Unreleased]
 
 ### v2.81.0 — 2026-05-29
@@ -26,6 +15,17 @@ Added the `fsd:prd` PRD-writing skill to the playbook's Skills Library page and 
 Deep-research sweep (109 agents, 26 sources, 25 adversarially verified claims) into credible real-world applications of agentic/multi-agent workflows for legacy code refactoring. Findings written to `markdown/research/research-cbp-201-dynamic-workflows-legacy.md`.
 
 - **CBP-201** — Six case studies documented: Spotify Honk (1,500+ merged PRs, 60–90% time savings — HIGH confidence), RefAgent/Polytechnique Montréal (90% test pass rate on Apache Java codebases vs. 44.5% single-agent baseline — HIGH), SWE-Refactor/Concordia (Developer+Reviewer pipeline 52.7% vs. 39.9% single-pass — HIGH), Wiz pypdf→Go migration (50K Python → 18K Go in ~20 hours — MEDIUM), ING Amsterdam LegacyTranslate (2.5M LOC PL/SQL→Java — MEDIUM), and ChatGPT refactoring quality study (Springer ASE 2025, 63.6% solutions comparable to experts — HIGH). Credibility filter: 4 refuted marketing claims documented. No version bump — research file only.
+
+### v2.80.0 — 2026-05-29
+
+**Claude Code v2.1.154–v2.1.156 auto-update (CBP-202–CBP-205)**
+
+Four targeted Cheat Sheet and Power Usage updates for Claude Code v2.1.154 and v2.1.156.
+
+- **CBP-202** — Fixed `/code-review` Cheat Sheet row: v2.1.154 reverted `/simplify` to a standalone cleanup-only review (reuse, simplification, efficiency, altitude) that applies fixes directly. Removed stale text saying `/simplify` invokes `/code-review --fix` (reversed CBP-192).
+- **CBP-203** — Added `/workflows` to the Cheat Sheet automation table: view and manage dynamic workflow runs where Claude orchestrates tens to hundreds of parallel agents. Available on Max, Team, and Enterprise plans.
+- **CBP-204** — Updated `claude agents` Cheat Sheet row with v2.1.154 feature: type `! <command>` in the agents view to launch any shell command as a background session you can attach to and detach from. CLI equivalent: `claude --bg --exec '<command>'`.
+- **CBP-205** — Updated `CLAUDE_CODE_SESSION_ID` env var row in hooks env vars table: now also injected into stdio MCP server subprocess environments. Documented `CLAUDECODE=1` as an additional env var MCP servers receive to confirm they are running inside Claude Code.
 
 ### v2.79.0 — 2026-05-28
 

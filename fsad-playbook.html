@@ -1897,7 +1897,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.80.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -12775,6 +12775,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.81.0 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>fsd:prd skill added to Skills Library (CBP-206).</strong> New <code>skills/prd/SKILL.md</code> — a four-phase gated PRD-writing flow (Discovery → Specify → Plan → Tasks) producing <code>spec.md</code>, <code>plan.md</code>, and <code>tasks.md</code> in the project's <code>planning/prd/</code> directory. Analyst and PM role briefs inlined for self-contained plugin distribution. Added <code>/fsd:prd</code> wf-card to the Skills Library grid and a collapsible definition block. Skill count updated from 11 to 12.</p>
+      </section>
       <section>
         <h3>v2.80.0 <span class="changelog-date">· 2026-05-29</span></h3>
         <p><strong>Claude Code v2.1.154–v2.1.156 auto-update (CBP-202–CBP-205).</strong> Four targeted updates: fixed <code>/code-review</code> row to reflect v2.1.154 reversion — <code>/simplify</code> is again a standalone cleanup-only review (reuse, simplification, efficiency, altitude) that applies fixes directly, not an alias for <code>/code-review --fix</code> (CBP-202); added <code>/workflows</code> to the automation table — view and manage dynamic workflow runs (tens to hundreds of parallel agents, Max/Team/Enterprise, v2.1.154) (CBP-203); updated <code>claude agents</code> row to document <code>! &lt;command&gt;</code> for launching shell commands as attachable/detachable background sessions and the CLI equivalent <code>claude --bg --exec '&lt;command&gt;'</code> (CBP-204); updated <code>CLAUDE_CODE_SESSION_ID</code> hooks env var row to note it is now also injected into stdio MCP server subprocess environments, alongside <code>CLAUDECODE=1</code> (CBP-205).</p>
