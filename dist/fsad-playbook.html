@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.81.1)</title>
+<title>FSAD — Full Stack Agentic Development (v2.81.2)</title>
 <style>
 /* cyrillic-ext */
 @font-face {
@@ -1044,6 +1044,7 @@
     font-weight: 600;
     cursor: pointer;
     text-align: left;
+    text-decoration: none;
     transition: background 0.15s;
     position: relative;
   }
@@ -2529,7 +2530,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.1</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.2</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -14635,6 +14636,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.81.2 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>Fix: nav link underline removed.</strong> Added <code>text-decoration: none</code> to the <code>.nav-group-toggle</code> CSS rule so the FSAD Training external link renders consistently with the button-based nav entries.</p>
+      </section>
       <section>
         <h3>v2.81.1 <span class="changelog-date">· 2026-05-29</span></h3>
         <p><strong>FSAD Training link added to sidebar nav (CBP-207).</strong> Added an external link to the FSAD Training playbook at <code>https://fsad-training.vercel.app/</code> as a nav entry directly below Workflows. Opens in a new tab; styled with ◆ icon and ↗ indicator to distinguish it as an external link.</p>

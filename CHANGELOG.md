@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.81.2 — 2026-05-29
+
+**Fix: remove underline from FSAD Training sidebar nav link**
+
+The FSAD Training external link used an `<a>` tag styled with `.nav-group-toggle`, which inherited the browser default `text-decoration: underline`. Added `text-decoration: none` to the `.nav-group-toggle` CSS rule so the entry renders consistently with the button-based nav entries.
+
 ### v2.81.1 — 2026-05-29
 
 **CBP-207 — FSAD Training link added to sidebar nav**
