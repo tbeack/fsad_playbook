@@ -218,3 +218,4 @@
 - [x] `CBP-205` Update `CLAUDE_CODE_SESSION_ID` env var row: now also injected into stdio MCP server subprocesses; document `CLAUDECODE=1` (v2.1.154) → [task-cbp-205.md](task-cbp-205.md)
 - [x] `CBP-206` — Add the `tb:prd` skill located at `/Users/theobeack/Repo/tb_skills/skills/prd` to the "skills" section in the playbook. Copy the prd skill from `/Users/theobeack/Repo/tb_skills/skills/prd` to `/Users/theobeack/Repo/fsad_playbook/skills` → [task-cbp-206.md](task-cbp-206.md)
 - [x] `CBP-207` — Add a link to the Training playbook. Link to `https://fsad-training.vercel.app/`. Insert the FSAD Training link after `workflows` in the left nav. → [task-cbp-207.md](task-cbp-207.md)
+- [x] `CBP-208` — revise the link and entry to the `FSAD Training` link (in left nav) to the bottom with a line separator (use the example from the 'FSAD Training` page with the link back to the Playbook. → [task-cbp-208.md](task-cbp-208.md)

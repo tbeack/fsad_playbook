@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.81.2)</title>
+<title>FSAD — Full Stack Agentic Development (v2.81.3)</title>
 <style>
 /* cyrillic-ext */
 @font-face {
@@ -1084,6 +1084,21 @@
   .nav-group-toggle.disabled:hover {
     background: none;
   }
+  .nav-external-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.4rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.15s;
+  }
+  .nav-external-link:hover { color: var(--text-primary); }
   .nav-coming-soon {
     font-family: var(--font-mono);
     font-size: 0.625rem;
@@ -2530,7 +2545,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.2</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.3</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -2592,15 +2607,6 @@
         <a class="nav-sub-item" href="#workflows/add-task-skill" onclick="scrollToSection('add-task-skill')">Add-Task</a>
         <a class="nav-sub-item" href="#workflows/commit-changes-skill" onclick="scrollToSection('commit-changes-skill')">Commit-Changes</a>
       </div>
-    </div>
-
-    <!-- External: FSAD Training -->
-    <div class="nav-group">
-      <a class="nav-group-toggle" href="https://fsad-training.vercel.app/" target="_blank" rel="noopener noreferrer">
-        <span class="nav-icon" aria-hidden="true">◆</span>
-        FSAD Training
-        <span class="nav-chevron" style="font-size:0.7rem;">↗</span>
-      </a>
     </div>
 
     <!-- GROUP 3.5: Skills Library -->
@@ -2768,6 +2774,12 @@
         <a class="nav-sub-item" href="#kpis/fsad-metrics" onclick="scrollToSection('fsad-metrics')">Metrics</a>
       </div>
     </div>
+
+    <!-- External: FSAD Training -->
+    <a class="nav-external-link" href="https://fsad-training.vercel.app/" target="_blank" rel="noopener noreferrer">
+      <span class="nav-icon" aria-hidden="true">◆</span>
+      FSAD Training ↗
+    </a>
   </nav>
 
   <div class="sidebar-footer">
@@ -14636,6 +14648,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.81.3 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>FSAD Training link moved to bottom of sidebar nav (CBP-208).</strong> Relocated the FSAD Training external link from between Workflows and Skills Library to the bottom of the sidebar nav, after KPIs. Now uses a dedicated <code>.nav-external-link</code> style with a <code>border-top</code> separator, matching the pattern the FSAD Training page uses for its "FSAD Playbook ↗" back-link.</p>
+      </section>
       <section>
         <h3>v2.81.2 <span class="changelog-date">· 2026-05-29</span></h3>
         <p><strong>Fix: nav link underline removed.</strong> Added <code>text-decoration: none</code> to the <code>.nav-group-toggle</code> CSS rule so the FSAD Training external link renders consistently with the button-based nav entries.</p>
