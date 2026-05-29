@@ -217,3 +217,4 @@
 - [x] `CBP-204` Update `claude agents` Cheat Sheet row: add `! <command>` and `claude --bg --exec` for background shell sessions (v2.1.154) → [task-cbp-204.md](task-cbp-204.md)
 - [x] `CBP-205` Update `CLAUDE_CODE_SESSION_ID` env var row: now also injected into stdio MCP server subprocesses; document `CLAUDECODE=1` (v2.1.154) → [task-cbp-205.md](task-cbp-205.md)
 - [x] `CBP-206` — Add the `tb:prd` skill located at `/Users/theobeack/Repo/tb_skills/skills/prd` to the "skills" section in the playbook. Copy the prd skill from `/Users/theobeack/Repo/tb_skills/skills/prd` to `/Users/theobeack/Repo/fsad_playbook/skills` → [task-cbp-206.md](task-cbp-206.md)
+- [x] `CBP-207` — Add a link to the Training playbook. Link to `https://fsad-training.vercel.app/`. Insert the FSAD Training link after `workflows` in the left nav. → [task-cbp-207.md](task-cbp-207.md)

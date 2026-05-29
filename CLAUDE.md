@@ -88,6 +88,25 @@ All edits happen directly in `fsad-playbook.html`. The file is versioned interna
 
 `dist/fsad-playbook.html` is the fully self-contained build artifact (fonts and playgrounds inlined). It must always be in sync with the source and included in every release commit.
 
+### Version bump checklist
+
+When cutting a new version, update **all three** of these locations in `fsad-playbook.html` — they must always agree:
+
+1. **`<title>` tag** (line ~6) — `FSAD — Full Stack Agentic Development (vX.XX.X)`
+2. **Sidebar brand badge** (search for `sidebar-brand`) — `· vX.XX.X` inside the `<a>` tag
+3. **In-app changelog modal** (search for `changelogModal`) — add a new `<section>` block above the previous latest version, matching the format:
+   ```html
+   <section>
+     <h3>vX.XX.X <span class="changelog-date">· YYYY-MM-DD</span></h3>
+     <p><strong>Summary sentence.</strong> Detail sentences.</p>
+   </section>
+   ```
+
+Grep to verify all three are in sync before committing:
+```bash
+grep -n 'sidebar-brand\|<title>' fsad-playbook.html | grep -v "^[0-9]*:.*<!--"
+```
+
 ## Research > Plan > Implement
 
 **Never jump straight to coding.** Always:
