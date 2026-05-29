@@ -13,6 +13,12 @@ Four targeted Cheat Sheet and Power Usage updates for Claude Code v2.1.154 and v
 
 ### [Unreleased]
 
+**CBP-206 — `fsd:prd` skill added to Skills Library**
+
+Added the `fsd:prd` PRD-writing skill to the playbook's Skills Library page and `skills/prd/` directory. Adapted from `tb:prd`; role briefs (Analyst and PM personas) inlined into SKILL.md for self-contained distribution. Skill count updated from 11 to 12 in hero text and section subtitle.
+
+- **CBP-206** — New `skills/prd/SKILL.md`: four-phase gated flow (Discovery → Specify → Plan → Tasks) producing `spec.md`, `plan.md`, and `tasks.md` in `planning/prd/<slug>/`. Role briefs inlined; `fsd:` namespace; `fsd:do-task`/`fsd:add-task` references. Added wf-card in Workflow Management card grid and collapsible definition in Skill Definitions section. Hero text and section subtitle updated from "Eleven" to "Twelve installable skills".
+
 **CBP-201 — Research: real-world dynamic workflow use in legacy code refactoring**
 
 Deep-research sweep (109 agents, 26 sources, 25 adversarially verified claims) into credible real-world applications of agentic/multi-agent workflows for legacy code refactoring. Findings written to `markdown/research/research-cbp-201-dynamic-workflows-legacy.md`.
