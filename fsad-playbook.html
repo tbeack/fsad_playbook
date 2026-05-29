@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.79.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.80.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1897,7 +1897,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.79.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.80.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9096,6 +9096,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/tasks</code></td><td>List and manage background tasks (alias: <code>/bashes</code>)</td></tr>
           <tr><td><code>/agents</code></td><td>Browse agent library and manage live subagents (Running + Library tabs)</td></tr>
           <tr><td><code>/goal</code> <code>&lt;condition&gt;</code></td><td>Set a completion condition and Claude works across turns until it's met — shows live elapsed/turns/tokens overlay. Works in interactive, <code>-p</code>, and Remote Control.</td></tr>
+          <tr><td><code>/workflows</code></td><td>View and manage dynamic workflow runs — Claude orchestrates tens to hundreds of parallel agents to tackle large-scale tasks. Available on Max, Team, and Enterprise plans (v2.1.154).</td></tr>
           <tr><td><code>/security-review</code></td><td>Analyze pending changes for security issues</td></tr>
         </tbody>
       </table>
@@ -9155,8 +9156,8 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/powerup</code></td><td>Interactive feature lessons with animated demos</td></tr>
           <tr><td><code>/team-onboarding</code></td><td>Generate a teammate ramp-up guide from your local Claude Code usage history</td></tr>
           <tr><td><code>/ultrareview</code> <code>[PR#]</code></td><td>Cloud-based parallel multi-agent code review — omit args for current branch, or pass a GitHub PR number. Also available as <code>claude ultrareview [target]</code> non-interactively from CI/scripts (<code>--json</code> for raw output; exits 0 on completion, 1 on failure).</td></tr>
-          <tr><td><code>/code-review</code> <code>[effort]</code></td><td>Run an in-session interactive code review on the current branch. Optionally pass an effort level (e.g., <code>/code-review high</code>) to override the default. Pass <code>--comment</code> to post findings as inline GitHub PR comments. Pass <code>--fix</code> to automatically apply findings (reuse, simplification, efficiency) to your working tree after review. <code>/simplify</code> now invokes <code>/code-review --fix</code>.</td></tr>
-          <tr><td><code>claude agents</code></td><td>Agent View — a unified list of every Claude Code session: running, blocked on you, or done. Use <code>--cwd &lt;path&gt;</code> to scope the list to a directory. Add <code>--json</code> to output the session list as JSON for scripting (tmux-resurrect, status bars, session pickers). When dispatching a background session, configure it with: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, <code>--dangerously-skip-permissions</code>.</td></tr>
+          <tr><td><code>/code-review</code> <code>[effort]</code></td><td>Run an in-session interactive code review on the current branch. Optionally pass an effort level (e.g., <code>/code-review high</code>) to override the default. Pass <code>--comment</code> to post findings as inline GitHub PR comments. Pass <code>--fix</code> to automatically apply findings (reuse, simplification, efficiency) to your working tree after review. <code>/simplify</code> runs a cleanup-only review (reuse, simplification, efficiency, altitude) and applies the fixes directly — a lighter alternative to <code>--fix</code>.</td></tr>
+          <tr><td><code>claude agents</code></td><td>Agent View — a unified list of every Claude Code session: running, blocked on you, or done. Use <code>--cwd &lt;path&gt;</code> to scope the list to a directory. Add <code>--json</code> to output the session list as JSON for scripting (tmux-resurrect, status bars, session pickers). When dispatching a background session, configure it with: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, <code>--dangerously-skip-permissions</code>. In the agents view, type <code>! &lt;command&gt;</code> to launch any shell command as a background session you can attach to and detach from (v2.1.154). CLI equivalent: <code>claude --bg --exec '&lt;command&gt;'</code>.</td></tr>
           <tr><td><code>claude project purge [path]</code></td><td>Delete all Claude Code state for a project — transcripts, tasks, file history, and config entry. Flags: <code>--dry-run</code> (preview), <code>-y</code> (no confirm), <code>-i/--interactive</code>, <code>--all</code> (all known projects).</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account</td></tr>
@@ -10159,7 +10160,7 @@ ENABLE_PROMPT_CACHING_1H=1</code></pre>
               <tr><td><code>CLAUDE_ENV_FILE</code></td><td>File path for persisting env vars (SessionStart, CwdChanged, FileChanged)</td></tr>
               <tr><td><code>CLAUDE_PLUGIN_ROOT</code></td><td>Plugin installation directory</td></tr>
               <tr><td><code>CLAUDE_PLUGIN_DATA</code></td><td>Plugin persistent data directory</td></tr>
-              <tr><td><code>CLAUDE_CODE_SESSION_ID</code></td><td>Current session ID — also injected into the Bash tool subprocess environment, enabling scripts to correlate tool runs with the active session without parsing hook JSON input</td></tr>
+              <tr><td><code>CLAUDE_CODE_SESSION_ID</code></td><td>Current session ID — also injected into the Bash tool subprocess environment and into stdio MCP server subprocess environments (v2.1.154), enabling scripts and MCP servers to correlate tool runs with the active session without parsing hook JSON input. Stdio MCP servers also receive <code>CLAUDECODE=1</code> to confirm they are running inside Claude Code.</td></tr>
               <tr><td><code>CLAUDE_EFFORT</code></td><td>Active effort level (<code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> | <code>max</code>) — injected into Bash tool subprocess commands so scripts can branch on effort without parsing hook JSON. Also available as <code>effort.level</code> in the JSON delivered to hook stdin.</td></tr>
             </tbody>
           </table>
@@ -12516,6 +12517,14 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.80.0 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>Claude Code v2.1.154–v2.1.156 auto-update (CBP-202–CBP-205).</strong> Four targeted updates: fixed <code>/code-review</code> row to reflect v2.1.154 reversion — <code>/simplify</code> is again a standalone cleanup-only review (reuse, simplification, efficiency, altitude) that applies fixes directly, not an alias for <code>/code-review --fix</code> (CBP-202); added <code>/workflows</code> to the automation table — view and manage dynamic workflow runs (tens to hundreds of parallel agents, Max/Team/Enterprise, v2.1.154) (CBP-203); updated <code>claude agents</code> row to document <code>! &lt;command&gt;</code> for launching shell commands as attachable/detachable background sessions and the CLI equivalent <code>claude --bg --exec '&lt;command&gt;'</code> (CBP-204); updated <code>CLAUDE_CODE_SESSION_ID</code> hooks env var row to note it is now also injected into stdio MCP server subprocess environments, alongside <code>CLAUDECODE=1</code> (CBP-205).</p>
+      </section>
+      <section>
+        <h3>v2.79.0 <span class="changelog-date">· 2026-05-28</span></h3>
+        <p><em>(v2.79.0 — team onboarding guide; see full history below)</em></p>
+      </section>
       <section>
         <h3>v2.77.0 <span class="changelog-date">· 2026-05-28</span></h3>
         <p><strong>Code Review Team: Specialist Definitions added to Skills Library (CBP-198).</strong> Added a &ldquo;Specialist Definitions&rdquo; sub-section inside the <code>/fsd:code-review-team</code> collapsible in the Skills Library. Six specialist cards now appear below the SKILL.md orchestration block — one per specialist (<code>correctness-reviewer</code>, <code>design-reviewer</code>, <code>performance-reviewer</code>, <code>maintainability-reviewer</code>, <code>testing-reviewer</code>, <code>api-contract-reviewer</code>) — each showing Primary scope, Coverage dimensions, and a copyable Definition file. A roster table distinguishes <em>lite</em> specialists (run in all modes) from <em>full</em> specialists (added in full mode only).</p>
