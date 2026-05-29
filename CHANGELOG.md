@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.81.3 — 2026-05-29
+
+**CBP-208 — FSAD Training link moved to bottom of sidebar nav**
+
+Relocated the FSAD Training external link from between Workflows and Skills Library to the very bottom of the sidebar nav, below KPIs. Replaced the `nav-group` / `nav-group-toggle` wrapper with a dedicated `<a class="nav-external-link">` element that carries a `border-top` separator, matching the pattern the FSAD Training page uses for its "FSAD Playbook ↗" back-link.
+
 ### v2.81.2 — 2026-05-29
 
 **Fix: remove underline from FSAD Training sidebar nav link**
