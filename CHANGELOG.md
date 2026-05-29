@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v2.80.0 — 2026-05-29
+
+**Claude Code v2.1.154–v2.1.156 auto-update (CBP-202–CBP-205)**
+
+Four targeted Cheat Sheet and Power Usage updates for Claude Code v2.1.154 and v2.1.156.
+
+- **CBP-202** — Fixed `/code-review` Cheat Sheet row: v2.1.154 reverted `/simplify` to a standalone cleanup-only review (reuse, simplification, efficiency, altitude) that applies fixes directly. Removed stale text saying `/simplify` invokes `/code-review --fix` (reversed CBP-192).
+- **CBP-203** — Added `/workflows` to the Cheat Sheet automation table: view and manage dynamic workflow runs where Claude orchestrates tens to hundreds of parallel agents. Available on Max, Team, and Enterprise plans.
+- **CBP-204** — Updated `claude agents` Cheat Sheet row with v2.1.154 feature: type `! <command>` in the agents view to launch any shell command as a background session you can attach to and detach from. CLI equivalent: `claude --bg --exec '<command>'`.
+- **CBP-205** — Updated `CLAUDE_CODE_SESSION_ID` env var row in hooks env vars table: now also injected into stdio MCP server subprocess environments. Documented `CLAUDECODE=1` as an additional env var MCP servers receive to confirm they are running inside Claude Code.
+
 ### [Unreleased]
 
 **CBP-201 — Research: real-world dynamic workflow use in legacy code refactoring**

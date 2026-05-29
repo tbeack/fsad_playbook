@@ -212,3 +212,7 @@
 - [x] `CBP-199` — add a new subsection about `Dynamic Workflows` to the playbook. Add under the `Power Usage` section. → [task-cbp-199.md](task-cbp-199.md)
 - [x] `CBP-200` — Update the model comparison to include `Opus 4.8` → [task-cbp-200.md](task-cbp-200.md)
 - [x] `CBP-201` — do deep research to find real-world examples of anyone who have credibly used `dynamic workflows` to refactor complex legacy code. write to a research file. → [task-cbp-201.md](task-cbp-201.md)
+- [x] `CBP-202` Fix `/code-review` Cheat Sheet row: `/simplify` reverted to cleanup-only, not invoking `/code-review --fix` (v2.1.154) → [task-cbp-202.md](task-cbp-202.md)
+- [x] `CBP-203` Add `/workflows` command to Cheat Sheet automation table (v2.1.154) → [task-cbp-203.md](task-cbp-203.md)
+- [x] `CBP-204` Update `claude agents` Cheat Sheet row: add `! <command>` and `claude --bg --exec` for background shell sessions (v2.1.154) → [task-cbp-204.md](task-cbp-204.md)
+- [x] `CBP-205` Update `CLAUDE_CODE_SESSION_ID` env var row: now also injected into stdio MCP server subprocesses; document `CLAUDECODE=1` (v2.1.154) → [task-cbp-205.md](task-cbp-205.md)
