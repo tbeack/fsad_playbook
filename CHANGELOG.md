@@ -2,6 +2,17 @@
 
 ### [Unreleased]
 
+### v2.81.4 — 2026-05-30
+
+**CBP-210–CBP-213 — Claude Code v2.1.157–v2.1.158 auto-update**
+
+Four targeted updates covering new Claude Code features from v2.1.157 and v2.1.158.
+
+- **CBP-210** — Added `claude plugin init <name>` to Plugins collapsible: new code block entry scaffolding a plugin skeleton in `.claude/skills/<name>/`, plus a bullet describing the `plugin.json` + `SKILL.md` output (v2.1.157).
+- **CBP-211** — Added "Auto-load from `.claude/skills/`" bullet to Plugins collapsible: plugin directories placed in `.claude/skills/` are now automatically loaded without marketplace registration or `claude plugin install` (v2.1.157).
+- **CBP-212** — Added `CLAUDE_CODE_ENABLE_AUTO_MODE=1` to the Subprocess Sandboxing hardening env vars table: opt-in flag for auto mode on Amazon Bedrock, Google Vertex AI, and Azure Foundry for Opus 4.7 and Opus 4.8 (v2.1.158).
+- **CBP-213** — Updated Work Trees collapsible tip callout: `EnterWorktree` can now switch between Claude-managed worktrees mid-session — an agent can hop from one task-worktree to another without stopping and restarting (v2.1.157).
+
 ### v2.81.3 — 2026-05-29
 
 **CBP-208 — FSAD Training link moved to bottom of sidebar nav**
