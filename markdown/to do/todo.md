@@ -220,3 +220,7 @@
 - [x] `CBP-207` — Add a link to the Training playbook. Link to `https://fsad-training.vercel.app/`. Insert the FSAD Training link after `workflows` in the left nav. → [task-cbp-207.md](task-cbp-207.md)
 - [x] `CBP-208` — revise the link and entry to the `FSAD Training` link (in left nav) to the bottom with a line separator (use the example from the 'FSAD Training` page with the link back to the Playbook. → [task-cbp-208.md](task-cbp-208.md)
 - [x] `CBP-209` — Use ultrathink and do deep research to find alternatives to how the playbook is structured. Find examples where user get an easy navigation to find information. write research to `/research/v3_UI_research.md` and evaluate 5 different approach. score on usability, intuitiveness, ability to extend with new topic clusters, ability to surgically go to a topic based on search query. → [task-cbp-209.md](task-cbp-209.md)
+- [x] `CBP-210` Add `claude plugin init <name>` to Plugins collapsible code block and bullet list (v2.1.157) → [task-cbp-210.md](task-cbp-210.md)
+- [x] `CBP-211` Add plugins auto-load from `.claude/skills/` (no marketplace) bullet to Plugins collapsible (v2.1.157) → [task-cbp-211.md](task-cbp-211.md)
+- [x] `CBP-212` Add `CLAUDE_CODE_ENABLE_AUTO_MODE=1` env var to Subprocess Sandboxing hardening table (v2.1.158) → [task-cbp-212.md](task-cbp-212.md)
+- [x] `CBP-213` Update Work Trees collapsible: `EnterWorktree` mid-session switching (v2.1.157) → [task-cbp-213.md](task-cbp-213.md)

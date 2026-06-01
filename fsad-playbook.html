@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.81.3)</title>
+<title>FSAD — Full Stack Agentic Development (v2.81.4)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1913,7 +1913,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.3</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.4</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9784,7 +9784,7 @@ smoke tests against the staging URL."</code></pre>
         </div>
         <div class="callout callout-tip" style="margin-bottom:0; margin-top:0.75rem;">
           <div class="callout-title">Tip</div>
-          <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events.</p>
+          <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events. As of v2.1.157, <code>EnterWorktree</code> can switch between Claude-managed worktrees mid-session — an agent can hop from one task-worktree to another without stopping and restarting.</p>
         </div>
       </div></div>
     </div>
@@ -10013,9 +10013,13 @@ smoke tests against the staging URL."</code></pre>
 <span class="kw">claude</span> plugin disable my-plugin
 
 <span class="cm"># Enable a plugin (auto-enables all transitive dependencies)</span>
-<span class="kw">claude</span> plugin enable my-plugin</code></pre>
+<span class="kw">claude</span> plugin enable my-plugin
+
+<span class="cm"># Scaffold a new plugin in .claude/skills/</span>
+<span class="kw">claude</span> plugin init my-plugin</code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li><strong>Auto-load from <code>.claude/skills/</code>:</strong> plugin directories placed in <code>.claude/skills/</code> are automatically loaded without marketplace registration or <code>claude plugin install</code>. Commit them to the repo so every teammate gets them automatically (v2.1.157).</li>
           <li>Plugins add skills invokable via <code>/skill-name</code></li>
           <li>Executables under <code>bin/</code> are invokable as bare commands</li>
           <li>Plugin marketplace for discovery and one-click install</li>
@@ -10024,6 +10028,7 @@ smoke tests against the staging URL."</code></pre>
           <li><strong>Reserved MCP server name:</strong> <code>workspace</code> is reserved — an <code>mcpServers</code> entry named <code>workspace</code> will be skipped with a warning at startup; rename it to avoid silent breakage</li>
           <li><strong>Default folder override warning:</strong> if <code>plugin.json</code> explicitly sets a key (e.g. <code>"commands"</code>) that matches a default component folder, that default folder is silently skipped. Claude Code v2.1.140 now warns when this happens — visible in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>. If the override is intentional, no action is needed.</li>
           <li><strong>Dependency enforcement:</strong> <code>claude plugin disable</code> is blocked when another enabled plugin depends on the target — the error includes a copy-pasteable chain command showing what to disable first. <code>claude plugin enable</code> automatically force-enables all transitive dependencies.</li>
+          <li><strong>Scaffold a plugin locally:</strong> <code>claude plugin init &lt;name&gt;</code> creates a new plugin skeleton in <code>.claude/skills/&lt;name&gt;/</code> — no marketplace required. Generates <code>plugin.json</code>, a starter <code>SKILL.md</code>, and the standard directory layout ready for customization (v2.1.157).</li>
         </ul>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>MCP server <code>alwaysLoad</code> option</strong> — set <code>"alwaysLoad": true</code> in an MCP server config to make all its tools skip tool-search deferral and stay permanently available. Useful for servers whose tools you use in nearly every session.</p>
         <div class="code-block" style="margin-top:0.5rem;">
@@ -10167,6 +10172,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1</code></td><td>Opts out of the default <code>-ExecutionPolicy Bypass</code> flag Claude Code passes to PowerShell. Use in environments with enforced PowerShell execution policy (e.g. AllSigned or RemoteSigned) where bypass is not permitted.</td></tr>
               <tr><td><code>CLAUDE_CODE_USE_POWERSHELL_TOOL=0</code></td><td>Disables the PowerShell tool entirely. The tool is now enabled by default on Windows for Bedrock, Vertex, and Foundry users — use this opt-out in environments where PowerShell access is prohibited.</td></tr>
               <tr><td><code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=N</code></td><td>Maximum number of consecutive stop-hook blocks before the turn ends with a warning. Default: <code>8</code>. Raise the cap if your stop hook legitimately needs more retry cycles; set to <code>1</code> to fail fast.</td></tr>
+              <tr><td><code>CLAUDE_CODE_ENABLE_AUTO_MODE=1</code></td><td>Opt in to auto mode on Amazon Bedrock, Google Vertex AI, and Azure Foundry. Enables auto mode for Opus 4.7 and Opus 4.8 on these platforms — without this flag, auto mode is only available on the standard Anthropic API (v2.1.158).</td></tr>
             </tbody>
           </table>
         </div>
@@ -12797,6 +12803,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.81.4 <span class="changelog-date">· 2026-05-30</span></h3>
+        <p><strong>Claude Code v2.1.157–v2.1.158 auto-update (CBP-210–CBP-213).</strong> Four targeted updates: added <code>claude plugin init &lt;name&gt;</code> to the Plugins collapsible code block and bullet list — scaffolds a new plugin skeleton in <code>.claude/skills/&lt;name&gt;/</code> (CBP-210); added an auto-load bullet to the Plugins collapsible documenting that plugin directories in <code>.claude/skills/</code> are automatically loaded without marketplace registration (CBP-211); added <code>CLAUDE_CODE_ENABLE_AUTO_MODE=1</code> to the Subprocess Sandboxing hardening env vars table — opt-in to auto mode on Amazon Bedrock, Google Vertex AI, and Azure Foundry for Opus 4.7/4.8 (CBP-212); updated the Work Trees collapsible tip to note that <code>EnterWorktree</code> can now switch between Claude-managed worktrees mid-session (CBP-213).</p>
+      </section>
       <section>
         <h3>v2.81.3 <span class="changelog-date">· 2026-05-29</span></h3>
         <p><strong>FSAD Training link moved to bottom of sidebar nav (CBP-208).</strong> Relocated the FSAD Training external link from between Workflows and Skills Library to the bottom of the sidebar nav, after KPIs. Now uses a dedicated <code>.nav-external-link</code> style with a <code>border-top</code> separator, matching the pattern the FSAD Training page uses for its "FSAD Playbook ↗" back-link.</p>
