@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.81.4)</title>
+<title>FSAD — Full Stack Agentic Development (v2.81.5)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1913,7 +1913,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.4</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.81.5</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9902,9 +9902,13 @@ smoke tests against the staging URL."</code></pre>
             </tbody>
           </table>
         </div>
-        <div class="callout callout-warning" style="margin-top:0.75rem; margin-bottom:0;">
+        <div class="callout callout-warning" style="margin-top:0.75rem; margin-bottom:0.5rem;">
           <div class="callout-title">Token Cost</div>
           <p>Dynamic workflows can consume substantially more tokens than a typical Claude Code session. Available on <strong>Max, Team, and Enterprise plans</strong>. On Enterprise, off by default at launch — admins enable via Claude Code settings.</p>
+        </div>
+        <div class="callout callout-tip" style="margin-top:0; margin-bottom:0;">
+          <div class="callout-title">Trigger keyword: <code>ultracode</code></div>
+          <p>Type the word <strong>ultracode</strong> in the prompt input (it highlights violet) to let Claude decide when to run a full dynamic workflow automatically. The word "workflow" no longer triggers this — asking for one in plain language still works. Press <kbd>Alt+W</kbd> or <kbd>Backspace</kbd> immediately after the keyword appears to dismiss an accidental trigger. To disable the keyword entirely, go to <code>/config</code> → <em>Workflow keyword trigger</em>. (v2.1.160)</p>
         </div>
       </div></div>
     </div>
@@ -10168,7 +10172,6 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code></td><td>Opts out of the fullscreen alternate-screen renderer — keeps the conversation in the terminal's native scrollback buffer instead. Useful in tmux, GNU screen, or CI environments where alternate-screen mode interferes with log capture.</td></tr>
               <tr><td><code>CLAUDE_CODE_PLUGIN_PREFER_HTTPS</code></td><td>Clone GitHub plugin sources over HTTPS instead of SSH — use in environments where a GitHub SSH key is unavailable (CI/CD containers, managed desktops, devcontainers).</td></tr>
               <tr><td><code>ANTHROPIC_WORKSPACE_ID</code></td><td>Workload identity federation — scopes the minted auth token to a specific workspace when a federation rule covers more than one. Set in managed enterprise deployments using identity federation for authentication.</td></tr>
-              <tr><td><code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code></td><td>Pin fast mode (<code>/fast</code> / <kbd>Option+O</kbd>) to Opus 4.6 instead of the current default of Opus 4.8 (v2.1.142+ defaulted to 4.7; now superseded by 4.8).</td></tr>
               <tr><td><code>CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1</code></td><td>Opts out of the default <code>-ExecutionPolicy Bypass</code> flag Claude Code passes to PowerShell. Use in environments with enforced PowerShell execution policy (e.g. AllSigned or RemoteSigned) where bypass is not permitted.</td></tr>
               <tr><td><code>CLAUDE_CODE_USE_POWERSHELL_TOOL=0</code></td><td>Disables the PowerShell tool entirely. The tool is now enabled by default on Windows for Bedrock, Vertex, and Foundry users — use this opt-out in environments where PowerShell access is prohibited.</td></tr>
               <tr><td><code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=N</code></td><td>Maximum number of consecutive stop-hook blocks before the turn ends with a warning. Default: <code>8</code>. Raise the cap if your stop hook legitimately needs more retry cycles; set to <code>1</code> to fail fast.</td></tr>
@@ -12803,6 +12806,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.81.5 <span class="changelog-date">· 2026-06-02</span></h3>
+        <p><strong>Claude Code v2.1.160 auto-update (CBP-214–CBP-215).</strong> Two targeted updates: added a tip callout to the Dynamic Workflows section documenting that <code>ultracode</code> is now the trigger keyword (replacing <code>workflow</code>), with <kbd>Alt+W</kbd> / <kbd>Backspace</kbd> dismissal tip and <code>/config</code> opt-out (CBP-214); removed the deprecated <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE</code> env var row from the env vars table — the variable is now a no-op as of v2.1.160 (CBP-215).</p>
+      </section>
       <section>
         <h3>v2.81.4 <span class="changelog-date">· 2026-05-30</span></h3>
         <p><strong>Claude Code v2.1.157–v2.1.158 auto-update (CBP-210–CBP-213).</strong> Four targeted updates: added <code>claude plugin init &lt;name&gt;</code> to the Plugins collapsible code block and bullet list — scaffolds a new plugin skeleton in <code>.claude/skills/&lt;name&gt;/</code> (CBP-210); added an auto-load bullet to the Plugins collapsible documenting that plugin directories in <code>.claude/skills/</code> are automatically loaded without marketplace registration (CBP-211); added <code>CLAUDE_CODE_ENABLE_AUTO_MODE=1</code> to the Subprocess Sandboxing hardening env vars table — opt-in to auto mode on Amazon Bedrock, Google Vertex AI, and Azure Foundry for Opus 4.7/4.8 (CBP-212); updated the Work Trees collapsible tip to note that <code>EnterWorktree</code> can now switch between Claude-managed worktrees mid-session (CBP-213).</p>

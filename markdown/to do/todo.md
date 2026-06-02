@@ -224,3 +224,5 @@
 - [x] `CBP-211` Add plugins auto-load from `.claude/skills/` (no marketplace) bullet to Plugins collapsible (v2.1.157) → [task-cbp-211.md](task-cbp-211.md)
 - [x] `CBP-212` Add `CLAUDE_CODE_ENABLE_AUTO_MODE=1` env var to Subprocess Sandboxing hardening table (v2.1.158) → [task-cbp-212.md](task-cbp-212.md)
 - [x] `CBP-213` Update Work Trees collapsible: `EnterWorktree` mid-session switching (v2.1.157) → [task-cbp-213.md](task-cbp-213.md)
+- [x] `CBP-214` Update Dynamic Workflows section: `ultracode` is now the trigger keyword (replaces `workflow`); add `/config` opt-out and dismissal tip (v2.1.157/v2.1.160) → [task-cbp-214.md](task-cbp-214.md)
+- [x] `CBP-215` Remove deprecated `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var row from env vars table (v2.1.160) → [task-cbp-215.md](task-cbp-215.md)

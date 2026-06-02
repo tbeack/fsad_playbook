@@ -2,6 +2,15 @@
 
 ### [Unreleased]
 
+### v2.81.5 — 2026-06-02
+
+**CBP-214–CBP-215 — Claude Code v2.1.160 auto-update**
+
+Two targeted updates covering changes from Claude Code v2.1.160.
+
+- **CBP-214** — Updated Dynamic Workflows collapsible: added a tip callout documenting that `ultracode` is now the trigger keyword (the word "workflow" no longer triggers dynamic workflows as of v2.1.160). Includes `Alt+W` / `Backspace` dismissal tip and `/config` → "Workflow keyword trigger" opt-out reference (v2.1.160).
+- **CBP-215** — Removed the `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1` env var row from the Subprocess Sandboxing hardening env vars table. The environment variable was deprecated in v2.1.154 and is now a confirmed no-op as of v2.1.160 (v2.1.160).
+
 ### v2.81.4 — 2026-05-30
 
 **CBP-210–CBP-213 — Claude Code v2.1.157–v2.1.158 auto-update**
