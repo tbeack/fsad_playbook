@@ -226,3 +226,4 @@
 - [x] `CBP-213` Update Work Trees collapsible: `EnterWorktree` mid-session switching (v2.1.157) → [task-cbp-213.md](task-cbp-213.md)
 - [x] `CBP-214` Update Dynamic Workflows section: `ultracode` is now the trigger keyword (replaces `workflow`); add `/config` opt-out and dismissal tip (v2.1.157/v2.1.160) → [task-cbp-214.md](task-cbp-214.md)
 - [x] `CBP-215` Remove deprecated `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var row from env vars table (v2.1.160) → [task-cbp-215.md](task-cbp-215.md)
+- [x] `CBP-216` — Incorporate new Triad pod design images → [task-cbp-216.md](task-cbp-216.md)
