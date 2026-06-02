@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.82.0 — 2026-06-02
+
+**CBP-216 — Pod Triad design images**
+
+Replaced the CSS emoji ring in the Triad pod panel (Pod Explorer) with the new design illustration. Two variants — dark and light — switch automatically with the app's theme via `html[data-theme]` CSS selectors. Embedded as base64 data URIs for self-contained distribution.
+
 ### v2.81.5 — 2026-06-02
 
 **CBP-214–CBP-215 — Claude Code v2.1.160 auto-update**
