@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v2.82.0)</title>
+<title>FSAD — Full Stack Agentic Development (v2.83.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -1916,7 +1916,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.82.0</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v2.83.0</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <div class="sidebar-search">
       <div class="sidebar-search-input-wrap">
@@ -9398,7 +9398,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/doctor</code></td><td>Environment diagnostics &amp; health check. Shows an exec-form example hint when a command hook is missing the <code>command</code> field. Run for the full skill-listing breakdown (truncation no longer shown as a startup notification).</td></tr>
           <tr><td><code>/less-permission-prompts</code></td><td>Scan transcripts for common read-only Bash/MCP calls and propose an allowlist for <code>settings.json</code></td></tr>
           <tr><td><code>/sandbox</code></td><td>Enable OS-level sandboxing for Bash subprocesses — choose <strong>Auto-allow</strong> mode (sandboxed commands run without approval prompts) or <strong>Regular permissions</strong> mode (standard flow, sandbox still enforces boundaries). macOS: built-in via Seatbelt. Linux / WSL2: requires <code>bubblewrap</code> and <code>socat</code>.</td></tr>
-          <tr><td><code>/mcp</code></td><td>Manage MCP server connections; shows tool count per server and flags servers with 0 tools (usually a misconfiguration)</td></tr>
+          <tr><td><code>/mcp</code></td><td>Manage MCP server connections; shows tool count per server and flags servers with 0 tools (usually a misconfiguration). As of v2.1.161, claude.ai connectors you have never signed in to are collapsed behind a "Show unused connectors" row to reduce visual noise</td></tr>
           <tr><td><code>/hooks</code></td><td>View hook configurations</td></tr>
           <tr><td><code>/skills</code></td><td>List available skills; type to filter by name in long lists</td></tr>
           <tr><td><code>/plugin</code></td><td>Manage Claude Code plugins — the marketplace browse and discover panes show a full component preview (commands, agents, skills, hooks, MCP/LSP servers), projected per-turn and per-invocation token cost estimates, and when each plugin was last updated — all before you install. Use <code>claude plugin details &lt;name&gt;</code> for the same inventory from the CLI.</td></tr>
@@ -9783,7 +9783,7 @@ smoke tests against the staging URL."</code></pre>
         </div>
         <div class="callout callout-tip" style="margin-bottom:0; margin-top:0.75rem;">
           <div class="callout-title">Tip</div>
-          <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events. As of v2.1.157, <code>EnterWorktree</code> can switch between Claude-managed worktrees mid-session — an agent can hop from one task-worktree to another without stopping and restarting.</p>
+          <p>Worktrees are automatically cleaned up when the agent completes with no changes. If changes were made, the worktree path and branch are returned. <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks fire on lifecycle events. As of v2.1.157, <code>EnterWorktree</code> can switch between Claude-managed worktrees mid-session — an agent can hop from one task-worktree to another without stopping and restarting. As of v2.1.161, parallel tool calls are independent — a failed Bash command no longer cancels other calls in the same batch; each tool returns its own result.</p>
         </div>
       </div></div>
     </div>
@@ -11103,7 +11103,7 @@ claude</code></pre>
 }</code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
-          <li><strong>Multi-team segmentation</strong> &mdash; use <code>OTEL_RESOURCE_ATTRIBUTES="department=eng,team.id=platform,cost_center=123"</code> to tag metrics by team</li>
+          <li><strong>Multi-team segmentation</strong> &mdash; use <code>OTEL_RESOURCE_ATTRIBUTES="department=eng,team.id=platform,cost_center=123"</code> to tag metrics by team. As of v2.1.161, these values are included as labels on every metric datapoint &mdash; slice by team or repo in Grafana/Datadog without a secondary join</li>
           <li><strong>Dynamic auth</strong> &mdash; set <code>"otelHeadersHelper": "/path/to/script.sh"</code> in settings.json to auto-refresh tokens (runs every 29 min)</li>
           <li><strong>Cardinality control</strong> &mdash; toggle <code>OTEL_METRICS_INCLUDE_SESSION_ID</code>, <code>OTEL_METRICS_INCLUDE_VERSION</code>, and <code>OTEL_METRICS_INCLUDE_ACCOUNT_UUID</code> to tune storage vs. granularity</li>
           <li><strong>Survey re-opt-in</strong> &mdash; set <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to re-enable the session quality survey for enterprises capturing responses through OpenTelemetry (the survey is suppressed by default when OTEL is active to avoid polluting telemetry pipelines)</li>
@@ -12805,6 +12805,10 @@ codex app</code></pre>
       <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
     </header>
     <div class="changelog-body">
+      <section>
+        <h3>v2.83.0 <span class="changelog-date">· 2026-06-03</span></h3>
+        <p><strong>Claude Code v2.1.161 auto-update (CBP-217–CBP-219).</strong> Three targeted updates: clarified the OTEL_RESOURCE_ATTRIBUTES multi-team segmentation bullet to note that attribute values are now included as labels on every metric datapoint as of v2.1.161 — slice by team or repo in Grafana/Datadog without a secondary join (CBP-217); updated the <code>/mcp</code> Cheat Sheet row to document that claude.ai connectors you have never signed in to are now collapsed behind a "Show unused connectors" row (CBP-218); extended the Work Trees tip callout to note that parallel tool calls are now independent — a failed Bash command no longer cancels other calls in the same batch (CBP-219).</p>
+      </section>
       <section>
         <h3>v2.82.0 <span class="changelog-date">· 2026-06-02</span></h3>
         <p><strong>Pod Triad design images.</strong> Replaced the CSS emoji ring in the Triad pod panel (Pod Explorer) with the new design illustration. Two variants — dark and light — switch automatically with the app's theme via <code>html[data-theme]</code> CSS selectors. Embedded as base64 data URIs for self-contained distribution.</p>
