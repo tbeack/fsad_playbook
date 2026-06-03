@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.87.0 — 2026-06-03
+
+**CBP-221 — Pod image hover + lightbox expand**
+
+All pod diagrams now show a zoom cursor and subtle scale animation on hover. Clicking any pod diagram (FSAD Operating Model in Section 03, or any of the seven Pod Explorer illustrations) opens a full-screen lightbox overlay at full image resolution. Lightbox closes on Escape, backdrop click, or the × button. Dark and light theme variants are handled automatically.
+
 ### v2.86.0 — 2026-06-03
 
 **CBP-220 — FSAD Operating Model diagram replaces CSS pod ring in Section 03**
