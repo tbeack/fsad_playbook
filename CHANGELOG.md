@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.85.0 — 2026-06-03
+
+**Pod Explorer design images — Platform, Discovery, QA, and Experience Pods**
+
+Replaced the CSS emoji rings in the Platform, Discovery, QA, and Experience Pod panels with design illustrations, matching the pattern established for the Triad (v2.82.0) and Builder Duo / Full Stack (v2.84.0). All four pods use dark and light variants that switch automatically with the app theme. Triad subtitle text removed. Pod Configs count updated from 6 to 7.
+
 ### v2.84.0 — 2026-06-03
 
 **Pod Explorer design images — Builder Duo and Full Stack Pod**
