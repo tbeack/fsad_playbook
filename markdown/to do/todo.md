@@ -227,3 +227,6 @@
 - [x] `CBP-214` Update Dynamic Workflows section: `ultracode` is now the trigger keyword (replaces `workflow`); add `/config` opt-out and dismissal tip (v2.1.157/v2.1.160) → [task-cbp-214.md](task-cbp-214.md)
 - [x] `CBP-215` Remove deprecated `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var row from env vars table (v2.1.160) → [task-cbp-215.md](task-cbp-215.md)
 - [x] `CBP-216` — Incorporate new Triad pod design images → [task-cbp-216.md](task-cbp-216.md)
+- [x] `CBP-217` Update OTEL_RESOURCE_ATTRIBUTES monitoring note: values now labels on metric datapoints (v2.1.161) → [task-cbp-217.md](task-cbp-217.md)
+- [x] `CBP-218` Update /mcp Cheat Sheet row: collapses unused claude.ai connectors behind "Show unused connectors" row (v2.1.161) → [task-cbp-218.md](task-cbp-218.md)
+- [x] `CBP-219` Add parallel tool call independence note to Work Trees collapsible (v2.1.161) → [task-cbp-219.md](task-cbp-219.md)
