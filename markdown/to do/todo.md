@@ -231,3 +231,4 @@
 - [x] `CBP-218` Update /mcp Cheat Sheet row: collapses unused claude.ai connectors behind "Show unused connectors" row (v2.1.161) → [task-cbp-218.md](task-cbp-218.md)
 - [x] `CBP-219` Add parallel tool call independence note to Work Trees collapsible (v2.1.161) → [task-cbp-219.md](task-cbp-219.md)
 - [x] `CBP-220` Replace CSS pod diagram in Section 03 — The FSAD Pod with FSAD Operating Model design images (dark + light) → [task-cbp-220.md](task-cbp-220.md)
+- [x] `CBP-221` — create a hover effect when moving cursor over a pod image. When the user select the image by clicking on it, the image should be expanded to it's full size with a hover effect. Research best options to implement this feature and propose a solution to implement the recommended approach in a plan. → [task-cbp-221.md](task-cbp-221.md)
