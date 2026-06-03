@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.84.0 — 2026-06-03
+
+**Pod Explorer design images — Builder Duo and Full Stack Pod**
+
+Replaced the CSS emoji rings in the Builder Duo and Full Stack Pod panels with the new design illustrations, matching the pattern established for the Triad in v2.82.0. Both pods use dark and light variants that switch automatically with the app theme. Triad image sizing refined (405px column, 0.75rem card padding); same sizing applied consistently to Builder Duo and Full Stack Pod.
+
 ### v2.83.0 — 2026-06-03
 
 **CBP-217–CBP-219 — Claude Code v2.1.161 auto-update**
