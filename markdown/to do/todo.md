@@ -230,3 +230,4 @@
 - [x] `CBP-217` Update OTEL_RESOURCE_ATTRIBUTES monitoring note: values now labels on metric datapoints (v2.1.161) → [task-cbp-217.md](task-cbp-217.md)
 - [x] `CBP-218` Update /mcp Cheat Sheet row: collapses unused claude.ai connectors behind "Show unused connectors" row (v2.1.161) → [task-cbp-218.md](task-cbp-218.md)
 - [x] `CBP-219` Add parallel tool call independence note to Work Trees collapsible (v2.1.161) → [task-cbp-219.md](task-cbp-219.md)
+- [x] `CBP-220` Replace CSS pod diagram in Section 03 — The FSAD Pod with FSAD Operating Model design images (dark + light) → [task-cbp-220.md](task-cbp-220.md)

@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.86.0 — 2026-06-03
+
+**CBP-220 — FSAD Operating Model diagram replaces CSS pod ring in Section 03**
+
+Replaced the CSS emoji ring in Section 03 — The FSAD Pod with the FSAD Operating Model design illustrations (dark + light). Image is full-width, stacked above the description text. Removed `margin-bottom` and dark `pod-visual-wrap` background/padding/border from all seven image pods (Triad, Builder Duo, Full Stack, Platform, Discovery, QA, Experience) to eliminate the black bar visible in dark mode.
+
 ### v2.85.0 — 2026-06-03
 
 **Pod Explorer design images — Platform, Discovery, QA, and Experience Pods**
