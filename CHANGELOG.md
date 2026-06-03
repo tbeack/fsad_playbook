@@ -2,6 +2,16 @@
 
 ### [Unreleased]
 
+### v2.83.0 — 2026-06-03
+
+**CBP-217–CBP-219 — Claude Code v2.1.161 auto-update**
+
+Three targeted updates covering changes from Claude Code v2.1.161.
+
+- **CBP-217** — Updated OTEL_RESOURCE_ATTRIBUTES multi-team segmentation bullet in the Enterprise Configuration (Monitoring) collapsible: clarified that attribute values are now included as labels on every metric datapoint as of v2.1.161, enabling slicing by team or repo in Grafana/Datadog without a secondary join (v2.1.161).
+- **CBP-218** — Updated `/mcp` Cheat Sheet row: added note that claude.ai connectors you have never signed in to are now collapsed behind a "Show unused connectors" row to reduce visual noise (v2.1.161).
+- **CBP-219** — Extended Work Trees collapsible tip callout: added a note that parallel tool calls are now independent — a failed Bash command no longer cancels other calls in the same batch; each tool returns its own result (v2.1.161).
+
 ### v2.82.0 — 2026-06-02
 
 **CBP-216 — Pod Triad design images**
