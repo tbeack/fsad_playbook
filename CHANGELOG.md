@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.88.0 — 2026-06-03
+
+**CBP-222 — Practical Best Practices page**
+
+New standalone page in the left nav (between Workflows and Skills Library). Three sections: (1) five numbered habit cards for token management — compact cadence, exact-file reads, post-compact ordering, planning discipline, task-boundary compaction; (2) a three-column effort-level bar with per-level usage examples and a `/effort` quick-reference card; (3) four "Set Once, Forget" pattern cards covering CLAUDE.md setup, problem-first framing, right-tool selection, and hooks for repeating checks. All content fact-checked against official Claude Code docs. Deep links, scroll spy, and mobile-responsive collapse all supported.
+
 ### v2.87.0 — 2026-06-03
 
 **CBP-221 — Pod image hover + lightbox expand**
