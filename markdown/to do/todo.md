@@ -233,3 +233,7 @@
 - [x] `CBP-220` Replace CSS pod diagram in Section 03 — The FSAD Pod with FSAD Operating Model design images (dark + light) → [task-cbp-220.md](task-cbp-220.md)
 - [x] `CBP-221` — create a hover effect when moving cursor over a pod image. When the user select the image by clicking on it, the image should be expanded to it's full size with a hover effect. Research best options to implement this feature and propose a solution to implement the recommended approach in a plan. → [task-cbp-221.md](task-cbp-221.md)
 - [x] `CBP-222` — Add a new "Practical Best Practices" in the left nav. Insert after "Workflows". Use the image `/desktop/Token_limits.png` as inspiration. Read the context and create a plan how to implement the guidance, using a similar layout, but using the playbook styling. Create thew layout and content in the task plan. → [task-cbp-222.md](task-cbp-222.md)
+- [x] `CBP-223` Update `claude agents --json` row: add `waitingFor` field showing what a blocked session is waiting on (v2.1.162) → [task-cbp-223.md](task-cbp-223.md)
+- [x] `CBP-224` Update `/effort` Cheat Sheet row: confirms when chosen level will persist as new-session default (v2.1.162) → [task-cbp-224.md](task-cbp-224.md)
+- [x] `CBP-225` Update Remote Control collapsible: footer pill (not startup message) (v2.1.162) → [task-cbp-225.md](task-cbp-225.md)
+- [x] `CBP-226` Rename Windsurf to Devin Desktop in `/terminal-setup` row and IDE extensions table (v2.1.162) → [task-cbp-226.md](task-cbp-226.md)

@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.89.0 — 2026-06-04
+
+**CBP-223–CBP-226 — Claude Code v2.1.162 auto-update**
+
+Four targeted Cheat Sheet and Power Usage updates covering changes from Claude Code v2.1.162. Updated `claude agents --json` row to document the new `waitingFor` JSON field showing what a blocked session is waiting on (e.g. a permission prompt). Updated the `/effort` Cheat Sheet row to note it now confirms when the chosen level will persist as the default for new sessions. Added a note to the Remote Control & Cross-Device collapsible explaining that when Remote Control is enabled, it appears as a persistent footer pill with a session link instead of a one-time startup message. Renamed Windsurf to Devin Desktop in the `/terminal-setup` Cheat Sheet row and the IDE extensions comparison table on the Codex page, following the editor's rebrand.
+
 ### v2.88.0 — 2026-06-03
 
 **CBP-222 — Practical Best Practices page**
