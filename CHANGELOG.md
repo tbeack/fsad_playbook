@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.90.0 — 2026-06-04
+
+**CBP-228 — Open Source Frameworks promoted to top-level nav page**
+
+Moved the Open Source Frameworks section out of Claude Best Practices → Reference and into its own first-class page in the left sidebar, positioned after KPIs to Measure Impact. The new `page-open-source` has a hero section ("Community Ecosystem") and a dedicated nav group with Overview and Frameworks sub-items. Deep links via `#open-source` and `#open-source/open-source` route directly to the new page. Removed the Open Source entry from the Claude Best Practices Reference hub card and updated the hub card description.
+
 ### v2.89.1 — 2026-06-04
 
 **CBP-227 — Claude Code v2.1.161 agents progress counts**
