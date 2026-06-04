@@ -238,3 +238,4 @@
 - [x] `CBP-225` Update Remote Control collapsible: footer pill (not startup message) (v2.1.162) → [task-cbp-225.md](task-cbp-225.md)
 - [x] `CBP-226` Rename Windsurf to Devin Desktop in `/terminal-setup` row and IDE extensions table (v2.1.162) → [task-cbp-226.md](task-cbp-226.md)
 - [x] `CBP-227` Update `claude agents` row: done/total progress counts and longest-running peek (v2.1.161) → [task-cbp-227.md](task-cbp-227.md)
+- [x] `CBP-228` — Move the Open Source section to a main entry on the left nav. Put it after KPIs. → [task-cbp-228.md](task-cbp-228.md)
