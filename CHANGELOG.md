@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.89.1 — 2026-06-04
+
+**CBP-227 — Claude Code v2.1.161 agents progress counts**
+
+Single targeted update: updated the `claude agents` Cheat Sheet row to document that when work is fanned out across subagents, each row in the agents view shows `done/total` progress counts before the detail text, and the peek highlights the longest-running item (v2.1.161).
+
 ### v2.89.0 — 2026-06-04
 
 **CBP-223–CBP-226 — Claude Code v2.1.162 auto-update**
