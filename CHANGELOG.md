@@ -2,6 +2,16 @@
 
 ### [Unreleased]
 
+### v2.93.0 — 2026-06-05
+
+**CBP-231–CBP-233 — Claude Code v2.1.165 auto-update**
+
+Three targeted updates sourced from Claude Code v2.1.163 (latest release v2.1.165 was bug fixes and reliability improvements only):
+
+- **CBP-231** — Updated the `/plugin` Cheat Sheet row and Plugins collapsible to document `claude plugin list [--enabled | --disabled]`: list all installed plugins from the CLI, optionally filtered to enabled or disabled only.
+- **CBP-232** — Updated the `Stop` and `SubagentStop` hook rows to document that returning `hookSpecificOutput.additionalContext` in JSON output gives Claude feedback and keeps the turn going without triggering a hook error label (v2.1.163).
+- **CBP-233** — Extended the Skill Invocation "Manual" card to document the `\$` escape syntax: use `\$` before a digit in a skill command body to output a literal `$` instead of a positional argument substitution (v2.1.163).
+
 ### v2.92.0 — 2026-06-04
 
 **CBP-230 — Deeplinks to all playbook content**
