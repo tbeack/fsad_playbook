@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.92.0 — 2026-06-04
+
+**CBP-230 — Deeplinks to all playbook content**
+
+The URL bar now updates as you scroll through the playbook, making every page, section, and collapsible directly linkable. The existing `sectionObserver` scroll-spy already tracked which section was in view to update nav highlights — it now also calls `history.replaceState` to keep the address bar in sync. Non-practices pages produce `#page/section` URLs; the Claude Best Practices multi-topic view produces `#practices/section` URLs; and leaf-level collapsibles produce `#practices/section/leaf` URLs. All three formats were already supported by the router on initial load, completing the round-trip. Also fixes a bug where the Codex Hooks nav entry navigated to the FSAD page due to `codex-hooks` being missing from `sectionToPageMap`.
+
 ### v2.91.0 — 2026-06-04
 
 **CBP-229 — Moved Multi-Agent Security Review Team to Skills Library**
