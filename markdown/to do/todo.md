@@ -241,3 +241,7 @@
 - [x] `CBP-228` — Move the Open Source section to a main entry on the left nav. Put it after KPIs. → [task-cbp-228.md](task-cbp-228.md)
 - [x] `CBP-229` — Move the security review agent section under Claude Best Practices to the Skills Library section. → [task-cbp-229.md](task-cbp-229.md)
 - [x] `CBP-230` — create deeplinks to content in the playbook. left nav sub menu, and sub-sub-menu items should have direct links. Evaluate best options to implement, make a recommendation for the best approach and develop the implementation plan for it. → [task-cbp-230.md](task-cbp-230.md)
+- [x] `CBP-231` Update `Stop` and `SubagentStop` hook rows: return `hookSpecificOutput.additionalContext` to give Claude feedback and keep the turn going (v2.1.163) → [task-cbp-231.md](task-cbp-231.md)
+- [x] `CBP-232` Update `/plugin` Cheat Sheet row: add `claude plugin list [--enabled|--disabled]` CLI command (v2.1.163) → [task-cbp-232.md](task-cbp-232.md)
+- [x] `CBP-233` Update skills string substitutions note: add `\$` escape syntax for literal `$` before a digit in command bodies (v2.1.163) → [task-cbp-233.md](task-cbp-233.md)
+- [x] `CBP-234` Add `requiredMinimumVersion`/`requiredMaximumVersion` managed settings keys to Notable settings.json Keys callout (v2.1.163) → [task-cbp-234.md](task-cbp-234.md)

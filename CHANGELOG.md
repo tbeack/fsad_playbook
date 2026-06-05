@@ -2,6 +2,17 @@
 
 ### [Unreleased]
 
+### v2.93.0 — 2026-06-05
+
+**CBP-231–CBP-234 — Claude Code v2.1.165 auto-update**
+
+Four targeted updates sourced from Claude Code v2.1.163 (released 2026-06-05):
+
+- **CBP-231** — Updated `Stop` hook row (Core lifecycle hooks table) and `SubagentStop` hook row (Agent & task hooks table) to document returning `hookSpecificOutput.additionalContext` in hook JSON output. This lets hooks give Claude feedback and keep the current turn going without the response being labeled a hook error.
+- **CBP-232** — Updated `/plugin` Cheat Sheet row to mention `claude plugin list` with optional `--enabled` or `--disabled` filter, allowing teams to audit which plugins are active or inactive from the CLI.
+- **CBP-233** — Updated the skills String substitutions note to document the `\$` escape syntax: using `\$` before a digit in a skill command body includes a literal `$` without triggering argument substitution (useful when a skill generates shell scripts containing `$1`, `$2`, etc.).
+- **CBP-234** — Added `requiredMinimumVersion` / `requiredMaximumVersion` bullet to the Notable settings.json Keys callout in Config Cascade. When set via org managed settings, Claude Code refuses to start if its version falls outside the allowed range and directs the user to an approved version — useful for enterprise compliance and rollout control.
+
 ### v2.92.0 — 2026-06-04
 
 **CBP-230 — Deeplinks to all playbook content**
