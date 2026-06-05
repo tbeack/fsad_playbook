@@ -246,3 +246,5 @@
 - [x] `CBP-233` Update skills string substitutions note: add `\$` escape syntax for literal `$` before a digit in command bodies (v2.1.163) → [task-cbp-233.md](task-cbp-233.md)
 - [x] `CBP-234` Add `requiredMinimumVersion`/`requiredMaximumVersion` managed settings keys to Notable settings.json Keys callout (v2.1.163) → [task-cbp-234.md](task-cbp-234.md)
 - [x] `CBP-235` — Create a new section titled "What's new this week?". Include a concise review of all changes made by the Claude during the week. Exclude any changes made by me. Add as a subtitle below the version number and above the search bar. → [task-cbp-235.md](task-cbp-235.md)
+- [x] `CBP-236` — update the auto updater agent to prefix the Claude update tasks in the "todo.md" file with `[Claude]`. → [task-cbp-236.md](task-cbp-236.md)
+- [x] `CBP-237` — Revise "What's new this week" to show only auto-updater changes with full detail → [task-cbp-237.md](task-cbp-237.md)

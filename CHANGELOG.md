@@ -2,6 +2,10 @@
 
 ### [Unreleased]
 
+**CBP-236 — Auto-updater now prefixes Claude Code tasks with `[Claude]`**
+
+Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
+
 ### v2.96.0 — 2026-06-05
 
 **CBP-237 — "What's new this week" shows only Auto Updater changes with full per-task detail**
