@@ -2,6 +2,16 @@
 
 ### [Unreleased]
 
+### v2.96.0 — 2026-06-05
+
+**CBP-237 — "What's new this week" shows only Auto Updater changes with full per-task detail**
+
+Revised the "What's new this week" widget to focus on Auto Updater output and surface richer change detail:
+
+- **Filter**: `initWhatsNew()` now skips non-auto-update changelog entries (nav restructures, UI additions, etc.) and shows only entries produced by the Auto Updater agent — identified by "auto-update" in the `<strong>` headline.
+- **Per-task cards**: Auto-update bundle entries (e.g. CBP-231–234) are expanded into one card per CBP task by parsing `<ul>/<li>` structure in the changelog modal. Each card shows the specific change and its impact rather than a truncated bundle summary.
+- **Enriched changelog entries**: The v2.93.0 and v2.89.0 auto-update sections have been converted from semicolon-separated prose to `<ul>/<li>` format, with content sourced from task file summaries for each CBP task.
+
 ### v2.95.0 — 2026-06-05
 
 **CBP-235 revision — "What's new this week?" promoted to first-class page**
