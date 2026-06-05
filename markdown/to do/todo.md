@@ -239,3 +239,5 @@
 - [x] `CBP-226` Rename Windsurf to Devin Desktop in `/terminal-setup` row and IDE extensions table (v2.1.162) → [task-cbp-226.md](task-cbp-226.md)
 - [x] `CBP-227` Update `claude agents` row: done/total progress counts and longest-running peek (v2.1.161) → [task-cbp-227.md](task-cbp-227.md)
 - [x] `CBP-228` — Move the Open Source section to a main entry on the left nav. Put it after KPIs. → [task-cbp-228.md](task-cbp-228.md)
+- [x] `CBP-229` — Move the security review agent section under Claude Best Practices to the Skills Library section. → [task-cbp-229.md](task-cbp-229.md)
+- [ ] `CBP-230` — create deeplinks to content in the playbook. left nav sub menu, and sub-sub-menu items should have direct links. Evaluate best options to implement, make a recommendation for the best approach and develop the implementation plan for it.
