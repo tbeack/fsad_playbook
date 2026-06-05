@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.91.0 — 2026-06-04
+
+**CBP-229 — Moved Multi-Agent Security Review Team to Skills Library**
+
+Relocated the Security Review section from Claude Best Practices → Integrations & Review to the Skills Library page, where it now appears as section 03 alongside the `fsd:sec-review-team` and `fsd:sec-review-fixes` skill definitions. Updated sidebar nav, deep-link routing (`sectionToPageMap`), and a cross-reference on the Codex page.
+
 ### v2.90.0 — 2026-06-04
 
 **CBP-228 — Open Source Frameworks promoted to top-level nav page**
