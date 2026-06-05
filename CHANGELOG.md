@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.95.0 — 2026-06-05
+
+**CBP-235 revision — "What's new this week?" promoted to first-class page**
+
+Replaced the right-side slide-in panel with a dedicated full page (`page-whats-new`) rendered in the main content area. Infographic cards appear in a responsive grid. A "What's new" nav entry with green dot + count badge is added to the sidebar when current-week entries exist. The sidebar pill trigger and subtitle link now navigate to the page. Backdrop, panel, and overlay JS removed.
+
 ### v2.94.0 — 2026-06-05
 
 **CBP-235 — "What's new this week?" infographic widget**
