@@ -245,3 +245,4 @@
 - [x] `CBP-232` Update `/plugin` Cheat Sheet row: add `claude plugin list [--enabled|--disabled]` CLI command (v2.1.163) → [task-cbp-232.md](task-cbp-232.md)
 - [x] `CBP-233` Update skills string substitutions note: add `\$` escape syntax for literal `$` before a digit in command bodies (v2.1.163) → [task-cbp-233.md](task-cbp-233.md)
 - [x] `CBP-234` Add `requiredMinimumVersion`/`requiredMaximumVersion` managed settings keys to Notable settings.json Keys callout (v2.1.163) → [task-cbp-234.md](task-cbp-234.md)
+- [x] `CBP-235` — Create a new section titled "What's new this week?". Include a concise review of all changes made by the Claude during the week. Exclude any changes made by me. Add as a subtitle below the version number and above the search bar. → [task-cbp-235.md](task-cbp-235.md)
