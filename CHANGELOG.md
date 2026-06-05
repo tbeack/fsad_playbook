@@ -2,6 +2,12 @@
 
 ### [Unreleased]
 
+### v2.94.0 — 2026-06-05
+
+**CBP-235 — "What's new this week?" infographic widget**
+
+A collapsible infographic widget now appears in the sidebar header, between the version badge and the search bar. It auto-reads the existing changelog modal and renders the past 7 days of updates as visually distinct cards — no manual updates required. Each card shows a category icon and label (Hooks ⚡, Navigation 🔗, Skills ✦, Security 🔒, UI/Design 🎨, CLI ⌘, Config ⚙, Auto-update 🤖), a bold feature headline, a one-line impact summary extracted from the first sentence of the changelog paragraph, and a monospace version + date badge. A colored left-border accent differentiates cards by category. Clicking any card opens the full changelog modal; a "View full changelog →" footer link is also present. Collapsed/expanded state persists in `localStorage`; the widget hides itself automatically if the current week has no entries.
+
 ### v2.93.0 — 2026-06-05
 
 **CBP-231–CBP-234 — Claude Code v2.1.165 auto-update**
