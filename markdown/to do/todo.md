@@ -248,3 +248,5 @@
 - [x] `CBP-235` — Create a new section titled "What's new this week?". Include a concise review of all changes made by the Claude during the week. Exclude any changes made by me. Add as a subtitle below the version number and above the search bar. → [task-cbp-235.md](task-cbp-235.md)
 - [x] `CBP-236` — update the auto updater agent to prefix the Claude update tasks in the "todo.md" file with `[Claude]`. → [task-cbp-236.md](task-cbp-236.md)
 - [x] `CBP-237` — Revise "What's new this week" to show only auto-updater changes with full detail → [task-cbp-237.md](task-cbp-237.md)
+- [x] `CBP-238` [Claude] Update `fallbackModel` settings key in Notable settings.json Keys callout + update `--fallback-model` CLI flag description (v2.1.166) → [task-cbp-238.md](task-cbp-238.md)
+- [x] `CBP-239` [Claude] Add glob pattern support in deny rule tool-name position to Notable settings.json Keys callout (v2.1.166) → [task-cbp-239.md](task-cbp-239.md)

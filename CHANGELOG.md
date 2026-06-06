@@ -6,6 +6,15 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v2.97.0 — 2026-06-06
+
+**Claude Code v2.1.167 auto-update (CBP-238–CBP-239)**
+
+Two targeted updates for Claude Code v2.1.166 changes:
+
+- **CBP-238 — Config: `fallbackModel` settings key + updated `--fallback-model` flag description.** Added `fallbackModel` to the Notable settings.json Keys callout — configure up to three fallback models tried in order when the primary model is overloaded or unavailable. Updated the `--fallback-model` CLI flag row description to reflect the expanded trigger and cross-reference the `fallbackModel` settings key.
+- **CBP-239 — Config: deny rule glob patterns.** Added a new bullet to the Notable settings.json Keys callout documenting glob pattern support in the tool-name position of deny rules: `"*"` denies all tools; allow rules reject non-MCP globs; unknown tool names in deny rules now log a startup warning.
+
 ### v2.96.0 — 2026-06-05
 
 **CBP-237 — "What's new this week" shows only Auto Updater changes with full per-task detail**
