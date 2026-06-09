@@ -6,6 +6,14 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v2.99.0 — 2026-06-09
+
+**Claude Code v2.1.169 auto-update (CBP-244)**
+
+One targeted update for Claude Code v2.1.169:
+
+- **CBP-244 — Config: `API_FORCE_IDLE_TIMEOUT=0` env var.** Added to the Subprocess Sandboxing hardening env vars table — opts out of the restored default 5-minute idle timeout on Vertex AI and Foundry. Set to `0` for long-running batch jobs or custom streaming pipelines that must not be interrupted by an idle timeout.
+
 ### v2.98.0 — 2026-06-09
 
 **Claude Code v2.1.169 auto-update (CBP-240–CBP-243)**

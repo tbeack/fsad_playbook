@@ -254,3 +254,4 @@
 - [x] `CBP-241` [Claude] Add `/cd` command to Session/context/history slash commands table (v2.1.169) → [task-cbp-241.md](task-cbp-241.md)
 - [x] `CBP-242` [Claude] Add `disableBundledSkills` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` to Notable settings.json Keys callout (v2.1.169) → [task-cbp-242.md](task-cbp-242.md)
 - [x] `CBP-243` [Claude] Update `claude agents --json` row: `--all` flag + new `id`/`state` fields (v2.1.169) → [task-cbp-243.md](task-cbp-243.md)
+- [x] `CBP-244` [Claude] Add `API_FORCE_IDLE_TIMEOUT=0` env var to Subprocess Sandboxing table (v2.1.169) → [task-cbp-244.md](task-cbp-244.md)

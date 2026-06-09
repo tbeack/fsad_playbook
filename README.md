@@ -49,7 +49,7 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v2.98.0 |
+| **Current version** | v2.99.0 |
 | **Date updated** | 2026-06-09 |
 | **File** | `fsad-playbook.html` |
 
