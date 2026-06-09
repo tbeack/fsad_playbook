@@ -250,3 +250,7 @@
 - [x] `CBP-237` — Revise "What's new this week" to show only auto-updater changes with full detail → [task-cbp-237.md](task-cbp-237.md)
 - [x] `CBP-238` [Claude] Update `fallbackModel` settings key in Notable settings.json Keys callout + update `--fallback-model` CLI flag description (v2.1.166) → [task-cbp-238.md](task-cbp-238.md)
 - [x] `CBP-239` [Claude] Add glob pattern support in deny rule tool-name position to Notable settings.json Keys callout (v2.1.166) → [task-cbp-239.md](task-cbp-239.md)
+- [x] `CBP-240` [Claude] Add `--safe-mode` flag + `CLAUDE_CODE_SAFE_MODE` env var to Cheat Sheet CLI flags (v2.1.169) → [task-cbp-240.md](task-cbp-240.md)
+- [x] `CBP-241` [Claude] Add `/cd` command to Session/context/history slash commands table (v2.1.169) → [task-cbp-241.md](task-cbp-241.md)
+- [x] `CBP-242` [Claude] Add `disableBundledSkills` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` to Notable settings.json Keys callout (v2.1.169) → [task-cbp-242.md](task-cbp-242.md)
+- [x] `CBP-243` [Claude] Update `claude agents --json` row: `--all` flag + new `id`/`state` fields (v2.1.169) → [task-cbp-243.md](task-cbp-243.md)

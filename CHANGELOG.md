@@ -6,6 +6,17 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v2.98.0 — 2026-06-09
+
+**Claude Code v2.1.169 auto-update (CBP-240–CBP-243)**
+
+Four targeted updates for Claude Code v2.1.169 changes:
+
+- **CBP-240 — CLI: `--safe-mode` flag.** Added `--safe-mode` to the CLI Launch Flags "System prompt & config" table — starts Claude Code with all customizations disabled (CLAUDE.md, plugins, skills, hooks, MCP servers) for troubleshooting. Env var equivalent `CLAUDE_CODE_SAFE_MODE=1` documented inline.
+- **CBP-241 — Cheat Sheet: `/cd` command.** Added `/cd <path>` to the Session, context & history slash commands table — moves the session to a new working directory without breaking the prompt cache mid-session.
+- **CBP-242 — Config: `disableBundledSkills` setting.** Added `disableBundledSkills` to the Notable settings.json Keys callout — set `true` to hide all bundled skills, workflows, and built-in slash commands from the model. Env var equivalent `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1` and cross-reference to `skillOverrides` for per-skill granularity.
+- **CBP-243 — CLI: `claude agents --json` updates.** Updated the `claude agents` Cheat Sheet row to document that blocked and just-dispatched sessions are now always included in `--json` output; added `--all` flag for including completed sessions; noted new `id` and `state` JSON fields.
+
 ### v2.97.0 — 2026-06-06
 
 **Claude Code v2.1.167 auto-update (CBP-238–CBP-239)**
