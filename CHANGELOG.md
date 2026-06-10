@@ -6,6 +6,14 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v2.99.0 — 2026-06-10
+
+**Claude Code v2.1.170 auto-update (CBP-244)**
+
+One targeted update for Claude Code v2.1.170 changes:
+
+- **CBP-244 — Model lineup: Claude Fable 5.** Added Claude Fable 5 as a new top-tier column in the model lineup table. Fable 5 is described as a "Mythos-class" model whose capabilities exceed any model previously made generally available. New column includes positioning, API ID (`claude-fable-5`), and best-use guidance. Added a `fable` alias row to the Claude Code model aliases table. Updated Key Dates callout from "Apr–May 2026" to "Apr–Jun 2026" and added a June 9, 2026 Fable 5 release entry with link to the Anthropic announcement.
+
 ### v2.98.0 — 2026-06-09
 
 **Claude Code v2.1.169 auto-update (CBP-240–CBP-243)**
