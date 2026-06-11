@@ -255,3 +255,5 @@
 - [x] `CBP-242` [Claude] Add `disableBundledSkills` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` to Notable settings.json Keys callout (v2.1.169) → [task-cbp-242.md](task-cbp-242.md)
 - [x] `CBP-243` [Claude] Update `claude agents --json` row: `--all` flag + new `id`/`state` fields (v2.1.169) → [task-cbp-243.md](task-cbp-243.md)
 - [x] `CBP-244` [Claude] Add Claude Fable 5 (Mythos-class) to model lineup table and update Key Dates callout (v2.1.170) → [task-cbp-244.md](task-cbp-244.md)
+- [x] `CBP-245` [Claude] Update sub-agent guidance to document 5-level nesting depth (v2.1.172) → [task-cbp-245.md](task-cbp-245.md)
+- [x] `CBP-246` [Claude] Update `claude_code.lines_of_code.count` OTEL metric footnote to include `model` attribute (v2.1.172) → [task-cbp-246.md](task-cbp-246.md)

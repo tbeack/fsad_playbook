@@ -6,6 +6,15 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v2.100.0 — 2026-06-11
+
+**Claude Code v2.1.172 auto-update (CBP-245–CBP-246)**
+
+Two targeted updates for Claude Code v2.1.172 changes:
+
+- **CBP-245 — Dynamic Workflows: sub-agent nesting depth.** Updated the Dynamic Workflows collapsible intro paragraph to note that sub-agents can themselves spawn sub-agents up to 5 levels deep, enabling hierarchical orchestration where task-agents fan out their own analysis agents (v2.1.172).
+- **CBP-246 — Monitoring: `model` attribute on `lines_of_code` metric.** Updated the OTEL metrics table footnote to include `claude_code.lines_of_code.count` in the set of metrics that carry the `model` attribute — previously only "token and cost metrics" were listed (v2.1.172).
+
 ### v2.99.0 — 2026-06-10
 
 **Claude Code v2.1.170 auto-update (CBP-244)**
