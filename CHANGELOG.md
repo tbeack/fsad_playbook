@@ -6,6 +6,18 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v3.0.0 — 2026-06-11
+
+**Claude Code v2.1.173 auto-update (CBP-245 through CBP-249)**
+
+Five targeted updates for Claude Code v2.1.171–v2.1.173 changes:
+
+- **CBP-245 — Agent Teams: nested sub-agent depth.** Added a bullet to the Agent Teams collapsible noting that sub-agents can now spawn their own sub-agents up to 5 levels deep, enabling hierarchical multi-agent architectures like orchestrator → specialist → worker trees (v2.1.172).
+- **CBP-246 — Bedrock: AWS region fallback from ~/.aws/config.** Updated the 3rd-Party Model Providers callout to note that if `AWS_REGION` is not set, Bedrock reads the region from `~/.aws/config` (matching AWS SDK precedence); `/status` shows which source is active. Updated the `AWS_REGION` env var row accordingly (v2.1.172).
+- **CBP-247 — Plugins: marketplace search bar.** Updated the `/plugin` Cheat Sheet row to note the new search bar for filtering plugins by name. Added a bullet to the Plugins collapsible with the same note (v2.1.172).
+- **CBP-248 — OTEL: `model` attribute on lines_of_code.count.** Updated the `claude_code.lines_of_code.count` OTEL metrics table row to note the new `model` attribute — enables slicing lines-of-code output by model for cost attribution (v2.1.172).
+- **CBP-249 — Model aliases: fable 1M context default.** Updated the `fable` model alias row to note that Fable 5 includes 1M context by default — the `fable[1m]` suffix is redundant and is now stripped automatically (v2.1.173).
+
 ### v2.99.0 — 2026-06-10
 
 **Claude Code v2.1.170 auto-update (CBP-244)**

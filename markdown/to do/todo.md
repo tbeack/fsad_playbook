@@ -255,3 +255,8 @@
 - [x] `CBP-242` [Claude] Add `disableBundledSkills` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` to Notable settings.json Keys callout (v2.1.169) → [task-cbp-242.md](task-cbp-242.md)
 - [x] `CBP-243` [Claude] Update `claude agents --json` row: `--all` flag + new `id`/`state` fields (v2.1.169) → [task-cbp-243.md](task-cbp-243.md)
 - [x] `CBP-244` [Claude] Add Claude Fable 5 (Mythos-class) to model lineup table and update Key Dates callout (v2.1.170) → [task-cbp-244.md](task-cbp-244.md)
+- [x] `CBP-245` [Claude] Document sub-agent nesting depth (up to 5 levels) in Parallel Subagents collapsible (v2.1.172) → [task-cbp-245.md](task-cbp-245.md)
+- [x] `CBP-246` [Claude] Update Bedrock setup note: AWS region falls back to ~/.aws/config when AWS_REGION unset; /status shows region source (v2.1.172) → [task-cbp-246.md](task-cbp-246.md)
+- [x] `CBP-247` [Claude] Add search bar note to /plugin Cheat Sheet row and Plugins collapsible (v2.1.172) → [task-cbp-247.md](task-cbp-247.md)
+- [x] `CBP-248` [Claude] Add model attribute to claude_code.lines_of_code.count OTEL metrics table row (v2.1.172) → [task-cbp-248.md](task-cbp-248.md)
+- [x] `CBP-249` [Claude] Update fable model alias: Fable 5 includes 1M context by default, [1m] suffix stripped automatically (v2.1.173) → [task-cbp-249.md](task-cbp-249.md)
