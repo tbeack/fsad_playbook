@@ -6,6 +6,15 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v3.1.0 — 2026-06-12
+
+**Claude Code v2.1.175 auto-update (CBP-250 through CBP-251)**
+
+Two targeted updates for Claude Code v2.1.174–v2.1.175 changes:
+
+- **CBP-250 — Config: `enforceAvailableModels` managed setting.** Added `enforceAvailableModels` to the Notable settings.json Keys callout. When enabled by org admins, the `availableModels` allowlist also constrains the Default model — a Default that would resolve to a disallowed model falls back to the first allowed model, and user or project settings can no longer widen the managed allowlist (v2.1.175).
+- **CBP-251 — Config: `wheelScrollAccelerationEnabled` setting.** Added `wheelScrollAccelerationEnabled` to the Notable settings.json Keys callout. Set to `false` to disable mouse-wheel scroll acceleration in fullscreen mode — useful if the default acceleration feels too fast when scrolling long outputs (v2.1.174).
+
 ### v3.0.0 — 2026-06-11
 
 **Claude Code v2.1.173 auto-update (CBP-245 through CBP-249)**
