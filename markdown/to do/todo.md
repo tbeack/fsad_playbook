@@ -260,3 +260,5 @@
 - [x] `CBP-247` [Claude] Add search bar note to /plugin Cheat Sheet row and Plugins collapsible (v2.1.172) → [task-cbp-247.md](task-cbp-247.md)
 - [x] `CBP-248` [Claude] Add model attribute to claude_code.lines_of_code.count OTEL metrics table row (v2.1.172) → [task-cbp-248.md](task-cbp-248.md)
 - [x] `CBP-249` [Claude] Update fable model alias: Fable 5 includes 1M context by default, [1m] suffix stripped automatically (v2.1.173) → [task-cbp-249.md](task-cbp-249.md)
+- [x] `CBP-250` [Claude] Add `enforceAvailableModels` managed setting to Notable settings.json Keys callout (v2.1.175) → [task-cbp-250.md](task-cbp-250.md)
+- [x] `CBP-251` [Claude] Add `wheelScrollAccelerationEnabled` setting to Notable settings.json Keys callout (v2.1.174) → [task-cbp-251.md](task-cbp-251.md)
