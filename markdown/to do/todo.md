@@ -262,3 +262,5 @@
 - [x] `CBP-249` [Claude] Update fable model alias: Fable 5 includes 1M context by default, [1m] suffix stripped automatically (v2.1.173) → [task-cbp-249.md](task-cbp-249.md)
 - [x] `CBP-250` [Claude] Add `enforceAvailableModels` managed setting to Notable settings.json Keys callout (v2.1.175) → [task-cbp-250.md](task-cbp-250.md)
 - [x] `CBP-251` [Claude] Add `wheelScrollAccelerationEnabled` setting to Notable settings.json Keys callout (v2.1.174) → [task-cbp-251.md](task-cbp-251.md)
+- [x] `CBP-252` [Claude] Add `language` setting to Notable settings.json Keys callout (v2.1.176) → [task-cbp-252.md](task-cbp-252.md)
+- [x] `CBP-253` [Claude] Add `footerLinksRegexes` setting to Notable settings.json Keys callout (v2.1.176) → [task-cbp-253.md](task-cbp-253.md)
