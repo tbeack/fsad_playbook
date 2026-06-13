@@ -264,3 +264,4 @@
 - [x] `CBP-251` [Claude] Add `wheelScrollAccelerationEnabled` setting to Notable settings.json Keys callout (v2.1.174) → [task-cbp-251.md](task-cbp-251.md)
 - [x] `CBP-252` [Claude] Add `language` setting to Notable settings.json Keys callout (v2.1.176) → [task-cbp-252.md](task-cbp-252.md)
 - [x] `CBP-253` [Claude] Add `footerLinksRegexes` setting to Notable settings.json Keys callout (v2.1.176) → [task-cbp-253.md](task-cbp-253.md)
+- [x] `CBP-254` [Claude] Add `awsCredentialExport` Bedrock credential caching note to Notable settings.json Keys callout (v2.1.176) → [task-cbp-254.md](task-cbp-254.md)
