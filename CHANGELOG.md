@@ -6,6 +6,23 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v3.2.1 — 2026-06-13
+
+**Claude Code v2.1.177 auto-update (CBP-254)**
+
+One additional update for Claude Code v2.1.176:
+
+- **CBP-254 — Config: `awsCredentialExport` Bedrock credential caching.** Added `awsCredentialExport` to the Notable settings.json Keys callout. Amazon Bedrock only — path to a script that vends short-lived AWS credentials (e.g. via STS AssumeRole). Credentials are now cached until their `Expiration` field rather than a fixed 1-hour TTL, reducing unnecessary re-auth cycles for tokens with longer lifetimes (v2.1.176).
+
+### v3.2.0 — 2026-06-13
+
+**Claude Code v2.1.177 auto-update (CBP-252 through CBP-253)**
+
+Two targeted updates for Claude Code v2.1.176 changes (v2.1.177 shipped with no public changelog entries):
+
+- **CBP-252 — Config: `language` setting.** Added `language` to the Notable settings.json Keys callout. Pin the language Claude Code uses when auto-generating session titles — accepts BCP 47 language tags (e.g. `en`, `ja`, `fr`). Without this setting, titles are generated in the language of the conversation (v2.1.176).
+- **CBP-253 — Config: `footerLinksRegexes` setting.** Added `footerLinksRegexes` to the Notable settings.json Keys callout. Accepts an array of regex patterns; strings in the session footer row matching a pattern are rendered as clickable link badges. Configurable at user or managed (MDM/org) settings level (v2.1.176).
+
 ### v3.1.0 — 2026-06-12
 
 **Claude Code v2.1.175 auto-update (CBP-250 through CBP-251)**
