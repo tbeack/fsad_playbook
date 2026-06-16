@@ -265,3 +265,6 @@
 - [x] `CBP-252` [Claude] Add `language` setting to Notable settings.json Keys callout (v2.1.176) → [task-cbp-252.md](task-cbp-252.md)
 - [x] `CBP-253` [Claude] Add `footerLinksRegexes` setting to Notable settings.json Keys callout (v2.1.176) → [task-cbp-253.md](task-cbp-253.md)
 - [x] `CBP-254` [Claude] Add `awsCredentialExport` Bedrock credential caching note to Notable settings.json Keys callout (v2.1.176) → [task-cbp-254.md](task-cbp-254.md)
+- [x] `CBP-255` [Claude] Add `Tool(param:value)` permission rule syntax to Notable settings.json Keys callout (v2.1.178) → [task-cbp-255.md](task-cbp-255.md)
+- [x] `CBP-256` [Claude] Add nested `.claude/skills` directory loading note to Building Skills section (v2.1.178) → [task-cbp-256.md](task-cbp-256.md)
+- [x] `CBP-257` [Claude] Update workflow trigger keyword callout: explicit phrases required, purple shimmer highlight (v2.1.178) → [task-cbp-257.md](task-cbp-257.md)

@@ -6,6 +6,16 @@
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
 
+### v3.2.2 — 2026-06-16
+
+**Claude Code v2.1.178 auto-update (CBP-255 through CBP-257)**
+
+Three targeted updates for Claude Code v2.1.178:
+
+- **CBP-255 — Permissions: `Tool(param:value)` syntax.** Added a new bullet to the Notable settings.json Keys callout documenting the `Tool(param:value)` permission rule syntax — matches a tool's input parameters with `*` wildcard support. Example: `Agent(model:opus)` blocks subagents from spawning with the Opus model. Works in allow, deny, and ask positions (v2.1.178).
+- **CBP-256 — Skills: nested `.claude/skills` directory loading.** Added a note to the Building Skills section explaining that skills in nested `.claude/skills/` directories load automatically when working on files in that subdirectory. On a name clash, the nested skill appears as `<dir>:<name>` so both skills remain available (v2.1.178).
+- **CBP-257 — Workflows: trigger keyword requires explicit phrases.** Updated the Dynamic Workflows trigger keyword callout to document that the built-in workflow prompt keyword now uses a purple shimmer highlight and only fires on explicit phrases like "run a workflow" or "workflow:" — casual mentions of "workflow" no longer trigger it (v2.1.178).
+
 ### v3.2.1 — 2026-06-13
 
 **Claude Code v2.1.177 auto-update (CBP-254)**
