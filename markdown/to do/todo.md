@@ -268,3 +268,6 @@
 - [x] `CBP-255` [Claude] Add `Tool(param:value)` permission rule syntax to Notable settings.json Keys callout (v2.1.178) → [task-cbp-255.md](task-cbp-255.md)
 - [x] `CBP-256` [Claude] Add nested `.claude/skills` directory loading note to Building Skills section (v2.1.178) → [task-cbp-256.md](task-cbp-256.md)
 - [x] `CBP-257` [Claude] Update workflow trigger keyword callout: explicit phrases required, purple shimmer highlight (v2.1.178) → [task-cbp-257.md](task-cbp-257.md)
+- [x] `CBP-258` [Claude] Update `/config` Cheat Sheet row: add `key=value` inline syntax (v2.1.181) → [task-cbp-258.md](task-cbp-258.md)
+- [x] `CBP-259` [Claude] Add `sandbox.allowAppleEvents` to sandbox settings table (v2.1.181) → [task-cbp-259.md](task-cbp-259.md)
+- [x] `CBP-260` [Claude] Add `CLAUDE_CLIENT_PRESENCE_FILE` to hardening env vars table (v2.1.181) → [task-cbp-260.md](task-cbp-260.md)
