@@ -1,5 +1,21 @@
 ## Changes in This Version
 
+### v3.2.4 — 2026-06-18
+
+**Claude Code v2.1.181 auto-update (CBP-258 through CBP-260)**
+
+Three targeted updates for Claude Code v2.1.181:
+
+- **CBP-258 — Cheat Sheet: `/config key=value` inline syntax.** Updated the `/config` row to document the new inline syntax — set any setting directly from the prompt without opening the settings UI (e.g. `/config thinking=false`). Works in interactive, `-p`, and Remote Control modes (v2.1.181).
+- **CBP-259 — Sandbox: `sandbox.allowAppleEvents` setting.** Added `sandbox.allowAppleEvents` to the sandbox settings table. macOS opt-in that allows sandboxed commands to send Apple Events — enables `open`, `osascript`, and browser-based auth flows that rely on Apple Events (v2.1.181).
+- **CBP-260 — Env vars: `CLAUDE_CLIENT_PRESENCE_FILE`.** Added `CLAUDE_CLIENT_PRESENCE_FILE` to the hardening env vars table. Points at a marker file — when the file exists, Claude Code suppresses mobile push notifications, signalling you're at the machine (v2.1.181).
+
+### v3.2.3 — 2026-06-16
+
+**Backfill: `API_FORCE_IDLE_TIMEOUT=0` env var (v2.1.169)**
+
+Added the missing `API_FORCE_IDLE_TIMEOUT=0` row to the Subprocess Sandboxing hardening env vars table. Claude Code v2.1.169 restored a default 5-minute idle timeout on Vertex AI and Foundry deployments — stalled streams now abort automatically instead of hanging indefinitely. Set to `0` to opt out for long-running batch jobs or custom streaming pipelines.
+
 ### [Unreleased]
 
 **CBP-236 — Auto-updater now prefixes Claude Code tasks with `[Claude]`**
