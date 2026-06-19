@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.5 — 2026-06-19
+
+**Claude Code v2.1.183 auto-update (CBP-261 through CBP-263)**
+
+Three targeted updates for Claude Code v2.1.183:
+
+- **CBP-261 — Config: `attribution.sessionUrl` setting.** Added `attribution.sessionUrl` to the Notable settings.json Keys callout. Set to `false` to omit the claude.ai session link from commits and PRs created in web and Remote Control sessions — useful for teams that want clean commit attribution without embedding session URLs (v2.1.183).
+- **CBP-262 — Config: Auto mode built-in safety blocks.** Added a new bullet to the Notable settings.json Keys callout documenting auto mode's built-in safety rules: `git reset --hard`, `git checkout -- .`, `git clean -fd`, and `git stash drop` are blocked unless you explicitly asked to discard local work; `git commit --amend` is blocked when the commit wasn't made by the agent this session; `terraform destroy`, `pulumi destroy`, and `cdk destroy` are blocked unless you named the specific stack (v2.1.183).
+- **CBP-263 — Cheat Sheet: `/config --help` flag.** Updated the `/config` Cheat Sheet row to mention `/config --help`, which lists all available shorthand keys for the `key=value` inline syntax. Version reference updated to v2.1.183 (v2.1.183).
+
 ### v3.2.4 — 2026-06-18
 
 **Claude Code v2.1.181 auto-update (CBP-258 through CBP-260)**

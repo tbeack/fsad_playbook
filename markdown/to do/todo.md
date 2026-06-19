@@ -271,3 +271,6 @@
 - [x] `CBP-258` [Claude] Update `/config` Cheat Sheet row: add `key=value` inline syntax (v2.1.181) → [task-cbp-258.md](task-cbp-258.md)
 - [x] `CBP-259` [Claude] Add `sandbox.allowAppleEvents` to sandbox settings table (v2.1.181) → [task-cbp-259.md](task-cbp-259.md)
 - [x] `CBP-260` [Claude] Add `CLAUDE_CLIENT_PRESENCE_FILE` to hardening env vars table (v2.1.181) → [task-cbp-260.md](task-cbp-260.md)
+- [x] `CBP-261` [Claude] Add `attribution.sessionUrl` to Notable settings.json Keys callout (v2.1.183) → [task-cbp-261.md](task-cbp-261.md)
+- [x] `CBP-262` [Claude] Add auto mode built-in safety blocks note to Notable settings.json Keys callout (v2.1.183) → [task-cbp-262.md](task-cbp-262.md)
+- [x] `CBP-263` [Claude] Update `/config` Cheat Sheet row to mention `--help` flag (v2.1.183) → [task-cbp-263.md](task-cbp-263.md)
