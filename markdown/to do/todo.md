@@ -274,3 +274,4 @@
 - [x] `CBP-261` [Claude] Add `attribution.sessionUrl` to Notable settings.json Keys callout (v2.1.183) → [task-cbp-261.md](task-cbp-261.md)
 - [x] `CBP-262` [Claude] Add auto mode built-in safety blocks note to Notable settings.json Keys callout (v2.1.183) → [task-cbp-262.md](task-cbp-262.md)
 - [x] `CBP-263` [Claude] Update `/config` Cheat Sheet row to mention `--help` flag (v2.1.183) → [task-cbp-263.md](task-cbp-263.md)
+- [x] `CBP-264` Do the rebuild to include the two updated "Builder Duo" pod images → [task-cbp-264.md](task-cbp-264.md)
