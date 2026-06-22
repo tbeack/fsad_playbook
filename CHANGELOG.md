@@ -28,6 +28,12 @@ Added the missing `API_FORCE_IDLE_TIMEOUT=0` row to the Subprocess Sandboxing ha
 
 ### [Unreleased]
 
+### v3.2.6 — 2026-06-22
+
+**CBP-264 — Updated Builder Duo pod images**
+
+Re-embedded both Builder Duo pod illustration variants (Dark v2 and Light v2) as base64 data URIs in `fsad-playbook.html`. Both theme variants switch automatically with the app theme. Dist artifact rebuilt and embeddings regenerated.
+
 **CBP-236 — Auto-updater now prefixes Claude Code tasks with `[Claude]`**
 
 Updated `markdown/agents/auto_update_agent.md` and `~/.claude/agents/cbp-update/agent.md` so that auto-generated Claude Code update tasks in `todo.md` include the `[Claude]` prefix, matching the existing `[Codex]` convention for Codex CLI tasks.
