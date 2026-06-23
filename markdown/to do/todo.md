@@ -284,3 +284,4 @@
 - [x] `CBP-271` [Codex] Add /archive, /delete, /import, /usage to Codex cheat sheet → [task-cbp-271.md](task-cbp-271.md)
 - [x] `CBP-272` [Codex] Update Session Management collapsible to cover archive and delete → [task-cbp-272.md](task-cbp-272.md)
 - [x] `CBP-273` Sync tb:add-task and tb:do-task improvements to fsd:add-task and fsd:do-task → [task-cbp-273.md](task-cbp-273.md)
+- [x] `CBP-274` Update tb:add-task and tb:do-task skill definitions in the playbook's Skills Definitions section → [task-cbp-274.md](task-cbp-274.md)

@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v3.2.9 — 2026-06-22
+
+**CBP-274 — Skill Definitions: sync /fsd:add-task and /fsd:do-task**
+
+Updated both skill definition cards in the Skill Definitions section (Claude Best Practices page) to match the canonical SKILL.md files:
+
+- **/fsd:do-task.** Added steps 5a.5 (token-cost estimate), 5a.6 (chunk-based parallel execution for large plans), and 5h.5 (session summary for Stop hook). Description blurb updated to match frontmatter exactly.
+- **/fsd:add-task.** Step 1 rewritten to use targeted grep commands (no full-file read). Step 2 adds explicit keyword grep for duplicate detection. Step 3 updated with grep-guided insertion point instructions. Description blurb updated to remove hardcoded project list and match frontmatter.
+
 ### v3.2.7 — 2026-06-22
 
 **Claude Code v2.1.186 + Codex rust-v0.142.0 auto-update (CBP-266 through CBP-270)**
