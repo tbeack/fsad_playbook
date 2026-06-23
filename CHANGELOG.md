@@ -40,6 +40,15 @@ Added the missing `API_FORCE_IDLE_TIMEOUT=0` row to the Subprocess Sandboxing ha
 
 ### [Unreleased]
 
+### v3.2.8 — 2026-06-22
+
+**Codex CLI backlog catch-up — CBP-271 through CBP-272**
+
+Two Codex Best Practices updates covering commands released in v0.136.0–v0.140.0 that were not tracked by the auto-updater:
+
+- **CBP-271 — [Codex] Cheat Sheet: `/archive`, `/delete`, `/import`, `/usage`.** Added four missing Codex slash command rows to the Codex Cheat Sheet. `/archive` and `/delete` (after `/new`) cover session lifecycle — archive is reversible, delete is permanent with confirmation. `/import` (after `/init`) covers importing setup/config/chats from Claude Code. `/usage` (after `/status`) covers daily/weekly/cumulative token activity with rate-limit reset credit redemption. (v0.136.0–v0.140.0)
+- **CBP-272 — [Codex] Session Management: archive and delete.** Expanded the Session Management Power Usage collapsible with archive and delete workflows. Prose now explains the difference (reversible vs. permanent). Code block adds `codex archive`, `codex unarchive`, and `codex delete` commands with comment-style labels matching the existing block. (v0.136.0–v0.140.0)
+
 ### v3.2.6 — 2026-06-22
 
 **CBP-264 — Updated Builder Duo pod images**

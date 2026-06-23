@@ -281,3 +281,5 @@
 - [x] `CBP-268` [Claude] Add `CLAUDE_CODE_RETRY_WATCHDOG` + updated `CLAUDE_CODE_MAX_RETRIES` cap to hardening env vars table (v2.1.186) → [task-cbp-268.md](task-cbp-268.md)
 - [x] `CBP-269` [Claude] Update skill frontmatter note: kebab-case/snake_case/camelCase accepted for `display-name`, `default-enabled`, `fallback`, `metadata.*` keys (v2.1.186) → [task-cbp-269.md](task-cbp-269.md)
 - [x] `CBP-270` [Codex] Document rollout token budgets in Codex Power Usage section (rust-v0.142.0) → [task-cbp-270.md](task-cbp-270.md)
+- [x] `CBP-271` [Codex] Add /archive, /delete, /import, /usage to Codex cheat sheet → [task-cbp-271.md](task-cbp-271.md)
+- [x] `CBP-272` [Codex] Update Session Management collapsible to cover archive and delete → [task-cbp-272.md](task-cbp-272.md)
