@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.2.7 — 2026-06-22
+
+**Claude Code v2.1.186 + Codex rust-v0.142.0 auto-update (CBP-266 through CBP-270)**
+
+Five targeted updates across Claude Code v2.1.186 and Codex rust-v0.142.0:
+
+- **CBP-266 — Cheat Sheet: `claude mcp login/logout` CLI commands.** Updated the `/mcp` Cheat Sheet row to document `claude mcp login <name>` and `claude mcp logout <name>` — authenticate MCP servers from the terminal without opening the interactive menu. `--no-browser` redirects the OAuth flow to stdin for SSH sessions (v2.1.186).
+- **CBP-267 — Config: `respondToBashCommands` setting.** Added `respondToBashCommands` to the Notable settings.json Keys callout. As of v2.1.186, `!` bash commands trigger Claude to respond to their output automatically. Set to `false` to restore context-only behavior (v2.1.186).
+- **CBP-268 — Env vars: `CLAUDE_CODE_RETRY_WATCHDOG`.** Added `CLAUDE_CODE_RETRY_WATCHDOG` to the Subprocess Sandboxing hardening env vars table. Use instead of `CLAUDE_CODE_MAX_RETRIES` for unattended/CI sessions — the max retries setting is now capped at 15 (v2.1.186).
+- **CBP-269 — Skills: Frontmatter key casing flexibility.** Added a note to the Frontmatter Reference section: `display-name`, `default-enabled`, `fallback`, and `metadata.*` keys now accept kebab-case, snake_case, and camelCase spellings interchangeably. Malformed YAML frontmatter now loads skill body with empty metadata instead of failing silently (v2.1.186).
+- **CBP-270 — [Codex] Rollout token budgets.** Added rollout token budget documentation to the Multi-Agent Workflows collapsible in Codex Power Usage. Configure `rollout_token_budget` and `rollout_budget_reminder_threshold` in `config.toml` to cap per-thread token spend — Codex warns as the budget runs low and aborts turns when exhausted (rust-v0.142.0).
+
 ### v3.2.5 — 2026-06-19
 
 **Claude Code v2.1.183 auto-update (CBP-261 through CBP-263)**
