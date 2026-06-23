@@ -68,64 +68,6 @@ projects:
       lowercase. Completed tasks are git-mv'd into ../completed/ at ship time.
       Semver in package.json; CHANGELOG.md at project root.
 
-  hangman:
-    match_paths:
-      - ~/repo/hangman
-    prefix: HM
-    number_digits: 3
-    todo_file: planning/to do/todo.md
-    task_dir: planning/to do
-    task_filename_template: task-hm-{nnn}.md
-    todo_entry_template: "- [ ] `{ID}` {title}"
-    insert_under_section: "## Backlog"
-    use_full_template: false
-    version_scheme: semver
-    version_files:
-      - package.json
-    notes: |
-      Lightweight tracker; the bullet alone is usually enough. Set
-      use_full_template true ad-hoc if a task warrants a detail file.
-      Semver in package.json. No CHANGELOG yet — do-task will create one if needed.
-
-  KHB:
-    match_paths:
-      - ~/repo/KHB
-    prefix: KHB-Todo
-    number_digits: 4
-    todo_file: KHB-todo.md
-    task_dir: planning/requirements
-    task_filename_template: "{ID}_{slug}.md"
-    todo_entry_template: "- [ ] **{ID}** — {title}"
-    use_full_template: false
-    notes: |
-      Todo file lives at the repo root (KHB-todo.md). 4-digit numbering. Bold
-      identifier + em-dash separator. Detail files are optional and live under
-      planning/requirements/ named like "KHB-Todo-0009_i18n_research.md"
-      ({slug} = filename-safe lowercase of the title with underscores).
-      No versioning scheme in use — do-task will propose one if a task plan
-      calls for a version bump.
-
-  fsd:
-    match_paths:
-      - ~/repo/fsd
-    prefix: FSD
-    number_digits: 3
-    todo_file: planning/to do/todo.md
-    task_dir: planning/to do
-    task_filename_template: task-fsd-{nnn}.md
-    todo_entry_template: "- [ ] `{ID}` — {title} ([task-fsd-{nnn}](task-fsd-{nnn}.md))"
-    insert_under_section: "## Backlog"
-    use_full_template: true
-    changelog_file: CHANGELOG.md
-    version_scheme: semver
-    version_files:
-      - plugin/.claude-plugin/plugin.json
-      - README.md                           # bold header version line
-    notes: |
-      Em-dash separator after the identifier. Link text intentionally omits the
-      ".md" suffix. Semver in plugin.json and README header — keep both aligned
-      with the CHANGELOG version block.
-
 # Fallback when no project matches. Always confirm with the user before using
 # these defaults; offer to register the project so future runs are automatic.
 default:
