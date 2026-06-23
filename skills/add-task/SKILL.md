@@ -1,5 +1,5 @@
 ---
-description: Add a new task to any of your local projects. Auto-detects the current project (fsad_playbook, fsad_training, hangman, KHB, fsd, etc.) from the working directory and conforms to that project's conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/fsd/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea in a local project.
+description: Add a new task to any of your local projects. Auto-detects the current project from the working directory and conforms to that project's conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/fsd/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea.
 argument-hint: `[brief task title]`
 ---
 
@@ -33,11 +33,22 @@ You add a new task entry (and, where the project warrants it, a per-task detail 
 
 ## Step 1 — Compute the next number
 
-1. Read `cfg.todo_file` (resolved relative to the matched project root).
-2. **Clean up empty placeholder entries** — scan for lines that match the pattern `- [ ] \`{prefix}-NNN\`` where the title portion is empty (nothing or only whitespace after the closing backtick). These are artifacts left by the `init` template. If any are found, remove them from the file using `Edit` before proceeding. If the removed entry was the only one in the file (no real tasks yet), treat the file as empty and start numbering from 1 — so the first real task gets 001.
-3. Find every line containing the prefix and extract the highest number.
-4. Increment by 1; zero-pad to `cfg.number_digits` digits → `nnn`.
-5. Build:
+Do **not** read the full todo file. Use targeted Bash commands instead:
+
+1. **Find the highest task number** — run:
+   ```bash
+   grep -oE '{prefix}-[0-9]+' "{todo_file_path}" | sort -t- -k2 -n | tail -1
+   ```
+   Substitute the literal prefix (e.g. `CBP`, `TBS`, `FSD_Train`) for `{prefix}` and the resolved absolute path for `{todo_file_path}`. Quote the path to handle spaces. If the output is empty, no tasks exist yet — start at 1.
+
+2. **Clean up empty placeholder entries** — run:
+   ```bash
+   grep -nE '^- \[ \] `{prefix}-[0-9]+`\s*$' "{todo_file_path}"
+   ```
+   If any lines are returned, remove each with `Edit` using the exact line text as `old_string`. If the only entry removed was the last real line, treat the file as empty and start numbering from 1.
+
+3. **Increment** by 1; zero-pad to `cfg.number_digits` digits → `nnn`.
+4. Build:
    - `ID = "{prefix}-{nnn}"` (e.g. `CBP-031`, `KHB-Todo-0010`, `FSD_Train-012`).
    - `prefix_lower` = `cfg.prefix_in_filename` if set, otherwise the prefix lowercased.
    - `slug` (only if the filename template uses it) = title lowercased, non-alphanumerics → `_`, collapsed runs of `_`, trimmed.
@@ -47,16 +58,20 @@ You add a new task entry (and, where the project warrants it, a per-task detail 
 If `$ARGUMENTS` is non-empty, use it. Otherwise ask:
 > What's the task title? (one-liner — I'll prompt for details next.)
 
-Before adding, scan the todo file for an existing entry with a similar title. If one exists, surface it and ask whether to proceed, edit the existing one, or abandon.
+Before adding, check for an existing entry with a similar title using:
+```bash
+grep -i "{keyword_from_title}" "{todo_file_path}"
+```
+Pick 2–3 distinctive words from the title as the keyword. If any lines are returned, surface them and ask whether to proceed, edit the existing one, or abandon.
 
 ## Step 3 — Add the bullet to the todo file
 
 Render `cfg.todo_entry_template` by substituting `{ID}`, `{title}`, `{nnn}`, `{prefix_lower}`.
 
-Insertion point:
-- If `cfg.insert_before_section` is set → insert the bullet immediately before that heading line.
-- Else if `cfg.insert_under_section` is set → insert as the last bullet of that section (just before the next heading or the end of the file, whichever comes first).
-- Else → append after the last existing bullet in the top-level list.
+Insertion point — use grep to find the right location without a full-file read:
+- If `cfg.insert_before_section` is set → run `grep -n "{section_heading}" "{todo_file_path}"` to get the line number. Then `Read` with `offset` set to ~5 lines before that line number and `limit` of ~10 lines to get enough context for a unique `Edit` match.
+- Else if `cfg.insert_under_section` is set → run `grep -n "^##" "{todo_file_path}"` to find section boundaries. Read ~10 lines around the target section's end to locate the last bullet.
+- Else → run `grep -c "" "{todo_file_path}"` to get the total line count, then `Read` with `offset` set to the last ~10 lines to find the final bullet.
 
 Use the `Edit` tool with enough surrounding context to be unique. Don't rewrite the whole file.
 
@@ -133,7 +148,7 @@ In one short response, report:
 
 ## Guardrails
 
-- **Always read the todo file first** — never guess the next number.
+- **Always grep the todo file for the highest number first** — never guess the next number.
 - **Never duplicate titles** — scan existing entries before creating.
 - **Trust the file over the cfg.** If the file's existing entries clearly use a different format than `cfg.todo_entry_template`, follow the file and flag the drift to the user (the cfg may be stale).
 - **Don't modify other projects.** Only touch the matched project's files.

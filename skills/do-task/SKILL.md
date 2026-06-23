@@ -144,6 +144,60 @@ If `cfg.notes` mentions style cues (e.g. "reference task-cbp-030.md"), peek at t
 
 Read the task file end-to-end. Identify concerns — ambiguous steps, missing context, factual claims about the codebase that no longer hold (file paths moved, exports renamed, etc.). Raise anything unclear before starting. Do not guess.
 
+### 5a.5. Estimate token cost
+
+After reviewing the task file, compute a rough token estimate to decide whether the plan fits in a single-agent execution pass.
+
+**Count from the task file:**
+- `N_steps` = numbered items in `## Plan`
+- `N_files` = distinct file paths mentioned anywhere (quoted paths like `` `foo/bar.ts` ``)
+- `N_acs` = `- [ ]` checkbox items in `## Acceptance Criteria`
+- `has_exploration` = `true` if any plan step contains the words "research", "explore", "investigate", "audit", or "survey"
+
+**Formula:**
+
+```
+estimated_tokens = 8000 + (N_steps × 3000) + (N_files × 2000) + (N_acs × 500) + (has_exploration ? 15000 : 0)
+```
+
+**Threshold:** `LIMIT = 130000` (65% of the 200 000-token context window)
+
+Announce the estimate: `"Token estimate: ~{estimated_tokens} ({pct}% of context limit)."`
+
+- **Below threshold** (`estimated_tokens < LIMIT`) — continue to Step 5b as normal.
+- **At or above threshold** (`estimated_tokens >= LIMIT`) — announce that chunking will be used, then go to Step 5a.6 instead of Step 5b.
+
+### 5a.6. Split plan into chunks (threshold exceeded only)
+
+This step runs only when Step 5a.5 finds `estimated_tokens >= LIMIT`. The worktree is created by Step 5c — run Step 5c first (sync + `EnterWorktree`), then return here to spawn chunk agents that write their files into that worktree.
+
+**Chunk count:**
+
+```
+N_chunks = min(5, max(2, ceil(estimated_tokens / LIMIT)))
+```
+
+**Divide plan steps** into `N_chunks` roughly equal slices. Prefer natural phase or heading boundaries if the plan uses them. Each slice gets a step range, e.g. "steps 1–8" and "steps 9–15".
+
+**Spawn chunk agents sequentially** (wait for chunk N to return before starting N+1, since each chunk's output may be input to the next):
+
+For each chunk, build the agent prompt as follows:
+
+> You are implementing part of task `{ID}` in the worktree at `{worktree_path}`. All file writes must go to that path.
+>
+> **Full task file:**
+> ```
+> {full task file contents}
+> ```
+>
+> **Your scope:** Implement **ONLY steps {start}–{end}** from the `## Plan` section above. Steps before {start} are already complete; steps after {end} belong to a later chunk — do not implement them.
+>
+> **Do NOT:** verify acceptance criteria, update CHANGELOG.md, mark the task complete in the todo file, or write `.pmon-session-task`. The orchestrator handles all of that after every chunk finishes.
+>
+> Return a brief summary of the files you changed.
+
+**After all chunk agents return**, resume the main flow at **Step 5e** (verify ACs). Continue normally through 5f → 5g → 5h → 5i.
+
 ### 5b. Build a working task list
 
 Before creating any tasks, write the session badge so the task-id appears as an orange badge in the Claude Code statusline. Use the absolute `project_root` path resolved in Step 0 — not the literal string `{project_root}` and not a relative path. Quote the path to handle directory names with spaces:
@@ -231,6 +285,26 @@ Do not run the review without explicit user confirmation.
 > **Write directly to the main working tree.** Use the absolute path `{project_root}/{cfg.todo_file}` — not a relative path. The CWD is the worktree; a relative path would write to the worktree copy and create a merge conflict at ship time. The `[x]` mark is intentionally committed from main, not included in the worktree branch.
 
 Change the entry's `- [ ]` to `- [x]` at `{project_root}/{cfg.todo_file}`. Use `Edit` with unique surrounding context. Do not reorder lines or touch other entries.
+
+After marking the entry done, proceed to Step 5h.5.
+
+### 5h.5. Write session summary to temp file
+
+Before handing off, write a narrative summary so the Stop hook produces a meaningful log entry instead of mechanical boilerplate.
+
+1. Count ACs in the task file: scan `## Acceptance Criteria` for `- [x]` (verified) and `- [ ]` (remaining) lines.
+2. Generate a 4–6 sentence narrative in past tense covering: what was implemented, the approach taken, which ACs were verified, any notable decisions or deviations, and which files changed.
+3. Write the block to `/tmp/tb-session-summary-{TASK_ID}.txt` using the `Write` tool. The file content must be exactly:
+
+```
+{TASK_ID} — {task title}
+
+{narrative text}
+
+ACs verified: N/M
+```
+
+The Stop hook reads and deletes this file automatically when the session ends — do not delete it here.
 
 ### 5i. Hand off — do not auto-commit
 
