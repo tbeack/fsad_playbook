@@ -42,7 +42,7 @@ Added the missing `API_FORCE_IDLE_TIMEOUT=0` row to the Subprocess Sandboxing ha
 
 ### v3.2.8 — 2026-06-22
 
-**Codex CLI backlog catch-up — CBP-271 through CBP-272**
+**Codex CLI auto-update (backlog catch-up) — CBP-271, CBP-272**
 
 Two Codex Best Practices updates covering commands released in v0.136.0–v0.140.0 that were not tracked by the auto-updater:
 
