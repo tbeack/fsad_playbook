@@ -283,3 +283,4 @@
 - [x] `CBP-270` [Codex] Document rollout token budgets in Codex Power Usage section (rust-v0.142.0) → [task-cbp-270.md](task-cbp-270.md)
 - [x] `CBP-271` [Codex] Add /archive, /delete, /import, /usage to Codex cheat sheet → [task-cbp-271.md](task-cbp-271.md)
 - [x] `CBP-272` [Codex] Update Session Management collapsible to cover archive and delete → [task-cbp-272.md](task-cbp-272.md)
+- [x] `CBP-273` Sync tb:add-task and tb:do-task improvements to fsd:add-task and fsd:do-task → [task-cbp-273.md](task-cbp-273.md)
