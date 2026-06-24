@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v3.2.10 — 2026-06-24
+
+**Claude Code v2.1.187 auto-update (CBP-275 through CBP-278)**
+
+Four targeted updates for Claude Code v2.1.187:
+
+- **CBP-275 — Sandbox: `sandbox.credentials` setting.** Added `sandbox.credentials` to the sandbox settings table. Set to `false` to block sandboxed commands from reading credential files (e.g. `~/.aws/credentials`, `~/.ssh/id_rsa`) and secret environment variables. Recommended in high-security or shared CI environments where subprocess access to credentials must be prevented (v2.1.187).
+- **CBP-276 — Env vars: `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT`.** Added `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` to the hardening env vars table. Remote MCP tool calls that produce no response now abort after 5 minutes by default; this env var overrides that timeout in milliseconds. Useful for slow MCP servers or fail-fast CI pipelines (v2.1.187).
+- **CBP-277 — Cheat Sheet: `/btw` command.** Added `/btw` to the Session, context & history slash commands table. Use it to share a side note or correction mid-task without interrupting the model's current turn. Supports ←/→ arrow navigation to step through earlier answers (v2.1.187).
+- **CBP-278 — Cheat Sheet: `/install-github-app` description update.** Updated the `/install-github-app` row to reflect that GitHub Actions workflow/secret setup is now optional — you can install just the GitHub App and skip the CI steps (v2.1.187).
+
 ### v3.2.9 — 2026-06-22
 
 **CBP-274 — Skill Definitions: sync /fsd:add-task and /fsd:do-task**
