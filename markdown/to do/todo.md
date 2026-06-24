@@ -285,3 +285,7 @@
 - [x] `CBP-272` [Codex] Update Session Management collapsible to cover archive and delete → [task-cbp-272.md](task-cbp-272.md)
 - [x] `CBP-273` Sync tb:add-task and tb:do-task improvements to fsd:add-task and fsd:do-task → [task-cbp-273.md](task-cbp-273.md)
 - [x] `CBP-274` Update tb:add-task and tb:do-task skill definitions in the playbook's Skills Definitions section → [task-cbp-274.md](task-cbp-274.md)
+- [x] `CBP-275` [Claude] Add `sandbox.credentials` to the sandbox settings table (v2.1.187) → [task-cbp-275.md](task-cbp-275.md)
+- [x] `CBP-276` [Claude] Add `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` to hardening env vars table (v2.1.187) → [task-cbp-276.md](task-cbp-276.md)
+- [x] `CBP-277` [Claude] Add `/btw` to the Cheat Sheet slash commands table (v2.1.187) → [task-cbp-277.md](task-cbp-277.md)
+- [x] `CBP-278` [Claude] Update `/install-github-app` Cheat Sheet row to reflect optional workflow setup (v2.1.187) → [task-cbp-278.md](task-cbp-278.md)
