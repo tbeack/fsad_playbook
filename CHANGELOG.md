@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.3.0 — 2026-06-25
+
+**Auto-update playbook for Claude Code v2.1.186–v2.1.191 (CBP-264 through CBP-268)**
+
+Five targeted updates across three Claude Code releases (v2.1.186, v2.1.187, v2.1.191):
+
+- **CBP-264 — Cheat Sheet: `claude mcp login/logout <name>`.** Updated the `/mcp` Cheat Sheet row to document the new CLI commands for authenticating OAuth MCP servers without opening the interactive `/mcp` menu. Add `--no-browser` to redirect the auth URL to stdin for SSH environments (v2.1.186).
+- **CBP-265 — Config: `respondToBashCommands` setting.** Added `respondToBashCommands` to the Notable settings.json Keys callout. As of v2.1.186, running a `!` bash command automatically triggers Claude to respond to the output. Set to `false` to restore the prior context-only behavior (v2.1.186).
+- **CBP-266 — Sandbox: `sandbox.credentials` setting.** Added `sandbox.credentials` to the sandbox settings table. Set to `false` to block sandboxed commands from reading credential files and secret environment variables — for security-sensitive environments (v2.1.187).
+- **CBP-267 — Cheat Sheet: `/rewind` resumes after `/clear`.** Updated the `/rewind` Cheat Sheet row to note that the Rewind menu now lets you resume from before a `/clear` was run (v2.1.191).
+- **CBP-268 — Env vars: `CLAUDE_CODE_RETRY_WATCHDOG`.** Added `CLAUDE_CODE_RETRY_WATCHDOG` to the hardening env vars table. Preferred over `CLAUDE_CODE_MAX_RETRIES` (now capped at 15) for unattended sessions and CI/CD pipelines (v2.1.186).
+
 ### v3.2.5 — 2026-06-19
 
 **Claude Code v2.1.183 auto-update (CBP-261 through CBP-263)**
