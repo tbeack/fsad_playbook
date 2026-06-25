@@ -289,3 +289,6 @@
 - [x] `CBP-276` [Claude] Add `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` to hardening env vars table (v2.1.187) → [task-cbp-276.md](task-cbp-276.md)
 - [x] `CBP-277` [Claude] Add `/btw` to the Cheat Sheet slash commands table (v2.1.187) → [task-cbp-277.md](task-cbp-277.md)
 - [x] `CBP-278` [Claude] Update `/install-github-app` Cheat Sheet row to reflect optional workflow setup (v2.1.187) → [task-cbp-278.md](task-cbp-278.md)
+- [x] `CBP-279` [Claude] Update `/rewind` Cheat Sheet row to document resume-from-before-clear capability (v2.1.191) → [task-cbp-279.md](task-cbp-279.md)
+- [x] `CBP-280` [Claude] Update `sandbox.network.allowedDomains` row: allowed hosts are now session-remembered (v2.1.191) → [task-cbp-280.md](task-cbp-280.md)
+- [x] `CBP-281` [Codex] Add MCP tool search by default note to Codex MCP Integrations section (rust-v0.142.2) → [task-cbp-281.md](task-cbp-281.md)

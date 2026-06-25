@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.11 — 2026-06-25
+
+**Claude Code v2.1.191 / Codex rust-v0.142.2 auto-update (CBP-279 through CBP-281)**
+
+Three targeted updates spanning both Claude Code v2.1.191 and Codex rust-v0.142.2:
+
+- **CBP-279 — Cheat Sheet: `/rewind` resume-from-clear.** Updated the `/rewind` row to document the new ability to resume a conversation from before `/clear` was run. The Rewind menu now offers checkpoint rewind, "Summarize up to here", and restore-from-clear — letting you recover conversation state wiped by an accidental clear (v2.1.191).
+- **CBP-280 — Sandbox: network hosts session-remembered.** Updated the `sandbox.network.allowedDomains` row to note that hosts approved interactively with "Yes" during a session are now remembered for the rest of that session — no re-prompting on subsequent connections to the same host (v2.1.191).
+- **CBP-281 — Codex MCP: tool search by default.** Added a note to the Codex MCP Integrations section explaining that Codex now uses MCP tool search by default when the model supports it. Added guidance on opting out via `"alwaysLoad": true` in `config.toml` (rust-v0.142.2).
+
 ### v3.2.10 — 2026-06-24
 
 **Claude Code v2.1.187 auto-update (CBP-275 through CBP-278)**
