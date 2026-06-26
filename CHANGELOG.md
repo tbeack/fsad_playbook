@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.3.1 — 2026-06-26
+
+**Auto-update playbook for Claude Code v2.1.193 (CBP-269 through CBP-273)**
+
+Five targeted updates for Claude Code v2.1.193:
+
+- **CBP-269 — Config: `autoMode.classifyAllShell` setting.** Added `autoMode.classifyAllShell` to the Notable settings.json Keys callout. Set `true` to route all Bash/PowerShell commands through the auto-mode classifier, not just those matching arbitrary-code-execution patterns. Useful when you want the classifier to evaluate every shell command regardless of categorization (v2.1.193).
+- **CBP-270 — Monitoring: `claude_code.assistant_response` OTEL event.** Added `claude_code.assistant_response` row to the Events & Logs table (fires when model produces a response; `response` attribute is opt-in). Updated the Opt-in Detail Levels callout to document `OTEL_LOG_ASSISTANT_RESPONSES`: when unset, follows `OTEL_LOG_USER_PROMPTS` — deployments already logging prompts will start receiving response content on upgrade. Set to `0` to keep responses redacted even when prompt logging is on (v2.1.193).
+- **CBP-271 — Env vars: `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1`.** Added to the hardening env vars table. By default, Claude Code now terminates idle background shell processes under memory pressure. Set this env var to disable that reaping behavior when background shell state must be retained regardless of memory conditions (v2.1.193).
+- **CBP-272 — Plugins: marketplace auto-rename.** Added a bullet to the Plugins collapsible documenting that Claude Code now follows marketplace `renames` maps automatically — when a plugin is renamed in the registry, local settings are updated to the new name without manual intervention (v2.1.193).
+- **CBP-273 — Monitoring: `otelHeadersHelper` 401/403 reconnect.** Updated the Enterprise Configuration Dynamic auth bullet to note that the headers helper now re-runs and reconnects the MCP server automatically when a tool call returns 401 or 403, not only on the 29-minute timer. Token expiry no longer requires a session restart (v2.1.193).
+
 ### v3.3.0 — 2026-06-25
 
 **Auto-update playbook for Claude Code v2.1.186–v2.1.191 (CBP-264 through CBP-268)**
