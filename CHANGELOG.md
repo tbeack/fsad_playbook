@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.12 — 2026-06-26
+
+**Claude Code v2.1.193 auto-update (CBP-282 through CBP-284)**
+
+Three targeted updates for Claude Code v2.1.193:
+
+- **CBP-282 — Config: `autoMode.classifyAllShell` setting.** Added `autoMode.classifyAllShell` to the Notable settings.json Keys callout. When set to `true`, routes all Bash/PowerShell commands through the auto-mode classifier instead of only arbitrary-code-execution patterns — tightens auto-mode coverage at the cost of slightly more classification overhead (v2.1.193).
+- **CBP-283 — OTEL: `OTEL_LOG_ASSISTANT_RESPONSES` env var.** Updated the Opt-in Detail Levels callout and added a Privacy & Security bullet for the new `OTEL_LOG_ASSISTANT_RESPONSES=1` env var. Response text is redacted by default; when unset, follows `OTEL_LOG_USER_PROMPTS` — set `OTEL_LOG_ASSISTANT_RESPONSES=0` explicitly to retain prompts-only logging on upgrade (v2.1.193).
+- **CBP-284 — Env vars: `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1`.** Added to the Subprocess Sandboxing hardening env vars table. By default, Claude Code terminates idle background shell commands under memory pressure. Set this env var to preserve long-running background shells (e.g. persistent dev servers) at the cost of higher memory usage (v2.1.193).
+
 ### v3.2.11 — 2026-06-25
 
 **Claude Code v2.1.191 / Codex rust-v0.142.2 auto-update (CBP-279 through CBP-281)**
