@@ -292,3 +292,6 @@
 - [x] `CBP-279` [Claude] Update `/rewind` Cheat Sheet row to document resume-from-before-clear capability (v2.1.191) → [task-cbp-279.md](task-cbp-279.md)
 - [x] `CBP-280` [Claude] Update `sandbox.network.allowedDomains` row: allowed hosts are now session-remembered (v2.1.191) → [task-cbp-280.md](task-cbp-280.md)
 - [x] `CBP-281` [Codex] Add MCP tool search by default note to Codex MCP Integrations section (rust-v0.142.2) → [task-cbp-281.md](task-cbp-281.md)
+- [x] `CBP-282` [Claude] Add `autoMode.classifyAllShell` to Notable settings.json Keys callout (v2.1.193) → [task-cbp-282.md](task-cbp-282.md)
+- [x] `CBP-283` [Claude] Add `OTEL_LOG_ASSISTANT_RESPONSES` to OTEL privacy callout (v2.1.193) → [task-cbp-283.md](task-cbp-283.md)
+- [x] `CBP-284` [Claude] Add `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1` to hardening env vars table (v2.1.193) → [task-cbp-284.md](task-cbp-284.md)
