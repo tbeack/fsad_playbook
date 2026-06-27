@@ -295,3 +295,5 @@
 - [x] `CBP-282` [Claude] Add `autoMode.classifyAllShell` to Notable settings.json Keys callout (v2.1.193) → [task-cbp-282.md](task-cbp-282.md)
 - [x] `CBP-283` [Claude] Add `OTEL_LOG_ASSISTANT_RESPONSES` to OTEL privacy callout (v2.1.193) → [task-cbp-283.md](task-cbp-283.md)
 - [x] `CBP-284` [Claude] Add `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1` to hardening env vars table (v2.1.193) → [task-cbp-284.md](task-cbp-284.md)
+- [x] `CBP-285` [Claude] Add `CLAUDE_CODE_DISABLE_MOUSE_CLICKS` to hardening env vars table (v2.1.195) → [task-cbp-285.md](task-cbp-285.md)
+- [x] `CBP-286` [Claude] Clarify hook matcher behavior for hyphenated identifiers in the Matcher patterns table (v2.1.195) → [task-cbp-286.md](task-cbp-286.md)
