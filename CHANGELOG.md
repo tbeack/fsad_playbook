@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v3.2.13 — 2026-06-27
+
+**Claude Code v2.1.195 auto-update (CBP-285 through CBP-286)**
+
+Two targeted updates for Claude Code v2.1.195:
+
+- **CBP-285 — Env vars: `CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1`.** Added to the Subprocess Sandboxing hardening env vars table. Disables mouse click, drag, and hover events in fullscreen mode while preserving mouse-wheel scroll. Useful in terminals where accidental clicks disrupt the interface — set this for scroll-only mouse interaction in fullscreen TUI sessions (v2.1.195).
+- **CBP-286 — Hooks: hyphenated matcher identifiers exact-match.** Updated the Matcher patterns table example column for the regex row to include `mcp__brave-search__.*`, and added a clarifying note below the table: hyphenated identifiers (e.g. `code-reviewer`, `mcp__brave-search`) contain `-` so they are treated as regex and now exact-match the literal name. To match all tools from a hyphenated MCP server, append `__.*` — use `"mcp__brave-search__.*"` instead of `"mcp__brave-search"` (v2.1.195).
+
 ### v3.2.12 — 2026-06-26
 
 **Claude Code v2.1.193 auto-update (CBP-282 through CBP-284)**
