@@ -1,5 +1,21 @@
 ## Changes in This Version
 
+### v3.2.15 — 2026-07-01
+
+**Claude Code v2.1.197 auto-update (CBP-288)**
+
+One targeted update for Claude Code v2.1.197:
+
+- **CBP-288 — Claude Sonnet 5: new default model.** Added Claude Sonnet 5 (`claude-sonnet-5`) to the Model & Effort section as the new default model (v2.1.197+). Updated the model lineup table with a Sonnet 5 column (1M native context, 128k max output, adaptive thinking defaults to `high`, $3/$15 per MTok standard with $2/$10 promo through Aug 31, 2026); marked Sonnet 4.6 as legacy. Updated the model aliases table (`sonnet` alias now resolves to Sonnet 5). Updated best-practice combinations, Key Dates callout, Default Effort callout, adaptive thinking paragraph, and `budget_tokens` deprecated callout to reference Sonnet 5. Updated `/effort` and `--effort` Cheat Sheet rows. Also corrected Sonnet 4.6 max output from 64K to 128K (per Anthropic docs).
+
+### v3.2.14 — 2026-06-30
+
+**Claude Code v2.1.196 auto-update (CBP-287)**
+
+One targeted update for Claude Code v2.1.196:
+
+- **CBP-287 — Env vars: `CLAUDE_ENABLE_STREAM_WATCHDOG=0`.** Added to the Subprocess Sandboxing hardening env vars table. The streaming idle watchdog is now on by default for all providers — Claude Code aborts and retries a response stream that produces no events for 5 minutes. Set to `0` to opt out for long-running streaming batch jobs or custom pipelines with intermittent event patterns. Distinct from `API_FORCE_IDLE_TIMEOUT=0`, which controls the idle timeout on Vertex AI and Foundry only (v2.1.196).
+
 ### v3.2.13 — 2026-06-27
 
 **Claude Code v2.1.195 auto-update (CBP-285 through CBP-286)**
