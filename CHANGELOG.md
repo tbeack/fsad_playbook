@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v3.2.17 — 2026-07-03
+
+**Claude Code v2.1.199 auto-update (CBP-294 through CBP-295)**
+
+Two targeted updates for Claude Code v2.1.199:
+
+- **CBP-294 — Env vars: `CLAUDE_CODE_RETRY_WATCHDOG`.** Updated description to reflect v2.1.199 behavior: RETRY_WATCHDOG now raises the default retry count for non-capacity transient errors to 300. The previously documented cap of 15 on `CLAUDE_CODE_MAX_RETRIES` has been lifted — it can now be set higher than 15 directly (v2.1.199).
+- **CBP-295 — Building Skills: stacked slash-skill invocations.** Updated the Manual invocation card to document stacked slash-skill syntax: prefixing a prompt with multiple skill commands (e.g. `/skill-a /skill-b do XYZ`) now loads all leading skills, up to 5. Previously only the first skill loaded (v2.1.199).
+
 ### v3.2.16 — 2026-07-02
 
 **Claude Code v2.1.198 auto-update (CBP-289 through CBP-293)**

@@ -304,3 +304,5 @@
 - [x] `CBP-291` [Claude] Update `claude agents` Cheat Sheet row — background agents auto-commit, push, and open a draft PR on worktree finish (v2.1.198) → [task-cbp-291.md](task-cbp-291.md)
 - [x] `CBP-292` [Claude] Add `/dataviz` built-in skill to Cheat Sheet slash commands table (v2.1.198) → [task-cbp-292.md](task-cbp-292.md)
 - [x] `CBP-293` [Claude] Note in Power Usage that Explore agent inherits session model (capped at opus) and subagents/compaction inherit extended thinking config (v2.1.198) → [task-cbp-293.md](task-cbp-293.md)
+- [x] `CBP-294` [Claude] Update `CLAUDE_CODE_RETRY_WATCHDOG` description — raises default to 300, lifts `CLAUDE_CODE_MAX_RETRIES` cap (v2.1.199) → [task-cbp-294.md](task-cbp-294.md)
+- [x] `CBP-295` [Claude] Document stacked slash-skill invocations (up to 5 leading skills) in Building Skills Invocation section (v2.1.199) → [task-cbp-295.md](task-cbp-295.md)
