@@ -1,5 +1,51 @@
 ## Changes in This Version
 
+### v3.2.18 — 2026-07-04
+
+**Claude Code v2.1.201 auto-update (CBP-296)**
+
+One targeted update for Claude Code v2.1.200–v2.1.201:
+
+- **CBP-296 — Permission Modes: "Default" renamed to "Manual".** Updated the Permission Modes card from "Default" to "Manual" (the official name as of v2.1.200). Added a note that the legacy `default` value is still accepted as a synonym for `manual` in both `--permission-mode` and `"defaultMode"` settings. Updated the Shift+Tab keyboard shortcut cycle row, the `--permission-mode` flag description, and the cycle caption below the permission mode cards (v2.1.200).
+
+### v3.2.17 — 2026-07-03
+
+**Claude Code v2.1.199 auto-update (CBP-294 through CBP-295)**
+
+Two targeted updates for Claude Code v2.1.199:
+
+- **CBP-294 — Env vars: `CLAUDE_CODE_RETRY_WATCHDOG`.** Updated description to reflect v2.1.199 behavior: RETRY_WATCHDOG now raises the default retry count for non-capacity transient errors to 300. The previously documented cap of 15 on `CLAUDE_CODE_MAX_RETRIES` has been lifted — it can now be set higher than 15 directly (v2.1.199).
+- **CBP-295 — Building Skills: stacked slash-skill invocations.** Updated the Manual invocation card to document stacked slash-skill syntax: prefixing a prompt with multiple skill commands (e.g. `/skill-a /skill-b do XYZ`) now loads all leading skills, up to 5. Previously only the first skill loaded (v2.1.199).
+
+### v3.2.16 — 2026-07-02
+
+**Claude Code v2.1.198 auto-update (CBP-289 through CBP-293)**
+
+Five targeted updates for Claude Code v2.1.198:
+
+- **CBP-289 — Cheat Sheet: `/agents` row.** Updated to reflect wizard removal (v2.1.198). The `/agents` wizard UI is gone — new guidance: ask Claude to create or manage subagents, or edit `.claude/agents/` directly.
+- **CBP-290 — Hooks: `Notification` event row.** Updated to enumerate the two new background agent event types: `agent_needs_input` (session awaiting user input) and `agent_completed` (session finished). Wire these to desktop notifications or Slack alerts for unattended agent monitoring (v2.1.198).
+- **CBP-291 — Cheat Sheet: `claude agents` row.** Added note that background agents finishing code work in a worktree now automatically commit, push, and open a draft PR — no manual prompting required (v2.1.198).
+- **CBP-292 — Cheat Sheet: `/dataviz` skill.** Added new built-in skill for chart and dashboard design guidance with a runnable color-palette validator (v2.1.198).
+- **CBP-293 — Power Usage: extended thinking & Explore agent model.** Added note that subagents and context compaction now inherit the session's extended thinking configuration. The built-in Explore agent now inherits the session model (capped at opus) instead of always running on haiku (v2.1.198).
+
+### v3.2.15 — 2026-07-01
+
+**Claude Code v2.1.197 auto-update (CBP-288)**
+
+One targeted update for Claude Code v2.1.197:
+
+- **CBP-288 — Claude Sonnet 5: new default model.** Added Claude Sonnet 5 (`claude-sonnet-5`) to the Model & Effort section as the new default model (v2.1.197+). Updated the model lineup table with a Sonnet 5 column (1M native context, 128k max output, adaptive thinking defaults to `high`, $3/$15 per MTok standard with $2/$10 promo through Aug 31, 2026); marked Sonnet 4.6 as legacy. Updated the model aliases table (`sonnet` alias now resolves to Sonnet 5). Updated best-practice combinations, Key Dates callout, Default Effort callout, adaptive thinking paragraph, and `budget_tokens` deprecated callout to reference Sonnet 5. Updated `/effort` and `--effort` Cheat Sheet rows. Also corrected Sonnet 4.6 max output from 64K to 128K (per Anthropic docs).
+
+### v3.2.14 — 2026-06-30
+
+**Claude Code v2.1.196 auto-update (CBP-287)**
+
+One targeted update for Claude Code v2.1.196:
+
+- **CBP-287 — Env vars: `CLAUDE_ENABLE_STREAM_WATCHDOG=0`.** Added to the Subprocess Sandboxing hardening env vars table. The streaming idle watchdog is now on by default for all providers — Claude Code aborts and retries a response stream that produces no events for 5 minutes. Set to `0` to opt out for long-running streaming batch jobs or custom pipelines with intermittent event patterns. Distinct from `API_FORCE_IDLE_TIMEOUT=0`, which controls the idle timeout on Vertex AI and Foundry only (v2.1.196).
+
+
 ### v3.2.13 — 2026-06-27
 
 **Claude Code v2.1.195 auto-update (CBP-285 through CBP-286)**
