@@ -1,5 +1,25 @@
 ## Changes in This Version
 
+### v3.2.15 — 2026-07-09
+
+**Claude Code v2.1.205 auto-update (CBP-292)**
+
+One targeted update for Claude Code v2.1.205:
+
+- **CBP-292 — Cheat Sheet: `/doctor` upgrade + `/checkup` alias.** Updated the `/doctor` row: it is now a full setup checkup that can diagnose *and fix* environment issues (not just a passive viewer). Added the `/checkup` alias and retained the exec-form hook hint and skill-listing references (v2.1.205).
+
+### v3.2.14 — 2026-07-08
+
+**Claude Code v2.1.204 + Codex rust-v0.143.0 auto-update (CBP-287 through CBP-291)**
+
+Five targeted updates covering Claude Code v2.1.196–v2.1.204 and Codex rust-v0.143.0:
+
+- **CBP-287 — Models: Claude Sonnet 5 as new default.** Updated the `sonnet` alias row to reflect Claude Sonnet 5 as the new default Claude Code model (v2.1.197): native 1M-token context window, promotional pricing of $2/$10 per MTok through August 31, 2026. Updated the `default` alias row to replace Sonnet 4.6 with Sonnet 5 for Pro / Team Std / Enterprise / API users.
+- **CBP-288 — Cheat Sheet: `/dataviz` skill.** Added `/dataviz` to the Automation & agents table — built-in skill providing chart and dashboard design guidance with a runnable color-palette validator, chart type selection, accessible color formulas, and interaction rules (v2.1.198).
+- **CBP-289 — Skills: stacked slash-skill invocations.** Added a note to the Building Skills section documenting that prefixing a prompt with multiple slash commands loads all of them — up to 5 leading skills in order. E.g. `/skill-a /skill-b do XYZ` loads both skills before handing off to Claude (v2.1.199).
+- **CBP-290 — Keyboard shortcuts: permission mode renamed to "manual".** Updated the `Shift+Tab` row: the "default" permission mode is now named "manual" across the CLI, VS Code, and JetBrains. Cycle now reads: manual → acceptEdits → plan → auto (v2.1.200).
+- **CBP-291 — Codex: remote-control pair + remote plugins default.** Updated the `codex remote-control` Cheat Sheet row to mention the `pair` subcommand for generating manual pairing codes from a running daemon. Added a note to the Codex Plugins collapsible that remote plugins are now enabled by default with richer catalog rows and visible remote/local version indicators (rust-v0.143.0).
+
 ### v3.2.13 — 2026-06-27
 
 **Claude Code v2.1.195 auto-update (CBP-285 through CBP-286)**
