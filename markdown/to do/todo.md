@@ -303,3 +303,7 @@
 - [x] `CBP-290` [Claude] Update Shift+Tab keyboard shortcut: "default" → "manual" permission mode (v2.1.200) → [task-cbp-290.md](task-cbp-290.md)
 - [x] `CBP-291` [Codex] Update Codex Cheat Sheet: add remote-control pair + remote plugins default note (rust-v0.143.0) → [task-cbp-291.md](task-cbp-291.md)
 - [x] `CBP-292` [Claude] Update `/doctor` to reflect full-setup-checkup + fix capability + `/checkup` alias (v2.1.205) → [task-cbp-292.md](task-cbp-292.md)
+- [x] `CBP-293` [Claude] Update `/doctor` row to add CLAUDE.md trimming check (v2.1.206) → [task-cbp-293.md](task-cbp-293.md)
+- [x] `CBP-294` [Claude] Add `Ctrl+X` to keyboard shortcuts table — permanently removes completed session from agents view (v2.1.206) → [task-cbp-294.md](task-cbp-294.md)
+- [x] `CBP-295` [Codex] Add `writes` app-approval mode to Codex CLI Flags table (rust-v0.144.0) → [task-cbp-295.md](task-cbp-295.md)
+- [x] `CBP-296` [Codex] Update Codex MCP section: MCP tools can request auth interactively without experimental opt-in (rust-v0.144.0) → [task-cbp-296.md](task-cbp-296.md)

@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v3.2.16 — 2026-07-10
+
+**Claude Code v2.1.206 + Codex rust-v0.144.0/v0.144.1 auto-update (CBP-293 through CBP-296)**
+
+Four targeted updates:
+
+- **CBP-293 — Cheat Sheet: `/doctor` CLAUDE.md trim check.** Updated the `/doctor` row to mention its new check that proposes trimming checked-in CLAUDE.md files by removing content Claude could derive from the codebase (v2.1.206).
+- **CBP-294 — Keyboard Shortcuts: `Ctrl+X` in agents view.** Added `Ctrl+X` row to the keyboard shortcuts table — permanently removes a completed session from the `claude agents` list (v2.1.206).
+- **CBP-295 — Codex CLI Flags: `writes` approval mode.** Updated the `--approval-mode` flag description to include the new `writes` mode — allows declared read-only actions automatically while prompting only for write operations (rust-v0.144.0).
+- **CBP-296 — Codex MCP: interactive auth without experimental flag.** Added a note to the Codex MCP section: MCP tools can now request user authentication mid-session without any experimental opt-in flag (rust-v0.144.0).
+
 ### v3.2.15 — 2026-07-09
 
 **Claude Code v2.1.205 auto-update (CBP-292)**
