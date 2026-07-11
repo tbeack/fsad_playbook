@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.2.17 — 2026-07-11
+
+**Claude Code v2.1.207 auto-update (CBP-297 through CBP-301)**
+
+Five targeted updates covering Claude Code v2.1.207 (Codex unchanged at rust-v0.144.1):
+
+- **CBP-297 — Models: Bedrock/Vertex/Foundry default changed to Opus 4.8.** Updated the `default` alias row in the Model & Effort table — Bedrock, Vertex AI, and Claude Platform on AWS now default to Claude Opus 4.8 (was Sonnet 4.5) as of v2.1.207.
+- **CBP-298 — Config: `CLAUDE_CODE_ENABLE_AUTO_MODE=1` deprecated.** Updated the hardening env vars table row to mark this flag as deprecated. Auto mode is now enabled by default on Bedrock, Vertex, and Foundry — no opt-in env var needed. Use `disableAutoMode: true` in settings to opt out (v2.1.207).
+- **CBP-299 — Config: `disableAutoMode` setting.** Added `disableAutoMode` to the Notable settings.json Keys callout. Set to `true` to opt out of auto mode on Bedrock/Vertex/Foundry cloud deployments; configure at user level (`~/.claude/settings.json`) or via managed settings (v2.1.207).
+- **CBP-300 — Hooks: shell-form `${user_config.*}` security fix.** Extended the exec form note in the Hooks section with a security callout: `${user_config.*}` substitutions are now rejected in shell-form hook commands (shell injection fix). Plugin hooks needing config access should use exec form (`args` array) with `$CLAUDE_PLUGIN_OPTION_<KEY>` (v2.1.207).
+- **CBP-301 — Config: `autoMode` settings location.** Added a bullet to the Notable settings.json Keys callout clarifying that `autoMode` settings (`classifyAllShell`, `hard_deny`, `disableAutoMode`) are not read from `.claude/settings.local.json`. Configure them in `~/.claude/settings.json` (user) or the checked-in `.claude/settings.json` (project) (v2.1.207).
+
 ### v3.2.16 — 2026-07-10
 
 **Claude Code v2.1.206 + Codex rust-v0.144.0/v0.144.1 auto-update (CBP-293 through CBP-296)**
