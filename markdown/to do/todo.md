@@ -307,3 +307,8 @@
 - [x] `CBP-294` [Claude] Add `Ctrl+X` to keyboard shortcuts table — permanently removes completed session from agents view (v2.1.206) → [task-cbp-294.md](task-cbp-294.md)
 - [x] `CBP-295` [Codex] Add `writes` app-approval mode to Codex CLI Flags table (rust-v0.144.0) → [task-cbp-295.md](task-cbp-295.md)
 - [x] `CBP-296` [Codex] Update Codex MCP section: MCP tools can request auth interactively without experimental opt-in (rust-v0.144.0) → [task-cbp-296.md](task-cbp-296.md)
+- [x] `CBP-297` [Claude] Update model defaults table: Bedrock/Vertex/Foundry default changed from Sonnet 4.5 to Opus 4.8 (v2.1.207) → [task-cbp-297.md](task-cbp-297.md)
+- [x] `CBP-298` [Claude] Update `CLAUDE_CODE_ENABLE_AUTO_MODE=1` env var row — deprecated; auto mode now GA on Bedrock/Vertex/Foundry without opt-in (v2.1.207) → [task-cbp-298.md](task-cbp-298.md)
+- [x] `CBP-299` [Claude] Add `disableAutoMode` setting to Notable settings.json Keys callout (v2.1.207) → [task-cbp-299.md](task-cbp-299.md)
+- [x] `CBP-300` [Claude] Add hook security note: `${user_config.*}` rejected in shell-form hooks; use exec form + `$CLAUDE_PLUGIN_OPTION_<KEY>` (v2.1.207) → [task-cbp-300.md](task-cbp-300.md)
+- [x] `CBP-301` [Claude] Add autoMode location note: not read from `.claude/settings.local.json`; use `~/.claude/settings.json` (v2.1.207) → [task-cbp-301.md](task-cbp-301.md)
