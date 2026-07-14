@@ -312,3 +312,6 @@
 - [x] `CBP-299` [Claude] Add `disableAutoMode` setting to Notable settings.json Keys callout (v2.1.207) → [task-cbp-299.md](task-cbp-299.md)
 - [x] `CBP-300` [Claude] Add hook security note: `${user_config.*}` rejected in shell-form hooks; use exec form + `$CLAUDE_PLUGIN_OPTION_<KEY>` (v2.1.207) → [task-cbp-300.md](task-cbp-300.md)
 - [x] `CBP-301` [Claude] Add autoMode location note: not read from `.claude/settings.local.json`; use `~/.claude/settings.json` (v2.1.207) → [task-cbp-301.md](task-cbp-301.md)
+- [x] `CBP-302` [Claude] Add `--ax-screen-reader` CLI flag + `axScreenReader` setting to playbook (v2.1.208) → [task-cbp-302.md](task-cbp-302.md)
+- [x] `CBP-303` [Claude] Add `vimInsertModeRemaps` setting to Notable settings.json Keys callout (v2.1.208) → [task-cbp-303.md](task-cbp-303.md)
+- [x] `CBP-304` [Claude] Add `CLAUDE_CODE_PROCESS_WRAPPER` to hardening env vars table (v2.1.208) → [task-cbp-304.md](task-cbp-304.md)
