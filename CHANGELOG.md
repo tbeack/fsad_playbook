@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.18 — 2026-07-14
+
+**Claude Code v2.1.209 auto-update (CBP-302 through CBP-304)**
+
+Three targeted updates covering Claude Code v2.1.208–v2.1.209 (Codex rust-v0.144.4 had no user-facing changes):
+
+- **CBP-302 — CLI Flags + Config: screen reader mode.** Added `--ax-screen-reader` to the "System prompt & config" CLI flags table, and `axScreenReader` to the Notable settings.json Keys callout. The flag, env var (`CLAUDE_AX_SCREEN_READER=1`), or settings key enable opt-in plain-text rendering optimized for screen readers (v2.1.208).
+- **CBP-303 — Config: `vimInsertModeRemaps` setting.** Added `vimInsertModeRemaps` to the Notable settings.json Keys callout — maps two-key insert-mode sequences (e.g. `jj` → Escape) in vim mode, enabling common vim muscle-memory shortcuts (v2.1.208).
+- **CBP-304 — Env vars: `CLAUDE_CODE_PROCESS_WRAPPER`.** Added `CLAUDE_CODE_PROCESS_WRAPPER` to the Subprocess Sandboxing hardening env vars table. When set, the agent view and background service run every Claude Code self-spawn through the specified wrapper executable — for corporate launchers, security wrappers, and audit proxies (v2.1.208).
+
 ### v3.2.17 — 2026-07-11
 
 **Claude Code v2.1.207 auto-update (CBP-297 through CBP-301)**
