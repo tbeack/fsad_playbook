@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v3.2.19 — 2026-07-15
+
+**Claude Code v2.1.210 auto-update (CBP-305 through CBP-306)**
+
+Two targeted updates covering Claude Code v2.1.210 (Codex rust-v0.144.4 unchanged):
+
+- **CBP-305 — Config: Permission rule startup warnings.** Added a bullet to the Notable settings.json Keys callout documenting the new v2.1.210 startup warning: permission rules containing `Write(path)`, `NotebookEdit(path)`, or `Glob(path)` now log a warning at startup. Use `Edit(path)` for file-write operations and `Read(path)` for file-read/glob operations in allow/deny rules instead (v2.1.210).
+- **CBP-306 — Config: autoMode classifier model for external sessions.** Added a bullet to the Notable settings.json Keys callout documenting that the auto mode permission classifier defaults to Sonnet 5 for external sessions (SDK, webhooks, headless `claude -p`). The model is validated on the first request and pinned for the session — ensuring consistent, low-latency classification for unattended pipelines (v2.1.210).
+
 ### v3.2.18 — 2026-07-14
 
 **Claude Code v2.1.209 auto-update (CBP-302 through CBP-304)**

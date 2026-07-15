@@ -315,3 +315,5 @@
 - [x] `CBP-302` [Claude] Add `--ax-screen-reader` CLI flag + `axScreenReader` setting to playbook (v2.1.208) → [task-cbp-302.md](task-cbp-302.md)
 - [x] `CBP-303` [Claude] Add `vimInsertModeRemaps` setting to Notable settings.json Keys callout (v2.1.208) → [task-cbp-303.md](task-cbp-303.md)
 - [x] `CBP-304` [Claude] Add `CLAUDE_CODE_PROCESS_WRAPPER` to hardening env vars table (v2.1.208) → [task-cbp-304.md](task-cbp-304.md)
+- [x] `CBP-305` [Claude] Add startup warning note for `Write`/`NotebookEdit`/`Glob` permission rules to Notable settings.json Keys callout (v2.1.210) → [task-cbp-305.md](task-cbp-305.md)
+- [x] `CBP-306` [Claude] Add autoMode classifier Sonnet 5 default note for external sessions to Notable settings.json Keys callout (v2.1.210) → [task-cbp-306.md](task-cbp-306.md)
