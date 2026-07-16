@@ -319,3 +319,4 @@
 - [x] `CBP-306` [Claude] Add autoMode classifier Sonnet 5 default note for external sessions to Notable settings.json Keys callout (v2.1.210) → [task-cbp-306.md](task-cbp-306.md)
 - [x] `CBP-307` [Claude] Add `--forward-subagent-text` flag to Print/programmatic mode CLI flags table (v2.1.211) → [task-cbp-307.md](task-cbp-307.md)
 - [x] `CBP-308` [Claude] Add worktree permission persistence note — "always allow" rules save at repo root (v2.1.211) → [task-cbp-308.md](task-cbp-308.md)
+- [x] `CBP-309` [Claude] Add `otelHeadersHelper`/MCP `headersHelper` 401/403 auto-reconnect note (v2.1.193, backlog catch-up from stale PR #136) → [task-cbp-309.md](task-cbp-309.md)
