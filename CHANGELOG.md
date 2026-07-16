@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v3.2.20 — 2026-07-16
+
+**Claude Code v2.1.211 auto-update (CBP-307 through CBP-308)**
+
+Two targeted updates covering Claude Code v2.1.211 (Codex rust-v0.144.5 had no user-facing playbook impact):
+
+- **CBP-307 — CLI Flags: `--forward-subagent-text`.** Added `--forward-subagent-text` to the Print/programmatic mode CLI flags table. When set, subagent text and thinking are included in stream-json output — useful for automated pipelines that need full visibility into subagent activity. Env var equivalent: `CLAUDE_CODE_FORWARD_SUBAGENT_TEXT=1` (v2.1.211).
+- **CBP-308 — Work Trees: permission persistence across worktrees.** Extended the Work Trees callout tip to note that "always allow" permission grants are now saved at the repository root — approvals made inside a git worktree persist across all sessions and worktrees for that repo (v2.1.211).
+
 ### v3.2.19 — 2026-07-15
 
 **Claude Code v2.1.210 auto-update (CBP-305 through CBP-306)**
