@@ -317,3 +317,5 @@
 - [x] `CBP-304` [Claude] Add `CLAUDE_CODE_PROCESS_WRAPPER` to hardening env vars table (v2.1.208) → [task-cbp-304.md](task-cbp-304.md)
 - [x] `CBP-305` [Claude] Add startup warning note for `Write`/`NotebookEdit`/`Glob` permission rules to Notable settings.json Keys callout (v2.1.210) → [task-cbp-305.md](task-cbp-305.md)
 - [x] `CBP-306` [Claude] Add autoMode classifier Sonnet 5 default note for external sessions to Notable settings.json Keys callout (v2.1.210) → [task-cbp-306.md](task-cbp-306.md)
+- [x] `CBP-307` [Claude] Add `--forward-subagent-text` flag to Print/programmatic mode CLI flags table (v2.1.211) → [task-cbp-307.md](task-cbp-307.md)
+- [x] `CBP-308` [Claude] Add worktree permission persistence note — "always allow" rules save at repo root (v2.1.211) → [task-cbp-308.md](task-cbp-308.md)
