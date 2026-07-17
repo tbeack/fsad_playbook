@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v3.2.21 — 2026-07-16
+
+**Backlog catch-up (CBP-309)**
+
+One targeted update carried forward from a stale auto-update branch (`auto-update/claude-code-v2.1.193-2026-06-26`, PR #136) that predated several subsequent releases already merged to `main`:
+
+- **CBP-309 — Config/Monitoring: `otelHeadersHelper` auto-reconnect on 401/403.** Updated the Notable settings.json Keys callout and the Enterprise Configuration "Dynamic auth" bullet to note that as of v2.1.193, the MCP `headersHelper` auth flow (and its OTEL counterpart) auto-reconnects when a tool call returns 401 or 403, instead of only refreshing on a 29-minute timer — token expiry no longer requires a session restart.
+
 ### v3.2.20 — 2026-07-16
 
 **Claude Code v2.1.211 auto-update (CBP-307 through CBP-308)**
