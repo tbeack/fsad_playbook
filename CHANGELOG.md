@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.2.22 — 2026-07-16
+
+**Claude Code v2.1.212 auto-update (CBP-310 through CBP-314)**
+
+Five targeted updates covering Claude Code v2.1.212 (Codex rust-v0.144.5 unchanged):
+
+- **CBP-310 — Cheat Sheet: `/fork` and `/subtask`.** Added two new rows to the Automation & agents table. `/fork` now copies the current conversation into a new background session (visible in `claude agents`) while you keep working in the original; `/subtask` is the renamed in-session subagent launch behavior (formerly `/fork`) (v2.1.212).
+- **CBP-311 — Env vars: `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` and `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`.** Added both to the Subprocess Sandboxing hardening env vars table. Default cap is 200 per session; the subagent cap resets on `/clear`. Use to prevent runaway search or delegation loops in unattended agentic sessions (v2.1.212).
+- **CBP-312 — Env vars: `CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS`.** Added to the Subprocess Sandboxing hardening env vars table. MCP tool calls running longer than the threshold (default 120 000 ms / 2 minutes) are automatically moved to the background so the session stays usable. Set to `0` to disable auto-backgrounding (v2.1.212).
+- **CBP-313 — Cheat Sheet: `/resume` enhanced.** Updated the session management row to document that in the agent view, typing `/resume` opens a picker including sessions previously deleted from the list — deleted sessions remain accessible and resume as a background session (v2.1.212).
+- **CBP-314 — Cheat Sheet: `claude auto-mode reset`.** Added to the Info & account table. Restores the default auto-mode configuration; prompts for confirmation by default, pass `--yes` to skip (v2.1.212).
+
 ### v3.2.21 — 2026-07-16
 
 **Backlog catch-up (CBP-309)**
