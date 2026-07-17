@@ -320,3 +320,8 @@
 - [x] `CBP-307` [Claude] Add `--forward-subagent-text` flag to Print/programmatic mode CLI flags table (v2.1.211) → [task-cbp-307.md](task-cbp-307.md)
 - [x] `CBP-308` [Claude] Add worktree permission persistence note — "always allow" rules save at repo root (v2.1.211) → [task-cbp-308.md](task-cbp-308.md)
 - [x] `CBP-309` [Claude] Add `otelHeadersHelper`/MCP `headersHelper` 401/403 auto-reconnect note (v2.1.193, backlog catch-up from stale PR #136) → [task-cbp-309.md](task-cbp-309.md)
+- [x] `CBP-310` [Claude] Add `/fork` (background copy) and `/subtask` (in-session subagent) to Automation & agents cheat sheet table (v2.1.212) → [task-cbp-310.md](task-cbp-310.md)
+- [x] `CBP-311` [Claude] Add `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` and `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION` to hardening env vars table (v2.1.212) → [task-cbp-311.md](task-cbp-311.md)
+- [x] `CBP-312` [Claude] Add `CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS` to hardening env vars table (v2.1.212) → [task-cbp-312.md](task-cbp-312.md)
+- [x] `CBP-313` [Claude] Update `/resume` cheat sheet row — picker includes deleted sessions, resumes as background session from agent view (v2.1.212) → [task-cbp-313.md](task-cbp-313.md)
+- [x] `CBP-314` [Claude] Add `claude auto-mode reset` CLI subcommand to Info & account cheat sheet table (v2.1.212) → [task-cbp-314.md](task-cbp-314.md)
