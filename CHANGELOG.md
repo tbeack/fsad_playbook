@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.23 — 2026-07-18
+
+**Claude Code v2.1.214 auto-update (CBP-315 through CBP-317)**
+
+Three targeted updates covering Claude Code v2.1.214 (Codex rust-v0.144.5 unchanged):
+
+- **CBP-315 — Env vars: `CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH`.** Added to the Subprocess Sandboxing hardening env vars table. Controls the maximum byte length of content attributes in OpenTelemetry log events. Default `61440` (60 KB). Increase for richer trace data in low-volume pipelines; decrease to cap payload size in high-throughput environments (v2.1.214).
+- **CBP-316 — Hooks: `SessionStart` `source` field.** Updated the `SessionStart` row in the Core hooks table to document the `source` field in the hook input payload: `"new"` (first launch), `"resume"` (resumed session), or `"fork"` (session started via `/fork` — v2.1.214). Previously, forked sessions reported `source: "resume"`, making them indistinguishable from genuine resumes.
+- **CBP-317 — Hooks: `if:` path-scoping rule.** Added a note after the conditional `if` field bullet list documenting that single-segment patterns like `"Edit(src/**)"` now match only `<cwd>/src/` — not a `src/` directory nested deeper in the tree. Write `"Edit(**/src/**)"` to match at any depth. `deny`/`ask` permission rules keep their any-depth behavior — this scoping applies only to hook `if:` conditions (v2.1.214).
+
 ### v3.2.22 — 2026-07-16
 
 **Claude Code v2.1.212 auto-update (CBP-310 through CBP-314)**
