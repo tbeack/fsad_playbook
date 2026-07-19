@@ -328,3 +328,5 @@
 - [x] `CBP-315` [Claude] Add `CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH` to hardening env vars table (v2.1.214) → [task-cbp-315.md](task-cbp-315.md)
 - [x] `CBP-316` [Claude] Update SessionStart hook row to document `source: "fork"` field (v2.1.214) → [task-cbp-316.md](task-cbp-316.md)
 - [x] `CBP-317` [Claude] Add `dir/**` hook `if:` path-scoping note — single-segment matches `<cwd>/dir` only (v2.1.214) → [task-cbp-317.md](task-cbp-317.md)
+- [x] `CBP-318` [Claude] Update `/code-review` cheat sheet row — Claude no longer invokes it automatically; must be called explicitly (v2.1.215) → [task-cbp-318.md](task-cbp-318.md)
+- [x] `CBP-319` [Claude] Add `/verify` slash command to Info & account cheat sheet table — explicitly-invoked built-in skill for end-to-end code verification (v2.1.215) → [task-cbp-319.md](task-cbp-319.md)
