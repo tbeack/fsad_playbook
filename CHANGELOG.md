@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v3.2.24 — 2026-07-19
+
+**Claude Code v2.1.215 auto-update (CBP-318 through CBP-319)**
+
+Two targeted Cheat Sheet updates for the new explicit-invocation requirement on the `/verify` and `/code-review` skills (Codex rust-v0.144.6 — internal model metadata fix, no playbook impact):
+
+- **CBP-318 — Cheat Sheet: `/code-review` explicit invocation.** Updated the existing `/code-review` row in the Info & account table to note that, as of v2.1.215, Claude no longer runs this skill automatically — you must invoke it explicitly when you want a review (v2.1.215).
+- **CBP-319 — Cheat Sheet: `/verify` command.** Added a new row for `/verify` to the Info & account table. Verifies that a code change works as expected by exercising the affected flow end-to-end — observes real behavior rather than relying on tests or typechecks alone. As of v2.1.215, Claude no longer invokes this automatically; call it explicitly to trigger a verification pass (v2.1.215).
+
 ### v3.2.23 — 2026-07-18
 
 **Claude Code v2.1.214 auto-update (CBP-315 through CBP-317)**
