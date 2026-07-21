@@ -330,3 +330,5 @@
 - [x] `CBP-317` [Claude] Add `dir/**` hook `if:` path-scoping note — single-segment matches `<cwd>/dir` only (v2.1.214) → [task-cbp-317.md](task-cbp-317.md)
 - [x] `CBP-318` [Claude] Update `/code-review` cheat sheet row — Claude no longer invokes it automatically; must be called explicitly (v2.1.215) → [task-cbp-318.md](task-cbp-318.md)
 - [x] `CBP-319` [Claude] Add `/verify` slash command to Info & account cheat sheet table — explicitly-invoked built-in skill for end-to-end code verification (v2.1.215) → [task-cbp-319.md](task-cbp-319.md)
+- [x] `CBP-320` [Claude] Add `sandbox.filesystem.disabled` to sandbox settings table — skip filesystem isolation while keeping network egress control (v2.1.216) → [task-cbp-320.md](task-cbp-320.md)
+- [x] `CBP-321` [Claude] Update `/context` cheat sheet row — now shows explicit warning when conversation exceeds context window; failed `/compact` displays as error (v2.1.216) → [task-cbp-321.md](task-cbp-321.md)
