@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v3.2.25 — 2026-07-21
+
+**Claude Code v2.1.216 auto-update (CBP-320 through CBP-321)**
+
+Two targeted updates covering Claude Code v2.1.216 (Codex rust-v0.144.6 unchanged):
+
+- **CBP-320 — Sandbox: `sandbox.filesystem.disabled` setting.** Added a new row to the sandbox settings table in the Subprocess Sandboxing section. Set to `true` to skip filesystem isolation entirely while keeping network egress control active — useful when `allowedDomains` is your primary security boundary but filesystem sandboxing causes compatibility issues (v2.1.216).
+- **CBP-321 — Cheat Sheet: `/context` overflow warning.** Updated the `/context` row in the Session management table to note that, as of v2.1.216, the command now shows an explicit warning when the conversation exceeds the context window, and a failed `/compact` displays as an error rather than failing silently (v2.1.216).
+
 ### v3.2.24 — 2026-07-19
 
 **Claude Code v2.1.215 auto-update (CBP-318 through CBP-319)**
