@@ -332,3 +332,6 @@
 - [x] `CBP-319` [Claude] Add `/verify` slash command to Info & account cheat sheet table — explicitly-invoked built-in skill for end-to-end code verification (v2.1.215) → [task-cbp-319.md](task-cbp-319.md)
 - [x] `CBP-320` [Claude] Add `sandbox.filesystem.disabled` to sandbox settings table — skip filesystem isolation while keeping network egress control (v2.1.216) → [task-cbp-320.md](task-cbp-320.md)
 - [x] `CBP-321` [Claude] Update `/context` cheat sheet row — now shows explicit warning when conversation exceeds context window; failed `/compact` displays as error (v2.1.216) → [task-cbp-321.md](task-cbp-321.md)
+- [x] `CBP-322` [Claude] Add `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` and `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to hardening env vars table; update Agent Teams nested subagent note (v2.1.217) → [task-cbp-322.md](task-cbp-322.md)
+- [x] `CBP-323` [Codex] Update Multi-Agent Workflows section — document stabilized V2 experience with configurable sub-agent models and reasoning levels (rust-v0.145.0) → [task-cbp-323.md](task-cbp-323.md)
+- [x] `CBP-324` [Codex] Update `/import` cheat sheet row — expanded migration from Cursor + Claude Code: MCP servers, plugins, sessions, commands, project memories (rust-v0.145.0) → [task-cbp-324.md](task-cbp-324.md)

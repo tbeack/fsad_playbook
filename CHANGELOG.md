@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.26 — 2026-07-22
+
+**Claude Code v2.1.217 + Codex rust-v0.145.0 auto-update (CBP-322 through CBP-324)**
+
+Three targeted updates covering Claude Code v2.1.217 and Codex rust-v0.145.0:
+
+- **CBP-322 — Env vars: `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` and `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`.** Added both to the Subprocess Sandboxing hardening table. `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default 20) caps how many subagents run in parallel, preventing a single message from fanning out unbounded background agents. `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` (default 1) controls nesting depth — subagents no longer spawn nested subagents by default as of v2.1.217; set to 2+ to re-enable hierarchical architectures. Also updated the Agent Teams nested sub-agents bullet to reflect the new default behavior (v2.1.217).
+- **CBP-323 — [Codex] Multi-Agent V2 stabilized.** Updated the Multi-Agent Workflows collapsible opening sentence to remove "experimental" and note that the V2 experience is now stable as of v0.145.0. Added a per-role model and reasoning configuration example documenting how to set different models and reasoning effort levels for worker and explorer sub-agents in `config.toml` (rust-v0.145.0).
+- **CBP-324 — [Codex] Cheat Sheet: `/import` expanded migration.** Updated the `/import` row in the Codex Cheat Sheet to reflect the significantly expanded scope in v0.145.0 — now migrates from **Cursor** or **Claude Code** and covers settings, MCP servers, plugins, sessions, commands, and project-scoped memories (v0.140.0, expanded v0.145.0).
+
 ### v3.2.25 — 2026-07-21
 
 **Claude Code v2.1.216 auto-update (CBP-320 through CBP-321)**
