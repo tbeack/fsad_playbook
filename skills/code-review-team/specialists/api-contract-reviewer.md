@@ -49,7 +49,7 @@ Public interface design, backward compatibility, breaking changes, and versionin
 > 3. `api-contract-reviewer.coverage.jsonl` — one record per owned dimension.
 > 4. `api-contract-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
 >
-> **Hard rules:** cite exact diff evidence for every breaking change; check call sites before claiming "breaking change" (the change might only affect internal code); defer internal structural decisions to design-reviewer.
+> **Hard rules:** cite exact diff evidence for every breaking change; flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the validator step decides keep or drop; check call sites before claiming "breaking change" (the change might only affect internal code); defer internal structural decisions to design-reviewer.
 >
 > Report back: absolute paths of four output files + one-line severity counts.
 

@@ -50,7 +50,7 @@ Architectural decisions, coupling, cohesion, code smells, and SOLID principle vi
 > 3. `design-reviewer.coverage.jsonl` — one record per owned dimension. Include searches performed.
 > 4. `design-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
 >
-> **Hard rules:** cite exact code evidence; no "you should refactor this" without a concrete proposal; defer style/readability to maintainability-reviewer; defer public-API contract concerns to api-contract-reviewer.
+> **Hard rules:** cite exact code evidence; flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the validator step decides keep or drop; no "you should refactor this" without a concrete proposal; defer style/readability to maintainability-reviewer; defer public-API contract concerns to api-contract-reviewer.
 >
 > Report back: absolute paths of four output files + one-line severity counts.
 

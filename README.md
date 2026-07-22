@@ -49,7 +49,7 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v3.2.26 |
+| **Current version** | v3.2.27 |
 | **Date updated** | 2026-07-22 |
 | **File** | `fsad-playbook.html` |
 
@@ -68,7 +68,7 @@ Reusable Claude Code skills bundled under `skills/`. Install as a plugin to invo
 | `next` | Auto-pick the next open task and hand off to `fsd:do-task` |
 | `sync` | Pre-flight sync check across registered projects |
 | `ac` | Verify acceptance criteria independently from task execution |
-| `code-review-team` | Multi-agent code review (6 specialists in parallel) |
+| `code-review-team` | Multi-agent code review (7 specialists in parallel) |
 | `estimate` | Fibonacci story point estimation for epics and tasks |
 | `init` | Initialize a new project with standard folder structure and config |
 | `sec-review-team` | Multi-agent security review (specialist roster selected by stack) |

@@ -48,7 +48,7 @@ Test coverage quality, assertion strength, test isolation, and the testability o
 > 3. `testing-reviewer.coverage.jsonl` — one record per owned dimension.
 > 4. `testing-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
 >
-> **Hard rules:** cite exact code and test evidence; never flag as missing-test if the path is covered (check thoroughly); don't demand 100% coverage — focus on meaningful paths; defer structural testability root causes to design-reviewer.
+> **Hard rules:** cite exact code and test evidence; flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the validator step decides keep or drop; never flag as missing-test if the path is covered (check thoroughly); don't demand 100% coverage — focus on meaningful paths; defer structural testability root causes to design-reviewer.
 >
 > Report back: absolute paths of four output files + one-line severity counts.
 

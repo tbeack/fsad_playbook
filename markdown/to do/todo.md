@@ -335,3 +335,4 @@
 - [x] `CBP-322` [Claude] Add `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` and `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to hardening env vars table; update Agent Teams nested subagent note (v2.1.217) → [task-cbp-322.md](task-cbp-322.md)
 - [x] `CBP-323` [Codex] Update Multi-Agent Workflows section — document stabilized V2 experience with configurable sub-agent models and reasoning levels (rust-v0.145.0) → [task-cbp-323.md](task-cbp-323.md)
 - [x] `CBP-324` [Codex] Update `/import` cheat sheet row — expanded migration from Cursor + Claude Code: MCP servers, plugins, sessions, commands, project memories (rust-v0.145.0) → [task-cbp-324.md](task-cbp-324.md)
+- [x] `CBP-325` — replace the code-review team with the revised code-review skill/team from the /tb_skills project → [task-cbp-325.md](task-cbp-325.md)

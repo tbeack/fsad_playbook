@@ -50,7 +50,7 @@ Readability, naming, cyclomatic complexity, duplication, and day-to-day maintain
 > 3. `maintainability-reviewer.coverage.jsonl` — one record per owned dimension.
 > 4. `maintainability-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
 >
-> **Hard rules:** cite exact code evidence; do not flag style preferences as major issues; check codebase conventions before flagging "inconsistency"; defer structural (multi-module) problems to design-reviewer.
+> **Hard rules:** cite exact code evidence; flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the validator step decides keep or drop; do not flag style preferences as major issues; check codebase conventions before flagging "inconsistency"; defer structural (multi-module) problems to design-reviewer.
 >
 > Report back: absolute paths of four output files + one-line severity counts.
 

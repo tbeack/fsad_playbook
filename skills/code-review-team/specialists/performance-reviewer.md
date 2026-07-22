@@ -50,7 +50,7 @@ Algorithmic efficiency, resource consumption, and concurrency performance.
 > 3. `performance-reviewer.coverage.jsonl` — one record per owned dimension.
 > 4. `performance-reviewer.status.json` — write at spawn, update every ~5 reads, finalize on completion.
 >
-> **Hard rules:** cite exact code evidence; quantify expected impact when possible ("this adds O(n) DB queries per request"); defer architectural data model decisions to design-reviewer.
+> **Hard rules:** cite exact code evidence; flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the validator step decides keep or drop; quantify expected impact when possible ("this adds O(n) DB queries per request"); defer architectural data model decisions to design-reviewer.
 >
 > Report back: absolute paths of four output files + one-line severity counts.
 

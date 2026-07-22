@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v3.2.27 — 2026-07-22
+
+**Code review team reworked: security specialist, consensus fan-out, adversarial validation (CBP-325)**
+
+- **CBP-325 — Code review team rework: security specialist, consensus fan-out, adversarial validation.** `correctness-reviewer` and `performance-reviewer` now run a 5-pass consensus fan-out (rotated file order per pass, findings kept only when seen in ≥2 of 5 passes); every deduped finding is adversarially verified by a per-finding validator agent before it can appear in `REVIEW-REPORT.md` (rejected findings are logged, not shown); all specialist briefs now flag everything they notice — including low-confidence hunches — instead of suppressing speculation; `.planning/code-review/` runs are archived per-`run_id` with a `known-findings.jsonl` ledger so re-reviewing a target auto-skips already-reported issues and suppresses nits; and a new `security-reviewer` specialist (injection, authz/authn/IDOR/tenant-isolation, secrets exposure, SSRF/path traversal, crypto misuse, unsafe deserialization) joins both the full (7-specialist) and lite (4-specialist) rosters by default. Updated the Skills Library's embedded Skill/Specialist Definitions, the FSAD workflow card, and README to match.
+
 ### v3.2.26 — 2026-07-22
 
 **Claude Code v2.1.217 + Codex rust-v0.145.0 auto-update (CBP-322 through CBP-324)**
