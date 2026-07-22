@@ -54,7 +54,7 @@ Logic correctness, runtime errors, edge cases, and data flow bugs.
 > 3. `correctness-reviewer.coverage.jsonl` — one record per dimension you own (logic-errors, edge-cases, error-handling, data-flow, api-misuse). Include searches performed and files read.
 > 4. `correctness-reviewer.status.json` — write `{status:"starting", started_at, files_read:0, findings_written:0}` at spawn. Update every ~5 reads. Final: `{status:"completed", finished_at, severity_counts}`.
 >
-> **Hard rules:** read-only; cite exact code evidence (file + line); no speculation; if a dimension is clean, emit a coverage entry with searches that prove it; don't overlap with other specialists — defer via `status: "deferred-to-other-specialist"`.
+> **Hard rules:** read-only; cite exact code evidence (file + line); flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the validator step decides keep or drop; if a dimension is clean, emit a coverage entry with searches that prove it; don't overlap with other specialists — defer via `status: "deferred-to-other-specialist"`.
 >
 > Report back: absolute paths of four output files + one-line severity counts.
 
