@@ -27,3 +27,5 @@ markdown/*
 !markdown/to do/
 markdown/to do/completed/
 docs/
+!skills/code-review-team/docs/
+!skills/code-review-team/docs/consolidation-template.md
