@@ -336,3 +336,8 @@
 - [x] `CBP-323` [Codex] Update Multi-Agent Workflows section — document stabilized V2 experience with configurable sub-agent models and reasoning levels (rust-v0.145.0) → [task-cbp-323.md](task-cbp-323.md)
 - [x] `CBP-324` [Codex] Update `/import` cheat sheet row — expanded migration from Cursor + Claude Code: MCP servers, plugins, sessions, commands, project memories (rust-v0.145.0) → [task-cbp-324.md](task-cbp-324.md)
 - [x] `CBP-325` — replace the code-review team with the revised code-review skill/team from the /tb_skills project → [task-cbp-325.md](task-cbp-325.md)
+- [x] `CBP-326` [Claude] Update `/code-review` cheat sheet row — now runs as background subagent; review work no longer fills active conversation (v2.1.218) → [task-cbp-326.md](task-cbp-326.md)
+- [x] `CBP-327` [Claude] Update `context: fork` frontmatter row + add `background` key — fork skills run in background by default; opt out with `background: false` (v2.1.218) → [task-cbp-327.md](task-cbp-327.md)
+- [x] `CBP-328` [Claude] Add agent name constraint note — `:` in agent `name` field rejected; reserved for plugin namespacing (v2.1.218) → [task-cbp-328.md](task-cbp-328.md)
+- [x] `CBP-329` [Claude] Add frontmatter boolean values note — `yes`/`no`/`on`/`off`/`1`/`0` now accepted alongside `true`/`false` (v2.1.218) → [task-cbp-329.md](task-cbp-329.md)
+- [x] `CBP-330` [Claude] Add `/deep-research` to cheat sheet — manual invocation only; Claude no longer auto-launches it (v2.1.218) → [task-cbp-330.md](task-cbp-330.md)
