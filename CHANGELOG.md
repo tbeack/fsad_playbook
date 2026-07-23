@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.2.28 — 2026-07-23
+
+**Claude Code v2.1.218 auto-update (CBP-326 through CBP-330)**
+
+Five targeted updates covering Claude Code v2.1.218 (Codex rust-v0.145.0 unchanged):
+
+- **CBP-326 — Cheat Sheet: `/code-review` background subagent.** Updated the `/code-review` row to reflect that it now runs as a background subagent (v2.1.218) — review work no longer fills the active conversation, and stacked slash commands keep the review as their target.
+- **CBP-327 — Building Skills: `context: fork` background default + `background` key.** Updated the `context` frontmatter row to note that fork-context skills now run in the background by default (v2.1.218). Added a new `background` row documenting the opt-out (`background: false`).
+- **CBP-328 — Building Skills: agent name `:` constraint.** Added a note that agent `name` fields in `.claude/agents/*.md` must not contain `:`, which is reserved for plugin namespacing (v2.1.218). Files with a colon in the name will be rejected at load time.
+- **CBP-329 — Building Skills: extended frontmatter boolean values.** Appended a note to the frontmatter key casing paragraph that boolean fields now accept `yes`/`no`, `on`/`off`, and `1`/`0` (case-insensitive) in addition to `true`/`false` (v2.1.218).
+- **CBP-330 — Cheat Sheet: `/deep-research` added.** Added a new cheat sheet row for `/deep-research`, documenting that it is a manual-only command as of v2.1.218 — Claude no longer launches it autonomously.
+
 ### v3.2.27 — 2026-07-22
 
 **Code review team reworked: security specialist, consensus fan-out, adversarial validation (CBP-325)**
