@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.2.29 — 2026-07-25
+
+**Claude Code v2.1.219 auto-update (CBP-331 through CBP-335)**
+
+Five targeted updates covering Claude Code v2.1.219 (Codex rust-v0.145.0 unchanged):
+
+- **CBP-331 — Models: Claude Opus 5.** Added Opus 5 (`claude-opus-5`) as a new column in the model comparison table. Updated the `opus`/`best` alias row to reflect Opus 5 as the new default Opus model (1M context, fast mode at $10/$50 per MTok, v2.1.219). Added Opus 5 to the Key Dates callout; updated heading to "Apr–Jul 2026".
+- **CBP-332 — Sandbox: `sandbox.network.strictAllowlist`.** Added a new row to the sandbox network settings table. When `true`, silently denies all sandboxed network connections to non-allowlisted hosts without prompting — stricter than the default behavior (v2.1.219).
+- **CBP-333 — Hooks: `DirectoryAdded` event.** Added `DirectoryAdded` to the Environment & context hooks table — fires when a new working directory is registered mid-session via `/add-dir` or the SDK `register_repo_root` control request (v2.1.219). Updated event count from 27 to 28.
+- **CBP-334 — Config: `workflowSizeGuideline` setting.** Added `workflowSizeGuideline` to the Notable settings.json Keys callout — configures the advisory token-budget guideline for Dynamic workflow sessions. When set, the `/config` row for this setting is hidden (v2.1.219).
+- **CBP-335 — CLI Flags: `--forward-subagent-text` depth-2+ forwarding.** Updated the `--forward-subagent-text` row to document that nested subagents at depth-2+ are now also included in stream-json output, keyed by their spawning Agent `tool_use` id (v2.1.219).
+
 ### v3.2.28 — 2026-07-23
 
 **Claude Code v2.1.218 auto-update (CBP-326 through CBP-330)**

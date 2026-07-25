@@ -341,3 +341,8 @@
 - [x] `CBP-328` [Claude] Add agent name constraint note — `:` in agent `name` field rejected; reserved for plugin namespacing (v2.1.218) → [task-cbp-328.md](task-cbp-328.md)
 - [x] `CBP-329` [Claude] Add frontmatter boolean values note — `yes`/`no`/`on`/`off`/`1`/`0` now accepted alongside `true`/`false` (v2.1.218) → [task-cbp-329.md](task-cbp-329.md)
 - [x] `CBP-330` [Claude] Add `/deep-research` to cheat sheet — manual invocation only; Claude no longer auto-launches it (v2.1.218) → [task-cbp-330.md](task-cbp-330.md)
+- [x] `CBP-331` [Claude] Add Claude Opus 5 to model table + update `opus` alias and Key Dates callout (v2.1.219) → [task-cbp-331.md](task-cbp-331.md)
+- [x] `CBP-332` [Claude] Add `sandbox.network.strictAllowlist` to sandbox settings table (v2.1.219) → [task-cbp-332.md](task-cbp-332.md)
+- [x] `CBP-333` [Claude] Add `DirectoryAdded` hook to Environment & context hooks table; update event count 27→28 (v2.1.219) → [task-cbp-333.md](task-cbp-333.md)
+- [x] `CBP-334` [Claude] Add `workflowSizeGuideline` to Notable settings.json Keys callout (v2.1.219) → [task-cbp-334.md](task-cbp-334.md)
+- [x] `CBP-335` [Claude] Update `--forward-subagent-text` row for depth-2+ nested subagent forwarding (v2.1.219) → [task-cbp-335.md](task-cbp-335.md)
