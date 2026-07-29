@@ -346,3 +346,6 @@
 - [x] `CBP-333` [Claude] Add `DirectoryAdded` hook to Environment & context hooks table; update event count 27→28 (v2.1.219) → [task-cbp-333.md](task-cbp-333.md)
 - [x] `CBP-334` [Claude] Add `workflowSizeGuideline` to Notable settings.json Keys callout (v2.1.219) → [task-cbp-334.md](task-cbp-334.md)
 - [x] `CBP-335` [Claude] Update `--forward-subagent-text` row for depth-2+ nested subagent forwarding (v2.1.219) → [task-cbp-335.md](task-cbp-335.md)
+- [x] `CBP-336` [Codex] Update `/new` cheat sheet row: `/clear` alias + thread pinning + side conversations; update Session Management collapsible (rust-v0.146.0) → [task-cbp-336.md](task-cbp-336.md)
+- [x] `CBP-337` [Codex] Update Plugins collapsible: Agent Plugin manifests + Amazon Bedrock and Claude Code plugin marketplaces (rust-v0.146.0) → [task-cbp-337.md](task-cbp-337.md)
+- [x] `CBP-338` [Codex] Update `/fork` row + Session Management: temporary forks + paginated history; update `web_search` config for custom providers (rust-v0.146.0) → [task-cbp-338.md](task-cbp-338.md)
