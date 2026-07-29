@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.30 — 2026-07-29
+
+**Codex rust-v0.146.0 auto-update (CBP-336 through CBP-338)**
+
+Three Codex-targeted updates (Claude Code v2.1.220 unchanged):
+
+- **CBP-336 — [Codex] Cheat Sheet: `/new` / `/clear` alias + thread pinning; `/side` side conversation switching.** Updated the `/new` cheat sheet row to document `/clear` as an equivalent alias and mention thread pinning from the picker. Updated the `/side` row to note that side conversations can be switched between without closing. Updated the Session Management collapsible to mention pinning and side conversation management (rust-v0.146.0).
+- **CBP-337 — [Codex] Plugins: Agent Plugin manifests + Amazon Bedrock and Claude Code marketplaces.** Updated the Plugins collapsible to document Agent Plugin manifests (structured declarations for bundling agent capabilities) and the expanded plugin marketplace connecting to Amazon Bedrock and Claude Code as additional plugin sources. Added `codex plugin publish` to the code block (rust-v0.146.0).
+- **CBP-338 — [Codex] Cheat Sheet: `/fork` paginated history + temporary forks; `web_search` custom providers.** Updated the `/fork` row to document paginated parent history and temporary forks (don't appear in thread listings). Updated Session Management collapsible to mention temporary forks. Updated `web_search` config row to note custom model provider support (rust-v0.146.0).
+
 ### v3.2.29 — 2026-07-25
 
 **Claude Code v2.1.219 auto-update (CBP-331 through CBP-335)**
