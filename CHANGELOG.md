@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v3.2.31 — 2026-08-04
+
+**Skills Library resync: `fsd:` skills brought current with `tb_skills` (CBP-339)**
+
+- **CBP-339 — Resync the `fsd:` Skills Library with upstream `tb_skills`.** The 12 shared skills (`ac`, `add-task`, `code-review-team`, `do-task`, `estimate`, `init`, `next`, `prd`, `sec-review-team`, `ship`, `ship-it`, `sync`) were stale relative to `tb_skills`' latest diagnostic-fixes wave; content has been merged forward while preserving the Skills Library's established self-contained adaptations (no external file dependencies, no personal references). `code-review-team` needed a narrower delta since CBP-325 had already ported an earlier version of its rework — this brings forward the `<RUN_DIR>` convention, a coverage-matrix completeness-score fix, category-specific validator proof standards, and a 3-validator majority panel for critical/major findings (single validator remains for minor/nit). Also fixed a broken-reference bug in `sec-review-team` — its `SKILL.md` linked to `docs/scanner-coverage.md`, `docs/consolidation-template.md`, and `docs/tradeoffs.md`, none of which existed in the shipped skill (compounded by a `.gitignore` rule silently excluding any `docs/` directory outside `code-review-team`'s); the `docs/` directory is now included and tracked. The playbook's Skills Library page has been updated to match: embedded `SKILL.md`/specialist text refreshed for all 12 skills (plus incidental drift fixes found along the way in `ac`, `next`, and `sec-review-team`'s live descriptions), the `sec-review-team` orchestration diagram updated to show its consensus fan-out, adversarial validation gate, and `known-findings.jsonl` re-review loop, and a new matching orchestration diagram added for `code-review-team` (previously undocumented visually) depicting its severity-branched single-validator/3-validator-panel gate. `dist/` rebuilt to match.
+
 ### v3.2.30 — 2026-07-29
 
 **Codex rust-v0.146.0 auto-update (CBP-336 through CBP-338)**

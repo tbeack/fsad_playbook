@@ -44,7 +44,7 @@ Algorithmic efficiency, resource consumption, and concurrency performance.
 > - `minor` — perf smell that adds overhead but doesn't reach a threshold under expected usage; optimization worth doing.
 > - `nit` — micro-optimization; negligible impact.
 >
-> **Output contract (four files in `<TARGET>/.planning/code-review/`):**
+> **Output contract (four files in `<RUN_DIR>`):**
 > 1. `performance-reviewer.md` — prose findings grouped by severity. Open with scope summary.
 > 2. `performance-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("performance-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence` (exact code), `fix`, `related`, `merge_recommendation`.
 > 3. `performance-reviewer.coverage.jsonl` — one record per owned dimension.
@@ -66,7 +66,7 @@ Algorithmic efficiency, resource consumption, and concurrency performance.
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `performance-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `<RUN_DIR>/performance-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` (canonical) and `<RUN_DIR>/performance-reviewer.pass<i>.{findings.jsonl,status.json}` (per-pass, Step 3a) only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
 
 ## Coverage dimensions owned

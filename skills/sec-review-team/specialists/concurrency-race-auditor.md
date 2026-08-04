@@ -27,12 +27,12 @@ Race conditions and concurrency hazards with security impact.
 
 > Review concurrency / race conditions in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Focus on TOCTOU, rate-limit bypass, session races, transactional integrity, async cancellation.
 >
-> **Output:** `concurrency-race-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `concurrency-race-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite evidence.
 
 ## Allowed tools
-Standard read-only set. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to four outputs.
 
 ## Coverage categories
 `toctou`, `double-check-locking`, `shared-state-unsynced`, `rate-limit-race`, `session-race`, `transactional-integrity`, `async-cancellation`

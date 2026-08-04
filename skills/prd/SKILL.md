@@ -15,6 +15,16 @@ This skill uses two role briefs embedded below:
 
 Read both role sections below before proceeding.
 
+## Success criteria (checkable, not prose)
+
+By the end of Phase 4, all of the following must hold. The Phase 4 verifier (below) checks these mechanically before the summary prints:
+
+1. Every user story in `spec.md` has at least one falsifiable AC under it.
+2. Every AC in `spec.md` is covered by at least one task's `acs` in `tasks.json`.
+3. No task in `tasks.json` has an empty `acs` array.
+4. No AC text matches a vague/unfalsifiable pattern (e.g. "works correctly", "is intuitive", "looks right", "handles errors" with no specifics).
+5. `tasks.json` has no dependency cycles.
+
 ## Step 0 — Parse arguments and establish context
 
 1. **Title/goal** — use the argument if provided. If empty, ask: *"What are you building or improving? Give me a one-line goal."*
@@ -26,7 +36,9 @@ Read both role sections below before proceeding.
 
 Adopt the Analyst persona from the Analyst Role section below.
 
-Ask discovery questions **one at a time**. Do not dump a list. Wait for each answer before asking the next. Stop after five questions or when you have enough to draft a spec.
+Track the five discovery goals from that section (problem framing, impact, success definition, constraints, scope boundaries) as a checklist. Ask discovery questions **one at a time** — never dump a list. Wait for each answer before asking the next.
+
+**Condition-based loop, not a fixed count:** keep asking until every discovery goal has a concrete, non-vague answer, or until 8 questions have been asked (hard cap) — whichever comes first. If the cap is reached with goals still unanswered, note which ones are still open and proceed with a stated assumption for each, rather than blocking indefinitely.
 
 When discovery is complete, summarize findings in 3–5 bullet points and ask the user: *"Does this capture the problem correctly? Anything to correct before I write the spec?"*
 
@@ -45,6 +57,8 @@ Using the discovery summary, draft `spec.md` using the section structure from th
 - Success Metrics
 - Risks & Mitigations
 - Dependencies
+
+Every user story must have at least one AC under it (success criterion 1). Reject and rewrite any AC that matches a vague/unfalsifiable pattern before writing the file (success criterion 4) — e.g. "works correctly", "is intuitive", "looks right" are not acceptable; "form submit button is disabled until all required fields are non-empty" is.
 
 Write the draft to `{output_dir}/spec.md`.
 
@@ -94,7 +108,51 @@ Do not proceed until the user approves.
 
 Using `spec.md` and `plan.md` as inputs, decompose the work into a dependency-ordered task list.
 
-Write `{output_dir}/tasks.md` in this format:
+### Structured output
+
+Write `{output_dir}/tasks.json` first — this is the source of truth. Schema:
+
+```json
+{
+  "feature": "[Feature Title]",
+  "phases": [
+    {
+      "name": "[Phase name]",
+      "tasks": [
+        {
+          "id": "T-001",
+          "title": "[Task title]",
+          "complexity": "S",
+          "depends_on": [],
+          "acs": ["[Specific, falsifiable acceptance criterion]"]
+        },
+        {
+          "id": "T-002",
+          "title": "[Task title]",
+          "complexity": "M",
+          "depends_on": ["T-001"],
+          "acs": ["[Specific, falsifiable acceptance criterion]"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Complexity key:** `S` = a few hours, `M` = half day to a day, `L` = multi-day.
+
+Rules:
+- Number tasks sequentially (`T-001`, `T-002`, …) across the whole file, not per-phase.
+- `depends_on` lists task IDs explicitly — `[]` if none.
+- Every task's `acs` array has at least one entry (success criterion 3). Empty arrays are not valid.
+- Every AC from `spec.md` must map to at least one task's `acs` (success criterion 2).
+- Group into phases if there are 5+ tasks; a single `"General"` phase is fine for smaller feature sets.
+
+Validate the JSON parses and every `depends_on` entry references a real task ID in the same file before moving on.
+
+### Rendered view
+
+After `tasks.json` is written and valid, render `{output_dir}/tasks.md` from it for human readability (same phase/task/AC structure as before, generated — not hand-authored):
 
 ```markdown
 # [Feature Title] — Tasks
@@ -105,32 +163,35 @@ Write `{output_dir}/tasks.md` in this format:
 
 - [ ] **T-001** (S) [Task title]
   - AC: [Specific, falsifiable acceptance criterion]
-  - AC: [Specific, falsifiable acceptance criterion]
 
 - [ ] **T-002** (M) [Task title]
   - Depends on: T-001
   - AC: [Specific, falsifiable acceptance criterion]
-
-### Phase 2: [Phase name]
-
-- [ ] **T-003** (L) [Task title]
-  - AC: [Specific, falsifiable acceptance criterion]
 ```
 
-**Complexity key:** S = a few hours, M = half day to a day, L = multi-day.
+`tasks.json` is authoritative; `tasks.md` is a derived view — if they ever disagree after manual edits, regenerate `tasks.md` from `tasks.json`.
 
-Rules:
-- Number tasks sequentially (T-001, T-002, …).
-- State dependencies explicitly.
-- Every task gets at least one AC.
-- Group into phases if there are 5+ tasks.
+### Adversarial verification pass
 
-Write the file, then present the summary:
+Before presenting the final summary, run an independent verification pass over the finished artifacts:
 
-> "`tasks.md` written to `planning/prd/{slug}/`. You now have three artifacts:
+1. **Read only `spec.md` and `tasks.json` from disk** — not this conversation's history, not the discovery notes, not your own drafting reasoning. The point is to catch what the drafting process itself was blind to; re-using that context would inherit the same blind spots.
+2. Adopt a refuter stance: actively look for reasons the artifacts are *not* done, not reasons they're fine. Check each success criterion above mechanically:
+   - Every user story has ≥1 AC? List any that don't.
+   - Every spec AC is covered by ≥1 task's `acs`? List any orphaned ACs.
+   - Every task has a non-empty `acs`? List any that don't.
+   - Any AC text matches a vague/unfalsifiable pattern? Quote it.
+   - Any dependency cycle in `depends_on`? Trace it.
+3. If running as a subagent is available in this environment, prefer spawning a fresh subagent for this pass so it has no memory of the drafting conversation; otherwise perform the same read-only, disk-only pass inline, but explicitly disregard conversational context when judging the artifacts.
+4. **If gaps are found:** fix them directly in `spec.md` and/or `tasks.json` (adding a missing AC, splitting a vague AC into falsifiable sub-criteria, adding a task for an orphaned AC, breaking a cycle), regenerate `tasks.md`, and re-run the check once more. Do not present the summary until a pass finds zero gaps.
+5. **If zero gaps found on the first pass**, say so explicitly in the summary rather than silently skipping the step — the user should know the check ran.
+
+Then present the summary:
+
+> "`tasks.json`/`tasks.md` written to `planning/prd/{slug}/`. Adversarial verification pass: [zero gaps found / N gaps found and fixed — list them]. You now have three artifacts:
 > - `spec.md` — what and why
 > - `plan.md` — how
-> - `tasks.md` — ordered implementation tasks with ACs
+> - `tasks.json` / `tasks.md` — ordered implementation tasks with ACs
 >
 > To execute: pick up tasks in order with `/fsd:do-task` or import them into your tracker with `/fsd:add-task`."
 
@@ -142,6 +203,7 @@ Write the file, then present the summary:
 - **If the user says "fill it in"** — make a reasonable assumption, state it explicitly, and continue.
 - **Never write code** — this skill produces planning artifacts only.
 - **If the project has no `planning/prd/` directory**, create it without asking.
+- **Never skip the Phase 4 adversarial verification pass** — even when both drafts look obviously complete.
 
 ---
 

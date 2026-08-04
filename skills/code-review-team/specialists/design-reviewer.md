@@ -44,7 +44,7 @@ Architectural decisions, coupling, cohesion, code smells, and SOLID principle vi
 > - `minor` — design smell that adds friction but doesn't block progress; low-effort improvement available.
 > - `nit` — subjective preference with no concrete negative consequence.
 >
-> **Output contract (four files in `<TARGET>/.planning/code-review/`):**
+> **Output contract (four files in `<RUN_DIR>`):**
 > 1. `design-reviewer.md` — prose findings, grouped by severity. Open with "Scope reviewed: <summary>".
 > 2. `design-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("design-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence` (concrete code showing the smell), `fix`, `related`, `merge_recommendation`.
 > 3. `design-reviewer.coverage.jsonl` — one record per owned dimension. Include searches performed.
@@ -66,7 +66,7 @@ Architectural decisions, coupling, cohesion, code smells, and SOLID principle vi
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `design-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `<RUN_DIR>/design-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
 
 ## Coverage dimensions owned

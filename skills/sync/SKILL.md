@@ -32,19 +32,42 @@ Run this before starting any work session to confirm your local repo(s) are in s
 
 ## Step 2 — Sync each project in the list
 
-For each `(project_key, project_root)` in the list:
-- If there is **more than one project**, print a separator header before each:
+**Multi-project mode (2+ projects):** dispatch the **entire Steps 3–6 pipeline** for every project **concurrently**, not just the fetch — issue one `Bash` tool call per project that runs fetch, branch check, worktree check, dirty check, and the ahead/behind (plus pull + re-verify, when applicable) comparison in sequence for that project, all in the same message across projects. Each dispatched call is self-contained and produces one structured result record (see the schema at the end of this step) — there's no cross-project dependency, so nothing after the initial fan-out needs to happen serially.
+
+Then loop through the projects in original list order purely to print output:
+- Print a separator header before each:
   ```
   ─── Syncing <project_key> (<project_root>) ───
   ```
-- Run Steps 3–6 for this project.
-- Collect the one-line status result from Step 6 for the final summary.
+- Print that project's result using its already-computed structured record — do not re-run any git command here, this loop is presentation only.
+
+**Single-project mode:** run Steps 3–6 in order as usual — there's only one project, so there's nothing to parallelize.
+
+**Structured per-project result.** Whether single- or multi-project mode, every project's pipeline run (Steps 3–6) must produce one result record with this shape, used to build the Step 7 summary instead of reconstructing status text from prose:
+
+```
+{
+  project_key,
+  state,              // "fetch_failed" | "no_upstream" | "up_to_date" | "behind" | "ahead" | "diverged"
+  ahead,              // integer, or null if not computed (e.g. fetch_failed, no_upstream)
+  behind,             // integer, or null
+  dirty,              // boolean — Step 5 result
+  pull_attempted,     // boolean — true only if state was "behind" AND dirty was false
+  pull_succeeded,     // boolean | null — null if pull_attempted is false
+  error,              // string | null — fetch/remote-check error text, else null
+  is_worktree,        // boolean — Step 4.5 result
+  worktree_branch,    // string | null
+  stale_branch_warning // string | null — Step 4's stale-release-branch message, if any
+}
+```
+
+Populate this record as each step below executes for the project (Steps 3–6 write into it); Step 7 only reads from it.
 
 ## Step 3 — Fetch
 
-Run `git fetch` from `project_root`.
+Run `git fetch` from `project_root`. (In multi-project mode this is the call dispatched concurrently in Step 2 — this section describes what each dispatched fetch does.)
 
-If `git fetch` fails (no remote, no network): record `✗ Fetch failed — <error>` for this project, skip Steps 4–6 for this project, and continue to the next project.
+If `git fetch` fails (no remote, no network): set `state = "fetch_failed"`, `error = "<error>"` in the result record, skip Steps 4–6 for this project, and continue to the next project.
 
 ## Step 4 — Branch name check
 
@@ -57,50 +80,116 @@ If `git fetch` fails (no remote, no network): record `✗ Fetch failed — <erro
    d. Run `git ls-remote --heads origin <expected>` to check remote presence.
       - Not found: note "Expected branch `<expected>` has not been pushed to the remote yet."
       - Found and name is already correct: no action.
+      - Command itself fails (network/auth error, timeout — distinct from a clean "not found"): note "Could not check remote for `<expected>` — <error>." and continue, the same way Step 3 handles a failed `git fetch`. Do not treat this as a stale-branch warning.
 3. If the branch does not match `release/vX.Y.Z`: skip this step entirely.
+
+## Step 4.5 — Worktree check
+
+Reuse the branch name from Step 4.
+
+1. If the branch name matches `worktree-task-*`, OR `project_root` is itself a path under `.claude/worktrees/`, set `is_worktree = true` and record the branch name as `worktree_branch`.
+2. Otherwise `is_worktree = false`.
+
+This flag only affects the summary annotation in Step 7 — it does not change fetch, branch-staleness, or ahead/behind logic.
 
 ## Step 5 — Check uncommitted changes
 
 Run `git status --porcelain` from `project_root`.
 
-If output is non-empty: list the dirty files, prefixed with "Uncommitted changes detected:". Informational only — do not stop.
+If output is non-empty: list the dirty files, prefixed with "Uncommitted changes detected:", and set the result record's `dirty = true`. Otherwise `dirty = false`.
+
+This step alone is informational only — do not stop here. But its `dirty` result is a **precondition input to Step 6's Behind-state pull action** below; do not discard it.
 
 ## Step 6 — Compare local vs remote
+
+First confirm the branch has an upstream tracking ref:
+
+```bash
+git rev-parse --abbrev-ref --symbolic-full-name @{u}
+```
+
+- **Fails** (`fatal: no upstream configured for branch ...`): record state **No upstream** (`state = "no_upstream"`, `ahead = null`, `behind = null`) for this project and skip the rest of this step — do not run the `git rev-list` commands below, they will crash without an upstream ref. This is expected for local-only branches, e.g. a `worktree-task-*` branch created by `fsd:do-task` that hasn't been merged/pushed yet.
+- **Succeeds**: continue with the ahead/behind comparison:
 
 ```bash
 git rev-list --count HEAD..@{u}   # commits behind remote
 git rev-list --count @{u}..HEAD   # commits ahead of remote
 ```
 
-| State | behind | ahead | Action |
-|-------|--------|-------|--------|
-| **Up-to-date** | 0 | 0 | Report "Repo is up to date with remote." |
-| **Behind** | > 0 | 0 | Warn: "Local is N commit(s) behind remote." → run `git pull`. Confirm "Pulled N commit(s). Repo is now up to date." |
-| **Ahead** | 0 | > 0 | Report "Local is N commit(s) ahead of remote — ready to push." |
-| **Diverged** | > 0 | > 0 | Warn: "Local and remote have diverged (N behind, M ahead). Manual resolution required — do not start work until resolved." Do NOT pull. Tell the user to run `git pull --rebase` or `git merge origin/<branch>`. |
+| State | `state` value | behind | ahead | Action |
+|-------|----------------|--------|-------|--------|
+| **No upstream** | `no_upstream` | — | — | Report "No upstream branch — run `git push -u origin <branch>` to enable sync checks." |
+| **Up-to-date** | `up_to_date` | 0 | 0 | Report "Repo is up to date with remote." |
+| **Behind** | `behind` | > 0 | 0 | See **Behind-state action** below — do not pull unconditionally. |
+| **Ahead** | `ahead` | 0 | > 0 | Report "Local is N commit(s) ahead of remote — ready to push." |
+| **Diverged** | `diverged` | > 0 | > 0 | Warn: "Local and remote have diverged (N behind, M ahead). Manual resolution required — do not start work until resolved." Do NOT pull. Tell the user to run `git pull --rebase` or `git merge origin/<branch>`. |
+
+Set `ahead`/`behind` in the result record from the `git rev-list` counts in all cases above.
+
+### Behind-state action (dirty-tree precondition + post-pull re-verification)
+
+When Step 6 finds `behind > 0` and `ahead == 0`, do not run `git pull` unconditionally. Instead:
+
+1. **Precondition — check the dirty-tree result already computed in Step 5.**
+   - If `dirty == true`: **skip the pull.** Set `pull_attempted = false`, `pull_succeeded = null`. Report:
+     > "⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsd:sync."
+     Stop here for this project's Behind-state handling — do not run `git pull`.
+   - If `dirty == false`: proceed to step 2.
+
+2. **Attempt the pull.** Run `git pull`. Set `pull_attempted = true`.
+
+3. **Post-pull re-verification.** Re-run the same comparison used in Step 6's initial detection:
+   ```bash
+   git rev-list --count HEAD..@{u}   # commits behind remote, re-checked
+   ```
+   - If the re-check returns `0`: the pull fully succeeded. Set `pull_succeeded = true`, `behind = 0`. Report:
+     > "Pulled N commit(s). Repo is now up to date."
+   - If the re-check returns `> 0` (partial pull, fast-forward failure, or any other git-level issue): the pull did **not** fully succeed. Set `pull_succeeded = false`, `behind = <re-checked count>`. Report:
+     > "✗ Pull did not fully succeed — still N commit(s) behind after pull. Manual resolution required."
+   - Never print the unconditional "now up to date" success message without this re-check confirming zero-behind.
 
 ## Step 7 — Print summary
 
-**Single-project mode** — one banner line:
+Build every summary line **from the structured per-project result record** (defined in Step 2) — never reconstruct status text from memory of what happened during the run. Each record's `state` (plus `pull_attempted`/`pull_succeeded` for the Behind case) maps directly to one banner line:
+
+| `state` | `pull_attempted` | `pull_succeeded` | Banner line |
+|---------|------------------|-------------------|-------------|
+| `fetch_failed` | — | — | `✗ Fetch failed — <error>` |
+| `no_upstream` | — | — | `⚠ No upstream branch — run 'git push -u origin <branch>' to enable sync checks.` |
+| `up_to_date` | — | — | `✓ Up to date — safe to start work.` |
+| `behind` | `false` | `null` | `⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsd:sync.` |
+| `behind` | `true` | `true` | `✓ Pulled N commit(s) — repo now up to date.` |
+| `behind` | `true` | `false` | `✗ Pull did not fully succeed — still N commit(s) behind after pull. Manual resolution required.` |
+| `ahead` | — | — | `⚠ N commit(s) ahead — push when ready.` |
+| `diverged` | — | — | `✗ Diverged — resolve before starting work.` |
+
+**Single-project mode** — one banner line, e.g.:
 
 ```
 [fsd:sync] ✓ Up to date — safe to start work.
 [fsd:sync] ✓ Pulled 3 commit(s) — repo now up to date.
+[fsd:sync] ⚠ 2 commit(s) behind, but the working tree has uncommitted changes — skipping pull.
+[fsd:sync] ✗ Pull did not fully succeed — still 1 commit(s) behind after pull. Manual resolution required.
 [fsd:sync] ⚠ 2 commit(s) ahead — push when ready.
 [fsd:sync] ✗ Diverged — resolve before starting work.
+[fsd:sync] ⚠ No upstream branch — run 'git push -u origin <branch>' to enable sync checks.
 ```
 
-Append `(uncommitted changes present)` if Step 5 found dirty files.
+Append `(uncommitted changes present)` if the record's `dirty` field is true.
 
-**Multi-project mode** — summary table after all projects have been processed:
+If the record's `is_worktree` is true, append `(worktree: <worktree_branch> — main checkout unaffected)` so the user isn't confused about which checkout the status line describes.
+
+**Multi-project mode** — summary table after all projects have been processed, one row per structured result record:
 
 ```
 Project           Status
 ──────────────────────────────────────────────────────
-tb_skills         ✓ Up to date
-fsad_playbook     ✓ Pulled 2 commit(s) — now up to date
-fsd               ⚠ 2 commit(s) ahead — push when ready
-hangman           ✗ Diverged — resolve before starting work
+api_service       ✓ Up to date
+web_app           ✓ Pulled 2 commit(s) — now up to date
+docs_site         ⚠ 2 commit(s) ahead — push when ready
+cli_tool          ✗ Diverged — resolve before starting work
+data_pipeline     ⚠ No upstream branch — push to enable sync checks
+mobile_app        ⚠ Behind, uncommitted changes — skipping pull (uncommitted)
 ```
 
-Append `(uncommitted)` after the status text for any project that had dirty files in Step 5.
+Append `(uncommitted)` after the status text for any record with `dirty == true`, and `(worktree: <worktree_branch>)` for any record with `is_worktree == true`.

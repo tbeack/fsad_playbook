@@ -28,14 +28,14 @@ Unintended exposure of sensitive data.
 
 > Review unintended data exposure in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Verify stated threat-model claims (e.g. "no network") with explicit grep. If `frontend-security-auditor` is in roster, defer CSP/CORS/SRI/cookie-flags; otherwise cover them. If `privacy-telemetry-auditor` is in roster, defer analytics/consent/cross-border; otherwise cover them.
 >
-> **Output:** `data-exposure-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `data-exposure-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite evidence; verify threat-model claims with searches.
 >
 > Report: paths + severity count.
 
 ## Allowed tools
-Standard read-only set. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to four outputs.
 
 ## Coverage categories
 `pii-storage`, `log-redaction`, `error-leak`, `idor-tenant-isolation`, `clipboard-dnd`, `export-pipeline`, `outbound-calls-claimed-none`, (conditionally) `csp-cors-sri-cookies`

@@ -48,7 +48,7 @@ Logic correctness, runtime errors, edge cases, and data flow bugs.
 > - `possible` — indirect evidence or architectural smell.
 > - `unverified` — cannot confirm without runtime or test execution.
 >
-> **Output contract (four files in `<TARGET>/.planning/code-review/`):**
+> **Output contract (four files in `<RUN_DIR>`):**
 > 1. `correctness-reviewer.md` — prose findings, grouped by severity. Open with "Scope reviewed: <summary>". Close with severity counts.
 > 2. `correctness-reviewer.findings.jsonl` — one JSON object per finding. Required fields: `id`, `specialist` ("correctness-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence` (exact code snippet), `fix`, `related`, `merge_recommendation`.
 > 3. `correctness-reviewer.coverage.jsonl` — one record per dimension you own (logic-errors, edge-cases, error-handling, data-flow, api-misuse). Include searches performed and files read.
@@ -70,7 +70,7 @@ Logic correctness, runtime errors, edge cases, and data flow bugs.
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `correctness-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `<RUN_DIR>/correctness-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` (canonical) and `<RUN_DIR>/correctness-reviewer.pass<i>.{findings.jsonl,status.json}` (per-pass, Step 3a) only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
 
 ## Coverage dimensions owned

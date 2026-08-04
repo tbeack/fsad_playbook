@@ -25,7 +25,7 @@ Use the Bash tool to run `pwd`, then take the last path segment (everything afte
 ## Step 2 — Determine task prefix
 
 The task prefix is a short uppercase identifier used to tag tasks in `todo.md` (e.g., `FSAD-001`,
-`TBS-042`). Each project gets a unique prefix so tasks are globally unambiguous across repos.
+`MNA-042`). Each project gets a unique prefix so tasks are globally unambiguous across repos.
 
 ### 2a — Derive a suggestion from the directory name
 
@@ -35,25 +35,32 @@ Apply these rules to `PROJECT_NAME` to produce a 3–4 character uppercase sugge
 - **Multi-word name**: take the first letter of each word, uppercase. If that gives fewer than 3
   characters, append the next letters of the longest word until you reach 3.
   - `fsad_playbook` → `FP` → pad to `FPL` (3 chars from "playbook")
-  - `tb_skills` → `TBS`
   - `my_new_app` → `MNA`
+  - `data_pipeline` → `DP` → pad to `DPI`
 - **Single-word name**: take the first 3–4 consonant-dominant characters, uppercase.
   - `recall` → `RCL`
   - `dashboard` → `DASH`
 - Cap at 4 characters.
 
-### 2b — Check for conflicts in sibling projects
+### 2b — Check for conflicts
 
-Scan the parent directory for existing `todo.md` files to find prefixes already in use. Use the Bash tool to run a grep across `../*/planning/to do/todo.md` looking for lines that contain a task identifier pattern (backtick, 2–5 uppercase letters, hyphen, digit), extract just the prefix, and sort for uniqueness.
+Sweep two independent sources for prefixes already in use, and treat a hit in either as a conflict:
 
-If the suggested prefix appears in the results, note the conflict and adjust:
-append a digit or swap one letter to make it unique (e.g., `TBS` → `TBS2`).
+1. **Sibling `todo.md` files** — use the Bash tool to grep across `../*/planning/to do/todo.md` for
+   lines matching a task identifier pattern (backtick, 2–5 uppercase letters, hyphen, digit), extract
+   just the prefix, and sort for uniqueness.
+2. **Registered config** — read `~/.claude/commands/fsd/projects.yaml` and collect every `prefix:`
+   value present. A prefix can be reserved in config before any task file using it exists, so this
+   catches conflicts the todo-file grep alone would miss.
+
+If the suggested prefix appears in either source, note the conflict and adjust: append a digit or
+swap one letter to make it unique (e.g., `MNA` → `MNA2`).
 
 ### 2c — Confirm with the user
 
 Present your suggestion and the conflict check result, then ask the user to confirm or override:
 
-> Suggested task prefix: **`TBS`** (from `tb_skills`) — no conflicts found in sibling projects.
+> Suggested task prefix: **`MNA`** (from `my_new_app`) — no conflicts found in sibling projects.
 > Use this prefix, or type a different one?
 
 Wait for the user's response before continuing. Store the confirmed value as `TASK_PREFIX`.
@@ -106,6 +113,14 @@ Then write the result to the destination with the Write tool.
 
 ## Step 5 — Initialize git repository
 
+**Confirmation gate:** Steps 5 and 6 create durable artifacts — a local git commit and a remote
+GitHub repository. Before proceeding, ask the user once, covering both together:
+
+> Ready to `git init` + commit and create a private GitHub repo for **PROJECT_NAME**? (yes/no)
+
+Wait for an affirmative response before running anything in Step 5 or Step 6. If the user declines,
+skip both steps and note it in the Step 9 output.
+
 Check whether `.git/` already exists in the project root.
 
 **If it does not exist:**
@@ -143,13 +158,37 @@ Invoke the `p_mon` skill via the Skill tool, passing `add-project PROJECT_NAME` 
 
 ---
 
-## Step 8 — Register in projects.yaml
+## Step 8 — Detect project type and register in `projects.yaml`
 
-Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists by scanning for the resolved `match_paths` value (see below).
+### 8a — Detect project type
+
+Before registering, inspect the project root to pick a `version_scheme`/`version_files` pair instead
+of assuming every project is Node-based:
+
+- `package.json` present → `version_scheme: semver`, `version_files: [package.json]`
+- A different recognized manifest present (`plugin/.claude-plugin/plugin.json`, `pyproject.toml`,
+  `Cargo.toml`, etc.) → `version_scheme: semver`, `version_files: [<that manifest>]`
+- No manifest found (docs / plain-markdown project) → default to `version_scheme: semver`,
+  `version_files: [README.md]` (the pattern already used for markdown-only projects in
+  `projects.yaml`), or ask the user if the project's shape is ambiguous — never guess silently.
+
+Store the resolved values as `VERSION_SCHEME` and `VERSION_FILES`.
+
+### 8b — Write the registration entry
+
+`~/.claude/commands/fsd/projects.yaml` is the **single** registry every `fsd:` skill reads — task
+conventions (`fsd:add-task`, `fsd:do-task`, `fsd:next`) and release/sync conventions (`fsd:sync`,
+`fsd:ship-it`) all resolve from this one file. There is no second config file to keep in step.
+
+Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists
+by scanning for the resolved `match_paths` value (see below).
 
 **If already present:** skip and note in the output checklist.
 
-**If absent:** construct and insert the following entry immediately before the `# Fallback` comment block (the line that begins `# Fallback when no project matches`):
+**If absent:** construct and insert the following entry immediately before the `# Fallback` comment
+block (the line that begins `# Fallback when no project matches`). If the file has no fallback
+block, read it first and use its last existing entry as the unique anchor, inserting the new block
+immediately after it:
 
 ```yaml
   PROJECT_NAME:
@@ -163,24 +202,44 @@ Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this pro
     todo_entry_template: "- [ ] `{ID}` — {title} → [task-{prefix_lower}-{nnn}.md](task-{prefix_lower}-{nnn}.md)"
     use_full_template: true
     changelog_file: CHANGELOG.md
-    version_scheme: semver
+    version_scheme: VERSION_SCHEME
     version_files:
-      - package.json
+      - VERSION_FILES
+    release_branch_pattern: "release/{version}"
 ```
 
 Resolve the placeholders as follows:
 
 - `PROJECT_NAME` — the directory name from Step 1.
-- `RELATIVE_PATH` — derive from `pwd`: replace the home directory prefix (`/Users/<username>`) with `~`. For example `/Users/theobeack/repo/my_project` → `~/repo/my_project`.
+- `RELATIVE_PATH` — derive from `pwd`: replace the home directory prefix with `~`. For example
+  `<home>/repo/my_project` → `~/repo/my_project`.
 - `TASK_PREFIX` — the confirmed prefix from Step 2.
+- `VERSION_SCHEME` / `VERSION_FILES` — resolved in 8a.
 
-Use the `Edit` tool to insert the block, not a full file rewrite. Use the `# Fallback` comment line as the unique anchor for the `old_string`.
+Use the `Edit` tool to insert the block, not a full file rewrite. Use the `# Fallback` comment line
+(or the last existing entry) as the unique anchor for the `old_string`.
 
 ---
 
-## Step 9 — Output results
+## Step 9 — Verify and report
 
-Print a checklist of every action taken. Use this format exactly:
+Do not report from memory of which steps ran. Re-check every artifact on disk (and in config) and
+print ✓/✗ from that live check.
+
+For each item below, perform the stated check and record the result:
+
+- **Directories** — for each of the six paths from Step 3, confirm the directory exists (`ls -d`).
+- **Files** — for each of the five files from Step 4, confirm the file exists, then grep it for `{{`
+  to confirm no leftover template placeholders remain unsubstituted. A file that exists but still
+  contains `{{` is a ✗, not a ✓.
+- **Git** — confirm `.git/` exists on disk. If Steps 5/6 were confirmed and run, confirm
+  `git remote -v` lists `origin`, and optionally run `gh repo view` to confirm the remote resolves.
+  If the user declined the Step 5/6 confirmation gate, report both as skipped-by-choice, not as ✗.
+- **p_mon** — confirm the project appears in `~/repo/p_mon/p_mon.config.json`.
+- **Task tracking** — re-read `~/.claude/commands/fsd/projects.yaml` fresh and confirm the project's
+  entry is present (not from memory of having written it in Step 8).
+
+Print the checklist using this format:
 
 ```
 Project initialized: PROJECT_NAME
@@ -195,27 +254,31 @@ Directories
   — planning/             (already existed, skipped)   ← example of a skip
 
 Files
-  ✓ README.md
+  ✓ README.md             (verified: exists, no leftover placeholders)
   ✓ CHANGELOG.md
   ✓ CLAUDE.md
   ✓ planning/to do/todo.md
   ✓ .gitignore
-  — CLAUDE.md             (already existed, skipped)   ← example of a skip
+  ✗ CLAUDE.md             (exists but still contains {{PLACEHOLDER}})  ← example of a failed verify
+  — CLAUDE.md             (already existed, skipped)                  ← example of a skip
 
 Git
-  ✓ git init + initial commit
-  ✓ GitHub remote created (private): github.com/USERNAME/PROJECT_NAME
+  ✓ git init + initial commit (verified: .git/ present)
+  ✓ GitHub remote created (private): github.com/USERNAME/PROJECT_NAME (verified: origin in git remote -v)
   — git already initialized, skipped
   — remote origin already exists, skipped
+  — git/GitHub steps skipped by user choice at the Step 5/6 confirmation gate
 
 p_mon
-  ✓ PROJECT_NAME registered in p_mon
+  ✓ PROJECT_NAME registered in p_mon (verified in p_mon.config.json)
   — PROJECT_NAME already registered, skipped
 
 Task tracking
-  ✓ PROJECT_NAME registered in projects.yaml
+  ✓ PROJECT_NAME registered in projects.yaml (verified on re-read)
   — PROJECT_NAME already registered in projects.yaml, skipped
 ```
 
 Show only the items that are relevant — don't show both the "created" and "skipped" lines for the
-same item. A `✓` means the action was taken; a `—` means it was skipped because it already existed.
+same item. A `✓` means the check passed against live state; a `✗` means the check failed (surface
+this prominently, don't bury it); a `—` means the action was skipped because it already existed or
+the user declined it.

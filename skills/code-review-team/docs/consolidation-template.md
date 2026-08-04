@@ -7,16 +7,24 @@ This template defines how the orchestrator synthesizes `<agent>.findings.jsonl` 
 ```
 # 1. Read all findings
 findings = []
-for f in .planning/code-review/*.findings.jsonl:
+for f in <RUN_DIR>/*.findings.jsonl:
     for line in f:
         finding = parse(line)
         findings.append(finding)
 
 # 2. Read coverage
 coverage = []
-for f in .planning/code-review/*.coverage.jsonl:
+for f in <RUN_DIR>/*.coverage.jsonl:
     for line in f:
         coverage.append(parse(line))
+
+# 2a. Compute the expected dimension set — independent of what was actually written.
+# Each specialist brief declares a static "Coverage dimensions owned" list; the union of those
+# lists, across every specialist in the CONFIRMED ROSTER (not just the ones that returned
+# successfully), is the denominator's source of truth for completeness (8).
+expected_dimensions = union(
+    owned_dimensions(specialist) for specialist in confirmed_roster
+)
 
 # 3. Dedupe by root_issue
 groups = group_by(findings, key=root_issue)
@@ -63,10 +71,14 @@ else:
 # 7. Coverage matrix
 matrix = pivot(coverage, rows=category, cols=specialist, values=status)
 
-# 8. Completeness score
+# 8. Completeness score — denominator is expected_dimensions (2a), NOT count(coverage).
+# A specialist that errors before writing any coverage.jsonl entries must NOT shrink the
+# denominator by having its owned dimensions silently vanish from the count — that would let
+# a less-complete run (one with an errored specialist) score higher than a more-complete run.
+# Dimensions in expected_dimensions with no matching coverage record are treated as
+# status=not-checked for scoring purposes (shown as ✗ in the Coverage Matrix).
 checked = count(c for c in coverage if c.status in (checked-clean, checked-issues-found))
-total = count(coverage)
-score = checked / total * 100
+score = checked / len(expected_dimensions) * 100
 
 # 9. Re-review filter — only when a prior known-findings.jsonl exists for this target (Step 0.1a).
 # Skips issues already reported in an earlier run and suppresses nits outright, so a re-review

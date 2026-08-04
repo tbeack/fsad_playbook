@@ -35,7 +35,7 @@ Frame findings against the realistic adversary for the stack:
 
 > Review secrets and cryptography in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Realistic threat model: `<THREAT_MODEL>`. Check: hardcoded secrets, weak crypto, insecure random, improper key storage, credential logging, `unsafe` Rust touching keys, TLS config, key rotation. Frame findings against the actual threat model.
 >
-> **Output contract (four files):** `secrets-crypto-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Same format as other specialists — see `auth-authz-auditor.md` for details.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `secrets-crypto-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Confidence on every finding.** Negative findings require searches + search_limits in coverage.jsonl (e.g., "grepped for X|Y|Z, found nothing — would miss credentials assembled at runtime from env + obfuscation").
 >
@@ -47,7 +47,7 @@ Frame findings against the realistic adversary for the stack:
 `secrets-crypto-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`
 
 ## Allowed tools
-Standard read-only set (see `auth-authz-auditor.md`). `Write` scoped to this specialist's four outputs.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to this specialist's four outputs.
 
 ## Coverage categories this specialist owns
 `hardcoded-secrets`, `weak-crypto`, `insecure-random`, `plaintext-key-storage`, `credential-logging`, `tls-config`, `key-rotation`

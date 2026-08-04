@@ -99,9 +99,9 @@ Run `command -v <tool>` for each linter. Flag available vs missing. Missing lint
 
 - **Input tokens per specialist:** `~min(35k, 25 + 0.015 × LINE_COUNT)` k tokens
 - **Output tokens per specialist:** `~5–8k`
-- **Total tokens:** `correctness-reviewer` and `performance-reviewer` each run as a 5-pass consensus fan-out (Step 3a), not a single pass. Treat them as 5 "specialist-equivalents" each when estimating: `Total tokens = (N_specialists + 8) × (input + output)` — the `+8` accounts for those two specialists costing 5× instead of 1× (2 × (5-1) = 8 extra specialist-equivalents). The Step 4.5 validator adds roughly one more agent call per surviving finding group after consolidation — this can't be sized until findings exist, so note it as "+validator passes (post-consolidation, ~1 call per finding group)" rather than folding it into this estimate.
+- **Total tokens:** `correctness-reviewer` and `performance-reviewer` each run as a 5-pass consensus fan-out (Step 3a), not a single pass. Treat them as 5 "specialist-equivalents" each when estimating: `Total tokens = (N_specialists + 8) × (input + output)` — the `+8` accounts for those two specialists costing 5× instead of 1× (2 × (5-1) = 8 extra specialist-equivalents). The Step 4.5 validator adds roughly one more agent call per surviving minor/nit finding group after consolidation, and three calls per surviving critical/major group (3-validator panel) — this can't be sized until findings exist, so note it as "+validator passes (post-consolidation, ~1 call per minor/nit group, ~3 calls per critical/major group)" rather than folding it into this estimate.
 - **Runtime:** longest-path specialist ≈ 2–3 min baseline; range = `longest × 1.1` to `longest × 1.5`. The 5-pass specialists run their passes concurrently (single message), so they add roughly one specialist's worth of wall-clock, not five — but do add a consolidation/tally step afterward (~30s).
-- **Cost** (Sonnet 4.6 pricing — $3/MTok input, $15/MTok output): `(input × 3 + output × 15) / 1_000_000`, using the `(N_specialists + 8)` token total above, plus the validator caveat. Print as `$X.XX`. Use Opus 4.7 pricing ($5/$25) if running on Opus.
+- **Cost**: look up the current model tier's per-MTok input/output pricing at run time (e.g. via the `claude-api` skill's model catalog or the Models API), then compute `(input × price_in + output × price_out) / 1_000_000`, using the `(N_specialists + 8)` token total above, plus the validator caveat. Print as `$X.XX` along with the pricing assumption used (model name + rate). Don't hardcode a specific generation's numbers here — they age out every model release.
 
 ### 0.7 Render confirmation block
 
@@ -150,7 +150,7 @@ Proceed? [y / lite / narrow / add-specialist / drop-specialist / abort]
 - **y** / **yes** / (`--yes` flag) → continue to Step 1.
 - **lite** → switch to lite roster, re-render 0.7.
 - **narrow** → prompt: *"Narrow to which subdirectory or diff?"* — re-run 0.2–0.7 with new scope.
-- **add-specialist `<name>`** → append if present in `~/.claude/skills/code-review-team/specialists/`, reject if unknown, re-render 0.7.
+- **add-specialist `<name>`** → append if present in `specialists/`, reject if unknown, re-render 0.7.
 - **drop-specialist `<name>`** → remove from roster, re-render 0.7.
 - **abort** / **n** / **no** → exit cleanly. Do NOT create output dir. Do NOT spawn any agent.
 
@@ -245,9 +245,11 @@ Issue one `Agent` tool call per specialist in a **single assistant message** —
 **`correctness-reviewer` and `performance-reviewer` are excluded from this step** — they run via Step 3a's 5-pass consensus fan-out instead. Spawn every other roster specialist here as usual.
 
 For each specialist (other than correctness-reviewer and performance-reviewer):
-- Read its brief from `~/.claude/skills/code-review-team/specialists/<name>.md`
-- Substitute `<TARGET>`, `<SCOPE>`, `<LANGUAGES>`, and include the pre-pass linter findings routed to this specialist
+- Read its brief from `specialists/<name>.md`
+- Substitute `<TARGET>`, `<SCOPE>`, `<LANGUAGES>`, and `<RUN_DIR>`, and include the pre-pass linter findings routed to this specialist
 - Use `general-purpose` subagent type
+
+**Every specialist must write to `<RUN_DIR>`, not `<TARGET>/.planning/code-review/` directly** — the run-scoped layout is what makes Step 0.1a's re-review detection and the `known-findings.jsonl` ledger work. `<RUN_DIR>` must always be one of the substituted tokens, alongside `<TARGET>`, `<SCOPE>`, and `<LANGUAGES>`.
 
 Print before the parallel batch:
 
@@ -353,7 +355,7 @@ Enumerate the scope's file list once (same enumeration as Step 0.2). For pass `i
 
 For each of `correctness-reviewer` and `performance-reviewer`:
 - Issue 5 `Agent` calls (one per pass) in a **single assistant message** so all 5 passes for that specialist run concurrently.
-- Each pass uses the specialist's normal brief (substituting `<TARGET>`, `<LANGUAGES>`, pre-pass linter findings as usual), with the rotated file order substituted for `<SCOPE>`'s file enumeration, plus an added line: "This is pass `<i>` of 5 independent review passes over the same scope, each in a different file order. Review thoroughly as if this were the only pass — do not assume another pass covers what you skip."
+- Each pass uses the specialist's normal brief (substituting `<TARGET>`, `<LANGUAGES>`, `<RUN_DIR>`, pre-pass linter findings as usual), with the rotated file order substituted for `<SCOPE>`'s file enumeration, plus an added line: "This is pass `<i>` of 5 independent review passes over the same scope, each in a different file order. Review thoroughly as if this were the only pass — do not assume another pass covers what you skip."
 - Each pass writes to `<RUN_DIR>/<name>.pass<i>.findings.jsonl` and `<name>.pass<i>.status.json` — **not** the canonical `<name>.findings.jsonl` / `<name>.status.json`. The canonical files are written by the tally step below, once all 5 passes complete.
 
 ### 3a.3 Tally and threshold
@@ -371,34 +373,50 @@ Step 4's consolidation reads `<name>.findings.jsonl` and `<name>.coverage.jsonl`
 
 ## Step 4: Consolidate
 
-Read all `*.findings.jsonl` and `*.coverage.jsonl`. Apply `~/.claude/skills/code-review-team/docs/consolidation-template.md`:
+Read all `*.findings.jsonl` and `*.coverage.jsonl`. Apply `docs/consolidation-template.md`:
 
 1. Group findings by `root_issue` (dedupe across specialists).
 2. For each group: `max(severity)`, `max(confidence)`, `distinct(specialist) → raised_by`, `confirmed_by: [list of specialists]`, `hit_count` (carried through if present).
 3. Rank by: `confirmed_by.length DESC`, then `hit_count DESC` (if present), then `severity DESC`, then `confidence DESC`.
-4. Build coverage matrix (dimension × specialist).
+4. Build coverage matrix (dimension × specialist). **Completeness-score denominator:** the union of every roster specialist's static "Coverage dimensions owned" list (from its brief), not `count(coverage.jsonl records actually written)` — an errored specialist that wrote zero coverage records must not shrink the denominator by having its owned dimensions silently disappear from the count, which would let a less-complete run score higher than a more-complete one. Missing dimensions score as `not-checked` (✗ in the matrix), which drags the score down as it should.
 
 Every deduped group — regardless of confidence — proceeds to Step 4.5. There is no confidence-based pre-filter here; specialists are instructed to flag everything they notice (Phase 3 of this rework), so the validator step is what decides what's real.
 
 ## Step 4.5: Verify
 
-For every group produced by Step 4, spawn one validator `Agent` to try to refute it. Batch validator calls into as few concurrent assistant messages as practical (all in one message, unless the finding count is large enough to need splitting for tool-call limits).
+For every group produced by Step 4, spawn validator `Agent`(s) to try to refute it, using the proof standard for that group's specialist (4.5.1) and either a single validator or a 3-validator majority panel depending on severity (4.5.2). Batch validator calls into as few concurrent assistant messages as practical (all in one message, unless the finding count is large enough to need splitting for tool-call limits).
 
-**Validator prompt** (substitute the group's consolidated fields):
+### 4.5.1 Category-specific proof standards
 
-> Here is a claimed bug: `<title>` — `<one-line summary combining evidence + fix from the group>`.
+The single "concrete failing input" standard only fits findings that are bugs you can trigger with an input. Design, maintainability, testing, and API-contract findings are not bugs in that sense — applying the input-triggerable standard to them means every one gets rejected as "can't confirm," not because the finding is wrong but because the proof standard doesn't match the claim being made. Select the sentence below by the group's `specialist` field (if a group has `confirmed_by` from multiple specialists, use the proof standard for the specialist that raised the most severe instance of the finding):
+
+| Specialist | Proof standard |
+|---|---|
+| `correctness-reviewer`, `performance-reviewer`, `security-reviewer` | Can you PROVE it's real with a concrete failing input? |
+| `design-reviewer`, `maintainability-reviewer` | Can you PROVE it's real by naming the concrete future change this makes harder, citing both sites? |
+| `testing-reviewer` | Can you PROVE it's real by naming the changed code path with no test reaching it? |
+| `api-contract-reviewer` | Can you PROVE it's real by citing a breaking call site? |
+
+**Validator prompt** (substitute the group's consolidated fields and the proof-standard line from the table above):
+
+> Here is a claimed issue: `<title>` — `<one-line summary combining evidence + fix from the group>`.
 > Open `<file>:<line_range>`, read the surrounding code and its callers.
-> Can you PROVE it's real with a concrete failing input?
-> - Yes → keep, attach the failing case.
+> `<proof-standard line for this group's specialist>`
+> - Yes → keep, attach the cited proof (failing case / cited sites / cited path / cited call site, per the standard above).
 > - No / can't confirm from the actual code → drop it.
 > Cite `file:line`. Do not infer from naming — verify against the actual code you read.
 
 **Validator subagent constraints:** read-only (`Read`, `Grep`, `Glob`, safe `Bash` allowlist matching the specialist briefs' allowlist); no `Write` access to findings files — it returns its verdict as its final message, which the orchestrator parses.
 
+### 4.5.2 Single validator vs. 3-validator majority panel
+
+- **Minor/nit severity groups** — spawn one validator `Agent`, as above. Its verdict is final.
+- **Critical/major severity groups** — spawn **3 independent validator `Agent`s in the same assistant message** (all 3 concurrently), each given the identical prompt from 4.5.1 (same file/line, same category-appropriate proof standard). This is a majority-vote panel, not a re-ask-until-confirmed loop — each validator sees only the finding and the code, not the other validators' verdicts. Require **2 of 3 "Yes" verdicts** to confirm. Rationale: at critical/major severity, one validator's misread, timeout, or error silently dropping a real finding is the costliest failure mode in this step; a 3-way panel means a single bad verdict can't unilaterally kill the finding.
+
 **Handle the verdict:**
-- **Confirmed** — set `validator_confirmed: true` on the group, attach the cited `failing_case`. The group proceeds to the report.
-- **Rejected** — set `validator_confirmed: false`. Drop the group from `REVIEW-REPORT.md` entirely. Append it (with the validator's rejection reason) to `<RUN_DIR>/rejected-by-validator.jsonl` for audit/debugging — this file is never surfaced in the report body, only mentioned by count in Tooling Caveats.
-- **Validator itself errors/times out** — treat as unconfirmed (drop from report, log to `<RUN_DIR>/rejected-by-validator.jsonl` with `error: true`) rather than blocking the run.
+- **Confirmed** (single validator says Yes, or 2-of-3 panel says Yes) — set `validator_confirmed: true` on the group, attach the cited proof from a confirming validator. For panel groups, also record `panel_votes: "<k>/3"`. The group proceeds to the report.
+- **Rejected** (single validator says No, or panel fails to reach 2-of-3 Yes) — set `validator_confirmed: false`. Drop the group from `REVIEW-REPORT.md` entirely. Append it (with the validator's/panel's rejection reasons) to `<RUN_DIR>/rejected-by-validator.jsonl` for audit/debugging — this file is never surfaced in the report body, only mentioned by count in Tooling Caveats.
+- **A validator errors/times out** — for single-validator groups, treat as unconfirmed (drop, log to `<RUN_DIR>/rejected-by-validator.jsonl` with `error: true`) rather than blocking the run. For panel groups, treat the errored validator's vote as "No" and resolve the remaining votes normally (i.e. the other 2 validators still need to both say Yes to reach 2-of-3) — a single validator's error must not by itself sink a panel-eligible finding the way it would a single-validator one.
 
 After this step, `actionable = [g for g in groups if g.validator_confirmed]` — this replaces the old confidence-based `certain|likely` filter. Everything that survives the validator is actionable by definition; everything that doesn't is dropped, not demoted.
 
@@ -427,6 +445,5 @@ Do NOT apply fixes. Fix workflow: open the relevant file, address findings manua
 
 ## Related
 
-- **Specialist library:** `~/.claude/skills/code-review-team/specialists/` (7 briefs)
-- **Consolidation template:** `~/.claude/skills/code-review-team/docs/consolidation-template.md`
-- **Research basis:** `planning/research/code-review-agents-research.md` (TBS-022)
+- **Specialist library:** `specialists/` (7 briefs)
+- **Consolidation template:** `docs/consolidation-template.md`

@@ -1,6 +1,13 @@
 # macOS
 .DS_Store
 
+# Environment / secrets
+.env
+.env.local
+
+# Dependencies
+node_modules/
+
 # Claude Code
 .claude/
 .remember/

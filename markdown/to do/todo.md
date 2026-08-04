@@ -349,3 +349,4 @@
 - [x] `CBP-336` [Codex] Update `/new` cheat sheet row: `/clear` alias + thread pinning + side conversations; update Session Management collapsible (rust-v0.146.0) → [task-cbp-336.md](task-cbp-336.md)
 - [x] `CBP-337` [Codex] Update Plugins collapsible: Agent Plugin manifests + Amazon Bedrock and Claude Code plugin marketplaces (rust-v0.146.0) → [task-cbp-337.md](task-cbp-337.md)
 - [x] `CBP-338` [Codex] Update `/fork` row + Session Management: temporary forks + paginated history; update `web_search` config for custom providers (rust-v0.146.0) → [task-cbp-338.md](task-cbp-338.md)
+- [x] `CBP-339` — Resync the `fsd:` Skills Library with upstream `tb_skills` (skill content, Skills Library page, orchestration diagrams) → [task-cbp-339.md](task-cbp-339.md)
