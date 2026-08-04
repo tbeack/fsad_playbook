@@ -43,7 +43,7 @@ Public interface design, backward compatibility, breaking changes, and versionin
 > - `minor` — API design improvement available; deprecation notice missing but no callers broken yet.
 > - `nit` — naming or documentation preference for a public symbol.
 >
-> **Output contract (four files in `<TARGET>/.planning/code-review/`):**
+> **Output contract (four files in `<RUN_DIR>`):**
 > 1. `api-contract-reviewer.md` — prose findings grouped by severity. Open with a list of public API changes found in the diff (added / changed / removed), then group findings by severity.
 > 2. `api-contract-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("api-contract-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence`, `fix`, `related`, `merge_recommendation`.
 > 3. `api-contract-reviewer.coverage.jsonl` — one record per owned dimension.
@@ -65,7 +65,7 @@ Public interface design, backward compatibility, breaking changes, and versionin
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `api-contract-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `<RUN_DIR>/api-contract-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
 
 ## Coverage dimensions owned

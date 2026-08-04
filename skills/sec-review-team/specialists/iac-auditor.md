@@ -26,14 +26,14 @@ Infrastructure-as-code review.
 
 > Review IaC in `<TARGET>` (scope: `<SCOPE>`). Check public-by-default resources, IAM wildcards, missing encryption, overly broad network policies, pod-security misconfigurations, hardcoded credentials.
 >
-> **Output:** `iac-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `iac-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite file:line; defer credentials-in-plain-config to secrets-crypto via cross-reference.
 >
 > Report: paths + severity count.
 
 ## Allowed tools
-Standard read-only set + `Bash` allowlist for `tfsec`, `checkov`, `kube-score`, `kubesec`, `tflint`. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md), plus `Bash` allowlist for `tfsec`, `checkov`, `kube-score`, `kubesec`, `tflint`. `Write` scoped to four outputs.
 
 ## Coverage categories
 `public-resources`, `iam-wildcards`, `encryption-at-rest`, `encryption-in-transit`, `network-policies`, `pod-security-standards`, `iac-hardcoded-credentials`, `tagging-audit-trail`

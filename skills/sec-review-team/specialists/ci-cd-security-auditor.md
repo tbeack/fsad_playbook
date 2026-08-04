@@ -3,6 +3,7 @@ name: ci-cd-security-auditor
 preferred_subagent_type: general-purpose
 fallback_subagent_type: general-purpose
 relevant_for_stacks: [all-with-ci]
+effort: low
 ---
 
 # ci-cd-security-auditor
@@ -28,12 +29,12 @@ CI/CD pipeline security.
 
 > Review CI/CD pipelines in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Check workflow triggers, action SHA-pinning, secrets exposure, permissions hardening, artifact integrity.
 >
-> **Output:** `ci-cd-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `ci-cd-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite evidence.
 
 ## Allowed tools
-Standard read-only set + `Bash` allowlist for `actionlint`, `zizmor`. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md), plus `Bash` allowlist for `actionlint`, `zizmor`. `Write` scoped to four outputs.
 
 ## Coverage categories
 `workflow-triggers`, `action-pinning`, `permissions-block`, `secrets-in-ci`, `fork-secret-access`, `artifact-integrity`, `build-time-dep-fetch`

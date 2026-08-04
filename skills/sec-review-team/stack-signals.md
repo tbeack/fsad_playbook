@@ -38,6 +38,7 @@ Minimum roster for any stack = baseline 4: `secrets-crypto-auditor`, `dependency
 | `realtime` | + `concurrency-race-auditor` |
 | `multi-user` | + `auth-authz-auditor`, `concurrency-race-auditor` (session races) |
 | `cli` | (baseline only) |
+| `mobile` | + `auth-authz-auditor`, `input-validation-auditor`, `privacy-telemetry-auditor` (device permissions, local storage, and PII/telemetry are all in-scope on mobile; `privacy-telemetry-auditor` already lists `mobile` in `relevant_for_stacks` but had no roster mapping until now) |
 | `consumer-desktop` | + `privacy-telemetry-auditor` |
 | `webapp + consumer-facing` | + `privacy-telemetry-auditor` |
 | `all-with-ci` | + `ci-cd-security-auditor` |
@@ -62,3 +63,7 @@ Union specialists across all matching signals. De-duplicate. User can remove or 
 **Python LLM agent with RAG:**
 - Signals: `llm-agent`, `backend`
 - Roster: baseline (4) + `prompt-injection-auditor`, `input-validation-auditor`, `auth-authz-auditor`, `concurrency-race-auditor` = 8 specialists.
+
+**React Native mobile app with backend API:**
+- Signals: `mobile`, `webapp`, `backend`, `all-with-ci`
+- Roster: baseline (4) + `auth-authz-auditor`, `input-validation-auditor`, `privacy-telemetry-auditor`, `frontend-security-auditor`, `concurrency-race-auditor`, `ci-cd-security-auditor` = 10 specialists (union of `mobile` + `webapp` + `backend` + `all-with-ci` additions, de-duplicated).

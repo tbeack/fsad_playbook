@@ -26,12 +26,12 @@ Frontend / web-platform security.
 
 > Review frontend security in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Check CSP, CORS, cookie flags, SRI, postMessage origin checks, clickjacking defenses, third-party script inclusion.
 >
-> **Output:** `frontend-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `frontend-security-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite evidence.
 
 ## Allowed tools
-Standard read-only set. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to four outputs.
 
 ## Coverage categories
 `csp`, `cors`, `cookie-flags`, `sri`, `postmessage-origin`, `clickjacking`, `third-party-scripts`

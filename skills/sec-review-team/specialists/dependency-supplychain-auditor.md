@@ -28,14 +28,14 @@ Supply chain. Dependencies, lockfile integrity, install scripts, build trust.
 
 > Review supply chain in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Run available scanners (`npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`). If a scanner isn't available, say so — DO NOT invent CVE IDs. Check pinned-vs-floating, lockfile presence + drift, install scripts, typosquats, plugin-core alignment.
 >
-> **Output:** `dependency-supplychain-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Scanner output normalized into `findings.jsonl` with `source: "scanner-<name>"`. See other specialist briefs for format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `dependency-supplychain-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Scanner output normalized into `findings.jsonl` with `source: "scanner-<name>"`.
 >
 > **Hard rules:** read-only; never install anything; no fabricated CVEs.
 >
 > Report: paths + severity count + tool-availability summary.
 
 ## Allowed tools
-Standard read-only + `Bash` allowlist including `npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`, `npm ls`, `cargo tree`. `Write` scoped to this specialist's outputs.
+Per the shared [output-format contract](../docs/output-contract.md), plus `Bash` allowlist additions: `npm audit`, `cargo audit`, `pip-audit`, `osv-scanner`, `npm ls`, `cargo tree`. `Write` scoped to this specialist's outputs.
 
 ## Coverage categories
 `known-cves`, `lockfile-integrity`, `version-pinning`, `install-scripts`, `typosquats`, `plugin-alignment`, `build-rs-trust`

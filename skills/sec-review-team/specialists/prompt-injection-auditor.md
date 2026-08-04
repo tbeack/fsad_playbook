@@ -27,14 +27,14 @@ LLM / agentic security.
 
 > Review prompt-injection / LLM-agent security in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Trace every untrusted input to prompt-assembly sinks. Check tool-use role confusion, output sanitization, context poisoning, memory/skill injection, indirect injection, secret exfil.
 >
-> **Output:** `prompt-injection-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `prompt-injection-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite evidence; confidence on every finding.
 >
 > Report: paths + severity count.
 
 ## Allowed tools
-Standard read-only set. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to four outputs.
 
 ## Coverage categories
 `prompt-concat-untrusted`, `tool-use-role-confusion`, `output-sanitization`, `context-poisoning-rag`, `memory-skill-injection`, `indirect-injection`, `secret-exfil-via-prompt`

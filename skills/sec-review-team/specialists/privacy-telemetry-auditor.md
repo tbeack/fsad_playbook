@@ -3,6 +3,7 @@ name: privacy-telemetry-auditor
 preferred_subagent_type: general-purpose
 fallback_subagent_type: general-purpose
 relevant_for_stacks: [webapp, consumer-desktop, mobile]
+effort: low
 ---
 
 # privacy-telemetry-auditor
@@ -28,12 +29,12 @@ What the app phones home about, what data leaves, regulatory (GDPR/CCPA) signals
 
 > Review privacy and telemetry in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Inventory outbound data, analytics SDKs, cookies, storage, third-party scripts, consent flow, retention.
 >
-> **Output:** `privacy-telemetry-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `privacy-telemetry-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite evidence.
 
 ## Allowed tools
-Standard read-only set. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to four outputs.
 
 ## Coverage categories
 `outbound-destinations`, `analytics-sdks`, `cookies`, `client-storage-pii`, `third-party-scripts`, `cross-border-transfer`, `consent-flow-gating`, `retention-dsar`

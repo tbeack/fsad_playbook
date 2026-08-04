@@ -3,6 +3,7 @@ name: input-validation-auditor
 preferred_subagent_type: pr-review-toolkit:code-reviewer
 fallback_subagent_type: general-purpose
 relevant_for_stacks: [all]
+effort: high
 ---
 
 # input-validation-auditor
@@ -28,13 +29,11 @@ Injection vectors — tracing every external input to its sink.
 
 > Review injection vectors in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Trace every external input to its sink. Axes: SQL injection (including FTS5 query-syntax), command/path traversal (zip-slip included), XSS, deserialization, IPC payload validation, SSRF/open-redirect. If `prompt-injection-auditor` is in the run's roster, prompt injection is theirs — defer.
 >
-> **Output contract (four files in `<TARGET>/.planning/security-review/`):** `input-validation-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Conform to `.claude/skills/sec-review-team/schema/{finding,coverage}.schema.json`. See the `auth-authz-auditor` brief for full file-format details — identical contract.
+> If this run passed you a pass number (`This is pass <i> of 5...`), you are one pass of a 5-pass consensus fan-out (Step 3a) — write your findings to `input-validation-auditor.pass<i>.findings.jsonl` / `.pass<i>.status.json` instead of the canonical files; the orchestrator tallies across passes after all 5 complete.
 >
-> **Prose format:** `[SEVERITY] <file>:<line> — <issue>\nExploit / Fix / Evidence`. Group by severity.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library.
 >
-> **Confidence required on every finding** (`certain|likely|possible|unverified`). Negative findings (clean/N/A) require searches + search_limits in `coverage.jsonl`.
->
-> **Hard rules:** read-only (tools are allowlisted); cite evidence; no speculation; emit coverage for every category in your scope.
+> **Hard rules:** flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the Step 4.5 validator step decides keep or drop, not you. Otherwise per the shared output contract.
 >
 > Report: absolute paths of the four outputs + one-line severity count.
 
@@ -42,7 +41,7 @@ Injection vectors — tracing every external input to its sink.
 - `input-validation-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`
 
 ## Allowed tools
-Same as `auth-authz-auditor.md` allowed-tools section. `Write` scoped to this specialist's four output file paths only.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to this specialist's four output file paths only.
 
 ## Coverage categories this specialist owns
 - `sql-injection`, `fts5-syntax-injection`, `command-injection`, `path-traversal`, `zip-slip`, `xss`, `deserialization`, `ipc-payload-validation`, `ssrf`, `open-redirect`

@@ -3,6 +3,7 @@ name: auth-authz-auditor
 preferred_subagent_type: security-auditor
 fallback_subagent_type: general-purpose
 relevant_for_stacks: [webapp, saas, multi-user-desktop, desktop, backend, api]
+effort: high
 ---
 
 # auth-authz-auditor
@@ -32,17 +33,11 @@ Authentication, authorization, session management, and privilege boundaries.
 >
 > Map every endpoint / IPC command / authenticated surface to its auth requirement. For local-only / single-user apps, focus on IPC boundaries, capability grants, and the privilege boundary between the webview and backend — NOT on user-level auth (which is N/A). Architectural IPC and capability issues are YOUR scope; error-path silences are `silent-failure-hunter`'s scope — note them only if compounding.
 >
-> **Output contract (all four files in `<TARGET>/.planning/security-review/`):**
-> 1. `auth-authz-auditor.md` — prose findings, human-readable, grouped by severity.
-> 2. `auth-authz-auditor.findings.jsonl` — one JSON object per line per finding, conforming to `.claude/skills/sec-review-team/schema/finding.schema.json`. Required fields: `id`, `specialist` ("auth-authz-auditor"), `severity`, `confidence`, `title`, `root_issue`, `file`, `exploit`, `fix`, `evidence`.
-> 3. `auth-authz-auditor.coverage.jsonl` — one record per attack-class axis in your scope, conforming to `coverage.schema.json`. For each category, report `status` (`checked-clean` / `checked-issues-found` / `not-checked` / `deferred-to-other-specialist`), `confidence` (`high`/`medium`/`low`), `searches` run, `files_read`, `search_limits`.
-> 4. `auth-authz-auditor.status.json` — write at spawn with `{status: "starting", started_at, files_read: 0, findings_written: 0}`; update every ~5 reads; on completion write `{status: "completed", finished_at, ..., severity_counts}`.
+> If this run passed you a pass number (`This is pass <i> of 5...`), you are one pass of a 5-pass consensus fan-out (Step 3a) — write your findings to `auth-authz-auditor.pass<i>.findings.jsonl` / `.pass<i>.status.json` instead of the canonical files; the orchestrator tallies across passes after all 5 complete.
 >
-> **Prose finding format:** `[SEVERITY: critical|high|medium|low] <file>:<line> — <issue>\nExploit scenario: …\nRecommended fix: …\nEvidence: <exact code/config snippet>`. Group by severity, "Scope reviewed" at top, severity counts at bottom.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library.
 >
-> **Confidence:** set on every finding. `certain` = directly observed, fix mechanical; `likely` = observed + inference; `possible` = indirect evidence or architectural smell; `unverified` = cannot confirm without runtime.
->
-> **Hard rules:** read-only (tools are allowlisted to prove it); cite concrete evidence; no speculation; if a category is N/A emit a `coverage.jsonl` entry with the searches + search_limits that prove the N/A; don't overlap with other specialists (defer via `coverage.status=deferred-to-other-specialist`).
+> **Hard rules:** flag everything you notice, even low-confidence hunches — use `confidence: possible` or `unverified` for speculative findings rather than omitting them, the Step 4.5 validator step decides keep or drop, not you. Otherwise per the shared output contract.
 >
 > Report back: absolute paths of the four output files + one-line severity counts.
 

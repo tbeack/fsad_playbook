@@ -25,12 +25,12 @@ Container and runtime security.
 
 > Review containers in `<TARGET>` (scope: `<SCOPE>`). Check Dockerfile hardening, base image CVEs, compose privilege escalation, K8s pod security context.
 >
-> **Output:** `container-runtime-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `container-runtime-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; cite evidence.
 
 ## Allowed tools
-Standard read-only set + `Bash` allowlist for `hadolint`, `trivy` (read-only mode), `docker inspect`. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md), plus `Bash` allowlist for `hadolint`, `trivy` (read-only mode), `docker inspect`. `Write` scoped to four outputs.
 
 ## Coverage categories
 `dockerfile-hardening`, `base-image-cves`, `compose-privileges`, `pod-security-context`, `helm-default-exposure`

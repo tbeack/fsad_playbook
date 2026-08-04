@@ -33,14 +33,14 @@ Security-relevant silences only. A swallowed UI toast error is not a finding. A 
 
 > Review error paths in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Focus on silences that affect confidentiality, integrity, or availability. Architectural IPC/capability issues are `auth-authz-auditor`'s scope — defer. Missing-validation is `input-validation-auditor`'s scope — defer.
 >
-> **Output:** `silent-failure-hunter.{md, findings.jsonl, coverage.jsonl, status.json}`. Standard format.
+> **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library. Files: `silent-failure-hunter.{md, findings.jsonl, coverage.jsonl, status.json}`.
 >
 > **Hard rules:** read-only; filter for security-relevance; cite evidence; defer architectural issues to their primary owner with `coverage.status=deferred-to-other-specialist`.
 >
 > Report: paths + severity count.
 
 ## Allowed tools
-Standard read-only set. `Write` scoped to four outputs.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to four outputs.
 
 ## Coverage categories
 `swallowed-exceptions`, `fallback-bypasses-validation`, `unhandled-rejections`, `unwrap-on-user-input`, `error-boundary-absorption`, `migration-silent-failures`

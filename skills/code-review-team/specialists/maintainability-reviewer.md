@@ -44,7 +44,7 @@ Readability, naming, cyclomatic complexity, duplication, and day-to-day maintain
 > - `minor` — clear improvement available with low effort; current state acceptable but suboptimal.
 > - `nit` — style preference; no concrete friction.
 >
-> **Output contract (four files in `<TARGET>/.planning/code-review/`):**
+> **Output contract (four files in `<RUN_DIR>`):**
 > 1. `maintainability-reviewer.md` — prose findings grouped by severity. Open with scope summary.
 > 2. `maintainability-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("maintainability-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence`, `fix`, `related`, `merge_recommendation`.
 > 3. `maintainability-reviewer.coverage.jsonl` — one record per owned dimension.
@@ -66,7 +66,7 @@ Readability, naming, cyclomatic complexity, duplication, and day-to-day maintain
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `maintainability-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `<RUN_DIR>/maintainability-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
 
 ## Coverage dimensions owned

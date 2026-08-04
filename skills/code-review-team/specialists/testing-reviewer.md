@@ -42,7 +42,7 @@ Test coverage quality, assertion strength, test isolation, and the testability o
 > - `minor` — test coverage is present but incomplete for edge cases; tests could be stronger.
 > - `nit` — test style, naming, or structure preference.
 >
-> **Output contract (four files in `<TARGET>/.planning/code-review/`):**
+> **Output contract (four files in `<RUN_DIR>`):**
 > 1. `testing-reviewer.md` — prose findings grouped by severity. Open with scope summary. Include list of changed functions/paths and their test coverage status.
 > 2. `testing-reviewer.findings.jsonl` — one JSON per finding. Required fields: `id`, `specialist` ("testing-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence`, `fix`, `related`, `merge_recommendation`.
 > 3. `testing-reviewer.coverage.jsonl` — one record per owned dimension.
@@ -64,7 +64,7 @@ Test coverage quality, assertion strength, test isolation, and the testability o
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `testing-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `<RUN_DIR>/testing-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
 
 ## Coverage dimensions owned

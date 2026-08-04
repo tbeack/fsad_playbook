@@ -9,6 +9,13 @@ You add a new task entry (and, where the project warrants it, a per-task detail 
 
 `$ARGUMENTS` (if present) is the brief task title.
 
+**What "done" means for a task-creation run:**
+- The new task ID is unique in the todo file — verified with a re-grep, not assumed from arithmetic alone.
+- The new bullet matches the formatting of its sibling entries (`cfg.todo_entry_template`, or the file's actual format if it has drifted from the cfg).
+- Every acceptance criterion in the generated task-detail file (when one is created) is falsifiable — a future reader can check it against the codebase and get a clear pass/fail, not a vague judgment call.
+
+The steps below exist to satisfy these criteria, not just to move mechanically from prefix to written bullet.
+
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
@@ -33,25 +40,37 @@ You add a new task entry (and, where the project warrants it, a per-task detail 
 
 ## Step 1 — Compute the next number
 
+**Success criteria for this step:** the computed `ID` must be numerically correct (the highest existing number for `{prefix}` in the todo file, plus one) regardless of whether `{prefix}` itself contains a hyphen (e.g. `KHB-Todo`), and must be verified as unique in the todo file — not merely assumed — before it is ever written.
+
 Do **not** read the full todo file. Use targeted Bash commands instead:
 
-1. **Find the highest task number** — run:
+1. **Find every existing ID** — run:
    ```bash
-   grep -oE '{prefix}-[0-9]+' "{todo_file_path}" | sort -t- -k2 -n | tail -1
+   grep -oE '{prefix}-[0-9]+' "{todo_file_path}"
    ```
-   Substitute the literal prefix (e.g. `CBP`, `TBS`, `FSD_Train`) for `{prefix}` and the resolved absolute path for `{todo_file_path}`. Quote the path to handle spaces. If the output is empty, no tasks exist yet — start at 1.
+   Substitute the literal prefix (e.g. `CBP`, `TBS`, `KHB-Todo`, `FSD_Train`) for `{prefix}` and the resolved absolute path for `{todo_file_path}`. Quote the path to handle spaces. If the output is empty, no tasks exist yet — start at 1 and skip to step 3.
 
-2. **Clean up empty placeholder entries** — run:
+2. **Parse the numeric suffix yourself — do not pipe through `sort`.** `sort -t- -k2 -n | tail -1` assumes the number always lands in field 2 when splitting on `-`. That assumption breaks the moment the prefix itself contains a hyphen: for `KHB-Todo-0010`, splitting on `-` gives fields `KHB` / `Todo` / `0010`, so field 2 is the literal string `"Todo"` on every matched line — `sort -n` can't numerically order a constant string, and `tail -1` just returns whichever line happens to sort last (effectively grep/file order), not the actual highest number. Instead, for each line grep returned, split on the **last** `-` (not a fixed field position) to isolate the trailing digits regardless of how many hyphens the prefix contains, parse each as an integer, and take the max. This is you reasoning over the grep output directly — not another shell pipeline.
+
+3. **Clean up empty placeholder entries** — run:
    ```bash
    grep -nE '^- \[ \] `{prefix}-[0-9]+`\s*$' "{todo_file_path}"
    ```
    If any lines are returned, remove each with `Edit` using the exact line text as `old_string`. If the only entry removed was the last real line, treat the file as empty and start numbering from 1.
 
-3. **Increment** by 1; zero-pad to `cfg.number_digits` digits → `nnn`.
-4. Build:
+4. **Increment** the highest-seen number by 1; zero-pad to `cfg.number_digits` digits → `nnn`.
+5. Build:
    - `ID = "{prefix}-{nnn}"` (e.g. `CBP-031`, `KHB-Todo-0010`, `FSD_Train-012`).
    - `prefix_lower` = `cfg.prefix_in_filename` if set, otherwise the prefix lowercased.
    - `slug` (only if the filename template uses it) = title lowercased, non-alphanumerics → `_`, collapsed runs of `_`, trimmed.
+
+6. **Pre-write uniqueness check** — before `ID` is used anywhere else, run:
+   ```bash
+   grep -c "{prefix}-{nnn}\`" "{todo_file_path}"
+   ```
+   - **0 hits** — `ID` is confirmed unique; continue to Step 2.
+   - **≥1 hit** — a collision (a concurrent `add-task` run, or a miscalculation upstream). Increment `nnn` by 1, rebuild `ID`, and re-run the check exactly once more.
+   - **Second collision** — stop and ask the user how to proceed. Do not keep incrementing and guessing.
 
 ## Step 2 — Get the title
 
@@ -74,6 +93,14 @@ Insertion point — use grep to find the right location without a full-file read
 - Else → run `grep -c "" "{todo_file_path}"` to get the total line count, then `Read` with `offset` set to the last ~10 lines to find the final bullet.
 
 Use the `Edit` tool with enough surrounding context to be unique. Don't rewrite the whole file.
+
+**Post-write uniqueness re-grep** — immediately after the `Edit` completes, run:
+```bash
+grep -c "{prefix}-{nnn}\`" "{todo_file_path}"
+```
+- **Exactly 1 hit** — the write is confirmed clean; continue to Step 4.
+- **0 hits** — the `Edit` didn't land where expected (bad `old_string` match, wrong file, etc.). Retry the insertion once. If the retry also fails to produce exactly 1 hit, stop and ask the user.
+- **≥2 hits** — the ID already existed elsewhere in the file (the pre-write check in Step 1.6 missed it, or a concurrent write landed in between). Stop and ask the user how to resolve the duplicate rather than silently leaving two entries with the same ID.
 
 ## Step 4 — Gather task details
 
@@ -137,7 +164,6 @@ In one short response, report:
 - That the bullet was appended to `cfg.todo_file`.
 - The task-detail file path (if one was created).
 
-
 ## Conventions to honour
 
 - **Number format:** always zero-pad to `cfg.number_digits` digits.
@@ -148,9 +174,9 @@ In one short response, report:
 
 ## Guardrails
 
-- **Always grep the todo file for the highest number first** — never guess the next number.
+- **Always grep the todo file for the highest number first** — never guess the next number, and verify uniqueness before and after the write.
 - **Never duplicate titles** — scan existing entries before creating.
 - **Trust the file over the cfg.** If the file's existing entries clearly use a different format than `cfg.todo_entry_template`, follow the file and flag the drift to the user (the cfg may be stale).
 - **Don't modify other projects.** Only touch the matched project's files.
 - **Don't implement the task.** Only create planning artifacts; the user will do the work separately.
-- **Don't add a task-detail file when `cfg.use_full_template` is false.** Lightweight projects (e.g. hangman) intentionally keep the bullet alone.
+- **Don't add a task-detail file when `cfg.use_full_template` is false.** Lightweight projects intentionally keep the bullet alone.

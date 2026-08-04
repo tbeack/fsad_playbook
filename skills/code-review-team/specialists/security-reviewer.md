@@ -48,7 +48,7 @@ Security-relevant defects that `correctness-reviewer` doesn't own — correctnes
 > - `possible` — indirect evidence or an architectural smell (e.g., a pattern that's usually unsafe, but you can't confirm this instance is reachable from untrusted input).
 > - `unverified` — cannot confirm without runtime execution or a live exploit attempt.
 >
-> **Output contract (four files in `<TARGET>/.planning/code-review/`):**
+> **Output contract (four files in `<RUN_DIR>`):**
 > 1. `security-reviewer.md` — prose findings, grouped by severity. Open with "Scope reviewed: <summary>". Close with severity counts.
 > 2. `security-reviewer.findings.jsonl` — one JSON object per finding. Required fields: `id`, `specialist` ("security-reviewer"), `source`, `severity`, `confidence`, `title`, `root_issue`, `file`, `line_range`, `evidence` (exact code snippet), `fix`, `related`, `merge_recommendation`.
 > 3. `security-reviewer.coverage.jsonl` — one record per dimension you own (injection, authz-authn, secrets-exposure, ssrf-path-traversal, crypto-misuse, unsafe-deserialization). Include searches performed and files read. A dimension is only `checked-clean` if you can cite the searches that prove it — e.g. "grepped for `MD5|SHA1|md5(|sha1(` across the tree, zero hits in password/token paths."
@@ -70,7 +70,7 @@ Security-relevant defects that `correctness-reviewer` doesn't own — correctnes
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `security-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `<RUN_DIR>/security-reviewer.{md,findings.jsonl,coverage.jsonl,status.json}` only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `WebFetch`, `WebSearch`
 
 ## Coverage dimensions owned
