@@ -141,11 +141,11 @@ When merging a group, take `max(severity)` and `max(confidence)`. Rationale: if 
 
 | # | Severity | Title | Raised by | Confirmed by | Consensus |
 |---|---|---|---|---|---|
-| 1 | 🔴 Critical | <title> | correctness-reviewer | 2 specialists | 4/5 passes |
+| 1 | 🔴 Critical | <title> | correctness-reviewer | 2 specialists | 4/6 passes |
 | 2 | 🟠 Major | <title> | design-reviewer | — | — |
 | … | … | … | … | … | … |
 
-`Consensus` is only populated for `correctness-reviewer`/`performance-reviewer` findings (`hit_count`/5); `—` for single-pass specialists.
+`Consensus` is only populated for `correctness-reviewer`/`performance-reviewer` findings (`hit_count`/`N`, where `N` is however many passes that specialist's loop-until-dry fan-out actually ran, `MIN_PASSES=2`..`MAX_PASSES=8` — see Step 3a); `—` for single-pass specialists.
 
 ---
 
@@ -156,7 +156,7 @@ When merging a group, take `max(severity)` and `max(confidence)`. Rationale: if 
 **Root issue:** `<root_issue>`
 **Raised by:** <specialist>, <specialist>
 **Confirmed by N specialists** (inter-agent agreement)<br>
-**Consensus:** <hit_count>/5 passes (correctness-reviewer/performance-reviewer findings only, omit line otherwise)
+**Consensus:** <hit_count>/<N> passes (correctness-reviewer/performance-reviewer findings only, omit line otherwise — `N` is the total passes that specialist's loop-until-dry fan-out ran)
 **Confidence:** <max confidence>
 **Validator:** confirmed — failing case: <failing_case>
 **Files:** `<file>`, `<file>`
@@ -216,9 +216,9 @@ Legend: ✓ clean = checked, no issues; ⚠ issues = issues found; — = deferre
 
 ## Per-Specialist Reports
 
-- [correctness-reviewer.md](<path>/correctness-reviewer.md) — (1C / 2M / 0m / 1N) — [findings.jsonl](<path>/correctness-reviewer.findings.jsonl) — [coverage.jsonl](<path>/correctness-reviewer.coverage.jsonl) — 5-pass consensus, see `.pass1-5.findings.jsonl`
+- [correctness-reviewer.md](<path>/correctness-reviewer.md) — (1C / 2M / 0m / 1N) — [findings.jsonl](<path>/correctness-reviewer.findings.jsonl) — [coverage.jsonl](<path>/correctness-reviewer.coverage.jsonl) — loop-until-dry consensus (N passes), see `.pass1-N.findings.jsonl`
 - [design-reviewer.md](<path>/design-reviewer.md) — (0C / 1M / 2m / 3N) — …
-- [performance-reviewer.md](<path>/performance-reviewer.md) — … — 5-pass consensus, see `.pass1-5.findings.jsonl`
+- [performance-reviewer.md](<path>/performance-reviewer.md) — … — loop-until-dry consensus (N passes), see `.pass1-N.findings.jsonl`
 - [security-reviewer.md](<path>/security-reviewer.md) — …
 - [maintainability-reviewer.md](<path>/maintainability-reviewer.md) — …
 - [testing-reviewer.md](<path>/testing-reviewer.md) — …

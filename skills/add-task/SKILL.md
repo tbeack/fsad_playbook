@@ -64,9 +64,9 @@ Do **not** read the full todo file. Use targeted Bash commands instead:
    - `prefix_lower` = `cfg.prefix_in_filename` if set, otherwise the prefix lowercased.
    - `slug` (only if the filename template uses it) = title lowercased, non-alphanumerics → `_`, collapsed runs of `_`, trimmed.
 
-6. **Pre-write uniqueness check** — before `ID` is used anywhere else, run:
+6. **Pre-write uniqueness check** — before `ID` is used anywhere else, derive a format-agnostic match string from `cfg.todo_entry_template` rather than assuming a backtick wrapper. The template varies per project — most backtick-wrap the ID (`` `{ID}` ``), but e.g. `KHB`'s bolds it instead (`**{ID}**`) — and a hardcoded backtick produces a false "0 hits" (spurious retry, or a silently-skipped uniqueness check) on every run for any project whose format differs. Take the substring of `cfg.todo_entry_template` from its start through the delimiter(s) that immediately close `{ID}` (e.g. `` - [ ] `{ID}` `` for a backtick template, `- [ ] **{ID}**` for a bold template), substitute `{ID}` with the literal `ID`, and grep for that exact literal string:
    ```bash
-   grep -c "{prefix}-{nnn}\`" "{todo_file_path}"
+   grep -cF "{id_pattern}" "{todo_file_path}"
    ```
    - **0 hits** — `ID` is confirmed unique; continue to Step 2.
    - **≥1 hit** — a collision (a concurrent `add-task` run, or a miscalculation upstream). Increment `nnn` by 1, rebuild `ID`, and re-run the check exactly once more.
@@ -94,9 +94,9 @@ Insertion point — use grep to find the right location without a full-file read
 
 Use the `Edit` tool with enough surrounding context to be unique. Don't rewrite the whole file.
 
-**Post-write uniqueness re-grep** — immediately after the `Edit` completes, run:
+**Post-write uniqueness re-grep** — immediately after the `Edit` completes, re-use the same `{id_pattern}` derived in Step 1.6 (do not fall back to a hardcoded backtick here either):
 ```bash
-grep -c "{prefix}-{nnn}\`" "{todo_file_path}"
+grep -cF "{id_pattern}" "{todo_file_path}"
 ```
 - **Exactly 1 hit** — the write is confirmed clean; continue to Step 4.
 - **0 hits** — the `Edit` didn't land where expected (bad `old_string` match, wrong file, etc.). Retry the insertion once. If the retry also fails to produce exactly 1 hit, stop and ask the user.

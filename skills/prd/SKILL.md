@@ -233,7 +233,7 @@ By the end of this interview you should have clear answers to:
 - Ask one question at a time. Wait for the answer before asking the next.
 - If an answer is vague, probe once: "Can you give me a concrete example of that?"
 - If the user says "you decide" or "best judgment", make a reasonable assumption and state it explicitly: "I'll assume X — flag this if that's wrong."
-- Stop after five questions (or fewer if you have everything you need). Do not over-interview.
+- Stop as soon as every discovery goal above has a concrete, non-vague answer — or fewer questions if you have everything you need. Do not over-interview. SKILL.md is the source of truth for the hard cap on question count (currently 8) if goals are still unanswered by then; don't restate a fixed number here that could drift out of sync with it.
 - Summarize your findings before handing off to the PM role: "Here's what I've captured — correct anything that's wrong before we write the spec."
 
 ---

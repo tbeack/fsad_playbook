@@ -33,7 +33,7 @@ Authentication, authorization, session management, and privilege boundaries.
 >
 > Map every endpoint / IPC command / authenticated surface to its auth requirement. For local-only / single-user apps, focus on IPC boundaries, capability grants, and the privilege boundary between the webview and backend — NOT on user-level auth (which is N/A). Architectural IPC and capability issues are YOUR scope; error-path silences are `silent-failure-hunter`'s scope — note them only if compounding.
 >
-> If this run passed you a pass number (`This is pass <i> of 5...`), you are one pass of a 5-pass consensus fan-out (Step 3a) — write your findings to `auth-authz-auditor.pass<i>.findings.jsonl` / `.pass<i>.status.json` instead of the canonical files; the orchestrator tallies across passes after all 5 complete.
+> If this run passed you a pass number (`This is pass <i> of up to MAX_PASSES...`), you are one pass of a loop-until-dry consensus fan-out (Step 3a, 2-8 passes) — write your findings to `auth-authz-auditor.pass<i>.findings.jsonl` / `.pass<i>.status.json` instead of the canonical files; the orchestrator tallies across passes once the loop stops (a dry round with no new `root_issue`s, or the 8-pass cap).
 >
 > **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library.
 >
@@ -51,7 +51,7 @@ Authentication, authorization, session management, and privilege boundaries.
 - `Read` — any file under target
 - `Grep`, `Glob` — any file under target
 - `Bash` allowlist: `ls`, `cat`, `head`, `tail`, `wc`, `find`, `fd`, `rg`, `grep`, `git status`, `git log`, `git diff`, `git ls-files`, `git show`, `git blame`, `jq`
-- `Write` — **scoped** to `auth-authz-auditor.{md,findings.jsonl,coverage.jsonl,status.json}` only
+- `Write` — **scoped** to `auth-authz-auditor.{md,findings.jsonl,coverage.jsonl,status.json}` (canonical) and `auth-authz-auditor.pass<i>.{findings.jsonl,status.json}` (per-pass, Step 3a) only
 - **Denied:** `Edit`, arbitrary `Bash`, `Write` outside output files, `NotebookEdit`, `WebFetch`, `WebSearch`
 
 ## Coverage categories this specialist owns

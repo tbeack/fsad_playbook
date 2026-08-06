@@ -38,8 +38,14 @@ run_fixture() {
     echo "  WARN: SEC_REVIEW_INVOKE not set — skipping live run; comparing against whatever is already in $fixture_dir/.planning/security-review/"
   fi
 
-  local results_dir="$fixture_dir/.planning/security-review"
-  [[ -d "$results_dir" ]] || { echo "  FAIL: no results at $results_dir" >&2; return 1; }
+  # Results live under a run-scoped RUN_DIR (`.planning/security-review/runs/<run_id>/`,
+  # `run_id` is ISO-timestamp-derived — see SKILL.md) rather than the flat
+  # `.planning/security-review/` path directly, so resolve the latest run.
+  local runs_root="$fixture_dir/.planning/security-review/runs"
+  [[ -d "$runs_root" ]] || { echo "  FAIL: no runs at $runs_root" >&2; return 1; }
+  local results_dir
+  results_dir="$(find "$runs_root" -mindepth 1 -maxdepth 1 -type d | sort | tail -1)"
+  [[ -n "$results_dir" && -d "$results_dir" ]] || { echo "  FAIL: no run directories under $runs_root" >&2; return 1; }
 
   # Aggregate all findings.jsonl into a single stream for matching
   local actual_findings

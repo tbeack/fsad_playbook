@@ -29,7 +29,7 @@ Injection vectors — tracing every external input to its sink.
 
 > Review injection vectors in `<TARGET>` (scope: `<SCOPE>`). Stack: `<STACK CONTEXT>`. Trace every external input to its sink. Axes: SQL injection (including FTS5 query-syntax), command/path traversal (zip-slip included), XSS, deserialization, IPC payload validation, SSRF/open-redirect. If `prompt-injection-auditor` is in the run's roster, prompt injection is theirs — defer.
 >
-> If this run passed you a pass number (`This is pass <i> of 5...`), you are one pass of a 5-pass consensus fan-out (Step 3a) — write your findings to `input-validation-auditor.pass<i>.findings.jsonl` / `.pass<i>.status.json` instead of the canonical files; the orchestrator tallies across passes after all 5 complete.
+> If this run passed you a pass number (`This is pass <i> of up to MAX_PASSES...`), you are one pass of a loop-until-dry consensus fan-out (Step 3a, 2-8 passes) — write your findings to `input-validation-auditor.pass<i>.findings.jsonl` / `.pass<i>.status.json` instead of the canonical files; the orchestrator tallies across passes once the loop stops (a dry round with no new `root_issue`s, or the 8-pass cap).
 >
 > **Output contract:** see [`docs/output-contract.md`](../docs/output-contract.md) — identical for every specialist in this library.
 >
@@ -41,7 +41,7 @@ Injection vectors — tracing every external input to its sink.
 - `input-validation-auditor.{md, findings.jsonl, coverage.jsonl, status.json}`
 
 ## Allowed tools
-Per the shared [output-format contract](../docs/output-contract.md). `Write` scoped to this specialist's four output file paths only.
+Per the shared [output-format contract](../docs/output-contract.md). `Write` — **scoped** to `input-validation-auditor.{md,findings.jsonl,coverage.jsonl,status.json}` (canonical) and `input-validation-auditor.pass<i>.{findings.jsonl,status.json}` (per-pass, Step 3a) only — the pass-scoped paths this specialist is instructed to write under the loop-until-dry consensus fan-out above must be in scope, not just the four canonical filenames.
 
 ## Coverage categories this specialist owns
 - `sql-injection`, `fts5-syntax-injection`, `command-injection`, `path-traversal`, `zip-slip`, `xss`, `deserialization`, `ipc-payload-validation`, `ssrf`, `open-redirect`
