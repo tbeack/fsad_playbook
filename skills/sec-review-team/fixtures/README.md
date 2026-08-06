@@ -34,7 +34,7 @@ A fixture is a repo-shaped directory containing:
 
 For each fixture:
 1. Invoke `/sec-review-team <fixture-path> all --yes`.
-2. Parse resulting `<fixture>/.planning/security-review/REPORT.md` + all `findings.jsonl`.
+2. Parse resulting `<fixture>/.planning/security-review/runs/<run_id>/REPORT.md` + all `findings.jsonl` — results are run-scoped under `runs/<run_id>/` (see `SKILL.md`), not written directly at `.planning/security-review/`; the harness resolves the latest `run_id` by sorting the `runs/` subdirectories (ISO-timestamp-derived names sort chronologically).
 3. For each line in `expected-findings.jsonl`, assert a matching finding exists (matched on `root_issue` + `severity`).
 4. For each line in `expected-coverage.jsonl`, assert coverage category is marked appropriately.
 5. Exit 0 if all pass. Non-zero on any regression.

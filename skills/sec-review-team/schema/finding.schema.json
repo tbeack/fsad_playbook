@@ -99,8 +99,8 @@
     "hit_count": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 5,
-      "description": "Number of distinct multi-pass-consensus passes this finding was seen in (1-5). Only set for input-validation-auditor/auth-authz-auditor findings produced via the Step 3a consensus fan-out; omitted for single-pass specialists."
+      "maximum": 8,
+      "description": "Number of distinct consensus passes this finding was seen in (see Step 3a, MIN_PASSES=2..MAX_PASSES=8). Only set for input-validation-auditor/auth-authz-auditor findings produced via the loop-until-dry consensus fan-out; omitted for single-pass specialists."
     }
   }
 }
