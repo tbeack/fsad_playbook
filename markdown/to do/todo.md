@@ -351,5 +351,6 @@
 - [x] `CBP-338` [Codex] Update `/fork` row + Session Management: temporary forks + paginated history; update `web_search` config for custom providers (rust-v0.146.0) → [task-cbp-338.md](task-cbp-338.md)
 - [x] `CBP-339` — Resync the `fsd:` Skills Library with upstream `tb_skills` (skill content, Skills Library page, orchestration diagrams) → [task-cbp-339.md](task-cbp-339.md)
 - [x] `CBP-340` — Review the `cbp-update` skill and `playbook-updater` agent; develop an improvement plan applying the same principles used in the `tb_skills` improvement process → [task-cbp-340.md](completed/task-cbp-340.md)
-- [ ] `CBP-341` — follow the instructions from task CBP-339 and convert the tb_skills to the playbook format → [task-cbp-341.md](task-cbp-341.md)
+- [x] `CBP-341` — follow the instructions from task CBP-339 and convert the tb_skills to the playbook format → [task-cbp-341.md](completed/task-cbp-341.md)
 - [x] `CBP-342` — Implement the CBP-340 fix plan: eliminate duplicate/stale `cbp-update` trigger and `playbook-updater` agent definitions, resync to the canonical source, preserve project-specific version-bump deltas, add a duplicate-detection self-check → [task-cbp-342.md](completed/task-cbp-342.md)
+- [ ] `CBP-343` — Import the anonymized Imprivata agentic skills framework (engineering-skills + product-skills) into `skills/` → [task-cbp-343.md](task-cbp-343.md)
