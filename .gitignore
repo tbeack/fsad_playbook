@@ -18,6 +18,10 @@ logs/
 # Cleanup tracking
 delete.md
 
+# Imprivata skills import — not cleared to share externally yet (see markdown/to do/task-cbp-343.md)
+skills/engineering-skills/
+skills/product-skills/
+
 # Personal scratch files
 Claude_Things_to_try.md
 update_agent_install.md
