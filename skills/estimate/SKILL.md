@@ -55,12 +55,21 @@ For each item, silently evaluate Complexity, Effort, and Risk against the rubric
 
 ### 2b. 3-judge panel mode (batches of >5 items)
 
-Run **three independent scoring passes** over the full item list. Each pass is "blind" to the others: score every item fresh against the rubric using step 2a's method, without referencing or being anchored by a prior pass's numbers. Treat each pass as if a different judge with no visibility into the other two were scoring the batch.
+Dispatch **three independent `Agent` tool calls**, each scoring the full item list fresh against the rubric using step 2a's method. This is what makes the judges genuinely independent rather than a same-context roleplay: each spawned agent's context contains only the item list (titles + descriptions) and the Estimation Rubric — never the other judges' scores, never this conversation's history — so a judge's numbers can't be anchored on another judge's numbers, and correlated bias across "judges" isn't left to an instruction to imagine independence. Send all three `Agent` calls in a **single message** so they run concurrently.
 
-For each item:
+Each agent's prompt:
+> Score each of the following work items against this rubric. For each item, evaluate Complexity, Effort, and Risk independently and assign the highest factor score as its point value — the riskiest/hardest dimension dominates. If an item is ambiguous, make a reasonable assumption and score it anyway; don't ask questions back. Return, for each item: `{item_name, complexity, effort, risk, points}`.
+>
+> [paste the Estimation Rubric table]
+>
+> Items:
+> [paste the item list — titles and descriptions, nothing else from this conversation]
+
+Collect the three structured returns (`judge_1`, `judge_2`, `judge_3`). For each item:
 - Record all three judges' point values (and their underlying Complexity/Effort/Risk scores, for `--show-factors`).
 - **Final point value = the median of the three judge scores.** (For three values, median is the middle value once sorted — not the mean, so it isn't pulled toward outliers.)
 - **Spread = max judge score − min judge score**, measured in Fibonacci steps (position in the 1,2,3,5,8,13,21 sequence, not raw arithmetic difference). If spread ≥ 2 steps, flag the item as **low-confidence** in the output — the judges genuinely disagreed and that disagreement is signal, not noise to be silently averaged away.
+- If one agent's return doesn't parse as the expected structure for a given item (missing, malformed, or the agent call itself failed), treat that judge's score for that item as missing: use the average of the two remaining valid scores, rounded to the nearest Fibonacci step, as the final value, and flag the item as **low-confidence** regardless of spread — a missing judge is itself a confidence-reducing event, not something to silently paper over by falling back to single-pass scoring.
 
 ### 3. Adversarial consistency pass
 

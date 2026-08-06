@@ -129,7 +129,7 @@ If re-review mode: **P previously-reported issues still open (not repeated below
 ### <severity> — <title>
 **Root issue:** <root_issue>
 **Raised by:** <list of specialists>
-**Consensus:** <hit_count>/5 passes (auth-authz-auditor/input-validation-auditor findings only, omit line otherwise)
+**Consensus:** <hit_count>/<N> passes (auth-authz-auditor/input-validation-auditor findings only, omit line otherwise — `N` is the total passes that specialist's loop-until-dry fan-out ran)
 **Confidence:** <max confidence across group>
 **Validator:** confirmed — exploit path: <exploit_path>
 **Files:** <list>
@@ -162,8 +162,8 @@ errored, count of findings rejected by the validator (see `rejected-by-validator
 mode: count of previously-reported root_issues and low/info findings suppressed (see `known-findings.jsonl`)>
 
 ## Per-specialist report links
-- [auth-authz-auditor.md](auth-authz-auditor.md) — <severity counts> — [findings.jsonl](auth-authz-auditor.findings.jsonl) — [coverage.jsonl](auth-authz-auditor.coverage.jsonl) — 5-pass consensus, see `.pass1-5.findings.jsonl`
-- [input-validation-auditor.md](input-validation-auditor.md) — … — 5-pass consensus, see `.pass1-5.findings.jsonl`
+- [auth-authz-auditor.md](auth-authz-auditor.md) — <severity counts> — [findings.jsonl](auth-authz-auditor.findings.jsonl) — [coverage.jsonl](auth-authz-auditor.coverage.jsonl) — loop-until-dry consensus (N passes), see `.pass1-N.findings.jsonl`
+- [input-validation-auditor.md](input-validation-auditor.md) — … — loop-until-dry consensus (N passes), see `.pass1-N.findings.jsonl`
 <etc, one line per specialist in roster>
 ```
 

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsad-playbook/schemas/code-review-team/finding.schema.json",
+  "title": "code-review-team finding",
+  "description": "One code-review finding. Emitted as one JSON object per line in <agent>.findings.jsonl.",
+  "type": "object",
+  "required": ["id", "specialist", "severity", "confidence", "title", "root_issue", "file", "line_range", "evidence", "fix", "merge_recommendation"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+-[0-9]+$",
+      "description": "Stable per-run finding ID, e.g. 'correctness-reviewer-003'. Prefix with the specialist name, zero-padded index suffix."
+    },
+    "specialist": {
+      "type": "string",
+      "enum": [
+        "correctness-reviewer",
+        "design-reviewer",
+        "performance-reviewer",
+        "maintainability-reviewer",
+        "testing-reviewer",
+        "api-contract-reviewer",
+        "security-reviewer"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "description": "Provenance of the finding.",
+      "enum": ["specialist", "linter-confirmed", "linter-false-positive"],
+      "default": "specialist"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "major", "minor", "nit"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["certain", "likely", "possible", "unverified"],
+      "description": "certain = directly observed in code, fix is mechanical; likely = observed pattern + reasonable inference; possible = inferred from indirect evidence; unverified = cannot confirm without running code."
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 140
+    },
+    "root_issue": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Short slug for dedupe across specialists."
+    },
+    "file": {
+      "type": "string",
+      "description": "Absolute path."
+    },
+    "line_range": {
+      "type": "string",
+      "pattern": "^[0-9]+(-[0-9]+)?$",
+      "description": "'<start>' or '<start>-<end>'."
+    },
+    "evidence": {
+      "type": "string",
+      "description": "Exact code snippet or config excerpt, quoted verbatim."
+    },
+    "fix": {
+      "type": "string",
+      "description": "Recommended fix, concrete."
+    },
+    "related": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs of related findings from other specialists (cross-specialist correlation)."
+    },
+    "merge_recommendation": {
+      "type": "string",
+      "enum": ["block", "recommend-fix", "defer", "optional"]
+    },
+    "hit_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8,
+      "description": "Number of distinct consensus passes this finding was seen in (see Step 3a, MIN_PASSES=2..MAX_PASSES=8). Only set for correctness-reviewer/performance-reviewer findings produced via the loop-until-dry consensus fan-out; omitted for single-pass specialists."
+    }
+  }
+}

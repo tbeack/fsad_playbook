@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsad-playbook/schemas/code-review-team/coverage.schema.json",
+  "title": "code-review-team coverage record",
+  "description": "Per-dimension coverage record: proves what the specialist checked and what limits its confidence. Emitted as one JSON object per line in <agent>.coverage.jsonl.",
+  "type": "object",
+  "required": ["specialist", "category", "status", "confidence"],
+  "additionalProperties": false,
+  "properties": {
+    "specialist": {
+      "type": "string",
+      "description": "Specialist who made the check."
+    },
+    "category": {
+      "type": "string",
+      "description": "The review dimension this record covers, e.g. 'null-handling', 'api-versioning'."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["checked-clean", "checked-issues-found", "not-checked", "deferred-to-other-specialist"],
+      "description": "checked-clean = dimension investigated, no findings; checked-issues-found = investigated, findings emitted; not-checked = dimension applicable but not investigated (capacity or scope cut); deferred-to-other-specialist = owned by another specialist in this run."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Confidence in the negative/clean finding. 'high' = thorough search, well-understood surface; 'low' = partial search or novel pattern."
+    },
+    "searches": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Exact grep patterns or file reads performed to prove the dimension is clean."
+    },
+    "files_read": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of files actually read."
+    },
+    "search_limits": {
+      "type": "string",
+      "description": "One sentence on what these searches would miss (limits of the proof)."
+    },
+    "deferred_to": {
+      "type": "string",
+      "description": "If status=deferred-to-other-specialist, which specialist owns this dimension in the current run."
+    }
+  }
+}

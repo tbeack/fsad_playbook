@@ -1,5 +1,5 @@
 ---
-description: Run a multi-agent code review TEAM over a codebase diff or path. Dispatches 7 specialist reviewers in parallel (correctness, design, performance, maintainability, testing, api-contract, security), consolidates findings into a severity-ranked REVIEW-REPORT.md with inter-agent agreement scoring, adversarial validation, and a merge recommendation. correctness and performance run as a 5-pass consensus fan-out; every surviving finding is verified by a dedicated validator agent before it can appear in the report. Use when the user says "code review team", "multi-agent code review", "team review", "review this diff with a team", or similar. Review-only — no fixes.
+description: Run a multi-agent code review TEAM over a codebase diff or path. Dispatches 7 specialist reviewers in parallel (correctness, design, performance, maintainability, testing, api-contract, security), consolidates findings into a severity-ranked REVIEW-REPORT.md with inter-agent agreement scoring, adversarial validation, and a merge recommendation. correctness and performance run as a loop-until-dry consensus fan-out (2-8 passes); every surviving finding is verified by a dedicated validator agent before it can appear in the report. Use when the user says "code review team", "multi-agent code review", "team review", "review this diff with a team", or similar. Review-only — no fixes.
 argument-hint: `[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]`
 ---
 
@@ -64,18 +64,18 @@ Read cheapest manifests: `README.md` (top 30 lines), `package.json`, `pyproject.
 ### 0.4 Select roster
 
 **Full roster (default):** all 7 specialists
-- `correctness-reviewer` (5-pass consensus — Step 3a)
+- `correctness-reviewer` (loop-until-dry consensus, 2-8 passes — Step 3a)
 - `design-reviewer`
-- `performance-reviewer` (5-pass consensus — Step 3a)
+- `performance-reviewer` (loop-until-dry consensus, 2-8 passes — Step 3a)
 - `maintainability-reviewer`
 - `testing-reviewer`
 - `api-contract-reviewer`
 - `security-reviewer`
 
 **Lite roster** (`--lite` or diff ≤ 25 files):
-- `correctness-reviewer` (5-pass consensus — Step 3a)
+- `correctness-reviewer` (loop-until-dry consensus, 2-8 passes — Step 3a)
 - `design-reviewer`
-- `performance-reviewer` (5-pass consensus — Step 3a)
+- `performance-reviewer` (loop-until-dry consensus, 2-8 passes — Step 3a)
 - `security-reviewer`
 
 `security-reviewer` is in both rosters by design — it's not opt-in. A missed security bug outweighs the cost saved by cutting it from lite mode, the same reasoning that keeps it out of the `drop-specialist` fast path being a good idea (it can still be dropped explicitly via `drop-specialist security-reviewer` in Step 0.8 if the user insists, but it's never cut automatically).
@@ -99,9 +99,9 @@ Run `command -v <tool>` for each linter. Flag available vs missing. Missing lint
 
 - **Input tokens per specialist:** `~min(35k, 25 + 0.015 × LINE_COUNT)` k tokens
 - **Output tokens per specialist:** `~5–8k`
-- **Total tokens:** `correctness-reviewer` and `performance-reviewer` each run as a 5-pass consensus fan-out (Step 3a), not a single pass. Treat them as 5 "specialist-equivalents" each when estimating: `Total tokens = (N_specialists + 8) × (input + output)` — the `+8` accounts for those two specialists costing 5× instead of 1× (2 × (5-1) = 8 extra specialist-equivalents). The Step 4.5 validator adds roughly one more agent call per surviving minor/nit finding group after consolidation, and three calls per surviving critical/major group (3-validator panel) — this can't be sized until findings exist, so note it as "+validator passes (post-consolidation, ~1 call per minor/nit group, ~3 calls per critical/major group)" rather than folding it into this estimate.
-- **Runtime:** longest-path specialist ≈ 2–3 min baseline; range = `longest × 1.1` to `longest × 1.5`. The 5-pass specialists run their passes concurrently (single message), so they add roughly one specialist's worth of wall-clock, not five — but do add a consolidation/tally step afterward (~30s).
-- **Cost**: look up the current model tier's per-MTok input/output pricing at run time (e.g. via the `claude-api` skill's model catalog or the Models API), then compute `(input × price_in + output × price_out) / 1_000_000`, using the `(N_specialists + 8)` token total above, plus the validator caveat. Print as `$X.XX` along with the pricing assumption used (model name + rate). Don't hardcode a specific generation's numbers here — they age out every model release.
+- **Total tokens:** `correctness-reviewer` and `performance-reviewer` each run as a loop-until-dry consensus fan-out (Step 3a, `MIN_PASSES = 2` .. `MAX_PASSES = 8`), not a single pass. Since the actual pass count (`N`) isn't known until the loop terminates, estimate with `N` at its expected midpoint (`~4`, i.e. `N-1 = 3` extra specialist-equivalents each) for a planning estimate: `Total tokens ≈ (N_specialists + 6) × (input + output)` — the `+6` accounts for the two specialists at ~3 extra specialist-equivalents each (2 × 3 = 6); worst case `(N_specialists + 14) × (input + output)` if both run the full 8-pass cap (2 × 7 = 14). The Step 4.5 validator adds roughly one more agent call per surviving minor/nit finding group after consolidation, and three calls per surviving critical/major group (3-validator panel) — this can't be sized until findings exist, so note it as "+validator passes (post-consolidation, ~1 call per minor/nit group, ~3 calls per critical/major group)" rather than folding it into this estimate.
+- **Runtime:** longest-path specialist ≈ 2–3 min baseline; range = `longest × 1.1` to `longest × 1.5`. The two consensus specialists run their first 2 passes concurrently, then any further passes one at a time until dry or capped — so wall-clock adds roughly one to a few specialists' worth of time depending on how quickly they dry up, not a fixed multiple — plus a consolidation/tally step afterward (~30s).
+- **Cost**: look up the current model tier's per-MTok input/output pricing at run time (e.g. via the `claude-api` skill's model catalog or the Models API), then compute `(input × price_in + output × price_out) / 1_000_000`, using the `(N_specialists + 6)` midpoint token total above (or `+14` worst case), plus the validator caveat. Print as `$X.XX` along with the pricing assumption used (model name + rate). Don't hardcode a specific generation's numbers here — they age out every model release.
 
 ### 0.7 Render confirmation block
 
@@ -118,9 +118,9 @@ Run `command -v <tool>` for each linter. Flag available vs missing. Missing lint
 │  Run mode:   <baseline | re-review (vs run <prior_run_id>)>│
 │                                                            │
 │  Specialists (<N> in roster):                              │
-│    ✓ correctness-reviewer        (5-pass consensus)        │
+│    ✓ correctness-reviewer        (loop-until-dry consensus) │
 │    ✓ design-reviewer                                       │
-│    ✓ performance-reviewer        (5-pass consensus)        │
+│    ✓ performance-reviewer        (loop-until-dry consensus) │
 │    ✓ security-reviewer                                     │
 │    ✓ maintainability-reviewer    (full mode)               │
 │    ✓ testing-reviewer            (full mode)               │
@@ -242,7 +242,7 @@ If zero linters are available, the run continues in LLM-only mode. Log a caveat 
 
 Issue one `Agent` tool call per specialist in a **single assistant message** — this is what makes them run concurrently.
 
-**`correctness-reviewer` and `performance-reviewer` are excluded from this step** — they run via Step 3a's 5-pass consensus fan-out instead. Spawn every other roster specialist here as usual.
+**`correctness-reviewer` and `performance-reviewer` are excluded from this step** — they run via Step 3a's loop-until-dry consensus fan-out instead. Spawn every other roster specialist here as usual.
 
 For each specialist (other than correctness-reviewer and performance-reviewer):
 - Read its brief from `specialists/<name>.md`
@@ -345,35 +345,43 @@ Each specialist writes four files to `<RUN_DIR>`:
 
 ## Step 3a: Multi-pass consensus fan-out (correctness-reviewer, performance-reviewer)
 
-`correctness-reviewer` and `performance-reviewer` are the two specialists most prone to sampling variance — a single pass can find a random subset of the real issues and miss different ones each time. Instead of spawning them once (Step 3), run each through `N_PASSES = 5` independent passes with the file scope reordered per pass, then keep only findings that reproduce across at least 2 passes. This is modeled on Cursor Bugbot's multi-pass agreement design, scaled to 5 passes / ≥2 agreement per this project's cost tolerance.
+`correctness-reviewer` and `performance-reviewer` are the two specialists most prone to sampling variance — a single pass can find a random subset of the real issues and miss different ones each time. Instead of spawning them once (Step 3), run each through a **loop-until-dry** fan-out — independent passes with the file scope reordered per pass, keeping only findings that reproduce across at least 2 passes, and stopping once a pass stops contributing anything new rather than always running a fixed count. This is modeled on Cursor Bugbot's multi-pass agreement design, adapted so effort scales with how much variance the diff/scope is actually producing: a small diff dries up in 2-3 passes; a large baseline scan may use the full cap.
+
+`MAX_PASSES = 8` — the hard ceiling regardless of whether passes are still finding new issues. `MIN_PASSES = 2` — the floor, since `hit_count >= 2` can never have a survivor with fewer than 2 passes.
 
 ### 3a.1 File-order rotation
 
-Enumerate the scope's file list once (same enumeration as Step 0.2). For pass `i` (1-indexed, 1..5), rotate the list by `i × floor(len/5)` positions (wrap-around) before handing it to the specialist brief as an explicit ordered file list. This produces a materially different read order per pass without depending on random-number generation, which a markdown-driven orchestration can't reliably produce.
+Enumerate the scope's file list once (same enumeration as Step 0.2). For pass `i` (1-indexed, 1..`MAX_PASSES`), rotate the list by `i × floor(len / MAX_PASSES)` positions (wrap-around) before handing it to the specialist brief as an explicit ordered file list — rotating against the fixed ceiling (not however many passes end up running) keeps every pass's ordering distinct regardless of when the loop stops. This produces a materially different read order per pass without depending on random-number generation, which a markdown-driven orchestration can't reliably produce.
 
-### 3a.2 Spawn passes
+### 3a.2 Spawn passes — loop until a round is dry, capped at `MAX_PASSES`
 
-For each of `correctness-reviewer` and `performance-reviewer`:
-- Issue 5 `Agent` calls (one per pass) in a **single assistant message** so all 5 passes for that specialist run concurrently.
-- Each pass uses the specialist's normal brief (substituting `<TARGET>`, `<LANGUAGES>`, `<RUN_DIR>`, pre-pass linter findings as usual), with the rotated file order substituted for `<SCOPE>`'s file enumeration, plus an added line: "This is pass `<i>` of 5 independent review passes over the same scope, each in a different file order. Review thoroughly as if this were the only pass — do not assume another pass covers what you skip."
-- Each pass writes to `<RUN_DIR>/<name>.pass<i>.findings.jsonl` and `<name>.pass<i>.status.json` — **not** the canonical `<name>.findings.jsonl` / `<name>.status.json`. The canonical files are written by the tally step below, once all 5 passes complete.
+For each of `correctness-reviewer` and `performance-reviewer`, independently:
+1. Run passes 1 and 2 (`MIN_PASSES`) concurrently as 2 `Agent` calls in a **single assistant message** — the minimum needed for any `hit_count >= 2` survivor to exist at all.
+2. After every pass (or batch) completes, tally (3a.3) and compare this round's distinct `root_issue` set against the union of every `root_issue` seen in all prior rounds for this specialist:
+   - **This round introduced at least one `root_issue` not seen in any earlier round** → continue: spawn one more pass (`i+1`).
+   - **This round introduced zero new `root_issue`s** → stop. The pass is "dry" — further passes are unlikely to surface anything new.
+   - Regardless of dryness, **stop unconditionally once pass `MAX_PASSES` (8) completes.**
+3. Passes after the initial 2 are spawned one at a time (each pass's file rotation depends only on its own fixed index, not on prior results — only the *stopping decision* is sequential).
+
+Each pass uses the specialist's normal brief (substituting `<TARGET>`, `<LANGUAGES>`, `<RUN_DIR>`, pre-pass linter findings as usual), with the rotated file order substituted for `<SCOPE>`'s file enumeration, plus an added line: "This is pass `<i>` of up to `MAX_PASSES` independent review passes over the same scope, each in a different file order. Review thoroughly as if this were the only pass — do not assume another pass covers what you skip."
+Each pass writes to `<RUN_DIR>/<name>.pass<i>.findings.jsonl` and `<name>.pass<i>.status.json` — **not** the canonical `<name>.findings.jsonl` / `<name>.status.json`. The canonical files are written by the tally step below, once the loop terminates.
 
 ### 3a.3 Tally and threshold
 
-After all 5 passes for a specialist complete:
-1. Read all 5 `<name>.pass<i>.findings.jsonl` files.
-2. Group findings by `root_issue` across the 5 passes.
-3. For each group, compute `hit_count` = number of *distinct* passes it appeared in (1–5).
+Once the loop in 3a.2 terminates (a dry round, or the `MAX_PASSES` cap) with `N` total passes run for a specialist (`MIN_PASSES <= N <= MAX_PASSES`):
+1. Read all `N` `<name>.pass<i>.findings.jsonl` files.
+2. Group findings by `root_issue` across the `N` passes.
+3. For each group, compute `hit_count` = number of *distinct* passes it appeared in (1–`N`).
 4. Keep only groups with `hit_count >= 2` — drop the rest as one-off, unreproduced findings (sampling noise or hallucination).
-5. For each surviving group, take the representative finding with the highest `confidence` (ties: earliest pass), tag it with `hit_count`, and write it to the canonical `<name>.findings.jsonl`, ranked by `hit_count` descending. Union the `coverage.jsonl` entries across all 5 passes into the canonical `<name>.coverage.jsonl` (a dimension is `checked-clean` only if all 5 passes checked it clean).
+5. For each surviving group, take the representative finding with the highest `confidence` (ties: earliest pass), tag it with `hit_count`, and write it to the canonical `<name>.findings.jsonl`, ranked by `hit_count` descending. Union the `coverage.jsonl` entries across all `N` passes into the canonical `<name>.coverage.jsonl` (a dimension is `checked-clean` only if all `N` passes checked it clean).
 6. Write the canonical `<name>.status.json` as `completed`, with `severity_counts` reflecting only the survivors.
-7. Print one line per specialist: `✓ correctness-reviewer consensus: <kept>/<total distinct root_issues> root_issues survived (hit_count >= 2 of 5 passes)`.
+7. Print one line per specialist: `✓ correctness-reviewer consensus: <kept>/<total distinct root_issues> root_issues survived (hit_count >= 2 of N passes, stopped <on a dry round after pass N | at the MAX_PASSES cap>)`.
 
-Step 4's consolidation reads `<name>.findings.jsonl` and `<name>.coverage.jsonl` exactly as it does for every other specialist — it has no knowledge that these came from a 5-pass tally rather than a single pass.
+Step 4's consolidation reads `<name>.findings.jsonl` and `<name>.coverage.jsonl` exactly as it does for every other specialist — it has no knowledge that these came from a variable-length tally rather than a single pass.
 
 ## Step 4: Consolidate
 
-Read all `*.findings.jsonl` and `*.coverage.jsonl`. Apply `docs/consolidation-template.md`:
+Read all `*.findings.jsonl` and `*.coverage.jsonl`. Validate every line against `schema/finding.schema.json` / `schema/coverage.schema.json` respectively (same schema-first contract `sec-review-team` uses) before consolidating. If any specialist failed schema validation on its JSONL, fall back to prose parse for that specialist (read `<name>.md` instead) and log a warning in `REVIEW-REPORT.md` naming the specialist and the validation failure — don't silently drop its findings or treat a malformed line as a clean run. Apply `docs/consolidation-template.md`:
 
 1. Group findings by `root_issue` (dedupe across specialists).
 2. For each group: `max(severity)`, `max(confidence)`, `distinct(specialist) → raised_by`, `confirmed_by: [list of specialists]`, `hit_count` (carried through if present).
@@ -420,23 +428,42 @@ The single "concrete failing input" standard only fits findings that are bugs yo
 
 After this step, `actionable = [g for g in groups if g.validator_confirmed]` — this replaces the old confidence-based `certain|likely` filter. Everything that survives the validator is actionable by definition; everything that doesn't is dropped, not demoted.
 
-**Re-review filter** (only when `re_review_mode` is true, from Step 0.1a): after computing `actionable`, load `<TARGET>/.planning/code-review/known-findings.jsonl` and drop any group whose `root_issue` already appears there (already reported in a prior run — don't repeat it), then drop every remaining `nit`-severity group outright (nits are never carried forward). Record the two suppressed counts for Step 5's Tooling Caveats. Baseline runs (`re_review_mode` false) skip this filter entirely.
+**Re-review filter** (only when `re_review_mode` is true, from Step 0.1a): after computing `actionable`, load `<TARGET>/.planning/code-review/known-findings.jsonl` and split every non-nit ledger entry into exactly one of two disjoint sets relative to this run:
+
+- **`reconfirmed_known`** — the entry's `root_issue` also appears in this run's `actionable` (an independent specialist re-found it and the validator re-confirmed it, this run). Drop these groups from `actionable` before rendering the report — already reported in a prior run, don't repeat it — and record `len(reconfirmed_known)` for Step 5's Tooling Caveats. A `reconfirmed_known` entry needs no lightweight re-verification below: this run's fresh validator confirmation is stronger evidence than any stored `file`/`evidence_snippet` grep could provide.
+- **`carried_over_known`** — the entry's `root_issue` does **not** appear in this run's `actionable` (not independently rediscovered this run — its file may be entirely outside this run's `<SCOPE>`, or in scope but simply missed by every specialist this pass). **`<SCOPE>` never gates membership here** — a diff-scoped run's ledger entries for files outside the diff still enter `carried_over_known` exactly like any other not-rediscovered entry; `<SCOPE>` only ever governed which files specialists actively looked at, not which known findings this run is allowed to report status on. The lightweight check below (not scope) is what keeps an unverified claim from being asserted about a file this run never touched. **Before running that check, first look up this run's `<RUN_DIR>/rejected-by-validator.jsonl`:** if the entry's `root_issue` appears there (a specialist rediscovered it this run and the validator explicitly rejected it as fixed/unreachable/already-guarded), treat that rejection as authoritative and exclude the entry from "still open" without running the grep check below — a same-run validator verdict is stronger evidence either way than a stale snippet match.
+
+Then drop every remaining `nit`-severity group from `actionable` outright (nits are never carried forward into the report) — nit-severity ledger entries are excluded from both sets above for the same reason: a nit is never carried forward whether it resurfaces in `actionable` or only survives in the ledger. Record the nit-suppressed count — `count(actionable groups dropped as nit this run)` specifically, not ledger-only nit entries, which were never part of either set and were never counted or reported to begin with — for Step 5's Tooling Caveats. Baseline runs (`re_review_mode` false) skip this filter entirely — `reconfirmed_known` and `carried_over_known` are both empty, and there is no still-open bookkeeping to do.
+
+> **Example:** ledger has three non-nit entries — `R1` (file inside this run's diff), `R2` (file outside this run's diff), `R3` (file touched and re-examined this pass). This re-review run's specialists rediscover and the validator reconfirms `R3` this pass → `R3 ∈ reconfirmed_known` (suppressed from the report, no lightweight check needed). `R1` and `R2` are not rediscovered by any specialist this run → both land in `carried_over_known` regardless of scope — `R2` is not dropped just because it's outside the diff.
 
 Derive `merge_recommendation` from the final (post-re-review-filter, if applicable) validator-confirmed set: if any Critical exists → "Request Changes — Critical issues present"; else if Major count > 0 → "Request Changes — Major issues found"; else if any actionable finding exists → "Approved with suggestions"; else → "Approved".
 
-Render `<RUN_DIR>/REVIEW-REPORT.md` from the consolidation template using only the final actionable groups.
+**Update the ledger:** append every validator-confirmed `root_issue` from *this* run that isn't already in `<TARGET>/.planning/code-review/known-findings.jsonl` (including ones suppressed from this run's report because they matched the re-review filter — the ledger tracks everything ever confirmed, not just what's newly shown) — with `first_seen_run_id` set to this run's `run_id`, `file` set to the finding's `file`, and `evidence_snippet` set to the finding's `evidence` field trimmed to its first line only, up to ~80 characters, whichever is shorter — never spanning a newline, since the re-verification check below matches it line-by-line — for genuinely new entries; `first_seen_run_id`/`first_seen_date` on existing entries are left unchanged (they record provenance, not current state). **Refresh `file`/`evidence_snippet` on every reconfirmation:** whenever a `root_issue` lands in `reconfirmed_known` this run (validator-confirmed, and already had a ledger entry), overwrite that entry's `file`/`evidence_snippet` with this run's finding, regardless of whether the fields were already populated. This is deliberate, not just a legacy-entry backfill: code legitimately moves (refactors, renames), and an entry frozen at its first-confirmed location would eventually cause the lightweight check below to grep a stale, possibly-nonexistent path and wrongly conclude a still-present issue is "no longer open." `first_seen_run_id`/`first_seen_date` still never change on this refresh — only the location/evidence fields track the most recent confirmation.
 
-**Update the ledger:** append every validator-confirmed `root_issue` from *this* run that isn't already in `<TARGET>/.planning/code-review/known-findings.jsonl` (including ones suppressed from this run's report because they matched the re-review filter — the ledger tracks everything ever confirmed, not just what's newly shown) — with `first_seen_run_id` set to this run's `run_id` for genuinely new entries, left unchanged for entries that already existed.
+**Re-verify "still open" claims before reporting them (do not assert by absence alone):** for every `root_issue` in `carried_over_known` not already excluded by this run's `rejected-by-validator.jsonl` (above), don't just count it as "still open" because it's still on the ledger — a `carried_over_known` entry may have been fixed since it was first confirmed, and the ledger by itself can't tell you that. Instead:
+1. Look up that `root_issue`'s ledger record's `file` and `evidence_snippet`.
+2. **Legacy entries — no `file`/`evidence_snippet` on record:** these two fields didn't exist in the ledger schema before this re-verification mechanism was added, so any `known-findings.jsonl` written by an earlier version of this skill will have entries missing them. For those, the mechanical check in step 4 below is impossible to run — there's nothing to grep for. Don't treat "can't check" the same as "can't confirm" (step 4's exclusion rule): fall back to the pre-fix behavior and count the entry toward "still open" as before, but tag it in Step 5's caveats as `<N> previously-reported issues counted as still open without re-verification (ledger entry predates file/evidence tracking)` — this keeps the count from silently shrinking just because older entries lack the new fields, while being honest that those specific counts are unconfirmed. Once any of these `root_issue`s is independently reconfirmed by a specialist in a future run, it moves to that run's `reconfirmed_known` and the ledger-append step refreshes its `file`/`evidence_snippet`, so this caveat category shrinks over time and eventually empties out.
+3. **Path containment check:** resolve `file` against `<TARGET>`. If it resolves outside `<TARGET>`'s tree (via `..` traversal, an absolute path pointing elsewhere, or any other escape) — a ledger value should never do this, but the ledger is ordinary repo-tracked JSON an external contributor could edit — treat it the same as a legacy entry (step 2): can't verify, count with the unverified caveat, and do not read or grep the out-of-tree path.
+4. **In-tree entries with `file`/`evidence_snippet` on record:** check file existence, then run the grep as a single fixed-string, argument-safe invocation — native argument passing with an explicit `--` separator (e.g. `grep -qF -- "<evidence_snippet>" "<resolved_file_path>"`, never a shell string concatenation), or equivalently the `Grep` tool in literal mode — using the same restricted, read-only tool scope a specialist would use, never an unconstrained shell. If `file` no longer exists at that path, or the grep returns no match, the finding can no longer be confirmed present at that location.
+   - **Critical/major severity:** a miss here is **not** treated as "confirmed absent" — treat it as unverified, same bucket as a legacy entry (step 2), and tag it separately in Step 5 as `<N> critical/major previously-reported issues could not be re-verified this run — status unknown, recommend manual check`. The stakes of a false "no longer open" on a critical/major finding are too high to fold silently into the same exclusion path as a minor one.
+   - **Minor severity:** a miss excludes it from the "still open" count for this run's report, as before (it may have been fixed, refactored away, or moved somewhere a plain grep won't find).
+5. Only `root_issue`s whose `evidence_snippet` still greps-clean in `file` (step 4) count toward `<P>` in Step 5's "previously-reported issues still open" line; legacy entries (step 2), out-of-tree entries (step 3), and critical/major unverified misses (step 4) all count toward `<P>` too, but are called out separately in the caveats as unverified. This is a cheap, mechanical check for the entries that support it, not a full re-review — it catches the common case (the file/snippet is simply gone) without re-running a specialist. Perform it as a single loop over all of `carried_over_known` (one script/`Bash` invocation), not one tool call per entry.
+6. This check only affects what gets *reported* as still open this run — it never edits or removes entries from `known-findings.jsonl` itself, which remains a historical record of everything ever confirmed.
+
+> **Example (3-run backfill trace):** Run N (pre-fix baseline, before this ledger schema existed) confirms `root_issue: R4` and appends it to the ledger with no `file`/`evidence_snippet` (legacy shape). Run N+1 (re-review; no specialist re-finds `R4` this pass): `R4 ∉ actionable` → `R4 ∈ carried_over_known`; its ledger record has no `file`/`evidence_snippet` → step 2's legacy fallback fires → `R4` counts toward `<P>`, tagged "counted without re-verification." Run N+2 (re-review; a specialist independently re-finds `R4` and the validator reconfirms it this pass): `R4 ∈ actionable` and already in the ledger → `R4 ∈ reconfirmed_known` → suppressed from the report, and the ledger-append step's refresh clause (above) now sets `R4`'s `file`/`evidence_snippet` from this run's finding. Run N+3 (re-review; `R4` not re-found again, and its file hasn't moved since N+2): `R4 ∉ actionable` → back in `carried_over_known`, its ledger record has `file`/`evidence_snippet` from N+2 → step 4's grep check runs and `R4` counts toward `<P>` as verified, no caveat. (Had `R4`'s code instead moved to a new file between N+2 and N+3 without being rediscovered, step 4's existence check on the stale N+2 path would fail — for a minor finding this excludes it as before; for a critical/major finding it's flagged unverified rather than silently dropped, per step 4's severity branch above.)
+
+Render `<RUN_DIR>/REVIEW-REPORT.md` from the consolidation template using only the final actionable groups — `<P>` (the still-open count from the re-verification above) is now available for the template.
 
 ## Step 5: Deliver
 
 Tell the user:
-- Path to `<RUN_DIR>/REVIEW-REPORT.md` and the four (or five, in 5-pass specialists' case — canonical + 5 per-pass files) per-specialist files
+- Path to `<RUN_DIR>/REVIEW-REPORT.md` and the four (or up to nine, in loop-until-dry specialists' case — canonical + up to 8 per-pass files) per-specialist files
 - **Merge recommendation** (headline)
 - Headline severity counts (deduped, validator-confirmed, post-re-review-filter): `Critical: N | Major: N | Minor: N | Nit: N`
 - Top 3 findings by impact (title + one-line fix)
 - Validator summary: `<N> findings confirmed, <M> rejected by the validator` (rejected count only — not the rejected findings themselves)
-- If `re_review_mode`: `<P> previously-reported issues still open (not repeated above — see known-findings.jsonl), <Q> nits suppressed`
+- If `re_review_mode`: `<P> previously-reported issues still open (not repeated above — see known-findings.jsonl), <Q> nits suppressed` — if any of `<P>` are legacy entries counted per the still-open re-verification step's step 2 (predating `file`/`evidence_snippet` tracking), append `(<L> of these counted without re-verification — ledger entry predates file/evidence tracking)`; if any critical/major entries hit step 4's unverified branch, append a separate line: `<M> critical/major previously-reported issues could not be re-verified this run — status unknown, recommend manual check`
 - Tooling caveats (linters unavailable, specialists errored)
 
 Do NOT apply fixes. Fix workflow: open the relevant file, address findings manually, re-run `/fsd:code-review-team diff vs main` to verify.
