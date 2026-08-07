@@ -1,5 +1,35 @@
 ## Changes in This Version
 
+### v3.2.33 — 2026-08-07
+
+**Claude Code v2.1.224 and Codex rust-v0.147.0 auto-update (CBP-344 through CBP-364)**
+
+Twenty-one changes covering both CLI cheat sheets and reference tables.
+
+- **CBP-344 — [Claude] Fix stale `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION` row.** Removed the claim that the concurrent-subagent cap defaults to 200 — that hard cap was removed upstream (v2.1.224). Preserved cross-references to the still-active concurrency/depth env vars.
+- **CBP-345 — [Claude] Add `/status` row to Cheat Sheet.** New row in the Info & account table documenting that `/status` now also shows session kind (v2.1.221).
+- **CBP-346 — [Claude] Update `/code-review` row.** Documented the `/review` alias, PR review argument, `ultra` mode, and effort-level reuse (v2.1.223).
+- **CBP-347 — [Claude] Update `/fork` row.** Documented that `/fork` now creates its own worktree (v2.1.221).
+- **CBP-348 — [Claude] Document cross-session `SendMessage` + `ListAgents`.** Added a bullet and code example to the Agent Teams collapsible (v2.1.224).
+- **CBP-349 — [Claude] Update Work Trees tip.** Documented that background sessions now commit/push and open draft PRs conditionally (v2.1.221).
+- **CBP-350 — [Claude] Extend `sandbox.credentials` masking modes.** Documented `mask`, `extract`/`onExtractNoMatch`, `decode:jwt`, and `awsPairs`/`sigv4` (v2.1.221, v2.1.224).
+- **CBP-351 — [Claude] Add `archive` plugin source.** New bullet in the Plugins collapsible (v2.1.224).
+- **CBP-352 — [Claude] Add `ANTHROPIC_BEDROCK_REGION_PREFIX`.** New row in the hardening env vars table (v2.1.224).
+- **CBP-353 — [Claude] Update `CLAUDE_CODE_DISABLE_1M_CONTEXT` scope; add `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT`.** Two rows updated/added in the hardening env vars table (v2.1.223).
+- **CBP-354 — [Claude] Add `crossSessionInbound` and `dialogExpiry`.** New bullets in the Notable settings.json Keys callout (v2.1.224).
+- **CBP-355 — [Claude] Add Self-Hosted Runner collapsible.** New collapsible in Power Usage documenting `claude self-hosted-runner`, plus a matching sidebar deeplink (v2.1.224).
+- **CBP-356 — [Codex] Fix `--full-auto` row.** The flag was fully removed (not deprecated) in rust-v0.147.0 — corrected replacement guidance to `--sandbox workspace-write`; updated the matching CI/CD example.
+- **CBP-357 — [Codex] Add `--approve-for-me` CLI flag.** New row in the CLI Flags table (rust-v0.147.0).
+- **CBP-358 — [Codex] Document persistent thread sections.** Updated the Session Management collapsible and `/new`/`/clear` row for persistent, manually-ordered picker sections and incremental transcript browsing (rust-v0.147.0).
+- **CBP-359 — [Codex] Update `/import` row.** Documented Cursor-managed skills import and duplicate-free re-sync (rust-v0.147.0).
+- **CBP-360 — [Codex] Update Plugins collapsible.** Documented portable Agent Plugin install and local/personal/workspace/remote catalog search (rust-v0.147.0).
+- **CBP-361 — [Codex] Document MCP 2026-07-28 protocol support.** New paragraph in Integrations (rust-v0.147.0).
+- **CBP-362 — [Codex] Update Amazon Bedrock collapsible.** Documented cached web search and remote conversation compaction (rust-v0.147.0).
+- **CBP-363 — [Codex] Add project trust + managed auth note.** New Guidelines callout documenting explicit project-trust prompts and pre-credential-use auth restriction enforcement (rust-v0.147.0).
+- **CBP-364 — [Codex] Add v0.146.1 safer auto-review defaults note.** Updated the Permission Profiles intro for cyber-capable-model auto-review defaults and in-terminal permission-change explanations (rust-v0.146.1).
+
+`dist/` rebuilt to match.
+
 ### v3.2.32 — 2026-08-05
 
 **Skills Library resync follow-up: loop-until-dry consensus replaces fixed 5-pass (CBP-341)**
