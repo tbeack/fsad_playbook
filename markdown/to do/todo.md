@@ -376,3 +376,5 @@
 - [x] `CBP-363` [Codex] Add explicit project trust + managed auth restriction note to Guidelines (rust-v0.147.0) → [task-cbp-363.md](task-cbp-363.md)
 - [x] `CBP-364` [Codex] Add v0.146.1 safer auto-review defaults note to Permission Profiles (rust-v0.146.1) → [task-cbp-364.md](task-cbp-364.md)
 - [x] `CBP-365` — Diagnose the `playbook-updater` orchestration failures from the 2026-08-07 run (orchestrator hallucinated async batch completions, then stalled without ever writing results; separately, 3 of 6 sub-agents attempted a broken `SendMessage` handoff) → [task-cbp-365.md](task-cbp-365.md)
+- [x] `CBP-366` Implement the CBP-365 fix plan: synchronous Phase 3/5 dispatch, external liveness check, read-only Phase 5 sub-agent tools, extended Phase 4→5 completeness check → [task-cbp-366.md](task-cbp-366.md)
+- [x] `CBP-367` Redo CBP-341 in reverse: push the CBP-366-updated cbp-update skill (SKILL.md, agent.md) back into the tb_skills canonical source repo → [task-cbp-367.md](task-cbp-367.md)
