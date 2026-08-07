@@ -375,3 +375,4 @@
 - [x] `CBP-362` [Codex] Update Amazon Bedrock collapsible — cached web search + remote conversation compaction (rust-v0.147.0) → [task-cbp-362.md](task-cbp-362.md)
 - [x] `CBP-363` [Codex] Add explicit project trust + managed auth restriction note to Guidelines (rust-v0.147.0) → [task-cbp-363.md](task-cbp-363.md)
 - [x] `CBP-364` [Codex] Add v0.146.1 safer auto-review defaults note to Permission Profiles (rust-v0.146.1) → [task-cbp-364.md](task-cbp-364.md)
+- [x] `CBP-365` — Diagnose the `playbook-updater` orchestration failures from the 2026-08-07 run (orchestrator hallucinated async batch completions, then stalled without ever writing results; separately, 3 of 6 sub-agents attempted a broken `SendMessage` handoff) → [task-cbp-365.md](task-cbp-365.md)
