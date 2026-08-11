@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.2.34 — 2026-08-11
+
+**Claude Code v2.1.228 auto-update (CBP-368 through CBP-370)**
+
+Three changes covering Agent Teams, Remote Control, and Building Skills. Codex CLI had no new release this cycle.
+
+- **CBP-368 — [Claude] Update Agent Teams cross-session messaging.** Documented the v2.1.225 ability to start a conversation with a Remote Control session on another machine by name (instead of only replying after it messages you first), the `name [ref]` `ListAgents` display format for Remote Control sessions, and the v2.1.228 inline sender/body message display with Remote Control session name attribution.
+- **CBP-369 — [Claude] Add Remote Control photo-handling bullet.** Documented that photos attached from the Claude mobile app are now shown to Claude directly instead of being read from disk via a separate tool call (v2.1.225).
+- **CBP-370 — [Claude] Add Building Skills hardening callout.** Documented the v2.1.228 hardening of skills synced from claude.ai: no longer shadow local commands or MCP prompts, descriptions sanitized and labeled, bodies can't run `!` shell commands or expand `@` file references locally.
+
+`dist/` rebuilt to match.
+
 ### v3.2.33 — 2026-08-07
 
 **Claude Code v2.1.224 and Codex rust-v0.147.0 auto-update (CBP-344 through CBP-364)**
