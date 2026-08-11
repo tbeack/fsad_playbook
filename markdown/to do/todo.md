@@ -378,3 +378,6 @@
 - [x] `CBP-365` — Diagnose the `playbook-updater` orchestration failures from the 2026-08-07 run (orchestrator hallucinated async batch completions, then stalled without ever writing results; separately, 3 of 6 sub-agents attempted a broken `SendMessage` handoff) → [task-cbp-365.md](task-cbp-365.md)
 - [x] `CBP-366` Implement the CBP-365 fix plan: synchronous Phase 3/5 dispatch, external liveness check, read-only Phase 5 sub-agent tools, extended Phase 4→5 completeness check → [task-cbp-366.md](task-cbp-366.md)
 - [x] `CBP-367` Redo CBP-341 in reverse: push the CBP-366-updated cbp-update skill (SKILL.md, agent.md) back into the tb_skills canonical source repo → [task-cbp-367.md](task-cbp-367.md)
+- [x] `CBP-368` [Claude] Update Agent Teams cross-session messaging — SendMessage can now initiate contact with Remote Control sessions by name + inline sender/body display (v2.1.225, v2.1.228) → [task-cbp-368.md](task-cbp-368.md)
+- [x] `CBP-369` [Claude] Add Remote Control bullet — mobile photo attachments now shown to Claude directly (v2.1.225) → [task-cbp-369.md](task-cbp-369.md)
+- [x] `CBP-370` [Claude] Add Building Skills callout — hardened skills synced from claude.ai (no shadowing, sanitized descriptions, no `!`/`@` expansion) (v2.1.228) → [task-cbp-370.md](task-cbp-370.md)
