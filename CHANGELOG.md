@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v3.2.35 — 2026-08-13
+
+**Claude Code v2.1.229 auto-update (CBP-371 through CBP-373)**
+
+Three changes covering the Cheat Sheet and Power Usage sections. Codex CLI had no new release this cycle.
+
+- **CBP-371 — [Claude] Add `claude remote-control --continue` row.** New row in the Cheat Sheet's Cross-device & integrations table documenting the CLI subcommand for resuming the most recent Remote Control session (v2.1.229).
+- **CBP-372 — [Claude] Add Command plugin source bullet.** New bullet in the Plugins collapsible documenting the marketplace `command`-type source (local command prints the plugin directory, re-resolved every session, applied without restart) and its `mode: "link"` option (v2.1.229).
+- **CBP-373 — [Claude] Document workflow fan-out prefix staggering.** New paragraph in the Dynamic Workflows collapsible documenting same-prefix sibling agent staggering for cached prompt-prefix reuse and the `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` env var (v2.1.229).
+
+`dist/` rebuilt to match.
+
 ### v3.2.34 — 2026-08-11
 
 **Claude Code v2.1.228 auto-update (CBP-368 through CBP-370)**
