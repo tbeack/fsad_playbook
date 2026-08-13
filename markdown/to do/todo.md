@@ -381,3 +381,6 @@
 - [x] `CBP-368` [Claude] Update Agent Teams cross-session messaging — SendMessage can now initiate contact with Remote Control sessions by name + inline sender/body display (v2.1.225, v2.1.228) → [task-cbp-368.md](task-cbp-368.md)
 - [x] `CBP-369` [Claude] Add Remote Control bullet — mobile photo attachments now shown to Claude directly (v2.1.225) → [task-cbp-369.md](task-cbp-369.md)
 - [x] `CBP-370` [Claude] Add Building Skills callout — hardened skills synced from claude.ai (no shadowing, sanitized descriptions, no `!`/`@` expansion) (v2.1.228) → [task-cbp-370.md](task-cbp-370.md)
+- [x] `CBP-371` [Claude] Add `claude remote-control --continue` row to Cheat Sheet (v2.1.229) → [task-cbp-371.md](task-cbp-371.md)
+- [x] `CBP-372` [Claude] Add `command` plugin marketplace source type to Plugins collapsible (v2.1.229) → [task-cbp-372.md](task-cbp-372.md)
+- [x] `CBP-373` [Claude] Document workflow fan-out prefix staggering in Dynamic Workflows (v2.1.229) → [task-cbp-373.md](task-cbp-373.md)
