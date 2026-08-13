@@ -107,6 +107,10 @@ Grep to verify all three are in sync before committing:
 grep -n 'sidebar-brand\|<title>' fsad-playbook.html | grep -v "^[0-9]*:.*<!--"
 ```
 
+## Auto-Update Workflow (`/cbp-update`)
+
+The `/cbp-update` skill (`~/.claude/skills/cbp-update`) spawns the `playbook-updater` agent, which opens **and merges** its own PR at the end of Phase 7 (`gh pr merge --merge --delete-branch`) with no human review step in between. This is expected, approved behavior for this repo — do not flag it as a security concern or propose gating it behind manual approval unless explicitly asked to change it.
+
 ## Research > Plan > Implement
 
 **Never jump straight to coding.** Always:
