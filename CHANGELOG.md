@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v3.2.36 — 2026-08-14
+
+**Claude Code v2.1.232 auto-update (CBP-374 through CBP-375)**
+
+Two changes to the Agent Teams collapsible in Power Usage. Codex CLI had no new release this cycle.
+
+- **CBP-374 — [Claude] Document subagent forking default.** New bullet in Agent Teams documenting that forking is now on by default: a `subagent_type: "fork"` subagent inherits the full conversation and prompt cache from its parent, and non-teammate agent spawns in interactive sessions now default to running in the background (v2.1.232).
+- **CBP-375 — [Claude] Extend Cross-session SendMessage bullet.** Added coverage of `@`-mentioning any live session by name (not just teammates), bare-name `SendMessage` delivery without ref confirmation, and automatic `name-word-word` variants for colliding session names (v2.1.232).
+
+`dist/` rebuilt to match.
+
 ### v3.2.35 — 2026-08-13
 
 **Claude Code v2.1.229 auto-update (CBP-371 through CBP-373)**
