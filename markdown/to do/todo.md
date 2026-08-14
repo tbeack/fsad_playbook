@@ -384,3 +384,5 @@
 - [x] `CBP-371` [Claude] Add `claude remote-control --continue` row to Cheat Sheet (v2.1.229) → [task-cbp-371.md](task-cbp-371.md)
 - [x] `CBP-372` [Claude] Add `command` plugin marketplace source type to Plugins collapsible (v2.1.229) → [task-cbp-372.md](task-cbp-372.md)
 - [x] `CBP-373` [Claude] Document workflow fan-out prefix staggering in Dynamic Workflows (v2.1.229) → [task-cbp-373.md](task-cbp-373.md)
+- [x] `CBP-374` [Claude] Document subagent forking default in Agent Teams (v2.1.232) → [task-cbp-374.md](task-cbp-374.md)
+- [x] `CBP-375` [Claude] Extend Cross-session SendMessage bullet for @-mention any session, bare-name delivery, and unique session naming (v2.1.232) → [task-cbp-375.md](task-cbp-375.md)
