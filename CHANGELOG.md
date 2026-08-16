@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v3.2.37 — 2026-08-15
+
+**Claude Code v2.1.233 auto-update (CBP-376 through CBP-379)**
+
+Four targeted updates covering the Cheat Sheet, Power Usage, and Best Practices sections. Codex CLI had no new release this cycle.
+
+- **CBP-376 — [Claude] Add GitLab MR URL support note.** Updated the `claude agents` row and the `--worktree`/`-w` CLI flag row in the Cheat Sheet to document new GitLab merge request URL support (MRs display as `!N`) (v2.1.233).
+- **CBP-377 — [Claude] Add `CLAUDE_CODE_TOOL_MEMORY_LIMIT` env var.** New row in the Power Usage Hardening env vars table documenting opt-in memory cgroup support for Bash tool commands on Linux, preventing a runaway build from stalling the session (v2.1.233).
+- **CBP-378 — [Claude] Add `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` env var.** New row in the same Hardening env vars table documenting the configurable WebFetch session URL cache TTL (default unchanged at 15 minutes), explicitly distinguished from the unrelated Prompt Caching & KV Cache TTL vars (v2.1.233).
+- **CBP-379 — [Claude] Add Todo tools default-off callout.** New Workflow card in Best Practices noting that TaskCreate/TaskUpdate/TaskList/TodoWrite are no longer available by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models, with the `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` opt-in to restore them (v2.1.233).
+
+`dist/` rebuilt to match.
+
 ### v3.2.36 — 2026-08-14
 
 **Claude Code v2.1.232 auto-update (CBP-374 through CBP-375)**

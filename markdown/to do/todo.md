@@ -386,3 +386,7 @@
 - [x] `CBP-373` [Claude] Document workflow fan-out prefix staggering in Dynamic Workflows (v2.1.229) → [task-cbp-373.md](task-cbp-373.md)
 - [x] `CBP-374` [Claude] Document subagent forking default in Agent Teams (v2.1.232) → [task-cbp-374.md](task-cbp-374.md)
 - [x] `CBP-375` [Claude] Extend Cross-session SendMessage bullet for @-mention any session, bare-name delivery, and unique session naming (v2.1.232) → [task-cbp-375.md](task-cbp-375.md)
+- [x] `CBP-376` [Claude] Add GitLab MR URL support note to `--worktree` flag and `claude agents` row in Cheat Sheet (v2.1.233) → [task-cbp-376.md](task-cbp-376.md)
+- [x] `CBP-377` [Claude] Add `CLAUDE_CODE_TOOL_MEMORY_LIMIT` env var to Power Usage Hardening env vars table (v2.1.233) → [task-cbp-377.md](task-cbp-377.md)
+- [x] `CBP-378` [Claude] Add `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` env var to Power Usage Hardening env vars table (v2.1.233) → [task-cbp-378.md](task-cbp-378.md)
+- [x] `CBP-379` [Claude] Add Todo/task-tracking tools default-off callout to Best Practices Workflow subsection (v2.1.233) → [task-cbp-379.md](task-cbp-379.md)
