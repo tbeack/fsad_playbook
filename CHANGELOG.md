@@ -1,5 +1,25 @@
 ## Changes in This Version
 
+### v3.2.38 — 2026-08-18
+
+**Claude Code v2.1.234 auto-update (CBP-380 through CBP-390)**
+
+Eleven updates across the Cheat Sheet, Power Usage, and Claude Best Practices sections. Codex CLI had no new release this cycle.
+
+- **CBP-380 — [Claude] Add `CLAUDE_CODE_PROJECT_DIR_NAME` env var.** New row in the Power Usage Hardening env vars table documenting the optional short name for a project's per-project transcript directory under `~/.claude/projects/`, for hosts that give each session its own config directory (v2.1.234).
+- **CBP-381 — [Claude] Note the `selection:clear` keybinding action.** Extended the `/keybindings` Cheat Sheet row to document binding a key to clear an in-app text selection, which also works in the agents view (v2.1.234).
+- **CBP-382 — [Claude] Update `prUrlTemplate` for the native GitLab MR badge.** Reworked the Notable `settings.json` Keys bullet: repos with a GitLab remote and an authenticated `glab` CLI now get a native footer/statusline badge showing `MR !N` with draft, pending, and green states, so the template is no longer needed for GitLab (v2.1.234).
+- **CBP-383 — [Claude] Document the auto-continue at usage limit toggle.** Extended the `/config` Cheat Sheet row to note that Claude Code continues an interrupted session automatically when a claude.ai usage limit resets — on by default, disabled via the "Continue automatically at usage limit" toggle (v2.1.234).
+- **CBP-384 — [Claude] Extend Cross-session `SendMessage` bullet.** Documented that `ListAgents` and `SendMessage` now report when the account's session list was too long to enumerate completely, making a failed lookup distinguishable from a genuinely missing session (v2.1.234).
+- **CBP-385 — [Claude] Add Remote Control session-state bullets.** Two new bullets: bidirectional session-state sync (effort level picked on a phone or claude.ai/code applies to terminal- and Desktop/VS Code-hosted sessions and publishes back; permission mode and model stay updated), and signing this computer in to a different claude.ai account or organization now stops a running session within seconds with a reason instead of a misleading HTTP 404 hours later (v2.1.234).
+- **CBP-386 — [Claude] Document `/goal` self-clearing and background-task check-in.** Extended the `/goal` Cheat Sheet row: a goal now clears itself with a notice when a turn dies on an unrecoverable error instead of staying armed, and Claude checks in on background tasks that have kept a goal waiting 30+ minutes rather than waiting indefinitely (v2.1.234).
+- **CBP-387 — [Claude] Add `CLAUDE_CODE_GOAL_CHECKIN_MINUTES` env var.** New row in the Hardening env vars table for the goal background-task check-in interval, with the `0` opt-out that restores indefinite waiting — relevant to unattended sessions where a stalled background task would otherwise park a goal forever (v2.1.234).
+- **CBP-388 — [Claude] Note `/permissions` opens mid-turn.** Extended the `/permissions` Cheat Sheet row: it can now be opened while Claude is working, and rule changes apply to the rest of the current turn, so a rule can be widened or tightened without interrupting a long run (v2.1.234).
+- **CBP-389 — [Claude] Add a `/add-dir` Cheat Sheet row.** New row in the Session, context & history table — the command had no slash-command row previously. Documents granting the session an additional working directory, that it now works mid-turn, and that `/add-dir`, `/autocompact`, `/theme`, `/help`, `/config` and `/advisor` dialogs all open mid-turn in the fullscreen TUI (v2.1.234).
+- **CBP-390 — [Claude] Note Esc no longer clears a mouse text selection.** Extended the `Esc` keyboard-shortcut row: in fullscreen it interrupts or dismisses as usual but the highlight stays put, cross-referencing the `selection:clear` binding for readers who want that behavior back (v2.1.234).
+
+`dist/` rebuilt to match.
+
 ### v3.2.37 — 2026-08-15
 
 **Claude Code v2.1.233 auto-update (CBP-376 through CBP-379)**
