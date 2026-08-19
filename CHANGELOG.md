@@ -1,5 +1,29 @@
 ## Changes in This Version
 
+### v3.2.39 — 2026-08-19
+
+**Claude Code v2.1.235 + Codex CLI rust-v0.148.0 auto-update (CBP-391 through CBP-405)**
+
+Fifteen updates across both best-practices pages — the first combined dual-tool cycle in several releases.
+
+- **CBP-391 — [Claude] Document the `spellcheck` setting.** New entry in the Notable `settings.json` Keys list: an optional setting that underlines misspelled words in the prompt input as you type, using an installed `aspell`, `hunspell`, or `ispell` binary (v2.1.235).
+- **CBP-392 — [Claude] Context-limit error names auto-compact and points to `/config`.** Extended the `/context` Cheat Sheet row and added a Context Management bullet noting that when auto-compact is off, the context-limit error now says so and points to `/config` to re-enable it (v2.1.235).
+- **CBP-393 — [Claude] `SendMessage` refuses oversized cross-session messages.** Extended the Agent Teams cross-session `SendMessage` bullet: a message too large for cross-session delivery is now refused up front rather than accepted and silently dropped (v2.1.235).
+- **CBP-394 — [Claude] `claude rc` enterprise-gateway availability check.** New Remote Control bullet noting that `claude rc` now applies the same enterprise-gateway availability check as interactive startup (v2.1.235).
+- **CBP-395 — [Codex] Document the `/export` command.** New Cheat Sheet row for exporting a complete TUI conversation as Markdown, either to the clipboard or to a new file (rust-v0.148.0).
+- **CBP-396 — [Codex] Document `codex exec fork`.** Forking is no longer TUI-only: added a CLI table row and extended the Conversation Forking collapsible for non-interactive session forking from scripts and CI (rust-v0.148.0).
+- **CBP-397 — [Codex] `/status` shows estimated thread credits and cost.** Extended the `/status` and `/statusline` Cheat Sheet rows for the estimated thread credits/cost figure, scoped to eligible workspaces and also surfaced in status lines and terminal titles (rust-v0.148.0).
+- **CBP-398 — [Codex] `codex doctor` storage diagnostics.** Added storage to the `codex doctor` diagnostic domain list while preserving the original v0.131.0 provenance (rust-v0.148.0).
+- **CBP-399 — [Codex] Async and MCP-tool hooks.** New version note in the Hooks section: hooks can run asynchronously (Codex continues the turn instead of waiting) and can invoke an MCP tool directly instead of shelling out; hook listings expose execution mode; a timed-out hook now has its entire process tree terminated; hook runtimes refresh after plugin changes. Also corrected the section's stale "6 hook event types" claim to 8, matching its own table (rust-v0.148.0).
+- **CBP-400 — [Codex] MCP OAuth reauthentication recovery.** New Integrations version note: MCP servers recover after OAuth reauthentication without restarting Codex, reauth failures report clearer per-server errors, servers can pin their own OAuth callback port, and dynamic HTTP header helpers are supported (rust-v0.148.0).
+- **CBP-401 — [Codex] Skill frontmatter model annotations and validation.** Added YAML frontmatter to the SKILL.md example — previously it had none at all — including the new `model:` annotation, plus a callout noting that skill validation now rejects unfinished `TODO` placeholders (rust-v0.148.0).
+- **CBP-402 — [Codex] Automatic review enforcement.** New Code Review callout: `/review` is no longer the only path into review. Automatic review is enforced for managed models and strict auto-review is enforced for MCP tool calls, so review fires unprompted in enterprise and managed deployments (rust-v0.148.0).
+- **CBP-403 — [Codex] Amazon Bedrock Runtime as a built-in provider.** Added the missing Bedrock row to the multi-provider models table and documented GPT-5.6 routing plus profile/region configuration without a hand-rolled provider block (rust-v0.148.0).
+- **CBP-404 — [Codex] Session lifecycle updates.** Rewrote the Session Management prose (split into two paragraphs for readability): archiving and restoring moved into the resume picker itself, prompts can be drafted while the TUI initializes with resume/fork progress shown during startup, and resumed sessions restore their persisted working directory and approval policy. Also extended the `/archive` Cheat Sheet row for picker support (rust-v0.148.0).
+- **CBP-405 — [Codex] Sandbox restrictions fail closed.** New Permission Profiles callout: denied or unreadable paths now fail closed on both Linux and Windows, and managed deny-read rules are enforced inside the Windows sandbox (rust-v0.148.0).
+
+**Not applied:** the planned TOML config example for CBP-399's async and MCP-tool hooks was deliberately omitted — upstream rust-v0.148.0 never published the actual hook config key names, and shipping inferred syntax into a cheat-sheet-grade reference would be worse than shipping the prose alone. See `markdown/updates/2026-08-19.md`.
+
 ### v3.2.38 — 2026-08-18
 
 **Claude Code v2.1.234 auto-update (CBP-380 through CBP-390)**
