@@ -1,5 +1,22 @@
 ## Changes in This Version
 
+### v3.2.40 — 2026-08-20
+
+**Claude Code v2.1.237 auto-update (CBP-408 through CBP-415)**
+
+Eight targeted updates covering the Cheat Sheet, Model & Effort, Power Usage, and Config Cascade sections. Codex CLI had no new release this cycle.
+
+- **CBP-408 — [Claude] Document the "Concise" output style.** Extended the `/config` Cheat Sheet row: a built-in "Concise" output style leads with results and skips preamble/narration while doing the work just as thoroughly, selected under Output style in `/config` (v2.1.237).
+- **CBP-409 — [Claude] Document `ANTHROPIC_DEFAULT_MODEL`.** Added an example to the model-aliases code block in Model & Effort: sets the model new sessions start on, contrasted with `ANTHROPIC_MODEL` since a `/model` pick still overrides `ANTHROPIC_DEFAULT_MODEL` and persists across restarts (v2.1.236).
+- **CBP-410 — [Claude] `SendMessage` gains `notify_when_idle`.** Extended the Agent Teams cross-session `SendMessage` bullet: an opt-in, one-shot option to ask another Claude Code session on the same machine to send one notice when it next goes idle, no polling (macOS and Linux) (v2.1.236).
+- **CBP-411 — [Claude] macOS wildcard `denyRead` precedence hardening.** Extended the Subprocess Sandboxing `sandbox.filesystem.denyRead` row: wildcard read-deny rules now take precedence inside allowed read regions, cover matched directories' contents, and can't be bypassed by renaming the denied file (v2.1.236).
+- **CBP-412 — [Claude] Auto mode reviews Monitor commands like Bash.** New bullet in the Config Cascade settings.json callout: `Monitor` allow rules are set aside while auto mode is active, so Monitor commands go through the same classifier review as Bash commands (v2.1.236).
+- **CBP-413 — [Claude] `/goal` escalating check-in cadence.** Updated the `/goal` Cheat Sheet row: idle-session check-ins on parked background work now escalate 30 minutes → 1 hour → 2 hours, instead of a flat 30-minute check-in (v2.1.236).
+- **CBP-414 — [Claude] `/usage` Team/Enterprise spend row.** Extended the `/usage` Cheat Sheet row: a usage-credits spend row is now shown for Team and Enterprise members, capped at 0% before anything is spent (v2.1.236).
+- **CBP-415 — [Claude] Slash-command typo reporting.** New note atop the Cheat Sheet's Slash Commands section: pressing Enter on a mistyped or unavailable slash command now reports it instead of silently running the closest fuzzy match; prefixes and aliases still run (v2.1.236).
+
+See `markdown/updates/2026-08-20.md` for the full change assessment, including changelog items judged no-action.
+
 ### v3.2.39 — 2026-08-19
 
 **Claude Code v2.1.235 + Codex CLI rust-v0.148.0 auto-update (CBP-391 through CBP-405)**
