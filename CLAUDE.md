@@ -94,13 +94,18 @@ When cutting a new version, update **all three** of these locations in `fsad-pla
 
 1. **`<title>` tag** (line ~6) — `FSAD — Full Stack Agentic Development (vX.XX.X)`
 2. **Sidebar brand badge** (search for `sidebar-brand`) — `· vX.XX.X` inside the `<a>` tag
-3. **In-app changelog modal** (search for `changelogModal`) — add a new `<section>` block above the previous latest version, matching the format:
+3. **In-app changelog modal** (search for `changelogModal`) — add a new `<section>` block above the previous latest version. For a multi-task auto-update run, follow the intro `<p>` with a `<ul>` — one `<li>` per CBP task, description sourced from that task's own `## Summary` section — so the "What's new this week" widget can render one card per task instead of falling back to a single bundle card:
    ```html
    <section>
      <h3>vX.XX.X <span class="changelog-date">· YYYY-MM-DD</span></h3>
      <p><strong>Summary sentence.</strong> Detail sentences.</p>
+     <ul>
+       <li><strong>CBP-### — [Claude|Codex] Short title.</strong> 1–2 sentence description, sourced from the task file's Summary.</li>
+       <li><strong>CBP-### — [Claude|Codex] Short title.</strong> 1–2 sentence description, sourced from the task file's Summary.</li>
+     </ul>
    </section>
    ```
+   A single-task version (no bundle) may keep just the intro `<p>` with no `<ul>`.
 
 Grep to verify all three are in sync before committing:
 ```bash
