@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v3.2.41 — 2026-08-20
+
+**Fix mixed font sizes in the Changelog modal (CBP-417)**
+
+- **CBP-417 — Fix mixed font sizes in the changelog modal.** The per-version bullet list (`.changelog-body li`) had no font-size rule and fell back to the 16px body default, rendering visibly larger than the 0.86rem summary paragraph above it. Added a matching `.changelog-body ul li` rule (font-size 0.86rem, line-height 1.55) so the bullet list now reads at the same size as the surrounding prose, verified in both light and dark theme. `dist/` rebuilt to match.
+
 ### v3.2.40 — 2026-08-20
 
 **Claude Code v2.1.237 auto-update (CBP-408 through CBP-415)**

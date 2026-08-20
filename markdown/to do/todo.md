@@ -427,3 +427,4 @@
 - [x] `CBP-414` Update `/usage` Cheat Sheet row with the Team/Enterprise usage-credits spend row (v2.1.236) → [task-cbp-414.md](task-cbp-414.md)
 - [x] `CBP-415` Add a note on slash-command typo/fuzzy-match reporting behavior to the Cheat Sheet (v2.1.236) → [task-cbp-415.md](task-cbp-415.md)
 - [x] `CBP-416` — Modify the cbp update agent behavior to use the "# Summary" section of each task file to provide informative summaries to the "what's changed this week section". also use the same task file "Summary" section for updates to the "changelog.md" entries. → [task-cbp-416.md](task-cbp-416.md)
+- [x] `CBP-417` Fix mixed font sizes in the changelog modal — standardize on the smaller font → [task-cbp-417.md](task-cbp-417.md)
