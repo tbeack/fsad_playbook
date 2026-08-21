@@ -1,5 +1,26 @@
 ## Changes in This Version
 
+### v3.2.42 — 2026-08-21
+
+**Claude Code v2.1.238 + Codex CLI rust-v0.149.0 auto-update (CBP-418 through CBP-429)**
+
+Twelve updates across both best-practices pages — the second combined dual-tool cycle.
+
+- **CBP-418 — [Claude] Self-hosted runner shutdown & proxy-auth flags.** Documented `--defer-shutdown-max-min` (graceful SIGTERM draining) and `--proxy-authorization-command`/`--proxy-authorization-file` (freshly minted `Proxy-Authorization` headers) in the Self-Hosted Runner collapsible (v2.1.238).
+- **CBP-419 — [Claude] Remote Control HTTP 403 resilience.** New bullet: brief HTTP 403 refusals from a network edge, VPN, or proxy are now tolerated for up to 3 minutes before Remote Control surfaces an error, naming the refusing party if the block persists (v2.1.238).
+- **CBP-420 — [Claude] Cross-session-messaging & Remote Control sync fixes.** Extended the Agent Teams `SendMessage`/`ListAgents` bullet for Remote Control connectivity and idle-worker-exposure fixes, and added a consolidated Remote Control bullet covering env-var inheritance, crashed-session reuse, transcript sync, model-pick sync, reconnect resilience, and sign-out reporting (v2.1.238).
+- **CBP-421 — [Claude] Worktree Bash-refusal message fix.** Extended the Work Trees Tip callout: worktree-isolation Bash refusals no longer tell you to remove a redirect when the command had none (v2.1.238).
+- **CBP-422 — [Claude] Document the `keybindingFlavor` setting.** Added to both the Ctrl+W Cheat Sheet row and the Notable settings.json Keys list: setting it to `"readline"` makes Ctrl+W delete back to the previous whitespace, Bash-style; default `"classic"` is unchanged (v2.1.238).
+- **CBP-423 — [Claude] `claude mcp list`/`get` show `⊘ Disabled`.** Extended the `/mcp` Cheat Sheet row: disabled servers now show directly as `⊘ Disabled` instead of triggering a connection attempt for a health check (v2.1.238).
+- **CBP-424 — [Claude] Plugin marketplace `headersHelper`.** New Plugins bullet: a url marketplace or catalog entry can mint HTTP headers (e.g. a short-lived token) for catalog and archive fetches, with an install/update confirmation prompt and credential-isolation hardening (v2.1.238).
+- **CBP-425 — [Claude] zsh conditional-syntax permission-check fix.** One-sentence note in Subprocess Sandboxing: Bash tool permission checking was improved for zsh-specific syntax in shell conditionals (v2.1.238).
+- **CBP-426 — [Codex] Document the `codex agents` dashboard.** New CLI Flags row and a Multi-Agent Workflows paragraph for the interactive dashboard that searches, starts, opens, renames, and stops tasks, with configurable shortcuts (rust-v0.149.0).
+- **CBP-427 — [Codex] Document `/cd`, `/pwd`, `/cwd`.** Three new Slash Commands rows for managing and inspecting the session's working directory from the TUI (rust-v0.149.0).
+- **CBP-428 — [Codex] Document the `codex queue` command.** New CLI Flags row plus a Session Management prose update and example: send a message to an existing local or remote session without switching into it; queued messages now reliably wake idle sessions and resolve duplicate names (rust-v0.149.0).
+- **CBP-429 — [Codex] Expanded Vim editing motions.** Extended the Vim Editing Mode collapsible's motion list with change motions (`cw`, `c$`, `cc`) and character replacement (rust-v0.149.0).
+
+See `markdown/updates/2026-08-21.md` for the full change assessment, including changelog items judged no-action.
+
 ### v3.2.41 — 2026-08-20
 
 **Fix mixed font sizes in the Changelog modal (CBP-417)**
