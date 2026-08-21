@@ -1,5 +1,21 @@
 ## Changes in This Version
 
+### v3.2.43 — 2026-08-21
+
+**Claude Code v2.1.239 auto-update (CBP-430 through CBP-436)**
+
+Seven targeted updates covering the Cheat Sheet and Power Usage sections. Codex CLI had no new release this cycle.
+
+- **CBP-430 — [Claude] Document `/claude-api upgrade`.** New Cheat Sheet row: migrates a Python project's use of the `anthropic` SDK from 0.x to 1.x (v2.1.239).
+- **CBP-431 — [Claude] `keybindingFlavor: "readline"` extends to more word keys.** Extended the Ctrl+W Cheat Sheet row: the setting now also matches Bash for Alt+F/Ctrl+Option+→ (jump to word end), Alt+D (delete to word end, restorable with Ctrl+Y), and punctuation as a word separator (v2.1.239).
+- **CBP-432 — [Claude] `/goal` resume restores active goal.** Extended the `/goal` Cheat Sheet row: resuming a session from the `claude --resume` picker now restores its active goal (v2.1.239).
+- **CBP-433 — [Claude] Cloud-synced plugins shown as `name@synced`.** New Plugins bullet: plugins synced from claude.ai into cloud sessions display as `name@synced` and can be targeted with `claude plugin enable/disable <name>@synced`; never overrides a locally-installed plugin of the same name (v2.1.239).
+- **CBP-434 — [Claude] Cross-session messaging reaches Windows.** Extended the Agent Teams `SendMessage`/`ListAgents` bullet: cross-session messaging now works on Windows at parity with macOS/Linux; `ListAgents`/`/list-agents` now correctly list live teammates (previously only subagents and other sessions appeared); `ListAgents` also reports a session's own addressable name (v2.1.239).
+- **CBP-435 — [Claude] Retry watchdog fails fast on billing errors.** Extended the `CLAUDE_CODE_RETRY_WATCHDOG` hardening-table row: retries now stop immediately on organization spend-limit and out-of-credits errors instead of waiting indefinitely for a reset (v2.1.239).
+- **CBP-436 — [Claude] Cost estimates include data-residency premium.** Extended the `/usage` Cheat Sheet row: `/cost`, the status line, and `--max-budget-usd` now include the 1.1× US-only-inference premium for data-residency workspaces (v2.1.239).
+
+See `markdown/updates/2026-08-21.md` for the full change assessment, including changelog items judged no-action.
+
 ### v3.2.42 — 2026-08-21
 
 **Claude Code v2.1.238 + Codex CLI rust-v0.149.0 auto-update (CBP-418 through CBP-429)**
