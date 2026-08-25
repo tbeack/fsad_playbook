@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v3.2.46 — 2026-08-25
+
+**Token Optimization Strategies (CBP-455)**
+
+New KPIs page section distilling a CTO-level token-economics framework — sourced from `research/CTO_Agentic_Token_Optimization_Strategies.pdf` — into three levers (use less unnecessary intelligence, don't use intelligence where software will do, buy the right intelligence), a frontier-vs-open-weight division-of-labor table, an experiments table, and a "cost per accepted autonomous engineering change" portfolio metric. Kept deliberately separate from the existing individual-habits "Token Management" section on the Practical Best Practices page, which covers a different altitude of content (personal session hygiene vs. organizational harness economics).
+
+- **CBP-455 — [Claude] Token Optimization Strategies.** New `#kpis/token-optimization` section, nav link, and deep-link route.
+
 ### v3.2.45 — 2026-08-25
 
 **AI-Native SDLC Playbook gap-fill (CBP-452 through CBP-454)**
