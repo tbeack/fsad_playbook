@@ -29,6 +29,7 @@ DIST_DIR = ROOT / "dist"
 OUT = DIST_DIR / "fsad-playbook.html"
 EMBEDDINGS_JSON = DIST_DIR / "embeddings.json"
 EMBEDDINGS_SCRIPT = Path(__file__).parent / "build-embeddings.py"
+ASSISTANT_INDEX_SCRIPT = Path(__file__).parent / "build-assistant-index.py"
 
 FONTS_URL = (
     "https://fonts.googleapis.com/css2"
@@ -139,6 +140,19 @@ def build_embeddings():
         print(f"    {line}")
 
 
+def build_assistant_index():
+    print(f"  Running {ASSISTANT_INDEX_SCRIPT.name}...")
+    result = subprocess.run(
+        [sys.executable, str(ASSISTANT_INDEX_SCRIPT)],
+        capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        print(f"  ERROR: {result.stderr.strip()}", file=sys.stderr)
+        sys.exit(1)
+    for line in result.stdout.strip().splitlines():
+        print(f"    {line}")
+
+
 def inject_embeddings(content):
     chunks = json.loads(EMBEDDINGS_JSON.read_text(encoding="utf-8"))
     payload = json.dumps(chunks, ensure_ascii=False, separators=(",", ":"))
@@ -172,7 +186,10 @@ def main():
     build_embeddings()
     content = inject_embeddings(content)
 
-    print("\nStep 4 — Writing output")
+    print("\nStep 4 — Rebuilding playbook-assistant index")
+    build_assistant_index()
+
+    print("\nStep 5 — Writing output")
     OUT.write_text(content, encoding="utf-8")
     size_mb = OUT.stat().st_size / 1_048_576
     print(f"  Written: {OUT} ({size_mb:.1f} MB)")
