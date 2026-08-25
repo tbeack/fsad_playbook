@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v3.2.45 — 2026-08-25
+
+**AI-Native SDLC Playbook gap-fill (CBP-452 through CBP-454)**
+
+Three additions closing gaps identified by diffing the FSAD Playbook against Anthropic's "AI-Native SDLC Playbook" blog post (CBP-451).
+
+- **CBP-452 — [Claude] Continuous Evals in CI.** New Hooks deep-dive subsection: a 20–50 task regression suite (prompt + acceptance checks) that gates CLAUDE.md/skill/hook changes and grows from production incidents.
+- **CBP-453 — [Claude] Process Health KPIs.** New KPIs page subsection: leading/lagging cycle-time and defect-escape metrics (spec→plan→merged-PR, first-pass CI success rate, PR review time, repeat-incident rate).
+- **CBP-454 — [Claude] Production Monitoring & Control Bands.** New Claude Best Practices section: statistical breach-tier detection (1σ/2σ/3σ) that closes the FSAD workflow loop by writing a new intent-style artifact on a 3σ breach.
+
 ### v3.2.44 — 2026-08-25
 
 **Claude Code v2.1.245 auto-update (CBP-437 through CBP-450)**

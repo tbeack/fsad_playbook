@@ -461,3 +461,7 @@
 - [x] `CBP-448` Update Power Usage → Plugins — marketplace-field dependency resolution fix under `--plugin-dir` (v2.1.243) → [task-cbp-448.md](task-cbp-448.md)
 - [x] `CBP-449` Update Power Usage → Plugins — `/reload-plugins` LSP tool stale-tool fix + pre-change warning (v2.1.243) → [task-cbp-449.md](task-cbp-449.md)
 - [x] `CBP-450` Update `/login` row — keyless sign-in via Anthropic Console account (v2.1.243) → [task-cbp-450.md](task-cbp-450.md)
+- [x] `CBP-451` — Review the blog post (https://claude.com/blog/the-ai-native-sdlc-playbook), and perform a diff to the FSAD Playbook. Identify unique insights in the blog post not in the playbook and develop a plan to incorporate. → [task-cbp-451.md](task-cbp-451.md)
+- [x] `CBP-452` Add a "Continuous Evals in CI" subsection to the Claude Best Practices code-review or hooks-deep-dive section, covering a 20–50 task regression suite that gates config changes and grows from production incidents. → [task-cbp-452.md](task-cbp-452.md)
+- [x] `CBP-453` Add a "Process Health" subsection to the KPIs page covering leading/lagging cycle-time and defect-escape metrics (spec→plan→merged-PR, first-pass CI success rate, PR review time, repeat-incident rate). → [task-cbp-453.md](task-cbp-453.md)
+- [x] `CBP-454` Add a "Production Monitoring & Control Bands" section describing statistical breach-tier detection (1σ/2σ/3σ) that closes the FSAD workflow loop by auto-generating a new intent artifact on a 3σ breach. → [task-cbp-454.md](task-cbp-454.md)
