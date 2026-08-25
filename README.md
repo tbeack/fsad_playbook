@@ -74,6 +74,7 @@ Reusable Claude Code skills bundled under `skills/`. Install as a plugin to invo
 | `sec-review-team` | Multi-agent security review (specialist roster selected by stack) |
 | `sec-review-fixes` | Opens fix PRs for High findings from a `sec-review-team` report |
 | `prd` | Write a PRD or feature spec — four-phase gated flow (Discovery → Specify → Plan → Tasks) |
+| `playbook-assistant` | Answer "how do I…" questions from the FSAD Playbook's own content, offline, with section citations |
 
 All skills read project conventions from `~/.claude/commands/fsd/projects.yaml` — copy `skills/add-task/add-task-projects.yaml` to that path and customize for your projects.
 
