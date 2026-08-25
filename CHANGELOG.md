@@ -1,5 +1,28 @@
 ## Changes in This Version
 
+### v3.2.44 — 2026-08-25
+
+**Claude Code v2.1.245 auto-update (CBP-437 through CBP-450)**
+
+Fourteen updates covering the v2.1.243 release: three new `settings.json` keys, six Cheat Sheet row enrichments, and five Power Usage / Hooks fixes. Codex CLI had no new release this cycle.
+
+- **CBP-437 — [Claude] Document the `modelPicker` setting.** New Notable settings.json Keys bullet: curate the `/model` picker with an ordered, labeled list of models (any id spelling, including Vertex/Bedrock ids), appended to or replacing the built-in lineup (v2.1.243).
+- **CBP-438 — [Claude] Document the `modelPricing` managed setting.** New Notable settings.json Keys bullet: an organization's contracted per-model rates and discount multiplier are used for `/cost`, the status line, and telemetry cost figures instead of list price (v2.1.243).
+- **CBP-439 — [Claude] Document `promptCacheTtl` / `subagentPromptCacheTtl`.** New Prompt Caching TTL table rows: API-key and cloud-provider users can keep a 1-hour prompt cache on the main conversation while subagents stay at the default 5-minute TTL (v2.1.243).
+- **CBP-440 — [Claude] Sandbox Bash prompt no longer lists allowed hosts.** Extended the `sandbox.network.allowedDomains` row: Claude now simply attempts a request and you approve new hosts as they come up, rather than the prompt pre-listing every allowed host (v2.1.243).
+- **CBP-441 — [Claude] `/usage` Loops breakdown.** Extended the `/usage` Cheat Sheet row and the `/loop` Power Usage subsection: a new Loops tab shows per-loop run count, total tokens, tokens per run, and last run — useful for spotting runaway or chatty `/loop` tasks (v2.1.243).
+- **CBP-442 — [Claude] `/tasks` shows model + effort per subagent.** Extended the `/tasks` Cheat Sheet row: each subagent's row and detail dialog now show the model and effort level it ran on (v2.1.243).
+- **CBP-443 — [Claude] `/model`/`/effort`/`/fast` apply immediately + Ultracode fix.** Extended all three rows: on Bedrock, Vertex, Foundry, or with telemetry disabled, changes now apply immediately instead of queueing until the turn ends; also fixed the `/model` picker silently ignoring an Ultracode selection (v2.1.243).
+- **CBP-444 — [Claude] `/status` gains two new lines.** Extended the `/status` row: a `Skipped sources` line lists managed settings sources present but overridden by a higher-precedence source, and a new line shows whether GitHub is connected for Claude Code on the web (Pro/Max) (v2.1.243).
+- **CBP-445 — [Claude] `managed` marker in `/mcp` and `/plugin`.** Extended both rows: claude.ai connectors whose authentication is managed by your organization now show a `managed` marker (v2.1.243).
+- **CBP-446 — [Claude] `/resume` pagination fix.** Extended the row: the picker is no longer capped at the 50 most recent sessions — it loads more as you scroll (v2.1.243).
+- **CBP-447 — [Claude] Hooks `if` condition command-substitution fix.** Added a caveat to the Hooks deep-dive: conditions like `"Bash(cat *)"` no longer false-fire on unrelated commands containing `$()` or backtick substitution followed by more arguments (v2.1.243).
+- **CBP-448 — [Claude] Plugin dependency resolution fix under `--plugin-dir`.** Extended the Dependency enforcement bullet: dependencies declared via a plugin's `marketplace` field now resolve correctly when both plugins are loaded together via `--plugin-dir` (v2.1.243).
+- **CBP-449 — [Claude] `/reload-plugins` LSP tool fix.** New Plugins bullet: no longer keeps the LSP tool registered after the last LSP plugin is disabled, and now warns before an LSP change that would re-read the conversation (v2.1.243).
+- **CBP-450 — [Claude] `/login` keyless Console sign-in.** Extended the row: choosing Anthropic Console now offers a keyless "Sign in with your Console account" option (recommended) alongside creating an API key — useful for organizations that don't allow API keys (v2.1.243).
+
+See `markdown/updates/2026-08-25.md` for the full change assessment, including changelog items judged no-action or deferred.
+
 ### v3.2.43 — 2026-08-21
 
 **Claude Code v2.1.239 auto-update (CBP-430 through CBP-436)**
