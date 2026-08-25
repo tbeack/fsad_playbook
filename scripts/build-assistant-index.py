@@ -65,7 +65,9 @@ def main():
     content = SRC.read_text(encoding="utf-8")
 
     print("Extracting chunks...")
-    chunks = extract_chunks(content)
+    # Untruncated: unlike embeddings.json, this index isn't shipped to the
+    # browser, so there's no payload-size reason to cap chunk length.
+    chunks = extract_chunks(content, max_chars=None)
 
     print("Resolving sections to pages...")
     section_to_page = extract_section_to_page_map(content)

@@ -90,7 +90,13 @@ def balanced_end(content, start, tag):
     return -1
 
 
-def extract_chunks(content):
+def extract_chunks(content, max_chars=MAX_CHUNK_CHARS):
+    """Extract section/collapsible chunks from the playbook HTML.
+
+    max_chars truncates each chunk's text (default MAX_CHUNK_CHARS, sized for
+    the in-browser embeddings payload). Pass None for untruncated text, e.g.
+    for an offline index that isn't shipped to the browser.
+    """
     chunks = []
 
     # Find every <section id="..."> opening tag
@@ -133,7 +139,9 @@ def extract_chunks(content):
                 label = strip_html(m.group(1))
                 break
 
-        clean = strip_html(body)[:MAX_CHUNK_CHARS]
+        clean = strip_html(body)
+        if max_chars is not None:
+            clean = clean[:max_chars]
 
         chunks.append({
             "id": f"sec_{sec_id}",
@@ -158,7 +166,9 @@ def extract_chunks(content):
             if not col_title:
                 continue
 
-            col_clean = strip_html(col_body)[:MAX_CHUNK_CHARS]
+            col_clean = strip_html(col_body)
+            if max_chars is not None:
+                col_clean = col_clean[:max_chars]
             chunks.append({
                 "id": f"col_{sec_id}_{ci}",
                 "sectionId": sec_id,
