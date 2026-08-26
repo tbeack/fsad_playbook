@@ -470,6 +470,7 @@
 - [ ] `CBP-457` Refactor the `playbook-updater` agent's multi-agent coordination design — it has stalled 3+ times because Phase 3/5/5.5 depend on messaging primitives unavailable to a non-root spawned agent. Research root cause and develop 3 refactor strategies with a recommendation. → [task-cbp-457.md](task-cbp-457.md)
 - [x] `CBP-458` — Review the Security review team diagram and create an equivalent version diagram for the code-review team. Insert into the playbook skills section and update the code review section to include a similar overview section for the code review skill/team. → [task-cbp-458.md](task-cbp-458.md)
 - [x] `CBP-459` Implement `playbook-updater`'s Strategy 2 refactor (serialize fan-out; move the verification gate + release steps to the root skill session) → [task-cbp-459.md](task-cbp-459.md)
+- [x] `CBP-460` Fix deeplink for the Code Review Team section — direct-loaded `#skills/code-review-team` flashes to the hero and slow-scrolls instead of landing instantly → [task-cbp-460.md](completed/task-cbp-460.md)
 - [x] `CBP-465` Update `/permissions` Cheat Sheet row — Auto mode tab for viewing/editing classifier rules (v2.1.246) → [task-cbp-465.md](task-cbp-465.md)
 - [x] `CBP-466` Update Notable settings.json Keys callout — Bash allow-rule wildcard-before-subcommand startup warning (v2.1.246) → [task-cbp-466.md](task-cbp-466.md)
 - [x] `CBP-467` Update `/code-review` Cheat Sheet row — auto-start expanded to Bedrock/Vertex/Foundry/gateway/telemetry-disabled (v2.1.246) → [task-cbp-467.md](task-cbp-467.md)

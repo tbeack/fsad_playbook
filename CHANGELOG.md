@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v3.3.2 — 2026-08-26
+
+**Fix deeplink flash/slow-scroll for Skills Library sections (CBP-460)**
+
+Direct-loaded and nav-click deeplinks (e.g. `#skills/code-review-team`) now land instantly on the target section instead of flashing to the page hero and animating a slow scroll past it, with the URL hash no longer flickering through intermediate sections mid-scroll. In-page sidebar sub-item clicks and search-result jumps keep their smooth-scroll animation.
+
+- **CBP-460 — [Claude] Fix deeplink flash/slow-scroll.** Added an `instant` scroll option to `scrollToId()`/`openAndScrollToLeaf()`, used only by `handleRoute()`'s route-entry call sites. Independent verification surfaced three further bugs in the same landing path, all fixed: a scroll-spy hash race where `IntersectionObserver`'s initial fire could overwrite the target hash before the route's own correction ran (guarded with a `routeSettling` flag); a CSS `transform` slide on `.page`/`.page.active` that caused a ~10px landing drift as it animated after the scroll position was computed (removed, opacity-only fade remains); and a global `scroll-behavior: smooth` CSS rule that silently overrode `window.scrollTo({ behavior: 'auto' })`, so "instant" scrolls were never actually instant (now explicitly passes `behavior: 'instant'`).
+
 ### v3.3.1 — 2026-08-26
 
 **Claude Code v2.1.246 auto-update (CBP-465 through CBP-470)**
