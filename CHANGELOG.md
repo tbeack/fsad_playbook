@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v3.3.3 — 2026-08-26
+
+**Fix Security Review section alignment on the Skills Library page (CBP-471)**
+
+`#security-review` was rendering as a direct child of `<body>` instead of nested inside `#page-skills`, so it didn't get the page's centered layout — a div-nesting bug, not a CSS issue.
+
+- **CBP-471 — [Claude] Fix stray closing tags after Code Review Team's specialist collapsibles.** Commit `a6ff9707` added a 7th specialist collapsible (`security-reviewer`) to `code-review-team` but left 3 extra stray closing `</div>` tags behind, walking the DOM back out past `#page-skills`. Removed the stray tags; `#security-review` now shares the same parent, width, and centered alignment as `#code-review-team`.
+
 ### v3.3.2 — 2026-08-26
 
 **Fix deeplink flash/slow-scroll for Skills Library sections (CBP-460)**
