@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v3.3.0 — 2026-08-26
+
+**Code Review Team overview section + diagram parity with Security Review (CBP-458)**
+
+Code Review Team now has the same standalone-section treatment as Security Review on the Skills Library page: intro, orchestration diagram (relocated from the buried SKILL.md collapsible), an Invocation callout, a 7-specialist table, and 7 specialist-definition cards. The native GitHub Code Review Agent section on the Claude Best Practices page now cross-links to the `fsd:code-review-team` skill as the local, pre-PR multi-agent alternative.
+
+- **CBP-458 — [Claude] Code Review Team overview section.** New `#skills/code-review-team` section, nav link, `sectionToPageMap` route, and cross-reference callout from the native Code Review section.
+
 ### v3.2.46 — 2026-08-25
 
 **Token Optimization Strategies (CBP-455)**

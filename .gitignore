@@ -18,6 +18,12 @@ logs/
 # Cleanup tracking
 delete.md
 
+# Serena MCP local state
+.serena/
+
+# Local research notes
+research/
+
 # Imprivata skills import — not cleared to share externally yet (see markdown/to do/task-cbp-343.md)
 skills/engineering-skills/
 skills/product-skills/
