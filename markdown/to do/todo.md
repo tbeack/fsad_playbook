@@ -477,3 +477,4 @@
 - [x] `CBP-468` Update `/goal` Cheat Sheet row — idle check-in cap (max 3 per goal, resets on next message) (v2.1.246) → [task-cbp-468.md](task-cbp-468.md)
 - [x] `CBP-469` Update Subprocess Sandboxing intro — malformed `&&`/`||` commands always require approval (v2.1.246) → [task-cbp-469.md](task-cbp-469.md)
 - [x] `CBP-470` [Codex] Update "Codex as MCP Server" callout — `codex mcp-server` deprecated in favor of the Codex app server / Codex plugin for Claude Code → [task-cbp-470.md](task-cbp-470.md)
+- [x] `CBP-471` — fix the alignment of the security-review-team section that follows the code-review-team section. The alignment should be centered. → [task-cbp-471.md](completed/task-cbp-471.md)
