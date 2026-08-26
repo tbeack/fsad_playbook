@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v3.3.1 — 2026-08-26
+
+**Claude Code v2.1.246 auto-update (CBP-465 through CBP-470)**
+
+Six documentation updates covering new permission, review, and sandboxing behavior in Claude Code v2.1.246, plus one Codex CLI deprecation.
+
+- **CBP-465 — [Claude] `/permissions` Auto mode tab.** Claude Code v2.1.246 added an Auto mode tab to `/permissions` for viewing and editing auto mode classifier rules directly from the same interactive dialog used for regular allow/deny/ask permission rules.
+- **CBP-466 — [Claude] Bash allow-rule wildcard-before-subcommand warning.** Claude Code v2.1.246 added a startup warning for Bash permission allow rules with a wildcard before the subcommand (e.g. `Bash(git * main)`), since such rules also match options inserted before the subcommand — a pattern that can unintentionally widen the allow rule's scope.
+- **CBP-467 — [Claude] `/code-review` auto-start expanded.** As of v2.1.246, `/code-review` can also start on its own on Amazon Bedrock, Google Vertex AI, and Foundry, through the Claude apps gateway, and when telemetry or non-essential traffic is disabled.
+- **CBP-468 — [Claude] `/goal` idle check-in cap.** As of v2.1.246, an idle goal makes at most three escalating check-ins on long-running background work before it stops escalating; sending the session a new message allows three more.
+- **CBP-469 — [Claude] Subprocess Sandboxing: malformed compound commands always require approval.** As of v2.1.246, Bash permission checks always require approval for malformed commands with a dangling `&&` or `||` operator, closing a gap where a syntactically-broken compound command could otherwise skip the intended approval flow.
+- **CBP-470 — [Codex] `codex mcp-server` deprecated.** The `codex mcp-server` command is deprecated in favor of the Codex app server for programmatic integration, or the Codex plugin for Claude Code to use Codex from within Claude Code.
+
 ### v3.3.0 — 2026-08-26
 
 **Code Review Team overview section + diagram parity with Security Review (CBP-458)**
