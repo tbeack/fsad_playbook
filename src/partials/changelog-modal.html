@@ -6,6 +6,10 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.0 <span class="changelog-date">· 2026-08-27</span></h3>
+        <p><strong>CBP-478 — Modular source refactor (Option E).</strong> The playbook's source of truth moved from the 30 MB monolithic HTML file to a modular <code>src/</code> tree — a template plus 10 page partials, 16 JS fragments, extracted CSS, vendored MiniSearch, and decoded PNG diagram assets — assembled by the new <code>scripts/build-source.py</code>. No content or behavior changed: the built playbook was byte-identical at the point of migration, verified against frozen baselines at every phase and by a full 17-point behavior sweep across all 10 pages. The daily auto-updater (local and cloud) was migrated to the new workflow.</p>
+      </section>
+      <section>
         <h3>v3.3.4 <span class="changelog-date">· 2026-08-27</span></h3>
         <p><strong>Claude Code v2.1.247 auto-update.</strong> Six documentation updates covering a new feedback tool, spinner tip customization, Claude API skill additions, cross-session messaging, sub-agent reliability, and context management.</p>
         <ul>

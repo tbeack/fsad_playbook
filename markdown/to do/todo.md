@@ -484,3 +484,4 @@
 - [x] `CBP-475` [Claude] Extend cross-session `SendMessage` bullet — peer messages collapse to a one-line preview (v2.1.247) → [task-cbp-475.md](completed/task-cbp-475.md)
 - [x] `CBP-476` [Claude] Extend `fallbackModel` bullet — sub-agents use fallback chain on first-call 404 (v2.1.247) → [task-cbp-476.md](completed/task-cbp-476.md)
 - [x] `CBP-477` [Claude] Extend Context Management bullets — Sonnet 5 auto-compact window widened to full 1M context (v2.1.247) → [task-cbp-477.md](completed/task-cbp-477.md)
+- [x] `CBP-478` — Refactor `fsad-playbook.html` into a modular `src/` architecture (Option E) with zero change to externally observable behavior — planned, executed (7 phases, byte-identical), merged via PR #196. Originally filed as CBP-472; renumbered after the auto-updater reused that ID in PR #197. → [task-cbp-478.md](completed/task-cbp-478.md)
