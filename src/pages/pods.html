@@ -1,0 +1,222 @@
+<div class="page" id="page-pods">
+
+<div class="hero" id="pods-hero" style="padding-bottom: 1.2rem;">
+  <div class="hero-badge">Team Design for Agentic Development</div>
+  <h1>Pod Compositions That <em>Work</em></h1>
+  <p>Not every feature needs the same team shape. FSAD defines six pod configurations — each optimized for a different type of work, all unified by the same spec-driven workflow.</p>
+  <div class="principle-strip" style="margin-top: 2rem;">
+    <div class="principle-item"><span class="pi-num">7</span><span class="pi-label">Pod Configs</span></div>
+    <div class="principle-item"><span class="pi-num">2–4</span><span class="pi-label">Humans</span></div>
+    <div class="principle-item"><span class="pi-num">N</span><span class="pi-label">Agents</span></div>
+    <div class="principle-item"><span class="pi-num">1</span><span class="pi-label">spec.md</span></div>
+  </div>
+</div>
+<hr class="divider">
+
+<section id="pod-explorer">
+  <span class="section-label">01 — Pod Explorer</span>
+  <h2 class="section-title">Choose the Right Pod for the Work</h2>
+  <p class="section-subtitle">Click a configuration to explore its composition, when it works best, and the artifacts it produces.</p>
+
+  <div class="pod-tabs">
+    <button class="pod-tab active" data-pod="triad" onclick="switchPod('triad')">🎯 The Triad <span class="tab-size">3</span></button>
+    <button class="pod-tab" data-pod="duo" onclick="switchPod('duo')">⚡ Builder Duo <span class="tab-size">2</span></button>
+    <button class="pod-tab" data-pod="experience" onclick="switchPod('experience')">🎨 Experience <span class="tab-size">3</span></button>
+    <button class="pod-tab" data-pod="fullstack" onclick="switchPod('fullstack')">🔷 Full Stack <span class="tab-size">4</span></button>
+    <button class="pod-tab" data-pod="platform" onclick="switchPod('platform')">🛠 Platform <span class="tab-size">2</span></button>
+    <button class="pod-tab" data-pod="discovery" onclick="switchPod('discovery')">🔬 Discovery <span class="tab-size">3</span></button>
+    <button class="pod-tab" data-pod="qa" onclick="switchPod('qa')">🧪 QA Pod <span class="tab-size">2</span></button>
+  </div>
+
+  <!-- TRIAD -->
+  <div class="pod-panel active" id="pod-triad"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <img class="triad-diagram triad-diagram-dark" src="@asset(triad-diagram-1-dark.png)" alt="The Triad pod diagram">
+      <img class="triad-diagram triad-diagram-light" src="@asset(triad-diagram-1-light.png)" alt="The Triad pod diagram">
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>The default FSAD pod. One Product Manager, one UX Designer, and one Engineer work as a single unit — co-authoring the spec in real-time, with no handoffs. This covers the full spectrum of product intent, user experience, and technical execution in the smallest group that can make complete decisions.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge pm">🎯</div><div class="role-card-body"><h4>Product Manager</h4><p>Owns problem statement, user stories, acceptance criteria, and success metrics. Frames the "what" and "why." Validates agent output against business intent.</p></div></div>
+        <div class="role-card"><div class="role-badge ux">🎨</div><div class="role-card-body"><h4>UX Designer</h4><p>Contributes interaction patterns, component choices, layout, and accessibility as structured markdown. Replaces the Figma-then-handoff pattern with inline design decisions.</p></div></div>
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>Engineer</h4><p>Contributes architecture, data models, API contracts, and constraints. Orchestrates agents during execution. Reviews code quality and architectural coherence.</p></div></div>
+        <div class="role-card"><div class="role-badge agents">🤖</div><div class="role-card-body"><h4>AI Agents</h4><p>Consume spec.md and AGENTS.md to generate implementation in parallel via isolated git worktrees. Directed by the Engineer, constrained by the spec.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>User-facing features with both UI and backend work</li><li>New product areas requiring full alignment</li><li>Features where UX decisions impact architecture</li><li>Your default pod for standard product development</li></ul></div>
+        <div class="meta-box artifacts"><h4>Key Artifacts</h4><ul><li><code>spec.md</code> — Full feature spec with business, UX, and technical sections</li><li><code>AGENTS.md</code> — Project-level agent instructions and guardrails</li><li><code>plan.md</code> — Agent-generated implementation plan</li><li><code>tasks/*.md</code> — Decomposed, parallelizable work units</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- BUILDER DUO -->
+  <div class="pod-panel" id="pod-duo"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <img class="triad-diagram triad-diagram-dark" src="@asset(triad-diagram-2-dark.png)">
+      <img class="triad-diagram triad-diagram-light" src="@asset(triad-diagram-2-light.png)">
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>The leanest FSAD pod. PM and Engineer work directly together when the feature is API-centric, backend-heavy, or follows established design patterns. Maximum speed — from spec to deployment in hours.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge pm">🎯</div><div class="role-card-body"><h4>Product Manager</h4><p>Defines business requirement, API expectations, success criteria, and edge cases. Also makes lightweight UX decisions for admin interfaces or existing patterns.</p></div></div>
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>Engineer</h4><p>Full ownership of technical spec, architecture, and agent orchestration. Co-authors spec with PM, then immediately enters plan mode and begins execution.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>API development, backend services, data pipelines</li><li>Admin/internal tools with standard UI patterns</li><li>Bug fixes and refactors with clear requirements</li><li>Rapid prototypes to validate feasibility</li></ul></div>
+        <div class="meta-box strength"><h4>Superpower</h4><ul><li>Fastest spec-to-ship of any pod configuration</li><li>Minimal coordination — two people, one conversation</li><li>Ideal entry point for teams new to FSAD</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- EXPERIENCE POD -->
+  <div class="pod-panel" id="pod-experience"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <img class="experience-diagram experience-diagram-dark" src="@asset(experience-diagram-dark.png)" alt="Experience Pod – dark">
+      <img class="experience-diagram experience-diagram-light" src="@asset(experience-diagram-light.png)" alt="Experience Pod – light">
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>Design-led for work where the UI <em>is</em> the product. UX Designer leads the spec; two engineers (frontend + backend) ensure the experience is technically achievable. PM role absorbed by UX for interaction-driven features.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge ux">🎨</div><div class="role-card-body"><h4>UX Designer (Pod Lead)</h4><p>Leads the spec. Defines interaction models, animation, responsive breakpoints, component structure, and accessibility. Owns "what" and "why."</p></div></div>
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>Frontend Engineer</h4><p>Translates UX decisions into component architecture and state management. Orchestrates frontend agents. Reviews rendered output against spec.</p></div></div>
+        <div class="role-card"><div class="role-badge eng2">⚙️</div><div class="role-card-body"><h4>Backend Engineer</h4><p>Provides API contracts, data shapes, and performance guarantees. Orchestrates backend agents in parallel.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>Onboarding flows, wizards, multi-step journeys</li><li>Data visualization dashboards</li><li>Design system component development</li><li>Consumer-facing experiences where polish is differentiating</li></ul></div>
+        <div class="meta-box artifacts"><h4>Key Artifacts</h4><ul><li><code>spec.md</code> — UX-led with detailed interaction patterns</li><li><code>components.md</code> — Component tree and state descriptions</li><li><code>api-contract.md</code> — Backend data shapes</li><li><code>accessibility.md</code> — WCAG checklist</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- FULL STACK POD -->
+  <div class="pod-panel" id="pod-fullstack"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <img class="triad-diagram triad-diagram-dark" src="@asset(triad-diagram-3-dark.png)">
+      <img class="triad-diagram triad-diagram-light" src="@asset(triad-diagram-3-light.png)">
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>Maximum-size FSAD pod for large, cross-cutting features spanning multiple services, requiring deep UX work and significant business risk. Two engineers split: one leads architecture, the other owns a specialized domain (security, performance, data).</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge pm">🎯</div><div class="role-card-body"><h4>Product Manager</h4><p>Owns business case, cross-team dependencies, and phased acceptance criteria for incremental shipping.</p></div></div>
+        <div class="role-card"><div class="role-badge ux">🎨</div><div class="role-card-body"><h4>UX Designer</h4><p>Full design authority. May produce lightweight wireframes alongside spec for large initiatives.</p></div></div>
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>Lead Engineer</h4><p>Owns architecture, agent orchestration strategy, and cross-service decomposition.</p></div></div>
+        <div class="role-card"><div class="role-badge eng2">⚙️</div><div class="role-card-body"><h4>Specialist Engineer</h4><p>Owns specialized domain — security, database migration, performance. Orchestrates own agent set in parallel.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>Features spanning multiple services or repositories</li><li>High-stakes initiatives (payments, auth, compliance)</li><li>Features requiring specialized expertise</li><li>Quarterly "big bets"</li></ul></div>
+        <div class="meta-box antipattern"><h4>Watch Out For</h4><ul><li>Don't default to 4 — use only when complexity demands it</li><li>Two engineers must have distinct domains</li><li>If the pod feels slow, it's a Triad wearing a 4th person</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- PLATFORM POD -->
+  <div class="pod-panel" id="pod-platform"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <img class="platform-diagram platform-diagram-dark" src="@asset(platform-diagram-dark.png)" alt="Platform Pod – dark">
+      <img class="platform-diagram platform-diagram-light" src="@asset(platform-diagram-light.png)" alt="Platform Pod – light">
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>Pure engineering pod for infrastructure, platform, and developer experience work. No PM, no designer. Two engineers co-author a technical spec. This pod handles the work that makes other pods faster — CI/CD, shared libraries, migrations, monitoring.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>Engineer 1 (Architecture)</h4><p>Owns system design, API contracts for internal consumers, and architectural decisions. Orchestrates agents for infrastructure-as-code and integration.</p></div></div>
+        <div class="role-card"><div class="role-badge eng2">⚙️</div><div class="role-card-body"><h4>Engineer 2 (Reliability)</h4><p>Focuses on monitoring, alerting, performance testing, rollback strategies, and security. Reviews for production readiness.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>CI/CD pipeline work and deployment automation</li><li>Shared libraries, SDKs, internal tooling</li><li>Database migrations and schema evolution</li><li>Monitoring, observability, and security hardening</li></ul></div>
+        <div class="meta-box artifacts"><h4>Key Artifacts</h4><ul><li><code>spec.md</code> — Technical spec with Mermaid diagrams</li><li><code>adr/*.md</code> — Architecture Decision Records</li><li><code>runbook.md</code> — Operational runbook</li><li><code>perf-baseline.md</code> — Performance benchmarks</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- DISCOVERY POD -->
+  <div class="pod-panel" id="pod-discovery"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <img class="discovery-diagram discovery-diagram-dark" src="@asset(discovery-diagram-dark.png)" alt="Discovery Pod – dark">
+      <img class="discovery-diagram discovery-diagram-light" src="@asset(discovery-diagram-light.png)" alt="Discovery Pod – light">
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>Same Triad composition but in research mode. Not trying to ship — trying to <em>find the right thing to ship</em>. Spec is a hypothesis, agents build throwaway prototypes, output is a validated spec handed to a delivery pod. FSAD's answer to Dual Track Agile.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge pm">🎯</div><div class="role-card-body"><h4>Product Manager</h4><p>Drives hypothesis. Defines customer problem, assumptions, and success criteria. Uses AI research agents for competitor analysis and customer synthesis.</p></div></div>
+        <div class="role-card"><div class="role-badge ux">🎨</div><div class="role-card-body"><h4>UX Designer</h4><p>Rapidly explores interaction models. Uses agents to generate multiple UI variants for testing with users.</p></div></div>
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>Engineer</h4><p>Builds rapid throwaway prototypes. Validates technical feasibility. Explicitly <em>not</em> building production code.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>New product areas with high uncertainty</li><li>Exploring multiple solution approaches</li><li>Customer-facing prototypes for usability testing</li><li>Technical spikes to validate feasibility</li></ul></div>
+        <div class="meta-box strength"><h4>Output</h4><ul><li><code>hypothesis.md</code> — Problem hypothesis with assumptions</li><li><code>spec.md</code> — Validated spec ready for delivery pod</li><li><code>prototype/</code> — Throwaway prototype</li><li><code>findings.md</code> — What was learned and invalidated</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- QA POD -->
+  <div class="pod-panel" id="pod-qa"><div class="pod-layout">
+    <div class="pod-visual-wrap">
+      <img class="qa-diagram qa-diagram-dark" src="@asset(qa-diagram-dark.png)" alt="QA Pod – dark">
+      <img class="qa-diagram qa-diagram-light" src="@asset(qa-diagram-light.png)" alt="QA Pod – light">
+    </div>
+    <div class="pod-detail">
+      <div class="pod-detail-intro"><p>Specialist engineering pod that builds the testing infrastructure used by every other pod — agents for test generation and code review, skills for coverage reporting, hooks for pre-commit and post-deploy verification gates, and MCP tools for fixture management. Its output is reusable tooling, not features.</p></div>
+      <div><div class="detail-section-title">Role Responsibilities</div><div class="role-cards">
+        <div class="role-card"><div class="role-badge eng">⚙️</div><div class="role-card-body"><h4>QA Lead</h4><p>Owns test strategy, verification gate standards, and acceptance criteria frameworks. Reviews agent-generated test output for coverage gaps. Defines the quality contract other pods must meet.</p></div></div>
+        <div class="role-card"><div class="role-badge eng2">⚙️</div><div class="role-card-body"><h4>Test Engineer</h4><p>Builds custom agents, skills, hooks, and MCP tools for the team's testing stack. Maintains fixture libraries, regression suites, and test scaffolding.</p></div></div>
+        <div class="role-card"><div class="role-badge agents">🤖</div><div class="role-card-body"><h4>QA Agents</h4><p>Generate unit, integration, and e2e tests; run coverage analysis; perform spec-compliance validation; surface regressions across the codebase.</p></div></div>
+      </div></div>
+      <div class="meta-grid">
+        <div class="meta-box when"><h4>When To Use</h4><ul><li>Establishing QA infrastructure for a new product or team</li><li>Building custom test-generation agents and skills for specialized domains</li><li>Creating shared hooks and verification gates for CI/CD pipelines</li><li>Reducing testing tooling debt — standardizing test patterns across pods</li></ul></div>
+        <div class="meta-box artifacts"><h4>Key Artifacts</h4><ul><li><code>test-plan.md</code> — QA strategy, coverage targets, and acceptance gates</li><li><code>agents/</code> — Custom test generation, code review, and validation agents</li><li><code>skills/</code> — Coverage reporter, regression runner, fixture builder</li><li><code>hooks/</code> — PreToolUse / PostToolUse verification gates</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+<hr class="divider">
+
+<section id="sizing">
+  <span class="section-label">02 — Pod Selection Matrix</span>
+  <h2 class="section-title">Matching Work to Pod Shape</h2>
+  <p class="section-subtitle">The goal is always the smallest effective pod — complexity should justify size.</p>
+  <div style="overflow-x: auto;">
+    <table class="sizing-table">
+      <thead><tr><th>Work Type</th><th>Recommended Pod</th><th>Size</th><th>Why This Shape</th></tr></thead>
+      <tbody>
+        <tr><td>Standard user-facing feature</td><td><span class="config-tag" style="background: rgba(59,130,246,0.15); color: var(--accent-blue);">Triad</span></td><td>3</td><td>Full coverage of product, design, and engineering.</td></tr>
+        <tr><td>API / backend service</td><td><span class="config-tag" style="background: rgba(16,185,129,0.15); color: var(--accent-emerald);">Builder Duo</span></td><td>2</td><td>No UI decisions. PM + Engineer. Maximum speed.</td></tr>
+        <tr><td>Complex onboarding flow</td><td><span class="config-tag" style="background: rgba(111,111,181,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX-led. Interaction design is the product.</td></tr>
+        <tr><td>Payments integration</td><td><span class="config-tag" style="background: rgba(245,158,11,0.15); color: var(--accent-amber);">Full Stack Pod</span></td><td>4</td><td>High stakes, cross-service, needs specialist.</td></tr>
+        <tr><td>CI/CD pipeline overhaul</td><td><span class="config-tag" style="background: rgba(6,182,212,0.15); color: var(--accent-cyan);">Platform Pod</span></td><td>2</td><td>Pure engineering. Architecture + reliability split.</td></tr>
+        <tr><td>New product exploration</td><td><span class="config-tag" style="background: rgba(236,72,153,0.15); color: var(--accent-pink);">Discovery Pod</span></td><td>3</td><td>High uncertainty. Validate before committing.</td></tr>
+        <tr><td>Bug fix / refactor</td><td><span class="config-tag" style="background: rgba(16,185,129,0.15); color: var(--accent-emerald);">Builder Duo</span></td><td>2</td><td>Requirements clear. Fast turnaround.</td></tr>
+        <tr><td>Design system component</td><td><span class="config-tag" style="background: rgba(111,111,181,0.15); color: var(--accent-violet);">Experience Pod</span></td><td>3</td><td>UX owns component API and behavior.</td></tr>
+        <tr><td>Database migration</td><td><span class="config-tag" style="background: rgba(6,182,212,0.15); color: var(--accent-cyan);">Platform Pod</span></td><td>2</td><td>Deep technical work. No user-facing impact.</td></tr>
+        <tr><td>Cross-cutting auth overhaul</td><td><span class="config-tag" style="background: rgba(245,158,11,0.15); color: var(--accent-amber);">Full Stack Pod</span></td><td>4</td><td>Touches every service. Needs security + UX + PM.</td></tr>
+        <tr><td>QA / test infrastructure</td><td><span class="config-tag" style="background: rgba(251,113,133,0.15); color: var(--accent-rose);">QA Pod</span></td><td>2</td><td>Build reusable agents, skills, hooks. Engineering-only scope.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<hr class="divider">
+
+<section id="antipatterns">
+  <span class="section-label">03 — Pod Anti-Patterns</span>
+  <h2 class="section-title">Compositions That Don't Work</h2>
+  <div class="anti-grid">
+    <div class="anti-card"><span class="anti-icon">🚫</span><h4>The Solo Hero</h4><p>One engineer doing everything. No second perspective means spec blind spots go unchallenged. Agents amplify mistakes at scale.</p></div>
+    <div class="anti-card"><span class="anti-icon">🚫</span><h4>The Oversized Pod</h4><p>5+ humans on a single spec. Communication overhead grows quadratically. Split into two pods with a shared API contract.</p></div>
+    <div class="anti-card"><span class="anti-icon">🚫</span><h4>The Handoff Pod</h4><p>PM writes spec → throws to designer → throws to engineer. Same sequential process. If you aren't co-authoring, it's not FSAD.</p></div>
+    <div class="anti-card"><span class="anti-icon">🚫</span><h4>The Agent-Only Pod</h4><p>Fully autonomous agents, no human review. Agent reliability is non-deterministic. Every pod requires human validation gates.</p></div>
+    <div class="anti-card"><span class="anti-icon">🚫</span><h4>The Part-Time Pod</h4><p>Members at 20% allocation across multiple pods. FSAD's speed comes from real-time collaboration. Async stalls the spec session.</p></div>
+    <div class="anti-card"><span class="anti-icon">🚫</span><h4>The Duplicate Pod</h4><p>Two engineers with identical skills. The second must own a distinct domain — otherwise use a Triad and let agents parallelize.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<section style="text-align: center; max-width: 660px; margin: 0 auto;">
+  <span class="section-label">The Principle</span>
+  <h2 class="section-title" style="margin-bottom: 1rem;">Smallest Effective Pod.<br><em>Maximum Agent Leverage.</em></h2>
+  <p style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 300; line-height: 1.8;">The right pod is the smallest group of humans who can make complete decisions about a feature without external dependencies — then direct an arbitrarily large fleet of agents to execute in parallel.</p>
+</section>
+
+<footer>
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>Pod Compositions Guide — for R&D teams adopting FSAD.</p>
+</footer>
+</div><!-- end page-pods -->

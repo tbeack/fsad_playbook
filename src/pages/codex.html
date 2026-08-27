@@ -1,0 +1,1507 @@
+<div class="page" id="page-codex">
+
+<div class="hero" id="codex-hero" style="padding-bottom: 1.2rem;">
+  <div class="hero-badge">OpenAI's Coding Agent</div>
+  <h1>Codex Best <em>Practices</em></h1>
+  <p>Getting productive with OpenAI's open-source coding agent alongside Claude Code.</p>
+</div>
+
+<hr class="divider">
+
+<section id="codex-best-practices">
+    <span class="section-label">01 — Getting Started</span>
+    <h2 class="section-title">Codex CLI Best Practices</h2>
+    <p class="section-subtitle">From installation to agentic workflows with OpenAI's Codex.</p>
+
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem;">
+      <a href="https://github.com/openai/codex" target="_blank" style="color:var(--accent-blue);">Codex CLI</a> is OpenAI's open-source coding agent — a terminal UI (TUI) that reads files, writes code, and runs shell commands in a sandbox. It defaults to <code>gpt-5.5</code> and supports multiple model providers including OpenAI, Azure, Ollama, Bedrock, and more. If your team uses OpenAI models or wants multi-provider flexibility, Codex is the FSAD-compatible agent to learn.
+    </p>
+
+    <div class="callout callout-tip" style="margin-bottom:2rem;">
+      <div class="callout-title">Tool-Agnostic by Design</div>
+      <p>FSAD is a methodology, not a tool. While this playbook focuses on Claude Code, the same principles — spec-driven development, markdown layer, agentic workflows — apply to Codex, Gemini CLI, and other coding agents. This section helps teams that use Codex either as their primary tool or alongside Claude Code.</p>
+    </div>
+
+    <!-- Comparison Table -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Claude Code vs. Codex CLI</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead>
+          <tr><th>Concept</th><th>Claude Code</th><th>Codex CLI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Project instructions</td><td><code>CLAUDE.md</code></td><td><code>AGENTS.md</code></td></tr>
+          <tr><td>Config directory</td><td><code>~/.claude/</code></td><td><code>~/.codex/</code></td></tr>
+          <tr><td>Config format</td><td><code>settings.json</code> (JSON)</td><td><code>config.toml</code> (TOML)</td></tr>
+          <tr><td>Default model</td><td>Claude Sonnet / Opus</td><td>gpt-5.5 / codex-mini</td></tr>
+          <tr><td>Approval modes</td><td>Default, Plan, Bypass</td><td>Auto, Read-only, Full Access</td></tr>
+          <tr><td>Sandbox</td><td>Per-tool permissions</td><td>read-only / workspace-write / full-access</td></tr>
+          <tr><td>MCP support</td><td>Client</td><td>Client + Server</td></tr>
+          <tr><td>IDE extensions</td><td>VS Code</td><td>VS Code, Cursor, Devin Desktop</td></tr>
+          <tr><td>Skills directory</td><td><code>.claude/skills/</code></td><td><code>.agents/skills/</code></td></tr>
+          <tr><td>Multi-agent</td><td>Subagents (Task tool)</td><td>Agent threads (<code>max_threads</code> config)</td></tr>
+          <tr><td>Hooks</td><td>27 event types (SessionStart, PreToolUse, MessageDisplay, Stop…)</td><td>8 event types (SessionStart, UserPromptSubmit, PreToolUse, PermissionRequest, PostToolUse, Stop, PreCompact, PostCompact)</td></tr>
+          <tr><td>Plugin marketplace</td><td><code>claude plugin install</code></td><td><code>codex plugin install</code> / <code>/plugins</code> TUI</td></tr>
+          <tr><td>Permission model</td><td>Per-tool allow/deny + 5 approval modes</td><td>Named permission profiles with filesystem + network policies</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Getting Started -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Getting Started with Codex</h3>
+
+    <div class="step-card">
+      <span class="step-number">1</span>
+      <h3>Install Codex</h3>
+      <p>Install globally via npm or Homebrew:</p>
+      <div class="code-block">
+        <pre><code><span class="cm"># npm</span>
+npm install -g @openai/codex
+
+<span class="cm"># Homebrew (macOS)</span>
+brew install --cask codex</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">2</span>
+      <h3>Authenticate</h3>
+      <p>Codex supports two authentication methods. On first run it will prompt you to log in with your ChatGPT account, or you can set an API key:</p>
+      <div class="code-block">
+        <pre><code><span class="cm"># Option A: ChatGPT account (prompted on first run)</span>
+codex
+
+<span class="cm"># Option B: API key</span>
+export OPENAI_API_KEY=sk-...</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">3</span>
+      <h3>Create AGENTS.md</h3>
+      <p>This is Codex's equivalent of <code>CLAUDE.md</code> — your project instructions file at the repo root:</p>
+      <div class="code-block">
+        <pre><code><span class="hd"># AGENTS.md</span>
+
+<span class="hd">## Project Overview</span>
+E-commerce platform built with Next.js 14, TypeScript, and PostgreSQL.
+
+<span class="hd">## Tech Stack</span>
+- Frontend: Next.js 14, React, Tailwind CSS
+- Backend: tRPC, Drizzle ORM
+- Database: PostgreSQL 16
+- Testing: Vitest, Playwright
+
+<span class="hd">## Conventions</span>
+- Use server components by default
+- All database queries go through Drizzle ORM
+- Run `pnpm test` before committing
+- Follow existing patterns in src/</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">4</span>
+      <h3>First Run</h3>
+      <p>Start Codex with a simple task to verify everything works:</p>
+      <div class="code-block">
+        <pre><code><span class="cm"># Interactive TUI</span>
+codex
+
+<span class="cm"># Or start with a prompt</span>
+codex "describe this project and suggest improvements"</code></pre>
+      </div>
+    </div>
+
+    <!-- Collapsible: AGENTS.md -->
+    <div class="collapsible" style="margin-top:2rem;">
+      <div class="collapsible-header">
+        <h3>AGENTS.md: Project Instructions</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <p>Codex merges instructions from multiple <code>AGENTS.md</code> files in a top-down hierarchy. Later files override earlier ones:</p>
+
+          <div class="code-block">
+            <pre><code><span class="cm"># Priority order (highest → lowest):</span>
+1. ~/.codex/AGENTS.override.md   <span class="cm"># Global overrides (highest priority)</span>
+2. ~/.codex/AGENTS.md            <span class="cm"># Global defaults</span>
+3. &lt;repo-root&gt;/AGENTS.md        <span class="cm"># Project-level instructions</span>
+4. &lt;cwd&gt;/AGENTS.md              <span class="cm"># Sub-directory specifics</span></code></pre>
+          </div>
+
+          <p style="margin-top:1rem;">Key differences from <code>CLAUDE.md</code>:</p>
+          <ul style="margin-top:0.5rem; padding-left:1.5rem; line-height:1.8;">
+            <li><strong>Override files</strong> — <code>AGENTS.override.md</code> takes highest priority, useful for personal preferences that override team defaults</li>
+            <li><strong>Size limit</strong> — 32 KiB by default (configurable via <code>project_doc_max_bytes</code> in <code>config.toml</code>)</li>
+            <li><strong>Disable flag</strong> — Skip with <code>--no-project-doc</code> or <code>CODEX_DISABLE_PROJECT_DOC=1</code></li>
+          </ul>
+
+          <div class="callout callout-tip" style="margin-top:1.5rem;">
+            <div class="callout-title">Dual-Tool Teams</div>
+            <p>If your team uses both Claude Code and Codex, maintain both <code>CLAUDE.md</code> and <code>AGENTS.md</code> in the same repo. Keep shared conventions (tech stack, testing rules, coding standards) consistent across both files.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-best-practice" style="margin-top:2rem;">
+      <div class="callout-title">Running Both Tools</div>
+      <p>Many FSAD teams use both Claude Code and Codex. Keep a <code>CLAUDE.md</code> and <code>AGENTS.md</code> in your repo with shared conventions. Use each tool's strengths: Claude Code for Anthropic model quality, Codex for OpenAI model access and multi-provider flexibility. The FSAD workflow — spec → plan → implement → review — works identically regardless of which agent executes.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX PROJECT ANATOMY ─── -->
+<section id="codex-project-anatomy">
+    <span class="section-label">02 — Project Anatomy</span>
+    <h2 class="section-title">Codex Needs 4 Things</h2>
+    <p class="section-subtitle">The instructions, the skills, the guardrails, the context. Same principles as Claude — different file names.</p>
+
+    <div class="callout callout-best-practice" style="margin-bottom:2rem;">
+      <div class="callout-title">Key Insight</div>
+      <p><strong>Prompting is temporary. Structure is permanent.</strong> A well-organized project gives Codex context automatically — every session, every agent thread, every teammate.</p>
+    </div>
+
+    <!-- Pillar 1 -->
+    <div class="collapsible open">
+      <div class="collapsible-header">
+        <h3>Pillar 1: AGENTS.md = Repo Memory</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Contains WHY (purpose), WHAT (repo map), HOW (rules + commands). Codex reads this file automatically at the start of every session. The 4-level hierarchy lets you layer global defaults with project-specific overrides.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code class="language-markdown"><span class="hd"># AGENTS.md</span>
+
+<span class="hd">## Project Overview</span>
+E-commerce API — <span class="kw">Node.js</span> + <span class="kw">PostgreSQL</span>. Handles product catalog,
+orders, and payments.
+
+<span class="hd">## Tech Stack</span>
+- Runtime: <span class="val">Node.js 20</span>, <span class="val">TypeScript</span>
+- Database: <span class="val">PostgreSQL 15</span> + <span class="val">Prisma ORM</span>
+- Testing: <span class="val">Vitest</span>, coverage > 80%
+
+<span class="hd">## Commands</span>
+- <span class="kw">`npm run dev`</span> — start dev server
+- <span class="kw">`npm test`</span> — run tests
+- <span class="kw">`npm run lint`</span> — lint + format
+
+<span class="hd">## Rules</span>
+- Never modify migration files after they've been applied
+- All API endpoints require authentication middleware
+- Use <span class="kw">Zod</span> for request validation, not manual checks</code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-bottom:0;">
+          <div class="callout-title">Tip</div>
+          <p>Codex merges AGENTS.md from 4 levels: <code>~/.codex/AGENTS.override.md</code> (highest) → <code>~/.codex/AGENTS.md</code> → repo root → current directory. Max 32 KiB by default. For hooks and tool policies, the equivalent cascade runs through <code>config.toml</code> — add a <code>requirements.toml</code> at system/org level to enforce constraints users cannot override.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Pillar 2: .agents/skills/ = Reusable Expert Modes</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Turn common workflows into skills. Codex skills live in <code>.agents/skills/</code> and use a <code>SKILL.md</code> file. Each skill can include scripts, references, and assets alongside the markdown.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code class="language-markdown"><span class="cm"># .agents/skills/code-review/SKILL.md</span>
+
+<span class="hd"># Code Review</span>
+
+<span class="hd">## Process</span>
+1. Check for security vulnerabilities (OWASP Top 10)
+2. Verify error handling covers edge cases
+3. Check test coverage for new code paths
+4. Review naming conventions match project style
+5. Verify no secrets or credentials in code
+
+<span class="hd">## Checklist</span>
+- [ ] No SQL injection vectors
+- [ ] Input validation on all endpoints
+- [ ] Tests cover happy path + error cases
+- [ ] No console.log statements left behind</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Pillar 3: .rules Files = Guardrails</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex uses the Shell Tool MCP with <code>.rules</code> files for deterministic guardrails — allowing, prompting, or forbidding specific shell commands. <strong>Models forget. Rules don't.</strong></p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code class="language-text"><span class="cm"># .rules — Shell command policies</span>
+
+<span class="kw">allow</span> npm test
+<span class="kw">allow</span> npm run lint
+<span class="kw">allow</span> npm run build
+<span class="kw">prompt</span> npm install *        <span class="cm"># Ask before installing packages</span>
+<span class="kw">forbid</span> rm -rf *             <span class="cm"># Never allow recursive delete</span>
+<span class="kw">forbid</span> git push --force     <span class="cm"># Never allow force push</span></code></pre>
+        </div>
+        <div class="callout callout-warning" style="margin-bottom:0;">
+          <div class="callout-title">Important</div>
+          <p>Rules intercept <code>execve(2)</code> calls, so they know the full path of executed programs. This is more granular than Claude's hooks — you control command execution at the shell level.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Pillar 4 -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Pillar 4: docs/ = Progressive Context</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Architecture overview, ADRs, runbooks. Don't bloat AGENTS.md — put detailed docs in files Codex can read when needed. Same pattern as Claude.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code class="language-text">docs/
+├── architecture.md        # System design overview
+├── adr/                   # Architecture Decision Records
+│   ├── 001-use-prisma.md
+│   ├── 002-auth-strategy.md
+│   └── 003-caching-layer.md
+├── runbooks/              # Operational procedures
+│   ├── deploy.md
+│   └── incident-response.md
+└── api/                   # API documentation
+    └── endpoints.md</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Codex discovers and reads these files on demand when working in related areas. The key is <em>progressive</em> context — only loaded when relevant.</p>
+      </div></div>
+    </div>
+
+    <!-- Pillar 5 -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Pillar 5: Local AGENTS.md for Risky Modules</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Place small AGENTS.md files near sharp edges. Codex sees gotchas exactly when working in that directory.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code class="language-markdown"># src/auth/AGENTS.md
+
+## Critical: Authentication Module
+
+- NEVER modify the JWT signing key rotation logic
+- Token refresh uses sliding window — do not change to fixed expiry
+- Rate limiting is per-IP, configured in middleware (not here)
+- All changes to this module require security review
+- Test with: `npm test -- --grep "auth"`</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Good candidates: <code>src/auth/</code>, <code>src/billing/</code>, <code>src/persistence/</code>, <code>infra/</code></p>
+      </div></div>
+    </div>
+
+    <!-- File Structure -->
+    <h3 style="font-family:var(--font-display); font-size:1.4rem; margin-top:3rem; margin-bottom:1rem;">Project Structure Map</h3>
+    <div class="code-block">
+      <pre><code class="language-text">my-project/
+├── AGENTS.md                    # Repo memory (auto-loaded)
+├── .codex/
+│   └── config.toml              # Project settings
+├── .agents/
+│   └── skills/                  # Reusable expert modes
+│       ├── code-review/
+│       │   └── SKILL.md
+│       └── deploy/
+│           ├── SKILL.md
+│           └── scripts/
+│               └── check-staging.sh
+├── .rules                       # Shell command guardrails
+├── docs/                        # Progressive context
+│   ├── architecture.md
+│   └── adr/
+├── src/
+│   ├── auth/
+│   │   └── AGENTS.md            # Local guardrails
+│   └── billing/
+│       └── AGENTS.md            # Local guardrails
+└── spec.md                      # Feature specification</code></pre>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX INTEGRATIONS ─── -->
+<section id="codex-integrations">
+    <span class="section-label">03 — Integrations</span>
+    <h2 class="section-title">Connect Codex to Your Tools via MCP</h2>
+    <p class="section-subtitle">Add MCP servers with the <code>codex mcp add</code> command or edit <code>config.toml</code> directly.</p>
+
+    <div class="code-block"><pre><code>Codex CLI ──▶ MCP Protocol ──▶ JIRA
+                             ──▶ Figma
+                             ──▶ Notion
+                             ──▶ Azure DevOps
+                             ──▶ Google Workspace</code></pre></div>
+
+    <!-- Setup Guide -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Setting Up MCP Connections via codex mcp</h3>
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem;">Codex uses the <code>codex mcp</code> CLI to manage MCP servers. For HTTP servers (Jira, Figma, Notion), use <code>--url</code>. For stdio servers (Azure DevOps, community tools), pass the command after <code>--</code>.</p>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Tool search by default (rust-v0.142.2):</strong> Codex now uses MCP tool search by default when the selected model supports it — tools are discovered on demand rather than loaded all at once at session start. This speeds up startup with large MCP server inventories and improves tool discovery. If you need a server's tools always available without deferral, add <code>"alwaysLoad": true</code> to that server's entry in <code>~/.codex/config.toml</code>.</p>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Interactive MCP tool authentication (rust-v0.144.0):</strong> MCP tools can now request user authentication mid-session without any experimental opt-in flag — interactive auth flows (OAuth prompts, credential dialogs) are fully supported out of the box.</p>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>MCP 2026-07-28 protocol support (rust-v0.147.0, opt-in):</strong> adds paginated tool discovery for large server inventories, multi-round requests, and non-blocking server startup — Codex no longer waits on a slow-starting MCP server before the session becomes usable.</p>
+
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>OAuth reauthentication recovery (rust-v0.148.0):</strong> MCP servers now recover after OAuth reauthentication without restarting Codex — re-run <code>codex mcp login &lt;name&gt;</code> mid-session and the server reconnects in place. Reauthentication failures report clearer errors about which server needs attention, servers can pin their own OAuth callback port, and dynamic HTTP header helpers are supported for servers that need per-request headers.</p>
+
+    <div class="step-card">
+      <span class="step-number">1</span>
+      <h3>Add an MCP Server</h3>
+      <p>Use <code>codex mcp add</code> to register a server. For hosted HTTP endpoints, use <code>--url</code>:</p>
+      <div class="code-block" style="margin-top:0.75rem;">
+        <pre><code><span class="cm"># HTTP server (hosted endpoint)</span>
+codex mcp add atlassian --url https://mcp.atlassian.com/v1/mcp
+
+<span class="cm"># Stdio server (local process)</span>
+codex mcp add ado -- npx -y @azure-devops/mcp your-org-name
+
+<span class="cm"># Stdio server with env vars</span>
+codex mcp add my-server --env API_KEY=xxx -- npx -y @some/mcp-server</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">2</span>
+      <h3>Authenticate via OAuth</h3>
+      <p>For servers that support OAuth, run <code>codex mcp login</code>. A browser window opens for authentication:</p>
+      <div class="code-block" style="margin-top:0.75rem;">
+        <pre><code>codex mcp login atlassian</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">3</span>
+      <h3>Verify the Connection</h3>
+      <p>Use <code>/mcp</code> inside the Codex TUI or <code>codex mcp list</code> from the terminal to confirm servers are connected:</p>
+      <div class="code-block" style="margin-top:0.75rem;">
+        <pre><code><span class="cm"># In the Codex TUI:</span>
+/mcp
+
+<span class="cm"># From the terminal:</span>
+codex mcp list</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">4</span>
+      <h3>Manage Servers</h3>
+      <p>Use <code>codex mcp</code> subcommands to manage your connections:</p>
+      <div class="code-block" style="margin-top:0.75rem;">
+        <pre><code>codex mcp list              <span class="cm"># List all configured servers</span>
+codex mcp get &lt;name&gt;        <span class="cm"># Show server details</span>
+codex mcp remove &lt;name&gt;     <span class="cm"># Remove a server</span>
+codex mcp login &lt;name&gt;      <span class="cm"># OAuth login for a server</span>
+codex mcp logout &lt;name&gt;     <span class="cm"># Clear OAuth credentials</span></code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-best-practice" style="margin-top:1.5rem; margin-bottom:2rem;">
+      <div class="callout-title">CLI vs. Config File</div>
+      <p><strong>Use <code>codex mcp add</code></strong> for quick setup — it writes to <code>~/.codex/config.toml</code> automatically. <strong>Edit <code>config.toml</code> directly</strong> when you need advanced options like <code>startup_timeout_sec</code>, <code>enabled_tools</code> allowlists, or project-scoped servers (<code>.codex/config.toml</code> in trusted projects).</p>
+    </div>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Available Integrations</h3>
+
+    <!-- JIRA MCP -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>JIRA MCP</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p><strong>What it does:</strong> Read, create, and update JIRA issues directly from Codex. Search issues, transition statuses, add comments, and manage sprints.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Add via CLI</span>
+codex mcp add atlassian --url https://mcp.atlassian.com/v1/mcp
+codex mcp login atlassian</code></pre>
+        </div>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-toml"><span class="cm"># Or in ~/.codex/config.toml</span>
+<span class="kw">[mcp_servers.atlassian]</span>
+<span class="val">url</span> = "https://mcp.atlassian.com/v1/mcp"</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Figma MCP -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Figma MCP</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p><strong>What it does:</strong> Read Figma designs, extract component specs, colors, typography, and layout details.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Add via CLI</span>
+codex mcp add figma --url https://mcp.figma.com/mcp
+codex mcp login figma</code></pre>
+        </div>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-toml"><span class="cm"># Or in ~/.codex/config.toml</span>
+<span class="kw">[mcp_servers.figma]</span>
+<span class="val">url</span> = "https://mcp.figma.com/mcp"</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Notion MCP -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Notion MCP</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p><strong>What it does:</strong> Search, read, create, and update Notion pages and databases.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Add via CLI</span>
+codex mcp add notion --url https://mcp.notion.com/mcp
+codex mcp login notion</code></pre>
+        </div>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-toml"><span class="cm"># Or in ~/.codex/config.toml</span>
+<span class="kw">[mcp_servers.notion]</span>
+<span class="val">url</span> = "https://mcp.notion.com/mcp"</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Azure DevOps MCP -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Azure DevOps MCP</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p><strong>What it does:</strong> Manage work items, repos, pipelines, wikis, test plans, and advanced security. Microsoft's official MCP server with browser-based OAuth.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Add via CLI (stdio server)</span>
+codex mcp add ado -- npx -y @azure-devops/mcp your-org-name</code></pre>
+        </div>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-toml"><span class="cm"># Or in ~/.codex/config.toml</span>
+<span class="kw">[mcp_servers.ado]</span>
+<span class="val">command</span> = "npx"
+<span class="val">args</span> = ["-y", "@azure-devops/mcp", "your-org-name"]</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires Node.js 20+. Browser-based OAuth on first use. See <a href="https://github.com/microsoft/azure-devops-mcp" target="_blank" style="color:var(--accent-blue);">microsoft/azure-devops-mcp</a>.</p>
+      </div></div>
+    </div>
+
+    <!-- Google Workspace MCP -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Google Workspace MCP</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p><strong>What it does:</strong> Google offers hosted MCP servers for Cloud infrastructure (BigQuery, Cloud SQL, GKE, etc.). Workspace products (Docs, Sheets, Drive) are not yet available as hosted endpoints — use a community server for those.</p>
+
+        <h4 style="margin-top:1rem; margin-bottom:0.5rem;">Google Cloud MCP (official, hosted)</h4>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code><span class="cm"># Add via CLI — example: BigQuery</span>
+codex mcp add bigquery --url https://bigquery.googleapis.com/mcp</code></pre>
+        </div>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code class="language-toml"><span class="cm"># Or in ~/.codex/config.toml</span>
+<span class="kw">[mcp_servers.bigquery]</span>
+<span class="val">url</span> = "https://bigquery.googleapis.com/mcp"</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires <code>gcloud auth application-default login</code> and <code>gcloud beta services mcp enable SERVICE</code>. See <a href="https://docs.cloud.google.com/mcp/configure-mcp-ai-application" target="_blank" style="color:var(--accent-blue);">Google Cloud MCP docs</a>.</p>
+
+        <h4 style="margin-top:1rem; margin-bottom:0.5rem;">Google Workspace MCP (community, self-hosted)</h4>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code><span class="cm"># Add via CLI (build from source first)</span>
+codex mcp add google-workspace -- /path/to/google_workspace_mcp</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--text-secondary);">Requires building from source (Rust) and a Google Cloud project with OAuth. See <a href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" style="color:var(--accent-blue);">taylorwilsdon/google_workspace_mcp</a>.</p>
+      </div></div>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
+      <div class="callout-title">Codex as MCP Server</div>
+      <p>Unlike Claude Code, Codex can act as a tool other agents invoke. As of 2026-08-24, the <code>codex mcp-server</code> command is <strong>deprecated</strong> — use the <a href="https://developers.openai.com/codex/app-server" target="_blank" style="color:var(--accent-blue);">Codex app server</a> instead for programmatic integration. To use Codex from within Claude Code specifically, use the <a href="https://github.com/openai/codex-plugin-cc" target="_blank" style="color:var(--accent-blue);">Codex plugin for Claude Code</a>. Full MCP docs at <a href="https://developers.openai.com/codex/mcp/" target="_blank" style="color:var(--accent-blue);">developers.openai.com/codex/mcp</a>.</p>
+    </div>
+
+    <!-- Chrome Extension -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:0.75rem;">Codex Chrome Extension</h3>
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.92rem; color:var(--text-secondary);">OpenAI released a Codex Chrome extension (May 2026) that gives Codex direct browser access — a different integration model from MCP. Instead of routing through an API, Codex reads and acts on the current browser context.</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Capability</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td>Parallel tab operation</td><td>Runs across multiple tabs simultaneously without taking over the browser</td></tr>
+          <tr><td>Per-site access control</td><td>Users grant Codex access on a site-by-site basis — not all-or-nothing</td></tr>
+          <tr><td>Browser context injection</td><td>Codex can read page content, fill forms, and interact with web-based tools (Jira, Figma, Notion, Linear) without an MCP server</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-tip" style="margin-top:1rem;">
+      <div class="callout-title">Chrome Extension vs. MCP</div>
+      <p>Use the Chrome extension for web-based tools where you need direct page interaction (reading tickets, filling fields, navigating UI). Use MCP for tools with stable APIs — MCP is more reliable for structured data and automated pipelines. Both can be active simultaneously.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX CODE REVIEW ─── -->
+<section id="codex-code-review">
+    <span class="section-label">04 — Code Review</span>
+    <h2 class="section-title">Built-in Code Review with /review</h2>
+    <p class="section-subtitle">Codex includes a native code review command that analyzes diffs without modifying your code.</p>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h3>How /review Works</h3>
+      <p>The <code>/review</code> slash command analyzes your current diff (staged and unstaged changes) and provides feedback on bugs, security issues, code quality, and style — without making any modifications to your files.</p>
+    </div>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Usage</h3>
+
+    <div class="step-card">
+      <span class="step-number">1</span>
+      <h3>Start a Codex Session</h3>
+      <p>Launch Codex in your project directory:</p>
+      <div class="code-block">
+        <pre><code>codex</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">2</span>
+      <h3>Run /review</h3>
+      <p>Type <code>/review</code> to analyze your current changes. Codex examines the diff and provides structured feedback:</p>
+      <div class="code-block">
+        <pre><code><span class="cm"># Review current working tree changes</span>
+/review
+
+<span class="cm"># Or ask for a specific review focus</span>
+"Review the changes in src/auth/ for security issues"</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">3</span>
+      <h3>Act on Feedback</h3>
+      <p>Review the findings and ask Codex to fix specific issues, or continue working on your own.</p>
+    </div>
+
+    <div class="callout callout-warning" style="margin-top:1.5rem;">
+      <div class="callout-title">Review Isn't Only Manual (rust-v0.148.0)</div>
+      <p><code>/review</code> is no longer the only path into review. <strong>Automatic review is enforced for managed models</strong> — under a managed configuration, review runs on its own rather than waiting for you to invoke it. <strong>Strict automatic review is also enforced for MCP tool calls</strong>, so tool invocations routed through MCP servers are reviewed before they proceed. Expect review to fire without being asked in enterprise and managed deployments.</p>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
+      <div class="callout-title">Claude Code Comparison</div>
+      <p>Claude Code uses a multi-agent fleet for code review (multiple specialized agents in parallel). Codex's <code>/review</code> is single-agent by default but can leverage multi-agent threads if configured. Both approaches catch bugs — Claude's is more comprehensive, Codex's is faster for quick reviews.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX BUILDING SKILLS ─── -->
+<section id="codex-building-skills">
+    <span class="section-label">05 — Building Skills</span>
+    <h2 class="section-title">Turn Repeatable Workflows into Reusable Expert Modes</h2>
+    <p class="section-subtitle">Codex skills are markdown-driven workflows stored in <code>.agents/skills/</code> — each skill gets its own directory with a <code>SKILL.md</code> file.</p>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h3>What are Codex Skills?</h3>
+      <p>Skills are markdown instructions that Codex follows when invoked. Unlike Claude's flat <code>.claude/skills/</code> files, Codex skills use a directory structure: each skill has a folder containing <code>SKILL.md</code> plus optional scripts, references, and asset files.</p>
+    </div>
+
+    <!-- Skill File Anatomy -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Skill Directory Structure</h3>
+    <div class="code-block">
+      <pre><code class="language-text">.agents/skills/
+├── code-review/
+│   └── SKILL.md              <span class="cm"># Skill instructions</span>
+├── deploy/
+│   ├── SKILL.md              <span class="cm"># Skill instructions</span>
+│   ├── scripts/
+│   │   └── check-staging.sh  <span class="cm"># Helper scripts</span>
+│   └── references/
+│       └── deploy-checklist.md
+└── estimate/
+    └── SKILL.md</code></pre>
+    </div>
+
+    <!-- Example Skill -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Example: Deployment Skill</h3>
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Deploy Skill — SKILL.md</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="code-block">
+            <pre><code class="language-markdown"><span class="cm">---</span>
+<span class="kw">name</span>: <span class="val">deploy</span>
+<span class="kw">description</span>: <span class="val">Guided deployment to staging and production with smoke-test gates</span>
+<span class="kw">model</span>: <span class="val">gpt-5.5</span>
+<span class="cm">---</span>
+
+<span class="hd"># Deployment Skill</span>
+
+<span class="hd">## Overview</span>
+Guided deployment to staging and production environments.
+
+<span class="hd">## Process</span>
+1. Run the test suite: `npm test`
+2. Check for uncommitted changes: `git status`
+3. Run the staging check script: `./scripts/check-staging.sh`
+4. Build the production bundle: `npm run build`
+5. Deploy to staging: `npm run deploy:staging`
+6. Run smoke tests against staging
+7. If smoke tests pass, deploy to production
+
+<span class="hd">## Safety Rules</span>
+- NEVER deploy directly to production without staging
+- Always check the deploy-checklist.md reference
+- Abort if any test or smoke test fails</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-warning" style="margin-top:1.5rem;">
+      <div class="callout-title">Skill Frontmatter &amp; Validation (rust-v0.148.0)</div>
+      <p>Codex parses <strong>model annotations</strong> in skill frontmatter — add <code>model:</code> to pin which model a skill runs on. Skill validation also <strong>rejects unfinished <code>TODO</code> placeholders</strong>, so a scaffolded SKILL.md must be filled in before it will load. The bundled <code>skill-creator</code> guide was tightened to match.</p>
+    </div>
+
+    <div class="callout callout-best-practice" style="margin-top:1.5rem;">
+      <div class="callout-title">Best Practice</div>
+      <p>Start with one skill for your most repeated workflow. Codex skills can include shell scripts and reference docs alongside the markdown — use this for deployment checklists, migration procedures, or incident response runbooks.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX GUIDELINES ─── -->
+<section id="codex-guidelines">
+    <span class="section-label">06 — Guidelines</span>
+    <h2 class="section-title">Lessons from Real-World Codex Adoption</h2>
+    <p class="section-subtitle">Practical guidance for teams using Codex for spec-driven agentic development.</p>
+
+    <!-- Prompting -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Prompting</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Be Specific About What, Not How</h3>
+        <p>Tell Codex what outcome you want, not the implementation steps. Let the agent choose the approach based on codebase context.</p>
+      </div>
+      <div class="card">
+        <h3>Provide Business Context</h3>
+        <p>Include business requirements, constraints, and existing patterns. "We need a user preferences API because mobile users complain about notification noise" is better than "add a PATCH endpoint."</p>
+      </div>
+      <div class="card">
+        <h3>Use Tab for File References</h3>
+        <p>Press <kbd>Tab</kbd> to fuzzy-search files by name (prefix with <code>@</code>). This ensures the right context is loaded and prevents Codex from searching in the wrong places.</p>
+      </div>
+      <div class="card">
+        <h3>Use /plan Mode First</h3>
+        <p>For complex features, start with <code>/plan</code>. Let Codex analyze and propose before making changes. Review the plan, then let it execute.</p>
+      </div>
+    </div>
+
+    <!-- Project Structure -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Project Structure</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Keep AGENTS.md Focused</h3>
+        <p>Stay under the 32 KiB limit. Put detailed docs in <code>docs/</code> for progressive context — don't bloat your project instructions file.</p>
+      </div>
+      <div class="card">
+        <h3>Use Skills for Repeatable Workflows</h3>
+        <p>If you find yourself giving the same instructions across sessions, encode them as a skill in <code>.agents/skills/</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Use Local AGENTS.md for Sensitive Modules</h3>
+        <p>Place small AGENTS.md files near auth, billing, and infrastructure code. Codex sees the guardrails exactly when working in that directory.</p>
+      </div>
+      <div class="card">
+        <h3>Use /compact to Manage Context</h3>
+        <p>Long conversations eat context. Use <code>/compact</code> to summarize the conversation and free up tokens for the agent to work with.</p>
+      </div>
+    </div>
+
+    <!-- Anti-patterns -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Anti-Patterns to Avoid</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Over-Permissive Sandbox</h4>
+        <p>Using <code>danger-full-access</code> outside of containers defeats the security model. Stick with <code>workspace-write</code> for development.</p>
+      </div>
+      <div class="card">
+        <h4>Bloated AGENTS.md</h4>
+        <p>Stuffing every rule into AGENTS.md defeats the purpose. Keep it focused on high-level rules; use <code>docs/</code> and local AGENTS.md for details.</p>
+      </div>
+      <div class="card">
+        <h4>Ignoring Session Resume</h4>
+        <p>Codex saves sessions automatically. Use <code>codex resume</code> to pick up where you left off instead of re-explaining context from scratch.</p>
+      </div>
+      <div class="card">
+        <h4>Not Using /compact</h4>
+        <p>Long conversations degrade agent performance. Use <code>/compact</code> regularly to summarize and free context tokens.</p>
+      </div>
+    </div>
+
+    <!-- Project Trust -->
+    <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">Project Trust &amp; Managed Auth</div>
+      <p>As of rust-v0.147.0, Codex requires <strong>explicit trust</strong> before running in an unfamiliar local project — you'll be prompted to confirm the first time Codex operates in a new directory, similar to how project-scoped MCP servers and hooks already only load in trusted projects. Managed authentication restrictions are also enforced <em>before</em> credentials are used, not after, closing a window where an untrusted project could exercise credentials prior to the trust check completing.</p>
+    </div>
+
+    <!-- Security Review cross-reference -->
+    <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">Security Review</div>
+      <p>The <a href="#skills/security-review" onclick="switchPage('skills'); setTimeout(()=>scrollToSection('security-review'),150);" style="color:var(--accent);">sec-review-team skill</a> is model-agnostic — it spawns Claude Code agents internally to run a multi-specialist security review, but its output (REPORT.md + FINDINGS.jsonl) is a workflow any team can adopt regardless of which CLI they use day-to-day. Codex teams can run the review via Claude Code and apply the fixes directly in their Codex workflow.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX HOOKS ─── -->
+<section id="codex-hooks">
+    <span class="section-label">07 — Hooks</span>
+    <h2 class="section-title">Hooks — Automation &amp; Guardrails</h2>
+    <p class="section-subtitle">Event-driven shell commands that fire deterministically at specific points in the agent loop. Models forget. Hooks don't.</p>
+
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.92rem; color:var(--text-secondary);">Hooks inject scripts into Codex's agentic loop at named lifecycle events. Unlike instructions in AGENTS.md that the model may or may not follow, hooks <strong>always</strong> execute when their event triggers — making them ideal for audit logging, policy enforcement, and automated validation.</p>
+
+    <div class="callout callout-tip" style="margin-bottom:1.5rem;">
+      <div class="callout-title">Generally Available — May 2026</div>
+      <p>Codex Hooks reached General Availability on 2026-05-14. They are production-ready with no feature flag required — <code>[features] codex_hooks = true</code> is the default and stable for use in production pipelines, enterprise environments, and automated workflows.</p>
+    </div>
+
+    <!-- Hook Types -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Hook Event Types</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Event</th><th>When it fires</th><th>Can block?</th><th>Claude Code equivalent</th></tr></thead>
+        <tbody>
+          <tr><td><code>SessionStart</code></td><td>Session begins or resumes</td><td>No — adds context only</td><td><code>SessionStart</code></td></tr>
+          <tr><td><code>UserPromptSubmit</code></td><td>User submits a prompt</td><td>Yes (exit 2)</td><td><code>UserPromptSubmit</code></td></tr>
+          <tr><td><code>PreToolUse</code></td><td>Before Bash, <code>apply_patch</code>, or MCP tool runs; hooks can inject additional context into the turn by returning a <code>context</code> field in JSON output</td><td>Yes (exit 2 or deny JSON)</td><td><code>PreToolUse</code></td></tr>
+          <tr><td><code>PermissionRequest</code></td><td>When Codex seeks approval (shell escalation, network)</td><td>Yes — allow / deny</td><td><code>PermissionRequest</code></td></tr>
+          <tr><td><code>PostToolUse</code></td><td>After tool completes (including failed runs)</td><td>Yes (exit 2 — replaces output)</td><td><code>PostToolUse</code></td></tr>
+          <tr><td><code>Stop</code></td><td>When a turn completes</td><td>Yes — can request continuation</td><td><code>Stop</code></td></tr>
+          <tr><td><code>PreCompact</code></td><td>Before context compaction runs</td><td>Yes (exit 2 blocks compaction)</td><td><code>PreCompact</code></td></tr>
+          <tr><td><code>PostCompact</code></td><td>After context compaction completes</td><td>No</td><td><code>PostCompact</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Configuration -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Configuration</h3>
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.9rem; color:var(--text-secondary);">Enable hooks with <code>[features] codex_hooks = true</code> (default). Define hooks inline in <code>config.toml</code> or in a separate <code>hooks.json</code>. Project-scoped hooks go in <code>.codex/config.toml</code> and only load in trusted projects.</p>
+
+    <p style="max-width:700px; line-height:1.7; margin-bottom:1rem; font-size:0.9rem; color:var(--text-secondary);"><strong>Async and MCP-tool hooks (rust-v0.148.0):</strong> a hook can now run asynchronously — Codex fires it and continues the turn instead of waiting for it to finish — and a hook can invoke an MCP tool directly instead of shelling out to a script. Hook listings show each hook's execution mode, so blocking hooks are distinguishable from background ones at a glance. A hook that exceeds its <code>timeout</code> now has its entire process tree terminated rather than just the top-level process, so orphaned children no longer linger, and hook runtimes refresh after plugin changes.</p>
+
+    <div class="collapsible open" style="margin-top:0.5rem;">
+      <div class="collapsible-header">
+        <h3>config.toml hook syntax</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code><span class="cm"># ~/.codex/config.toml  (global) or .codex/config.toml (project)</span>
+<span class="kw">[features]</span>
+<span class="val">codex_hooks</span> = true
+
+<span class="cm"># Fire before every Bash call</span>
+<span class="kw">[[hooks.PreToolUse]]</span>
+<span class="val">matcher</span> = <span class="str">"^Bash$"</span>
+
+<span class="kw">[[hooks.PreToolUse.hooks]]</span>
+<span class="val">type</span>          = <span class="str">"command"</span>
+<span class="val">command</span>       = <span class="str">"/usr/bin/python3 ~/.codex/hooks/check-command.py"</span>
+<span class="val">timeout</span>       = 10
+<span class="val">statusMessage</span> = <span class="str">"Checking command safety"</span>
+
+<span class="cm"># Fire after any apply_patch / Edit / Write</span>
+<span class="kw">[[hooks.PostToolUse]]</span>
+<span class="val">matcher</span> = <span class="str">"apply_patch"</span>
+
+<span class="kw">[[hooks.PostToolUse.hooks]]</span>
+<span class="val">type</span>    = <span class="str">"command"</span>
+<span class="val">command</span> = <span class="str">"/usr/bin/python3 ~/.codex/hooks/audit-log.py"</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Exit Codes -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Exit Code Semantics</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Exit code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code> + valid JSON</td><td>Process output per event schema (allow, deny, inject context, request continuation)</td></tr>
+          <tr><td><code>0</code> + plain text</td><td>Append as developer context (SessionStart, UserPromptSubmit)</td></tr>
+          <tr><td><code>0</code> + no output</td><td>Pass-through — hook ran successfully, no action taken</td></tr>
+          <tr><td><code>2</code></td><td>Block / deny; read reason from stderr; exact behavior depends on event type</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Recipes -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Recipes</h3>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Block dangerous shell commands (PreToolUse)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, re
+
+hook_input = json.load(sys.stdin)
+command = hook_input[<span class="str">"tool_input"</span>].get(<span class="str">"command"</span>, <span class="str">""</span>)
+
+<span class="kw">if</span> re.search(<span class="str">r"rm\s+-rf|sudo\s+rm|DROP\s+TABLE"</span>, command):
+    print(json.dumps({
+        <span class="str">"hookSpecificOutput"</span>: {
+            <span class="str">"hookEventName"</span>: <span class="str">"PreToolUse"</span>,
+            <span class="str">"permissionDecision"</span>: <span class="str">"deny"</span>,
+            <span class="str">"permissionDecisionReason"</span>: <span class="str">"High-risk command blocked by policy"</span>
+        }
+    }))
+sys.exit(0)</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Detect API keys in prompts (UserPromptSubmit)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, re
+
+hook_input = json.load(sys.stdin)
+prompt = hook_input.get(<span class="str">"prompt"</span>, <span class="str">""</span>)
+
+<span class="kw">if</span> re.search(<span class="str">r"sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}"</span>, prompt):
+    sys.stderr.write(<span class="str">"Possible API key or AWS credential detected in prompt\n"</span>)
+    sys.exit(2)  <span class="cm"># blocks the prompt submission</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Recipe: Audit-log every tool call (PostToolUse)</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="code-block">
+          <pre><code class="language-python"><span class="cm">#!/usr/bin/env python3</span>
+<span class="kw">import</span> json, sys, datetime, pathlib
+
+hook_input = json.load(sys.stdin)
+log_entry = {
+    <span class="str">"ts"</span>:      datetime.datetime.utcnow().isoformat(),
+    <span class="str">"session"</span>: hook_input[<span class="str">"session_id"</span>],
+    <span class="str">"tool"</span>:    hook_input[<span class="str">"tool_name"</span>],
+    <span class="str">"input"</span>:   hook_input[<span class="str">"tool_input"</span>],
+}
+
+log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class="str">"audit.jsonl"</span>
+<span class="kw">with</span> log_path.open(<span class="str">"a"</span>) <span class="kw">as</span> f:
+    f.write(json.dumps(log_entry) + <span class="str">"\n"</span>)
+
+<span class="cm"># Exit 0 with no output = pass-through</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
+      <div class="callout-title">Claude Code Comparison</div>
+      <p>Codex has 8 hook event types; Claude Code has more (26 total events including SubagentStart, TaskCreated, FileChanged, PreCompact, etc.). Both use the same input-via-stdin / exit-code pattern. If you're migrating hook scripts, the core logic is portable — only the event names and JSON shape differ slightly.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX CHEAT SHEET ─── -->
+<section id="codex-cheat-sheet">
+    <span class="section-label">08 — Codex Cheat Sheet</span>
+    <h2 class="section-title">Everything You Need in One Place</h2>
+    <p class="section-subtitle">Keyboard shortcuts, commands, flags, configuration, and environment variables.</p>
+
+    <!-- Keyboard Shortcuts -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Keyboard Shortcuts</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Enter</kbd></td><td>Inject instructions into current turn</td></tr>
+          <tr><td><kbd>Ctrl+C</kbd></td><td>Close session / cancel</td></tr>
+          <tr><td><kbd>Ctrl+L</kbd></td><td>Clear screen</td></tr>
+          <tr><td><kbd>Ctrl+G</kbd></td><td>Open external editor for longer prompts</td></tr>
+          <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Edit previous user message (keep pressing to walk back)</td></tr>
+          <tr><td><kbd>Tab</kbd> / <code>@</code></td><td>Unified context picker — type <code>@</code> to search files, directories, plugins, and skills in one picker (backed by app-server plugin metadata). Added in v0.131.0.</td></tr>
+          <tr><td><kbd>&#8593;</kbd> / <kbd>&#8595;</kbd></td><td>Navigate draft history in composer</td></tr>
+          <tr><td><kbd>Alt+,</kbd></td><td>Lower reasoning level for current model</td></tr>
+          <tr><td><kbd>Alt+.</kbd></td><td>Raise reasoning level for current model</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Slash Commands -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Slash Commands</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Command</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>/plan</code></td><td>Enter plan mode — propose before implementing</td></tr>
+          <tr><td><code>/review</code></td><td>Analyze diffs without modifying code</td></tr>
+          <tr><td><code>/goal</code></td><td>Create a persisted goal; browse discoverable goals in TUI. Goals pause across session resume by default — opt back in from the picker. Supports multi-day duration tracking.</td></tr>
+          <tr><td><code>/fork</code></td><td>Clone conversation to a new thread, including paginated history from the parent. Choose "temporary" in the picker (or use the <code>--temp</code> flag) for forks that don't appear in thread listings — ideal for exploratory side work (rust-v0.146.0).</td></tr>
+          <tr><td><code>/side</code></td><td>Open an ephemeral branch for a focused follow-up; doesn't pollute main context. Switch between open side conversations without closing them (rust-v0.146.0).</td></tr>
+          <tr><td><code>/new</code> <code>/clear</code></td><td>Start a fresh conversation within the same CLI session (both commands are equivalent). Use the thread picker to <strong>pin</strong> important threads for quick access, and organize them into persistent, manually ordered sections (rust-v0.146.0, extended rust-v0.147.0).</td></tr>
+          <tr><td><code>/archive</code></td><td>Archive the current session — protected from resume or fork until restored. CLI: <code>codex archive</code> / <code>codex unarchive</code>, or archive and restore directly from the resume picker. (v0.136.0, picker support rust-v0.148.0)</td></tr>
+          <tr><td><code>/delete</code></td><td>Permanently delete the current session with confirmation. Cleans up subagent threads. Also available as <code>codex delete</code>. (v0.140.0)</td></tr>
+          <tr><td><code>/compact</code></td><td>Summarize conversation to free context tokens</td></tr>
+          <tr><td><code>/diff</code></td><td>Show current changes (staged and unstaged); workspace-aware — diff is scoped to your project root</td></tr>
+          <tr><td><code>/cd</code> <code>&lt;path&gt;</code></td><td>Change the session's working directory (rust-v0.149.0)</td></tr>
+          <tr><td><code>/pwd</code></td><td>Print the session's current working directory (rust-v0.149.0)</td></tr>
+          <tr><td><code>/cwd</code></td><td>Print the session's current working directory (rust-v0.149.0)</td></tr>
+          <tr><td><code>/model</code></td><td>Switch model and/or reasoning level mid-session</td></tr>
+          <tr><td><code>/fast</code></td><td>Toggle fast mode (<code>on</code> / <code>off</code> / <code>status</code>)</td></tr>
+          <tr><td><code>/agent</code></td><td>Switch between active agent threads</td></tr>
+          <tr><td><code>/plugins</code></td><td>Browse, install, and manage marketplace plugins</td></tr>
+          <tr><td><code>/apps</code></td><td>Browse and insert available connectors</td></tr>
+          <tr><td><code>/ide</code></td><td>Inject IDE file/editor context into the current session (workspace-aware)</td></tr>
+          <tr><td><code>/mcp</code></td><td>List configured MCP tools</td></tr>
+          <tr><td><code>/permissions</code></td><td>Change approval mode mid-session</td></tr>
+          <tr><td><code>/init</code></td><td>Generate an AGENTS.md scaffold for the current project</td></tr>
+          <tr><td><code>/import</code></td><td>Migrate settings, MCP servers, plugins, sessions, commands, and project-scoped memories from <strong>Cursor</strong> or <strong>Claude Code</strong>. Selectively import any combination for full cross-tool migration. (v0.140.0, expanded v0.145.0) As of rust-v0.147.0, also imports Cursor-managed skills, and re-running the import synchronizes changes to previously-imported Claude/Cursor conversations without creating duplicates.</td></tr>
+          <tr><td><code>/vim</code></td><td>Toggle Vim modal editing in the composer. Set <code>vim_mode = true</code> in <code>config.toml</code> to enable by default.</td></tr>
+          <tr><td><code>/keymap</code> <code>[debug]</code></td><td>Remap TUI keyboard shortcuts interactively. Use <code>/keymap debug</code> to inspect raw terminal key events — helpful when Vim mode or chord bindings don't register.</td></tr>
+          <tr><td><code>/statusline</code></td><td>Configure footer status items — including the estimated thread credits/cost item for eligible workspaces (rust-v0.148.0)</td></tr>
+          <tr><td><code>/hooks</code></td><td>Browse and toggle configured hooks from the TUI without editing config files</td></tr>
+          <tr><td><code>/personality</code></td><td>Set agent personality (friendly / pragmatic / none)</td></tr>
+          <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>)</td></tr>
+          <tr><td><code>/export</code></td><td>Export the complete conversation as Markdown — copy it to the clipboard or write it to a new file (rust-v0.148.0)</td></tr>
+          <tr><td><code>/status</code></td><td>Show session config and token usage metrics. For eligible workspaces, also shows estimated thread credits or cost — the same estimate surfaced in status lines and terminal titles (rust-v0.148.0)</td></tr>
+          <tr><td><code>/usage</code></td><td>View daily, weekly, and cumulative account token activity. Redeem earned usage-limit reset credits directly from this view. (v0.140.0)</td></tr>
+          <tr><td><code>/debug-config</code></td><td>Print configuration layers and policy diagnostics</td></tr>
+          <tr><td><code>/exit</code></td><td>Close session</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CLI Flags -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">CLI Flags</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Flag</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>--model / -m</code></td><td>Select model (e.g., <code>gpt-5.5</code>, <code>codex-mini-latest</code>)</td></tr>
+          <tr><td><code>--sandbox / -s</code></td><td>Set sandbox policy (<code>read-only</code>, <code>workspace-write</code>, <code>danger-full-access</code>)</td></tr>
+          <tr><td><code>--approval-mode / -a</code></td><td>Set approval level (<code>auto</code>, <code>read-only</code>, <code>writes</code>, <code>full-access</code>). The <code>writes</code> mode allows declared read-only actions automatically while prompting only for write operations (rust-v0.144.0).</td></tr>
+          <tr><td><code>--approve-for-me</code></td><td>Enables automatically reviewed approvals — Codex reviews and approves its own actions against policy instead of prompting you for each one (rust-v0.147.0).</td></tr>
+          <tr><td><code>--quiet / -q</code></td><td>Minimal output for scripting</td></tr>
+          <tr><td><code>--json</code></td><td>JSON Lines output for machine consumption; includes reasoning-token usage</td></tr>
+          <tr><td><code>-i</code></td><td>Attach image / screenshot (multimodal)</td></tr>
+          <tr><td><code>--full-auto</code></td><td><em>Removed in rust-v0.147.0</em> — use <code>--sandbox workspace-write</code> instead</td></tr>
+          <tr><td><code>--profile</code></td><td>Apply a named config profile (<code>~/.codex/config.toml</code> <code>[profiles.&lt;name&gt;]</code>)</td></tr>
+          <tr><td><code>--notify</code></td><td>Desktop notifications when tasks complete</td></tr>
+          <tr><td><code>--no-project-doc</code></td><td>Skip AGENTS.md loading</td></tr>
+          <tr><td><code>--output-schema</code></td><td>Enforce JSON Schema on response (use with <code>exec</code>)</td></tr>
+          <tr><td><code>--ephemeral</code></td><td>No session persistence (use with <code>exec</code>)</td></tr>
+          <tr><td><code>codex update</code></td><td>Update Codex CLI to the latest version</td></tr>
+          <tr><td><code>codex remote-control</code></td><td>Start a headless, remotely controllable app-server — a simpler entrypoint than configuring the full app-server stack. Allows external clients to drive a Codex session via the protocol API (v0.130.0). Use <code>codex remote-control pair</code> to generate a manual pairing code from a running daemon when automated OAuth pairing isn't available (rust-v0.143.0).</td></tr>
+          <tr><td><code>codex exec fork</code></td><td>Fork an existing session non-interactively from the CLI — branch a thread for scripted or automated follow-up work without opening the TUI (rust-v0.148.0).</td></tr>
+          <tr><td><code>codex doctor</code></td><td>Run support-ready diagnostics across runtime, auth, terminal, network, config, storage, and local state. Added in v0.131.0; storage diagnostics added in rust-v0.148.0.</td></tr>
+          <tr><td><code>codex agents</code></td><td>Open an interactive dashboard to search, start, open, rename, and stop tasks, with configurable shortcuts (rust-v0.149.0).</td></tr>
+          <tr><td><code>codex queue</code></td><td>Send a message to an existing local or remote session without switching into it; reliably wakes idle sessions and resolves duplicate session names (rust-v0.149.0).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Configuration Reference -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Configuration Reference</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Key (<code>config.toml</code>)</th><th>Purpose</th><th>Default</th></tr></thead>
+        <tbody>
+          <tr><td><code>model</code></td><td>Default model</td><td><code>gpt-5.5</code></td></tr>
+          <tr><td><code>model_reasoning_effort</code></td><td>Reasoning depth: <code>minimal</code> / <code>low</code> / <code>medium</code> / <code>high</code> / <code>xhigh</code></td><td><code>medium</code></td></tr>
+          <tr><td><code>model_verbosity</code></td><td>Response verbosity: <code>low</code> / <code>medium</code> / <code>high</code></td><td><code>medium</code></td></tr>
+          <tr><td><code>vim_mode</code></td><td>Enable Vim modal editing in the composer by default</td><td><code>false</code></td></tr>
+          <tr><td><code>approval_policy</code></td><td>Approval mode: <code>untrusted</code> / <code>on-request</code> / <code>never</code> / <code>granular</code></td><td><code>on-request</code></td></tr>
+          <tr><td><code>sandbox_mode</code></td><td>Sandbox policy: <code>read-only</code> / <code>workspace-write</code> / <code>danger-full-access</code></td><td><code>read-only</code></td></tr>
+          <tr><td><code>default_permissions</code></td><td>Named permission profile to apply by default (e.g. <code>":workspace"</code>)</td><td>—</td></tr>
+          <tr><td><code>service_tier</code></td><td>OpenAI service tier: <code>flex</code> (cheaper) / <code>fast</code> (lower latency)</td><td><code>fast</code></td></tr>
+          <tr><td><code>web_search</code></td><td>Web search mode: <code>disabled</code> / <code>cached</code> / <code>live</code>. Now supported for compatible custom model providers, not just native OpenAI models (rust-v0.146.0).</td><td><code>cached</code></td></tr>
+          <tr><td><code>project_doc_max_bytes</code></td><td>Max AGENTS.md size in bytes</td><td><code>32768</code></td></tr>
+          <tr><td><code>[agents].max_threads</code></td><td>Max concurrent agent threads</td><td><code>6</code></td></tr>
+          <tr><td><code>[agents].max_depth</code></td><td>Max agent nesting depth</td><td><code>1</code></td></tr>
+          <tr><td><code>[agents].job_max_runtime_seconds</code></td><td>Per-worker timeout</td><td><code>3600</code></td></tr>
+          <tr><td><code>[features].codex_hooks</code></td><td>Enable the hooks system</td><td><code>true</code></td></tr>
+          <tr><td><code>[otel]</code></td><td>OpenTelemetry export config (exporter, endpoint, metrics)</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Environment Variables -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Environment Variables</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>OPENAI_API_KEY</code></td><td>API key for OpenAI models</td></tr>
+          <tr><td><code>CODEX_DISABLE_PROJECT_DOC</code></td><td>Set to <code>1</code> to skip AGENTS.md loading</td></tr>
+          <tr><td><code>CODEX_CA_CERTIFICATE</code></td><td>Path to custom CA cert for enterprise proxy / TLS interception</td></tr>
+          <tr><td><code>SSL_CERT_FILE</code></td><td>Alternative CA cert path (covers HTTPS and WebSocket connections)</td></tr>
+          <tr><td><code>AWS_PROFILE</code> / <code>AWS_REGION</code></td><td>AWS credentials for Amazon Bedrock provider. <code>AWS_REGION</code> is optional if <code>~/.aws/config</code> sets the region (Claude Code v2.1.172 reads it as fallback)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<!-- ─── CODEX POWER USAGE ─── -->
+<section id="codex-power-usage">
+    <span class="section-label">09 — Power Usage</span>
+    <h2 class="section-title">Advanced Features for Power Users</h2>
+    <p class="section-subtitle">Multi-agent workflows, hooks, plugins, permission profiles, Bedrock, session management, CI/CD, multi-provider models, and Codex Cloud.</p>
+
+    <!-- Multi-Agent -->
+    <div class="collapsible open">
+      <div class="collapsible-header">
+        <h3>Multi-Agent Workflows</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex supports multi-agent threads with configurable concurrency and specialized roles. The V2 multi-agent experience (opt-in) is now stable as of <strong>v0.145.0</strong>, with configurable per-agent models and reasoning levels.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[agents]</span>
+<span class="val">max_threads</span> = 6
+<span class="val">max_depth</span> = 1
+<span class="val">job_max_runtime_seconds</span> = 3600</code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>Per-sub-agent model and reasoning (v0.145.0):</strong> Configure different models and reasoning effort levels for each sub-agent role in <code>config.toml</code>:</p>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code><span class="cm"># Per-role model and reasoning overrides</span>
+<span class="kw">[agents.worker]</span>
+<span class="val">model</span> = <span class="str">"gpt-5.5"</span>
+<span class="val">reasoning</span> = <span class="str">"medium"</span>
+
+<span class="kw">[agents.explorer]</span>
+<span class="val">model</span> = <span class="str">"gpt-5.5"</span>
+<span class="val">reasoning</span> = <span class="str">"low"</span></code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>Built-in roles:</strong></p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
+          <li><code>default</code> — Standard agent behavior</li>
+          <li><code>worker</code> — Focused task execution</li>
+          <li><code>explorer</code> — Read-only codebase analysis</li>
+          <li><code>monitor</code> — Long-running observation (up to 1-hour windows)</li>
+        </ul>
+        <p style="margin-top:1rem;"><strong>Batch processing:</strong> <code>spawn_agents_on_csv</code> reads a CSV and spawns one worker per row — useful for bulk migrations and parallel test generation.</p>
+        <p style="margin-top:1rem;"><strong>Rollout token budgets (v0.142.0):</strong> Configure a per-thread token budget to cap token usage across agent threads. When nearing the limit, Codex surfaces remaining-budget reminders; turns abort automatically when the budget is exhausted. Set in <code>config.toml</code> under <code>[agents]</code>:</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[agents]</span>
+<span class="val">rollout_token_budget</span> = 100000     <span class="cm"># abort turn when budget exceeded</span>
+<span class="val">rollout_budget_reminder_threshold</span> = 0.8  <span class="cm"># warn at 80% consumed</span></code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>Interactive dashboard (rust-v0.149.0):</strong> Run <code>codex agents</code> to open an interactive dashboard for day-to-day management of running agent tasks — search, start, open, rename, and stop tasks, with configurable keyboard shortcuts. This is distinct from the <code>[agents]</code> config.toml settings above, which govern concurrency and per-role behavior rather than task management.</p>
+      </div></div>
+    </div>
+
+    <!-- Conversation Forking -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Conversation Forking</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Use <code>/fork</code> to clone the current conversation into a new thread. Useful for exploring alternative approaches without losing your main context. Forking is no longer TUI-only — as of rust-v0.148.0, <code>codex exec fork</code> forks a saved session non-interactively, so scripts and CI jobs can branch off a thread without opening the TUI.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># In a Codex session:</span>
+/fork
+
+<span class="cm"># Codex creates a new thread with the full conversation history</span>
+<span class="cm"># You can explore a different approach in the fork</span>
+<span class="cm"># Use /agent to switch between threads</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Vim Editing Mode -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Vim Editing Mode</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex v0.129.0 adds modal Vim editing in the composer. Toggle it mid-session with <code>/vim</code>, or enable it permanently in config:</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml — enable Vim mode globally</span>
+vim_mode = true
+
+<span class="cm"># Or toggle mid-session</span>
+/vim</code></pre>
+        </div>
+        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection), plus expanded change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (<code>r&lt;char&gt;</code>) (rust-v0.149.0). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use <code>/keymap debug</code> to inspect what key events your terminal is sending — helpful when certain Vim chords don't register correctly.</p>
+      </div></div>
+    </div>
+
+    <!-- Session Management -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Session Management</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex saves sessions automatically. Resume previous work without re-explaining context. The redesigned resume/fork picker lets you select, resume, or fork any saved session in a single UI — no need to know the session ID upfront. Renamed threads appear as <code>name (thread-id)</code> in resume hints for easy identification, and you can paste text directly into the picker search box to filter sessions. Sessions can also be archived (<code>/archive</code> or <code>codex archive</code>) to protect them from accidental resume or fork — restore any time with <code>codex unarchive</code>. For permanent removal, use <code>/delete</code> or <code>codex delete</code> (confirms before deleting and cleans up subagent threads). (v0.136.0–v0.140.0)</p>
+        <p style="margin-top:0.75rem;">As of rust-v0.146.0, you can <strong>pin</strong> important threads from the picker for quick access, open side conversations alongside your main thread, and switch between them without closing either. Forked threads now include paginated parent history and support <strong>temporary forks</strong> that don't appear in thread listings — ideal for exploratory side work. As of rust-v0.147.0, you can organize threads into <strong>persistent, manually ordered sections</strong> in the picker, and browse long transcripts <strong>incrementally</strong> instead of loading the full history at once. As of rust-v0.148.0, archiving and restoring moved into the picker itself — archive or restore a session without dropping out to <code>codex archive</code> / <code>codex unarchive</code>. You can also start drafting your prompt while the TUI is still initializing, with resume and fork progress shown during startup, and resumed sessions now restore their persisted <strong>working directory</strong> and <strong>approval policy</strong> rather than inheriting whatever the current shell happens to be using. As of rust-v0.149.0, <code>codex queue</code> sends a message to an existing local or remote session without switching into it; queued messages now reliably wake idle sessions, resolve duplicate session names more usefully, and preserve pasted or deferred command semantics.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Show session picker (redesigned resume/fork picker in v0.129.0)</span>
+codex resume
+
+<span class="cm"># Resume the most recent session</span>
+codex resume --last
+
+<span class="cm"># Resume in headless exec mode — keeps session context, enforces JSON output</span>
+codex exec resume --output-schema schema.json "continue analyzing endpoints"
+
+<span class="cm"># Run a throwaway session (no persistence)</span>
+codex exec --ephemeral "quick fix: update version in package.json"
+
+<span class="cm"># Update Codex CLI to the latest version</span>
+codex update
+
+<span class="cm"># Archive a session — protected from resume/fork until unarchived (v0.136.0)</span>
+codex archive
+codex unarchive
+
+<span class="cm"># Permanently delete a session with confirmation (v0.140.0)</span>
+codex delete
+
+<span class="cm"># Send a message to an existing local or remote session without switching into it (rust-v0.149.0)</span>
+codex queue &lt;session&gt; "message"
+
+<span class="cm"># Raw scrollback mode — scroll through session output without affecting</span>
+<span class="cm"># the composer; configure the keybind via /keymap</span></code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- CI/CD Integration -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>CI/CD Integration</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Use <code>codex exec</code> for headless execution in pipelines. Combine with <code>--json</code> for machine-readable output.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Headless execution — no TUI, streams to stderr</span>
+codex exec "fix all lint errors and run tests"
+
+<span class="cm"># JSON Lines output — includes reasoning-token usage</span>
+codex exec --json "analyze this codebase for security issues"
+
+<span class="cm"># Structured response with schema enforcement</span>
+codex exec --output-schema schema.json "list all API endpoints"
+
+<span class="cm"># Resume a prior session in headless mode — preserves context, enforces schema</span>
+codex exec resume --output-schema schema.json "continue from last checkpoint"
+
+<span class="cm"># Autonomous execution (replaces removed --full-auto, rust-v0.147.0)</span>
+codex exec --sandbox workspace-write "update dependencies and fix breaking changes"
+
+<span class="cm"># Quiet mode for scripting</span>
+codex exec -q "generate changelog from recent commits" > CHANGELOG.md
+
+<span class="cm"># Throwaway session (no session history saved)</span>
+codex exec --ephemeral "check for unused imports"</code></pre>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Codex Access Tokens -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Codex Access Tokens</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex access tokens let ChatGPT Enterprise workspace members run fully non-interactive Codex workflows without manual browser-based authentication. Tokens carry the user's ChatGPT workspace identity and are ideal for scripts, schedulers, and private CI runners that can't go through an OAuth flow.</p>
+        <p style="margin-top:0.75rem;"><strong>Who can create tokens:</strong> ChatGPT Enterprise workspace owners must first authorize members to generate tokens via the workspace admin settings. Once authorized, members create tokens in their account settings and reference them at runtime.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Set the access token via environment variable</span>
+<span class="kw">export</span> CODEX_ACCESS_TOKEN=your-token-here
+
+<span class="cm"># Non-interactive execution — no browser prompt</span>
+codex exec --approval-mode never <span class="str">"run all tests and report failures"</span>
+
+<span class="cm"># Use in a CI runner (GitHub Actions example)</span>
+<span class="kw">env</span>:
+  CODEX_ACCESS_TOKEN: <span class="val">${{ secrets.CODEX_ACCESS_TOKEN }}</span></code></pre>
+        </div>
+        <div class="callout callout-warning" style="margin-top:1rem;">
+          <div class="callout-title">Treat Like an API Key</div>
+          <p>Access tokens grant full Codex execution rights under your workspace identity. Store them in secrets managers (AWS Secrets Manager, GitHub Secrets, HashiCorp Vault) — never commit to version control or log in CI output. Rotate tokens if exposure is suspected.</p>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use cases: nightly background refactors, automated spec-to-code pipelines, private on-premise CI runners that need Codex without a browser session. Pairs well with <code>--approval-mode never</code> permission profiles for fully autonomous runs.</p>
+      </div></div>
+    </div>
+
+    <!-- Multi-Provider Models -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Multi-Provider Models</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex supports models from multiple providers. Configure in <code>config.toml</code> or use the <code>--model</code> flag.</p>
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th>Provider</th><th>Example Models</th><th>Configuration</th></tr></thead>
+            <tbody>
+              <tr><td>OpenAI</td><td><code>gpt-5.5</code>, <code>codex-mini-latest</code></td><td>Default — uses <code>OPENAI_API_KEY</code></td></tr>
+              <tr><td>Azure OpenAI</td><td>Deployed models</td><td>Azure endpoint + API key</td></tr>
+              <tr><td>Amazon Bedrock</td><td><code>gpt-5.6</code>, hosted foundation models</td><td>Built-in provider — AWS profile + region (rust-v0.148.0)</td></tr>
+              <tr><td>Ollama</td><td>Local models</td><td>Local endpoint (<code>http://localhost:11434</code>)</td></tr>
+              <tr><td>Gemini</td><td><code>gemini-2.5-pro</code></td><td>Google AI API key</td></tr>
+              <tr><td>Mistral</td><td><code>mistral-large</code></td><td>Mistral API key</td></tr>
+              <tr><td>DeepSeek</td><td><code>deepseek-chat</code></td><td>DeepSeek API key</td></tr>
+              <tr><td>OpenRouter</td><td>Any hosted model</td><td>OpenRouter API key</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Profiles</div>
+          <p>Use <code>--profile</code> to switch between configurations. Example: <code>codex --profile local</code> for Ollama, <code>codex --profile cloud</code> for OpenAI.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Permission Profiles -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Permission Profiles</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Permission profiles replace the old binary sandbox flags with named, reusable policies for filesystem and network access. Define them in <code>~/.codex/config.toml</code> and apply with <code>--approval-mode</code> or <code>default_permissions</code>. As of rust-v0.146.1, cyber-capable models get safer automatic-review defaults out of the box, and the terminal interface explains permission changes as they happen instead of applying them silently.</p>
+        <div class="table-wrap" style="margin-top:1rem;">
+          <table class="styled-table">
+            <thead><tr><th>Built-in Profile</th><th>Filesystem</th><th>Network</th></tr></thead>
+            <tbody>
+              <tr><td><code>:read-only</code></td><td>Read everywhere</td><td>None</td></tr>
+              <tr><td><code>:workspace</code></td><td>Write to project root; deny <code>*.env</code> / <code>*.secrets</code></td><td>Restricted</td></tr>
+              <tr><td><code>:danger-no-sandbox</code></td><td>Unrestricted</td><td>Full</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem; font-size:0.9rem; color:var(--text-secondary);">Define a custom profile:</p>
+        <div class="code-block" style="margin-top:0.5rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[permissions.myproject.filesystem.":project_roots"]</span>
+<span class="val">"."</span> = <span class="str">"write"</span>
+<span class="val">"**/*.env"</span> = <span class="str">"none"</span>       <span class="cm"># deny reads of .env files</span>
+<span class="val">glob_scan_max_depth</span> = 3
+
+<span class="kw">[permissions.myproject.network]</span>
+<span class="val">enabled</span> = true
+<span class="val">mode</span> = <span class="str">"limited"</span>
+
+<span class="cm"># Apply as default</span>
+<span class="val">default_permissions</span> = <span class="str">":myproject"</span></code></pre>
+        </div>
+        <div class="callout callout-warning" style="margin-top:1rem;">
+          <div class="callout-title">Fail-closed paths (rust-v0.148.0)</div>
+          <p>Sandbox restrictions now <strong>fail closed</strong> on both Linux and Windows: if a path is explicitly denied — or simply unreadable — the agent is refused access rather than being allowed through. Managed deny-read rules are also enforced inside the Windows sandbox, so <code>requirements.toml</code> policies apply consistently across platforms.</p>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Enterprise: requirements.toml</div>
+          <p>Admins can enforce which profiles are allowed and deny filesystem paths via <code>requirements.toml</code> — an admin-managed policy file that users cannot override. Install it at a system path or distribute via MDM.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Amazon Bedrock -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Amazon Bedrock</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex has first-class Amazon Bedrock support via AWS SigV4 signing and standard AWS credential resolution. Useful for teams with existing AWS infrastructure or data-residency requirements.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml</span>
+<span class="kw">[model_providers.amazon-bedrock.aws]</span>
+<span class="val">profile</span> = <span class="str">"my-aws-profile"</span>   <span class="cm"># or use env vars</span>
+<span class="val">region</span>  = <span class="str">"us-west-2"</span>
+
+<span class="cm"># Credentials via standard AWS env vars also work:</span>
+<span class="cm"># AWS_PROFILE=my-profile AWS_REGION=us-west-2 codex</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch. In addition to standard AWS credential env vars and named profiles, <code>aws login</code> console-login credentials (from <code>aws login</code> profiles) are supported for Bedrock auth as of v0.130.0. As of rust-v0.147.0, cached web search and remote conversation compaction are also enabled for Bedrock deployments, bringing them to parity with the default OpenAI-hosted setup. As of rust-v0.148.0, Amazon Bedrock Runtime ships as a <strong>built-in provider</strong> — configure it with an AWS profile and region without hand-rolling a custom provider block, and route <code>gpt-5.6</code> requests through Bedrock.</p>
+      </div></div>
+    </div>
+
+    <!-- /goal Workflows -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>/goal Workflows</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Persisted goals let you define a long-running objective that survives context compaction. Goals are now <strong>discoverable</strong> — browse all active goals from the TUI picker. When you resume a session, goals are <strong>paused by default</strong> so they don't carry over unintended work; opt back in from the picker. Goals show clear validation feedback and support multi-day duration tracking.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># In a Codex session — set a persistent goal</span>
+/goal
+
+<span class="cm"># TUI picker: Create / Pause / Resume / Clear / Browse all goals</span>
+<span class="cm"># Goal persists across /compact; pauses on resume (opt back in from picker)</span>
+<span class="cm"># Multi-day duration shown in goal status output</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Goals are ideal for large refactors or multi-day feature work. The paused-across-resume default prevents stale goals from leaking into new sessions — always check the picker when resuming long-running work.</p>
+      </div></div>
+    </div>
+
+    <!-- Plugins -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Plugins</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex plugins extend the agent with bundled tools, skills, and hooks. Browse the marketplace in the TUI or install from the CLI. Plugins can be scoped globally or to a trusted project.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># In the TUI: open the plugin marketplace</span>
+/plugins
+
+<span class="cm"># Install a plugin from the marketplace</span>
+codex plugin install &lt;plugin-name&gt;
+
+<span class="cm"># Remove a plugin</span>
+codex plugin remove &lt;plugin-name&gt;
+
+<span class="cm"># Share a plugin with your workspace</span>
+codex plugin share &lt;plugin-name&gt;
+
+<span class="cm"># Publish a plugin to the workspace marketplace (rust-v0.146.0)</span>
+codex plugin publish &lt;plugin-name&gt;
+
+<span class="cm"># Sync remote plugin bundles</span>
+codex plugin sync</code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>Plugin scoping:</strong></p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
+          <li><strong>Global</strong> (<code>~/.codex/</code>) — available in every session</li>
+          <li><strong>Project</strong> (<code>.codex/</code>) — loaded only in trusted projects</li>
+          <li><strong>Workspace-shared</strong> — install once, available to teammates via workspace share link; admin-disabled plugins are flagged in <code>/plugins</code></li>
+        </ul>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Plugins can bundle skills (<code>SKILL.md</code>), hooks, and tool allowlists in a single installable unit. Plugin-bundled hooks are enabled/disabled via the plugin's configuration. As of v0.130.0, the plugin details view (accessible from <code>/plugins</code>) shows all bundled hooks alongside skills and tools. As of v0.131.0, plugin workflows gained marketplace CLI commands (<code>codex plugin share</code>, version-aware publish and checkout), clearer shared-workspace buckets, and plugin hooks are now default-enabled on install. As of rust-v0.143.0, remote plugins are enabled by default — the marketplace shows richer catalog rows with npm sources and visible remote/local version indicators. As of rust-v0.146.0, <strong>Agent Plugin manifests</strong> provide a structured declaration format for bundling agent capabilities into a plugin; the marketplace also connects to additional plugin sources including <strong>Amazon Bedrock</strong> and <strong>Claude Code</strong>, expanding the available plugin catalog beyond the default Codex marketplace. As of rust-v0.147.0, Agent Plugins can be installed in a <strong>portable</strong> format and searched across <strong>local, personal, workspace, and remote</strong> plugin catalogs — broadening discovery beyond the Global/Project/Workspace-shared scopes above.</p>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Claude Code Equivalent</div>
+          <p>Codex plugins map to Claude Code's plugin system — both use a marketplace model with skill + hook bundling. The key difference: Codex plugins install via <code>codex plugin install</code>; Claude plugins install via <code>claude plugin install</code>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Monitoring & Observability -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Monitoring &amp; Observability</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Codex exports structured telemetry via OpenTelemetry and provides machine-readable <code>exec</code> output for pipeline integration.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml — OTEL export</span>
+<span class="kw">[otel]</span>
+<span class="val">environment</span> = <span class="str">"prod"</span>
+<span class="val">exporter</span>    = <span class="str">"otlp-http"</span>
+
+<span class="kw">[otel.exporter.otlp-http]</span>
+<span class="val">endpoint</span> = <span class="str">"http://otel-collector:4318"</span>
+<span class="val">protocol</span> = <span class="str">"json"</span></code></pre>
+        </div>
+        <p style="margin-top:1rem;"><strong>What gets traced:</strong></p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.5rem;">
+          <li>Tool calls (tool name, input size, output size)</li>
+          <li>Code-mode transitions and session lifecycle</li>
+          <li>Multi-agent thread relationships (rollout tracing)</li>
+          <li>Reasoning-token usage (via <code>codex exec --json</code>)</li>
+        </ul>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Audit Logging via Hooks</div>
+          <p>For teams without an OTEL collector, use a <code>PostToolUse</code> hook to append tool calls to a local log file. This gives you a full audit trail with zero infrastructure overhead — see the Hooks section for a recipe.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Codex Cloud -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Codex Cloud &amp; Mobile</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Run Codex tasks in the cloud instead of locally. Access via the CLI or the web interface at <code>chatgpt.com/codex</code>.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Manage cloud tasks</span>
+codex cloud
+
+<span class="cm"># Launch a desktop app version</span>
+codex app</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Cloud execution is useful for long-running tasks, team-shared environments, and when you want to offload compute from your local machine.</p>
+
+        <h4 style="margin-top:1.5rem; margin-bottom:0.5rem; font-size:1rem;">ChatGPT Mobile App Connection</h4>
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.7;">Since May 2026 you can control a local Codex session from the ChatGPT mobile app (iOS / Android). Useful for monitoring long-running goals, submitting follow-up prompts, or checking progress while away from your desk.</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Step</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Start the Codex desktop app on your Mac and sign in with your ChatGPT account</td></tr>
+              <tr><td>2</td><td>Open the ChatGPT mobile app on iOS or Android (same account)</td></tr>
+              <tr><td>3</td><td>Navigate to the Codex section and select the active Mac session to connect</td></tr>
+              <tr><td>4</td><td>Submit prompts, review output, or pause/resume goals from mobile</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Best Use Case</div>
+          <p>Pair mobile control with <code>/goal</code> workflows. Start a multi-day goal on your Mac, then monitor and steer it from your phone — without needing to sit at a desktop between turns.</p>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+<footer>
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>Codex Best Practices Guide — for R&D teams adopting FSAD.</p>
+</footer>
+</div><!-- end page-codex -->

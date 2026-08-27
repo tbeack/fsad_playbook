@@ -1,0 +1,874 @@
+<div class="changelog-modal" id="changelogModal" role="dialog" aria-labelledby="changelogTitle" aria-hidden="true" onclick="if(event.target===this) closeChangelog()">
+  <div class="changelog-panel">
+    <header class="changelog-header">
+      <h2 id="changelogTitle">Changelog</h2>
+      <button type="button" class="changelog-close" onclick="closeChangelog()" aria-label="Close changelog">×</button>
+    </header>
+    <div class="changelog-body">
+      <section>
+        <h3>v3.3.3 <span class="changelog-date">· 2026-08-26</span></h3>
+        <p><strong>CBP-471 — [Claude] Fix Security Review section alignment on the Skills Library page.</strong> <code>#security-review</code> was rendering as a direct child of <code>&lt;body&gt;</code> instead of nested inside <code>#page-skills</code>, so it didn't get the page's centered layout — a div-nesting bug (stray extra closing tags left behind after a specialist collapsible was added to Code Review Team), not a CSS issue. Removed the stray tags; the section now shares the same parent, width, and centered alignment as Code Review Team.</p>
+      </section>
+      <section>
+        <h3>v3.3.2 <span class="changelog-date">· 2026-08-26</span></h3>
+        <p><strong>CBP-460 — [Claude] Fix deeplink flash/slow-scroll for Skills Library sections.</strong> Direct-loaded and nav-click deeplinks (e.g. <code>#skills/code-review-team</code>) now land instantly on the target section instead of flashing to the page hero and animating a slow scroll past it, with the URL hash no longer flickering through intermediate sections mid-scroll. In-page sidebar sub-item clicks and search-result jumps keep their smooth-scroll animation. Independent verification also surfaced and fixed a scroll-spy hash race, a CSS transform landing drift, and a global <code>scroll-behavior: smooth</code> override that had been silently defeating the "instant" scroll.</p>
+      </section>
+      <section>
+        <h3>v3.3.1 <span class="changelog-date">· 2026-08-26</span></h3>
+        <p><strong>Claude Code v2.1.246 auto-update.</strong> Six documentation updates covering new permission, review, and sandboxing behavior, plus one Codex CLI deprecation.</p>
+        <ul>
+          <li><strong>CBP-465 — [Claude] <code>/permissions</code> Auto mode tab.</strong> Claude Code v2.1.246 added an Auto mode tab to <code>/permissions</code> for viewing and editing auto mode classifier rules directly from the same interactive dialog used for regular allow/deny/ask permission rules.</li>
+          <li><strong>CBP-466 — [Claude] Bash allow-rule wildcard-before-subcommand warning.</strong> Claude Code v2.1.246 added a startup warning for Bash permission allow rules with a wildcard before the subcommand (e.g. <code>Bash(git * main)</code>), since such rules also match options inserted before the subcommand — a pattern that can unintentionally widen the allow rule's scope.</li>
+          <li><strong>CBP-467 — [Claude] <code>/code-review</code> auto-start expanded.</strong> As of v2.1.246, <code>/code-review</code> can also start on its own on Amazon Bedrock, Google Vertex AI, and Foundry, through the Claude apps gateway, and when telemetry or non-essential traffic is disabled.</li>
+          <li><strong>CBP-468 — [Claude] <code>/goal</code> idle check-in cap.</strong> As of v2.1.246, an idle goal makes at most three escalating check-ins on long-running background work before it stops escalating; sending the session a new message allows three more.</li>
+          <li><strong>CBP-469 — [Claude] Subprocess Sandboxing: malformed compound commands always require approval.</strong> As of v2.1.246, Bash permission checks always require approval for malformed commands with a dangling <code>&amp;&amp;</code> or <code>||</code> operator, closing a gap where a syntactically-broken compound command could otherwise skip the intended approval flow.</li>
+          <li><strong>CBP-470 — [Codex] <code>codex mcp-server</code> deprecated.</strong> The <code>codex mcp-server</code> command is deprecated in favor of the Codex app server for programmatic integration, or the Codex plugin for Claude Code to use Codex from within Claude Code.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.3.0 <span class="changelog-date">· 2026-08-26</span></h3>
+        <p><strong>CBP-458 — [Claude] Code Review Team overview section + diagram parity with Security Review.</strong> Code Review Team now has the same standalone-section treatment as Security Review on the Skills Library page: intro, orchestration diagram (relocated from the buried SKILL.md collapsible), an Invocation callout, a 7-specialist table, and 7 specialist-definition cards. The native GitHub Code Review Agent section on the Claude Best Practices page now cross-links to the <code>fsd:code-review-team</code> skill as the local, pre-PR multi-agent alternative.</p>
+      </section>
+      <section>
+        <h3>v3.2.46 <span class="changelog-date">· 2026-08-25</span></h3>
+        <p><strong>CBP-455 — [Claude] Token Optimization Strategies.</strong> New KPIs page section distilling a CTO-level token-economics framework into three levers (use less unnecessary intelligence, don't use intelligence where software will do, buy the right intelligence), a frontier-vs-open-weight division-of-labor table, an experiments table, and a "cost per accepted autonomous engineering change" portfolio metric — kept separate from the existing individual-habits "Token Management" section on the Practical Best Practices page.</p>
+      </section>
+      <section>
+        <h3>v3.2.45 <span class="changelog-date">· 2026-08-25</span></h3>
+        <p><strong>AI-Native SDLC Playbook gap-fill (CBP-452 – CBP-454).</strong> Three additions closing gaps identified by diffing the FSAD Playbook against Anthropic's "AI-Native SDLC Playbook" blog post (CBP-451).</p>
+        <ul>
+          <li><strong>CBP-452 — [Claude] Continuous Evals in CI.</strong> New Hooks deep-dive subsection: a 20–50 task regression suite (prompt + acceptance checks) that gates <code>CLAUDE.md</code>/skill/hook changes and grows from production incidents.</li>
+          <li><strong>CBP-453 — [Claude] Process Health KPIs.</strong> New KPIs page subsection: leading/lagging cycle-time and defect-escape metrics (spec→plan→merged-PR, first-pass CI success rate, PR review time, repeat-incident rate).</li>
+          <li><strong>CBP-454 — [Claude] Production Monitoring & Control Bands.</strong> New Claude Best Practices section: statistical breach-tier detection (1σ/2σ/3σ) that closes the FSAD workflow loop by writing a new intent-style artifact on a 3σ breach.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.44 <span class="changelog-date">· 2026-08-25</span></h3>
+        <p><strong>Claude Code v2.1.245 auto-update (CBP-437 – CBP-450).</strong> Fourteen updates covering the v2.1.243 release: three new <code>settings.json</code> keys, six Cheat Sheet row enrichments, and five Power Usage / Hooks fixes. Codex CLI had no new release this cycle.</p>
+        <ul>
+          <li><strong>CBP-437 — [Claude] Document the <code>modelPicker</code> setting.</strong> New Notable settings.json Keys bullet: curate the <code>/model</code> picker with an ordered, labeled list of models (any id spelling, including Vertex/Bedrock ids), appended to or replacing the built-in lineup (v2.1.243).</li>
+          <li><strong>CBP-438 — [Claude] Document the <code>modelPricing</code> managed setting.</strong> New Notable settings.json Keys bullet: an organization's contracted per-model rates and discount multiplier are used for <code>/cost</code>, the status line, and telemetry cost figures instead of list price (v2.1.243).</li>
+          <li><strong>CBP-439 — [Claude] Document <code>promptCacheTtl</code> / <code>subagentPromptCacheTtl</code>.</strong> New Prompt Caching TTL table rows: API-key and cloud-provider users can keep a 1-hour prompt cache on the main conversation while subagents stay at the default 5-minute TTL (v2.1.243).</li>
+          <li><strong>CBP-440 — [Claude] Sandbox Bash prompt no longer lists allowed hosts.</strong> Extended the <code>sandbox.network.allowedDomains</code> row: Claude now simply attempts a request and you approve new hosts as they come up, rather than the prompt pre-listing every allowed host (v2.1.243).</li>
+          <li><strong>CBP-441 — [Claude] <code>/usage</code> Loops breakdown.</strong> Extended the <code>/usage</code> Cheat Sheet row and the <code>/loop</code> Power Usage subsection: a new Loops tab shows per-loop run count, total tokens, tokens per run, and last run — useful for spotting runaway or chatty <code>/loop</code> tasks (v2.1.243).</li>
+          <li><strong>CBP-442 — [Claude] <code>/tasks</code> shows model + effort per subagent.</strong> Extended the <code>/tasks</code> Cheat Sheet row: each subagent's row and detail dialog now show the model and effort level it ran on (v2.1.243).</li>
+          <li><strong>CBP-443 — [Claude] <code>/model</code>/<code>/effort</code>/<code>/fast</code> apply immediately + Ultracode fix.</strong> Extended all three rows: on Bedrock, Vertex, Foundry, or with telemetry disabled, changes now apply immediately instead of queueing until the turn ends; also fixed the <code>/model</code> picker silently ignoring an Ultracode selection (v2.1.243).</li>
+          <li><strong>CBP-444 — [Claude] <code>/status</code> gains two new lines.</strong> Extended the <code>/status</code> row: a <code>Skipped sources</code> line lists managed settings sources present but overridden by a higher-precedence source, and a new line shows whether GitHub is connected for Claude Code on the web (Pro/Max) (v2.1.243).</li>
+          <li><strong>CBP-445 — [Claude] <code>managed</code> marker in <code>/mcp</code> and <code>/plugin</code>.</strong> Extended both rows: claude.ai connectors whose authentication is managed by your organization now show a <code>managed</code> marker (v2.1.243).</li>
+          <li><strong>CBP-446 — [Claude] <code>/resume</code> pagination fix.</strong> Extended the row: the picker is no longer capped at the 50 most recent sessions — it loads more as you scroll (v2.1.243).</li>
+          <li><strong>CBP-447 — [Claude] Hooks <code>if</code> condition command-substitution fix.</strong> Added a caveat to the Hooks deep-dive: conditions like <code>"Bash(cat *)"</code> no longer false-fire on unrelated commands containing <code>$()</code> or backtick substitution followed by more arguments (v2.1.243).</li>
+          <li><strong>CBP-448 — [Claude] Plugin dependency resolution fix under <code>--plugin-dir</code>.</strong> Extended the Dependency enforcement bullet: dependencies declared via a plugin's <code>marketplace</code> field now resolve correctly when both plugins are loaded together via <code>--plugin-dir</code> (v2.1.243).</li>
+          <li><strong>CBP-449 — [Claude] <code>/reload-plugins</code> LSP tool fix.</strong> New Plugins bullet: no longer keeps the LSP tool registered after the last LSP plugin is disabled, and now warns before an LSP change that would re-read the conversation (v2.1.243).</li>
+          <li><strong>CBP-450 — [Claude] <code>/login</code> keyless Console sign-in.</strong> Extended the row: choosing Anthropic Console now offers a keyless "Sign in with your Console account" option (recommended) alongside creating an API key — useful for organizations that don't allow API keys (v2.1.243).</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">See <code>markdown/updates/2026-08-25.md</code> for the full change assessment, including changelog items judged no-action or deferred. <code>dist/</code> rebuilt to match.</p>
+      </section>
+      <section>
+        <h3>v3.2.43 <span class="changelog-date">· 2026-08-21</span></h3>
+        <p><strong>Claude Code v2.1.239 auto-update (CBP-430 – CBP-436).</strong> Seven targeted updates covering the Cheat Sheet and Power Usage sections. Codex CLI had no new release this cycle.</p>
+        <ul>
+          <li><strong>CBP-430 — [Claude] Document <code>/claude-api upgrade</code>.</strong> New Cheat Sheet row: migrates a Python project's use of the <code>anthropic</code> SDK from 0.x to 1.x (v2.1.239).</li>
+          <li><strong>CBP-431 — [Claude] <code>keybindingFlavor: "readline"</code> extends to more word keys.</strong> Extended the Ctrl+W Cheat Sheet row: the setting now also matches Bash for Alt+F/Ctrl+Option+→ (jump to word end), Alt+D (delete to word end, restorable with Ctrl+Y), and punctuation as a word separator (v2.1.239).</li>
+          <li><strong>CBP-432 — [Claude] <code>/goal</code> resume restores active goal.</strong> Extended the <code>/goal</code> Cheat Sheet row: resuming a session from the <code>claude --resume</code> picker now restores its active goal (v2.1.239).</li>
+          <li><strong>CBP-433 — [Claude] Cloud-synced plugins shown as <code>name@synced</code>.</strong> New Plugins bullet: plugins synced from claude.ai into cloud sessions display as <code>name@synced</code> and can be targeted with <code>claude plugin enable/disable &lt;name&gt;@synced</code>; never overrides a locally-installed plugin of the same name (v2.1.239).</li>
+          <li><strong>CBP-434 — [Claude] Cross-session messaging reaches Windows.</strong> Extended the Agent Teams <code>SendMessage</code>/<code>ListAgents</code> bullet: cross-session messaging now works on Windows at parity with macOS/Linux; <code>ListAgents</code>/<code>/list-agents</code> now correctly list live teammates (previously only subagents and other sessions appeared); <code>ListAgents</code> also reports a session's own addressable name (v2.1.239).</li>
+          <li><strong>CBP-435 — [Claude] Retry watchdog fails fast on billing errors.</strong> Extended the <code>CLAUDE_CODE_RETRY_WATCHDOG</code> hardening-table row: retries now stop immediately on organization spend-limit and out-of-credits errors instead of waiting indefinitely for a reset (v2.1.239).</li>
+          <li><strong>CBP-436 — [Claude] Cost estimates include data-residency premium.</strong> Extended the <code>/usage</code> Cheat Sheet row: <code>/cost</code>, the status line, and <code>--max-budget-usd</code> now include the 1.1&times; US-only-inference premium for data-residency workspaces (v2.1.239).</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">See <code>markdown/updates/2026-08-21.md</code> for the full change assessment, including changelog items judged no-action. <code>dist/</code> rebuilt to match.</p>
+      </section>
+      <section>
+        <h3>v3.2.42 <span class="changelog-date">· 2026-08-21</span></h3>
+        <p><strong>Claude Code v2.1.238 + Codex CLI rust-v0.149.0 auto-update (CBP-418 – CBP-429).</strong> Twelve updates, the second combined dual-tool cycle. <em>Claude Code:</em> documented two new <code>self-hosted-runner</code> flags for graceful SIGTERM draining and egress-proxy authentication; added a Remote Control HTTP-403-tolerance bullet and a consolidated bug-fix bullet covering environment-variable inheritance, crashed-session reuse, transcript sync, model-pick sync, and sign-out reporting; extended the Agent Teams <code>SendMessage</code>/<code>ListAgents</code> bullet for Remote Control connectivity and idle-worker fixes; noted the worktree-isolation Bash-refusal message fix; documented the new <code>keybindingFlavor</code> setting in both the Cheat Sheet and the Notable settings.json Keys list; noted that <code>claude mcp list</code>/<code>get</code> now show disabled servers without a health check; documented plugin marketplace <code>headersHelper</code> HTTP-header minting; and added a zsh-conditional-syntax permission-check note to Subprocess Sandboxing. <em>Codex CLI:</em> documented the new interactive <code>codex agents</code> dashboard, the <code>/cd</code>/<code>/pwd</code>/<code>/cwd</code> working-directory commands, the <code>codex queue</code> command, and expanded Vim change motions and character replacement. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-418 — [Claude] Self-hosted runner shutdown &amp; proxy-auth flags.</strong> Documented <code>--defer-shutdown-max-min</code> (graceful SIGTERM draining) and <code>--proxy-authorization-command</code>/<code>--proxy-authorization-file</code> (freshly minted <code>Proxy-Authorization</code> headers) in the Self-Hosted Runner collapsible (v2.1.238).</li>
+          <li><strong>CBP-419 — [Claude] Remote Control HTTP 403 resilience.</strong> New bullet: brief HTTP 403 refusals from a network edge, VPN, or proxy are now tolerated for up to 3 minutes before Remote Control surfaces an error, naming the refusing party if the block persists (v2.1.238).</li>
+          <li><strong>CBP-420 — [Claude] Cross-session-messaging &amp; Remote Control sync fixes.</strong> Extended the Agent Teams <code>SendMessage</code>/<code>ListAgents</code> bullet for Remote Control connectivity and idle-worker-exposure fixes, and added a consolidated Remote Control bullet covering env-var inheritance, crashed-session reuse, transcript sync, model-pick sync, reconnect resilience, and sign-out reporting (v2.1.238).</li>
+          <li><strong>CBP-421 — [Claude] Worktree Bash-refusal message fix.</strong> Extended the Work Trees Tip callout: worktree-isolation Bash refusals no longer tell you to remove a redirect when the command had none (v2.1.238).</li>
+          <li><strong>CBP-422 — [Claude] Document the <code>keybindingFlavor</code> setting.</strong> Added to both the Ctrl+W Cheat Sheet row and the Notable settings.json Keys list: setting it to <code>"readline"</code> makes Ctrl+W delete back to the previous whitespace, Bash-style; default <code>"classic"</code> is unchanged (v2.1.238).</li>
+          <li><strong>CBP-423 — [Claude] <code>claude mcp list</code>/<code>get</code> show <code>⊘ Disabled</code>.</strong> Extended the <code>/mcp</code> Cheat Sheet row: disabled servers now show directly as <code>⊘ Disabled</code> instead of triggering a connection attempt for a health check (v2.1.238).</li>
+          <li><strong>CBP-424 — [Claude] Plugin marketplace <code>headersHelper</code>.</strong> New Plugins bullet: a url marketplace or catalog entry can mint HTTP headers (e.g. a short-lived token) for catalog and archive fetches, with an install/update confirmation prompt and credential-isolation hardening (v2.1.238).</li>
+          <li><strong>CBP-425 — [Claude] zsh conditional-syntax permission-check fix.</strong> One-sentence note in Subprocess Sandboxing: Bash tool permission checking was improved for zsh-specific syntax in shell conditionals (v2.1.238).</li>
+          <li><strong>CBP-426 — [Codex] Document the <code>codex agents</code> dashboard.</strong> New CLI Flags row and a Multi-Agent Workflows paragraph for the interactive dashboard that searches, starts, opens, renames, and stops tasks, with configurable shortcuts (rust-v0.149.0).</li>
+          <li><strong>CBP-427 — [Codex] Document <code>/cd</code>, <code>/pwd</code>, <code>/cwd</code>.</strong> Three new Slash Commands rows for managing and inspecting the session's working directory from the TUI (rust-v0.149.0).</li>
+          <li><strong>CBP-428 — [Codex] Document the <code>codex queue</code> command.</strong> New CLI Flags row plus a Session Management prose update and example: send a message to an existing local or remote session without switching into it; queued messages now reliably wake idle sessions and resolve duplicate names (rust-v0.149.0).</li>
+          <li><strong>CBP-429 — [Codex] Expanded Vim editing motions.</strong> Extended the Vim Editing Mode collapsible's motion list with change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (rust-v0.149.0).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.41 <span class="changelog-date">· 2026-08-20</span></h3>
+        <p><strong>Fix mixed font sizes in the Changelog modal (CBP-417).</strong> The per-version bullet list (<code>.changelog-body li</code>) had no font-size rule and fell back to the 16px body default, rendering visibly larger than the 0.86rem summary paragraph above it. Added a matching <code>.changelog-body ul li</code> rule so the bullet list now reads at the same size as the surrounding prose, in both light and dark theme. <code>dist/</code> rebuilt to match.</p>
+      </section>
+      <section>
+        <h3>v3.2.40 <span class="changelog-date">· 2026-08-20</span></h3>
+        <p><strong>Claude Code v2.1.237 auto-update (CBP-408 – CBP-415).</strong> Eight targeted updates covering the Cheat Sheet, Model &amp; Effort, Power Usage, and Config Cascade sections. Documented the new built-in "Concise" output style in the <code>/config</code> Cheat Sheet row and the new <code>ANTHROPIC_DEFAULT_MODEL</code> environment variable (contrasted with <code>ANTHROPIC_MODEL</code>) in the model-aliases code block. Extended the Agent Teams Cross-session <code>SendMessage</code> bullet with the opt-in, one-shot <code>notify_when_idle</code> option; extended the Subprocess Sandboxing <code>sandbox.filesystem.denyRead</code> row with macOS wildcard-precedence hardening (directory-content coverage, anti-rename-bypass); and added an auto-mode bullet to the Config Cascade settings.json callout noting that <code>Monitor</code> allow rules are now set aside during auto mode, reviewed the same way as Bash commands. Updated the <code>/goal</code> Cheat Sheet row for the new escalating 30m→1h→2h idle check-in cadence and the <code>/usage</code> row for the Team/Enterprise usage-credits spend row. Added a note to the Slash Commands section documenting that a mistyped or unavailable slash command now reports the issue instead of silently running the closest fuzzy match. Codex CLI had no new release this cycle. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-408 — [Claude] Document the "Concise" output style.</strong> Extended the <code>/config</code> Cheat Sheet row: a built-in "Concise" output style leads with results and skips preamble/narration while doing the work just as thoroughly, selected under Output style in <code>/config</code> (v2.1.237).</li>
+          <li><strong>CBP-409 — [Claude] Document <code>ANTHROPIC_DEFAULT_MODEL</code>.</strong> Added an example to the model-aliases code block in Model &amp; Effort: sets the model new sessions start on, contrasted with <code>ANTHROPIC_MODEL</code> since a <code>/model</code> pick still overrides <code>ANTHROPIC_DEFAULT_MODEL</code> and persists across restarts (v2.1.236).</li>
+          <li><strong>CBP-410 — [Claude] <code>SendMessage</code> gains <code>notify_when_idle</code>.</strong> Extended the Agent Teams cross-session <code>SendMessage</code> bullet: an opt-in, one-shot option to ask another Claude Code session on the same machine to send one notice when it next goes idle, no polling (macOS and Linux) (v2.1.236).</li>
+          <li><strong>CBP-411 — [Claude] macOS wildcard <code>denyRead</code> precedence hardening.</strong> Extended the Subprocess Sandboxing <code>sandbox.filesystem.denyRead</code> row: wildcard read-deny rules now take precedence inside allowed read regions, cover matched directories' contents, and can't be bypassed by renaming the denied file (v2.1.236).</li>
+          <li><strong>CBP-412 — [Claude] Auto mode reviews Monitor commands like Bash.</strong> New bullet in the Config Cascade settings.json callout: <code>Monitor</code> allow rules are set aside while auto mode is active, so Monitor commands go through the same classifier review as Bash commands (v2.1.236).</li>
+          <li><strong>CBP-413 — [Claude] <code>/goal</code> escalating check-in cadence.</strong> Updated the <code>/goal</code> Cheat Sheet row: idle-session check-ins on parked background work now escalate 30 minutes → 1 hour → 2 hours, instead of a flat 30-minute check-in (v2.1.236).</li>
+          <li><strong>CBP-414 — [Claude] <code>/usage</code> Team/Enterprise spend row.</strong> Extended the <code>/usage</code> Cheat Sheet row: a usage-credits spend row is now shown for Team and Enterprise members, capped at 0% before anything is spent (v2.1.236).</li>
+          <li><strong>CBP-415 — [Claude] Slash-command typo reporting.</strong> New note atop the Cheat Sheet's Slash Commands section: pressing Enter on a mistyped or unavailable slash command now reports it instead of silently running the closest fuzzy match; prefixes and aliases still run (v2.1.236).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.39 <span class="changelog-date">· 2026-08-19</span></h3>
+        <p><strong>Claude Code v2.1.235 + Codex CLI rust-v0.148.0 auto-update (CBP-391 – CBP-405).</strong> Fifteen updates, the first combined dual-tool cycle in several releases. <em>Claude Code:</em> added the optional <code>spellcheck</code> setting (underlines misspelled words in the prompt input using an installed <code>aspell</code>, <code>hunspell</code>, or <code>ispell</code>) to the Notable settings.json Keys list; noted that the context-limit error now says when auto-compact is off and points to <code>/config</code>, in both the <code>/context</code> Cheat Sheet row and the Context Management collapsible; extended the Cross-session <code>SendMessage</code> bullet for oversized messages now being refused up front rather than silently dropped; and added a Remote Control bullet for <code>claude rc</code> applying the enterprise-gateway availability check. <em>Codex CLI:</em> added Cheat Sheet rows for <code>/export</code> (Markdown conversation export to clipboard or file) and <code>codex exec fork</code>, extended <code>/status</code> and <code>/statusline</code> for estimated thread credits and cost on eligible workspaces, and added storage diagnostics to <code>codex doctor</code>. Documented async and MCP-tool hooks in the Hooks section and corrected its stale "6 hook event types" count to 8; added an MCP OAuth reauthentication-recovery note to Integrations; added skill frontmatter with <code>model:</code> annotations plus a TODO-placeholder validation callout to Building Skills; added an auto-review enforcement callout to Code Review noting <code>/review</code> is no longer the only path in under managed configurations; added an Amazon Bedrock row to the multi-provider table with GPT-5.6 routing; rewrote Session Management for picker-based archive/restore, startup prompt drafting, and resumed sessions restoring their working directory and approval policy; and added a fail-closed callout to Permission Profiles for denied and unreadable paths on Linux and Windows. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-391 — [Claude] Document the <code>spellcheck</code> setting.</strong> New entry in the Notable <code>settings.json</code> Keys list: an optional setting that underlines misspelled words in the prompt input as you type, using an installed <code>aspell</code>, <code>hunspell</code>, or <code>ispell</code> binary (v2.1.235).</li>
+          <li><strong>CBP-392 — [Claude] Context-limit error names auto-compact and points to <code>/config</code>.</strong> Extended the <code>/context</code> Cheat Sheet row and added a Context Management bullet noting that when auto-compact is off, the context-limit error now says so and points to <code>/config</code> to re-enable it (v2.1.235).</li>
+          <li><strong>CBP-393 — [Claude] <code>SendMessage</code> refuses oversized cross-session messages.</strong> Extended the Agent Teams cross-session <code>SendMessage</code> bullet: a message too large for cross-session delivery is now refused up front rather than accepted and silently dropped (v2.1.235).</li>
+          <li><strong>CBP-394 — [Claude] <code>claude rc</code> enterprise-gateway availability check.</strong> New Remote Control bullet noting that <code>claude rc</code> now applies the same enterprise-gateway availability check as interactive startup (v2.1.235).</li>
+          <li><strong>CBP-395 — [Codex] Document the <code>/export</code> command.</strong> New Cheat Sheet row for exporting a complete TUI conversation as Markdown, either to the clipboard or to a new file (rust-v0.148.0).</li>
+          <li><strong>CBP-396 — [Codex] Document <code>codex exec fork</code>.</strong> Forking is no longer TUI-only: added a CLI table row and extended the Conversation Forking collapsible for non-interactive session forking from scripts and CI (rust-v0.148.0).</li>
+          <li><strong>CBP-397 — [Codex] <code>/status</code> shows estimated thread credits and cost.</strong> Extended the <code>/status</code> and <code>/statusline</code> Cheat Sheet rows for the estimated thread credits/cost figure, scoped to eligible workspaces and also surfaced in status lines and terminal titles (rust-v0.148.0).</li>
+          <li><strong>CBP-398 — [Codex] <code>codex doctor</code> storage diagnostics.</strong> Added storage to the <code>codex doctor</code> diagnostic domain list while preserving the original v0.131.0 provenance (rust-v0.148.0).</li>
+          <li><strong>CBP-399 — [Codex] Async and MCP-tool hooks.</strong> New version note in the Hooks section: hooks can run asynchronously (Codex continues the turn instead of waiting) and can invoke an MCP tool directly instead of shelling out; hook listings expose execution mode; a timed-out hook now has its entire process tree terminated; hook runtimes refresh after plugin changes. Also corrected the section's stale "6 hook event types" claim to 8, matching its own table (rust-v0.148.0).</li>
+          <li><strong>CBP-400 — [Codex] MCP OAuth reauthentication recovery.</strong> New Integrations version note: MCP servers recover after OAuth reauthentication without restarting Codex, reauth failures report clearer per-server errors, servers can pin their own OAuth callback port, and dynamic HTTP header helpers are supported (rust-v0.148.0).</li>
+          <li><strong>CBP-401 — [Codex] Skill frontmatter model annotations and validation.</strong> Added YAML frontmatter to the SKILL.md example — previously it had none at all — including the new <code>model:</code> annotation, plus a callout noting that skill validation now rejects unfinished <code>TODO</code> placeholders (rust-v0.148.0).</li>
+          <li><strong>CBP-402 — [Codex] Automatic review enforcement.</strong> New Code Review callout: <code>/review</code> is no longer the only path into review. Automatic review is enforced for managed models and strict auto-review is enforced for MCP tool calls, so review fires unprompted in enterprise and managed deployments (rust-v0.148.0).</li>
+          <li><strong>CBP-403 — [Codex] Amazon Bedrock Runtime as a built-in provider.</strong> Added the missing Bedrock row to the multi-provider models table and documented GPT-5.6 routing plus profile/region configuration without a hand-rolled provider block (rust-v0.148.0).</li>
+          <li><strong>CBP-404 — [Codex] Session lifecycle updates.</strong> Rewrote the Session Management prose (split into two paragraphs for readability): archiving and restoring moved into the resume picker itself, prompts can be drafted while the TUI initializes with resume/fork progress shown during startup, and resumed sessions restore their persisted working directory and approval policy. Also extended the <code>/archive</code> Cheat Sheet row for picker support (rust-v0.148.0).</li>
+          <li><strong>CBP-405 — [Codex] Sandbox restrictions fail closed.</strong> New Permission Profiles callout: denied or unreadable paths now fail closed on both Linux and Windows, and managed deny-read rules are enforced inside the Windows sandbox (rust-v0.148.0).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.38 <span class="changelog-date">· 2026-08-18</span></h3>
+        <p><strong>Claude Code v2.1.234 auto-update (CBP-380 – CBP-390).</strong> Eleven updates across the Cheat Sheet, Power Usage, and Claude Best Practices sections. Added <code>CLAUDE_CODE_PROJECT_DIR_NAME</code> (short per-project transcript directory name) and <code>CLAUDE_CODE_GOAL_CHECKIN_MINUTES</code> (how long a <code>/goal</code> waits on background tasks before Claude checks in; <code>0</code> opts out) to the Hardening env vars table. Cheat Sheet: noted the bindable <code>selection:clear</code> keybinding action, documented the "Continue automatically at usage limit" <code>/config</code> toggle, recorded that <code>/permissions</code> now opens mid-turn with rules applying to the rest of the current turn, added a new <code>/add-dir</code> row covering mid-turn use and the fullscreen-TUI dialogs that now open mid-turn, extended the <code>/goal</code> row for self-clearing on unrecoverable errors plus the 30-minute background-task check-in, and noted that <kbd>Esc</kbd> in fullscreen no longer clears a mouse text selection. Updated the <code>prUrlTemplate</code> bullet for the native GitLab MR footer/statusline badge, extended the Cross-session <code>SendMessage</code> bullet for truncated session-list reporting, and added Remote Control bullets for cross-device session-state sync and account-switch termination. Codex CLI had no new release this cycle. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-380 — [Claude] Add <code>CLAUDE_CODE_PROJECT_DIR_NAME</code> env var.</strong> New row in the Power Usage Hardening env vars table documenting the optional short name for a project's per-project transcript directory under <code>~/.claude/projects/</code>, for hosts that give each session its own config directory (v2.1.234).</li>
+          <li><strong>CBP-381 — [Claude] Note the <code>selection:clear</code> keybinding action.</strong> Extended the <code>/keybindings</code> Cheat Sheet row to document binding a key to clear an in-app text selection, which also works in the agents view (v2.1.234).</li>
+          <li><strong>CBP-382 — [Claude] Update <code>prUrlTemplate</code> for the native GitLab MR badge.</strong> Reworked the Notable <code>settings.json</code> Keys bullet: repos with a GitLab remote and an authenticated <code>glab</code> CLI now get a native footer/statusline badge showing <code>MR !N</code> with draft, pending, and green states, so the template is no longer needed for GitLab (v2.1.234).</li>
+          <li><strong>CBP-383 — [Claude] Document the auto-continue at usage limit toggle.</strong> Extended the <code>/config</code> Cheat Sheet row to note that Claude Code continues an interrupted session automatically when a claude.ai usage limit resets — on by default, disabled via the "Continue automatically at usage limit" toggle (v2.1.234).</li>
+          <li><strong>CBP-384 — [Claude] Extend Cross-session <code>SendMessage</code> bullet.</strong> Documented that <code>ListAgents</code> and <code>SendMessage</code> now report when the account's session list was too long to enumerate completely, making a failed lookup distinguishable from a genuinely missing session (v2.1.234).</li>
+          <li><strong>CBP-385 — [Claude] Add Remote Control session-state bullets.</strong> Two new bullets: bidirectional session-state sync (effort level picked on a phone or claude.ai/code applies to terminal- and Desktop/VS Code-hosted sessions and publishes back; permission mode and model stay updated), and signing this computer in to a different claude.ai account or organization now stops a running session within seconds with a reason instead of a misleading HTTP 404 hours later (v2.1.234).</li>
+          <li><strong>CBP-386 — [Claude] Document <code>/goal</code> self-clearing and background-task check-in.</strong> Extended the <code>/goal</code> Cheat Sheet row: a goal now clears itself with a notice when a turn dies on an unrecoverable error instead of staying armed, and Claude checks in on background tasks that have kept a goal waiting 30+ minutes rather than waiting indefinitely (v2.1.234).</li>
+          <li><strong>CBP-387 — [Claude] Add <code>CLAUDE_CODE_GOAL_CHECKIN_MINUTES</code> env var.</strong> New row in the Hardening env vars table for the goal background-task check-in interval, with the <code>0</code> opt-out that restores indefinite waiting — relevant to unattended sessions where a stalled background task would otherwise park a goal forever (v2.1.234).</li>
+          <li><strong>CBP-388 — [Claude] Note <code>/permissions</code> opens mid-turn.</strong> Extended the <code>/permissions</code> Cheat Sheet row: it can now be opened while Claude is working, and rule changes apply to the rest of the current turn, so a rule can be widened or tightened without interrupting a long run (v2.1.234).</li>
+          <li><strong>CBP-389 — [Claude] Add a <code>/add-dir</code> Cheat Sheet row.</strong> New row in the Session, context &amp; history table — the command had no slash-command row previously. Documents granting the session an additional working directory, that it now works mid-turn, and that <code>/add-dir</code>, <code>/autocompact</code>, <code>/theme</code>, <code>/help</code>, <code>/config</code> and <code>/advisor</code> dialogs all open mid-turn in the fullscreen TUI (v2.1.234).</li>
+          <li><strong>CBP-390 — [Claude] Note Esc no longer clears a mouse text selection.</strong> Extended the <code>Esc</code> keyboard-shortcut row: in fullscreen it interrupts or dismisses as usual but the highlight stays put, cross-referencing the <code>selection:clear</code> binding for readers who want that behavior back (v2.1.234).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.37 <span class="changelog-date">· 2026-08-15</span></h3>
+        <p><strong>Claude Code v2.1.233 auto-update (CBP-376 – CBP-379).</strong> Four targeted updates covering the Cheat Sheet, Power Usage, and Best Practices sections. Updated the <code>claude agents</code> row and the <code>--worktree</code>/<code>-w</code> CLI flag in the Cheat Sheet to document new GitLab merge request URL support (MRs display as <code>!N</code>). Added <code>CLAUDE_CODE_TOOL_MEMORY_LIMIT</code> (opt-in memory cgroup support for Bash tool commands on Linux) and <code>CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS</code> (configurable WebFetch session URL cache TTL, default unchanged at 15 minutes) to the Hardening env vars table in Power Usage. Added a new Workflow card to Best Practices noting that TaskCreate/TaskUpdate/TaskList/TodoWrite are no longer available by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models, with the <code>CLAUDE_CODE_ENABLE_TODO_TOOLS=1</code> opt-in to restore them. Codex CLI had no new release this cycle. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-376 — [Claude] Add GitLab MR URL support note.</strong> Updated the <code>claude agents</code> row and the <code>--worktree</code>/<code>-w</code> CLI flag row in the Cheat Sheet to document new GitLab merge request URL support (MRs display as <code>!N</code>) (v2.1.233).</li>
+          <li><strong>CBP-377 — [Claude] Add <code>CLAUDE_CODE_TOOL_MEMORY_LIMIT</code> env var.</strong> New row in the Power Usage Hardening env vars table documenting opt-in memory cgroup support for Bash tool commands on Linux, preventing a runaway build from stalling the session (v2.1.233).</li>
+          <li><strong>CBP-378 — [Claude] Add <code>CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS</code> env var.</strong> New row in the same Hardening env vars table documenting the configurable WebFetch session URL cache TTL (default unchanged at 15 minutes), explicitly distinguished from the unrelated Prompt Caching &amp; KV Cache TTL vars (v2.1.233).</li>
+          <li><strong>CBP-379 — [Claude] Add Todo tools default-off callout.</strong> New Workflow card in Best Practices noting that TaskCreate/TaskUpdate/TaskList/TodoWrite are no longer available by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models, with the <code>CLAUDE_CODE_ENABLE_TODO_TOOLS=1</code> opt-in to restore them (v2.1.233).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.36 <span class="changelog-date">· 2026-08-14</span></h3>
+        <p><strong>Claude Code v2.1.232 auto-update (CBP-374 – CBP-375).</strong> Two changes to the Agent Teams collapsible in Power Usage. Added a Subagent forking bullet documenting that forking is now on by default: a <code>subagent_type: "fork"</code> subagent inherits the full conversation and prompt cache from its parent, and non-teammate agent spawns in interactive sessions now default to running in the background. Extended the Cross-session <code>SendMessage</code> bullet to cover typing <code>@</code> to mention any live session by name (not just teammates), bare-name <code>SendMessage</code> delivery to a single matching live session without ref confirmation, and automatic <code>name-word-word</code> variants for colliding session names. Codex CLI had no new release this cycle. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-374 — [Claude] Document subagent forking default.</strong> New bullet in Agent Teams documenting that forking is now on by default: a <code>subagent_type: "fork"</code> subagent inherits the full conversation and prompt cache from its parent, and non-teammate agent spawns in interactive sessions now default to running in the background (v2.1.232).</li>
+          <li><strong>CBP-375 — [Claude] Extend Cross-session SendMessage bullet.</strong> Added coverage of <code>@</code>-mentioning any live session by name (not just teammates), bare-name <code>SendMessage</code> delivery without ref confirmation, and automatic <code>name-word-word</code> variants for colliding session names (v2.1.232).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.35 <span class="changelog-date">· 2026-08-13</span></h3>
+        <p><strong>Claude Code v2.1.229 auto-update (CBP-371 – CBP-373).</strong> Three changes covering the Cheat Sheet and Power Usage sections. Added the <code>claude remote-control --continue</code> row to the Cross-device &amp; integrations table for resuming the most recent Remote Control session from the CLI. Added a Command plugin source bullet to the Plugins collapsible documenting the new marketplace <code>command</code>-type source (a local command prints the plugin directory, re-resolved every session and applied without a restart) and its <code>mode: "link"</code> option. Documented workflow fan-out prefix staggering in the Dynamic Workflows collapsible, including the <code>CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS</code> env var to disable it. Codex CLI had no new release this cycle. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-371 — [Claude] Add <code>claude remote-control --continue</code> row.</strong> New row in the Cheat Sheet's Cross-device &amp; integrations table documenting the CLI subcommand for resuming the most recent Remote Control session (v2.1.229).</li>
+          <li><strong>CBP-372 — [Claude] Add Command plugin source bullet.</strong> New bullet in the Plugins collapsible documenting the marketplace <code>command</code>-type source (local command prints the plugin directory, re-resolved every session, applied without restart) and its <code>mode: "link"</code> option (v2.1.229).</li>
+          <li><strong>CBP-373 — [Claude] Document workflow fan-out prefix staggering.</strong> New paragraph in the Dynamic Workflows collapsible documenting same-prefix sibling agent staggering for cached prompt-prefix reuse and the <code>CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS</code> env var (v2.1.229).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.34 <span class="changelog-date">· 2026-08-11</span></h3>
+        <p><strong>Claude Code v2.1.228 auto-update (CBP-368 – CBP-370).</strong> Three changes covering the Agent Teams, Remote Control, and Building Skills sections. Updated the Cross-session <code>SendMessage</code> bullet in Agent Teams to document the v2.1.225 ability to start a conversation with a Remote Control session on another machine by name (rather than only replying after it messages you first), the <code>name [ref]</code> <code>ListAgents</code> display format for Remote Control sessions, and the v2.1.228 inline sender/body message display with Remote Control session name attribution. Added a Remote Control bullet noting that photos attached from the Claude mobile app are now shown to Claude directly instead of being read from disk via a separate tool call (v2.1.225). Added a Building Skills callout on the v2.1.228 hardening of skills synced from claude.ai: they no longer shadow local commands or MCP prompts, their descriptions are sanitized and labeled, and their bodies can't run <code>!</code> shell commands or expand <code>@</code> file references locally. Codex CLI had no new release this cycle. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-368 — [Claude] Update Agent Teams cross-session messaging.</strong> Documented the v2.1.225 ability to start a conversation with a Remote Control session on another machine by name (instead of only replying after it messages you first), the <code>name [ref]</code> <code>ListAgents</code> display format for Remote Control sessions, and the v2.1.228 inline sender/body message display with Remote Control session name attribution.</li>
+          <li><strong>CBP-369 — [Claude] Add Remote Control photo-handling bullet.</strong> Documented that photos attached from the Claude mobile app are now shown to Claude directly instead of being read from disk via a separate tool call (v2.1.225).</li>
+          <li><strong>CBP-370 — [Claude] Add Building Skills hardening callout.</strong> Documented the v2.1.228 hardening of skills synced from claude.ai: no longer shadow local commands or MCP prompts, descriptions sanitized and labeled, bodies can't run <code>!</code> shell commands or expand <code>@</code> file references locally.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.33 <span class="changelog-date">· 2026-08-07</span></h3>
+        <p><strong>Claude Code v2.1.224 and Codex rust-v0.147.0 auto-update (CBP-344 – CBP-364).</strong> Twenty-one changes covering both CLI cheat sheets and reference tables. Claude Code side: removed the stale <code>CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION</code> 200-cap claim, added the <code>/status</code> cheat sheet row, extended <code>/code-review</code> (<code>/review</code> alias, PR review, effort reuse) and <code>/fork</code> (auto-worktree) rows, documented cross-session <code>SendMessage</code>/<code>ListAgents</code> in Agent Teams, updated the Work Trees tip for conditional commit/push/draft-PR behavior, extended <code>sandbox.credentials</code> masking modes, added the <code>archive</code> plugin source, added <code>ANTHROPIC_BEDROCK_REGION_PREFIX</code> and <code>CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT</code> to the hardening table, added <code>crossSessionInbound</code>/<code>dialogExpiry</code> to the settings.json keys callout, and added a new Self-Hosted Runner collapsible to Power Usage. Codex side: corrected the removed <code>--full-auto</code> flag (replacement is <code>--sandbox workspace-write</code>, not <code>--approval-mode</code>), added the <code>--approve-for-me</code> flag, documented persistent thread sections and incremental transcript browsing, updated <code>/import</code> for Cursor-managed skills sync, updated the Plugins collapsible for portable installs and multi-scope catalog search, documented MCP 2026-07-28 protocol support, updated the Amazon Bedrock collapsible for cached web search and remote conversation compaction, and added a Guidelines callout on explicit project trust and managed-auth enforcement ordering, plus a Permission Profiles note on v0.146.1's safer auto-review defaults. <code>dist/</code> rebuilt to match.</p>
+        <ul>
+          <li><strong>CBP-344 — [Claude] Fix stale <code>CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION</code> row.</strong> Removed the claim that the concurrent-subagent cap defaults to 200 — that hard cap was removed upstream (v2.1.224). Preserved cross-references to the still-active concurrency/depth env vars.</li>
+          <li><strong>CBP-345 — [Claude] Add <code>/status</code> row to Cheat Sheet.</strong> New row in the Info &amp; account table documenting that <code>/status</code> now also shows session kind (v2.1.221).</li>
+          <li><strong>CBP-346 — [Claude] Update <code>/code-review</code> row.</strong> Documented the <code>/review</code> alias, PR review argument, <code>ultra</code> mode, and effort-level reuse (v2.1.223).</li>
+          <li><strong>CBP-347 — [Claude] Update <code>/fork</code> row.</strong> Documented that <code>/fork</code> now creates its own worktree (v2.1.221).</li>
+          <li><strong>CBP-348 — [Claude] Document cross-session <code>SendMessage</code> + <code>ListAgents</code>.</strong> Added a bullet and code example to the Agent Teams collapsible (v2.1.224).</li>
+          <li><strong>CBP-349 — [Claude] Update Work Trees tip.</strong> Documented that background sessions now commit/push and open draft PRs conditionally (v2.1.221).</li>
+          <li><strong>CBP-350 — [Claude] Extend <code>sandbox.credentials</code> masking modes.</strong> Documented <code>mask</code>, <code>extract</code>/<code>onExtractNoMatch</code>, <code>decode:jwt</code>, and <code>awsPairs</code>/<code>sigv4</code> (v2.1.221, v2.1.224).</li>
+          <li><strong>CBP-351 — [Claude] Add <code>archive</code> plugin source.</strong> New bullet in the Plugins collapsible (v2.1.224).</li>
+          <li><strong>CBP-352 — [Claude] Add <code>ANTHROPIC_BEDROCK_REGION_PREFIX</code>.</strong> New row in the hardening env vars table (v2.1.224).</li>
+          <li><strong>CBP-353 — [Claude] Update <code>CLAUDE_CODE_DISABLE_1M_CONTEXT</code> scope; add <code>CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT</code>.</strong> Two rows updated/added in the hardening env vars table (v2.1.223).</li>
+          <li><strong>CBP-354 — [Claude] Add <code>crossSessionInbound</code> and <code>dialogExpiry</code>.</strong> New bullets in the Notable settings.json Keys callout (v2.1.224).</li>
+          <li><strong>CBP-355 — [Claude] Add Self-Hosted Runner collapsible.</strong> New collapsible in Power Usage documenting <code>claude self-hosted-runner</code>, plus a matching sidebar deeplink (v2.1.224).</li>
+          <li><strong>CBP-356 — [Codex] Fix <code>--full-auto</code> row.</strong> The flag was fully removed (not deprecated) in rust-v0.147.0 — corrected replacement guidance to <code>--sandbox workspace-write</code>; updated the matching CI/CD example.</li>
+          <li><strong>CBP-357 — [Codex] Add <code>--approve-for-me</code> CLI flag.</strong> New row in the CLI Flags table (rust-v0.147.0).</li>
+          <li><strong>CBP-358 — [Codex] Document persistent thread sections.</strong> Updated the Session Management collapsible and <code>/new</code>/<code>/clear</code> row for persistent, manually-ordered picker sections and incremental transcript browsing (rust-v0.147.0).</li>
+          <li><strong>CBP-359 — [Codex] Update <code>/import</code> row.</strong> Documented Cursor-managed skills import and duplicate-free re-sync (rust-v0.147.0).</li>
+          <li><strong>CBP-360 — [Codex] Update Plugins collapsible.</strong> Documented portable Agent Plugin install and local/personal/workspace/remote catalog search (rust-v0.147.0).</li>
+          <li><strong>CBP-361 — [Codex] Document MCP 2026-07-28 protocol support.</strong> New paragraph in Integrations (rust-v0.147.0).</li>
+          <li><strong>CBP-362 — [Codex] Update Amazon Bedrock collapsible.</strong> Documented cached web search and remote conversation compaction (rust-v0.147.0).</li>
+          <li><strong>CBP-363 — [Codex] Add project trust + managed auth note.</strong> New Guidelines callout documenting explicit project-trust prompts and pre-credential-use auth restriction enforcement (rust-v0.147.0).</li>
+          <li><strong>CBP-364 — [Codex] Add v0.146.1 safer auto-review defaults note.</strong> Updated the Permission Profiles intro for cyber-capable-model auto-review defaults and in-terminal permission-change explanations (rust-v0.146.1).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.32 <span class="changelog-date">· 2026-08-05</span></h3>
+        <p><strong>Skills Library resync follow-up: loop-until-dry consensus replaces fixed 5-pass (CBP-341).</strong> A follow-up audit of CBP-339's resync found 5 of the 12 shared skills had already drifted from their <code>tb_skills</code> v3.31.0 baseline: <code>add-task</code>, <code>estimate</code>, and <code>prd</code> picked up small mechanical fixes, while <code>code-review-team</code> and <code>sec-review-team</code> replaced their hardcoded 5-pass consensus fan-out with a loop-until-dry mechanism (<code>MIN_PASSES=2</code>, <code>MAX_PASSES=8</code>, stopping on the first round that surfaces no new <code>root_issue</code>) and ported over a re-review filter (<code>reconfirmed_known</code>/<code>carried_over_known</code> split, ledger re-verification, legacy-entry and unverified-miss caveats) into both skills' Step 4.5. Both review-team skills also gained a <code>schema/</code> directory (<code>finding.schema.json</code>, <code>coverage.schema.json</code>) formalizing the JSONL contract the orchestrator validates against before consolidating. The Skills Library page has been updated to match: all 5 changed <code>SKILL.md</code> sources re-embedded, the <code>auth-authz-auditor</code>/<code>input-validation-auditor</code> specialist definition cards refreshed, every "5-pass" reference outside the historical changelog rewritten to describe the loop-until-dry mechanism, and both the <code>code-review-team</code> and <code>sec-review-team</code> orchestration diagrams (dark and light) updated with new consensus-round labels and accessibility text. <code>dist/</code> rebuilt to match.</p>
+      </section>
+      <section>
+        <h3>v3.2.31 <span class="changelog-date">· 2026-08-04</span></h3>
+        <p><strong>Skills Library resync: <code>fsd:</code> skills brought current with <code>tb_skills</code> (CBP-339).</strong> The 12 shared skills (<code>ac</code>, <code>add-task</code>, <code>code-review-team</code>, <code>do-task</code>, <code>estimate</code>, <code>init</code>, <code>next</code>, <code>prd</code>, <code>sec-review-team</code>, <code>ship</code>, <code>ship-it</code>, <code>sync</code>) were stale relative to <code>tb_skills</code>' latest diagnostic-fixes wave; content has been merged forward while preserving the Skills Library's established self-contained adaptations. Also fixed a broken-reference bug in <code>sec-review-team</code> — its <code>SKILL.md</code> linked to docs that didn't exist in the shipped skill; the <code>docs/</code> directory is now included. The playbook's Skills Library page has been updated to match: embedded <code>SKILL.md</code>/specialist text refreshed, the <code>sec-review-team</code> orchestration diagram updated to show its consensus fan-out and adversarial validation gate, and a new matching orchestration diagram added for <code>code-review-team</code>.</p>
+      </section>
+      <section>
+        <h3>v3.2.30 <span class="changelog-date">· 2026-07-29</span></h3>
+        <p><strong>Codex rust-v0.146.0 (CBP-336 – CBP-338).</strong> Three Codex updates: session naming and thread pinning, expanded plugin marketplaces, and temporary thread forks.</p>
+        <ul>
+          <li><strong>CBP-336 — [Codex] Cheat Sheet: <code>/new</code> / <code>/clear</code> alias + thread pinning; <code>/side</code> side conversation switching.</strong> Updated the <code>/new</code> cheat sheet row to document <code>/clear</code> as an equivalent alias and mention thread pinning from the picker. Updated the <code>/side</code> row to note that side conversations can be switched between without closing. Updated the Session Management collapsible to mention pinning and side conversation management (rust-v0.146.0).</li>
+          <li><strong>CBP-337 — [Codex] Plugins: Agent Plugin manifests + Amazon Bedrock and Claude Code marketplaces.</strong> Updated the Plugins collapsible to document Agent Plugin manifests (structured declarations for bundling agent capabilities) and the expanded plugin marketplace that now connects to Amazon Bedrock and Claude Code as additional plugin sources. Added <code>codex plugin publish</code> to the code block (rust-v0.146.0).</li>
+          <li><strong>CBP-338 — [Codex] Cheat Sheet: <code>/fork</code> paginated history + temporary forks; <code>web_search</code> custom providers.</strong> Updated the <code>/fork</code> row to document paginated parent history and temporary forks (don't appear in thread listings). Updated the Session Management collapsible to mention temporary forks. Updated the <code>web_search</code> config row to note custom model provider support (rust-v0.146.0).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.29 <span class="changelog-date">· 2026-07-25</span></h3>
+        <p><strong>Claude Code v2.1.219 (CBP-331 – CBP-335).</strong> Five updates: Claude Opus 5 added to model table, new sandbox network strict allowlist setting, DirectoryAdded hook, workflowSizeGuideline settings key, and nested subagent forwarding in stream-json.</p>
+        <ul>
+          <li><strong>CBP-331 — Models: Claude Opus 5.</strong> Added Opus 5 (<code>claude-opus-5</code>) as a new column in the model comparison table. Updated the <code>opus</code>/<code>best</code> alias row to reflect Opus 5 as the new default Opus model (1M context, fast mode at $10/$50 per MTok, v2.1.219). Added Opus 5 entry to the Key Dates callout; updated heading to "Apr–Jul 2026".</li>
+          <li><strong>CBP-332 — Sandbox: <code>sandbox.network.strictAllowlist</code>.</strong> Added a new row to the sandbox network settings table for <code>sandbox.network.strictAllowlist</code>. When set to <code>true</code>, silently denies all sandboxed network connections to non-allowlisted hosts without prompting — stricter than the default behavior (v2.1.219).</li>
+          <li><strong>CBP-333 — Hooks: <code>DirectoryAdded</code> event.</strong> Added <code>DirectoryAdded</code> to the Environment &amp; context hooks table — fires when a new working directory is registered mid-session via <code>/add-dir</code> or the SDK <code>register_repo_root</code> control request (v2.1.219). Updated event count from 27 to 28.</li>
+          <li><strong>CBP-334 — Config: <code>workflowSizeGuideline</code> setting.</strong> Added <code>workflowSizeGuideline</code> to the Notable settings.json Keys callout — configures the advisory token-budget guideline for Dynamic workflow sessions from any settings file. When set, the <code>/config</code> row for this setting is hidden (v2.1.219).</li>
+          <li><strong>CBP-335 — CLI Flags: <code>--forward-subagent-text</code> depth-2+ forwarding.</strong> Updated the <code>--forward-subagent-text</code> row to document that nested subagents spawned at depth-2+ are now also included in stream-json output, each keyed by their spawning Agent <code>tool_use</code> id (v2.1.219).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.28 <span class="changelog-date">· 2026-07-23</span></h3>
+        <p><strong>Claude Code v2.1.218 (CBP-326 – CBP-330).</strong> Five targeted updates: background subagent execution for <code>/code-review</code>, fork-skill background behavior, agent name constraint, extended boolean values, and <code>/deep-research</code> manual-invocation note.</p>
+        <ul>
+          <li><strong>CBP-326 — Cheat Sheet: <code>/code-review</code> background subagent.</strong> Updated the <code>/code-review</code> row to reflect that it now runs as a background subagent (v2.1.218) — review work no longer fills the active conversation, and stacked slash commands keep the review as their target.</li>
+          <li><strong>CBP-327 — Building Skills: <code>context: fork</code> background default + <code>background</code> key.</strong> Updated the <code>context</code> frontmatter row to note that fork-context skills now run in the background by default (v2.1.218). Added a new <code>background</code> row to the frontmatter reference table documenting the opt-out (<code>background: false</code>).</li>
+          <li><strong>CBP-328 — Building Skills: agent name <code>:</code> constraint.</strong> Added a note that agent <code>name</code> fields in <code>.claude/agents/*.md</code> must not contain <code>:</code>, which is reserved for plugin namespacing (v2.1.218). Files with a colon in the name will be rejected at load time.</li>
+          <li><strong>CBP-329 — Building Skills: extended frontmatter boolean values.</strong> Appended a note to the frontmatter key casing paragraph documenting that boolean fields now accept <code>yes</code>/<code>no</code>, <code>on</code>/<code>off</code>, and <code>1</code>/<code>0</code> (case-insensitive) in addition to <code>true</code>/<code>false</code> (v2.1.218).</li>
+          <li><strong>CBP-330 — Cheat Sheet: <code>/deep-research</code> added.</strong> Added a new cheat sheet row for <code>/deep-research</code>, documenting that it is a manual-only command as of v2.1.218 — Claude no longer launches it autonomously.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.27 <span class="changelog-date">· 2026-07-22</span></h3>
+        <p><strong>Code review team reworked (CBP-325).</strong> One targeted update: a 7th specialist, 5-pass consensus, adversarial validation, and re-review mode for <code>/fsd:code-review-team</code>.</p>
+        <ul>
+          <li><strong>CBP-325 — Code review team rework: security specialist, consensus fan-out, adversarial validation.</strong> <code>correctness-reviewer</code> and <code>performance-reviewer</code> now run a 5-pass consensus fan-out (rotated file order per pass, findings kept only when seen in ≥2 of 5 passes); every deduped finding is adversarially verified by a per-finding validator agent before it can appear in <code>REVIEW-REPORT.md</code> (rejected findings are logged, not shown); all specialist briefs now flag everything they notice — including low-confidence hunches — instead of suppressing speculation; <code>.planning/code-review/</code> runs are archived per-<code>run_id</code> with a <code>known-findings.jsonl</code> ledger so re-reviewing a target auto-skips already-reported issues and suppresses nits; and a new <code>security-reviewer</code> specialist (injection, authz/authn/IDOR/tenant-isolation, secrets exposure, SSRF/path traversal, crypto misuse, unsafe deserialization) joins both the full (7-specialist) and lite (4-specialist) rosters by default. Updated the Skills Library's embedded Skill/Specialist Definitions, the FSAD workflow card, and README to match.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.26 <span class="changelog-date">· 2026-07-22</span></h3>
+        <p><strong>Claude Code v2.1.217 + Codex rust-v0.145.0 (CBP-322 – CBP-324).</strong> Three targeted updates covering new subagent concurrency controls, stabilized Codex multi-agent V2, and expanded <code>/import</code> migration.</p>
+        <ul>
+          <li><strong>CBP-322 — Env vars: <code>CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS</code> and <code>CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH</code>.</strong> Added both to the Subprocess Sandboxing hardening table. The concurrent cap (default 20) prevents a single message from fanning out unbounded background agents. The spawn depth (default 1) disables nested subagent spawning by default as of v2.1.217 — set to 2+ to re-enable hierarchical architectures. Also updated the Agent Teams nested sub-agents bullet to reflect the new default behavior (v2.1.217).</li>
+          <li><strong>CBP-323 — [Codex] Multi-Agent V2 stabilized.</strong> Updated the opening sentence of the Multi-Agent Workflows collapsible to remove "experimental" and note that V2 is now stable as of v0.145.0. Added a per-role model and reasoning configuration example showing how to set different models and reasoning effort levels for worker and explorer sub-agents (rust-v0.145.0).</li>
+          <li><strong>CBP-324 — [Codex] Cheat Sheet: <code>/import</code> expanded migration.</strong> Updated the <code>/import</code> row to reflect the significantly expanded scope in v0.145.0 — now migrates from <strong>Cursor</strong> or <strong>Claude Code</strong> and covers settings, MCP servers, plugins, sessions, commands, and project-scoped memories (v0.140.0, expanded v0.145.0).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.25 <span class="changelog-date">· 2026-07-21</span></h3>
+        <p><strong>Claude Code v2.1.216 (CBP-320 – CBP-321).</strong> Two targeted updates: a new sandbox setting and an enhanced <code>/context</code> description.</p>
+        <ul>
+          <li><strong>CBP-320 — Sandbox: <code>sandbox.filesystem.disabled</code> setting.</strong> Added a new row to the sandbox settings table for <code>sandbox.filesystem.disabled</code>. Set to <code>true</code> to skip filesystem isolation entirely while keeping network egress control active — useful when <code>allowedDomains</code> is your primary security boundary but filesystem sandboxing causes compatibility issues (v2.1.216).</li>
+          <li><strong>CBP-321 — Cheat Sheet: <code>/context</code> overflow warning.</strong> Updated the <code>/context</code> row to note that, as of v2.1.216, the command now shows an explicit warning when the conversation exceeds the context window, and a failed <code>/compact</code> displays as an error rather than failing silently (v2.1.216).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.24 <span class="changelog-date">· 2026-07-19</span></h3>
+        <p><strong>Claude Code v2.1.215 (CBP-318 – CBP-319).</strong> Two targeted Cheat Sheet updates for the new explicit-invocation requirement on the <code>/verify</code> and <code>/code-review</code> skills.</p>
+        <ul>
+          <li><strong>CBP-318 — Cheat Sheet: <code>/code-review</code> explicit invocation.</strong> Updated the existing <code>/code-review</code> row in the Info &amp; account table to note that, as of v2.1.215, Claude no longer runs this skill automatically — you must invoke it explicitly when you want a review (v2.1.215).</li>
+          <li><strong>CBP-319 — Cheat Sheet: <code>/verify</code> command.</strong> Added a new row for <code>/verify</code> to the Info &amp; account table. Verifies that a code change works as expected by exercising the affected flow end-to-end — observes real behavior rather than relying on tests or typechecks alone. As of v2.1.215, Claude no longer invokes this automatically; call it explicitly to trigger a verification pass (v2.1.215).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.23 <span class="changelog-date">· 2026-07-18</span></h3>
+        <p><strong>Claude Code v2.1.214 (CBP-315 – CBP-317).</strong> Three targeted updates: new OTel env var, SessionStart hook source field, and hook <code>if:</code> path-scoping note.</p>
+        <ul>
+          <li><strong>CBP-315 — Env vars: <code>CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH</code>.</strong> Added to the Subprocess Sandboxing hardening table. Controls the maximum byte length of content attributes in OpenTelemetry log events (default 60 KB / 61 440 bytes). Increase for richer trace data; decrease to cap payload size in high-throughput pipelines (v2.1.214).</li>
+          <li><strong>CBP-316 — Hooks: <code>SessionStart</code> <code>source</code> field.</strong> Updated the SessionStart row in the Core hooks table to document the <code>source</code> field in the hook input: <code>"new"</code> (first launch), <code>"resume"</code> (resumed session), or <code>"fork"</code> (session started via <code>/fork</code>). Previously, forked sessions were indistinguishable from resumes — hook authors who branch on this field must update their handlers (v2.1.214).</li>
+          <li><strong>CBP-317 — Hooks: <code>if:</code> path-scoping rule.</strong> Added a note after the conditional <code>if</code> field bullet list documenting that single-segment patterns like <code>"Edit(src/**)"</code> now match only <code>&lt;cwd&gt;/src/</code> — not a <code>src/</code> directory nested deeper in the tree. Write <code>"Edit(**/src/**)"</code> to match at any depth. <code>deny</code>/<code>ask</code> permission rules keep their any-depth behavior (v2.1.214).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.22 <span class="changelog-date">· 2026-07-16</span></h3>
+        <p><strong>Claude Code v2.1.212 (CBP-310 – CBP-314).</strong> Five targeted updates across the Cheat Sheet and Subprocess Sandboxing sections:</p>
+        <ul>
+          <li><strong>CBP-310 — Cheat Sheet: <code>/fork</code> and <code>/subtask</code>.</strong> Added two new rows to the Automation &amp; agents table. <code>/fork</code> now copies the current conversation into a new background session (visible in <code>claude agents</code>) while you keep working; <code>/subtask</code> is the new name for the former in-session subagent launch behavior (v2.1.212).</li>
+          <li><strong>CBP-311 — Env vars: <code>CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION</code> and <code>CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION</code>.</strong> Added both to the Subprocess Sandboxing hardening table. Default caps are 200 per session each; the subagent cap resets on <code>/clear</code>. Use to prevent runaway search or delegation loops in unattended sessions (v2.1.212).</li>
+          <li><strong>CBP-312 — Env vars: <code>CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS</code>.</strong> Added to the Subprocess Sandboxing hardening table. MCP tool calls running longer than the threshold (default 120 000 ms / 2 min) are automatically moved to the background so the session stays usable. Set to <code>0</code> to disable (v2.1.212).</li>
+          <li><strong>CBP-313 — Cheat Sheet: <code>/resume</code> enhanced.</strong> Updated the session management row to note that in the agent view, typing <code>/resume</code> opens a picker including sessions previously deleted from the list — deleted sessions remain accessible and resume as a background session (v2.1.212).</li>
+          <li><strong>CBP-314 — Cheat Sheet: <code>claude auto-mode reset</code>.</strong> Added to the Info &amp; account table. Restores the default auto-mode configuration with a confirmation prompt; pass <code>--yes</code> to skip (v2.1.212).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.21 <span class="changelog-date">· 2026-07-16</span></h3>
+        <p><strong>Backlog catch-up (CBP-309).</strong> One targeted update carried forward from a stale auto-update branch that predated later releases:</p>
+        <ul>
+          <li><strong>CBP-309 — Config/Monitoring: <code>otelHeadersHelper</code> auto-reconnect on 401/403.</strong> Updated the Notable settings.json Keys callout and the Enterprise Configuration "Dynamic auth" bullet to note that as of v2.1.193, the MCP <code>headersHelper</code> auth flow (and its OTEL counterpart) auto-reconnects when a tool call returns 401 or 403, instead of only refreshing on a 29-minute timer — token expiry no longer requires a session restart.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.20 <span class="changelog-date">· 2026-07-16</span></h3>
+        <p><strong>Claude Code v2.1.211 auto-update (CBP-307–CBP-308).</strong> Two targeted updates covering Claude Code v2.1.211 (Codex rust-v0.144.5 had no user-facing playbook impact):</p>
+        <ul>
+          <li><strong>CBP-307 — CLI Flags: <code>--forward-subagent-text</code>.</strong> Added <code>--forward-subagent-text</code> to the Print/programmatic mode CLI flags table. When set, subagent text and thinking are included in stream-json output — useful for automated pipelines that need full visibility into subagent activity. Env var equivalent: <code>CLAUDE_CODE_FORWARD_SUBAGENT_TEXT=1</code> (v2.1.211).</li>
+          <li><strong>CBP-308 — Work Trees: permission persistence across worktrees.</strong> Extended the Work Trees callout tip to note that "always allow" permission grants are now saved at the repository root — approvals made inside a git worktree persist across all sessions and worktrees for that repo (v2.1.211).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.19 <span class="changelog-date">· 2026-07-15</span></h3>
+        <p><strong>Claude Code v2.1.210 auto-update (CBP-305–CBP-306).</strong> Two targeted updates covering Claude Code v2.1.210 (Codex rust-v0.144.4 unchanged):</p>
+        <ul>
+          <li><strong>CBP-305 — Config: Permission rule startup warnings.</strong> Added a bullet to the Notable settings.json Keys callout documenting the new v2.1.210 startup warning: permission rules containing <code>Write(path)</code>, <code>NotebookEdit(path)</code>, or <code>Glob(path)</code> now log a warning at startup. Use <code>Edit(path)</code> for file-write operations and <code>Read(path)</code> for file-read/glob operations in allow/deny rules instead (v2.1.210).</li>
+          <li><strong>CBP-306 — Config: autoMode classifier model for external sessions.</strong> Added a bullet to the Notable settings.json Keys callout documenting that the auto mode permission classifier defaults to Sonnet 5 for external sessions (SDK, webhooks, headless <code>claude -p</code>). The model is validated on the first request and pinned for the session — ensuring consistent, low-latency classification for unattended pipelines (v2.1.210).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.18 <span class="changelog-date">· 2026-07-14</span></h3>
+        <p><strong>Claude Code v2.1.209 auto-update (CBP-302–CBP-304).</strong> Three targeted updates covering Claude Code v2.1.208–v2.1.209 (Codex rust-v0.144.4 had no user-facing changes):</p>
+        <ul>
+          <li><strong>CBP-302 — CLI Flags + Config: screen reader mode.</strong> Added <code>--ax-screen-reader</code> to the "System prompt &amp; config" CLI flags table, and <code>axScreenReader</code> to the Notable settings.json Keys callout. The flag, env var (<code>CLAUDE_AX_SCREEN_READER=1</code>), or settings key enable opt-in plain-text rendering optimized for screen readers (v2.1.208).</li>
+          <li><strong>CBP-303 — Config: <code>vimInsertModeRemaps</code> setting.</strong> Added <code>vimInsertModeRemaps</code> to the Notable settings.json Keys callout — maps two-key insert-mode sequences (e.g. <code>jj</code> → Escape) in vim mode, enabling common vim muscle-memory shortcuts (v2.1.208).</li>
+          <li><strong>CBP-304 — Env vars: <code>CLAUDE_CODE_PROCESS_WRAPPER</code>.</strong> Added <code>CLAUDE_CODE_PROCESS_WRAPPER</code> to the Subprocess Sandboxing hardening env vars table. When set, the agent view and background service run every Claude Code self-spawn through the specified wrapper executable — for corporate launchers, security wrappers, and audit proxies (v2.1.208).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.17 <span class="changelog-date">· 2026-07-11</span></h3>
+        <p><strong>Claude Code v2.1.207 auto-update (CBP-297–CBP-301).</strong> Five targeted updates covering Claude Code v2.1.207 (Codex unchanged at rust-v0.144.1):</p>
+        <ul>
+          <li><strong>CBP-297 — Models: Bedrock/Vertex/Foundry default changed to Opus 4.8.</strong> Updated the <code>default</code> alias row in the model table — Bedrock, Vertex AI, and Claude Platform on AWS now default to Claude Opus 4.8 (was Sonnet 4.5) as of v2.1.207.</li>
+          <li><strong>CBP-298 — Config: <code>CLAUDE_CODE_ENABLE_AUTO_MODE=1</code> deprecated.</strong> Updated the hardening env vars table row to mark this flag as deprecated. Auto mode is now enabled by default on Bedrock, Vertex, and Foundry — no opt-in needed. Use <code>disableAutoMode: true</code> in settings to opt out (v2.1.207).</li>
+          <li><strong>CBP-299 — Config: <code>disableAutoMode</code> setting.</strong> Added <code>disableAutoMode</code> to the Notable settings.json Keys callout. Set to <code>true</code> to opt out of auto mode on Bedrock, Vertex, and Foundry cloud deployments; configure at user level (<code>~/.claude/settings.json</code>) or via managed settings (v2.1.207).</li>
+          <li><strong>CBP-300 — Hooks: shell-form <code>${user_config.*}</code> security fix.</strong> Extended the exec form note in the Hooks section with a security callout: <code>${user_config.*}</code> substitutions are now rejected in shell-form hook commands (shell injection fix). To access plugin configuration values, use exec form (<code>args</code> array) and read them via <code>$CLAUDE_PLUGIN_OPTION_&lt;KEY&gt;</code> (v2.1.207).</li>
+          <li><strong>CBP-301 — Config: <code>autoMode</code> settings location.</strong> Added a bullet to the Notable settings.json Keys callout clarifying that <code>autoMode</code> settings (<code>classifyAllShell</code>, <code>hard_deny</code>, <code>disableAutoMode</code>) are not read from <code>.claude/settings.local.json</code>. Configure them in <code>~/.claude/settings.json</code> (user) or the checked-in <code>.claude/settings.json</code> (project) (v2.1.207).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.16 <span class="changelog-date">· 2026-07-10</span></h3>
+        <p><strong>Claude Code v2.1.206 + Codex rust-v0.144.0/v0.144.1 auto-update (CBP-293–CBP-296).</strong> Four targeted updates:</p>
+        <ul>
+          <li><strong>CBP-293 — Cheat Sheet: <code>/doctor</code> CLAUDE.md trim check.</strong> Updated the <code>/doctor</code> row to mention its new check that proposes trimming checked-in CLAUDE.md files by removing content Claude could derive from the codebase (v2.1.206).</li>
+          <li><strong>CBP-294 — Keyboard Shortcuts: <code>Ctrl+X</code> in agents view.</strong> Added <code>Ctrl+X</code> row to the keyboard shortcuts table — permanently removes a completed session from the <code>claude agents</code> list (v2.1.206).</li>
+          <li><strong>CBP-295 — Codex CLI Flags: <code>writes</code> approval mode.</strong> Updated the <code>--approval-mode</code> flag description to include the new <code>writes</code> mode — allows declared read-only actions automatically while prompting only for write operations (rust-v0.144.0).</li>
+          <li><strong>CBP-296 — Codex MCP: interactive auth without experimental flag.</strong> Added a note to the Codex MCP section: MCP tools can now request user authentication mid-session without any experimental opt-in flag (rust-v0.144.0).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.15 <span class="changelog-date">· 2026-07-09</span></h3>
+        <p><strong>Claude Code v2.1.205 auto-update (CBP-292).</strong> One targeted update for Claude Code v2.1.205:</p>
+        <ul>
+          <li><strong>CBP-292 — Cheat Sheet: <code>/doctor</code> upgrade + <code>/checkup</code> alias.</strong> Updated the <code>/doctor</code> row: it is now a full setup checkup that can diagnose <em>and fix</em> environment issues (not just a passive viewer). Added the <code>/checkup</code> alias and retained the exec-form hook hint and skill-listing references (v2.1.205).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.14 <span class="changelog-date">· 2026-07-08</span></h3>
+        <p><strong>Claude Code v2.1.204 + Codex rust-v0.143.0 auto-update (CBP-287–CBP-291).</strong> Five targeted updates covering Claude Code v2.1.196–v2.1.204 and Codex rust-v0.143.0:</p>
+        <ul>
+          <li><strong>CBP-287 — Models: Claude Sonnet 5 as new default.</strong> Updated the <code>sonnet</code> alias row to reflect Claude Sonnet 5 as the new default Claude Code model (v2.1.197): native 1M-token context window, promotional pricing of $2/$10 per MTok through August 31, 2026. Updated the <code>default</code> alias row to replace Sonnet 4.6 with Sonnet 5 for Pro / Team Std / Enterprise / API users.</li>
+          <li><strong>CBP-288 — Cheat Sheet: <code>/dataviz</code> skill.</strong> Added <code>/dataviz</code> to the Automation &amp; agents table — built-in skill providing chart and dashboard design guidance with a runnable color-palette validator, chart type selection, accessible color formulas, and interaction rules (v2.1.198).</li>
+          <li><strong>CBP-289 — Skills: stacked slash-skill invocations.</strong> Added a note to the Building Skills section documenting that prefixing a prompt with multiple slash commands loads all of them — up to 5 leading skills in order. E.g. <code>/skill-a /skill-b do XYZ</code> loads both skills before handing off to Claude (v2.1.199).</li>
+          <li><strong>CBP-290 — Keyboard shortcuts: permission mode renamed to "manual".</strong> Updated the <kbd>Shift+Tab</kbd> row: the "default" permission mode is now named "manual" across the CLI, VS Code, and JetBrains. Cycle now reads: manual → acceptEdits → plan → auto (v2.1.200).</li>
+          <li><strong>CBP-291 — Codex: remote-control pair + remote plugins default.</strong> Updated the <code>codex remote-control</code> Cheat Sheet row to mention the <code>pair</code> subcommand for generating manual pairing codes from a running daemon. Added a note to the Codex Plugins collapsible that remote plugins are now enabled by default with richer catalog rows and visible remote/local version indicators (rust-v0.143.0).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.13 <span class="changelog-date">· 2026-06-27</span></h3>
+        <p><strong>Claude Code v2.1.195 auto-update (CBP-285–CBP-286).</strong> Two targeted updates for Claude Code v2.1.195:</p>
+        <ul>
+          <li><strong>CBP-285 — Env vars: <code>CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1</code>.</strong> Added to the Subprocess Sandboxing hardening env vars table. Disables mouse click, drag, and hover events in fullscreen mode while preserving mouse-wheel scroll — useful in terminals where accidental clicks disrupt the interface (v2.1.195).</li>
+          <li><strong>CBP-286 — Hooks: hyphenated matcher identifiers exact-match.</strong> Updated the Matcher patterns table to add <code>mcp__brave-search__.*</code> as an example, and added a clarifying note: hyphenated identifiers (e.g. <code>code-reviewer</code>, <code>mcp__brave-search</code>) now exact-match the literal name. To match all tools from a hyphenated MCP server, append <code>__.*</code> — use <code>"mcp__brave-search__.*"</code> not <code>"mcp__brave-search"</code> (v2.1.195).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.12 <span class="changelog-date">· 2026-06-26</span></h3>
+        <p><strong>Claude Code v2.1.193 auto-update (CBP-282–CBP-284).</strong> Three targeted updates for Claude Code v2.1.193:</p>
+        <ul>
+          <li><strong>CBP-282 — Config: <code>autoMode.classifyAllShell</code> setting.</strong> Added <code>autoMode.classifyAllShell</code> to the Notable settings.json Keys callout. When set to <code>true</code>, routes all Bash/PowerShell commands through the auto-mode classifier instead of only arbitrary-code-execution patterns — tightens auto-mode coverage at the cost of slightly more classification overhead (v2.1.193).</li>
+          <li><strong>CBP-283 — OTEL: <code>OTEL_LOG_ASSISTANT_RESPONSES</code> env var.</strong> Updated the Opt-in Detail Levels callout and added a Privacy &amp; Security bullet for the new <code>OTEL_LOG_ASSISTANT_RESPONSES=1</code> env var. Response text is redacted by default; when unset, follows <code>OTEL_LOG_USER_PROMPTS</code> — set <code>OTEL_LOG_ASSISTANT_RESPONSES=0</code> explicitly to retain prompts-only logging on upgrade (v2.1.193).</li>
+          <li><strong>CBP-284 — Env vars: <code>CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1</code>.</strong> Added to the Subprocess Sandboxing hardening env vars table. By default, Claude Code terminates idle background shell commands under memory pressure. Set this env var to preserve long-running background shells (e.g. persistent dev servers) at the cost of higher memory usage (v2.1.193).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.11 <span class="changelog-date">· 2026-06-25</span></h3>
+        <p><strong>Claude Code v2.1.191 / Codex rust-v0.142.2 auto-update (CBP-279–CBP-281).</strong> Three targeted updates spanning both tools:</p>
+        <ul>
+          <li><strong>CBP-279 — Cheat Sheet: <code>/rewind</code> resume-from-clear.</strong> Updated the <code>/rewind</code> row to document the new ability to resume a conversation from before <code>/clear</code> was run. The Rewind menu now offers checkpoint rewind, "Summarize up to here", and restore-from-clear — letting you recover conversation state wiped by an accidental clear (v2.1.191).</li>
+          <li><strong>CBP-280 — Sandbox: network hosts session-remembered.</strong> Updated the <code>sandbox.network.allowedDomains</code> row to note that hosts approved interactively with "Yes" during a session are now remembered for the rest of that session — no re-prompting on subsequent connections to the same host (v2.1.191).</li>
+          <li><strong>CBP-281 — Codex MCP: tool search by default.</strong> Added a note to the Codex MCP Integrations section explaining that Codex now uses MCP tool search by default when the model supports it — tools are discovered on demand rather than loaded all at once. Added guidance on opting out via <code>"alwaysLoad": true</code> in <code>config.toml</code> (rust-v0.142.2).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.10 <span class="changelog-date">· 2026-06-24</span></h3>
+        <p><strong>Claude Code v2.1.187 auto-update (CBP-275–CBP-278).</strong> Four targeted updates for Claude Code v2.1.187:</p>
+        <ul>
+          <li><strong>CBP-275 — Sandbox: <code>sandbox.credentials</code> setting.</strong> Added <code>sandbox.credentials</code> to the sandbox settings table. Set to <code>false</code> to block sandboxed commands from reading credential files (e.g. <code>~/.aws/credentials</code>, <code>~/.ssh/id_rsa</code>) and secret environment variables — recommended in high-security or shared CI environments (v2.1.187).</li>
+          <li><strong>CBP-276 — Env vars: <code>CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT</code>.</strong> Added <code>CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT</code> to the hardening env vars table. Remote MCP tool calls that produce no response now abort after 5 minutes by default; this env var overrides that timeout in milliseconds. Useful for slow MCP servers or fail-fast CI pipelines (v2.1.187).</li>
+          <li><strong>CBP-277 — Cheat Sheet: <code>/btw</code> command.</strong> Added <code>/btw</code> to the Session, context &amp; history slash commands table. Use it to share a side note or correction mid-task without interrupting the model's current turn. Supports ←/→ arrow navigation to step through earlier answers (v2.1.187).</li>
+          <li><strong>CBP-278 — Cheat Sheet: <code>/install-github-app</code> description update.</strong> Updated the <code>/install-github-app</code> row to reflect that GitHub Actions workflow/secret setup is now optional — you can install just the GitHub App and skip the CI steps (v2.1.187).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.9 <span class="changelog-date">· 2026-06-22</span></h3>
+        <p><strong>CBP-274 — Skill Definitions: sync /fsd:add-task and /fsd:do-task.</strong> Updated both skill definition cards in the Skill Definitions section to match the canonical SKILL.md files. <code>/fsd:do-task</code> gains steps 5a.5 (token-cost estimate before execution), 5a.6 (chunk-based parallel execution for large plans), and 5h.5 (session summary for the Stop hook). <code>/fsd:add-task</code> gets a rewritten Step 1 (targeted grep instead of full-file read), Step 2 (explicit keyword grep for duplicate detection), and Step 3 (grep-guided insertion point). Description blurbs for both cards updated to match frontmatter.</p>
+      </section>
+      <section>
+        <h3>v3.2.8 <span class="changelog-date">· 2026-06-22</span></h3>
+        <p><strong>Codex CLI auto-update (backlog catch-up) — CBP-271, CBP-272.</strong> Two Codex Best Practices updates covering commands released in v0.136.0–v0.140.0:</p>
+        <ul>
+          <li><strong>CBP-271 — [Codex] Cheat Sheet: <code>/archive</code>, <code>/delete</code>, <code>/import</code>, <code>/usage</code>.</strong> Added four missing Codex slash command rows. <code>/archive</code> and <code>/delete</code> (after <code>/new</code>) cover session lifecycle — archive is reversible, delete is permanent with confirmation. <code>/import</code> (after <code>/init</code>) covers importing setup/config/chats from Claude Code. <code>/usage</code> (after <code>/status</code>) covers daily/weekly/cumulative token activity with rate-limit reset credit redemption. (v0.136.0–v0.140.0)</li>
+          <li><strong>CBP-272 — [Codex] Session Management: archive and delete.</strong> Expanded the Session Management Power Usage collapsible with archive and delete workflows. Prose explains the difference (reversible vs. permanent); code block adds <code>codex archive</code>, <code>codex unarchive</code>, and <code>codex delete</code> with comment labels. (v0.136.0–v0.140.0)</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.7 <span class="changelog-date">· 2026-06-22</span></h3>
+        <p><strong>Claude Code v2.1.186 + Codex rust-v0.142.0 auto-update (CBP-266–CBP-270).</strong> Five targeted updates across both tools:</p>
+        <ul>
+          <li><strong>CBP-266 — Cheat Sheet: <code>claude mcp login/logout</code> CLI commands.</strong> Updated the <code>/mcp</code> Cheat Sheet row to document <code>claude mcp login &lt;name&gt;</code> and <code>claude mcp logout &lt;name&gt;</code> — authenticate MCP servers from the terminal without opening the interactive menu. <code>--no-browser</code> redirects the OAuth flow to stdin for SSH sessions (v2.1.186).</li>
+          <li><strong>CBP-267 — Config: <code>respondToBashCommands</code> setting.</strong> Added <code>respondToBashCommands</code> to the Notable settings.json Keys callout. As of v2.1.186, <code>!</code> bash commands trigger Claude to respond to their output automatically. Set to <code>false</code> to restore context-only behavior (v2.1.186).</li>
+          <li><strong>CBP-268 — Env vars: <code>CLAUDE_CODE_RETRY_WATCHDOG</code>.</strong> Added <code>CLAUDE_CODE_RETRY_WATCHDOG</code> to the Subprocess Sandboxing hardening env vars table. Use instead of <code>CLAUDE_CODE_MAX_RETRIES</code> for unattended/CI sessions — the max retries setting is now capped at 15 (v2.1.186).</li>
+          <li><strong>CBP-269 — Skills: Frontmatter key casing flexibility.</strong> Added a note to the Frontmatter Reference section: <code>display-name</code>, <code>default-enabled</code>, <code>fallback</code>, and <code>metadata.*</code> keys now accept kebab-case, snake_case, and camelCase spellings interchangeably. Malformed YAML frontmatter now loads skill body with empty metadata instead of failing silently (v2.1.186).</li>
+          <li><strong>CBP-270 — [Codex] Rollout token budgets.</strong> Added rollout token budget documentation to the Multi-Agent Workflows collapsible in Codex Power Usage. Configure <code>rollout_token_budget</code> and <code>rollout_budget_reminder_threshold</code> in <code>config.toml</code> to cap per-thread token spend — Codex warns as the budget runs low and aborts turns when exhausted (rust-v0.142.0).</li>
+        </ul>
+      </section>
+            <section>
+        <h3>v3.2.6 <span class="changelog-date">· 2026-06-22</span></h3>
+        <p><strong>CBP-264 — Updated Builder Duo pod images.</strong> Replaced the Dark and Light theme variants of the Builder Duo pod illustration with updated designs. The images are re-embedded as base64 data URIs and switch automatically with the app theme.</p>
+      </section>
+            <section>
+        <h3>v3.2.5 <span class="changelog-date">· 2026-06-19</span></h3>
+        <p><strong>Claude Code v2.1.183 auto-update (CBP-261–CBP-263).</strong> Three targeted updates for Claude Code v2.1.183:</p>
+        <ul>
+          <li><strong>CBP-261 — Config: <code>attribution.sessionUrl</code> setting.</strong> Added <code>attribution.sessionUrl</code> to the Notable settings.json Keys callout. Set to <code>false</code> to omit the claude.ai session link from commits and PRs created in web and Remote Control sessions — useful for teams that want clean commit attribution without embedding session URLs (v2.1.183).</li>
+          <li><strong>CBP-262 — Config: Auto mode built-in safety blocks.</strong> Added a new bullet to the Notable settings.json Keys callout documenting auto mode's built-in safety rules: <code>git reset --hard</code>, <code>git checkout -- .</code>, <code>git clean -fd</code>, and <code>git stash drop</code> are blocked unless you explicitly asked to discard local work; <code>git commit --amend</code> is blocked when the commit wasn't made by the agent this session; <code>terraform destroy</code>, <code>pulumi destroy</code>, and <code>cdk destroy</code> are blocked unless you named the specific stack (v2.1.183).</li>
+          <li><strong>CBP-263 — Cheat Sheet: <code>/config --help</code> flag.</strong> Updated the <code>/config</code> Cheat Sheet row to mention <code>/config --help</code>, which lists all available shorthand keys for the <code>key=value</code> inline syntax. Version reference updated to v2.1.183 (v2.1.183).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.4 <span class="changelog-date">· 2026-06-18</span></h3>
+        <p><strong>Claude Code v2.1.181 auto-update (CBP-258–CBP-260).</strong> Three targeted updates for Claude Code v2.1.181:</p>
+        <ul>
+          <li><strong>CBP-258 — Cheat Sheet: <code>/config key=value</code> inline syntax.</strong> Updated the <code>/config</code> row to document the new inline syntax — set any setting directly from the prompt without opening the settings UI (e.g. <code>/config thinking=false</code>). Works in interactive, <code>-p</code>, and Remote Control modes (v2.1.181).</li>
+          <li><strong>CBP-259 — Sandbox: <code>sandbox.allowAppleEvents</code> setting.</strong> Added <code>sandbox.allowAppleEvents</code> to the sandbox settings table. macOS opt-in that allows sandboxed commands to send Apple Events — enables <code>open</code>, <code>osascript</code>, and browser-based auth flows that rely on Apple Events (v2.1.181).</li>
+          <li><strong>CBP-260 — Env vars: <code>CLAUDE_CLIENT_PRESENCE_FILE</code>.</strong> Added <code>CLAUDE_CLIENT_PRESENCE_FILE</code> to the hardening env vars table. Points at a marker file — when the file exists, Claude Code suppresses mobile push notifications, signalling you're at the machine (v2.1.181).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.3 <span class="changelog-date">· 2026-06-16</span></h3>
+        <p><strong>Backfill: <code>API_FORCE_IDLE_TIMEOUT=0</code> env var (v2.1.169).</strong> Added the missing <code>API_FORCE_IDLE_TIMEOUT=0</code> row to the Subprocess Sandboxing hardening env vars table. Claude Code v2.1.169 restored a default 5-minute idle timeout on Vertex AI and Foundry deployments — stalled streams now abort automatically instead of hanging indefinitely. Set to <code>0</code> to opt out for long-running batch jobs or custom streaming pipelines.</p>
+      </section>
+      <section>
+        <h3>v3.2.2 <span class="changelog-date">· 2026-06-16</span></h3>
+        <p><strong>Claude Code v2.1.178 auto-update (CBP-255–CBP-257).</strong> Three targeted updates for Claude Code v2.1.178:</p>
+        <ul>
+          <li><strong>CBP-255 — Permissions: <code>Tool(param:value)</code> syntax.</strong> Added a new bullet to the Notable settings.json Keys callout documenting the <code>Tool(param:value)</code> permission rule syntax. Matches a tool's input parameters (supports <code>*</code> wildcard). Example: <code>Agent(model:opus)</code> blocks subagents from spawning with the Opus model. Works in allow, deny, and ask positions (v2.1.178).</li>
+          <li><strong>CBP-256 — Skills: nested <code>.claude/skills</code> directory loading.</strong> Added a note to the Building Skills section explaining that skills in nested <code>.claude/skills/</code> directories load automatically when working on files there. On a name clash, the nested skill appears as <code>&lt;dir&gt;:&lt;name&gt;</code> so both the top-level and nested skills remain available (v2.1.178).</li>
+          <li><strong>CBP-257 — Workflows: trigger keyword now requires explicit phrases.</strong> Updated the Dynamic Workflows trigger keyword callout to reflect that the built-in workflow prompt keyword now uses a purple shimmer highlight and only fires on explicit phrases like "run a workflow" or "workflow:" — casual mentions of "workflow" no longer trigger it (v2.1.178).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.1 <span class="changelog-date">· 2026-06-13</span></h3>
+        <p><strong>Claude Code v2.1.177 auto-update (CBP-254).</strong> One additional update for Claude Code v2.1.176:</p>
+        <ul>
+          <li><strong>CBP-254 — Config: <code>awsCredentialExport</code> Bedrock credential caching.</strong> Added <code>awsCredentialExport</code> to the Notable settings.json Keys callout. Amazon Bedrock only — path to a script that vends short-lived AWS credentials (e.g. via STS AssumeRole). Credentials are now cached until their <code>Expiration</code> field rather than a fixed 1-hour TTL, reducing unnecessary re-auth cycles for tokens with longer lifetimes (v2.1.176).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.2.0 <span class="changelog-date">· 2026-06-13</span></h3>
+        <p><strong>Claude Code v2.1.177 auto-update (CBP-252–CBP-253).</strong> Two targeted updates for Claude Code v2.1.176 changes (v2.1.177 shipped with no public changelog entries):</p>
+        <ul>
+          <li><strong>CBP-252 — Config: <code>language</code> setting.</strong> Added <code>language</code> to the Notable settings.json Keys callout. Pin the language Claude Code uses when auto-generating session titles — accepts BCP 47 language tags (e.g. <code>en</code>, <code>ja</code>, <code>fr</code>). Without this setting, titles are generated in the language of the conversation (v2.1.176).</li>
+          <li><strong>CBP-253 — Config: <code>footerLinksRegexes</code> setting.</strong> Added <code>footerLinksRegexes</code> to the Notable settings.json Keys callout. Accepts an array of regex patterns; strings in the session footer row matching a pattern are rendered as clickable link badges. Configurable at user or managed (MDM/org) settings level (v2.1.176).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.1.0 <span class="changelog-date">· 2026-06-12</span></h3>
+        <p><strong>Claude Code v2.1.175 auto-update (CBP-250–CBP-251).</strong> Two targeted updates for Claude Code v2.1.174–v2.1.175 changes:</p>
+        <ul>
+          <li><strong>CBP-250 — Config: <code>enforceAvailableModels</code> managed setting.</strong> Added <code>enforceAvailableModels</code> to the Notable settings.json Keys callout. When enabled by org admins, the <code>availableModels</code> allowlist also constrains the Default model — a Default that would resolve to a disallowed model falls back to the first allowed model, and user or project settings can no longer widen the managed allowlist (v2.1.175).</li>
+          <li><strong>CBP-251 — Config: <code>wheelScrollAccelerationEnabled</code> setting.</strong> Added <code>wheelScrollAccelerationEnabled</code> to the Notable settings.json Keys callout. Set to <code>false</code> to disable mouse-wheel scroll acceleration in fullscreen mode — useful if the default acceleration feels too fast when scrolling long outputs (v2.1.174).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v3.0.0 <span class="changelog-date">· 2026-06-11</span></h3>
+        <p><strong>Claude Code v2.1.173 auto-update (CBP-245–CBP-249).</strong> Five targeted updates for Claude Code v2.1.171–v2.1.173 changes:</p>
+        <ul>
+          <li><strong>CBP-245 — Agent Teams: nested sub-agent depth.</strong> Added a bullet to the Agent Teams collapsible noting that sub-agents can now spawn their own sub-agents up to 5 levels deep, enabling hierarchical multi-agent architectures like orchestrator → specialist → worker trees (v2.1.172).</li>
+          <li><strong>CBP-246 — Bedrock: AWS region fallback from ~/.aws/config.</strong> Updated the 3rd-Party Model Providers callout to note that if <code>AWS_REGION</code> is not set, Bedrock reads the region from <code>~/.aws/config</code> (matching AWS SDK precedence); <code>/status</code> shows which source is active. Updated the <code>AWS_REGION</code> env var row accordingly (v2.1.172).</li>
+          <li><strong>CBP-247 — Plugins: marketplace search bar.</strong> Updated the <code>/plugin</code> Cheat Sheet row to note the new search bar for filtering plugins by name. Added a bullet to the Plugins collapsible with the same note (v2.1.172).</li>
+          <li><strong>CBP-248 — OTEL: <code>model</code> attribute on lines_of_code.count.</strong> Updated the <code>claude_code.lines_of_code.count</code> OTEL metrics table row to note the new <code>model</code> attribute — enables slicing lines-of-code output by model for cost attribution (v2.1.172).</li>
+          <li><strong>CBP-249 — Model aliases: fable 1M context default.</strong> Updated the <code>fable</code> model alias row to note that Fable 5 includes 1M context by default — the <code>fable[1m]</code> suffix is redundant and is now stripped automatically (v2.1.173).</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v2.99.0 <span class="changelog-date">· 2026-06-10</span></h3>
+        <p><strong>Claude Code v2.1.170 auto-update (CBP-244).</strong> One targeted update: added Claude Fable 5 (Mythos-class) to the model lineup table as a new top-tier column — capabilities described as exceeding any model previously made generally available. Updated the model aliases table with a new <code>fable</code> alias row. Updated Key Dates callout with June 9, 2026 Fable 5 release entry and link to announcement. Update to Claude Code v2.1.170 for access.</p>
+      </section>
+      <section>
+        <h3>v2.98.0 <span class="changelog-date">· 2026-06-09</span></h3>
+        <p><strong>Claude Code v2.1.169 auto-update (CBP-240–CBP-243).</strong> Four targeted updates:</p>
+        <ul>
+          <li><strong>CBP-240 — CLI: <code>--safe-mode</code> flag.</strong> Added <code>--safe-mode</code> to the CLI Launch Flags "System prompt &amp; config" table — starts Claude Code with all customizations disabled (CLAUDE.md, plugins, skills, hooks, MCP servers) for troubleshooting. Env var equivalent <code>CLAUDE_CODE_SAFE_MODE=1</code> documented inline.</li>
+          <li><strong>CBP-241 — Cheat Sheet: <code>/cd</code> command.</strong> Added <code>/cd &lt;path&gt;</code> to the Session, context &amp; history slash commands table — moves the session to a new working directory without breaking the prompt cache mid-session.</li>
+          <li><strong>CBP-242 — Config: <code>disableBundledSkills</code> setting.</strong> Added <code>disableBundledSkills</code> to the Notable settings.json Keys callout — set <code>true</code> to hide all bundled skills, workflows, and built-in slash commands from the model. Env var equivalent <code>CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1</code> and cross-reference to <code>skillOverrides</code> for per-skill granularity.</li>
+          <li><strong>CBP-243 — CLI: <code>claude agents --json</code> updates.</strong> Updated the <code>claude agents</code> Cheat Sheet row to document that blocked and just-dispatched sessions are now always included in <code>--json</code> output; added <code>--all</code> flag for including completed sessions; noted new <code>id</code> and <code>state</code> JSON fields.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v2.97.0 <span class="changelog-date">· 2026-06-06</span></h3>
+        <p><strong>Claude Code v2.1.167 auto-update (CBP-238–CBP-239).</strong> Two targeted updates:</p>
+        <ul>
+          <li><strong>CBP-238 — Config: <code>fallbackModel</code> settings key + updated <code>--fallback-model</code> flag description.</strong> Added <code>fallbackModel</code> to the Notable settings.json Keys callout — configure up to three fallback models tried in order when the primary model is overloaded or unavailable, works in both interactive and print mode. Updated the <code>--fallback-model</code> CLI flag row to reflect the expanded trigger ("overloaded or unavailable") and cross-reference the settings key.</li>
+          <li><strong>CBP-239 — Config: deny rule glob patterns.</strong> Added a new bullet to the Notable settings.json Keys callout documenting glob pattern support in the tool-name position of deny rules: <code>"*"</code> denies all tools; allow rules reject non-MCP globs; unknown tool names in deny rules now log a startup warning instead of being silently ignored.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v2.96.0 <span class="changelog-date">· 2026-06-05</span></h3>
+        <p><strong>CBP-237 — "What's new this week" shows only Auto Updater changes with full per-task detail.</strong> The widget now filters to entries produced by the Auto Updater agent only (identified by "auto-update" in the headline), dropping manual development work like navigation restructures and UI additions. Auto-update bundle entries are expanded into one card per CBP task by parsing <code>&lt;ul&gt;/&lt;li&gt;</code> structure in the changelog modal — each card shows the specific change and its impact rather than a one-sentence bundle summary. Existing auto-update changelog entries (v2.93.0, v2.89.0) have been converted to <code>&lt;ul&gt;/&lt;li&gt;</code> format with content sourced from the task file summaries.</p>
+      </section>
+      <section>
+        <h3>v2.95.0 <span class="changelog-date">· 2026-06-05</span></h3>
+        <p><strong>"What's new this week?" promoted to a first-class page (CBP-235 revision).</strong> Replaced the right-side slide-in panel with a dedicated full page (<code>page-whats-new</code>) in the main content area. Infographic cards render in a responsive grid alongside the rest of the playbook. A "What's new" nav entry (with green dot + count badge) appears in the sidebar when current-week entries exist and is hidden otherwise. The sidebar pill trigger and subtitle link now navigate to the page instead of opening a modal overlay. The backdrop, panel, and all overlay JS have been removed.</p>
+      </section>
+      <section>
+        <h3>v2.94.0 <span class="changelog-date">· 2026-06-05</span></h3>
+        <p><strong>"What's new this week?" infographic widget (CBP-235).</strong> A collapsible widget now appears in the sidebar header, between the version badge and the search bar. It auto-reads the changelog modal and renders the past 7 days of updates as infographic cards — each card shows a category icon and label (Hooks, Navigation, Skills, UI/Design, CLI, Config, Auto-update), a bold feature headline, a one-line impact summary extracted from the first sentence of the changelog paragraph, and a version + date badge. Category accent colors differentiate card types visually. Clicking any card opens the full changelog; a "View full changelog →" footer link is also present. Collapsed/expanded state persists in <code>localStorage</code>; the widget hides itself automatically when the current week has no entries.</p>
+      </section>
+      <section>
+        <h3>v2.93.0 <span class="changelog-date">· 2026-06-05</span></h3>
+        <p><strong>Claude Code v2.1.165 auto-update (CBP-231–CBP-234).</strong> Four targeted updates from Claude Code v2.1.163:</p>
+        <ul>
+          <li><strong>CBP-231 — Hooks: additionalContext return.</strong> <code>Stop</code> and <code>SubagentStop</code> hooks can now return <code>hookSpecificOutput.additionalContext</code> in their JSON output to provide Claude with feedback and keep the current turn going without triggering a hook error — enabling hooks to silently inject context into Claude's awareness rather than just controlling flow.</li>
+          <li><strong>CBP-232 — CLI: plugin list filtering.</strong> <code>claude plugin list</code> now accepts <code>--enabled</code> or <code>--disabled</code> filters, so teams can audit which plugins are active or inactive from the terminal without opening settings.</li>
+          <li><strong>CBP-233 — Skills: literal $ escape syntax.</strong> Use <code>\$</code> before a digit in a skill command body to include a literal <code>$</code> without triggering argument substitution — essential when a skill generates shell scripts that reference <code>$1</code>, <code>$2</code>, etc.</li>
+          <li><strong>CBP-234 — Config: version range enforcement.</strong> <code>requiredMinimumVersion</code> and <code>requiredMaximumVersion</code> are now in the Notable settings.json Keys callout. Set via org managed settings, Claude Code refuses to start outside the allowed range and directs the user to an approved version — designed for enterprise compliance and controlled rollouts.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v2.92.0 <span class="changelog-date">· 2026-06-04</span></h3>
+        <p><strong>Deeplinks to all playbook content (CBP-230).</strong> The URL bar now updates as you scroll, turning the address of any page, section, or collapsible into a shareable deeplink. The <code>sectionObserver</code> scroll-spy calls <code>history.replaceState</code> when sections enter the viewport, producing <code>#page/section</code> URLs for top-level pages and <code>#practices/section</code> or <code>#practices/section/leaf</code> URLs for the Claude Best Practices multi-topic view. All three levels were already handled by the router on initial load — this completes the round-trip. Also fixes a bug where clicking the Codex Hooks nav entry would navigate to the FSAD page due to a missing <code>codex-hooks</code> entry in <code>sectionToPageMap</code>.</p>
+      </section>
+      <section>
+        <h3>v2.91.0 <span class="changelog-date">· 2026-06-04</span></h3>
+        <p><strong>Moved Multi-Agent Security Review Team to Skills Library (CBP-229).</strong> Relocated the Security Review section from Claude Best Practices → Integrations &amp; Review to the Skills Library page, where it now appears as section 03 alongside the <code>fsd:sec-review-team</code> and <code>fsd:sec-review-fixes</code> skill definitions. Updated sidebar nav, deep-link routing, and a cross-reference on the Codex page.</p>
+      </section>
+      <section>
+        <h3>v2.90.0 <span class="changelog-date">· 2026-06-04</span></h3>
+        <p><strong>Open Source Frameworks promoted to top-level nav page (CBP-228).</strong> Moved the Open Source Frameworks section out of Claude Best Practices → Reference and into its own first-class page in the left sidebar, positioned after KPIs to Measure Impact. The new <code>page-open-source</code> has a hero section and a dedicated nav group; deep links via <code>#open-source</code> and <code>#open-source/open-source</code> route directly to it. Removed the Open Source entry from the Claude Best Practices Reference hub card chips and updated the hub card description.</p>
+      </section>
+      <section>
+        <h3>v2.89.1 <span class="changelog-date">· 2026-06-04</span></h3>
+        <p><strong>Claude Code v2.1.161 auto-update (CBP-227).</strong> <code>claude agents</code> now shows <code>done/total</code> subagent progress counts on each row when work is fanned out, with the peek view highlighting the longest-running item — making it easy to spot stalled subagents during multi-agent runs (v2.1.161).</p>
+      </section>
+      <section>
+        <h3>v2.89.0 <span class="changelog-date">· 2026-06-04</span></h3>
+        <p><strong>Claude Code v2.1.162 auto-update (CBP-223–CBP-226).</strong> Four targeted updates from Claude Code v2.1.162:</p>
+        <ul>
+          <li><strong>CBP-223 — CLI: agents --json waitingFor field.</strong> <code>claude agents --json</code> now includes a <code>waitingFor</code> field showing what a blocked session is waiting on (e.g. a permission prompt) — useful for automation scripts that need to distinguish blocked sessions from actively running ones.</li>
+          <li><strong>CBP-224 — CLI: /effort persistence confirmation.</strong> <code>/effort</code> now confirms when the chosen effort level will persist as the default for new sessions — removing ambiguity about whether a selection affects the current session only or future ones too.</li>
+          <li><strong>CBP-225 — Remote Control: persistent footer pill.</strong> When Remote Control is enabled, it now appears as a persistent footer pill with a direct session link instead of a startup message that scrolls away — the link stays accessible at any point in the session.</li>
+          <li><strong>CBP-226 — Rebranding: Windsurf → Devin Desktop.</strong> Updated the <code>/terminal-setup</code> Cheat Sheet row and the IDE extensions comparison table on the Codex page to reflect the editor's rebrand from Windsurf to Devin Desktop.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v2.88.0 <span class="changelog-date">· 2026-06-03</span></h3>
+        <p><strong>Practical Best Practices page (CBP-222).</strong> New standalone page in the left nav (between Workflows and Skills Library) translating the Token Limits visual guide into playbook-styled content. Section 01: five numbered habit cards (gradient-circle numbers, 3+2 grid layout) covering compact cadence, exact-file reads, post-compact ordering, planning discipline, and task-boundary compaction. Section 02: three-column effort-level bar (low/medium → high → xhigh/max) with per-level examples and a quick-reference code card showing all five <code>/effort</code> commands. Section 03: four "Set Once, Forget" pattern cards covering CLAUDE.md, problem-first framing, right-tool selection, and hooks for repeating checks. All content fact-checked against official Claude Code docs; deep links, scroll spy, and mobile collapse supported.</p>
+      </section>
+      <section>
+        <h3>v2.87.0 <span class="changelog-date">· 2026-06-03</span></h3>
+        <p><strong>Pod image hover + lightbox expand (CBP-221).</strong> All pod diagrams — the FSAD Operating Model in Section 03 and all seven Pod Explorer illustrations — now show a zoom cursor and subtle scale animation on hover. Clicking any diagram opens a full-screen lightbox overlay at full image resolution. Lightbox closes on Escape, backdrop click, or the × button. Dark and light theme variants are handled automatically.</p>
+      </section>
+      <section>
+        <h3>v2.84.0 <span class="changelog-date">· 2026-06-03</span></h3>
+        <p><strong>Pod Explorer design images — Builder Duo and Full Stack Pod.</strong> Replaced the CSS emoji rings in the Builder Duo and Full Stack Pod panels with the new design illustrations, matching the pattern established for the Triad in v2.82.0. Both pods use dark and light variants that switch automatically with the app theme. Triad image sizing refined (405px column, 0.75rem card padding); same sizing applied consistently to Builder Duo and Full Stack Pod.</p>
+      </section>
+      <section>
+        <h3>v2.83.0 <span class="changelog-date">· 2026-06-03</span></h3>
+        <p><strong>Claude Code v2.1.161 auto-update (CBP-217–CBP-219).</strong> Three targeted updates: clarified the OTEL_RESOURCE_ATTRIBUTES multi-team segmentation bullet to note that attribute values are now included as labels on every metric datapoint as of v2.1.161 — slice by team or repo in Grafana/Datadog without a secondary join (CBP-217); updated the <code>/mcp</code> Cheat Sheet row to document that claude.ai connectors you have never signed in to are now collapsed behind a "Show unused connectors" row (CBP-218); extended the Work Trees tip callout to note that parallel tool calls are now independent — a failed Bash command no longer cancels other calls in the same batch (CBP-219).</p>
+      </section>
+      <section>
+        <h3>v2.82.0 <span class="changelog-date">· 2026-06-02</span></h3>
+        <p><strong>Pod Triad design images.</strong> Replaced the CSS emoji ring in the Triad pod panel (Pod Explorer) with the new design illustration. Two variants — dark and light — switch automatically with the app's theme via <code>html[data-theme]</code> CSS selectors. Embedded as base64 data URIs for self-contained distribution.</p>
+      </section>
+      <section>
+        <h3>v2.81.5 <span class="changelog-date">· 2026-06-02</span></h3>
+        <p><strong>Claude Code v2.1.160 auto-update (CBP-214–CBP-215).</strong> Two targeted updates: added a tip callout to the Dynamic Workflows section documenting that <code>ultracode</code> is now the trigger keyword (replacing <code>workflow</code>), with <kbd>Alt+W</kbd> / <kbd>Backspace</kbd> dismissal tip and <code>/config</code> opt-out (CBP-214); removed the deprecated <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE</code> env var row from the env vars table — the variable is now a no-op as of v2.1.160 (CBP-215).</p>
+      </section>
+      <section>
+        <h3>v2.81.4 <span class="changelog-date">· 2026-05-30</span></h3>
+        <p><strong>Claude Code v2.1.157–v2.1.158 auto-update (CBP-210–CBP-213).</strong> Four targeted updates: added <code>claude plugin init &lt;name&gt;</code> to the Plugins collapsible code block and bullet list — scaffolds a new plugin skeleton in <code>.claude/skills/&lt;name&gt;/</code> (CBP-210); added an auto-load bullet to the Plugins collapsible documenting that plugin directories in <code>.claude/skills/</code> are automatically loaded without marketplace registration (CBP-211); added <code>CLAUDE_CODE_ENABLE_AUTO_MODE=1</code> to the Subprocess Sandboxing hardening env vars table — opt-in to auto mode on Amazon Bedrock, Google Vertex AI, and Azure Foundry for Opus 4.7/4.8 (CBP-212); updated the Work Trees collapsible tip to note that <code>EnterWorktree</code> can now switch between Claude-managed worktrees mid-session (CBP-213).</p>
+      </section>
+      <section>
+        <h3>v2.81.3 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>FSAD Training link moved to bottom of sidebar nav (CBP-208).</strong> Relocated the FSAD Training external link from between Workflows and Skills Library to the bottom of the sidebar nav, after KPIs. Now uses a dedicated <code>.nav-external-link</code> style with a <code>border-top</code> separator, matching the pattern the FSAD Training page uses for its "FSAD Playbook ↗" back-link.</p>
+      </section>
+      <section>
+        <h3>v2.81.2 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>Fix: nav link underline removed.</strong> Added <code>text-decoration: none</code> to the <code>.nav-group-toggle</code> CSS rule so the FSAD Training external link renders consistently with the button-based nav entries.</p>
+      </section>
+      <section>
+        <h3>v2.81.1 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>FSAD Training link added to sidebar nav (CBP-207).</strong> Added an external link to the FSAD Training playbook at <code>https://fsad-training.vercel.app/</code> as a nav entry directly below Workflows. Opens in a new tab; styled with ◆ icon and ↗ indicator to distinguish it as an external link.</p>
+      </section>
+      <section>
+        <h3>v2.81.0 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>fsd:prd skill added to Skills Library (CBP-206).</strong> New <code>skills/prd/SKILL.md</code> — a four-phase gated PRD-writing flow (Discovery → Specify → Plan → Tasks) producing <code>spec.md</code>, <code>plan.md</code>, and <code>tasks.md</code> in the project's <code>planning/prd/</code> directory. Analyst and PM role briefs inlined for self-contained plugin distribution. Added <code>/fsd:prd</code> wf-card to the Skills Library grid and a collapsible definition block. Skill count updated from 11 to 12.</p>
+      </section>
+      <section>
+        <h3>v2.80.0 <span class="changelog-date">· 2026-05-29</span></h3>
+        <p><strong>Claude Code v2.1.154–v2.1.156 auto-update (CBP-202–CBP-205).</strong> Four targeted updates: fixed <code>/code-review</code> row to reflect v2.1.154 reversion — <code>/simplify</code> is again a standalone cleanup-only review (reuse, simplification, efficiency, altitude) that applies fixes directly, not an alias for <code>/code-review --fix</code> (CBP-202); added <code>/workflows</code> to the automation table — view and manage dynamic workflow runs (tens to hundreds of parallel agents, Max/Team/Enterprise, v2.1.154) (CBP-203); updated <code>claude agents</code> row to document <code>! &lt;command&gt;</code> for launching shell commands as attachable/detachable background sessions and the CLI equivalent <code>claude --bg --exec '&lt;command&gt;'</code> (CBP-204); updated <code>CLAUDE_CODE_SESSION_ID</code> hooks env var row to note it is now also injected into stdio MCP server subprocess environments, alongside <code>CLAUDECODE=1</code> (CBP-205).</p>
+      </section>
+      <section>
+        <h3>v2.79.0 <span class="changelog-date">· 2026-05-28</span></h3>
+        <p><em>(v2.79.0 — team onboarding guide; see full history below)</em></p>
+      </section>
+      <section>
+        <h3>v2.77.0 <span class="changelog-date">· 2026-05-28</span></h3>
+        <p><strong>Code Review Team: Specialist Definitions added to Skills Library (CBP-198).</strong> Added a &ldquo;Specialist Definitions&rdquo; sub-section inside the <code>/fsd:code-review-team</code> collapsible in the Skills Library. Six specialist cards now appear below the SKILL.md orchestration block — one per specialist (<code>correctness-reviewer</code>, <code>design-reviewer</code>, <code>performance-reviewer</code>, <code>maintainability-reviewer</code>, <code>testing-reviewer</code>, <code>api-contract-reviewer</code>) — each showing Primary scope, Coverage dimensions, and a copyable Definition file. A roster table distinguishes <em>lite</em> specialists (run in all modes) from <em>full</em> specialists (added in full mode only).</p>
+      </section>
+      <section>
+        <h3>v2.76.0 <span class="changelog-date">· 2026-05-28</span></h3>
+        <p><strong>Claude Code v2.1.153 auto-update (CBP-197).</strong> Corrected the <code>/model</code> Cheat Sheet row: v2.1.153 reversed the behavior introduced in v2.1.144 (CBP-167). Model selection is now saved as the default for new sessions again. Press <code>s</code> in the picker to switch models for the current session only (the <code>d</code> keybinding for session-only was replaced by <code>s</code>; if you customized <code>modelPicker:setAsDefault</code>, rename it to <code>modelPicker:thisSessionOnly</code> in keybindings.json).</p>
+      </section>
+      <section>
+        <h3>v2.75.1 <span class="changelog-date">· 2026-05-27</span></h3>
+        <p><strong>Remove personal references from Skills section (CBP-196).</strong> Replaced "Theo's local projects" with "your local projects" in the <code>fsd:do-task</code> and <code>fsd:add-task</code> skill descriptions. Renamed all <code>~/.claude/commands/tb/projects.yaml</code> path references to <code>~/.claude/commands/fsd/projects.yaml</code> across seven skill files and their embedded code blocks in the Skills Library. Updated the generic path example in the <code>fsd:init</code> skill body from <code>/Users/theobeack/</code> to <code>/Users/username/</code>. Dist artifact regenerated.</p>
+      </section>
+      <section>
+        <h3>v2.75.0 <span class="changelog-date">· 2026-05-27</span></h3>
+        <p><strong>Skill Definitions section added to Skills Library (CBP-195).</strong> Added a "Skill Definitions" section (<code>#skills-definitions</code>) to the Skills Library page, mirroring the Specialist Definitions pattern from the Multi-Agent Security Review Team section. Each of the eleven unique <code>fsd:</code> skills now has a collapsible card that embeds the full <code>SKILL.md</code> source with a copy-to-clipboard block. Skills are organized into two groups — Workflow Management (<code>do-task</code>, <code>add-task</code>, <code>ship-it</code>, <code>next</code>, <code>sync</code>, <code>ac</code>, <code>estimate</code>, <code>init</code>) and Review &amp; Security (<code>code-review-team</code>, <code>sec-review-team</code>, <code>sec-review-fixes</code>). Updated sidebar nav with a "Definitions" sub-item and added <code>skills-definitions</code> to the <code>sectionToPageMap</code> for deep-link support.</p>
+      </section>
+      <section>
+        <h3>v2.74.0 <span class="changelog-date">· 2026-05-27</span></h3>
+        <p><strong>Claude Code v2.1.152 auto-update (CBP-189–CBP-193).</strong> Five targeted updates: added <code>disallowed-tools</code> frontmatter field to the Frontmatter Reference table — the inverse of <code>allowed-tools</code>, removes tools while a skill is active (CBP-189); added <code>/reload-skills</code> to the configuration commands table — re-scans skill directories without restarting (CBP-190); added <code>MessageDisplay</code> hook event to the Core hooks table and updated event count from 26 to 27 (CBP-191); updated <code>/code-review</code> entry to document <code>--fix</code> (applies findings to working tree) and note that <code>/simplify</code> now invokes <code>/code-review --fix</code> (CBP-192); updated <code>SessionStart</code> hook row to document <code>reloadSkills: true</code> output and <code>hookSpecificOutput.sessionTitle</code>, and updated <code>--fallback-model</code> description to reflect it now applies to interactive sessions (not just print mode) (CBP-193).</p>
+      </section>
+      <section>
+        <h3>v2.73.0 <span class="changelog-date">· 2026-05-23</span></h3>
+        <p><strong>Claude Code v2.1.147–v2.1.150 auto-update (CBP-185–CBP-188).</strong> Four targeted Cheat Sheet updates: updated <code>/code-review [effort]</code> row to add the <code>--comment</code> flag and corrected the version reference to v2.1.147 (CBP-185); updated <code>Ctrl+T</code> keyboard shortcut to document pin/unpin behavior in <code>claude agents</code> view (CBP-186); updated <code>/usage</code> to document the new per-category breakdown — skills, subagents, plugins, and per-MCP-server cost (CBP-187); updated <code>/diff</code> to document keyboard navigation in the detail view — arrow keys, <code>j</code>/<code>k</code>, <code>PgUp</code>/<code>PgDn</code>, <code>Space</code>, <code>Home</code>/<code>End</code> (CBP-188).</p>
+      </section>
+      <section>
+        <h3>v2.69.0 <span class="changelog-date">· 2026-05-21</span></h3>
+        <p><strong>Claude Code v2.1.146 auto-update (CBP-180–CBP-181).</strong> Two targeted updates: added <code>/code-review [effort]</code> to the Cheat Sheet — the renamed <code>/simplify</code> command, now accepting an optional effort level (e.g., <code>/code-review high</code>); added <code>claude_code.tool</code> OTEL span row to the Monitoring events table with <code>agent_id</code> and <code>parent_agent_id</code> attributes for correct background subagent trace hierarchy.</p>
+      </section>
+      <section>
+        <h3>v2.68.0 <span class="changelog-date">· 2026-05-20</span></h3>
+        <p><strong>Codex CLI v0.132.0 auto-update (CBP-178–CBP-179).</strong> Two targeted Codex updates: added <code>codex exec resume</code> examples to both the Session Management and CI/CD Integration collapsibles — <code>exec resume</code> lets headless pipelines resume a prior session while enforcing structured JSON output via <code>--output-schema</code> (CBP-178); updated the Session Management intro to note that renamed threads now display as <code>name (thread-id)</code> in resume hints, and that pasted text now works in the session picker search box (CBP-179).</p>
+      </section>
+      <section>
+        <h3>v2.67.0 <span class="changelog-date">· 2026-05-20</span></h3>
+        <p><strong>Claude Code v2.1.145 auto-update (CBP-175–CBP-177).</strong> Three targeted Cheat Sheet updates: added <code>--json</code> flag to the <code>claude agents</code> row for JSON-formatted session listing (scripting, tmux-resurrect, status bars); updated <code>Stop</code> and <code>SubagentStop</code> hook rows to document the new <code>background_tasks</code> and <code>session_crons</code> hook input fields available to hooks for conditional continuation logic; updated the <code>/plugin</code> row and Plugins collapsible to surface the new pre-install component preview in Discover/Browse screens — commands, agents, skills, hooks, and MCP/LSP servers are all shown before installation.</p>
+      </section>
+      <section>
+        <h3>v2.66.0 <span class="changelog-date">· 2026-05-19</span></h3>
+        <p><strong>Plugin last-updated display (CBP-174).</strong> Updated the <code>/plugin</code> Cheat Sheet row and Plugins collapsible deep-dive to note that the marketplace browse and discover panes now show when each plugin was last updated, alongside existing per-turn and per-invocation token cost estimates. Sourced from Claude Code v2.1.144.</p>
+      </section>
+      <section>
+        <h3>v2.65.0 <span class="changelog-date">· 2026-05-19</span></h3>
+        <p><strong>Vercel Analytics integration (CBP-173).</strong> Added Vercel Web Analytics to the app. A <code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code> tag in <code>&lt;head&gt;</code> enables Vercel's auto-served analytics script on all Vercel deployments — no API key or configuration required.</p>
+      </section>
+      <section>
+        <h3>v2.64.0 <span class="changelog-date">· 2026-05-19</span></h3>
+        <p><strong>Claude Code v2.1.144 + Codex CLI v0.131.0 auto-update (CBP-166–CBP-172).</strong> Seven targeted updates: updated <code>/resume</code> Cheat Sheet row to note that background sessions started via <code>--bg</code> or agent view now appear in the picker, marked with <code>bg</code> (CBP-166); updated <code>/model</code> row to reflect that it now changes the current session only — press <code>d</code> in the picker to set a default for new sessions (CBP-167); added <code>/usage-credits</code> (alias: <code>/extra-usage</code>) to the Model/Mode/Usage table (CBP-168); expanded <code>/doctor</code> description to mention exec-form hook hint for missing <code>command</code> fields and that full skill-listing breakdown is available there (CBP-169); [Codex] added <code>codex doctor</code> CLI subcommand row to the Codex Cheat Sheet — support-ready diagnostics across runtime, auth, terminal, network, config, and local state (CBP-170); [Codex] updated the keyboard shortcuts <code>@</code> / <code>Tab</code> row to reflect the new unified context picker for files, directories, plugins, and skills (CBP-171); [Codex] updated the Codex Plugins collapsible to document v0.131.0 marketplace CLI commands, version-aware sharing/checkout, and default-enabled plugin hooks (CBP-172).</p>
+      </section>
+      <section>
+        <h3>v2.63.0 <span class="changelog-date">· 2026-05-18</span></h3>
+        <p><strong>Codex developers changelog update (CBP-162–CBP-165).</strong> Four updates sourced from the OpenAI Codex developers changelog (developers.openai.com/codex/changelog): [Codex] added a "Generally Available — May 2026" callout to the Codex Hooks section, marking hooks as production-ready with no feature flag required; [Codex] added a "Codex Access Tokens" collapsible to Codex Power Usage covering workspace-scoped non-interactive tokens for CI runners, schedulers, and private scripts (Enterprise feature); [Codex] added a "Codex Chrome Extension" subsection to Codex Integrations documenting parallel-tab browser integration and per-site access control, with guidance on Chrome extension vs. MCP; [Codex] expanded the Codex Cloud collapsible into "Codex Cloud &amp; Mobile" with a ChatGPT mobile app connection guide for controlling local Codex sessions from iOS/Android.</p>
+      </section>
+      <section>
+        <h3>v2.62.0 <span class="changelog-date">· 2026-05-18</span></h3>
+        <p><strong>Codex CLI v0.130.0 auto-update (CBP-158–CBP-160).</strong> Three targeted updates: added <code>codex remote-control</code> to the Codex Cheat Sheet CLI flags table — starts a headless, remotely controllable app-server and allows external clients to drive a Codex session via the protocol API; updated the Codex Plugins collapsible to note that the plugin details view (accessible from <code>/plugins</code>) now shows all bundled hooks alongside skills and tools; updated the Amazon Bedrock collapsible to document that <code>aws login</code> console-login credentials are supported for Bedrock auth in addition to standard AWS credential env vars and named profiles.</p>
+      </section>
+      <section>
+        <h3>v2.61.0 <span class="changelog-date">· 2026-05-17</span></h3>
+        <p><strong>Claude Code v2.1.143 auto-update (CBP-153–CBP-157).</strong> Five targeted updates: added plugin dependency enforcement docs to the Plugins collapsible (<code>claude plugin disable</code> is blocked when dependents are enabled and shows a chain hint; <code>claude plugin enable</code> auto-enables transitive deps); updated <code>/plugin</code> Cheat Sheet row and Plugins collapsible to document projected per-turn and per-invocation token cost estimates in the marketplace browse pane; added <code>worktree.bgIsolation</code> setting table to the Work Trees collapsible (<code>none</code> lets background sessions edit the working copy directly, for repos where worktrees are impractical); added <code>CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1</code> and <code>CLAUDE_CODE_USE_POWERSHELL_TOOL=0</code> env vars to the Subprocess Sandboxing hardening table (PowerShell tool now defaults on for Bedrock/Vertex/Foundry Windows users); added <code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=N</code> env var (default 8 consecutive blocks before turn ends with warning).</p>
+      </section>
+      <section>
+        <h3>v2.60.0 <span class="changelog-date">· 2026-05-15</span></h3>
+        <p><strong>Self-contained natural language search.</strong> Replaced the plain <code>String.includes()</code> keyword filter with a two-tier search system that requires zero setup for recipients. <strong>Tier 1 — MiniSearch v7.1.1</strong> (MIT, ~19 KB, fully inlined): BM25-ranked fuzzy search with prefix matching and field weighting (<code>title</code> ×3, <code>label</code> ×2, <code>text</code> ×1) — typo-tolerant queries like "effor level" and "kv cach" return correct sections immediately with no CDN dependency. <strong>Tier 2 — Transformers.js semantic layer</strong> (progressive enhancement): lazy-loads <code>Xenova/all-MiniLM-L6-v2</code> (~24 MB, browser-cached after first load) and embeds 219 pre-extracted section/collapsible text chunks at runtime; queries ≥3 words or containing <code>?</code> blend keyword and cosine-similarity semantic results, with semantic matches badged <code>✦</code>; embedding vectors cache in IndexedDB for instant load on subsequent sessions. <strong>Build pipeline</strong>: <code>scripts/build-embeddings.py</code> (stdlib-only Python) extracts chunks from the source HTML; <code>scripts/build-dist.py</code> now calls the embeddings script and injects <code>PLAYBOOK_EMBEDDINGS</code> directly into the dist artifact. Graceful degradation: if CDN is unreachable, Tier 1 answers immediately. A status indicator in the search popover shows "Loading smart search…" / "Smart search ready" / "Using keyword search".</p>
+      </section>
+      <section>
+        <h3>v2.59.0 <span class="changelog-date">· 2026-05-15</span></h3>
+        <p><strong>Claude Code v2.1.142 auto-update (CBP-147–CBP-150).</strong> Four targeted updates: updated <code>claude agents</code> Cheat Sheet row to list all eight new v2.1.142 dispatch flags (<code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, <code>--dangerously-skip-permissions</code>); added <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code> env var to Subprocess Sandboxing table (fast mode now defaults to Opus 4.7); added root-level <code>SKILL.md</code> plugin shortcut and <code>claude plugin details</code> LSP server display bullets to the Plugins collapsible; updated <code>/plugin</code> Cheat Sheet row to mention <code>claude plugin details</code> with LSP server inventory.</p>
+      </section>
+      <section>
+        <h3>v2.58.0 <span class="changelog-date">· 2026-05-14</span></h3>
+        <p><strong>Claude Code v2.1.141 auto-update (CBP-142–CBP-146).</strong> Five targeted updates: added <code>terminalSequence</code> hook JSON output field to the Exit Codes &amp; Decision Control section — hooks can now emit terminal escape sequences (bell, window title, desktop notification triggers) without a controlling TTY; added <code>CLAUDE_CODE_PLUGIN_PREFER_HTTPS</code> and <code>ANTHROPIC_WORKSPACE_ID</code> env vars to the Subprocess Sandboxing hardening table; updated <code>claude agents</code> Cheat Sheet row to document the <code>--cwd &lt;path&gt;</code> flag for scoping the session list to a directory; updated <code>/rewind</code> Cheat Sheet row to mention the new "Summarize up to here" Rewind menu option for targeted context compression.</p>
+      </section>
+      <section>
+        <h3>v2.57.0 <span class="changelog-date">· 2026-05-13</span></h3>
+        <p><strong>Claude Code v2.1.140 auto-update (CBP-137–CBP-138).</strong> Added <code>allowManagedHooksOnly</code> to the Notable settings.json Keys callout in Config Cascade — when <code>true</code>, only MDM/org-distributed hooks run and user-defined hooks are blocked (enterprise policy control). Added a "Default folder override warning" bullet to the Plugins collapsible — when <code>plugin.json</code> sets a key matching a default component folder (e.g. <code>"commands"</code>), that default folder is silently skipped; Claude Code v2.1.140 now warns in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>.</p>
+      </section>
+      <section>
+        <h3>v56 <span class="changelog-date">· 2026-05-12</span></h3>
+        <p><strong>Claude Code v2.1.139 auto-update (CBP-130–CBP-134).</strong> Added <code>claude agents</code> CLI subcommand to the Cheat Sheet Info &amp; account table; added <code>/goal &lt;condition&gt;</code> to the automation slash commands table; added <code>/scroll-speed</code> to configuration commands; added exec form (<code>args: string[]</code>) documentation to the Five Hook Types collapsible for shell-free direct command spawning; added <code>continueOnBlock</code> soft-block pattern to the PostToolUse Exit Codes section.</p>
+      </section>
+      <section>
+        <h3>v54 <span class="changelog-date">· 2026-05-11</span></h3>
+        <p><strong>Claude Code v2.1.138 auto-update (CBP-128–CBP-129).</strong> Added <code>settings.autoMode.hard_deny</code> to the Notable settings.json Keys callout — hard-deny rules block unconditionally regardless of user intent or allow exceptions. Added <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1</code> to the Monitoring Enterprise Configuration collapsible — re-enables the session quality survey for enterprises capturing responses through OpenTelemetry (suppressed by default when OTEL is active).</p>
+      </section>
+      <section>
+        <h3>v51 <span class="changelog-date">· 2026-05-07</span></h3>
+        <p><strong>Claude Code v2.1.132 auto-update (CBP-118–CBP-119).</strong> Added <code>CLAUDE_CODE_SESSION_ID</code> to the hooks env vars table (also injected into Bash subprocess environment); added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> to the Subprocess Sandboxing hardening env vars table for opting out of the fullscreen alternate-screen renderer.</p>
+      </section>
+      <section>
+        <h3>v50 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>HTTP Hooks &amp; Managed Web Agents section (CBP-117).</strong> Added HTTP Hooks coverage and a new Managed Web Agents section to the Claude Best Practices page.</p>
+      </section>
+      <section>
+        <h3>v49 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>QA Pod — Configuration G for test infrastructure pods (CBP-116).</strong> Added Configuration G to the Pod Compositions page covering QA pod structures and test infrastructure pod patterns.</p>
+      </section>
+      <section>
+        <h3>v48 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>Claude Code v2.1.129 deferred items (CBP-114–CBP-115).</strong> Two follow-up updates from the v2.1.129 release: <code>skillOverrides</code> setting added to the Notable <code>settings.json</code> Keys callout in Config Cascade — documents the three modes (<code>off</code>, <code>user-invocable-only</code>, <code>name-only</code>) for controlling per-skill model visibility; <code>monitors</code> frontmatter row updated to note that in plugin <code>manifest.json</code> files, <code>monitors</code> and <code>themes</code> should be declared under <code>"experimental": { ... }</code> — top-level declarations still work but trigger a <code>claude plugin validate</code> warning.</p>
+      </section>
+      <section>
+        <h3>v47 <span class="changelog-date">· 2026-05-06</span></h3>
+        <p><strong>Claude Code v2.1.129–v2.1.131 auto-update (CBP-109–CBP-113).</strong> Five targeted updates: <kbd>Ctrl+R</kbd> history picker description updated — now searches all projects by default (restored pre-2.1.124 behavior); new <kbd>Ctrl+S</kbd> shortcut row added to narrow to current project/session; <code>--plugin-url &lt;url&gt;</code> CLI flag added to the Cheat Sheet flags table and the Plugins collapsible with usage example; <code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1</code> env var documented in Subprocess Sandboxing (Homebrew/WinGet background auto-upgrade); <code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code> env var documented for terminals where synchronized output auto-detection fails; <code>/model</code> Cheat Sheet row updated to reflect that gateway model discovery is now opt-in via <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> (changed from automatic in v2.1.126–2.1.128).</p>
+      </section>
+      <section>
+        <h3>v46 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Claude Code v2.1.128 follow-up updates (CBP-107–CBP-108).</strong> Two targeted updates: <code>--channels</code> CLI flag added to the Cheat Sheet flags table — documents console (API key) authentication support and the <code>channelsEnabled: true</code> managed-settings org requirement; "Permission Allowlists &amp; <code>settings.local.json</code>" callout added to Config Cascade — explains that "Always allow" at a Bash permission prompt writes the entry to <code>.claude/settings.local.json</code> (gitignored, project-local) and cross-references <code>/less-permission-prompts</code> for bulk allowlist setup.</p>
+      </section>
+      <section>
+        <h3>v45 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Add /sandbox command guidance (CBP-105).</strong> Two targeted updates: <code>/sandbox</code> row added to Cheat Sheet configuration table covering Auto-allow mode, Regular permissions mode, macOS Seatbelt, and Linux bubblewrap + socat requirements; Subprocess Sandboxing Power Usage collapsible significantly expanded with <code>/sandbox</code> as the enablement command, sandbox modes table, full <code>settings.json</code> keys table (8 sandbox keys), and updated Use Case callout for best-practice startup configuration.</p>
+      </section>
+      <section>
+        <h3>v44 <span class="changelog-date">· 2026-05-05</span></h3>
+        <p><strong>Claude Code v2.1.128 auto-update (CBP-100–CBP-104).</strong> Five targeted updates: <code>/color</code> row updated to note that omitting the argument picks a random session color; <code>--plugin-dir</code> updated to mention <code>.zip</code> archives are accepted in addition to directories; Distributed Tracing bullet updated to clarify <code>OTEL_*</code> config vars are not inherited by subprocesses (Bash, hooks, MCP, LSP) — only <code>TRACEPARENT</code> is passed for trace context; Plugins collapsible gains a reserved-name warning that <code>workspace</code> is a reserved MCP server name (skipped with a warning if used); <code>/mcp</code> Cheat Sheet row updated to mention tool count display per server and flagging of 0-tool servers.</p>
+      </section>
+      <section>
+        <h3>v43 <span class="changelog-date">· 2026-05-04</span></h3>
+        <p><strong>Codex Best Practices parity update (CBP-098).</strong> Major refresh of the Codex page to reflect Codex CLI v0.124–v0.128 and bring it to parity with the Claude Best Practices page. Model default updated to <code>gpt-5.5</code>; new Hooks section (6 event types, TOML config syntax, exit codes, 3 recipes); new Power Usage collapsibles for Permission Profiles, Amazon Bedrock, /goal Workflows, Plugins, and Monitoring; Cheat Sheet expanded with Alt+,/Alt+. shortcuts, /goal, /plugins, /new, /side, /init, /keymap, and 7 more slash commands; Config Reference adds reasoning-effort, service-tier, and OTEL keys; <code>--full-auto</code> marked deprecated; comparison table adds Hooks and Plugins rows; security review cross-reference added to Guidelines; requirements.toml documented.</p>
+      </section>
+      <section>
+        <h3>v42 <span class="changelog-date">· 2026-05-04</span></h3>
+        <p><strong>Claude Code v2.1.121–v2.1.126 follow-up updates (CBP-094–CBP-097).</strong> Four targeted Cheat Sheet and Power Usage updates: <code>/terminal-setup</code> now mentions iTerm2 clipboard access for <code>/copy</code> (including from tmux); <code>/skills</code> row updated to note type-to-filter search in long lists; <code>ANTHROPIC_BEDROCK_SERVICE_TIER</code> env var (default/flex/priority) added to Subprocess Sandboxing env vars table; <code>/model</code> row updated to document gateway <code>/v1/models</code> endpoint discovery when <code>ANTHROPIC_BASE_URL</code> is set.</p>
+      </section>
+      <section>
+        <h3>v41 <span class="changelog-date">· 2026-05-03</span></h3>
+        <p><strong>Ctrl+L keyboard shortcut corrected (CBP-093).</strong> The Cheat Sheet keyboard shortcuts table entry for <kbd>Ctrl+L</kbd> has been corrected: v2.1.126 changed the behavior so it no longer clears the prompt input — it only forces a screen redraw, matching standard readline behavior. Description updated from "Clear prompt input" to "Force screen redraw (does not clear input)".</p>
+      </section>
+      <section>
+        <h3>v40 <span class="changelog-date">· 2026-05-02</span></h3>
+        <p><strong>Claude Code v2.1.124–v2.1.126 auto-update (CBP-090–CBP-092).</strong> Three targeted updates: <code>claude project purge [path]</code> CLI subcommand added to Cheat Sheet; <code>claude_code.skill_activated</code> (with <code>invocation_trigger</code>) and <code>claude_code.at_mention</code> OTEL events added to Monitoring table; <code>--dangerously-skip-permissions</code> description updated to reflect expanded path bypass and safety-net caveat.</p>
+      </section>
+      <section>
+        <h3>v39 <span class="changelog-date">· 2026-04-30</span></h3>
+        <p><strong>Install the Skill: git sparse-checkout replaces embedded file blocks (CBP-089).</strong> The ~1,700-line block of embedded markdown collapsibles (<code>SKILL.md</code>, <code>stack-signals.md</code>, 13 specialist files, docs, schemas) has been removed from the "Install the Skill" subsection. Replaced with a 5-line <code>git sparse-checkout</code> command pointing at the canonical source in the FSAD Playbook repo — install directly, no copy-pasting required.</p>
+      </section>
+      <section>
+        <h3>v38 <span class="changelog-date">· 2026-04-30</span></h3>
+        <p><strong>Full specialist definition files embedded in collapsibles (CBP-088).</strong> Each of the 13 "Specialist Definitions" collapsibles now ends with a "Definition file" sub-section rendering the complete specialist markdown source — YAML frontmatter stripped, HTML-escaped in a styled <code>pre/code</code> block. Readers can inspect every agent's brief, overlap boundaries, output contract, tool allowlist, and scanner integration without leaving the playbook.</p>
+      </section>
+      <section>
+        <h3>v37 <span class="changelog-date">· 2026-04-30</span></h3>
+        <p><strong>Security Review section enhanced: diagram, specialist cards, full distribution (CBP-087).</strong></p>
+        <ul>
+          <li><strong>Interaction diagram.</strong> Theme-aware inline SVG showing the full Security Review Team flow: invocation → orchestrator setup → 13 parallel specialists → consolidation → <code>REPORT.md</code> → optional <code>/sec-review-fixes</code>.</li>
+          <li><strong>Specialist definition cards.</strong> New "Specialist Definitions" subsection with one collapsible per specialist (4 baseline + 9 stack-specific), each showing scope, threat-model framing, and coverage categories.</li>
+          <li><strong>Full skill distribution.</strong> New "Install the Skill" subsection embeds the entire <code>.claude/skills/sec-review-team/</code> directory as copy-pasteable collapsible code blocks — no external install needed.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v36 <span class="changelog-date">· 2026-04-29</span></h3>
+        <p><strong>Claude Code v2.1.120–v2.1.123 auto-update (CBP-082–CBP-086).</strong> Five content updates across four releases: <code>claude ultrareview [target]</code> non-interactive CLI subcommand and PR-URL search in <code>/resume</code>; <code>${CLAUDE_EFFORT}</code> skill substitution variable; <code>"alwaysLoad": true</code> MCP option + <code>claude plugin prune</code>; PostToolUse <code>hookSpecificOutput.updatedToolOutput</code> now works for all tools.</p>
+      </section>
+      <section>
+        <h3>v35 <span class="changelog-date">· 2026-04-24</span></h3>
+        <p><strong>Claude Code v2.1.119 auto-update (CBP-076–CBP-080).</strong> Five targeted updates: <code>/config</code> now persists to <code>~/.claude/settings.json</code>; <code>prUrlTemplate</code> and <code>disableAllHooks</code> Notable Keys callout added to Config Cascade; <code>CLAUDE_CODE_HIDE_CWD=1</code> env var documented; <code>--from-pr</code> CLI flag for GitLab/Bitbucket/GHE PRs; OTEL event schema extended with <code>tool_use_id</code> and <code>tool_input_size_bytes</code>.</p>
+      </section>
+      <section>
+        <h3>v34 <span class="changelog-date">· 2026-04-23</span></h3>
+        <p><strong>sec-review-team 13-specialist library; <code>/sec-review-fixes</code> companion skill; test harness (CBP-061–CBP-075).</strong> Skill restructured into <code>specialists/</code> (13 briefs), <code>schema/</code> (JSONL), and <code>docs/</code>; roster expanded 6 → 13 specialists; 14-tool scanner pre-pass; per-specialist status heartbeat; pre-run confirmation with cost estimate; overlap pruning. <code>/sec-review-fixes</code> consumes <code>REPORT.md</code> and opens fix PRs for critical/high findings. Test harness with 3 fixture repos and a CI GitHub Action.</p>
+      </section>
+      <section>
+        <h3>v33 <span class="changelog-date">· 2026-04-23</span></h3>
+        <p><strong>Security Review validated on Opus 4.7 and packaged as a skill (CBP-060).</strong> The 6-specialist multi-agent prompt was validated end-to-end against a real Tauri v2 + React/TS + Rust + SQLite target. All specialists produced substantive findings with file:line evidence; no hallucinated CVEs. Packaged as <code>/sec-review-team</code> with trigger phrases and orchestration playbook. Playbook section updated with "Prefer the Packaged Skill" callout.</p>
+      </section>
+      <section>
+        <h3>v32 <span class="changelog-date">· 2026-04-23</span></h3>
+        <p><strong>Claude Code v2.1.118 auto-update (CBP-056–CBP-059).</strong> <code>/cost</code> and <code>/stats</code> consolidated into a unified <code>/usage</code> row (3 tabs); <code>/theme</code> now supports named custom themes in <code>~/.claude/themes/</code>; <code>mcp_tool</code> added as a fifth hook type; <code>DISABLE_UPDATES=1</code> env var documented for version-pinned enterprise deployments.</p>
+      </section>
+      <section>
+        <h3>v31 <span class="changelog-date">· 2026-04-22</span></h3>
+        <p><strong>Claude Code v2.1.117 auto-update (CBP-051–CBP-055).</strong> Default effort is now tier-dependent (Pro/Max on Opus 4.6/Sonnet 4.6 defaults to <code>high</code>, others to <code>medium</code>); <code>/model</code> selections persist across restarts; <code>/resume</code> offers to summarize stale large sessions; <code>mcpServers</code> frontmatter key documented; native Glob/Grep → <code>Bash(grep:*)</code> / <code>Bash(find:*)</code> change documented.</p>
+      </section>
+      <section>
+        <h3>v30 <span class="changelog-date">· 2026-04-21</span></h3>
+        <p><strong>Model &amp; Effort promoted to a top-level Reference section (CBP-048).</strong> Full Opus 4.7 / Sonnet 4.6 / Haiku 4.5 comparison table; <code>opusplan</code> alias and Claude Code model alias table; best-practice model combinations by workload (7 rows); Cost Optimization Checklist; Key Dates warning callout. Moved from a Power Usage collapsible to its own <code>12.5 — Model &amp; Effort</code> reference section.</p>
+      </section>
+      <section>
+        <h3>v29 <span class="changelog-date">· 2026-04-21</span></h3>
+        <p><strong>3rd-level left-nav children for every Claude Best Practices section (CBP-050).</strong> The sidebar now exposes leaf-level nav items for all collapsibles across Project Anatomy, Integrations, Building Skills, Hooks, Monitoring, and Power Usage (46 collapsibles gained stable IDs). Scroll spy highlights the active leaf; hash routing extended to 3-segment URLs (e.g. <code>#practices/power-usage/agent-teams</code>).</p>
+      </section>
+      <section>
+        <h3>v28 <span class="changelog-date">· 2026-04-21</span></h3>
+        <p><strong>Claude Code v2.1.113–v2.1.116 auto-update (CBP-049).</strong> <code>Ctrl+U</code> corrected to "Clear entire input buffer"; <code>sandbox.network.deniedDomains</code> settings key documented; <code>/terminal-setup</code> expanded for VS Code/Cursor/Windsurf scroll config; <code>/loop</code> Esc cancels pending wakeups; <code>hooks:</code> frontmatter fires via <code>--agent</code> main-thread sessions.</p>
+      </section>
+      <section>
+        <h3>v27 <span class="changelog-date">· 2026-04-17</span></h3>
+        <p><strong>Claude Code v2.1.111–v2.1.112 auto-update (CBP-046–CBP-047).</strong> <code>xhigh</code> effort level added (Opus 4.7 only, between <code>high</code> and <code>max</code>); <code>/effort</code> with no args opens an interactive slider; <code>/ultrareview [PR#]</code> added to Cheat Sheet; <code>/less-permission-prompts</code> skill added; <code>/theme auto</code> option documented.</p>
+      </section>
+      <section>
+        <h3>v26 <span class="changelog-date">· 2026-04-16</span></h3>
+        <p><strong>Claude Code v2.1.110 auto-update (CBP-040–CBP-042).</strong> <code>/tui fullscreen</code> command added; <code>Ctrl+O</code> now toggles verbose transcript only — focus view moved to a new <code>/focus</code> command; <code>/recap</code> row updated with <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0</code> opt-out for Bedrock/Vertex/Foundry deployments.</p>
+      </section>
+      <section>
+        <h3>v25 <span class="changelog-date">· 2026-04-15</span></h3>
+        <p><strong>Rename CBP prefix to generic identifiers in Workflows examples.</strong> Section IDs, nav entries, tab/panel IDs, playground filenames, and skill invocations renamed: <code>cbp-add-task</code> → <code>add-task</code>, <code>cbp-commit-changes</code> → <code>commit-changes</code>. Display text updated from <code>CBP-NNN</code> → <code>TASK-NNN</code>.</p>
+      </section>
+      <section>
+        <h3>v24 <span class="changelog-date">· 2026-04-15</span></h3>
+        <p><strong>Skill showcase with interactive playgrounds (CBP-038, CBP-039).</strong> Two new Workflows sections — <em>Inside the Add-Task Skill</em> and <em>Inside the Commit-Changes Skill</em> — each with 4 tabbed phases and an embedded playground artifact. Playgrounds let readers fill sample inputs and live-preview generated <code>todo.md</code> lines, task files, CHANGELOG entries, README rows, and commit messages.</p>
+      </section>
+      <section>
+        <h3>v23 <span class="changelog-date">· 2026-04-15</span></h3>
+        <p><strong>Claude Code v2.1.108–v2.1.109 auto-update (CBP-034–CBP-037).</strong> <code>/recap</code> added to Cheat Sheet; <code>/undo</code> consolidated as alias for <code>/rewind</code>; Prompt Caching TTL collapsible (<code>ENABLE_PROMPT_CACHING_1H</code>, <code>FORCE_PROMPT_CACHING_5M</code>) added to Power Usage; Skills "Programmatic" card updated to reflect Claude's ability to discover built-in slash commands via the Skill tool.</p>
+      </section>
+      <section>
+        <h3>v22 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>New Workflows page (CBP-033).</strong> Added a top-level <code>Workflows</code> section to the left nav between <em>Pod Compositions</em> and <em>Claude Best Practices</em>. Two example walkthroughs:</p>
+        <ul>
+          <li><em>Inside the Project Initialize-Context Skill</em> — a 4-step (Discover / Explore / Draft / Write) deep-dive into <code>/project:initialize-context</code>.</li>
+          <li><em>Inside the Project Create-Spec Skill</em> — a 4-step (Setup / Mode / Drafting / Write) deep-dive into <code>/project:create-spec</code>, featuring the brain-dump vs. guided mode fork, the guided-mode section list, and the <code>looks good / edit / redo</code> review loop.</li>
+        </ul>
+        <p>Each section uses the same tabbed phase switcher and paired detail cards. Content sourced from team reference screenshots, restyled in the playbook's existing typographic and card language rather than embedded as images. Terminology aligned to FSAD vocabulary throughout (<code>project</code> / <code>pod</code>, not <code>squad</code> / <code>legion</code> / <code>product</code>). New CSS module (<code>.wf-*</code>) and <code>switchWorkflow()</code> JS added; router, section map, and page titles updated accordingly.</p>
+      </section>
+      <section>
+        <h3>v21 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Distinctive voice (CBP-032 Phase 6 — final critique-driven phase).</strong> Introduced a recurring <code>.pullquote</code> component and deployed it three times across the FSAD page and Config Cascade section — surfacing the thesis sentences that already earned their place in the writing. Upgraded the Code Review section's two cited metrics to a small-multiples <code>.kpi-card</code> rhythm (label + figure + context + source) — no fabricated data, sparklines intentionally omitted. Extended Source Serif 4 italic to <code>.section-subtitle em</code> and <code>.hero p em</code>, carrying the hero's typographic personality into every section intro. Retires the five-pass critique-driven UX cycle; future UX work is sourced from external reviewer feedback (see <code>markdown/research/external_feedback_v21.md</code>).</p>
+      </section>
+      <section>
+        <h3>v20 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Residual polish (CBP-032 Phase 5).</strong> Ported the final ~12 decorative <code>rgba(139,92,246,…)</code> hexes across overview cards, timeline segments, config-tags, power-usage badges, and sidebar hover tints onto the desaturated indigo. Introduced <code>--font-hero</code> (Source Serif 4) on the hero h1 as a distinct typographic voice; Inter remains the body/display face. Rebalanced the Advantages section from a 2-column grid to single-column prose rhythm. Extracted KPI metric inline styles to <code>.kpi-metric--positive</code>/<code>.kpi-metric--warning</code> classes. Swept all <code>var(--accent-cyan)</code> link inline styles to <code>var(--accent-blue)</code>. Deleted orphaned <code>.hero-stat*</code> and <code>.adv-metric</code> CSS and removed <code>.adv-card</code> from JS animation observer selectors.</p>
+      </section>
+      <section>
+        <h3>v19 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>UX overhaul gap-close (CBP-032 Phase 4).</strong> Retired the Advantages card grid with its rhetorical metrics (<code>∞ / 1 / All</code>) and rotating accent colors, flattened to a prose list. Removed the <code>.adv-card::before</code> gradient top-bars. Ported the callout, hero-badge, search-hover, and table-hover tokens onto the desaturated palette. Deleted the dead <code>--nav-node-*</code>/<code>--nav-connector-*</code> token blocks. Extracted inline accent-color styles on hero badges, pod-principle bullets, and timeline headings into semantic classes or neutral defaults. Bumped the light-theme accent to <code>#5555a0</code> for better interactive readability. Scoped the <code>!important</code> off <code>.changelog-foot</code> and removed the redundant <code>prefers-reduced-motion</code> rules.</p>
+      </section>
+      <section>
+        <h3>v18 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Major UX overhaul (CBP-032).</strong> Desaturated the accent palette, removed decorative glows and gradient text, replaced fake hero metrics with thesis sentences, documented a 3-tier hierarchy + semantic color contract, converted the sidebar from node-graph pills to a docs-tree, retired the duplicate page-indicator pills row, removed dead DM Serif font import, reduced theme toggle to 2 states, made this version badge clickable, and differentiated topic-footer prev/next.</p>
+      </section>
+      <section>
+        <h3>v17 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Hub + Topic views restructure.</strong> Split the 13-section Claude Best Practices page into a Hub landing view with five topic cards plus focused topic views. Breadcrumb navigation, prev/next footer, two-level sidebar accordion, scoped scroll-spy, and hash routing for topics with legacy-link fallback.</p>
+      </section>
+      <section>
+        <h3>v16 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>External memory vaults (CBP-031).</strong> Added guidance on Obsidian / Karpathy-style markdown vaults adjacent to the existing MEMORY.md recommendations.</p>
+      </section>
+      <section>
+        <h3>v15 <span class="changelog-date">· 2026-04-14</span></h3>
+        <p><strong>Claude Code v2.1.107 auto-update (CBP-027–CBP-030).</strong> Skill description cap raised to 1,536 chars, PreCompact hook blocking documented, <code>/proactive</code> alias added, <code>monitors</code> manifest key surfaced.</p>
+      </section>
+      <p class="changelog-foot">For the complete history, see <code>CHANGELOG.md</code> in the repository.</p>
+    </div>
+  </div>
+</div>

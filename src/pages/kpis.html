@@ -1,0 +1,196 @@
+<div class="page" id="page-kpis">
+
+<div class="hero" id="kpis-hero" style="padding-bottom: 1.2rem;">
+  <div class="hero-badge">Measuring Success</div>
+  <h1>KPIs to Measure <em>Impact</em></h1>
+  <p>Key metrics to track adoption, productivity, and ROI of agentic development.</p>
+</div>
+
+<hr class="divider">
+
+<section id="fsad-metrics">
+    <span class="section-label">01 — FSAD Metrics</span>
+    <h2 class="section-title">Measuring FSAD Success</h2>
+    <p class="section-subtitle">What to measure to demonstrate the value of agentic development to your organization.</p>
+
+    <!-- Highest Priority -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Highest Priority</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Token Consumption by User</h4>
+        <p>Track per-developer AI usage to identify adoption patterns and cost centers. High consumption with high output signals effective use; high consumption with low output signals coaching opportunities.</p>
+      </div>
+      <div class="card">
+        <h4>Total Monthly Epics / Tickets</h4>
+        <p>Volume of work items completed, comparing pre- vs. post-FSAD adoption. Expect a meaningful increase as AI agents accelerate implementation cycles.</p>
+      </div>
+      <div class="card">
+        <h4>Total Monthly Story Points</h4>
+        <p>Throughput measurement for sprint-over-sprint comparison. Track velocity trends after FSAD adoption to quantify productivity gains.</p>
+      </div>
+      <div class="card">
+        <h4>Total PRs / Commits</h4>
+        <p>Development velocity indicator. AI-assisted workflows typically produce higher commit frequency with smaller, more focused changesets.</p>
+      </div>
+      <div class="card">
+        <h4>Maintenance vs. New Product Development</h4>
+        <p>Breakdown of time and code produced by maintenance vs. new product development. Measures whether AI frees engineering capacity for innovation over sustaining work.</p>
+      </div>
+      <div class="card">
+        <h4>Total $ Spend by AI Tool</h4>
+        <p>Cost tracking per tool (Claude Code, Codex, Cursor, etc.) for ROI analysis. Correlate spend against velocity and output metrics to demonstrate return on investment.</p>
+      </div>
+    </div>
+
+    <!-- Other Metrics -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Other Metrics</h3>
+    <div class="card-grid-3">
+      <div class="card">
+        <h4>AI Coding Tools WAU</h4>
+        <p>Weekly Active Users across AI coding tools. Measures adoption breadth across the engineering organization.</p>
+      </div>
+      <div class="card">
+        <h4>Lines of Code Produced</h4>
+        <p>AI-generated vs. human-written code split. Track the ratio over time to understand how AI contribution evolves.</p>
+      </div>
+      <div class="card">
+        <h4>AI Commits vs. Acceptance Rates</h4>
+        <p>How often AI-generated code is accepted vs. revised. A quality signal — high acceptance rates indicate well-configured agents and effective specs.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-best-practice" style="margin-top:2rem;">
+      <div class="callout-title">Start Small</div>
+      <p>Don't instrument everything on day one. Token consumption + story points alone can demonstrate ROI within a single sprint. Add granularity as your FSAD practice matures and leadership asks deeper questions.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<section id="process-health">
+    <span class="section-label">02 — Process Health</span>
+    <h2 class="section-title">Process Health Metrics</h2>
+    <p class="section-subtitle">Volume tells you how much work moved. Process health tells you whether it moved <em>safely</em> and <em>fast</em>. Pair a leading (speed) metric with a lagging (quality) metric for each stage of the <a href="#fsad/workflow" onclick="scrollToSection('workflow')">workflow</a> so a faster cycle time never gets read as progress on its own.</p>
+
+    <!-- Leading Indicators -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Leading Indicators <span style="font-family:var(--font-body); font-size:0.85rem; font-weight:400; color:var(--text-muted);">— process speed</span></h3>
+    <div class="card-grid-3">
+      <div class="card">
+        <h4>Spec → Plan Cycle Time</h4>
+        <p>Elapsed time from the <span class="artifact-tag">spec.md</span> commit closing <strong>Phase 2 — Live Spec Session</strong> to the <span class="artifact-tag">plan.md</span> commit closing <strong>Phase 3 — Implementation Planning</strong>. A widening gap usually means the spec left decisions unresolved that the planning agent had to stop and ask about.</p>
+      </div>
+      <div class="card">
+        <h4>Plan → Merged PR Cycle Time</h4>
+        <p>Elapsed time from plan approval at the end of <strong>Phase 3</strong> to a merged PR at the end of <strong>Phase 5 — Human Review & Ship</strong>, spanning <strong>Phase 4 — Parallel Agent Execution</strong>. This is the true "idea to production" window agentic development is meant to compress.</p>
+      </div>
+      <div class="card">
+        <h4>First-Pass CI Success Rate</h4>
+        <p>Share of agent-written changes from <strong>Phase 4 — Parallel Agent Execution</strong> that pass CI on the first run, with no human-triggered fix-up commit. A reliable proxy for spec clarity and agent-configuration health — low first-pass rates point back to Phase 2 or Phase 3, not to the agent.</p>
+      </div>
+    </div>
+
+    <!-- Lagging Indicators -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Lagging Indicators <span style="font-family:var(--font-body); font-size:0.85rem; font-weight:400; color:var(--text-muted);">— quality &amp; outcome</span></h3>
+    <div class="card-grid-3">
+      <div class="card">
+        <h4>PR Review Time</h4>
+        <p>Human review duration during <strong>Phase 5 — Human Review & Ship</strong>. If review time climbs while PR size stays flat, treat it as a signal — not noise — that reviewers are compensating for spec drift or agent overreach upstream.</p>
+      </div>
+      <div class="card">
+        <h4>Defect / Vulnerability Escape Rate</h4>
+        <p>Issues caught during <strong>Phase 5</strong> review vs. found post-merge (production incidents, security findings). A rising post-merge share means the review gate isn't catching what agentic velocity now requires it to catch.</p>
+      </div>
+      <div class="card">
+        <h4>Repeat-Incident Rate</h4>
+        <p>Share of incidents that recur in the same root-cause class within a fixed window (e.g. 90 days) despite a prior fix having shipped. High repeat rates mean the lesson learned isn't making it back into <span class="artifact-tag">spec.md</span> or <span class="artifact-tag">plan.md</span> for the next pass through the workflow.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">Pair, Don't Isolate</div>
+      <p>Never report a cycle-time win without its paired quality metric alongside it. A faster Plan → Merged PR time achieved by cutting corners in Phase 5 review will show up later as a worse defect-escape or repeat-incident rate — track both so speed gains are real, not deferred.</p>
+    </div>
+  </section>
+
+<hr class="divider">
+
+<section id="token-optimization">
+    <span class="section-label">03 — Token Optimization Strategies</span>
+    <h2 class="section-title">Engineer the Economics, Not Just the Adoption</h2>
+    <p class="section-subtitle">Adoption is no longer the open question — engineering orgs running FSAD at scale have already made agentic development the default. The next problem is system economics: how do you redesign the harness to produce more engineering output from the same, or less, machine intelligence?</p>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem;">Three Levers for Token Efficiency</h3>
+    <div class="card-grid-3">
+      <div class="card">
+        <h4>Use Less Unnecessary Intelligence</h4>
+        <p>Identify where the harness asks models to read, reason, iterate, or coordinate more than the task requires — over-agenting (multiple agents rediscovering the same problem), context that re-teaches the codebase instead of retrieving it progressively, loops that keep iterating past the point of measurable progress, and tickets sized for humans rather than agent-sized work packets.</p>
+        <p style="font-style:italic; color:var(--text-secondary); margin-top:0.75rem;">Where are we paying multiple agents to rediscover or reconsider the same problem?</p>
+      </div>
+      <div class="card">
+        <h4>Don't Use Intelligence Where Software Will Do</h4>
+        <p>Push deterministic work — compiler output, linting, dependency analysis, code search, test execution, schema validation, security scanning — outside the LLM loop. Reduce a 20,000-line build log to "12 failures → 3 root causes → 5 files" before an agent ever sees it. Tools perform computation and filtering; agents perform judgment.</p>
+        <p style="font-style:italic; color:var(--text-secondary); margin-top:0.75rem;">What are we currently paying an LLM to read, discover, or calculate that ordinary software could determine deterministically?</p>
+      </div>
+      <div class="card">
+        <h4>Buy the Right Intelligence</h4>
+        <p>Stop assuming frontier models should do most of the work. Explore a frontier-supervisor architecture — frontier intelligence decomposes and reviews, open-weight models execute bounded implementation — with escalation triggered by repeated failure, low confidence, or security risk rather than static task-type assignment.</p>
+        <p style="font-style:italic; color:var(--text-secondary); margin-top:0.75rem;">Should frontier intelligence increasingly become the escalation path rather than the default execution layer?</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Frontier vs. Open-Weight: Divide the Work</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Frontier Model</th>
+            <th>Open-Weight Model(s)</th>
+            <th>Frontier Re-engagement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Understand the problem</td><td>Execute bounded implementation tasks</td><td>Intervene when confidence drops</td></tr>
+          <tr><td>Determine architecture</td><td>Perform routine refactoring</td><td>Resolve difficult problems</td></tr>
+          <tr><td>Decompose complex work</td><td>Generate tests</td><td>Review architecture</td></tr>
+          <tr><td>Identify risks and constraints</td><td>Investigate predictable failures</td><td>Perform high-risk/final validation</td></tr>
+          <tr><td>Define acceptance criteria</td><td>Execute routine build/test/fix loops</td><td>Resolve ambiguity and exceptions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warning" style="margin-top:2rem;">
+      <div class="callout-title">Open-Weight Isn't Automatically Cheaper</div>
+      <p>The relevant comparison is not cost per million tokens — it's cost per successfully completed engineering task. Inference, infrastructure, retries, latency, engineer intervention, and quality failures all factor in. A weaker model that needs four attempts can end up costlier than a frontier model that succeeds on the first try, which is why hybrid-model experimentation matters more than a blanket cheaper-model switch.</p>
+    </div>
+
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Experiments Worth Running</h3>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Experiment</th>
+            <th>Comparison</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Agent topology</td><td>Current multi-agent harness vs. simplified adaptive harness</td></tr>
+          <tr><td>Context architecture</td><td>Current context strategy vs. progressive retrieval + aggressive compaction</td></tr>
+          <tr><td>Deterministic preprocessing</td><td>Raw information passed to agent vs. tool-generated structured summaries</td></tr>
+          <tr><td>Convergence</td><td>Current autonomous loops vs. progress-aware stopping and escalation</td></tr>
+          <tr><td>Task sizing</td><td>Current ticket structure vs. purpose-built agent work packets</td></tr>
+          <tr><td>Intelligence architecture</td><td>Frontier-only vs. open-weight-only vs. frontier supervisor + open-weight workers</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-best-practice" style="margin-top:2rem;">
+      <div class="callout-title">Portfolio Metric to Track</div>
+      <p><strong>Cost per accepted autonomous engineering change.</strong> Pair it with the <em>Total $ Spend by AI Tool</em> metric above — spend alone tells you how much you burned; this tells you how much you got for it.</p>
+    </div>
+  </section>
+
+<footer>
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>KPIs to Measure Impact — for R&D teams adopting FSAD.</p>
+</footer>
+</div><!-- end page-kpis -->

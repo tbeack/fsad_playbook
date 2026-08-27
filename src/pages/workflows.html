@@ -1,0 +1,537 @@
+<div class="page" id="page-workflows">
+
+<div class="hero" id="workflows-hero" style="padding-bottom: 1.2rem;">
+  <div class="hero-badge">Example Workflows for Teams Getting Started</div>
+  <h1>Workflows in <em>Practice</em></h1>
+  <p>Concrete, end-to-end walkthroughs of the skills and rituals an FSAD pod uses day-to-day. Start here when you want to see <em>how</em> a skill actually runs — not just what it promises.</p>
+</div>
+<hr class="divider">
+
+<section id="project-initialize-context">
+  <span class="section-label">01 — Inside the Project Initialize-Context Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/project:initialize-context</code></h2>
+  <p class="section-subtitle">This is how a project's context gets built. The skill explores your actual repos, classifies what it finds against platform defaults, and writes the docs. Click each phase.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="discover" onclick="switchWorkflow('discover')" role="tab">
+      <span class="wf-tab-label">Step 0</span>
+      <span class="wf-tab-title">Discover</span>
+    </button>
+    <button class="wf-tab" data-wf="explore" onclick="switchWorkflow('explore')" role="tab">
+      <span class="wf-tab-label">Step 1–2</span>
+      <span class="wf-tab-title">Explore</span>
+    </button>
+    <button class="wf-tab" data-wf="draft" onclick="switchWorkflow('draft')" role="tab">
+      <span class="wf-tab-label">Step 3–7</span>
+      <span class="wf-tab-title">Draft</span>
+    </button>
+    <button class="wf-tab" data-wf="write" onclick="switchWorkflow('write')" role="tab">
+      <span class="wf-tab-label">Step 8–9</span>
+      <span class="wf-tab-title">Write</span>
+    </button>
+  </div>
+
+  <!-- PHASE 0: DISCOVER -->
+  <div class="wf-panel active" id="wf-discover">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Load the hierarchy</span>
+        <h4>Skill reads the full context chain</h4>
+        <ul>
+          <li>Pick project (or auto-detect from path)</li>
+          <li>Read root <code>CLAUDE.md</code> → platform defaults</li>
+          <li>Read pod <code>CLAUDE.md</code> → shared architecture</li>
+          <li>Read project <code>CLAUDE.md</code> → current state</li>
+          <li>Assess what's populated vs. template stubs</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">The key concept: classification</span>
+        <p>Everything the skill finds gets classified against what the platform already defines:</p>
+        <div class="wf-chips">
+          <span class="wf-chip">conforms</span>
+          <span class="wf-chip">supplements</span>
+          <span class="wf-chip">overrides</span>
+        </div>
+        <p>Project docs never repeat what's in the parent docs. They only document what's specific to the project — additions and deviations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1–2: EXPLORE -->
+  <div class="wf-panel" id="wf-explore">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Option A: deep repo exploration</span>
+        <h4>Claude explores your actual code</h4>
+        <p>Give it GitHub repo names. It launches parallel subagents that read <code>package.json</code>, <code>tsconfig</code>, component directories, state management imports, test configs, CI pipelines — and returns structured findings.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">What repo exploration actually reads</span>
+        <p>Each repo gets its own subagent that reads:</p>
+<pre>package.json / *.csproj  → dependencies
+src/ structure           → component organization
+grep for @Global, Autoload, redux + UI + state
+webpack.config / vite.config → build tooling
+Dockerfile / CI.yml      → deployment
+.storybook/              → design system presence
+test configs             → testing patterns</pre>
+        <p class="wf-card-footnote">Findings are merged across repos, deduplicated, and classified as conforms / supplements / overrides.</p>
+      </div>
+      <div class="wf-card" style="grid-column: 1 / -1;">
+        <span class="wf-card-label">Option B: quick dump</span>
+        <h4>Paste anything</h4>
+        <p>Confluence pages, README excerpts, architecture notes, Slack threads. Claude structures and classifies against platform defaults.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3–7: DRAFT -->
+  <div class="wf-panel" id="wf-draft">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">What gets drafted</span>
+<pre>architecture/README.md       → full architecture doc
+design-standards/README.md   → UI patterns + conventions
+CLAUDE.md architecture section → inline summary + diagram
+CLAUDE.md design standards   → inline summary
+Product overview + tech stack → if full setup mode</pre>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Architecture README includes</span>
+        <p>System overview and design principles. ASCII service diagram (auto-generated from findings). Per-service docs with repo links and tech stack. Data flow descriptions. External-dependencies table. Infrastructure and deployments. Cross-cutting concerns — classified as conforms, supplements, or overrides. Relevant ADR references.</p>
+        <p class="wf-card-footnote">Each section: Accept / Edit / Redo — same review loop as the spec skill.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 8–9: WRITE -->
+  <div class="wf-panel" id="wf-write">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Write &amp; update</span>
+        <ul>
+          <li>Writes <code>architecture/README.md</code></li>
+          <li>Writes <code>design-standards/README.md</code></li>
+          <li>Updates <code>CLAUDE.md</code> (targeted sections only)</li>
+          <li>Preserves existing content not in scope</li>
+          <li>Verifies all files after writing</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Incremental by design</span>
+        <p>The skill detects which sections are already populated. Re-run it to update specific sections without overwriting previous work. A project's context builds up over time — each run adds to it.</p>
+        <p>Like the spec skill, it's <strong>a single markdown file</strong> in <code>.claude/commands/</code>. The entire project context initialization process — repo exploration, classification, drafting, writing — encoded in plain English.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="project-create-spec">
+  <span class="section-label">02 — Inside the Project Create-Spec Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/project:create-spec</code></h2>
+  <p class="section-subtitle">A skill is just a markdown file with instructions. Here's what this one does — click each phase to see the flow.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="spec-setup" onclick="switchWorkflow('spec-setup')" role="tab">
+      <span class="wf-tab-label">Step 0</span>
+      <span class="wf-tab-title">Setup</span>
+    </button>
+    <button class="wf-tab" data-wf="spec-mode" onclick="switchWorkflow('spec-mode')" role="tab">
+      <span class="wf-tab-label">Step 1</span>
+      <span class="wf-tab-title">Mode</span>
+    </button>
+    <button class="wf-tab" data-wf="spec-drafting" onclick="switchWorkflow('spec-drafting')" role="tab">
+      <span class="wf-tab-label">Step 2–8</span>
+      <span class="wf-tab-title">Drafting</span>
+    </button>
+    <button class="wf-tab" data-wf="spec-write" onclick="switchWorkflow('spec-write')" role="tab">
+      <span class="wf-tab-label">Step 9</span>
+      <span class="wf-tab-title">Write</span>
+    </button>
+  </div>
+
+  <!-- PHASE 0: SETUP -->
+  <div class="wf-panel active" id="wf-spec-setup">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Regular context</span>
+        <h4>The skill loads your world</h4>
+        <ul>
+          <li>Pick project</li>
+          <li>Pick pod</li>
+          <li>Read pod <code>CLAUDE.md</code></li>
+          <li>Follow context chain upward</li>
+          <li>Read 2–3 existing specs for conventions</li>
+          <li>Detect author from git config</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Why this matters</span>
+        <p>Before a single word is drafted, Claude has the full product context: architecture, services, design standards, platform fundamentals, and examples of how this pod writes specs. The skill does the context loading — the human doesn't have to.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1: MODE -->
+  <div class="wf-panel" id="wf-spec-mode">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Option A: brain dump</span>
+        <h4>Paste anything</h4>
+        <p>Meeting notes, Slack threads, Gong snippets, half-formed thoughts. Claude structures them into the spec template. You review section by section.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">The key insight</span>
+        <p>Both paths converge on the same output — a structured spec with problem framing, competitive lens, use cases, architecture context, and acceptance criteria.</p>
+        <p>The skill's job is to <strong>solicit the right inputs</strong> and <strong>load the right context</strong>. Then it hands off to Claude's plan mode for the actual writing. We built the funnel. Claude does the work.</p>
+      </div>
+      <div class="wf-card" style="grid-column: 1 / -1;">
+        <span class="wf-card-label">Option B: guided</span>
+        <h4>Step-by-step questions</h4>
+        <p>Claude walks through each section with targeted prompts. Probes for the right inputs: user analytics, customer feedback, competitive signals, success criteria.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2–8: DRAFTING -->
+  <div class="wf-panel" id="wf-spec-drafting">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Guided mode sections</span>
+<pre>Problem / Description  → what + why inputs
+Competitive Lens       → web search, pattern detection
+Use Cases              → generated from context
+Architecture           → auto-populated from CLAUDE.md
+Preconditions          → flags, roles, regions
+Acceptance Criteria    → 2–3 rounds of iteration
+Future Scope           → planned / possible / out</pre>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Each section: review loop</span>
+        <p>Every section gets presented to you with three options:</p>
+        <div class="wf-chips">
+          <span class="wf-chip">looks good</span>
+          <span class="wf-chip">edit</span>
+          <span class="wf-chip">redo</span>
+        </div>
+        <p>The skill stays in the loop until you're satisfied. Competitive lens auto-searches the web. Architecture auto-populates from the context chain. You're directing — not writing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 9: WRITE -->
+  <div class="wf-panel" id="wf-spec-write">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Write &amp; publish</span>
+        <ul>
+          <li>Assembles full spec</li>
+          <li>Writes to <code>pod/dir/specs/feature-name.md</code></li>
+          <li>Regenerates pod roadmap</li>
+          <li>Generates next steps (open PR, refine TODOs)</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Then what?</span>
+        <p>Open a PR. Start coding. The spec and code evolve together from here. When the feature ships, clean up the spec as a record of what was actually built.</p>
+        <p>The entire skill is <strong>a single markdown file</strong> in <code>.claude/commands/</code> — ~300 lines. It encodes the process in plain English. Anyone can read it, anyone can PR changes to it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="add-task-skill">
+  <span class="section-label">03 — Inside the Add-Task Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/add-task</code></h2>
+  <p class="section-subtitle">A project-specific skill that encodes this repo's task-tracking convention — sequential numbering, <code>todo.md</code> entries, and the <code>task-NNN.md</code> template. Click each phase to walk the flow.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="task-intake" onclick="switchWorkflow('task-intake')" role="tab">
+      <span class="wf-tab-label">Step 1–2</span>
+      <span class="wf-tab-title">Intake</span>
+    </button>
+    <button class="wf-tab" data-wf="task-interview" onclick="switchWorkflow('task-interview')" role="tab">
+      <span class="wf-tab-label">Step 3–4</span>
+      <span class="wf-tab-title">Interview</span>
+    </button>
+    <button class="wf-tab" data-wf="task-generate" onclick="switchWorkflow('task-generate')" role="tab">
+      <span class="wf-tab-label">Step 5</span>
+      <span class="wf-tab-title">Generate</span>
+    </button>
+    <button class="wf-tab" data-wf="task-confirm" onclick="switchWorkflow('task-confirm')" role="tab">
+      <span class="wf-tab-label">Step 6</span>
+      <span class="wf-tab-title">Confirm</span>
+    </button>
+  </div>
+
+  <!-- INTAKE -->
+  <div class="wf-panel active" id="wf-task-intake">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Read the tracker</span>
+        <h4>Find the next task number</h4>
+        <p>The skill opens <code>markdown/to do/todo.md</code>, scans every <code>TASK-###</code> already taken, and increments the highest by one. Always 3 digits with leading zeros.</p>
+        <div class="wf-chips">
+          <span class="wf-chip">TASK-037</span>
+          <span class="wf-chip">→ TASK-038</span>
+        </div>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Capture the title</span>
+        <h4>One-liner, no form</h4>
+        <p>If the user ran <code>/add-task &lt;title&gt;</code>, that becomes the title. Otherwise the skill asks once and waits — no multi-field modal, no upfront ceremony.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW -->
+  <div class="wf-panel" id="wf-task-interview">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Append the entry first</span>
+        <h4>Single-line commit to the tracker</h4>
+<pre>- [ ] `TASK-NNN` [Title] → [task-NNN.md](task-NNN.md)</pre>
+        <p class="wf-card-footnote">Inserted before any <em>Bug Details</em> section, or at the end of the list. The entry lands before any details are gathered, so the task is already real.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">One question at a time</span>
+        <h4>No form-dumps on the user</h4>
+        <p>The skill asks in sequence, and accepts <em>"use your best judgment"</em> as a valid answer at any step:</p>
+        <div class="wf-chips">
+          <span class="wf-chip">source</span>
+          <span class="wf-chip">summary</span>
+          <span class="wf-chip">assessment</span>
+          <span class="wf-chip">plan</span>
+          <span class="wf-chip">acceptance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GENERATE -->
+  <div class="wf-panel" id="wf-task-generate">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Write the task file</span>
+        <h4>Canonical template, every time</h4>
+<pre># TASK-NNN — [Task Title]
+
+## Source
+## Summary
+## Assessment
+**Location:** `[file path]`
+## Plan
+## Acceptance Criteria
+- [ ] …</pre>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Why a template matters</span>
+        <p>Section names, em-dash in the heading, checkbox-style acceptance criteria — all the small formatting decisions that would otherwise drift across contributors. The skill encodes them once so every task file reads the same.</p>
+        <p class="wf-card-footnote">Location hint (<code>**Location:**</code>) keeps implementation grounded in a real file path from day one.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM -->
+  <div class="wf-panel" id="wf-task-confirm">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Report back</span>
+        <h4>Three things, every time</h4>
+        <ul>
+          <li>The new task number</li>
+          <li>That the entry was added to <code>todo.md</code></li>
+          <li>The path to the new task file</li>
+        </ul>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">What this skill really is</span>
+        <p>Not a form. Not a tracker UI. Just a markdown file in <code>.claude/skills/</code> that encodes one contributor's tribal knowledge — numbering scheme, filename conventions, interview order, section headings — so every future session produces identical output without anyone having to remember it.</p>
+        <p>Small skill, but it's the pattern: <strong>any repeatable workflow becomes a markdown file</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEGIN: add-task playground embed (safe to remove — delete everything between BEGIN/END comments) -->
+  <div id="add-task-playground-embed" style="margin-top: 3rem;">
+    <span class="section-label" style="display:block; margin-bottom: 0.5rem;">Try it yourself</span>
+    <h3 style="font-family: var(--font-display); font-size: 1.3rem; margin: 0 0 0.5rem;">Interactive playground</h3>
+    <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
+      Fill sample task inputs on the left, watch the generated <code>todo.md</code> entry and <code>task-NNN.md</code> file update live on the right, and copy a ready-to-paste prompt that invokes the skill.
+    </p>
+    <div style="border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <object data="add-task-playground.html" type="text/html" width="100%" height="720" style="display:block; color-scheme:dark;">
+        <div style="display:flex; align-items:center; justify-content:center; height:720px; flex-direction:column; gap:0.75rem; color:var(--text-muted); font-size:0.9rem; text-align:center; padding:2rem;">
+          <span style="font-size:2rem; opacity:0.4;">&#9654;</span>
+          <span>Playground file not found</span>
+          <span style="font-size:0.8rem; opacity:0.5;">Place <code>add-task-playground.html</code> alongside this file, or <a href="add-task-playground.html" target="_blank" rel="noopener" style="color:var(--accent);">open standalone →</a></span>
+        </div>
+      </object>
+    </div>
+    <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+      Prefer a new tab? <a href="add-task-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
+    </p>
+  </div>
+  <!-- END: add-task playground embed -->
+</section>
+
+<hr class="divider">
+
+<section id="commit-changes-skill">
+  <span class="section-label">04 — Inside the Commit-Changes Skill</span>
+  <h2 class="section-title"><code style="font-family: var(--font-mono); font-size: 0.82em;">/commit-changes</code></h2>
+  <p class="section-subtitle">The counterpart to <code>/add-task</code>. When a batch of tasks is done, this skill writes the CHANGELOG entry, bumps the version, and commits — in the exact sequence that keeps the artifact coherent.</p>
+
+  <div class="wf-tabs" role="tablist">
+    <button class="wf-tab active" data-wf="commit-gather" onclick="switchWorkflow('commit-gather')" role="tab">
+      <span class="wf-tab-label">Inputs + Step 1</span>
+      <span class="wf-tab-title">Gather</span>
+    </button>
+    <button class="wf-tab" data-wf="commit-docs" onclick="switchWorkflow('commit-docs')" role="tab">
+      <span class="wf-tab-label">Step 2–4</span>
+      <span class="wf-tab-title">Update Docs</span>
+    </button>
+    <button class="wf-tab" data-wf="commit-verify" onclick="switchWorkflow('commit-verify')" role="tab">
+      <span class="wf-tab-label">Step 5</span>
+      <span class="wf-tab-title">Verify</span>
+    </button>
+    <button class="wf-tab" data-wf="commit-ship" onclick="switchWorkflow('commit-ship')" role="tab">
+      <span class="wf-tab-label">Step 6–8</span>
+      <span class="wf-tab-title">Ship</span>
+    </button>
+  </div>
+
+  <!-- GATHER -->
+  <div class="wf-panel active" id="wf-commit-gather">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Find the shipping set</span>
+        <h4>Completed, but not yet in CHANGELOG</h4>
+        <p>The skill reads <code>markdown/to do/todo.md</code> for items marked <code>[x]</code>, then cross-references <code>CHANGELOG.md</code> to filter out anything already shipped. If the set is ambiguous — multiple newly-completed tasks, only some meant to go — it asks the user before writing a single line.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Detect the next version</span>
+        <h4>Read the top of CHANGELOG</h4>
+<pre>### vN — YYYY-MM-DD
+↓
+### v(N+1) — &lt;today&gt;</pre>
+        <p class="wf-card-footnote">Explicit <code>$ARGUMENTS</code> (e.g., <code>v24</code>) override auto-increment. Today's date is pulled from context, never guessed.</p>
+      </div>
+      <div class="wf-card" style="grid-column: 1 / -1;">
+        <span class="wf-card-label">Pull per-task summaries</span>
+        <p>For each shipping task, the skill opens <code>task-NNN.md</code> and extracts the title + 1–4 concrete, past-tense bullets. If a task file is missing or opaque, it stops and asks — rather than inventing changelog prose.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPDATE DOCS -->
+  <div class="wf-panel" id="wf-commit-docs">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">CHANGELOG.md — new block</span>
+        <h4>Insert above the previous version</h4>
+<pre>### vN — YYYY-MM-DD
+
+**[Rollup line for multi-task batches]**
+
+**[Task title] (TASK-NNN)**
+- [Change bullet]
+- [Change bullet]</pre>
+        <p class="wf-card-footnote">Sub-tasks (e.g., <code>TASK-005a</code>) group under their parent. Single-task ships skip the rollup line.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">README.md + HTML title</span>
+        <h4>Two surgical edits</h4>
+<pre>| Current version | v(N+1) |
+| Date updated    | YYYY-MM-DD |</pre>
+        <p>And the <code>&lt;title&gt;</code> tag in <code>fsad-playbook.html</code> — but <strong>only</strong> the live-version occurrences. Historical <code>vN</code> references in the playbook's own changelog section stay untouched.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERIFY -->
+  <div class="wf-panel" id="wf-commit-verify">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Sanity-check the diff</span>
+        <h4>Before anything is staged</h4>
+<pre>git status
+git diff --stat</pre>
+        <div class="wf-chips">
+          <span class="wf-chip">CHANGELOG top renders clean</span>
+          <span class="wf-chip">README version matches</span>
+          <span class="wf-chip">no stray edits</span>
+        </div>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Why verify before committing</span>
+        <p>The playbook is shared with engineering teams. A silent typo in the changelog or a version mismatch between README and HTML title ships to every reader and erodes trust in the artifact. The skill stops on any inconsistency instead of powering through.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHIP -->
+  <div class="wf-panel" id="wf-commit-ship">
+    <div class="wf-grid">
+      <div class="wf-card">
+        <span class="wf-card-label">Scoped stage — never <code>-A</code></span>
+        <h4>Only files the skill intentionally changed</h4>
+<pre>git add CHANGELOG.md README.md \
+        fsad-playbook.html \
+        "markdown/to do/todo.md" \
+        "markdown/to do/task-NNN.md"</pre>
+        <p class="wf-card-footnote"><code>markdown/</code> often contains WIP notes. Using <code>git add -A</code> would catch them by accident.</p>
+      </div>
+      <div class="wf-card">
+        <span class="wf-card-label">Commit, push, report</span>
+        <h4>Match the project's message style</h4>
+<pre>vN: &lt;rollup&gt; (TASK-NNN, TASK-NNN)
+
+- TASK-NNN: &lt;terse bullet&gt;
+- TASK-NNN: &lt;terse bullet&gt;</pre>
+        <p>Then <code>git push</code>. If it's non-fast-forward, auth-fail, or hook-blocked — the skill stops and reports. No force-push, ever. Final message to the user: version shipped, tasks included, short SHA, push status.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEGIN: commit-changes playground embed (safe to remove — delete everything between BEGIN/END comments) -->
+  <div id="commit-changes-playground-embed" style="margin-top: 3rem;">
+    <span class="section-label" style="display:block; margin-bottom: 0.5rem;">Try it yourself</span>
+    <h3 style="font-family: var(--font-display); font-size: 1.3rem; margin: 0 0 0.5rem;">Interactive playground</h3>
+    <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 720px;">
+      Build a batch of shipping tasks on the left, watch the generated <code>CHANGELOG.md</code> block, <code>README.md</code> version rows, commit message, and shell commands update live on the right.
+    </p>
+    <div style="border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0b0b10;">
+      <object data="commit-changes-playground.html" type="text/html" width="100%" height="720" style="display:block; color-scheme:dark;">
+        <div style="display:flex; align-items:center; justify-content:center; height:720px; flex-direction:column; gap:0.75rem; color:var(--text-muted); font-size:0.9rem; text-align:center; padding:2rem;">
+          <span style="font-size:2rem; opacity:0.4;">&#9654;</span>
+          <span>Playground file not found</span>
+          <span style="font-size:0.8rem; opacity:0.5;">Place <code>commit-changes-playground.html</code> alongside this file, or <a href="commit-changes-playground.html" target="_blank" rel="noopener" style="color:var(--accent);">open standalone →</a></span>
+        </div>
+      </object>
+    </div>
+    <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+      Prefer a new tab? <a href="commit-changes-playground.html" target="_blank" rel="noopener">Open the playground standalone →</a>
+    </p>
+  </div>
+  <!-- END: commit-changes playground embed -->
+</section>
+
+<hr class="divider">
+
+<section style="text-align: center; max-width: 660px; margin: 0 auto;">
+  <span class="section-label">Why these examples</span>
+  <h2 class="section-title" style="margin-bottom: 1rem;">Four markdown files.<br><em>The connective tissue of a working pod.</em></h2>
+  <p style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 300; line-height: 1.8;">Each skill is a concrete answer to <em>"what does agentic work actually look like?"</em> — not frameworks, not diagrams. Just English instructions in a file, run by a pod: one builds the context every future agent inherits, one turns raw intent into a reviewable spec, one captures the rituals of adding new work, one ships the batch coherently. The rituals compound.</p>
+</section>
+
+<footer>
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>Workflows — example skills and rituals for FSAD pods.</p>
+</footer>
+</div><!-- end page-workflows -->
