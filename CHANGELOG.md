@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.0 — 2026-08-27
+
+**Modular source refactor — Option E (CBP-478)**
+
+The playbook's source of truth moved from the 30 MB monolithic `fsad-playbook.html` to a modular `src/` tree, assembled by the new `scripts/build-source.py`. No content or behavior changed — the assembled playbook was byte-identical to v3.3.3 at the point of migration (verified against frozen sha256 baselines at every phase, plus a full 17-point behavior sweep across all 10 pages on both the working copy and the dist artifact).
+
+- **CBP-478 — Decompose the monolith into `src/`.** Template (`src/playbook.tmpl.html`) + 10 page partials (`src/pages/`) + changelog modal partial + 16 JS fragments (`src/js/`) + extracted CSS (`src/styles.css`) + vendored MiniSearch (`src/vendor/`) + 16 PNG diagram assets decoded from base64 (`src/assets/`, re-inlined at build time via `@asset()`). The root `fsad-playbook.html` is now a gitignored generated intermediate with a divergence guard; `dist/fsad-playbook.html` remains the committed, self-contained artifact. The daily auto-updater (local `/cbp-update` skill, `playbook-updater` agent, and the cloud routine) was migrated to edit `src/` and run both build steps, with an abort guard for branches that predate the migration. Merged via PR #196. (Task originally filed as CBP-472; renumbered after the auto-updater reused that ID in PR #197.)
+
 ### v3.3.4 — 2026-08-27
 
 **Claude Code v2.1.247 auto-update (CBP-472 through CBP-477)**
