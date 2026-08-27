@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v3.3.4 — 2026-08-27
+
+**Claude Code v2.1.247 auto-update (CBP-472 through CBP-477)**
+
+Six documentation updates covering a new feedback tool, spinner tip customization, Claude API skill additions, cross-session messaging, sub-agent reliability, and context management in Claude Code v2.1.247.
+
+- **CBP-472 — [Claude] `/feedback` command, `SendFeedback` tool, and `feedbackDrafts` setting.** Claude Code v2.1.247 added the `SendFeedback` tool: when something goes wrong in a session, Claude can draft a feedback report for the user to review and send from `/feedback`. The behavior can be turned off with the `feedbackDrafts` setting.
+- **CBP-473 — [Claude] Document `spinnerTipsOverride`.** Claude Code v2.1.247 added `{id, text, cooldownSessions, priority}` entries, a `tipsFile`, and a `label` field to `spinnerTipsOverride`, so organizations can rotate their own spinner tips alongside the built-in ones.
+- **CBP-474 — [Claude] `/claude-api cost-optimize` + Admin API coverage.** Claude Code v2.1.247 added `/claude-api cost-optimize` to profile a project's Claude API spend and work through cost levers one measured change at a time, and updated the `/claude-api` skill with Admin API coverage (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK).
+- **CBP-475 — [Claude] Cross-session peer messages collapse to a one-line preview.** As of v2.1.247, cross-session peer messages collapse by default to a one-line `Message from @<sender>: <first line>` preview; Ctrl+O expands the full body.
+- **CBP-476 — [Claude] Sub-agents use the session's fallback model chain on a first-call 404.** Claude Code v2.1.247 fixed sub-agents dying on a first-call model 404: they now use the session's fallback model chain, and the error returned to the parent includes the error type, status, request id, and model.
+- **CBP-477 — [Claude] Sonnet 5's auto-compact window widened to its full 1M context.** As of v2.1.247, Sonnet 5's default auto-compact window uses its full 1M context, so sessions on the 1M window now auto-compact at about 967K tokens instead of about 934K.
+
 ### v3.3.3 — 2026-08-26
 
 **Fix Security Review section alignment on the Skills Library page (CBP-471)**

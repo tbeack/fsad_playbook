@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v3.3.4 <span class="changelog-date">· 2026-08-27</span></h3>
+        <p><strong>Claude Code v2.1.247 auto-update.</strong> Six documentation updates covering a new feedback tool, spinner tip customization, Claude API skill additions, cross-session messaging, sub-agent reliability, and context management.</p>
+        <ul>
+          <li><strong>CBP-472 — [Claude] <code>/feedback</code> command, <code>SendFeedback</code> tool, and <code>feedbackDrafts</code> setting.</strong> Claude Code v2.1.247 added the <code>SendFeedback</code> tool: when something goes wrong in a session, Claude can draft a feedback report for the user to review and send from <code>/feedback</code>. The behavior can be turned off with the <code>feedbackDrafts</code> setting.</li>
+          <li><strong>CBP-473 — [Claude] Document <code>spinnerTipsOverride</code>.</strong> Claude Code v2.1.247 added <code>{id, text, cooldownSessions, priority}</code> entries, a <code>tipsFile</code>, and a <code>label</code> field to <code>spinnerTipsOverride</code>, so organizations can rotate their own spinner tips alongside the built-in ones.</li>
+          <li><strong>CBP-474 — [Claude] <code>/claude-api cost-optimize</code> + Admin API coverage.</strong> Claude Code v2.1.247 added <code>/claude-api cost-optimize</code> to profile a project's Claude API spend and work through cost levers one measured change at a time, and updated the <code>/claude-api</code> skill with Admin API coverage (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK).</li>
+          <li><strong>CBP-475 — [Claude] Cross-session peer messages collapse to a one-line preview.</strong> As of v2.1.247, cross-session peer messages collapse by default to a one-line <code>Message from @&lt;sender&gt;: &lt;first line&gt;</code> preview; Ctrl+O expands the full body.</li>
+          <li><strong>CBP-476 — [Claude] Sub-agents use the session's fallback model chain on a first-call 404.</strong> Claude Code v2.1.247 fixed sub-agents dying on a first-call model 404: they now use the session's fallback model chain, and the error returned to the parent includes the error type, status, request id, and model.</li>
+          <li><strong>CBP-477 — [Claude] Sonnet 5's auto-compact window widened to its full 1M context.</strong> As of v2.1.247, Sonnet 5's default auto-compact window uses its full 1M context, so sessions on the 1M window now auto-compact at about 967K tokens instead of about 934K.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v3.3.3 <span class="changelog-date">· 2026-08-26</span></h3>
         <p><strong>CBP-471 — [Claude] Fix Security Review section alignment on the Skills Library page.</strong> <code>#security-review</code> was rendering as a direct child of <code>&lt;body&gt;</code> instead of nested inside <code>#page-skills</code>, so it didn't get the page's centered layout — a div-nesting bug (stray extra closing tags left behind after a specialist collapsible was added to Code Review Team), not a CSS issue. Removed the stray tags; the section now shares the same parent, width, and centered alignment as Code Review Team.</p>
       </section>
