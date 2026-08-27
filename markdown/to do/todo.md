@@ -485,3 +485,8 @@
 - [x] `CBP-476` [Claude] Extend `fallbackModel` bullet — sub-agents use fallback chain on first-call 404 (v2.1.247) → [task-cbp-476.md](completed/task-cbp-476.md)
 - [x] `CBP-477` [Claude] Extend Context Management bullets — Sonnet 5 auto-compact window widened to full 1M context (v2.1.247) → [task-cbp-477.md](completed/task-cbp-477.md)
 - [x] `CBP-478` — Refactor `fsad-playbook.html` into a modular `src/` architecture (Option E) with zero change to externally observable behavior — planned, executed (7 phases, byte-identical), merged via PR #196. Originally filed as CBP-472; renumbered after the auto-updater reused that ID in PR #197. → [task-cbp-478.md](completed/task-cbp-478.md)
+- [x] `CBP-479` [Codex] Document `@` task mentions and terminal task tools (read/create/message tasks) (rust-v0.150.0) → [task-cbp-479.md](completed/task-cbp-479.md)
+- [x] `CBP-480` [Codex] Update `/copy` row (response target picker) and add `/rename` row + automatic descriptive thread titles (rust-v0.150.0) → [task-cbp-480.md](completed/task-cbp-480.md)
+- [x] `CBP-481` [Codex] Document permission-mode-cycling keybindings and Vim dot-repeat (rust-v0.150.0) → [task-cbp-481.md](completed/task-cbp-481.md)
+- [x] `CBP-482` [Codex] Add `Interrupt` hook event — hooks table row + event counts 8 → 9 (rust-v0.150.0) → [task-cbp-482.md](completed/task-cbp-482.md)
+- [x] `CBP-483` [Codex] Untrusted projects no longer load project-level AGENTS.md — trust paragraph + hierarchy note (rust-v0.150.0) → [task-cbp-483.md](completed/task-cbp-483.md)

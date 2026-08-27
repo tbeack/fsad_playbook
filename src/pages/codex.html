@@ -40,7 +40,7 @@
           <tr><td>IDE extensions</td><td>VS Code</td><td>VS Code, Cursor, Devin Desktop</td></tr>
           <tr><td>Skills directory</td><td><code>.claude/skills/</code></td><td><code>.agents/skills/</code></td></tr>
           <tr><td>Multi-agent</td><td>Subagents (Task tool)</td><td>Agent threads (<code>max_threads</code> config)</td></tr>
-          <tr><td>Hooks</td><td>27 event types (SessionStart, PreToolUse, MessageDisplay, Stop…)</td><td>8 event types (SessionStart, UserPromptSubmit, PreToolUse, PermissionRequest, PostToolUse, Stop, PreCompact, PostCompact)</td></tr>
+          <tr><td>Hooks</td><td>27 event types (SessionStart, PreToolUse, MessageDisplay, Stop…)</td><td>9 event types (SessionStart, UserPromptSubmit, PreToolUse, PermissionRequest, PostToolUse, Stop, Interrupt, PreCompact, PostCompact)</td></tr>
           <tr><td>Plugin marketplace</td><td><code>claude plugin install</code></td><td><code>codex plugin install</code> / <code>/plugins</code> TUI</td></tr>
           <tr><td>Permission model</td><td>Per-tool allow/deny + 5 approval modes</td><td>Named permission profiles with filesystem + network policies</td></tr>
         </tbody>
@@ -197,7 +197,7 @@ orders, and payments.
         </div>
         <div class="callout callout-tip" style="margin-bottom:0;">
           <div class="callout-title">Tip</div>
-          <p>Codex merges AGENTS.md from 4 levels: <code>~/.codex/AGENTS.override.md</code> (highest) → <code>~/.codex/AGENTS.md</code> → repo root → current directory. Max 32 KiB by default. For hooks and tool policies, the equivalent cascade runs through <code>config.toml</code> — add a <code>requirements.toml</code> at system/org level to enforce constraints users cannot override.</p>
+          <p>Codex merges AGENTS.md from 4 levels: <code>~/.codex/AGENTS.override.md</code> (highest) → <code>~/.codex/AGENTS.md</code> → repo root → current directory. Max 32 KiB by default. The repo-root and sub-directory levels only load in <strong>trusted</strong> projects — as of rust-v0.150.0, an untrusted project supplies no project-level AGENTS.md instructions. For hooks and tool policies, the equivalent cascade runs through <code>config.toml</code> — add a <code>requirements.toml</code> at system/org level to enforce constraints users cannot override.</p>
         </div>
       </div></div>
     </div>
@@ -762,7 +762,7 @@ Guided deployment to staging and production environments.
     <!-- Project Trust -->
     <div class="callout callout-tip" style="margin-top:2rem;">
       <div class="callout-title">Project Trust &amp; Managed Auth</div>
-      <p>As of rust-v0.147.0, Codex requires <strong>explicit trust</strong> before running in an unfamiliar local project — you'll be prompted to confirm the first time Codex operates in a new directory, similar to how project-scoped MCP servers and hooks already only load in trusted projects. Managed authentication restrictions are also enforced <em>before</em> credentials are used, not after, closing a window where an untrusted project could exercise credentials prior to the trust check completing.</p>
+      <p>As of rust-v0.147.0, Codex requires <strong>explicit trust</strong> before running in an unfamiliar local project — you'll be prompted to confirm the first time Codex operates in a new directory, similar to how project-scoped MCP servers and hooks already only load in trusted projects. Managed authentication restrictions are also enforced <em>before</em> credentials are used, not after, closing a window where an untrusted project could exercise credentials prior to the trust check completing. As of rust-v0.150.0, untrusted projects no longer supply project-level <code>AGENTS.md</code> instructions at all — until you trust the directory, only your global <code>~/.codex/AGENTS.md</code> layers apply, closing a prompt-injection path from unfamiliar repos.</p>
     </div>
 
     <!-- Security Review cross-reference -->
@@ -799,6 +799,7 @@ Guided deployment to staging and production environments.
           <tr><td><code>PermissionRequest</code></td><td>When Codex seeks approval (shell escalation, network)</td><td>Yes — allow / deny</td><td><code>PermissionRequest</code></td></tr>
           <tr><td><code>PostToolUse</code></td><td>After tool completes (including failed runs)</td><td>Yes (exit 2 — replaces output)</td><td><code>PostToolUse</code></td></tr>
           <tr><td><code>Stop</code></td><td>When a turn completes</td><td>Yes — can request continuation</td><td><code>Stop</code></td></tr>
+          <tr><td><code>Interrupt</code></td><td>When an active top-level turn is interrupted (e.g. you cancel mid-turn); can run commands or MCP handlers (rust-v0.150.0)</td><td>No — the turn is already stopping</td><td>— (no direct equivalent)</td></tr>
           <tr><td><code>PreCompact</code></td><td>Before context compaction runs</td><td>Yes (exit 2 blocks compaction)</td><td><code>PreCompact</code></td></tr>
           <tr><td><code>PostCompact</code></td><td>After context compaction completes</td><td>No</td><td><code>PostCompact</code></td></tr>
         </tbody>
@@ -935,7 +936,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
 
     <div class="callout callout-tip" style="margin-top:1.5rem;">
       <div class="callout-title">Claude Code Comparison</div>
-      <p>Codex has 8 hook event types; Claude Code has more (26 total events including SubagentStart, TaskCreated, FileChanged, PreCompact, etc.). Both use the same input-via-stdin / exit-code pattern. If you're migrating hook scripts, the core logic is portable — only the event names and JSON shape differ slightly.</p>
+      <p>Codex has 9 hook event types; Claude Code has more (26 total events including SubagentStart, TaskCreated, FileChanged, PreCompact, etc.). Both use the same input-via-stdin / exit-code pattern. If you're migrating hook scripts, the core logic is portable — only the event names and JSON shape differ slightly.</p>
     </div>
   </section>
 
@@ -958,7 +959,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><kbd>Ctrl+L</kbd></td><td>Clear screen</td></tr>
           <tr><td><kbd>Ctrl+G</kbd></td><td>Open external editor for longer prompts</td></tr>
           <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Edit previous user message (keep pressing to walk back)</td></tr>
-          <tr><td><kbd>Tab</kbd> / <code>@</code></td><td>Unified context picker — type <code>@</code> to search files, directories, plugins, and skills in one picker (backed by app-server plugin metadata). Added in v0.131.0.</td></tr>
+          <tr><td><kbd>Tab</kbd> / <code>@</code></td><td>Unified context picker — type <code>@</code> to search files, directories, plugins, and skills in one picker (backed by app-server plugin metadata). Added in v0.131.0. As of rust-v0.150.0 you can also <code>@</code>-mention other Codex tasks to reference them in your prompt.</td></tr>
           <tr><td><kbd>&#8593;</kbd> / <kbd>&#8595;</kbd></td><td>Navigate draft history in composer</td></tr>
           <tr><td><kbd>Alt+,</kbd></td><td>Lower reasoning level for current model</td></tr>
           <tr><td><kbd>Alt+.</kbd></td><td>Raise reasoning level for current model</td></tr>
@@ -996,11 +997,12 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>/init</code></td><td>Generate an AGENTS.md scaffold for the current project</td></tr>
           <tr><td><code>/import</code></td><td>Migrate settings, MCP servers, plugins, sessions, commands, and project-scoped memories from <strong>Cursor</strong> or <strong>Claude Code</strong>. Selectively import any combination for full cross-tool migration. (v0.140.0, expanded v0.145.0) As of rust-v0.147.0, also imports Cursor-managed skills, and re-running the import synchronizes changes to previously-imported Claude/Cursor conversations without creating duplicates.</td></tr>
           <tr><td><code>/vim</code></td><td>Toggle Vim modal editing in the composer. Set <code>vim_mode = true</code> in <code>config.toml</code> to enable by default.</td></tr>
-          <tr><td><code>/keymap</code> <code>[debug]</code></td><td>Remap TUI keyboard shortcuts interactively. Use <code>/keymap debug</code> to inspect raw terminal key events — helpful when Vim mode or chord bindings don't register.</td></tr>
+          <tr><td><code>/keymap</code> <code>[debug]</code></td><td>Remap TUI keyboard shortcuts interactively. As of rust-v0.150.0 you can bind shortcuts to cycle through permission modes. Use <code>/keymap debug</code> to inspect raw terminal key events — helpful when Vim mode or chord bindings don't register.</td></tr>
           <tr><td><code>/statusline</code></td><td>Configure footer status items — including the estimated thread credits/cost item for eligible workspaces (rust-v0.148.0)</td></tr>
           <tr><td><code>/hooks</code></td><td>Browse and toggle configured hooks from the TUI without editing config files</td></tr>
           <tr><td><code>/personality</code></td><td>Set agent personality (friendly / pragmatic / none)</td></tr>
-          <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>)</td></tr>
+          <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>). As of rust-v0.150.0, opens a picker so you can copy the full response, an individual code block, or a blockquote.</td></tr>
+          <tr><td><code>/rename</code></td><td>Rename the current thread — suggests an editable title based on the conversation. Unnamed terminal tasks also receive descriptive titles automatically. (rust-v0.150.0)</td></tr>
           <tr><td><code>/export</code></td><td>Export the complete conversation as Markdown — copy it to the clipboard or write it to a new file (rust-v0.148.0)</td></tr>
           <tr><td><code>/status</code></td><td>Show session config and token usage metrics. For eligible workspaces, also shows estimated thread credits or cost — the same estimate surfaced in status lines and terminal titles (rust-v0.148.0)</td></tr>
           <tr><td><code>/usage</code></td><td>View daily, weekly, and cumulative account token activity. Redeem earned usage-limit reset credits directly from this view. (v0.140.0)</td></tr>
@@ -1167,7 +1169,7 @@ vim_mode = true
 <span class="cm"># Or toggle mid-session</span>
 /vim</code></pre>
         </div>
-        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection), plus expanded change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (<code>r&lt;char&gt;</code>) (rust-v0.149.0). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
+        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection), plus expanded change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (<code>r&lt;char&gt;</code>) (rust-v0.149.0), and dot-repeat (<code>.</code>) to repeat your last edit (rust-v0.150.0). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use <code>/keymap debug</code> to inspect what key events your terminal is sending — helpful when certain Vim chords don't register correctly.</p>
       </div></div>
     </div>
@@ -1180,7 +1182,7 @@ vim_mode = true
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
         <p>Codex saves sessions automatically. Resume previous work without re-explaining context. The redesigned resume/fork picker lets you select, resume, or fork any saved session in a single UI — no need to know the session ID upfront. Renamed threads appear as <code>name (thread-id)</code> in resume hints for easy identification, and you can paste text directly into the picker search box to filter sessions. Sessions can also be archived (<code>/archive</code> or <code>codex archive</code>) to protect them from accidental resume or fork — restore any time with <code>codex unarchive</code>. For permanent removal, use <code>/delete</code> or <code>codex delete</code> (confirms before deleting and cleans up subagent threads). (v0.136.0–v0.140.0)</p>
-        <p style="margin-top:0.75rem;">As of rust-v0.146.0, you can <strong>pin</strong> important threads from the picker for quick access, open side conversations alongside your main thread, and switch between them without closing either. Forked threads now include paginated parent history and support <strong>temporary forks</strong> that don't appear in thread listings — ideal for exploratory side work. As of rust-v0.147.0, you can organize threads into <strong>persistent, manually ordered sections</strong> in the picker, and browse long transcripts <strong>incrementally</strong> instead of loading the full history at once. As of rust-v0.148.0, archiving and restoring moved into the picker itself — archive or restore a session without dropping out to <code>codex archive</code> / <code>codex unarchive</code>. You can also start drafting your prompt while the TUI is still initializing, with resume and fork progress shown during startup, and resumed sessions now restore their persisted <strong>working directory</strong> and <strong>approval policy</strong> rather than inheriting whatever the current shell happens to be using. As of rust-v0.149.0, <code>codex queue</code> sends a message to an existing local or remote session without switching into it; queued messages now reliably wake idle sessions, resolve duplicate session names more usefully, and preserve pasted or deferred command semantics.</p>
+        <p style="margin-top:0.75rem;">As of rust-v0.146.0, you can <strong>pin</strong> important threads from the picker for quick access, open side conversations alongside your main thread, and switch between them without closing either. Forked threads now include paginated parent history and support <strong>temporary forks</strong> that don't appear in thread listings — ideal for exploratory side work. As of rust-v0.147.0, you can organize threads into <strong>persistent, manually ordered sections</strong> in the picker, and browse long transcripts <strong>incrementally</strong> instead of loading the full history at once. As of rust-v0.148.0, archiving and restoring moved into the picker itself — archive or restore a session without dropping out to <code>codex archive</code> / <code>codex unarchive</code>. You can also start drafting your prompt while the TUI is still initializing, with resume and fork progress shown during startup, and resumed sessions now restore their persisted <strong>working directory</strong> and <strong>approval policy</strong> rather than inheriting whatever the current shell happens to be using. As of rust-v0.149.0, <code>codex queue</code> sends a message to an existing local or remote session without switching into it; queued messages now reliably wake idle sessions, resolve duplicate session names more usefully, and preserve pasted or deferred command semantics. As of rust-v0.150.0, tasks are first-class in the composer: <code>@</code>-mention another Codex task to reference it in your prompt, and ask the agent to <strong>read, create, or message tasks</strong> directly from the terminal via its new task-management tools.</p>
         <div class="code-block" style="margin-top:1rem;">
           <pre><code><span class="cm"># Show session picker (redesigned resume/fork picker in v0.129.0)</span>
 codex resume
