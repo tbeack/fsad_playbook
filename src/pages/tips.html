@@ -1,0 +1,168 @@
+<div class="page" id="page-tips">
+
+<div class="hero" id="tips-hero" style="padding-bottom: 1.2rem;">
+  <div class="hero-badge">Practical Reference for Daily Claude Code Use</div>
+  <h1>Practical <em>Best Practices</em></h1>
+  <p>Concrete habits and mental models that keep sessions efficient, outputs focused, and token budgets healthy — drawn from real usage patterns across FSAD pods.</p>
+</div>
+<hr class="divider">
+
+<section id="token-limits">
+  <span class="section-label">01 — Token Management</span>
+  <h2 class="section-title">5 Habits to Never Hit Your Token Limits</h2>
+  <p class="section-subtitle">Every new Claude Code turn re-sends your full conversation history as input tokens. Context accumulates — so later turns grow more expensive and model accuracy starts to degrade well before you hit the limit. These habits slow that growth.</p>
+
+  <!-- Row 1: habits 1–3 -->
+  <div class="tips-habit-grid">
+    <div class="tips-habit-card">
+      <div class="tips-habit-num">1</div>
+      <h4>Compact at 50%</h4>
+      <p>Run <code>/compact</code> when your context reaches ~50% full — accuracy and consistency start degrading around the halfway mark, not at the limit. Compacting early eliminates old tool outputs, summarises decisions already made, and reduces the history re-sent on every new turn.</p>
+    </div>
+    <div class="tips-habit-card">
+      <div class="tips-habit-num">2</div>
+      <h4>Name the Exact File</h4>
+      <p>Reference the specific file, not the directory. A targeted single-file read is orders of magnitude cheaper than recursive folder exploration — and gives the model only what it actually needs, not everything that happens to be nearby.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">✓ src/auth/handler.ts</span>
+        <span class="wf-chip">✗ src/auth/</span>
+      </div>
+    </div>
+    <div class="tips-habit-card">
+      <div class="tips-habit-num">3</div>
+      <h4>Order Matters</h4>
+      <p>After a compact, old messages cost more to carry than new ones. Re-state the file you need immediately after compacting so Claude doesn't have to re-read it from the summarised history. Name the resource first; ask the question second.</p>
+    </div>
+  </div>
+
+  <!-- Row 2: habits 4–5 -->
+  <div class="tips-habit-grid row-2">
+    <div class="tips-habit-card">
+      <div class="tips-habit-num">4</div>
+      <h4>Plan Before You Build</h4>
+      <p>Ask for a plan first, review it, then ask for the implementation. A single planning round costs a fraction of a failed multi-step implementation. One focused task per session beats five interleaved ones.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">research → plan → implement</span>
+      </div>
+    </div>
+    <div class="tips-habit-card">
+      <div class="tips-habit-num">5</div>
+      <h4>End Each Task with /compact</h4>
+      <p>Before switching to a new task in the same session, run <code>/compact</code> to summarise and discard the completed work's context. Carry-over messages from a finished task inflate the window for the next one — even if that context is no longer relevant.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">compact between tasks</span>
+        <span class="wf-chip">one job per context</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="effort-levels">
+  <span class="section-label">02 — Effort Calibration</span>
+  <h2 class="section-title">Match Effort to the Task</h2>
+  <p class="section-subtitle">Claude Code's effort setting controls how deeply it reasons before responding. Over-efforting simple tasks wastes tokens; under-efforting complex ones produces shallow work.</p>
+
+  <div class="tips-effort-bar">
+    <div class="tips-effort-level">
+      <div class="tips-effort-label">low / medium</div>
+      <p>Quick asks, formatting, simple refactors, and boilerplate. Use when the task requires no sustained reasoning chain.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">rename a variable</span>
+        <span class="wf-chip">format JSON</span>
+        <span class="wf-chip">add a comment</span>
+      </div>
+    </div>
+    <div class="tips-effort-level default">
+      <div class="tips-effort-label">high</div>
+      <span class="tips-effort-default-badge">default on Opus</span>
+      <p>Real coding, debugging, and refactoring. The right setting for most daily FSAD work — deep enough to reason about dependencies without burning tokens on simpler tasks.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">feature implementation</span>
+        <span class="wf-chip">bug fix</span>
+        <span class="wf-chip">refactor</span>
+      </div>
+    </div>
+    <div class="tips-effort-level">
+      <div class="tips-effort-label">xhigh / max</div>
+      <p>Complex architectures, hard cross-cutting bugs, and novel problems with no clear prior. Reserve for tasks where the cost of a shallow answer is high.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">system design</span>
+        <span class="wf-chip">security audit</span>
+        <span class="wf-chip">hard debugging</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-card" style="max-width: 680px;">
+    <span class="wf-card-label">Quick reference</span>
+    <h4>Effort commands</h4>
+    <pre>/effort low       # exploration, quick questions
+/effort medium    # default on Sonnet; most lightweight tasks
+/effort high      # default on Opus; standard daily FSAD work
+/effort xhigh     # deep reasoning, slower output
+/effort max       # maximum reasoning budget</pre>
+    <p class="wf-card-footnote">Effort persists for the session. Reset it explicitly when switching task types — e.g. drop back to <code>/effort medium</code> after a hard debugging session to avoid over-spending on a simple rename.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="session-patterns">
+  <span class="section-label">03 — Session Hygiene</span>
+  <h2 class="section-title">Set Once, Forget</h2>
+  <p class="section-subtitle">Things you should configure once so you never have to repeat them in a prompt. Every repetition is a token cost and a cognitive tax.</p>
+
+  <div class="wf-grid">
+    <div class="wf-card">
+      <span class="wf-card-label">Pattern 1</span>
+      <h4>Write a CLAUDE.md</h4>
+      <p>Any behavior you find yourself re-stating each session belongs in <code>CLAUDE.md</code>. The model loads it at the start of every session — you never have to say it again.</p>
+      <pre>## Constraints
+- Never add comments explaining what the code does.
+- Always run the build script before committing.
+- Use TypeScript strict mode; no `any`.
+- Ask before running destructive git commands.</pre>
+      <p class="wf-card-footnote">Scope it to the project: repo-level <code>CLAUDE.md</code> for project conventions, <code>~/.claude/CLAUDE.md</code> for personal habits that apply everywhere. Nested <code>CLAUDE.md</code> files in subdirectories load on-demand when Claude works in that directory.</p>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">Pattern 2</span>
+      <h4>Problem First, Code Second</h4>
+      <p>Always describe the problem before asking for code. "Here's what's broken and why it matters" is cheaper than three rounds of rejected implementations because the model guessed wrong about the goal.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">✓ explain the problem</span>
+        <span class="wf-chip">✓ share the constraint</span>
+        <span class="wf-chip">✗ jump straight to "write me..."</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">Pattern 3</span>
+      <h4>Right Tool for the Depth</h4>
+      <p>Don't use dynamic workflows (<code>ultracode</code>) for anything a single focused session can do. Spawning 20 agents to rename a variable costs 20× and delivers the same answer. Reserve multi-agent orchestration for genuinely parallelisable work.</p>
+      <div class="wf-chips">
+        <span class="wf-chip">single-agent default</span>
+        <span class="wf-chip">multi-agent for parallel scope</span>
+      </div>
+    </div>
+    <div class="wf-card">
+      <span class="wf-card-label">Pattern 4</span>
+      <h4>Use Hooks for Repeating Checks</h4>
+      <p>If you always want something checked before or after a tool call (e.g. lint after every file write, confirm before destructive git commands), encode it as a hook — not a prompt instruction that silently disappears after <code>/compact</code>.</p>
+      <pre>"hooks": {
+  "PostToolUse": [{
+    "matcher": "Write",
+    "hooks": [{"type": "command",
+      "command": "npm run lint"}]
+  }]
+}</pre>
+      <p class="wf-card-footnote">Hooks are shell commands wired to lifecycle events — they fire regardless of what's in context. Instruction files (<code>CLAUDE.md</code>, <code>.claude/rules/</code>) are re-injected after <code>/compact</code> automatically. Conversational instructions you gave mid-session are not — they get summarised away.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>Practical Best Practices — habits, effort calibration, and session hygiene for FSAD pods.</p>
+</footer>
+</div><!-- end page-tips -->

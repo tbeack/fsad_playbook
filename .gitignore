@@ -43,3 +43,9 @@ docs/
 !skills/sec-review-team/docs/consolidation-template.md
 !skills/sec-review-team/docs/tradeoffs.md
 !skills/sec-review-team/docs/scanner-coverage.md
+
+# Generated intermediate — assembled from src/ by scripts/build-source.py (D-01); edit src/*, not this file
+/fsad-playbook.html
+
+# Python bytecode from build scripts
+scripts/__pycache__/

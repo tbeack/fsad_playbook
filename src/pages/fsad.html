@@ -1,0 +1,250 @@
+<div class="page active" id="page-fsad">
+
+<div class="hero" id="fsad-hero">
+  <div class="hero-badge">Methodology for R&D Teams</div>
+  <h1>Full Stack <em>Agentic</em> Development</h1>
+  <p>A spec-driven, agentic-first methodology where small cross-functional pods use markdown as a common language to direct teams of AI agents — collapsing cycle times from weeks to hours.</p>
+</div>
+<hr class="divider">
+
+<section id="overview">
+  <span class="section-label">01 — What is FSAD</span>
+  <h2 class="section-title">The Paradigm Shift</h2>
+  <p class="section-subtitle">FSAD replaces the traditional handoff-heavy SDLC with a tight feedback loop where humans define <em>what</em> and <em>why</em> in markdown — and AI agents handle the <em>how</em>.</p>
+  <div class="overview-grid">
+    <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(245,158,11,0.12);">🎯</div><h3>Spec-Driven, Not Code-Driven</h3><p>The specification — written in markdown — is the primary artifact. It's a living document that evolves in real-time during collaborative sessions. Code is a compilation target, not the source of truth.</p></div>
+    <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(111,111,181,0.12);">🤝</div><h3>Cross-Functional Pods</h3><p>Small teams of 2–4 (PM + UX + Engineer, or PM + 2 Engineers) sit together — physically or virtually — and co-author the spec in real-time. No handoffs. No waiting for the next sprint.</p></div>
+    <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(59,130,246,0.12);">📝</div><h3>Markdown as Common Language</h3><p>Markdown is lightweight, version-controlled, diff-friendly, and — critically — the native instruction format for AI agents. Every role can read and write it. It bridges the gap between human intent and machine execution.</p></div>
+    <div class="overview-card"><div class="card-icon" aria-hidden="true" style="background: rgba(16,185,129,0.12);">🤖</div><h3>Agent-Delegated Execution</h3><p>Once the spec is validated, teams of AI agents — running in parallel via tools like Claude Code, Codex, or Gemini CLI — implement the code. The human role shifts from writing code to reviewing, steering, and verifying agent output.</p></div>
+  </div>
+
+  <blockquote class="pullquote">
+    Models forget. Hooks don't.
+    <span class="pullquote-attribution">The Hooks principle — see Claude Best Practices › Hooks</span>
+  </blockquote>
+</section>
+<hr class="divider">
+
+<section id="workflow">
+  <span class="section-label">02 — The FSAD Workflow</span>
+  <h2 class="section-title">From Intent to Deployed Feature</h2>
+  <p class="section-subtitle">A five-phase loop designed for speed, clarity, and human oversight. Each phase has a clear checkpoint — you don't advance until the current phase is validated.</p>
+  <div class="workflow-container">
+    <div class="workflow-phases">
+      <div class="workflow-phase active" data-phase="0" onclick="showPhase(0)"><div class="phase-number">Phase 1</div><div class="phase-title">Intent & Discovery</div><div class="phase-who"><span class="role-pm">PM</span><span class="role-ux">UX</span></div><div class="phase-output">→ problem.md</div></div>
+      <div class="workflow-phase" data-phase="1" onclick="showPhase(1)"><div class="phase-number">Phase 2</div><div class="phase-title">Live Spec Session</div><div class="phase-who"><span class="role-pm">PM</span><span class="role-ux">UX</span><span class="role-eng">Eng</span></div><div class="phase-output">→ spec.md</div></div>
+      <div class="workflow-phase" data-phase="2" onclick="showPhase(2)"><div class="phase-number">Phase 3</div><div class="phase-title">Implementation Planning</div><div class="phase-who"><span class="role-eng">Eng</span><span class="role-agent">Agent</span></div><div class="phase-output">→ plan.md + tasks/</div></div>
+      <div class="workflow-phase" data-phase="3" onclick="showPhase(3)"><div class="phase-number">Phase 4</div><div class="phase-title">Agent Execution</div><div class="phase-who"><span class="role-agent">Agent</span><span class="role-agent">Agent</span><span class="role-agent">Agent</span></div><div class="phase-output">→ code + tests</div></div>
+      <div class="workflow-phase" data-phase="4" onclick="showPhase(4)"><div class="phase-number">Phase 5</div><div class="phase-title">Human Review & Ship</div><div class="phase-who"><span class="role-eng">Eng</span><span class="role-ux">UX</span><span class="role-pm">PM</span></div><div class="phase-output">→ deploy</div></div>
+    </div>
+    <div class="workflow-detail visible" id="detail-0"><h4>Phase 1 — Intent & Discovery</h4><p>The PM and UX designer define the problem space and user outcomes. They collaborate — often with an AI research assistant — to surface user needs, competitive landscape, and constraints. The output is a concise problem statement in markdown that frames <em>what</em> we're solving and <em>for whom</em>. No solutions yet.</p><div class="detail-artifacts"><span class="artifact-tag">problem.md</span><span class="artifact-tag">user-stories.md</span><span class="artifact-tag">constraints.md</span></div></div>
+    <div class="workflow-detail" id="detail-1"><h4>Phase 2 — Live Spec Session</h4><p>The entire pod convenes in a real-time collaborative session. The PM contributes business requirements, UX contributes interaction patterns and design decisions, and the Engineer contributes technical feasibility and architecture. They co-author the spec in markdown together — design decisions are embedded inline, not deferred to a separate Figma-to-Jira handoff. This is where FSAD breaks the handoff chain.</p><div class="detail-artifacts"><span class="artifact-tag">spec.md</span><span class="artifact-tag">design-decisions.md</span><span class="artifact-tag">AGENTS.md</span></div></div>
+    <div class="workflow-detail" id="detail-2"><h4>Phase 3 — Implementation Planning & Task Decomposition</h4><p>The Engineer feeds the spec to an AI agent in "plan mode" (read-only). The agent analyzes the codebase, generates an implementation plan, and decomposes work into discrete, parallelizable tasks. The human reviews the plan against the spec — catching hallucinations, missed edge cases, and architectural misalignment before any code is written.</p><div class="detail-artifacts"><span class="artifact-tag">plan.md</span><span class="artifact-tag">tasks/*.md</span><span class="artifact-tag">test-plan.md</span></div></div>
+    <div class="workflow-detail" id="detail-3"><h4>Phase 4 — Parallel Agent Execution</h4><p>Multiple AI agents execute tasks simultaneously in isolated git worktrees. Each agent works against the spec as its source of truth. A Coordinator agent (or human) routes tasks, and a Verifier agent checks each output against the spec's acceptance criteria. The engineer monitors, steers, and intervenes only when agents get stuck or drift.</p><div class="detail-artifacts"><span class="artifact-tag">src/**</span><span class="artifact-tag">tests/**</span><span class="artifact-tag">agent-logs/</span></div></div>
+    <div class="workflow-detail" id="detail-4"><h4>Phase 5 — Human Review & Ship</h4><p>The full pod reviews the implementation. The Engineer checks code quality, architecture adherence, and test coverage. UX validates the interface against design decisions in the spec. The PM validates against user stories and acceptance criteria. Reviews focus on spec compliance, not syntax — because agents produce consistent code from living specs. Then ship.</p><div class="detail-artifacts"><span class="artifact-tag">PR review</span><span class="artifact-tag">spec-diff.md</span><span class="artifact-tag">deploy</span></div></div>
+  </div>
+
+  <blockquote class="pullquote">
+    Spec-driven, not code-driven. Structure is permanent; prompting is temporary.
+    <span class="pullquote-attribution">The FSAD thesis</span>
+  </blockquote>
+</section>
+<hr class="divider">
+
+<section id="pod">
+  <span class="section-label">03 — The FSAD Pod</span>
+  <h2 class="section-title">Small Teams, Shared Context</h2>
+  <div class="pod-visual">
+    <div class="fsad-pod-img-wrap">
+      <img class="fsad-pod-diagram fsad-pod-diagram-dark" src="@asset(fsad-pod-diagram-dark.png)" alt="FSAD Operating Model – dark">
+      <img class="fsad-pod-diagram fsad-pod-diagram-light" src="@asset(fsad-pod-diagram-light.png)" alt="FSAD Operating Model – light">
+    </div>
+    <div class="pod-description">
+      <h3>The Markdown is the Meeting</h3>
+      <p>In FSAD, the spec.md file replaces most of the ceremony of traditional development — the Jira tickets, the Figma handoffs, the sprint planning debates, the slack threads asking "what did we decide?"</p>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>PM</strong> contributes user intent, business constraints, success metrics, and acceptance criteria directly into the spec.</p></div>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>UX Designer</strong> contributes interaction patterns, component decisions, layout descriptions, and accessibility requirements — inline, not as a separate Figma file.</p></div>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>Engineer</strong> contributes technical constraints, data models, API contracts, and architecture decisions — and validates feasibility in real-time.</p></div>
+      <div class="pod-principle"><div class="bullet"></div><p><strong>AI Agents</strong> consume the spec and execute implementation in parallel — the "workforce" that the pod directs.</p></div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<section id="markdown">
+  <span class="section-label">04 — The Markdown Layer</span>
+  <h2 class="section-title">Why Markdown Changes Everything</h2>
+  <p class="section-subtitle">Markdown has evolved from passive documentation into an active instruction layer that governs AI behavior. It's the universal interface between human intent and agent execution.</p>
+  <div class="markdown-showcase">
+    <div class="md-example">
+      <div class="md-example-header"><div class="dot" style="background: var(--accent-amber);"></div>spec.md — The Shared Source of Truth</div>
+      <pre><span class="hd"># Feature: Notification Preferences</span>
+
+<span class="hd">## User Story</span>
+<span class="val">As a mobile user, I want per-channel
+notification controls so I can reduce
+noise without missing critical alerts.</span>
+
+<span class="hd">## UX Decisions</span>
+<span class="kw">- Toggle pattern:</span> iOS-style switches
+<span class="kw">- Grouping:</span> By channel (push, email, SMS)
+<span class="kw">- Default state:</span> All enabled on signup
+<span class="kw">- Quiet hours:</span> Time-range picker
+<span class="cm">  &lt;!-- UX: reviewed with accessibility team --&gt;</span>
+
+<span class="hd">## Technical Spec</span>
+<span class="kw">- Data model:</span> preferences JSONB column
+<span class="kw">- API:</span> PATCH /users/:id/preferences
+<span class="kw">- Validation:</span> At least 1 channel active
+<span class="kw">- Performance:</span> &lt; 200ms p95 response</pre>
+    </div>
+    <div class="md-example">
+      <div class="md-example-header"><div class="dot" style="background: var(--accent-cyan);"></div>AGENTS.md — Instructions for Agent Execution</div>
+      <pre><span class="hd"># Project: NotifyPro</span>
+
+<span class="hd">## Architecture</span>
+<span class="val">Monorepo. React frontend, Node API,
+PostgreSQL. Follow existing patterns.</span>
+
+<span class="hd">## Conventions</span>
+<span class="kw">- Components:</span> functional + hooks only
+<span class="kw">- Styling:</span> Tailwind utility classes
+<span class="kw">- State:</span> Zustand for client state
+<span class="kw">- Tests:</span> Vitest. Min 80% coverage.
+
+<span class="hd">## Guardrails</span>
+<span class="kw">- Never modify</span> auth or billing modules
+<span class="kw">- Run</span> <span class="val">`pnpm lint && pnpm test`</span> before
+  committing any change
+<span class="kw">- Each task</span> = one atomic commit
+<span class="cm">  # Agent reads this on every session</span></pre>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<section id="comparison">
+  <span class="section-label">05 — FSAD vs. Traditional Agile/Scrum</span>
+  <h2 class="section-title">Two Worlds Compared</h2>
+  <p class="section-subtitle">FSAD doesn't reject Agile values — it fulfills them by removing the ceremony that slowed teams down.</p>
+  <div class="timeline-compare">
+    <div class="timeline-row">
+      <h4 class="timeline-heading timeline-heading--traditional">Traditional Agile/Scrum — Feature Delivery</h4>
+      <div class="timeline-bar-container">
+        <div class="timeline-segment" style="flex: 2; background: rgba(245,158,11,0.25); color: var(--accent-amber);">Sprint Planning</div>
+        <div class="timeline-segment" style="flex: 1.5; background: rgba(111,111,181,0.25); color: var(--accent-violet);">Design</div>
+        <div class="timeline-segment" style="flex: 1; background: rgba(111,111,181,0.15); color: var(--accent-violet);">Handoff</div>
+        <div class="timeline-segment" style="flex: 3; background: rgba(16,185,129,0.25); color: var(--accent-emerald);">Development</div>
+        <div class="timeline-segment" style="flex: 1.5; background: rgba(59,130,246,0.25); color: var(--accent-blue);">QA</div>
+        <div class="timeline-segment" style="flex: 1; background: rgba(244,63,94,0.25); color: var(--accent-rose);">Deploy</div>
+      </div>
+      <div class="timeline-legend">
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(245,158,11,0.4);"></div> Planning</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(111,111,181,0.4);"></div> Design & Handoff</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(16,185,129,0.4);"></div> Development</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(59,130,246,0.4);"></div> QA</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(244,63,94,0.4);"></div> Deploy</div>
+      </div>
+      <div class="timeline-duration">Typical: 2–4 weeks per feature</div>
+    </div>
+    <div class="timeline-row">
+      <h4 class="timeline-heading timeline-heading--fsad">FSAD — Feature Delivery</h4>
+      <div class="timeline-bar-container">
+        <div class="timeline-segment" style="flex: 3; background: linear-gradient(90deg, rgba(245,158,11,0.25), rgba(111,111,181,0.25), rgba(16,185,129,0.25)); color: var(--text-primary);">Live Spec Session (Pod)</div>
+        <div class="timeline-segment" style="flex: 1; background: rgba(59,130,246,0.3); color: var(--accent-blue);">Plan</div>
+        <div class="timeline-segment" style="flex: 2; background: rgba(59,130,246,0.5); color: white;">Agent Execution ∥</div>
+        <div class="timeline-segment" style="flex: 1.5; background: rgba(16,185,129,0.3); color: var(--accent-emerald);">Review & Ship</div>
+      </div>
+      <div class="timeline-legend">
+        <div class="legend-item"><div class="legend-dot" style="background: linear-gradient(90deg, rgba(245,158,11,0.5), rgba(16,185,129,0.5));"></div> Collaborative Spec (PM+UX+Eng)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(59,130,246,0.5);"></div> Agent Plan + Parallel Execution</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(16,185,129,0.4);"></div> Human Review</div>
+      </div>
+      <div class="timeline-duration">Typical: 1–3 days per feature</div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap" style="margin-top: 2.5rem;">
+    <table class="comparison-table">
+      <thead><tr><th>Dimension</th><th>Traditional Agile / Scrum</th><th>FSAD</th></tr></thead>
+      <tbody>
+        <tr><td>Source of Truth</td><td>Jira tickets, Confluence docs, Figma files — scattered across tools. Often outdated or conflicting.</td><td>A single spec.md in the repo. Version-controlled, diff-friendly, always current.</td></tr>
+        <tr><td>Team Structure</td><td>Separate PM, design, and engineering functions. Handoffs between roles. Scrum team of 5–9.</td><td>Cross-functional pod of 2–4. PM, UX, and Engineer co-author the spec in the same session.</td></tr>
+        <tr><td>Planning Cadence</td><td>Sprint planning every 2 weeks. Backlog grooming. Story point estimation. Daily standups.</td><td>Continuous flow. Features specced, planned, and executed in hours to days. No sprint boundaries.</td></tr>
+        <tr><td>Design Process</td><td>UX creates mockups in Figma → handoff → engineers interpret → back-and-forth.</td><td>UX writes design decisions directly into the spec. Agents consume them as instructions.</td></tr>
+        <tr><td>Code Generation</td><td>Engineers manually write all code. Speed limited by human throughput.</td><td>AI agents generate code from spec in parallel. Engineers review and verify.</td></tr>
+        <tr><td>Cycle Time</td><td>2–4 week sprints. Features may span multiple sprints.</td><td>Hours to days. Spec-to-deployment loop measured in hours.</td></tr>
+        <tr><td>Knowledge Retention</td><td>Decisions live in Slack threads, meeting notes, people's heads.</td><td>Every decision captured in markdown files committed to the repo.</td></tr>
+        <tr><td>Quality Assurance</td><td>Separate QA phase. Manual + automated tests written by engineers.</td><td>Tests generated alongside code from spec acceptance criteria. QA is embedded.</td></tr>
+        <tr><td>Role of Engineers</td><td>Primary code authors. Value = lines of code, story points.</td><td>Architects, spec authors, agent orchestrators. Value = outcomes shipped.</td></tr>
+        <tr><td>Scalability</td><td>Adding people adds communication overhead (Brooks's Law).</td><td>Scaling = adding more agents, not more people. Pod of 3 directs N agents.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<hr class="divider">
+
+<section id="advantages">
+  <span class="section-label">06 — Why FSAD Wins</span>
+  <h2 class="section-title">The Advantages</h2>
+  <div class="adv-list">
+    <div class="adv-item"><h3>Cycle Time Compression</h3><p>Eliminating handoffs and delegating implementation to parallel agents compresses 2–4 week sprints into 1–3 days.</p></div>
+    <div class="adv-item"><h3>No Handoff Latency</h3><p>No more Figma → Jira → Slack → Code chain. Design decisions reach code without translation loss.</p></div>
+    <div class="adv-item"><h3>Parallel Execution</h3><p>Multiple agents in isolated worktrees implement different parts of the spec simultaneously.</p></div>
+    <div class="adv-item"><h3>Single Source of Truth</h3><p><code>spec.md</code> replaces the constellation of Jira, Confluence, Figma, Slack threads, and meeting notes.</p></div>
+    <div class="adv-item"><h3>Knowledge Compound</h3><p>Better specs produce better agent output, which produces cleaner codebases, which produces even better agent output. A virtuous cycle.</p></div>
+    <div class="adv-item"><h3>Democratized Contribution</h3><p>PMs and designers contribute directly to the artifact that drives implementation. No code required.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<section id="tradeoffs">
+  <span class="section-label">07 — Honest Tradeoffs</span>
+  <h2 class="section-title">Strengths & Challenges</h2>
+  <h3 style="font-family: var(--font-display); font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.8rem; color: var(--accent-cyan);">FSAD</h3>
+  <div class="proscons">
+    <div class="proscons-col pro"><h3>✦ Strengths</h3>
+      <div class="proscons-item"><strong>Radical Cycle Time Reduction</strong>Compresses spec-to-ship from weeks to days via agent parallelism.</div>
+      <div class="proscons-item"><strong>Eliminates Interpretation Drift</strong>The spec humans validate is the same artifact agents read.</div>
+      <div class="proscons-item"><strong>Scales Without Headcount</strong>A 3-person pod outputs at the rate of a 10–15 person traditional team.</div>
+      <div class="proscons-item"><strong>Built-in Institutional Knowledge</strong>Specs and decision logs live in the repo. Onboarding = reading markdown.</div>
+      <div class="proscons-item"><strong>Higher-Quality First Drafts</strong>Agent-generated code from structured specs is more consistent than code under sprint pressure.</div>
+    </div>
+    <div class="proscons-col con"><h3>✦ Challenges</h3>
+      <div class="proscons-item"><strong>High Spec Quality Bar</strong>Garbage in, garbage out. Vague specs produce hallucinated code.</div>
+      <div class="proscons-item"><strong>Non-Deterministic Agents</strong>Agents can ignore, duplicate, or over-interpret specs. Human review is critical.</div>
+      <div class="proscons-item"><strong>Cultural Shift Required</strong>Engineers shift to orchestration; PMs and designers must learn structured markdown.</div>
+      <div class="proscons-item"><strong>Tooling Is Maturing</strong>The ecosystem evolves rapidly. Teams must stay current.</div>
+      <div class="proscons-item"><strong>Not for All Problems</strong>Novel research and deeply creative work still require human coding.</div>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--font-display); font-size: 1.2rem; margin-top: 2.5rem; margin-bottom: 0.8rem; color: var(--accent-amber);">Traditional Agile/Scrum</h3>
+  <div class="proscons">
+    <div class="proscons-col pro"><h3>✦ Strengths</h3>
+      <div class="proscons-item"><strong>Battle-Tested</strong>Decades of refinement. Clear roles, ceremonies, massive training ecosystem.</div>
+      <div class="proscons-item"><strong>Predictable Cadence</strong>Sprint rhythm gives stakeholders reliable forecasting.</div>
+      <div class="proscons-item"><strong>Human Craftsmanship</strong>Engineers deeply understand code they write. No black-box risk.</div>
+      <div class="proscons-item"><strong>No AI Dependency</strong>Works without AI tooling, model quality, or spec-writing discipline.</div>
+    </div>
+    <div class="proscons-col con"><h3>✦ Challenges</h3>
+      <div class="proscons-item"><strong>Handoff Overhead</strong>PM → Design → Engineering chain introduces latency and lost context.</div>
+      <div class="proscons-item"><strong>Ceremony Overhead</strong>Planning, grooming, standups, retros consume hours without producing value.</div>
+      <div class="proscons-item"><strong>Brooks's Law</strong>Adding engineers adds communication overhead. Doesn't scale linearly.</div>
+      <div class="proscons-item"><strong>Knowledge Trapped in People</strong>Context leaves when team members leave.</div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<section id="closing-fsad" style="text-align: center; max-width: 660px;">
+  <span class="section-label">The Bottom Line</span>
+  <h2 class="section-title" style="margin-bottom: 1.2rem;">FSAD is not post-Agile.<br>It's <em>Agile fulfilled.</em></h2>
+  <p style="color: var(--text-secondary); font-size: 1rem; font-weight: 300; line-height: 1.8;">The Agile Manifesto valued "individuals and interactions over processes and tools" and "working software over comprehensive documentation." FSAD delivers on both — by making the spec a live interaction between individuals, and by compiling that spec into working software through AI agents in hours, not weeks.</p>
+</section>
+
+<footer>
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>A methodology for R&D teams building with AI agents.</p>
+</footer>
+</div><!-- end page-fsad -->

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSAD — Full Stack Agentic Development (v3.3.3)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+<!-- @include src/styles.css -->
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- MOBILE TOGGLE -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+
+<!-- ═══════════════════════════════════════
+     LEFT SIDEBAR
+     ═══════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v3.3.3</a></span>
+    <span class="sidebar-tagline">Methodology Guide</span>
+    <button class="swn-trigger" id="swnTrigger" onclick="switchPage('whats-new')" style="display:none">
+      <span class="swn-trigger-dot"></span>
+      What's new this week
+      <span class="swn-trigger-badge" id="swnTriggerBadge"></span>
+    </button>
+    <div class="sidebar-search">
+      <div class="sidebar-search-input-wrap">
+        <span class="sidebar-search-icon" aria-hidden="true">🔍</span>
+        <input type="search" class="sidebar-search-input" id="sidebarSearchInput" placeholder="Search…" autocomplete="off" spellcheck="false" oninput="handleSidebarSearch(this.value)" onfocus="handleSidebarSearch(this.value)">
+        <span class="sidebar-search-kbd">/</span>
+      </div>
+      <div class="sidebar-search-popover" id="sidebarSearchPopover" role="listbox"></div>
+      <div id="semanticSearchStatus"></div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <!-- GROUP 1: FSAD -->
+    <div class="nav-group">
+      <button class="nav-group-toggle active expanded" onclick="navigateTo('fsad', this)" data-page="fsad">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Full Stack Agentic Development
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items open" data-group="fsad">
+        <a class="nav-sub-item active" href="#fsad/fsad-hero" onclick="scrollToSection('fsad-hero')">Overview</a>
+        <a class="nav-sub-item" href="#fsad/overview" onclick="scrollToSection('overview')">The Paradigm Shift</a>
+        <a class="nav-sub-item" href="#fsad/workflow" onclick="scrollToSection('workflow')">Workflow</a>
+        <a class="nav-sub-item" href="#fsad/pod" onclick="scrollToSection('pod')">The Pod</a>
+        <a class="nav-sub-item" href="#fsad/markdown" onclick="scrollToSection('markdown')">Markdown Layer</a>
+        <a class="nav-sub-item" href="#fsad/comparison" onclick="scrollToSection('comparison')">FSAD vs. Agile</a>
+        <a class="nav-sub-item" href="#fsad/advantages" onclick="scrollToSection('advantages')">Advantages</a>
+        <a class="nav-sub-item" href="#fsad/tradeoffs" onclick="scrollToSection('tradeoffs')">Tradeoffs</a>
+      </div>
+    </div>
+
+    <!-- GROUP 2: Pod Compositions -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('pods', this)" data-page="pods">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Pod Compositions
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="pods">
+        <a class="nav-sub-item" href="#pods/pods-hero" onclick="scrollToSection('pods-hero')">Overview</a>
+        <a class="nav-sub-item" href="#pods/pod-explorer" onclick="scrollToSection('pod-explorer')">Pod Explorer</a>
+        <a class="nav-sub-item" href="#pods/sizing" onclick="scrollToSection('sizing')">Selection Matrix</a>
+        <a class="nav-sub-item" href="#pods/antipatterns" onclick="scrollToSection('antipatterns')">Anti-Patterns</a>
+      </div>
+    </div>
+
+    <!-- GROUP 3: Workflows -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('workflows', this)" data-page="workflows">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Workflows
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="workflows">
+        <a class="nav-sub-item" href="#workflows/workflows-hero" onclick="scrollToSection('workflows-hero')">Overview</a>
+        <a class="nav-sub-item" href="#workflows/project-initialize-context" onclick="scrollToSection('project-initialize-context')">Project Initialize-Context</a>
+        <a class="nav-sub-item" href="#workflows/project-create-spec" onclick="scrollToSection('project-create-spec')">Project Create-Spec</a>
+        <a class="nav-sub-item" href="#workflows/add-task-skill" onclick="scrollToSection('add-task-skill')">Add-Task</a>
+        <a class="nav-sub-item" href="#workflows/commit-changes-skill" onclick="scrollToSection('commit-changes-skill')">Commit-Changes</a>
+      </div>
+    </div>
+
+    <!-- GROUP 3.7: Practical Best Practices -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('tips', this)" data-page="tips">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Practical Best Practices
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="tips">
+        <a class="nav-sub-item" href="#tips/tips-hero" onclick="scrollToSection('tips-hero')">Overview</a>
+        <a class="nav-sub-item" href="#tips/token-limits" onclick="scrollToSection('token-limits')">Token Limits</a>
+        <a class="nav-sub-item" href="#tips/effort-levels" onclick="scrollToSection('effort-levels')">Effort Levels</a>
+        <a class="nav-sub-item" href="#tips/session-patterns" onclick="scrollToSection('session-patterns')">Session Patterns</a>
+      </div>
+    </div>
+
+    <!-- GROUP 3.5: Skills Library -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('skills', this)" data-page="skills">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Skills Library
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="skills">
+        <a class="nav-sub-item" href="#skills/skills-library" onclick="scrollToSection('skills-library')">Overview</a>
+        <a class="nav-sub-item" href="#skills/skills-definitions" onclick="scrollToSection('skills-definitions')">Definitions</a>
+        <a class="nav-sub-item" href="#skills/code-review-team" onclick="scrollToSection('code-review-team')">Code Review</a>
+        <a class="nav-sub-item" href="#skills/security-review" onclick="scrollToSection('security-review')">Security Review</a>
+      </div>
+    </div>
+
+    <!-- GROUP 4: Claude Best Practices -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('practices', this)" data-page="practices">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Claude Best Practices
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="practices">
+        <a class="nav-sub-item" href="#practices" onclick="event.preventDefault(); showTopic('hub')">Hub</a>
+        <button type="button" class="nav-topic-header" data-topic="foundations" onclick="toggleTopicNav(this, 'foundations')">Foundations<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="foundations">
+          <a class="nav-sub-item" href="#practices/getting-started" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('getting-started'),120)">Getting Started</a>
+          <div class="nav-sub-item-wrap" data-section="claude-setup">
+            <a class="nav-sub-item" href="#practices/claude-setup" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('claude-setup'),120)">Project Anatomy</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-1-claude-md" data-leaf="claude-setup--pillar-1-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-1-claude-md', 'foundations')">Pillar 1 — CLAUDE.md</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/example-claude-md" data-leaf="claude-setup--example-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--example-claude-md', 'foundations')">Example CLAUDE.md</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-2-skills" data-leaf="claude-setup--pillar-2-skills" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-2-skills', 'foundations')">Pillar 2 — Skills</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-3-hooks" data-leaf="claude-setup--pillar-3-hooks" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-3-hooks', 'foundations')">Pillar 3 — Hooks</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-4-docs" data-leaf="claude-setup--pillar-4-docs" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-4-docs', 'foundations')">Pillar 4 — docs/</a>
+              <a class="nav-leaf-item" href="#practices/claude-setup/pillar-5-local-claude-md" data-leaf="claude-setup--pillar-5-local-claude-md" onclick="event.preventDefault(); openAndScrollToLeaf('claude-setup--pillar-5-local-claude-md', 'foundations')">Pillar 5 — Local CLAUDE.md</a>
+            </div>
+          </div>
+          <a class="nav-sub-item" href="#practices/config-cascade" onclick="event.preventDefault(); showTopic('foundations'); setTimeout(()=>scrollToId('config-cascade'),120)">Config Cascade</a>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="integrations" onclick="toggleTopicNav(this, 'integrations')">Integrations &amp; Review<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="integrations">
+          <div class="nav-sub-item-wrap" data-section="integrations">
+            <a class="nav-sub-item" href="#practices/integrations" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('integrations'),120)">Integrations (MCP)</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/integrations/jira-mcp" data-leaf="integrations--jira-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--jira-mcp', 'integrations')">JIRA</a>
+              <a class="nav-leaf-item" href="#practices/integrations/figma-mcp" data-leaf="integrations--figma-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--figma-mcp', 'integrations')">Figma</a>
+              <a class="nav-leaf-item" href="#practices/integrations/notion-mcp" data-leaf="integrations--notion-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--notion-mcp', 'integrations')">Notion</a>
+              <a class="nav-leaf-item" href="#practices/integrations/azure-devops-mcp" data-leaf="integrations--azure-devops-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--azure-devops-mcp', 'integrations')">Azure DevOps</a>
+              <a class="nav-leaf-item" href="#practices/integrations/google-workspace-mcp" data-leaf="integrations--google-workspace-mcp" onclick="event.preventDefault(); openAndScrollToLeaf('integrations--google-workspace-mcp', 'integrations')">Google Workspace</a>
+            </div>
+          </div>
+          <a class="nav-sub-item" href="#practices/code-review" onclick="event.preventDefault(); showTopic('integrations'); setTimeout(()=>scrollToId('code-review'),120)">Code Review Agent</a>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="skills-hooks" onclick="toggleTopicNav(this, 'skills-hooks')">Skills &amp; Hooks<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="skills-hooks">
+          <div class="nav-sub-item-wrap" data-section="building-skills">
+            <a class="nav-sub-item" href="#practices/building-skills" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('building-skills'),120)">Building Skills</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/building-skills/frontmatter-reference" data-leaf="building-skills--frontmatter-reference" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--frontmatter-reference', 'skills-hooks')">Frontmatter Reference</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/documentation-skill" data-leaf="building-skills--documentation-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--documentation-skill', 'skills-hooks')">Documentation</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/story-point-skill" data-leaf="building-skills--story-point-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--story-point-skill', 'skills-hooks')">Story Points</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/epic-to-stories-skill" data-leaf="building-skills--epic-to-stories-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--epic-to-stories-skill', 'skills-hooks')">Epic → Stories</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/code-review-skill" data-leaf="building-skills--code-review-skill" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--code-review-skill', 'skills-hooks')">Code Review</a>
+              <a class="nav-leaf-item" href="#practices/building-skills/advanced-patterns" data-leaf="building-skills--advanced-patterns" onclick="event.preventDefault(); openAndScrollToLeaf('building-skills--advanced-patterns', 'skills-hooks')">Advanced Patterns</a>
+            </div>
+          </div>
+          <div class="nav-sub-item-wrap" data-section="hooks-deep-dive">
+            <a class="nav-sub-item" href="#practices/hooks-deep-dive" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('hooks-deep-dive'),120)">Hooks</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/lifecycle" data-leaf="hooks-deep-dive--lifecycle" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--lifecycle', 'skills-hooks')">Lifecycle</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/four-types" data-leaf="hooks-deep-dive--four-types" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--four-types', 'skills-hooks')">Five Types</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/configuration" data-leaf="hooks-deep-dive--configuration" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--configuration', 'skills-hooks')">Configuration</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/exit-codes" data-leaf="hooks-deep-dive--exit-codes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--exit-codes', 'skills-hooks')">Exit Codes</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/recipes" data-leaf="hooks-deep-dive--recipes" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--recipes', 'skills-hooks')">Recipes</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/best-practices" data-leaf="hooks-deep-dive--best-practices" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--best-practices', 'skills-hooks')">Best Practices</a>
+              <a class="nav-leaf-item" href="#practices/hooks-deep-dive/continuous-evals" data-leaf="hooks-deep-dive--continuous-evals" onclick="event.preventDefault(); openAndScrollToLeaf('hooks-deep-dive--continuous-evals', 'skills-hooks')">Continuous Evals</a>
+            </div>
+          </div>
+          <div class="nav-sub-item-wrap" data-section="cloud-integrations">
+            <a class="nav-sub-item" href="#practices/cloud-integrations" onclick="event.preventDefault(); showTopic('skills-hooks'); setTimeout(()=>scrollToId('cloud-integrations'),120)">HTTP Hooks &amp; Web Agents</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/http-hooks" data-leaf="cloud-integrations--http-hooks" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--http-hooks', 'skills-hooks')">HTTP Hooks</a>
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/managed-agents" data-leaf="cloud-integrations--managed-agents" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--managed-agents', 'skills-hooks')">Managed Web Agents</a>
+              <a class="nav-leaf-item" href="#practices/cloud-integrations/novel-patterns" data-leaf="cloud-integrations--novel-patterns" onclick="event.preventDefault(); openAndScrollToLeaf('cloud-integrations--novel-patterns', 'skills-hooks')">Novel Patterns</a>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="operations" onclick="toggleTopicNav(this, 'operations')">Operations<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="operations">
+          <div class="nav-sub-item-wrap" data-section="monitoring">
+            <a class="nav-sub-item" href="#practices/monitoring" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('monitoring'),120)">Monitoring</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/monitoring/quick-start" data-leaf="monitoring--quick-start" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--quick-start', 'operations')">Quick Start</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/metrics" data-leaf="monitoring--metrics" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--metrics', 'operations')">Metrics</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/events-logs" data-leaf="monitoring--events-logs" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--events-logs', 'operations')">Events &amp; Logs</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/enterprise" data-leaf="monitoring--enterprise" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--enterprise', 'operations')">Enterprise</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/distributed-traces" data-leaf="monitoring--distributed-traces" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--distributed-traces', 'operations')">Distributed Traces</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/backends" data-leaf="monitoring--backends" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--backends', 'operations')">Backends</a>
+              <a class="nav-leaf-item" href="#practices/monitoring/privacy" data-leaf="monitoring--privacy" onclick="event.preventDefault(); openAndScrollToLeaf('monitoring--privacy', 'operations')">Privacy</a>
+            </div>
+          </div>
+          <div class="nav-sub-item-wrap" data-section="production-monitoring">
+            <a class="nav-sub-item" href="#practices/production-monitoring" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('production-monitoring'),120)">Production Monitoring</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/production-monitoring/control-bands" data-leaf="production-monitoring--control-bands" onclick="event.preventDefault(); openAndScrollToLeaf('production-monitoring--control-bands', 'operations')">Control Bands</a>
+              <a class="nav-leaf-item" href="#practices/production-monitoring/closing-loop" data-leaf="production-monitoring--closing-loop" onclick="event.preventDefault(); openAndScrollToLeaf('production-monitoring--closing-loop', 'operations')">Closing the Loop</a>
+            </div>
+          </div>
+          <a class="nav-sub-item" href="#practices/best-practices" onclick="event.preventDefault(); showTopic('operations'); setTimeout(()=>scrollToId('best-practices'),120)">Guidelines</a>
+        </div>
+        <button type="button" class="nav-topic-header" data-topic="reference" onclick="toggleTopicNav(this, 'reference')">Reference<span class="nav-chevron">›</span></button>
+        <div class="nav-topic-sections" data-topic-sections="reference">
+          <a class="nav-sub-item" href="#practices/model-effort" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('model-effort'),120)">Model &amp; Effort</a>
+          <a class="nav-sub-item" href="#practices/cheat-sheet" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('cheat-sheet'),120)">Cheat Sheet</a>
+          <div class="nav-sub-item-wrap" data-section="power-usage">
+            <a class="nav-sub-item" href="#practices/power-usage" onclick="event.preventDefault(); showTopic('reference'); setTimeout(()=>scrollToId('power-usage'),120)">Power Usage</a>
+            <div class="nav-leaf-sections">
+              <a class="nav-leaf-item" href="#practices/power-usage/agent-teams" data-leaf="power-usage--agent-teams" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--agent-teams', 'reference')">Agent Teams</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/work-trees" data-leaf="power-usage--work-trees" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--work-trees', 'reference')">Worktrees</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/hooks" data-leaf="power-usage--hooks" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--hooks', 'reference')">Hooks</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/session-logs" data-leaf="power-usage--session-logs" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--session-logs', 'reference')">Session Logs</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/insights" data-leaf="power-usage--insights" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--insights', 'reference')">/insights</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/loop" data-leaf="power-usage--loop" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--loop', 'reference')">/loop</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/dynamic-workflows" data-leaf="power-usage--dynamic-workflows" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--dynamic-workflows', 'reference')">Dynamic Workflows</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/remote-control" data-leaf="power-usage--remote-control" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--remote-control', 'reference')">Remote Control</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/self-hosted-runner" data-leaf="power-usage--self-hosted-runner" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--self-hosted-runner', 'reference')">Self-Hosted Runner</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/chrome" data-leaf="power-usage--chrome" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--chrome', 'reference')">Chrome</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/batch" data-leaf="power-usage--batch" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--batch', 'reference')">Batch Ops</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/plugins" data-leaf="power-usage--plugins" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--plugins', 'reference')">Plugins</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/voice-input" data-leaf="power-usage--voice-input" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--voice-input', 'reference')">Voice Input</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/context-management" data-leaf="power-usage--context-management" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--context-management', 'reference')">Context Mgmt</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/monitor-tool" data-leaf="power-usage--monitor-tool" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--monitor-tool', 'reference')">Monitor Tool</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/subprocess-sandboxing" data-leaf="power-usage--subprocess-sandboxing" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--subprocess-sandboxing', 'reference')">Sandboxing</a>
+              <a class="nav-leaf-item" href="#practices/power-usage/prompt-caching" data-leaf="power-usage--prompt-caching" onclick="event.preventDefault(); openAndScrollToLeaf('power-usage--prompt-caching', 'reference')">Prompt Caching</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP 4: Codex Best Practices -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('codex', this)" data-page="codex">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Codex Best Practices
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="codex">
+        <a class="nav-sub-item" href="#codex/codex-hero" onclick="scrollToSection('codex-hero')">Overview</a>
+        <a class="nav-sub-item" href="#codex/codex-best-practices" onclick="scrollToSection('codex-best-practices')">Getting Started</a>
+        <a class="nav-sub-item" href="#codex/codex-project-anatomy" onclick="scrollToSection('codex-project-anatomy')">Project Anatomy</a>
+        <a class="nav-sub-item" href="#codex/codex-integrations" onclick="scrollToSection('codex-integrations')">Integrations (MCP)</a>
+        <a class="nav-sub-item" href="#codex/codex-code-review" onclick="scrollToSection('codex-code-review')">Code Review</a>
+        <a class="nav-sub-item" href="#codex/codex-building-skills" onclick="scrollToSection('codex-building-skills')">Building Skills</a>
+        <a class="nav-sub-item" href="#codex/codex-guidelines" onclick="scrollToSection('codex-guidelines')">Guidelines</a>
+        <a class="nav-sub-item" href="#codex/codex-hooks" onclick="scrollToSection('codex-hooks')">Hooks</a>
+        <a class="nav-sub-item" href="#codex/codex-cheat-sheet" onclick="scrollToSection('codex-cheat-sheet')">Cheat Sheet</a>
+        <a class="nav-sub-item" href="#codex/codex-power-usage" onclick="scrollToSection('codex-power-usage')">Power Usage</a>
+      </div>
+    </div>
+
+    <!-- GROUP 5: KPIs to Measure Impact -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('kpis', this)" data-page="kpis">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        KPIs to Measure Impact
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="kpis">
+        <a class="nav-sub-item" href="#kpis/kpis-hero" onclick="scrollToSection('kpis-hero')">Overview</a>
+        <a class="nav-sub-item" href="#kpis/fsad-metrics" onclick="scrollToSection('fsad-metrics')">Metrics</a>
+        <a class="nav-sub-item" href="#kpis/process-health" onclick="scrollToSection('process-health')">Process Health</a>
+        <a class="nav-sub-item" href="#kpis/token-optimization" onclick="scrollToSection('token-optimization')">Token Optimization</a>
+      </div>
+    </div>
+
+    <!-- GROUP 6: Open Source Frameworks -->
+    <div class="nav-group">
+      <button class="nav-group-toggle" onclick="navigateTo('open-source', this)" data-page="open-source">
+        <span class="nav-icon" aria-hidden="true">◆</span>
+        Open Source
+        <span class="nav-chevron">›</span>
+      </button>
+      <div class="nav-sub-items" data-group="open-source">
+        <a class="nav-sub-item" href="#open-source/open-source-hero" onclick="scrollToSection('open-source-hero')">Overview</a>
+        <a class="nav-sub-item" href="#open-source/open-source" onclick="scrollToSection('open-source')">Frameworks</a>
+      </div>
+    </div>
+
+    <!-- External: FSAD Training -->
+    <a class="nav-external-link" href="https://fsad-training.vercel.app/" target="_blank" rel="noopener noreferrer">
+      <span class="nav-icon" aria-hidden="true">◆</span>
+      FSAD Training ↗
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    For R&D teams adopting agentic workflows
+  </div>
+</aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- ═══════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════ -->
+<div class="main" id="main-content">
+
+<!-- PROGRESS BAR -->
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+<div class="page-indicator" id="pageIndicator">
+  <div class="page-indicator-row">
+    <span class="page-indicator-brand">FSAD</span>
+    <span class="page-indicator-sep">/</span>
+    <span class="page-indicator-title" id="pageTitle">Full Stack Agentic Development</span>
+    <button class="theme-toggle" id="themeToggle" onclick="cycleTheme()" title="Toggle theme">
+      <span id="themeIcon">◑</span>
+      <span class="theme-toggle-label" id="themeLabel">Auto</span>
+    </button>
+  </div>
+  <div class="page-indicator-pills" id="pageIndicatorPills"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 1: FULL STACK AGENTIC DEVELOPMENT
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/fsad.html -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 2: POD COMPOSITIONS
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/pods.html -->
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 3: WORKFLOWS
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/workflows.html -->
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 3.7: PRACTICAL BEST PRACTICES
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/tips.html -->
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 3.5: SKILLS LIBRARY
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/skills.html -->
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 4: CLAUDE BEST PRACTICES
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/practices.html -->
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 4: CODEX BEST PRACTICES
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/codex.html -->
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 5: KPIs TO MEASURE IMPACT
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/kpis.html -->
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 6: OPEN SOURCE FRAMEWORKS
+     ═══════════════════════════════════════════════════════ -->
+<!-- @include src/pages/open-source.html -->
+
+<!-- @include src/pages/whats-new.html -->
+
+
+</div><!-- end main -->
+
+<!-- ═══════════════════════════════════════
+     POD IMAGE LIGHTBOX
+     ═══════════════════════════════════════ -->
+<div class="pod-lightbox-modal" id="podLightboxModal" role="dialog" aria-modal="true" aria-hidden="true" onclick="if(event.target===this)closePodLightbox()">
+  <div class="pod-lightbox-inner" onclick="event.stopPropagation()">
+    <img id="podLightboxImg" src="" alt="">
+    <button class="pod-lightbox-close" onclick="closePodLightbox()" aria-label="Close image">×</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CHANGELOG MODAL (Phase 3)
+     ═══════════════════════════════════════ -->
+<!-- @include src/partials/changelog-modal.html -->
+
+<script>
+<!-- @include src/vendor/minisearch.min.js -->
+</script>
+
+<script>
+  // Fallback: dist build injects populated PLAYBOOK_EMBEDDINGS constant (text chunks for semantic search).
+  if (typeof PLAYBOOK_EMBEDDINGS === 'undefined') { var PLAYBOOK_EMBEDDINGS = []; }
+
+<!-- @include src/js/changelog.js -->
+<!-- @include src/js/pod-lightbox.js -->
+<!-- @include src/js/theme-toggle.js -->
+<!-- @include src/js/router-nav/01-page-maps.js -->
+<!-- @include src/js/router-nav/02-routing.js -->
+<!-- @include src/js/router-nav/03-topic-nav.js -->
+<!-- @include src/js/search.js -->
+<!-- @include src/js/scroll-progress.js -->
+<!-- @include src/js/workflow-phases.js -->
+<!-- @include src/js/pod-switcher.js -->
+<!-- @include src/js/indicator-pills.js -->
+<!-- @include src/js/scroll-spy.js -->
+<!-- @include src/js/collapsible.js -->
+<!-- @include src/js/copy-buttons.js -->
+<!-- @include src/js/animate.js -->
+<!-- @include src/js/init.js -->
+</script>
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to top">↑</button>
+
+
+</body>
+</html>
