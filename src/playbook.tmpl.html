@@ -411,79 +411,9 @@
   // Fallback: dist build injects populated PLAYBOOK_EMBEDDINGS constant (text chunks for semantic search).
   if (typeof PLAYBOOK_EMBEDDINGS === 'undefined') { var PLAYBOOK_EMBEDDINGS = []; }
 
-  // ─── CHANGELOG MODAL ───
-  function openChangelog() {
-    const m = document.getElementById('changelogModal');
-    if (!m) return;
-    m.classList.add('open');
-    m.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeChangelog() {
-    const m = document.getElementById('changelogModal');
-    if (!m) return;
-    m.classList.remove('open');
-    m.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeChangelog(); closePodLightbox(); }
-  });
-
-  // ─── POD IMAGE LIGHTBOX ───
-  function openPodLightbox(src, alt) {
-    const m = document.getElementById('podLightboxModal');
-    const img = document.getElementById('podLightboxImg');
-    if (!m || !img) return;
-    img.src = src;
-    img.alt = alt || '';
-    m.classList.add('open');
-    m.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-  function closePodLightbox() {
-    const m = document.getElementById('podLightboxModal');
-    const img = document.getElementById('podLightboxImg');
-    if (!m) return;
-    m.classList.remove('open');
-    m.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    if (img) img.src = '';
-  }
-  document.querySelectorAll('.fsad-pod-img-wrap, .pod-visual-wrap').forEach(wrap => {
-    wrap.addEventListener('click', () => {
-      const visible = Array.from(wrap.querySelectorAll('img'))
-        .find(img => getComputedStyle(img).display !== 'none');
-      if (visible) openPodLightbox(visible.src, visible.alt);
-    });
-  });
-
-  // ─── THEME TOGGLE ───
-  function getEffectiveTheme() {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light' || saved === 'dark') return saved;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  }
-
-  function applyTheme() {
-    const effective = getEffectiveTheme();
-    const icon = document.getElementById('themeIcon');
-    const label = document.getElementById('themeLabel');
-    document.documentElement.setAttribute('data-theme', effective);
-    if (icon) icon.textContent = effective === 'light' ? '☀' : '☾';
-    if (label) label.textContent = effective === 'light' ? 'Light' : 'Dark';
-  }
-
-  function cycleTheme() {
-    // 2-state toggle (Phase 3): light ↔ dark. Default on first load follows OS.
-    const current = getEffectiveTheme();
-    localStorage.setItem('theme', current === 'light' ? 'dark' : 'light');
-    applyTheme();
-  }
-
-  // Apply theme immediately to prevent flash
-  applyTheme();
-
+<!-- @include src/js/changelog.js -->
+<!-- @include src/js/pod-lightbox.js -->
+<!-- @include src/js/theme-toggle.js -->
   // ─── SECTION TO PAGE MAPPING ───
   const sectionToPageMap = {
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
