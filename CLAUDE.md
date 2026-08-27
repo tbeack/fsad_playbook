@@ -141,6 +141,8 @@ grep -n 'sidebar-brand\|<title>' src/playbook.tmpl.html | grep -v "^[0-9]*:.*<!-
 
 The `/cbp-update` skill (`~/.claude/skills/cbp-update`) spawns the `playbook-updater` agent, which opens **and merges** its own PR at the end of Phase 7 (`gh pr merge --merge --delete-branch`) with no human review step in between. This is expected, approved behavior for this repo — do not flag it as a security concern or propose gating it behind manual approval unless explicitly asked to change it.
 
+Since the Option E refactor (CBP-472), the updater edits the `src/` tree (`src/pages/practices.html`, `src/pages/codex.html`, `src/partials/changelog-modal.html`, `src/playbook.tmpl.html` head) and runs `build-source.py` before `build-dist.py` — it never edits the generated `fsad-playbook.html` directly, and aborts if `src/` is absent on the checked-out branch.
+
 ## Research > Plan > Implement
 
 **Never jump straight to coding.** Always:
