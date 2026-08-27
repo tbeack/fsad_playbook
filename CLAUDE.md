@@ -2,22 +2,36 @@
 
 ## Project Overview
 
-FSAD Playbook — a single-file interactive HTML guide documenting Full Stack Agentic Development best practices. Shared with engineering teams to accelerate Claude Code and Codex CLI adoption.
+FSAD Playbook — an interactive HTML guide documenting Full Stack Agentic Development best practices. Shared with engineering teams to accelerate Claude Code and Codex CLI adoption. The **source of truth is the `src/` tree**; `scripts/build-source.py` assembles it into the generated intermediate `fsad-playbook.html` (gitignored), and `scripts/build-dist.py` produces the committed, fully self-contained single-file artifact `dist/fsad-playbook.html` used for deployment and offline sharing.
 
 ## Tech Stack
 
-- **HTML5** — Single-file application (`fsad-playbook.html`)
-- **Custom CSS** — Dark/light theme with purple/violet accent palette, Inter + IBM Plex Mono fonts
+- **HTML5** — Assembled single-page application (template + partials in `src/`, built to one file)
+- **Custom CSS** — Dark/light theme with purple/violet accent palette, Inter + IBM Plex Mono fonts (`src/styles.css`)
 - **CSS Variables** — Full theming via `:root` custom properties with `prefers-color-scheme` auto-detection
-- **Mermaid.js** — Flowcharts and diagrams
-- **Highlight.js** — Code syntax highlighting
-- **Vanilla JavaScript** — Navigation, search, collapsibles, scroll spy, theme toggle (no framework)
+- **MiniSearch** (vendored, `src/vendor/minisearch.min.js`) — Full-text + fuzzy search index
+- **Vanilla JavaScript** — Navigation, search, collapsibles, scroll spy, theme toggle (no framework; fragments in `src/js/`)
+
+(No Mermaid.js or Highlight.js — earlier docs listed them in error; diagrams are pre-rendered PNG assets and code blocks are styled with plain CSS.)
 
 ## Project Structure
 
 ```
 /fsad_playbook
-├── fsad-playbook.html        # Current version (v8, single self-contained file)
+├── src/                      # SOURCE OF TRUTH — edit here
+│   ├── playbook.tmpl.html    # Document scaffolding (head, sidebar, overlays) + @include/@asset directives
+│   ├── styles.css            # All CSS
+│   ├── pages/                # One partial per top-level page div (10 pages)
+│   ├── partials/             # changelog-modal.html
+│   ├── js/                   # App JS fragments (order fixed by the template)
+│   ├── vendor/               # minisearch.min.js (verbatim)
+│   ├── assets/               # Decoded PNG diagram assets (dark/light pairs)
+│   └── .build-stamp          # Divergence guard written by build-source.py
+├── scripts/
+│   ├── build-source.py       # src/* → fsad-playbook.html (byte-exact assembly)
+│   └── build-dist.py         # fsad-playbook.html → dist/fsad-playbook.html (never modify)
+├── fsad-playbook.html        # GENERATED intermediate (gitignored — do not edit directly)
+├── dist/fsad-playbook.html   # Committed self-contained artifact (deploy + offline sharing)
 ├── CLAUDE.md                 # This file
 ├── README.md                 # Project readme with version history
 ├── .gitignore                # Git config
@@ -39,12 +53,17 @@ FSAD Playbook — a single-file interactive HTML guide documenting Full Stack Ag
 
 ## App Architecture (v8)
 
-The app has **5 pages** toggled via `display: none/block`:
+The app has **10 pages** toggled via `display: none/block`, each a partial in `src/pages/`:
 - **FSAD** (`page-fsad`) — Methodology overview, workflow, comparisons
 - **Pod Compositions** (`page-pods`) — Team structures, pod explorer, anti-patterns
+- **Workflows** (`page-workflows`) — End-to-end skill walkthroughs with embedded playgrounds
+- **Tips** (`page-tips`) — Practical usage tips
+- **Skills Library** (`page-skills`) — Installable skill catalog (largest partial)
 - **Claude Best Practices** (`page-practices`) — Getting started, project anatomy, integrations, skills, guidelines, cheat sheet
 - **Codex Best Practices** (`page-codex`) — Equivalent coverage for OpenAI's Codex CLI
 - **KPIs to Measure Impact** (`page-kpis`) — Metrics framework for measuring FSAD adoption
+- **Open Source** (`page-open-source`) — Open-source references
+- **What's New** (`page-whats-new`) — Weekly change summary (reached via the sidebar widget, not a bare hash)
 
 Key JS systems:
 - **Router** — Hash-based (`#page/section`), `switchPage()` handles page transitions
@@ -68,33 +87,39 @@ When picking up a task:
 ## Development Workflow
 
 ```bash
-# Open the current version
-open "fsad-playbook.html"
+# 1. Edit files under src/ (never fsad-playbook.html directly)
 
-# Build the self-contained dist artifact (inlines fonts + playgrounds)
-python3 scripts/build-dist.py
+# 2. Assemble the app from src/
+python3 scripts/build-source.py        # writes fsad-playbook.html + src/.build-stamp
+
+# 3. Verify in a browser
+open "fsad-playbook.html"              # or serve: python3 -m http.server 8000
+
+# 4. Build the self-contained dist artifact (inlines fonts + playgrounds, injects embeddings)
+python3 scripts/build-dist.py          # must log "Injected PLAYBOOK_EMBEDDINGS"
 ```
 
-All edits happen directly in `fsad-playbook.html`. The file is versioned internally (title tag) and tracked in `README.md`.
+**All edits happen in `src/*`.** `fsad-playbook.html` is a generated intermediate (gitignored): `build-source.py` refuses to overwrite it if it was hand-edited since the last build (divergence guard via `src/.build-stamp`; `--force` overrides after you port the edit into `src/`). `build-dist.py` also touches `skills/playbook-assistant/index/meta.json` (timestamp only) — revert that with `git checkout -- skills/playbook-assistant/index/meta.json` unless the index actually changed.
 
 ### Build + Commit requirement
 
-**Always run the build script before committing.** This applies to every `/fsd:ship` and `/fsd:do-task` run:
+**Always run both build scripts before committing.** This applies to every `/fsd:ship` and `/fsd:do-task` run:
 
-1. Make all edits to `fsad-playbook.html` (and any other source files).
-2. Run `python3 scripts/build-dist.py` — this writes `dist/fsad-playbook.html`.
-3. Stage **both** the source and `dist/` in the same commit: `git add fsad-playbook.html dist/`.
-4. Commit and push as normal.
+1. Make all edits under `src/` (and any other source files).
+2. Run `python3 scripts/build-source.py` — this writes `fsad-playbook.html`.
+3. Run `python3 scripts/build-dist.py` — this writes `dist/fsad-playbook.html`. Confirm it logs `Injected PLAYBOOK_EMBEDDINGS`.
+4. Stage **both** the source tree and `dist/` in the same commit: `git add src/ dist/`.
+5. Commit and push as normal.
 
-`dist/fsad-playbook.html` is the fully self-contained build artifact (fonts and playgrounds inlined). It must always be in sync with the source and included in every release commit.
+`dist/fsad-playbook.html` is the fully self-contained build artifact (fonts and playgrounds inlined). It must always be in sync with `src/` and included in every release commit. `fsad-playbook.html` itself is gitignored and never committed.
 
 ### Version bump checklist
 
-When cutting a new version, update **all three** of these locations in `fsad-playbook.html` — they must always agree:
+When cutting a new version, update **all three** of these locations in `src/` — they must always agree:
 
-1. **`<title>` tag** (line ~6) — `FSAD — Full Stack Agentic Development (vX.XX.X)`
-2. **Sidebar brand badge** (search for `sidebar-brand`) — `· vX.XX.X` inside the `<a>` tag
-3. **In-app changelog modal** (search for `changelogModal`) — add a new `<section>` block above the previous latest version. For a multi-task auto-update run, follow the intro `<p>` with a `<ul>` — one `<li>` per CBP task, description sourced from that task's own `## Summary` section — so the "What's new this week" widget can render one card per task instead of falling back to a single bundle card:
+1. **`<title>` tag** — `src/playbook.tmpl.html` head (line ~6) — `FSAD — Full Stack Agentic Development (vX.XX.X)`
+2. **Sidebar brand badge** — `src/playbook.tmpl.html` shell (search for `sidebar-brand`, line ~25) — `· vX.XX.X` inside the `<a>` tag
+3. **In-app changelog modal** — `src/partials/changelog-modal.html` — add a new `<section>` block above the previous latest version. For a multi-task auto-update run, follow the intro `<p>` with a `<ul>` — one `<li>` per CBP task, description sourced from that task's own `## Summary` section — so the "What's new this week" widget can render one card per task instead of falling back to a single bundle card:
    ```html
    <section>
      <h3>vX.XX.X <span class="changelog-date">· YYYY-MM-DD</span></h3>
@@ -107,9 +132,9 @@ When cutting a new version, update **all three** of these locations in `fsad-pla
    ```
    A single-task version (no bundle) may keep just the intro `<p>` with no `<ul>`.
 
-Grep to verify all three are in sync before committing:
+Grep to verify the two template locations are in sync before committing (then eyeball the newest `<h3>` in `src/partials/changelog-modal.html`):
 ```bash
-grep -n 'sidebar-brand\|<title>' fsad-playbook.html | grep -v "^[0-9]*:.*<!--"
+grep -n 'sidebar-brand\|<title>' src/playbook.tmpl.html | grep -v "^[0-9]*:.*<!--"
 ```
 
 ## Auto-Update Workflow (`/cbp-update`)

@@ -10,40 +10,45 @@ A comprehensive, interactive single-page guide that documents best practices for
 - **Claude Best Practices** — getting started guides, project anatomy, CLAUDE.md configuration, integrations (MCP), code review agents, custom skills, cheat sheet, and power usage
 - **Codex Best Practices** — equivalent coverage for OpenAI's Codex CLI: AGENTS.md setup, TOML-based MCP config, approval modes, sandbox security, multi-agent workflows, and more
 - **KPIs to Measure Impact** — metrics framework for measuring FSAD adoption, productivity, and ROI
-- **Interactive UI** — 6-page navigation, collapsible sections, searchable content, code blocks with copy buttons, dark/light/auto theme toggle
+- **Interactive UI** — 10-page navigation, collapsible sections, searchable content, code blocks with copy buttons, dark/light/auto theme toggle
 
 ## Tech Stack
 
-- HTML5 single-page application
+- HTML5 single-page application, assembled from a `src/` tree (template + page partials + JS fragments)
 - Inter + IBM Plex Mono fonts
-- Custom CSS (dark/light/auto theme, purple/violet accent palette, CSS custom properties)
-- Mermaid.js for flowcharts and diagrams
-- Highlight.js for code syntax highlighting
-- Vanilla JavaScript (no framework)
+- Custom CSS (dark/light/auto theme, purple/violet accent palette, CSS custom properties) in `src/styles.css`
+- MiniSearch (vendored) for full-text + fuzzy search
+- Vanilla JavaScript (no framework), fragments in `src/js/`
 
 ## Usage
 
-Open the latest version directly in a browser:
+Open the self-contained distribution file directly in a browser:
 
 ```bash
-open "fsad-playbook.html"
+open "dist/fsad-playbook.html"
 ```
 
-Or serve locally for development:
+Or, for development, build and serve the working copy:
 
 ```bash
-python -m http.server 8000
+python3 scripts/build-source.py
+python -m http.server 8000    # then browse to /fsad-playbook.html
 ```
 
 ## Build
 
-To produce a fully self-contained distribution file (fonts and playgrounds inlined, no external requests):
+The source of truth is the `src/` tree. Two build steps:
 
 ```bash
-python3 scripts/build-dist.py
+# Assemble src/ into the working copy (gitignored generated file)
+python3 scripts/build-source.py    # writes fsad-playbook.html
+
+# Produce the fully self-contained distribution file
+# (fonts and playgrounds inlined, embeddings injected, no external requests)
+python3 scripts/build-dist.py      # writes dist/fsad-playbook.html
 ```
 
-Output: `dist/fsad-playbook.html` — a single file that works offline and can be shared without companion files. The `dist/` directory is tracked in git and included in every release commit.
+Output: `dist/fsad-playbook.html` — a single file that works offline and can be shared without companion files. The `dist/` directory is tracked in git and included in every release commit. The intermediate `fsad-playbook.html` is generated and gitignored — edit `src/*`, never the generated file.
 
 ## Version
 
@@ -51,7 +56,7 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 |-------|-------|
 | **Current version** | v3.3.3 |
 | **Date updated** | 2026-08-26 |
-| **File** | `fsad-playbook.html` |
+| **File** | `dist/fsad-playbook.html` (built from `src/`) |
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes by version.
 
