@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.1 — 2026-08-27
+
+**Codex CLI rust-v0.150.1 auto-update (CBP-479 through CBP-483)**
+
+Five documentation updates covering task mentions and terminal task tools, response copying and thread renaming, keybinding and Vim additions, a new hook event, and a trust-model hardening change in Codex CLI rust-v0.150.0/0.150.1.
+
+- **CBP-479 — [Codex] `@` task mentions + terminal task tools.** Codex 0.150.0 extends the `@` unified context picker to tasks: you can `@`-mention other Codex tasks in the composer, and the agent gains TUI tools to read, create, or message tasks directly from the terminal.
+- **CBP-480 — [Codex] `/copy` response target picker + `/rename`.** `/copy` now offers a picker to copy the full response, an individual code block, or a blockquote. Unnamed terminal tasks automatically receive descriptive titles, and a new `/rename` command suggests an editable, conversation-based title.
+- **CBP-481 — [Codex] Permission-mode-cycling shortcuts + Vim dot-repeat.** You can now bind shortcuts (via `/keymap`) to cycle through TUI permission modes, and Vim mode gains `.` (dot-repeat) to repeat the last edit.
+- **CBP-482 — [Codex] New `Interrupt` hook event.** Codex gains a ninth hook event type: `Interrupt`, firing when an active top-level turn is interrupted, able to run commands or MCP handlers.
+- **CBP-483 — [Codex] Untrusted projects no longer load project-level AGENTS.md.** As of rust-v0.150.0, a project that has not been explicitly trusted no longer contributes its project-level `AGENTS.md` instructions to the session — closing a prompt-injection path from unfamiliar repos.
+
 ### v4.1.0 — 2026-08-27
 
 **Modular source refactor — Option E (CBP-478)**
