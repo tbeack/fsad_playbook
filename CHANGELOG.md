@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v4.1.2 — 2026-08-28
+
+**Claude Code v2.1.248 auto-update (CBP-484 through CBP-489)**
+
+Six documentation updates covering a restricted-mode lockdown flag, per-agent prompt cache TTL, cross-session messaging platform expansion, self-hosted runner labeling, `/loop` availability, and Enterprise usage-credit requests in Claude Code v2.1.248.
+
+- **CBP-484 — [Claude] `--restricted` / `CLAUDE_CODE_RESTRICTED=1`.** Claude Code v2.1.248 added a full lockdown mode: removes the built-in tools that run commands or code and `WebFetch` (unless named in `--tools`), keeps file tools inside the working directory, refuses `bypassPermissions`, and ignores user, project, and local settings files.
+- **CBP-485 — [Claude] Document `experimental.cacheTtl` agent frontmatter.** Claude Code v2.1.248 added a per-agent prompt cache TTL (`"5m"` or `"1h"`) used when no subagent TTL setting is configured.
+- **CBP-486 — [Claude] Cross-session messaging platform expansion.** As of v2.1.248, `SendMessage`/`ListAgents` between sessions on the same machine works on Bedrock, Vertex, and Foundry, and when telemetry is disabled; also, a subagent's `SendMessage` reply is now delivered to the parent session's conversation, not the subagent.
+- **CBP-487 — [Claude] Self-hosted runner `--client-label`.** Claude Code v2.1.248 added `claude self-hosted-runner --client-label <label>` (or `SELF_HOSTED_RUNNER_CLIENT_LABEL`) to override the label the runner registers with instead of using the hostname.
+- **CBP-488 — [Claude] `/loop` dynamic mode available everywhere.** As of v2.1.248, self-paced dynamic mode and the no-prompt autonomous default for `/loop` are always available, including on Bedrock, Vertex, and Foundry.
+- **CBP-489 — [Claude] `/usage-credits` Enterprise expansion.** As of v2.1.248, members of Enterprise organizations billed through AWS Marketplace, self-serve Enterprise, and Enterprise trials can use `/usage-credits` to request a higher usage limit from their admin.
+
 ### v4.1.1 — 2026-08-27
 
 **Codex CLI rust-v0.150.1 auto-update (CBP-479 through CBP-483)**
