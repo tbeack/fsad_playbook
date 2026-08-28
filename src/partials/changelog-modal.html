@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.2 <span class="changelog-date">· 2026-08-28</span></h3>
+        <p><strong>Claude Code v2.1.248 auto-update.</strong> Six documentation updates covering a restricted-mode lockdown flag, per-agent prompt cache TTL, cross-session messaging platform expansion, self-hosted runner labeling, <code>/loop</code> availability, and Enterprise usage-credit requests.</p>
+        <ul>
+          <li><strong>CBP-484 — [Claude] <code>--restricted</code> / <code>CLAUDE_CODE_RESTRICTED=1</code>.</strong> Claude Code v2.1.248 added a full lockdown mode: removes the built-in tools that run commands or code and <code>WebFetch</code> (unless named in <code>--tools</code>), keeps file tools inside the working directory, refuses <code>bypassPermissions</code>, and ignores user, project, and local settings files.</li>
+          <li><strong>CBP-485 — [Claude] Document <code>experimental.cacheTtl</code> agent frontmatter.</strong> Claude Code v2.1.248 added a per-agent prompt cache TTL (<code>"5m"</code> or <code>"1h"</code>) used when no subagent TTL setting is configured.</li>
+          <li><strong>CBP-486 — [Claude] Cross-session messaging platform expansion.</strong> As of v2.1.248, <code>SendMessage</code>/<code>ListAgents</code> between sessions on the same machine works on Bedrock, Vertex, and Foundry, and when telemetry is disabled; also, a subagent's <code>SendMessage</code> reply is now delivered to the parent session's conversation, not the subagent.</li>
+          <li><strong>CBP-487 — [Claude] Self-hosted runner <code>--client-label</code>.</strong> Claude Code v2.1.248 added <code>claude self-hosted-runner --client-label &lt;label&gt;</code> (or <code>SELF_HOSTED_RUNNER_CLIENT_LABEL</code>) to override the label the runner registers with instead of using the hostname.</li>
+          <li><strong>CBP-488 — [Claude] <code>/loop</code> dynamic mode available everywhere.</strong> As of v2.1.248, self-paced dynamic mode and the no-prompt autonomous default for <code>/loop</code> are always available, including on Bedrock, Vertex, and Foundry.</li>
+          <li><strong>CBP-489 — [Claude] <code>/usage-credits</code> Enterprise expansion.</strong> As of v2.1.248, members of Enterprise organizations billed through AWS Marketplace, self-serve Enterprise, and Enterprise trials can use <code>/usage-credits</code> to request a higher usage limit from their admin.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.1 <span class="changelog-date">· 2026-08-27</span></h3>
         <p><strong>Codex CLI rust-v0.150.1 auto-update.</strong> Five documentation updates covering task mentions and terminal task tools, response copying and thread renaming, keybinding and Vim additions, a new hook event, and a trust-model hardening change.</p>
         <ul>
