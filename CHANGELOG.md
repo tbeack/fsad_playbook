@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.4 — 2026-08-29
+
+**Codex CLI rust-v0.151.0 auto-update (CBP-495 through CBP-496)**
+
+Two documentation updates covering a configurable MCP discovery grace period for optional servers, extension-level MCP tool-result interception, and plugin catalog per-repository configuration improvements in Codex CLI rust-v0.151.0.
+
+- **CBP-495 — [Codex] Configurable MCP grace period for optional servers.** Codex rust-v0.151.0 adds a `startup_grace_sec` config key in `~/.codex/config.toml` that controls how long the session waits for an optional MCP server to finish tool discovery before proceeding — pair with `alwaysLoad: true` to pre-load tools from servers that start in time.
+- **CBP-496 — [Codex] Extension MCP result interception + plugin catalog per-repo config.** Extensions can now inspect or replace MCP tool results before the model sees them — useful for redacting sensitive output, reformatting responses, or injecting context. Plugin catalogs now also merge per-repository configuration with global and workspace sources, and report invalid project marketplace entries without hiding valid plugins from other catalog sources.
+
 ### v4.1.3 — 2026-08-28
 
 **Claude Code v2.1.251 auto-update (CBP-490 through CBP-494)**

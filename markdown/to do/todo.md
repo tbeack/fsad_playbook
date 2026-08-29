@@ -501,3 +501,5 @@
 - [x] `CBP-492` [Claude] Document live streaming of a foreground subagent's tool calls to Remote Control clients (v2.1.251) → [task-cbp-492.md](task-cbp-492.md)
 - [x] `CBP-493` [Claude] Extend `/usage` and `/effort` Cheat Sheet rows — per-session prompt-cache line on `/cost`; per-model effort persistence (v2.1.251) → [task-cbp-493.md](task-cbp-493.md)
 - [x] `CBP-494` [Claude] Extend `CLAUDE_CODE_SUBAGENT_MODEL` cost-optimization note — agent `model:` frontmatter and per-spawn model now take precedence (v2.1.251) → [task-cbp-494.md](task-cbp-494.md)
+- [x] `CBP-495` [Codex] Document configurable MCP grace period for optional servers (rust-v0.151.0) → [task-cbp-495.md](task-cbp-495.md)
+- [x] `CBP-496` [Codex] Document extension MCP result interception + plugin catalog per-repo config (rust-v0.151.0) → [task-cbp-496.md](task-cbp-496.md)
