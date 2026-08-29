@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.3 — 2026-08-28
+
+**Claude Code v2.1.251 auto-update (CBP-490 through CBP-494)**
+
+Five documentation updates covering two new model-switch hook events (plus a hook-count correction), background-session shell subcommands, live subagent streaming to Remote Control, prompt-cache and per-model effort persistence, and a sub-agent model routing precedence clarification in Claude Code v2.1.251.
+
+- **CBP-490 — [Claude] `PreModelSwitch`/`PostModelSwitch` hook events.** Claude Code v2.1.251 added `PreModelSwitch` and `PostModelSwitch` hook events to block, confirm, or annotate a model switch; `SessionStart` resume hooks now also receive the session's staleness and the estimated re-cache cost. This also corrected a pre-existing stale hook-event count in the Hooks Deep-Dive callout (26 → 30, aligned with the Cheat Sheet).
+- **CBP-491 — [Claude] Background-session CLI subcommands.** Claude Code v2.1.251 added `attach`, `logs`, `stop`, `respawn`, and `rm` to `claude --help` for managing a background session directly from the shell; the `--resume` message for a running background session now names the exact `claude attach <id>` command.
+- **CBP-492 — [Claude] Live subagent streaming to Remote Control.** As of v2.1.251, a foreground subagent's tool calls and results stream live to Remote Control clients as they happen; background subagents, the default, still show status only.
+- **CBP-493 — [Claude] `/usage` prompt-cache line + `/effort` per-model persistence.** As of v2.1.251, a per-session prompt-cache line (hit ratio, misses, tokens re-cached, warm/cold) is shown on `/cost` with a matching `prompt_cache` object for status line scripts; `/effort` now saves your default effort level per model, so each model keeps its own setting when you switch.
+- **CBP-494 — [Claude] `CLAUDE_CODE_SUBAGENT_MODEL` precedence.** As of v2.1.251, `CLAUDE_CODE_SUBAGENT_MODEL` sets the default subagent model only — an agent definition's `model:` frontmatter or an explicit per-spawn model now takes precedence over it.
+
 ### v4.1.2 — 2026-08-28
 
 **Claude Code v2.1.248 auto-update (CBP-484 through CBP-489)**

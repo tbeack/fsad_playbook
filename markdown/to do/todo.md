@@ -496,3 +496,8 @@
 - [x] `CBP-487` [Claude] Extend Self-Hosted Runner section — `--client-label` / `SELF_HOSTED_RUNNER_CLIENT_LABEL` (v2.1.248) → [task-cbp-487.md](completed/task-cbp-487.md)
 - [x] `CBP-488` [Claude] Extend `/loop` section — self-paced dynamic mode + no-prompt autonomous default always available, including Bedrock/Vertex/Foundry (v2.1.248) → [task-cbp-488.md](completed/task-cbp-488.md)
 - [x] `CBP-489` [Claude] Extend `/usage-credits` Cheat Sheet row — Enterprise AWS Marketplace/self-serve/trials can request a higher usage limit (v2.1.248) → [task-cbp-489.md](completed/task-cbp-489.md)
+- [x] `CBP-490` [Claude] Add `PreModelSwitch`/`PostModelSwitch` hook events; update `SessionStart` resume detail; fix hook-event counts (28→30, 26→30) (v2.1.251) → [task-cbp-490.md](task-cbp-490.md)
+- [x] `CBP-491` [Claude] Document `claude attach`/`logs`/`stop`/`respawn`/`rm` background-session CLI subcommands (v2.1.251) → [task-cbp-491.md](task-cbp-491.md)
+- [x] `CBP-492` [Claude] Document live streaming of a foreground subagent's tool calls to Remote Control clients (v2.1.251) → [task-cbp-492.md](task-cbp-492.md)
+- [x] `CBP-493` [Claude] Extend `/usage` and `/effort` Cheat Sheet rows — per-session prompt-cache line on `/cost`; per-model effort persistence (v2.1.251) → [task-cbp-493.md](task-cbp-493.md)
+- [x] `CBP-494` [Claude] Extend `CLAUDE_CODE_SUBAGENT_MODEL` cost-optimization note — agent `model:` frontmatter and per-spawn model now take precedence (v2.1.251) → [task-cbp-494.md](task-cbp-494.md)

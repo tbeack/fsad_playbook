@@ -1715,7 +1715,7 @@ smoke tests against the staging URL."</code></pre>
 /model haiku        <span class="cm"># Switch to latest Haiku</span>
 /model opus[1m]     <span class="cm"># 1M context variant for large codebases</span>
 
-<span class="cm"># Route sub-agents to Haiku (single biggest cost lever after opusplan)</span>
+<span class="cm"># Route sub-agents to Haiku (single biggest cost lever after opusplan) — sets the default only; an agent's own model: frontmatter or an explicit per-spawn model overrides it (v2.1.251)</span>
 <span class="kw">export</span> CLAUDE_CODE_SUBAGENT_MODEL=haiku
 
 <span class="cm"># Set the default model for new sessions (v2.1.236) — a /model pick still overrides it and persists across restarts, unlike ANTHROPIC_MODEL</span>
@@ -1757,7 +1757,7 @@ smoke tests against the staging URL."</code></pre>
       <div class="callout-title">Cost Optimization Checklist</div>
       <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
         <li>Default to <code>opusplan</code> for coding — ~40% cheaper than pure Opus.</li>
-        <li>Route sub-agents to Haiku via <code>CLAUDE_CODE_SUBAGENT_MODEL=haiku</code>.</li>
+        <li>Route sub-agents to Haiku via <code>CLAUDE_CODE_SUBAGENT_MODEL=haiku</code> — sets the default only; an agent's own <code>model:</code> frontmatter or an explicit per-spawn model takes precedence (v2.1.251).</li>
         <li>Enable prompt caching — cache hits are 10% of base input (up to 90% off on repeated system prompts, CLAUDE.md, large docs).</li>
         <li>Use the Batch API for any non-interactive job — 50% off input and output; stacks with caching.</li>
         <li>Pin effort to <code>medium</code> on cost-sensitive Sonnet workflows; raise only where needed.</li>
@@ -1878,12 +1878,12 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>/model</code></td><td>Select or change AI model — selection is saved as the default for new sessions. Press <code>s</code> in the picker to switch models for the current session only. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129). As of v2.1.243, the picker no longer silently ignores an Ultracode selection — picking it now applies to the current session. On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/model</code> also now applies immediately instead of queueing until the turn ends.</td></tr>
-          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7 / 4.8) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Opus 4.8 (all surfaces) and Pro/Max on Sonnet 4.6 / Opus 4.7 / 4.6; <code>medium</code> for all other tiers/models. Confirms when the chosen level will persist as the default for new sessions (v2.1.162). On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/effort</code> now applies immediately instead of queueing until the turn ends (v2.1.243).</td></tr>
+          <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7 / 4.8) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Opus 4.8 (all surfaces) and Pro/Max on Sonnet 4.6 / Opus 4.7 / 4.6; <code>medium</code> for all other tiers/models. Confirms when the chosen level will persist as the default for new sessions (v2.1.162). On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/effort</code> now applies immediately instead of queueing until the turn ends (v2.1.243). As of v2.1.251, <code>/effort</code> saves your default effort level per model, so each model keeps its own setting when you switch.</td></tr>
           <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output). On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/fast</code> now applies immediately instead of queueing until the turn ends (v2.1.243).</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>). As of v2.1.234 it can be opened while Claude is working — rule changes apply to the rest of the current turn, so you can widen or tighten a rule without interrupting a long run (v2.1.234). As of v2.1.246, an Auto mode tab lets you view and edit auto mode classifier rules from the same dialog, instead of editing them only via <code>settings.json</code>.</td></tr>
-          <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. Includes a per-category breakdown showing what's driving limits usage — skills, subagents, plugins, and per-MCP-server cost (v2.1.149). <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab. As of v2.1.236, <code>/usage</code> also shows a usage-credits spend row for Team and Enterprise members, capped at 0% before any credits have been spent. As of v2.1.239, cost estimates shown via <code>/cost</code>, the status line, and enforced by <code>--max-budget-usd</code> include the 1.1&times; US-only-inference premium that applies to data-residency workspaces, so the figures reflect actual billed cost. As of v2.1.243, <code>/usage</code> also includes a Loops breakdown — per-loop run count, total tokens, tokens per run, and last run — to spot runaway or chatty <code>/loop</code> tasks.</td></tr>
+          <tr><td><code>/usage</code></td><td>Unified usage dashboard with three tabs: session cost &amp; token usage, plan usage &amp; rate limits, and daily usage streaks. Includes a per-category breakdown showing what's driving limits usage — skills, subagents, plugins, and per-MCP-server cost (v2.1.149). <code>/cost</code> and <code>/stats</code> remain as typing shortcuts that open the relevant tab. As of v2.1.236, <code>/usage</code> also shows a usage-credits spend row for Team and Enterprise members, capped at 0% before any credits have been spent. As of v2.1.239, cost estimates shown via <code>/cost</code>, the status line, and enforced by <code>--max-budget-usd</code> include the 1.1&times; US-only-inference premium that applies to data-residency workspaces, so the figures reflect actual billed cost. As of v2.1.243, <code>/usage</code> also includes a Loops breakdown — per-loop run count, total tokens, tokens per run, and last run — to spot runaway or chatty <code>/loop</code> tasks. As of v2.1.251, a per-session prompt-cache line is also shown on <code>/cost</code> — hit ratio, misses, tokens re-cached, warm/cold — with a matching <code>prompt_cache</code> object available for status line scripts.</td></tr>
           <tr><td><code>/usage-credits</code></td><td>View usage credits balance (alias: <code>/extra-usage</code>). Added in v2.1.144. As of v2.1.248, members of Enterprise organizations billed through AWS Marketplace, self-serve Enterprise, and Enterprise trials can use it to request a higher usage limit from their admin.</td></tr>
         </tbody>
       </table>
@@ -1971,6 +1971,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>claude agents</code></td><td>Agent View — a unified list of every Claude Code session: running, blocked on you, or done. Use <code>--cwd &lt;path&gt;</code> to scope the list to a directory. Add <code>--json</code> to output the session list as JSON for scripting (tmux-resurrect, status bars, session pickers); blocked and just-dispatched sessions are always included; the JSON output includes <code>waitingFor</code> (what a blocked session is waiting on), <code>id</code>, and <code>state</code> fields (v2.1.162/v2.1.169). Add <code>--all</code> to include completed sessions in the output (v2.1.169). When dispatching a background session, configure it with: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, <code>--dangerously-skip-permissions</code>. In the agents view, type <code>! &lt;command&gt;</code> to launch any shell command as a background session you can attach to and detach from (v2.1.154). CLI equivalent: <code>claude --bg --exec '&lt;command&gt;'</code>. When work is fanned out across subagents, each row shows <code>done/total</code> progress counts before the detail; the peek highlights the longest-running item (v2.1.161). Sessions tied to a GitHub PR or GitLab merge request show the PR/MR number in the list — GitLab MRs display as <code>!N</code> (GitLab merge request URL support added v2.1.233).</td></tr>
           <tr><td><code>claude project purge [path]</code></td><td>Delete all Claude Code state for a project — transcripts, tasks, file history, and config entry. Flags: <code>--dry-run</code> (preview), <code>-y</code> (no confirm), <code>-i/--interactive</code>, <code>--all</code> (all known projects).</td></tr>
           <tr><td><code>claude auto-mode reset</code></td><td>Restore the default auto-mode configuration. Prompts for confirmation; pass <code>--yes</code> to skip (v2.1.212).</td></tr>
+          <tr><td><code>claude attach</code> / <code>logs</code> / <code>stop</code> / <code>respawn</code> / <code>rm</code> <code>&lt;id&gt;</code></td><td>Manage a background session directly from the shell without opening the agent view: attach to its live output, tail its logs, stop it, respawn it, or remove it from the list. As of v2.1.251, the <code>--resume</code> message for a running background session names the exact <code>claude attach &lt;id&gt;</code> command instead of a generic hint.</td></tr>
           <tr><td><code>/insights</code></td><td>Generate session analysis report (HTML)</td></tr>
           <tr><td><code>/claude-api upgrade</code></td><td>Migrate a Python project's use of the <code>anthropic</code> SDK from 0.x to 1.x (v2.1.239)</td></tr>
           <tr><td><code>/claude-api cost-optimize</code></td><td>Profile a project's existing Claude API spend and work through cost levers — caching, token hygiene, batch, effort, model choice — one measured change at a time (v2.1.247). The <code>/claude-api</code> skill also gained Admin API coverage in v2.1.247 (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK).</td></tr>
@@ -2093,13 +2094,13 @@ smoke tests against the staging URL."</code></pre>
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem;">Cycle with <kbd>Shift+Tab</kbd>: default &#8594; acceptEdits &#8594; plan &#8594; auto &#8594; (bypassPermissions if enabled)</p>
 
     <!-- Hooks Reference -->
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Hooks — Event Automation (28 Events)</h3>
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Hooks — Event Automation (30 Events)</h3>
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;">Core hooks</p>
     <div class="table-wrap">
       <table class="styled-table">
         <thead><tr><th>Hook</th><th>When It Fires</th></tr></thead>
         <tbody>
-          <tr><td><code>SessionStart</code></td><td>When a session begins or resumes. Return <code>reloadSkills: true</code> in JSON output to re-scan skill directories (skills installed by the hook become available immediately). Set session title via <code>hookSpecificOutput.sessionTitle</code>. Hook input includes a <code>source</code> field: <code>"new"</code> (first launch), <code>"resume"</code> (resumed session), or <code>"fork"</code> (started via <code>/fork</code> — v2.1.214).</td></tr>
+          <tr><td><code>SessionStart</code></td><td>When a session begins or resumes. Return <code>reloadSkills: true</code> in JSON output to re-scan skill directories (skills installed by the hook become available immediately). Set session title via <code>hookSpecificOutput.sessionTitle</code>. Hook input includes a <code>source</code> field: <code>"new"</code> (first launch), <code>"resume"</code> (resumed session), or <code>"fork"</code> (started via <code>/fork</code> — v2.1.214). As of v2.1.251, resume hooks also receive the session's staleness and the estimated re-cache cost.</td></tr>
           <tr><td><code>SessionEnd</code></td><td>When a session ends</td></tr>
           <tr><td><code>InstructionsLoaded</code></td><td>After CLAUDE.md and settings are loaded</td></tr>
           <tr><td><code>UserPromptSubmit</code></td><td>Before your message is processed</td></tr>
@@ -2145,6 +2146,8 @@ smoke tests against the staging URL."</code></pre>
         <tbody>
           <tr><td><code>ConfigChange</code></td><td>When settings or config changes</td></tr>
           <tr><td><code>CwdChanged</code></td><td>When the working directory changes</td></tr>
+          <tr><td><code>PreModelSwitch</code></td><td>Before a model switch — block, confirm, or annotate the switch (v2.1.251)</td></tr>
+          <tr><td><code>PostModelSwitch</code></td><td>After a model switch completes (v2.1.251)</td></tr>
           <tr><td><code>DirectoryAdded</code></td><td>When a new working directory is registered mid-session — fires after <code>/add-dir</code> or the SDK <code>register_repo_root</code> control request adds a new repo root (v2.1.219).</td></tr>
           <tr><td><code>FileChanged</code></td><td>When a file is modified</td></tr>
           <tr><td><code>WorktreeCreate</code></td><td>When a git worktree is created</td></tr>
@@ -2501,6 +2504,7 @@ smoke tests against the staging URL."</code></pre>
           <li><code>claude rc</code> applies the same enterprise-gateway availability check as interactive startup (v2.1.235)</li>
           <li>Brief HTTP 403 refusals from a network edge, VPN, or proxy are now tolerated for up to 3 minutes before Remote Control surfaces an error, and the refusing party is named if the block persists (v2.1.238)</li>
           <li>Remote Control sessions started by <code>claude remote-control</code> no longer inherit session-scoped environment variables from the launching shell; a session whose process crashed can now be reused the next time you message it instead of staying unavailable until <code>claude remote-control</code> is restarted; messages sent from the web or Desktop mid-turn no longer disappear from the transcript once the turn finishes; model picks made on a phone or web now update the model shown in the terminal; a brief network hiccup delaying sign-in renewal no longer disconnects the session with "login expired"; and signing out now ends the session with a clear message instead of reporting a failed reconnect (v2.1.238)</li>
+          <li>A foreground subagent's tool calls and results now stream live to Remote Control clients as they happen — background subagents, the default, still show status only (v2.1.251)</li>
         </ul>
       </div></div>
     </div>
@@ -2912,13 +2916,14 @@ ENABLE_PROMPT_CACHING_1H=1</code></pre>
   │     FileChanged, CwdChanged, ConfigChange
   │     WorktreeCreate / WorktreeRemove
   │     PreCompact / PostCompact
+  │     PreModelSwitch / PostModelSwitch
   │     Notification
   │
   SessionEnd</code></pre>
         </div>
         <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:0;">
-          <div class="callout-title">26 Hook Events</div>
-          <p>See the <a href="#practices/cheat-sheet" onclick="scrollToSection('cheat-sheet')" style="color:var(--accent);">Cheat Sheet</a> for the full reference table of all 26 hook events organized by category.</p>
+          <div class="callout-title">30 Hook Events</div>
+          <p>See the <a href="#practices/cheat-sheet" onclick="scrollToSection('cheat-sheet')" style="color:var(--accent);">Cheat Sheet</a> for the full reference table of all 30 hook events organized by category.</p>
         </div>
       </div></div>
     </div>
