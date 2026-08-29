@@ -6,6 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.4 <span class="changelog-date">· 2026-08-29</span></h3>
+        <p><strong>Codex CLI rust-v0.151.0 auto-update.</strong> Two documentation updates covering a configurable MCP discovery grace period for optional servers and extension-level MCP tool-result interception, plus plugin catalog improvements.</p>
+        <ul>
+          <li><strong>CBP-495 — [Codex] Configurable MCP grace period for optional servers.</strong> Codex rust-v0.151.0 adds a <code>startup_grace_sec</code> config key that controls how long the session waits for an optional MCP server to finish tool discovery before proceeding — pair with <code>alwaysLoad: true</code> to pre-load tools from servers that start in time.</li>
+          <li><strong>CBP-496 — [Codex] Extension MCP result interception + plugin catalog per-repo config.</strong> Extensions can now inspect or replace MCP tool results before the model sees them. Plugin catalogs also now combine per-repository configuration with global and workspace sources, reporting invalid project marketplace entries without hiding valid plugins from other catalog sources.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.3 <span class="changelog-date">· 2026-08-28</span></h3>
         <p><strong>Claude Code v2.1.251 auto-update.</strong> Five documentation updates covering two new model-switch hook events (plus a hook-count correction), background-session shell subcommands, live subagent streaming to Remote Control, prompt-cache and per-model effort persistence, and a sub-agent model routing precedence clarification.</p>
         <ul>
