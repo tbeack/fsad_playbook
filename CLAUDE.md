@@ -14,43 +14,6 @@ FSAD Playbook — an interactive HTML guide documenting Full Stack Agentic Devel
 
 (No Mermaid.js or Highlight.js — earlier docs listed them in error; diagrams are pre-rendered PNG assets and code blocks are styled with plain CSS.)
 
-## Project Structure
-
-```
-/fsad_playbook
-├── src/                      # SOURCE OF TRUTH — edit here
-│   ├── playbook.tmpl.html    # Document scaffolding (head, sidebar, overlays) + @include/@asset directives
-│   ├── styles.css            # All CSS
-│   ├── pages/                # One partial per top-level page div (10 pages)
-│   ├── partials/             # changelog-modal.html
-│   ├── js/                   # App JS fragments (order fixed by the template)
-│   ├── vendor/               # minisearch.min.js (verbatim)
-│   ├── assets/               # Decoded PNG diagram assets (dark/light pairs)
-│   └── .build-stamp          # Divergence guard written by build-source.py
-├── scripts/
-│   ├── build-source.py       # src/* → fsad-playbook.html (byte-exact assembly)
-│   └── build-dist.py         # fsad-playbook.html → dist/fsad-playbook.html (never modify)
-├── fsad-playbook.html        # GENERATED intermediate (gitignored — do not edit directly)
-├── dist/fsad-playbook.html   # Committed self-contained artifact (deploy + offline sharing)
-├── CLAUDE.md                 # This file
-├── README.md                 # Project readme with version history
-├── .gitignore                # Git config
-├── LICENSE                   # Project license
-├── todo.md                   # Task tracking with CBP-### identifiers
-├── feedback.md               # Stakeholder feedback (JZ, etc.)
-├── example_claude.md         # Example CLAUDE.md embedded in the app
-├── delete.md                 # Cleanup tracking (gitignored)
-├── skills/                   # Installable Claude Code skills (fsd: plugin namespace)
-├── markdown/                 # Local reference docs (gitignored)
-│   ├── design/               # Design plans, UX reviews, specs
-│   ├── research/             # Research notes
-│   └── to do/                # Completed task plans
-├── .claude/                  # Claude Code config (gitignored)
-├── .planning/                # GSD planning state (gitignored)
-├── .remember/                # Session memory (gitignored)
-└── .worktrees/               # Git worktrees (gitignored)
-```
-
 ## App Architecture (v8)
 
 The app has **10 pages** toggled via `display: none/block`, each a partial in `src/pages/`:
@@ -115,27 +78,7 @@ python3 scripts/build-dist.py          # must log "Injected PLAYBOOK_EMBEDDINGS"
 
 ### Version bump checklist
 
-When cutting a new version, update **all three** of these locations in `src/` — they must always agree:
-
-1. **`<title>` tag** — `src/playbook.tmpl.html` head (line ~6) — `FSAD — Full Stack Agentic Development (vX.XX.X)`
-2. **Sidebar brand badge** — `src/playbook.tmpl.html` shell (search for `sidebar-brand`, line ~25) — `· vX.XX.X` inside the `<a>` tag
-3. **In-app changelog modal** — `src/partials/changelog-modal.html` — add a new `<section>` block above the previous latest version. For a multi-task auto-update run, follow the intro `<p>` with a `<ul>` — one `<li>` per CBP task, description sourced from that task's own `## Summary` section — so the "What's new this week" widget can render one card per task instead of falling back to a single bundle card:
-   ```html
-   <section>
-     <h3>vX.XX.X <span class="changelog-date">· YYYY-MM-DD</span></h3>
-     <p><strong>Summary sentence.</strong> Detail sentences.</p>
-     <ul>
-       <li><strong>CBP-### — [Claude|Codex] Short title.</strong> 1–2 sentence description, sourced from the task file's Summary.</li>
-       <li><strong>CBP-### — [Claude|Codex] Short title.</strong> 1–2 sentence description, sourced from the task file's Summary.</li>
-     </ul>
-   </section>
-   ```
-   A single-task version (no bundle) may keep just the intro `<p>` with no `<ul>`.
-
-Grep to verify the two template locations are in sync before committing (then eyeball the newest `<h3>` in `src/partials/changelog-modal.html`):
-```bash
-grep -n 'sidebar-brand\|<title>' src/playbook.tmpl.html | grep -v "^[0-9]*:.*<!--"
-```
+See the `version-bump` skill (`.claude/skills/version-bump/SKILL.md`) for the full checklist of the 3 locations that must stay in sync when cutting a new version.
 
 ## Auto-Update Workflow (`/cbp-update`)
 
@@ -152,7 +95,4 @@ Since the Option E refactor (CBP-472), the updater edits the `src/` tree (`src/p
 
 ## Working Together
 
-- Clarity over cleverness — the simple solution is usually correct
 - Match existing patterns — check how similar UI elements are already built before adding new ones
-- When stuck: stop, step back, simplify, ask
-- Ask clarifying questions if unclear on a concept or requirement
