@@ -80,6 +80,11 @@ Reusable Claude Code skills bundled under `skills/`. Install as a plugin to invo
 | `sec-review-fixes` | Opens fix PRs for High findings from a `sec-review-team` report |
 | `prd` | Write a PRD or feature spec — four-phase gated flow (Discovery → Specify → Plan → Tasks) |
 | `playbook-assistant` | Answer "how do I…" questions from the FSAD Playbook's own content, offline, with section citations |
+| `plan` | Plan a significant project, epic, or refactor — five gated planning artifacts (project, architecture, roadmap, verification, instructions) |
+| `set-context` | Gather codebase/initiative context before planning — graphify build/query or manual repo sweep, writes a single context.md |
+| `prompt-improver` | Rewrite a draft Claude prompt into a stronger, more reliable one using Anthropic's own prompt engineering techniques |
+| `spec-review` | Adversarial multi-agent review of a spec/PRD/RFC/design doc — 10 specialist lenses, refutation pass, severity-ranked report |
+| `plan-review` | Adversarial multi-agent review of an implementation plan against its baseline spec/ADR — 7 parallel lenses, verified findings |
 
 All skills read project conventions from `~/.claude/commands/fsd/projects.yaml` — copy `skills/add-task/add-task-projects.yaml` to that path and customize for your projects.
 
