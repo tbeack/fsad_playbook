@@ -1,0 +1,22 @@
+{
+  "name": "fsad-playbook",
+  "owner": {
+    "name": "Theo Beack"
+  },
+  "metadata": {
+    "description": "FSAD Playbook's own skill set, packaged as a Claude Code plugin."
+  },
+  "plugins": [
+    {
+      "name": "fsad-harness",
+      "source": "./",
+      "description": "FSAD Harness — reusable Claude Code skills for the Full Stack Agentic Development playbook workflow (task planning, execution, review, and shipping)",
+      "version": "0.1.0",
+      "author": {
+        "name": "Theo Beack"
+      },
+      "license": "MIT",
+      "keywords": ["fsad", "skills", "workflow", "task-management", "playbook"]
+    }
+  ]
+}
