@@ -504,3 +504,4 @@
 - [x] `CBP-495` [Codex] Document configurable MCP grace period for optional servers (rust-v0.151.0) → [task-cbp-495.md](completed/task-cbp-495.md)
 - [x] `CBP-496` [Codex] Document extension MCP result interception + plugin catalog per-repo config (rust-v0.151.0) → [task-cbp-496.md](completed/task-cbp-496.md)
 - [x] `CBP-497` — Document the 5 new `fsd:` skills (plan, set-context, prompt-improver, spec-review, plan-review) and 2 new hooks (context-monitor.js, fsd-memory-recommend.sh) in the Skills Library HTML page, add diagrams where warranted, and rebuild dist/ → [task-cbp-497.md](completed/task-cbp-497.md)
+- [x] `CBP-498` — Update the skills to use the prefix "fsd" similar to how "tb skills" do it. → [task-cbp-498.md](task-cbp-498.md)
