@@ -4,7 +4,7 @@
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
     'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'add-task-skill': 'workflows', 'commit-changes-skill': 'workflows',
     'tips-hero': 'tips', 'token-limits': 'tips', 'effort-levels': 'tips', 'session-patterns': 'tips',
-    'skills-hero': 'skills', 'skills-library': 'skills', 'skills-definitions': 'skills', 'code-review-team': 'skills', 'security-review': 'skills',
+    'skills-hero': 'skills', 'skills-library': 'skills', 'skills-definitions': 'skills', 'hooks-library': 'skills', 'code-review-team': 'skills', 'security-review': 'skills',
     'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'cloud-integrations': 'practices', 'monitoring': 'practices', 'production-monitoring': 'practices',
     'open-source-hero': 'open-source', 'open-source': 'open-source',
     'whats-new-hero': 'whats-new', 'whats-new-updates': 'whats-new',
