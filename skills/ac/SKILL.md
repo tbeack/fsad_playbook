@@ -3,7 +3,7 @@ description: Verify acceptance criteria for a task. Reads the task's detail file
 argument-hint: `<PREFIX-NNN | NNN>`
 ---
 
-# fsd:ac — acceptance criteria verifier
+# fsad-harness:ac — acceptance criteria verifier
 
 Fan every unchecked AC in a task file out to an independent verifier subagent, adversarially refute each claimed PASS before marking it, and let only the orchestrator edit the task file.
 
@@ -14,7 +14,7 @@ Fan every unchecked AC in a task file out to an independent verifier subagent, a
 3. Match cwd against each project's `match_paths` (expand `~`). Prefer the longest match if multiple match.
 4. If a project matches, use its entry as `cfg` and resolve `project_root`. Proceed.
 5. If **no project matches**:
-   - Tell the user: "This directory isn't registered. Run `/fsd:add-task` from the project to register it."
+   - Tell the user: "This directory isn't registered. Run `/fsad-harness:add-task` from the project to register it."
    - Stop.
 
 ## Step 1 — Resolve the task identifier
@@ -37,14 +37,14 @@ Resolve the path using the same rules as `do-task`:
 {project_root}/{cfg.task_dir}/{rendered cfg.task_filename_template}
 ```
 
-- **File not found**: Tell the user the task file doesn't exist. Suggest running `/fsd:do-task {ID}` to create it first. Stop.
+- **File not found**: Tell the user the task file doesn't exist. Suggest running `/fsad-harness:do-task {ID}` to create it first. Stop.
 - **File found**: Read it end-to-end. Continue.
 
 ## Step 3 — Find the Acceptance Criteria section
 
 Scan the task file for a `## Acceptance Criteria` heading.
 
-- **Section absent**: Tell the user: "No `## Acceptance Criteria` section found in `{task_file_path}`. Add one before running `/fsd:ac`." Stop.
+- **Section absent**: Tell the user: "No `## Acceptance Criteria` section found in `{task_file_path}`. Add one before running `/fsad-harness:ac`." Stop.
 - **Section present but all items already `[x]`**: Tell the user all ACs are already checked. Check whether the "All criteria verified" timestamp line exists above the list. If it's missing, add it (Step 7). Otherwise report: "All ACs already verified — nothing to do." Stop.
 - **At least one `- [ ]` item present**: Continue.
 
@@ -138,7 +138,7 @@ AC                                                     Verdict
 Then:
 
 - If **all passed**: "All ACs verified. Timestamp added to task file. Ready to commit."
-- If **any failed**: List each failing AC — including any refuter-downgraded ones with the refuter's reason — and what evidence was missing. Tell the user: "Fix the failing ACs and re-run `/fsd:ac {ID}`."
+- If **any failed**: List each failing AC — including any refuter-downgraded ones with the refuter's reason — and what evidence was missing. Tell the user: "Fix the failing ACs and re-run `/fsad-harness:ac {ID}`."
 - If **any unclear**: List each `UNCLEAR` AC with the reason and wait for the user's direction before re-running.
 
 ## Guardrails

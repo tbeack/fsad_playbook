@@ -1,10 +1,10 @@
 ---
 name: set-context
-description: Gather codebase and initiative context before planning starts — runs a graphify build or query when graphify is available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsd:plan's mandatory Phase 0. Use when the user says "set context", "gather context", or as the first step of fsd:plan.
+description: Gather codebase and initiative context before planning starts — runs a graphify build or query when graphify is available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsad-harness:plan's mandatory Phase 0. Use when the user says "set context", "gather context", or as the first step of fsad-harness:plan.
 argument-hint: `[target repo path]`
 ---
 
-# fsd:set-context — Context-Gathering Subskill
+# fsad-harness:set-context — Context-Gathering Subskill
 
 Gather everything a downstream planning pass needs — codebase shape plus the initiative's own
 boundaries — and emit it as a single `context.md` file. Nothing else reads or writes to disk in
@@ -68,7 +68,7 @@ Ask the user each of the following that graphify or the manual sweep couldn't al
 Ask **one at a time**, not as a form. Record every answer in `context.md` — a question asked but
 never carried into the file is not actually gathered.
 
-1. **Initiative slug/name** — the name used to derive the output directory (see `fsd:plan`'s Step
+1. **Initiative slug/name** — the name used to derive the output directory (see `fsad-harness:plan`'s Step
    4 slug-transform algorithm: lowercase, non-alphanumeric runs collapsed to a single hyphen,
    leading/trailing hyphens trimmed — e.g. "Auth Service Refactor!" → `auth-service-refactor`).
 2. **Scope boundaries** — what's in scope for this initiative, and what's explicitly out.
@@ -89,12 +89,12 @@ only in the conversation and not in the file.
 
 Write a single structured `context.md` to `planning/plan/<slug>/` (using the slug from Step 3.1
 and the transform above), or to a scratch location — e.g. the repo root — if that directory
-doesn't exist yet (it's created once the initiative is confirmed, in `fsd:plan`'s Phase 0).
+doesn't exist yet (it's created once the initiative is confirmed, in `fsad-harness:plan`'s Phase 0).
 
-**Why a file, not an in-memory handoff:** every downstream drafting agent (`fsd:plan`'s Phase
+**Why a file, not an in-memory handoff:** every downstream drafting agent (`fsad-harness:plan`'s Phase
 1-4.5) is a separately-dispatched `Agent`-tool subagent with no memory of this skill's own turn —
 only a file survives across that boundary. Every downstream drafting agent's dispatch prompt must
-reference this file's path rather than re-deriving context independently; that's on `fsd:plan`,
+reference this file's path rather than re-deriving context independently; that's on `fsad-harness:plan`,
 not this skill, but it's why this file's shape has to be complete on its own.
 
 Template:

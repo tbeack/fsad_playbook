@@ -3,7 +3,7 @@ description: Add a new task to any of your local projects. Auto-detects the curr
 argument-hint: `[brief task title]`
 ---
 
-# fsd:add-task — multi-project task adder
+# fsad-harness:add-task — multi-project task adder
 
 You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/fsd/projects.yaml` — always read that file before doing anything else.
 

@@ -3,7 +3,7 @@ description: Execute or plan a task in any of your local projects. Auto-detects 
 argument-hint: `<PREFIX-NNN | NNN> [PREFIX-NNN | NNN...]`
 ---
 
-# fsd:do-task — multi-project task executor
+# fsad-harness:do-task — multi-project task executor
 
 You help the user make progress on a single task in any registered project. The skill is **mode-switching**:
 
@@ -20,7 +20,7 @@ A task-detail file is **always required** before executing — even for projects
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
    - Tell the user the project is not registered.
-   - Suggest running `/fsd:add-task` from the project to register it, or offer to register it now.
+   - Suggest running `/fsad-harness:add-task` from the project to register it, or offer to register it now.
    - Stop.
 
 ## Step 0.5 — Multi-task dispatch
@@ -37,7 +37,7 @@ Split `$ARGUMENTS` on whitespace to get a list of tokens.
   3. For each token, spawn one Agent using the `Agent` tool with `isolation: "worktree"` so each agent works on its own branch. Each agent's prompt must include:
      - The current working directory (project root).
      - The single task ID assigned to that agent.
-     - The full instruction to run the complete `fsd:do-task` flow for that ID — entering plan mode if no task-detail file exists yet, or execute mode if it does. The agent must follow all steps (Step 0 through the relevant terminal step) exactly as this skill describes, operating on its one assigned ID only.
+     - The full instruction to run the complete `fsad-harness:do-task` flow for that ID — entering plan mode if no task-detail file exists yet, or execute mode if it does. The agent must follow all steps (Step 0 through the relevant terminal step) exactly as this skill describes, operating on its one assigned ID only.
      - An explicit note: **do NOT write or delete `.pmon-session-task`** — badge ownership belongs to the orchestrator.
      - An explicit note: **do NOT edit `{project_root}/{cfg.todo_file}` yourself** — completing agents must not write the shared main-tree todo file concurrently with siblings. Instead, return `todo_marked: false` in the structured result below and let the orchestrator batch the edit after every agent has returned.
      - The exact structured-return contract (below) — the agent's final message must be only this structure, not free text.
@@ -61,7 +61,7 @@ Split `$ARGUMENTS` on whitespace to get a list of tokens.
      TBS-013   execute mode  4/4 ACs verified, CHANGELOG updated, todo.md marked — changes isolated in worktree branch
      TBS-014   execute mode  2/3 ACs verified, blocked: refuted AC after 2 repair attempts — todo.md NOT marked
      ```
-     Then remove the badge file and tell the user: "Each agent's changes are in an isolated worktree branch. Run `fsd:ship-it` to merge them sequentially into your working tree before committing."
+     Then remove the badge file and tell the user: "Each agent's changes are in an isolated worktree branch. Run `fsad-harness:ship-it` to merge them sequentially into your working tree before committing."
      ```
      rm -f "{project_root}/.pmon-session-task"
      ```
@@ -93,7 +93,7 @@ grep "{ID}" "{todo_file_path}"
 ```
 Use the resolved absolute path for `{todo_file_path}` and quote it to handle spaces.
 
-- **Not found** — Tell the user the task isn't in the tracker. Suggest `/fsd:add-task [title]` to create it first. Stop.
+- **Not found** — Tell the user the task isn't in the tracker. Suggest `/fsad-harness:add-task [title]` to create it first. Stop.
 - **Already checked (`- [x]`)** — Tell the user it's already marked complete. Ask whether to re-execute (rare). Default: stop.
 - **Open (`- [ ]`)** — Continue.
 
@@ -156,7 +156,7 @@ Then update the todo entry to link the new task file. Match the existing linked-
 
 If `cfg.notes` mentions style cues (e.g. "reference task-cbp-030.md"), peek at that file first and match its tone.
 
-**Stop here.** Tell the user the plan is ready and that they can re-invoke `/fsd:do-task {ID}` to execute it. Do **not** start implementing.
+**Stop here.** Tell the user the plan is ready and that they can re-invoke `/fsad-harness:do-task {ID}` to execute it. Do **not** start implementing.
 
 ## Step 5 — Execute mode: implement the plan
 
@@ -284,9 +284,9 @@ If any AC is still `FAIL` after its repair budget is exhausted, or any AC is `UN
 
 All ACs have passed. Ask the user exactly once:
 
-> "All acceptance criteria passed. Would you like to run `/fsd:code-review-team` on this diff before wrapping up?"
+> "All acceptance criteria passed. Would you like to run `/fsad-harness:code-review-team` on this diff before wrapping up?"
 
-- **Yes** — Invoke the `fsd:code-review-team` skill (via `Skill` tool). Wait for it to complete. The skill writes `REVIEW-REPORT.md`; note any critical findings in the handoff message. Then continue to 5g.
+- **Yes** — Invoke the `fsad-harness:code-review-team` skill (via `Skill` tool). Wait for it to complete. The skill writes `REVIEW-REPORT.md`; note any critical findings in the handoff message. Then continue to 5g.
 - **No / no response** — Skip directly to 5g. Do not run the review.
 
 Do not run the review without explicit user confirmation.
@@ -350,7 +350,7 @@ Open the handoff message with a bold header on its own line:
 **{ID} — {title}**
 ```
 
-Then provide a concise summary covering: what was implemented, which ACs were verified, which files changed, whether the CHANGELOG was updated, whether the todo entry was marked done, whether a version was bumped (or why it was skipped), whether the code review was run (e.g., "Code review report written to `REVIEW-REPORT.md`") or skipped. Include the worktree branch name (e.g., `worktree-task-tbs-024`) and tell the user their changes are isolated on that branch. Suggest running `fsd:ship-it` (or `git merge <branch>`) to bring the changes into the main branch before pushing. **Wait for the user to say "commit"** before doing so.
+Then provide a concise summary covering: what was implemented, which ACs were verified, which files changed, whether the CHANGELOG was updated, whether the todo entry was marked done, whether a version was bumped (or why it was skipped), whether the code review was run (e.g., "Code review report written to `REVIEW-REPORT.md`") or skipped. Include the worktree branch name (e.g., `worktree-task-tbs-024`) and tell the user their changes are isolated on that branch. Suggest running `fsad-harness:ship-it` (or `git merge <branch>`) to bring the changes into the main branch before pushing. **Wait for the user to say "commit"** before doing so.
 
 ## Conventions to honour
 

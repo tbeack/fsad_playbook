@@ -1,15 +1,15 @@
 ---
-description: Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsd:sync key1 key2), and full-sync (fsd:sync ALL) modes.
+description: Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsad-harness:sync key1 key2), and full-sync (fsad-harness:sync ALL) modes.
 ---
 
-# fsd:sync — pre-flight sync check
+# fsad-harness:sync — pre-flight sync check
 
 Run this before starting any work session to confirm your local repo(s) are in sync with the remote.
 
 **Invocation:**
-- `fsd:sync` — sync the project for the current working directory
-- `fsd:sync ALL` — sync every project in `projects.yaml`
-- `fsd:sync <key1> <key2> …` — sync one or more named projects by YAML key
+- `fsad-harness:sync` — sync the project for the current working directory
+- `fsad-harness:sync ALL` — sync every project in `projects.yaml`
+- `fsad-harness:sync <key1> <key2> …` — sync one or more named projects by YAML key
 
 ## Step 0 — Parse arguments
 
@@ -76,7 +76,7 @@ If `git fetch` fails (no remote, no network): set `state = "fetch_failed"`, `err
    a. Read the project version from `cfg.version_files` (first file). If the project is unregistered or has no `version_files`, skip the rest of this step.
    b. Derive the expected branch name from `cfg.release_branch_pattern` (default: `release/{version}`).
    c. If the local branch name does not equal the expected name, warn:
-      > "Branch `<local>` is stale — current version is `<version>`, expected `<expected>`. Run `/fsd:ship` to rename it."
+      > "Branch `<local>` is stale — current version is `<version>`, expected `<expected>`. Run `/fsad-harness:ship` to rename it."
    d. Run `git ls-remote --heads origin <expected>` to check remote presence.
       - Not found: note "Expected branch `<expected>` has not been pushed to the remote yet."
       - Found and name is already correct: no action.
@@ -108,7 +108,7 @@ First confirm the branch has an upstream tracking ref:
 git rev-parse --abbrev-ref --symbolic-full-name @{u}
 ```
 
-- **Fails** (`fatal: no upstream configured for branch ...`): record state **No upstream** (`state = "no_upstream"`, `ahead = null`, `behind = null`) for this project and skip the rest of this step — do not run the `git rev-list` commands below, they will crash without an upstream ref. This is expected for local-only branches, e.g. a `worktree-task-*` branch created by `fsd:do-task` that hasn't been merged/pushed yet.
+- **Fails** (`fatal: no upstream configured for branch ...`): record state **No upstream** (`state = "no_upstream"`, `ahead = null`, `behind = null`) for this project and skip the rest of this step — do not run the `git rev-list` commands below, they will crash without an upstream ref. This is expected for local-only branches, e.g. a `worktree-task-*` branch created by `fsad-harness:do-task` that hasn't been merged/pushed yet.
 - **Succeeds**: continue with the ahead/behind comparison:
 
 ```bash
@@ -132,7 +132,7 @@ When Step 6 finds `behind > 0` and `ahead == 0`, do not run `git pull` unconditi
 
 1. **Precondition — check the dirty-tree result already computed in Step 5.**
    - If `dirty == true`: **skip the pull.** Set `pull_attempted = false`, `pull_succeeded = null`. Report:
-     > "⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsd:sync."
+     > "⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsad-harness:sync."
      Stop here for this project's Behind-state handling — do not run `git pull`.
    - If `dirty == false`: proceed to step 2.
 
@@ -157,7 +157,7 @@ Build every summary line **from the structured per-project result record** (defi
 | `fetch_failed` | — | — | `✗ Fetch failed — <error>` |
 | `no_upstream` | — | — | `⚠ No upstream branch — run 'git push -u origin <branch>' to enable sync checks.` |
 | `up_to_date` | — | — | `✓ Up to date — safe to start work.` |
-| `behind` | `false` | `null` | `⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsd:sync.` |
+| `behind` | `false` | `null` | `⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsad-harness:sync.` |
 | `behind` | `true` | `true` | `✓ Pulled N commit(s) — repo now up to date.` |
 | `behind` | `true` | `false` | `✗ Pull did not fully succeed — still N commit(s) behind after pull. Manual resolution required.` |
 | `ahead` | — | — | `⚠ N commit(s) ahead — push when ready.` |
@@ -166,13 +166,13 @@ Build every summary line **from the structured per-project result record** (defi
 **Single-project mode** — one banner line, e.g.:
 
 ```
-[fsd:sync] ✓ Up to date — safe to start work.
-[fsd:sync] ✓ Pulled 3 commit(s) — repo now up to date.
-[fsd:sync] ⚠ 2 commit(s) behind, but the working tree has uncommitted changes — skipping pull.
-[fsd:sync] ✗ Pull did not fully succeed — still 1 commit(s) behind after pull. Manual resolution required.
-[fsd:sync] ⚠ 2 commit(s) ahead — push when ready.
-[fsd:sync] ✗ Diverged — resolve before starting work.
-[fsd:sync] ⚠ No upstream branch — run 'git push -u origin <branch>' to enable sync checks.
+[fsad-harness:sync] ✓ Up to date — safe to start work.
+[fsad-harness:sync] ✓ Pulled 3 commit(s) — repo now up to date.
+[fsad-harness:sync] ⚠ 2 commit(s) behind, but the working tree has uncommitted changes — skipping pull.
+[fsad-harness:sync] ✗ Pull did not fully succeed — still 1 commit(s) behind after pull. Manual resolution required.
+[fsad-harness:sync] ⚠ 2 commit(s) ahead — push when ready.
+[fsad-harness:sync] ✗ Diverged — resolve before starting work.
+[fsad-harness:sync] ⚠ No upstream branch — run 'git push -u origin <branch>' to enable sync checks.
 ```
 
 Append `(uncommitted changes present)` if the record's `dirty` field is true.

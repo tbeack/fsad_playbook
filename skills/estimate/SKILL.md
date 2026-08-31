@@ -12,7 +12,7 @@ The point of an estimation pass is **relative consistency within the batch**, no
 
 ## Input
 
-The user provides work items after invoking `/fsd:estimate`. Items can be in any format:
+The user provides work items after invoking `/fsad-harness:estimate`. Items can be in any format:
 - Bullet list
 - Numbered list
 - Paragraphs

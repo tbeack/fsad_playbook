@@ -466,7 +466,7 @@ Tell the user:
 - If `re_review_mode`: `<P> previously-reported issues still open (not repeated above — see known-findings.jsonl), <Q> nits suppressed` — if any of `<P>` are legacy entries counted per the still-open re-verification step's step 2 (predating `file`/`evidence_snippet` tracking), append `(<L> of these counted without re-verification — ledger entry predates file/evidence tracking)`; if any critical/major entries hit step 4's unverified branch, append a separate line: `<M> critical/major previously-reported issues could not be re-verified this run — status unknown, recommend manual check`
 - Tooling caveats (linters unavailable, specialists errored)
 
-Do NOT apply fixes. Fix workflow: open the relevant file, address findings manually, re-run `/fsd:code-review-team diff vs main` to verify.
+Do NOT apply fixes. Fix workflow: open the relevant file, address findings manually, re-run `/fsad-harness:code-review-team diff vs main` to verify.
 
 ---
 
