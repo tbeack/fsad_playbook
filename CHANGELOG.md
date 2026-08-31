@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.5 — 2026-08-31
+
+**Skills Library — 5 new `fsd:` skills + Hooks Library (CBP-497)**
+
+Documents the 5 new planning/review skills ported by `TBS-083` — `plan`, `set-context`, `prompt-improver`, `spec-review`, `plan-review` — in the Skills Library, plus a new Hooks Library section covering `context-monitor.js` and `fsd-memory-recommend.sh`.
+
+- **CBP-497 — Document 5 new `fsd:` skills and 2 new hooks in the Skills Library.** Adds full `SKILL.md` source embeds for `plan`, `set-context`, `prompt-improver`, `spec-review`, `plan-review` under a new "Planning & Specification" group; nested Specialist Definitions (`spec-review`, 10 lenses) and Lens Definitions (`plan-review`, 7 lenses) sub-sections matching the existing Code/Security Review Team card pattern; inline SVG orchestration diagrams (dark + light) for `plan`'s named-agent resume flow and `plan-review`'s inventory → parallel-lens → verify → adjudicate → completeness-critic pipeline; and a new Hooks Library section with full source embeds for both hooks, including an explicit statusline-dependency caveat on `context-monitor.js`.
+
 ### v4.1.4 — 2026-08-29
 
 **Codex CLI rust-v0.151.0 auto-update (CBP-495 through CBP-496)**

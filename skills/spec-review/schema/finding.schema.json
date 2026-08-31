@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tb-skills/schemas/spec-review/finding.schema.json",
+  "title": "spec-review finding",
+  "description": "One adversarial-review finding against a spec/proposal document. Emitted as one JSON object per line in <lens>.findings.jsonl during Phase 2; validator_verdict is populated by the orchestrator after Phase 3.",
+  "type": "object",
+  "required": ["id", "lens", "severity", "confidence", "anchor", "problem", "consequence", "suggested_fix"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+-[0-9]+$",
+      "description": "Stable per-run finding ID, e.g. 'logic-auditor-003'. Prefix with the lens name, zero-padded index suffix."
+    },
+    "lens": {
+      "type": "string",
+      "enum": [
+        "logic-auditor",
+        "assumption-hunter",
+        "evidence-checker",
+        "completeness-auditor",
+        "feasibility-critic",
+        "alternatives-analyst",
+        "consistency-checker",
+        "stakeholder-adversary",
+        "testability-auditor",
+        "risk-and-blast-radius"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["blocking", "major", "minor", "nit"],
+      "description": "blocking = must be resolved before this proceeds; major/minor/nit = severity-ranked per the report's Major/Minor/Nit section. A finding that is reviewer taste rather than a defect must be 'nit', not a higher tier."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "How directly the evidence proves the claim — high = the anchor alone proves it; medium = anchor + one inference step; low = inferred from indirect signals."
+    },
+    "anchor": {
+      "type": "object",
+      "required": ["heading", "quote"],
+      "additionalProperties": false,
+      "properties": {
+        "heading": {
+          "type": "string",
+          "description": "The document heading (or 'preamble' if before the first heading) the quote is drawn from."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Exact quoted phrase from the document. A finding with no anchor is not a finding — do not emit one with an empty or paraphrased quote."
+        }
+      }
+    },
+    "refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(C|A|D|R|SC|SB|DEP)-[0-9]+$"
+      },
+      "description": "Phase 1 inventory IDs this finding relates to: C=Claims, A=Assumptions, D=Decisions, R=Requirements, SC=Success criteria, SB=Scope boundaries, DEP=Dependencies."
+    },
+    "problem": {
+      "type": "string",
+      "description": "What's wrong, stated concretely."
+    },
+    "consequence": {
+      "type": "string",
+      "description": "The concrete, specific consequence if unaddressed — not 'this is unclear' but the actual downstream failure this causes."
+    },
+    "suggested_fix": {
+      "type": "string",
+      "description": "A specific suggested fix, or the specific question the author needs to answer."
+    },
+    "validator_verdict": {
+      "type": "object",
+      "description": "Populated by the orchestrator after Phase 3 adversarial validation. Absent on the specialist's initial emission.",
+      "required": ["status", "reasoning"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["survived", "refuted"]
+        },
+        "reasoning": {
+          "type": "string",
+          "description": "The validator's reasoning, kept for the 'Considered and dropped' appendix when refuted."
+        },
+        "votes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3,
+          "description": "Number of validators that voted 'survived', out of votes_total. Only present at --depth deep (3-validator majority)."
+        },
+        "votes_total": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        }
+      }
+    }
+  }
+}

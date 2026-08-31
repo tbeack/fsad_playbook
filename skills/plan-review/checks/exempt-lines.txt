@@ -1,0 +1,17 @@
+# Exemptions for checks/hygiene-check.py — SHA-256 of each SKILL.md line
+# that is permitted to carry an otherwise-forbidden construct.
+#
+# This file exists because an audit showed every in-file exemption (a line window,
+# a marker sentence, a fence) could be MINTED BY SKILL.md ITSELF: an edit could create
+# its own immunity and smuggle violations past the check. Exemptions therefore live
+# here, outside the file under test. Adding one is a deliberate, reviewable edit to a
+# second file, and changing an exempted line's text invalidates its hash.
+#
+# Format: <sha256-of-stripped-line>  # <reason>
+
+a78799da75d061349d013e12e70b1a70f295a9b7a44918cd1224e467587d1fc6  # L25 declares a path convention or its default
+278d07a5edd431d63588894104afb9882950e3214a2fc572289fe18c3655b9e6  # L116 declares a path convention or its default
+2bf0656631f03b4b6cd22bfbf4cbc7f25bdda216da0060c9465407f984ecce35  # L146 declares a path convention or its default
+1b6fe83d5bb5c4fb196b3cb03aff5bfee54633bdcd502394a417bddc956bc783  # L151 declares a path convention or its default
+9836af7f57d0da7e03e7a59d7b4d660492062e7a5a33dab3dab7b3ea34226afe  # L160 declares a path convention or its default
+dcb50935b87f187329285dd976c7911133b0aab5608b9108ff5babf9941c95b4  # L191 Phase 2 tool allowlist — names permitted binaries, not lens obligations
