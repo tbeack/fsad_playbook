@@ -1,4 +1,4 @@
-# fsd:add-task — project conventions
+# fsad-harness:add-task — project conventions
 #
 # The skill resolves the current working directory against `match_paths` for
 # each project (longest match wins; the cwd may be a descendant of a match

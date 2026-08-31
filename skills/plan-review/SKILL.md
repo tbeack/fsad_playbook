@@ -3,11 +3,11 @@ description: Run a detailed, adversarial multi-agent review of an implementation
 argument-hint: `<source> <target> [--baseline <path>] [--depth quick|standard|deep] [--scope <text>] [--run-dir <path>]`
 ---
 
-# fsd:plan-review — Adversarial Implementation-Plan Review
+# fsad-harness:plan-review — Adversarial Implementation-Plan Review
 
 **What this optimizes for:** catching the thing that makes the plan unbuildable *before* anyone starts building it. A plan is cheap to change and expensive to have half-built, so the review is worth running exactly once — here — and its value comes from measuring the plan against two things it cannot check for itself: the baseline it promised to honour, and the repository it will actually land in. What that yields in practice is defined per lens in `lenses.md`, not here.
 
-This is the **plan-stage gate**. It runs before the code-stage gates (`fsd:code-review-team`, `fsd:sec-review-team`) — there is no code yet.
+This is the **plan-stage gate**. It runs before the code-stage gates (`fsad-harness:code-review-team`, `fsad-harness:sec-review-team`) — there is no code yet.
 
 Review-only. The skill writes exactly two things: the findings document at `target`, and the run directory (`run_dir`, defaulting beside `target` — see Parameters). Nothing else on disk is touched.
 
@@ -33,7 +33,7 @@ Review-only. The skill writes exactly two things: the findings document at `targ
 Say so and stop, rather than producing a report that pads a non-problem:
 
 - **Single-step plans.** One step, one file, one acceptance criterion. There is no sequencing to audit, no cross-reference graph, and no baseline drift to measure. A normal read is cheaper and just as good.
-- **Plans with no baseline and no cross-references.** If nothing resolves as `baseline` and the plan cites no ADRs, no sibling documents, no numbered artefacts, and no source files, then five of the seven lenses have nothing to check against — the review degenerates into proofreading. Offer `fsd:spec-review` instead, which judges a document on its own terms.
+- **Plans with no baseline and no cross-references.** If nothing resolves as `baseline` and the plan cites no ADRs, no sibling documents, no numbered artefacts, and no source files, then five of the seven lenses have nothing to check against — the review degenerates into proofreading. Offer `fsad-harness:spec-review` instead, which judges a document on its own terms.
 - **Pure-copy edits.** Wording, formatting, typo, or link-text changes to an existing plan. Diff the prose; do not convene a review team.
 
 If the user asks anyway after being told, run it — say what the reduced roster will be first.
@@ -266,11 +266,11 @@ Report back to the user: the path written, the verdict line, the count at each s
 
 ## Non-goals
 
-- **Not a code review.** There is no implementation yet. Use `fsd:code-review-team` once there is.
-- **Not a security review.** Threat modelling of the built system is `fsd:sec-review-team`'s job.
+- **Not a code review.** There is no implementation yet. Use `fsad-harness:code-review-team` once there is.
+- **Not a security review.** Threat modelling of the built system is `fsad-harness:sec-review-team`'s job.
 - **Not an approval.** The document is input to the plan owner's decision, not a merge verdict rendered on their behalf.
 - **Not a rewrite service.** It never edits the plan and never opens a PR.
-- **Not a proposal critique.** Judging a document on its own merits, with no baseline to honour, is `fsd:spec-review`.
+- **Not a proposal critique.** Judging a document on its own merits, with no baseline to honour, is `fsad-harness:spec-review`.
 - **Not exhaustive by default.** `quick` and `standard` are bounded on purpose; every bound is logged in Coverage.
 
 ---
@@ -279,12 +279,12 @@ Report back to the user: the path written, the verdict line, the count at each s
 
 | Skill | Stage | Subject | Judged against | Output |
 |---|---|---|---|---|
-| `fsd:spec-review` | Proposal | A spec, PRD, RFC, or design doc | Its own internal consistency | `SPEC-REVIEW.md` beside the document |
-| **`fsd:plan-review`** | **Plan** | **An implementation plan — PR, branch, or planning doc** | **The baseline spec/ADR it must honour, and the repository** | **A caller-specified `target`** |
-| `fsd:code-review-team` | Code | A diff or path | Correctness, design, performance, maintainability, testing, API contract | `REVIEW-REPORT.md` |
-| `fsd:sec-review-team` | Code | A codebase or diff | A stack-selected security specialist roster | `REPORT.md` + `known-findings.jsonl` |
+| `fsad-harness:spec-review` | Proposal | A spec, PRD, RFC, or design doc | Its own internal consistency | `SPEC-REVIEW.md` beside the document |
+| **`fsad-harness:plan-review`** | **Plan** | **An implementation plan — PR, branch, or planning doc** | **The baseline spec/ADR it must honour, and the repository** | **A caller-specified `target`** |
+| `fsad-harness:code-review-team` | Code | A diff or path | Correctness, design, performance, maintainability, testing, API contract | `REVIEW-REPORT.md` |
+| `fsad-harness:sec-review-team` | Code | A codebase or diff | A stack-selected security specialist roster | `REPORT.md` + `known-findings.jsonl` |
 
-Run them in that order. `fsd:plan-review` catches what would otherwise be found in code review at ten times the cost.
+Run them in that order. `fsad-harness:plan-review` catches what would otherwise be found in code review at ten times the cost.
 
 ---
 

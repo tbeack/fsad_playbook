@@ -1,4 +1,4 @@
-# `fsd:plan-review` — findings-document template
+# `fsad-harness:plan-review` — findings-document template
 
 Assemble `target` from this template in Phase 6. Every section below is required. Sections marked *(conditional)* are omitted only when the stated condition holds, and their omission is recorded in **Coverage**.
 
@@ -23,7 +23,7 @@ House rules for the prose:
 |---|---|
 | **Reviewed** | [<plan path or PR title>](<link>) |
 | **Reviewed against** | [<baseline path or title>](<link>) — *chosen because: <how it resolved>* |
-| **Reviewer** | `fsd:plan-review` — depth `<quick\|standard\|deep>`, <N> lenses |
+| **Reviewer** | `fsad-harness:plan-review` — depth `<quick\|standard\|deep>`, <N> lenses |
 | **Date** | YYYY-MM-DD |
 | **Head SHA** | `<sha>` <version tag, if any> |
 | **Base SHA** | `<sha>` <version tag, if any> — <N> commits behind `origin/<default>` |

@@ -2,28 +2,28 @@
 
 <div class="hero" id="skills-hero" style="padding-bottom: 1.2rem;">
   <div class="hero-badge">Installable Skills for FSAD Pods</div>
-  <h1>The <code style="font-family: var(--font-mono); font-size: 0.82em; color: inherit;">fsd:</code> Skill <em>Library</em></h1>
-  <p>Eighteen installable skills for planning, task management, code review, and security. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsd:&lt;name&gt;</code>.</p>
+  <h1>The <code style="font-family: var(--font-mono); font-size: 0.82em; color: inherit;">fsad-harness:</code> Skill <em>Library</em></h1>
+  <p>Eighteen installable skills for planning, task management, code review, and security. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsad-harness:&lt;name&gt;</code>.</p>
 </div>
 
 <hr class="divider">
 
 <section id="skills-library">
   <span class="section-label">01 — Skills in this Playbook</span>
-  <h2 class="section-title">The <code style="font-family: var(--font-mono); font-size: 0.82em;">fsd:</code> Skill Library</h2>
-  <p class="section-subtitle">Eighteen installable skills for FSAD pods — planning, task management, code review, and security. Each skill lives in this repo's <code>skills/</code> directory as a <code>SKILL.md</code> file. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsd:&lt;name&gt;</code>.</p>
+  <h2 class="section-title">The <code style="font-family: var(--font-mono); font-size: 0.82em;">fsad-harness:</code> Skill Library</h2>
+  <p class="section-subtitle">Eighteen installable skills for FSAD pods — planning, task management, code review, and security. Each skill lives in this repo's <code>skills/</code> directory as a <code>SKILL.md</code> file. Install once via the Claude Code plugin system; invoke anywhere with <code>/fsad-harness:&lt;name&gt;</code>.</p>
 
   <div class="wf-card" style="margin-bottom: 2rem; max-width: 720px;">
     <span class="wf-card-label">Installation</span>
     <h4>Install via the Claude Code plugin system</h4>
     <pre>claude plugin install https://github.com/tbeack/fsad_playbook</pre>
-    <p class="wf-card-footnote">Skills install under the <code>fsd:</code> namespace. Invoke any skill with <code>/fsd:&lt;name&gt;</code>. The plugin exposes all skills to the current Claude Code session via the standard plugin cascade.</p>
+    <p class="wf-card-footnote">Skills install under the <code>fsad-harness:</code> namespace. Invoke any skill with <code>/fsad-harness:&lt;name&gt;</code>. The plugin exposes all skills to the current Claude Code session via the standard plugin cascade.</p>
   </div>
 
   <span class="section-label" style="display: block; margin-bottom: 0.75rem;">Workflow Management</span>
   <div class="wf-grid">
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:do-task &lt;ID&gt;</span>
+      <span class="wf-card-label">/fsad-harness:do-task &lt;ID&gt;</span>
       <h4>Plan or execute any task</h4>
       <p>Mode-switching skill: if no task file exists it interviews you and writes the plan; if a plan exists it implements it, verifies every acceptance criterion, and marks the task complete.</p>
       <div class="wf-chips">
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:add-task [title]</span>
+      <span class="wf-card-label">/fsad-harness:add-task [title]</span>
       <h4>Capture a new task</h4>
       <p>Auto-detects the current project, finds the next task number, and adds a numbered entry to the todo file — then interviews you one question at a time to write the task detail file.</p>
       <div class="wf-chips">
@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:ship-it</span>
+      <span class="wf-card-label">/fsad-harness:ship-it</span>
       <h4>Wrap up a finished batch</h4>
       <p>Four sequential phases: README check, CHANGELOG versioning, completed-task cleanup, then commit + push + PR. Run after <code>do-task</code> marks one or more tasks done.</p>
       <div class="wf-chips">
@@ -52,15 +52,15 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:next</span>
+      <span class="wf-card-label">/fsad-harness:next</span>
       <h4>Pick the next open task and run it</h4>
-      <p>Reads the project's todo file, finds the first unchecked item, and hands it straight to <code>fsd:do-task</code>. No arguments needed.</p>
+      <p>Reads the project's todo file, finds the first unchecked item, and hands it straight to <code>fsad-harness:do-task</code>. No arguments needed.</p>
       <div class="wf-chips">
         <span class="wf-chip">hands off to do-task</span>
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:sync</span>
+      <span class="wf-card-label">/fsad-harness:sync</span>
       <h4>Pre-flight sync check</h4>
       <p>Fetches from the remote and reports local branch state before you start work. Handles all four states: up-to-date, ahead, behind (auto-pulls), and diverged (warns).</p>
       <div class="wf-chips">
@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:ac &lt;ID&gt;</span>
+      <span class="wf-card-label">/fsad-harness:ac &lt;ID&gt;</span>
       <h4>Verify acceptance criteria</h4>
       <p>Walks every unchecked AC in a task file, inspects the codebase for evidence, and marks each passing criterion immediately. Useful for re-running ACs after implementation or in a follow-up session.</p>
       <div class="wf-chips">
@@ -80,7 +80,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:estimate</span>
+      <span class="wf-card-label">/fsad-harness:estimate</span>
       <h4>Story point estimation</h4>
       <p>Estimates work items on a Fibonacci scale (1–21) using a three-factor rubric: complexity, effort, and risk. Accepts bullet lists, numbered lists, or free prose as input.</p>
       <div class="wf-chips">
@@ -89,7 +89,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:init</span>
+      <span class="wf-card-label">/fsad-harness:init</span>
       <h4>Initialize a new project</h4>
       <p>Creates the standard FSAD folder structure, writes template files, and initializes a local + remote git repository — all in one shot from the current directory.</p>
       <div class="wf-chips">
@@ -99,7 +99,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:prd [feature title]</span>
+      <span class="wf-card-label">/fsad-harness:prd [feature title]</span>
       <h4>Write a PRD or feature spec</h4>
       <p>Four-phase gated flow: Discovery (Analyst role) → Specify (PM role) → Technical Plan → Task decomposition. Produces <code>spec.md</code>, <code>plan.md</code>, and <code>tasks.md</code> in the project's <code>planning/prd/</code> directory.</p>
       <div class="wf-chips">
@@ -113,7 +113,7 @@
   <span class="section-label" style="display: block; margin-top: 2rem; margin-bottom: 0.75rem;">Planning &amp; Specification</span>
   <div class="wf-grid">
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:plan [initiative name] [repo path]</span>
+      <span class="wf-card-label">/fsad-harness:plan [initiative name] [repo path]</span>
       <h4>Plan a large initiative or refactor</h4>
       <p>Gated, phase-by-phase planning agent for epics spanning multiple projects or major codebase refactors. Produces five artifacts — project.md, architecture.md, roadmap.md, verification.md, instructions.md — via five specialist role briefs, with named-agent resume support if a phase is interrupted.</p>
       <div class="wf-chips">
@@ -123,16 +123,16 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:set-context [repo path]</span>
+      <span class="wf-card-label">/fsad-harness:set-context [repo path]</span>
       <h4>Gather context before planning</h4>
-      <p>Runs a graphify build or query when available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsd:plan's mandatory Phase 0.</p>
+      <p>Runs a graphify build or query when available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsad-harness:plan's mandatory Phase 0.</p>
       <div class="wf-chips">
         <span class="wf-chip">graphify integration</span>
         <span class="wf-chip">context.md</span>
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:prompt-improver</span>
+      <span class="wf-card-label">/fsad-harness:prompt-improver</span>
       <h4>Strengthen a draft prompt</h4>
       <p>Rewrites a prompt intended for Claude into a stronger, more reliable one — specificity, role/system framing, XML-tag structure, examples, chain-of-thought cues, explicit output formatting. Works on task prompts, system prompts, and skill/agent instructions alike.</p>
       <div class="wf-chips">
@@ -141,7 +141,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:spec-review [path]</span>
+      <span class="wf-card-label">/fsad-harness:spec-review [path]</span>
       <h4>Adversarial review of a spec or proposal</h4>
       <p>Reviews a written proposal or specification — not code. Runs a steelman/inventory pass, up to 10 specialist lenses in parallel, adversarial validation that defaults to refuting each finding unless it survives, then a loop-until-dry completeness pass. Writes a single severity-ranked SPEC-REVIEW.md.</p>
       <div class="wf-chips">
@@ -151,7 +151,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:plan-review &lt;source&gt; &lt;target&gt;</span>
+      <span class="wf-card-label">/fsad-harness:plan-review &lt;source&gt; &lt;target&gt;</span>
       <h4>Adversarial review of an implementation plan</h4>
       <p>Reviews an implementation plan — a PR, branch, or planning doc — against its baseline spec or ADR. Builds a shared inventory, runs up to 7 lenses in parallel, verifies every finding against the repository, adjudicates by severity, then loops a completeness critic until dry.</p>
       <div class="wf-chips">
@@ -165,7 +165,7 @@
   <span class="section-label" style="display: block; margin-top: 2rem; margin-bottom: 0.75rem;">Review &amp; Security</span>
   <div class="wf-grid">
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:code-review-team</span>
+      <span class="wf-card-label">/fsad-harness:code-review-team</span>
       <h4>Multi-agent code review</h4>
       <p>Dispatches 7 specialist reviewers in parallel (correctness, design, performance, maintainability, testing, API contract, security), then consolidates validator-confirmed findings into a severity-ranked <code>REVIEW-REPORT.md</code> with a merge recommendation.</p>
       <div class="wf-chips">
@@ -175,7 +175,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:sec-review-team</span>
+      <span class="wf-card-label">/fsad-harness:sec-review-team</span>
       <h4>Multi-agent security review</h4>
       <p>Picks a specialist roster based on detected stack signals (webapp, IaC, LLM-agent, container, backend, etc.) from a library of 13 specialists. Produces a severity-ranked <code>REPORT.md</code> with deduped root issues.</p>
       <div class="wf-chips">
@@ -185,7 +185,7 @@
       </div>
     </div>
     <div class="wf-card">
-      <span class="wf-card-label">/fsd:sec-review-fixes</span>
+      <span class="wf-card-label">/fsad-harness:sec-review-fixes</span>
       <h4>Apply security fix PRs</h4>
       <p>Companion to <code>sec-review-team</code>. Takes a <code>REPORT.md</code> or <code>findings.jsonl</code> and produces fix PRs per finding — each with a regression test. Safeguards: branch-only commits, no force-push, clean working tree required.</p>
       <div class="wf-chips">
@@ -206,7 +206,7 @@
   <span class="section-label" style="display:block; margin-bottom:0.75rem;">Workflow Management</span>
     <div class="collapsible" id="skill-def--do-task" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:do-task <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;ID&gt;</span></h3>
+        <h3>/fsad-harness:do-task <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;ID&gt;</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -217,7 +217,7 @@ description: Execute or plan a task in any of your local projects. Auto-detects 
 argument-hint: `&lt;PREFIX-NNN | NNN&gt; [PREFIX-NNN | NNN...]`
 ---
 
-# fsd:do-task — multi-project task executor
+# fsad-harness:do-task — multi-project task executor
 
 You help the user make progress on a single task in any registered project. The skill is **mode-switching**:
 
@@ -234,7 +234,7 @@ A task-detail file is **always required** before executing — even for projects
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
    - Tell the user the project is not registered.
-   - Suggest running `/fsd:add-task` from the project to register it, or offer to register it now.
+   - Suggest running `/fsad-harness:add-task` from the project to register it, or offer to register it now.
    - Stop.
 
 ## Step 0.5 — Multi-task dispatch
@@ -251,7 +251,7 @@ Split `$ARGUMENTS` on whitespace to get a list of tokens.
   3. For each token, spawn one Agent using the `Agent` tool with `isolation: &quot;worktree&quot;` so each agent works on its own branch. Each agent&#x27;s prompt must include:
      - The current working directory (project root).
      - The single task ID assigned to that agent.
-     - The full instruction to run the complete `fsd:do-task` flow for that ID — entering plan mode if no task-detail file exists yet, or execute mode if it does. The agent must follow all steps (Step 0 through the relevant terminal step) exactly as this skill describes, operating on its one assigned ID only.
+     - The full instruction to run the complete `fsad-harness:do-task` flow for that ID — entering plan mode if no task-detail file exists yet, or execute mode if it does. The agent must follow all steps (Step 0 through the relevant terminal step) exactly as this skill describes, operating on its one assigned ID only.
      - An explicit note: **do NOT write or delete `.pmon-session-task`** — badge ownership belongs to the orchestrator.
      - An explicit note: **do NOT edit `{project_root}/{cfg.todo_file}` yourself** — completing agents must not write the shared main-tree todo file concurrently with siblings. Instead, return `todo_marked: false` in the structured result below and let the orchestrator batch the edit after every agent has returned.
      - The exact structured-return contract (below) — the agent&#x27;s final message must be only this structure, not free text.
@@ -275,7 +275,7 @@ Split `$ARGUMENTS` on whitespace to get a list of tokens.
      TBS-013   execute mode  4/4 ACs verified, CHANGELOG updated, todo.md marked — changes isolated in worktree branch
      TBS-014   execute mode  2/3 ACs verified, blocked: refuted AC after 2 repair attempts — todo.md NOT marked
      ```
-     Then remove the badge file and tell the user: &quot;Each agent&#x27;s changes are in an isolated worktree branch. Run `fsd:ship-it` to merge them sequentially into your working tree before committing.&quot;
+     Then remove the badge file and tell the user: &quot;Each agent&#x27;s changes are in an isolated worktree branch. Run `fsad-harness:ship-it` to merge them sequentially into your working tree before committing.&quot;
      ```
      rm -f &quot;{project_root}/.pmon-session-task&quot;
      ```
@@ -307,7 +307,7 @@ grep &quot;{ID}&quot; &quot;{todo_file_path}&quot;
 ```
 Use the resolved absolute path for `{todo_file_path}` and quote it to handle spaces.
 
-- **Not found** — Tell the user the task isn&#x27;t in the tracker. Suggest `/fsd:add-task [title]` to create it first. Stop.
+- **Not found** — Tell the user the task isn&#x27;t in the tracker. Suggest `/fsad-harness:add-task [title]` to create it first. Stop.
 - **Already checked (`- [x]`)** — Tell the user it&#x27;s already marked complete. Ask whether to re-execute (rare). Default: stop.
 - **Open (`- [ ]`)** — Continue.
 
@@ -370,7 +370,7 @@ Then update the todo entry to link the new task file. Match the existing linked-
 
 If `cfg.notes` mentions style cues (e.g. &quot;reference task-cbp-030.md&quot;), peek at that file first and match its tone.
 
-**Stop here.** Tell the user the plan is ready and that they can re-invoke `/fsd:do-task {ID}` to execute it. Do **not** start implementing.
+**Stop here.** Tell the user the plan is ready and that they can re-invoke `/fsad-harness:do-task {ID}` to execute it. Do **not** start implementing.
 
 ## Step 5 — Execute mode: implement the plan
 
@@ -498,9 +498,9 @@ If any AC is still `FAIL` after its repair budget is exhausted, or any AC is `UN
 
 All ACs have passed. Ask the user exactly once:
 
-&gt; &quot;All acceptance criteria passed. Would you like to run `/fsd:code-review-team` on this diff before wrapping up?&quot;
+&gt; &quot;All acceptance criteria passed. Would you like to run `/fsad-harness:code-review-team` on this diff before wrapping up?&quot;
 
-- **Yes** — Invoke the `fsd:code-review-team` skill (via `Skill` tool). Wait for it to complete. The skill writes `REVIEW-REPORT.md`; note any critical findings in the handoff message. Then continue to 5g.
+- **Yes** — Invoke the `fsad-harness:code-review-team` skill (via `Skill` tool). Wait for it to complete. The skill writes `REVIEW-REPORT.md`; note any critical findings in the handoff message. Then continue to 5g.
 - **No / no response** — Skip directly to 5g. Do not run the review.
 
 Do not run the review without explicit user confirmation.
@@ -564,7 +564,7 @@ Open the handoff message with a bold header on its own line:
 **{ID} — {title}**
 ```
 
-Then provide a concise summary covering: what was implemented, which ACs were verified, which files changed, whether the CHANGELOG was updated, whether the todo entry was marked done, whether a version was bumped (or why it was skipped), whether the code review was run (e.g., &quot;Code review report written to `REVIEW-REPORT.md`&quot;) or skipped. Include the worktree branch name (e.g., `worktree-task-tbs-024`) and tell the user their changes are isolated on that branch. Suggest running `fsd:ship-it` (or `git merge &lt;branch&gt;`) to bring the changes into the main branch before pushing. **Wait for the user to say &quot;commit&quot;** before doing so.
+Then provide a concise summary covering: what was implemented, which ACs were verified, which files changed, whether the CHANGELOG was updated, whether the todo entry was marked done, whether a version was bumped (or why it was skipped), whether the code review was run (e.g., &quot;Code review report written to `REVIEW-REPORT.md`&quot;) or skipped. Include the worktree branch name (e.g., `worktree-task-tbs-024`) and tell the user their changes are isolated on that branch. Suggest running `fsad-harness:ship-it` (or `git merge &lt;branch&gt;`) to bring the changes into the main branch before pushing. **Wait for the user to say &quot;commit&quot;** before doing so.
 
 ## Conventions to honour
 
@@ -598,7 +598,7 @@ Then provide a concise summary covering: what was implemented, which ACs were ve
     </div>
     <div class="collapsible" id="skill-def--add-task" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:add-task <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[title]</span></h3>
+        <h3>/fsad-harness:add-task <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[title]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -609,7 +609,7 @@ description: Add a new task to any of your local projects. Auto-detects the curr
 argument-hint: `[brief task title]`
 ---
 
-# fsd:add-task — multi-project task adder
+# fsad-harness:add-task — multi-project task adder
 
 You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/fsd/projects.yaml` — always read that file before doing anything else.
 
@@ -791,19 +791,19 @@ In one short response, report:
     </div>
     <div class="collapsible" id="skill-def--ship-it" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:ship-it</h3>
+        <h3>/fsad-harness:ship-it</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsd:do-task` has marked one or more tasks done. Takes no arguments.</p>
-    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0; margin-bottom:0.75rem;">Also available as <code>/fsd:ship</code> (alias — same behaviour, shorter to type).</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsad-harness:do-task` has marked one or more tasks done. Takes no arguments.</p>
+    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0; margin-bottom:0.75rem;">Also available as <code>/fsad-harness:ship</code> (alias — same behaviour, shorter to type).</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
 allowed-tools: Bash(git worktree:*), Bash(git -C:*), Bash(git merge:*), Bash(git merge-base:*), Bash(git add:*), Bash(git commit:*), Bash(git branch:*), Bash(git mv:*), Bash(git rev-parse:*), Bash(git checkout:*), Bash(git push:*), Bash(git pull:*), Bash(git status:*), Bash(git log:*), Bash(git remote:*), Bash(git ls-remote:*), Bash(gh pr create:*), Bash(gh pr view:*), Bash(gh pr list:*)
-description: Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsd:do-task` has marked one or more tasks done. Takes no arguments.
+description: Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsad-harness:do-task` has marked one or more tasks done. Takes no arguments.
 ---
 
-# fsd:ship-it — wrap up and ship
+# fsad-harness:ship-it — wrap up and ship
 
 You run four sequential phases to close out a batch of completed work: worktree merge (Step 0.5), pre-flight audits — README/CHANGELOG/version/completed-task cleanup (Step 1), commit + push + PR (Step 2), and verify-shipped (Step 3). Do not skip phases or reorder them.
 
@@ -823,7 +823,7 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
    - Tell the user the project is not registered.
-   - Suggest running `/fsd:add-task` from the project to register it.
+   - Suggest running `/fsad-harness:add-task` from the project to register it.
    - Stop.
 
 ## Step 0.5 — Merge pending worktrees
@@ -844,7 +844,7 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
         2. Edit the file to keep the correct content and remove all conflict markers.
         3. Stage each resolved file: `git add &lt;file&gt;`.
         4. Complete the merge commit: `git commit`.
-        5. Re-run `fsd:ship-it` to continue from where it left off.
+        5. Re-run `fsad-harness:ship-it` to continue from where it left off.
         Do not proceed to Step 1. Do not remove the worktree — it may still hold the only copy of unmerged work.
      d. **Verify the merge landed before removing anything**: run `git merge-base --is-ancestor &lt;branch&gt; HEAD`. Exit code `0` means the branch tip is now reachable from `HEAD` — the merge is confirmed in the main tree.
         - If this check **fails** (non-zero exit): **stop immediately**. Do not remove the worktree or delete the branch — the merge did not land as expected and the worktree is the only safe copy of that work. Report the branch name and ask the user how to proceed.
@@ -962,7 +962,7 @@ Before committing, run one more fresh, independent read pass over the three Pre-
      &lt;CHANGELOG content for this version, or a bullet-list summary if no version was cut&gt;
 
      ## Test plan
-     - [ ] Skill files deployed and appear in `/fsd:*` command list
+     - [ ] Skill files deployed and appear in `/fsad-harness:*` command list
      - [ ] README skills table is accurate
      - [ ] CHANGELOG entry is present and correctly formatted
 
@@ -988,36 +988,36 @@ Report all three verdicts to the user. If any predicate fails, say so explicitly
     </div>
     <div class="collapsible" id="skill-def--ship" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:ship</h3>
+        <h3>/fsad-harness:ship</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Short alias for /fsd:ship-it. Wrap up finished work, cut a version, commit, push, and open a PR.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Short alias for /fsad-harness:ship-it. Wrap up finished work, cut a version, commit, push, and open a PR.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
-description: Short alias for /fsd:ship-it. Wrap up finished work, cut a version, commit, push, and open a PR.
+description: Short alias for /fsad-harness:ship-it. Wrap up finished work, cut a version, commit, push, and open a PR.
 ---
 
-Alias for `/fsd:ship-it`. Invoke the Skill tool with skill name `fsd:ship-it` and pass `$ARGUMENTS` unchanged.
+Alias for `/fsad-harness:ship-it`. Invoke the Skill tool with skill name `fsad-harness:ship-it` and pass `$ARGUMENTS` unchanged.
 </code></pre>
       </div></div>
     </div>
     <div class="collapsible" id="skill-def--next" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:next <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[N]</span></h3>
+        <h3>/fsad-harness:next <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[N]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Pick the next open task from the current project&#x27;s todo file and invoke `/fsd:do-task` with that task ID. Ranks candidates by readiness (has a task-detail file, no stated unmet dependency) and reports why one was chosen. Accepts an optional count (`/fsd:next 3`) to hand off multiple ranked candidates to `do-task`&#x27;s concurrent multi-task dispatch. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says &quot;do the next task&quot;, &quot;what&#x27;s next&quot;, &quot;next task&quot;, &quot;next 3 tasks&quot;, or similar.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Pick the next open task from the current project&#x27;s todo file and invoke `/fsad-harness:do-task` with that task ID. Ranks candidates by readiness (has a task-detail file, no stated unmet dependency) and reports why one was chosen. Accepts an optional count (`/fsad-harness:next 3`) to hand off multiple ranked candidates to `do-task`&#x27;s concurrent multi-task dispatch. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says &quot;do the next task&quot;, &quot;what&#x27;s next&quot;, &quot;next task&quot;, &quot;next 3 tasks&quot;, or similar.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
-description: Pick the next open task from the current project&#x27;s todo file and invoke `/fsd:do-task` with that task ID. Ranks candidates by readiness (has a task-detail file, no stated unmet dependency) and reports why one was chosen. Accepts an optional count (`/fsd:next 3`) to hand off multiple ranked candidates to `do-task`&#x27;s concurrent multi-task dispatch. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says &quot;do the next task&quot;, &quot;what&#x27;s next&quot;, &quot;next task&quot;, &quot;next 3 tasks&quot;, or similar.
+description: Pick the next open task from the current project&#x27;s todo file and invoke `/fsad-harness:do-task` with that task ID. Ranks candidates by readiness (has a task-detail file, no stated unmet dependency) and reports why one was chosen. Accepts an optional count (`/fsad-harness:next 3`) to hand off multiple ranked candidates to `do-task`&#x27;s concurrent multi-task dispatch. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says &quot;do the next task&quot;, &quot;what&#x27;s next&quot;, &quot;next task&quot;, &quot;next 3 tasks&quot;, or similar.
 argument-hint: `[N]`
 ---
 
-# fsd:next — pick the next ready task and hand off to do-task
+# fsad-harness:next — pick the next ready task and hand off to do-task
 
-You find the most **ready** unchecked task(s) in the current project&#x27;s todo file and invoke `fsd:do-task` with the chosen ID(s). Readiness — not file order — decides which candidate wins.
+You find the most **ready** unchecked task(s) in the current project&#x27;s todo file and invoke `fsad-harness:do-task` with the chosen ID(s). Readiness — not file order — decides which candidate wins.
 
 ## Step 0 — Detect the project
 
@@ -1027,7 +1027,7 @@ You find the most **ready** unchecked task(s) in the current project&#x27;s todo
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
    - Tell the user the project is not registered.
-   - Suggest running `/fsd:add-task` from the project to register it.
+   - Suggest running `/fsad-harness:add-task` from the project to register it.
    - Stop.
 
 ## Step 1 — Parse the optional count argument
@@ -1036,7 +1036,7 @@ You find the most **ready** unchecked task(s) in the current project&#x27;s todo
 
 - Empty → `N = 1`.
 - A positive integer → `N` = that value.
-- Anything else (non-numeric, zero, negative) → tell the user: &quot;Expected an optional count, e.g. `/fsd:next` or `/fsd:next 3`.&quot; Stop.
+- Anything else (non-numeric, zero, negative) → tell the user: &quot;Expected an optional count, e.g. `/fsad-harness:next` or `/fsad-harness:next 3`.&quot; Stop.
 
 ## Step 2 — Find candidate open tasks (targeted grep, not a full-file Read)
 
@@ -1093,38 +1093,38 @@ If `N` exceeds the number of available (non-Tier-3, or all-Tier-3-if-forced) can
 
 - **`N = 1`**: Tell the user which task was selected and why, e.g.:
 
-  &gt; Next task: **TBS-006** — &quot;Add a new skill `fsd:next`&quot; (Tier 1 — ready). Handing off to `fsd:do-task`…
+  &gt; Next task: **TBS-006** — &quot;Add a new skill `fsad-harness:next`&quot; (Tier 1 — ready). Handing off to `fsad-harness:do-task`…
 
-  Then invoke `fsd:do-task` via the Skill tool, passing the single canonical task identifier as the argument.
+  Then invoke `fsad-harness:do-task` via the Skill tool, passing the single canonical task identifier as the argument.
 
 - **`N &gt; 1`**: Tell the user the full ranked list being dispatched, e.g.:
 
-  &gt; Dispatching 3 ready tasks to `fsd:do-task`: **TBS-042, TBS-044, TBS-046**.
+  &gt; Dispatching 3 ready tasks to `fsad-harness:do-task`: **TBS-042, TBS-044, TBS-046**.
 
-  Then invoke `fsd:do-task` via the Skill tool, passing all selected canonical identifiers space-separated as a single argument string (e.g. `TBS-042 TBS-044 TBS-046`). `do-task`&#x27;s own Step 0.5 multi-task dispatch takes over from there — each ID is planned/executed concurrently in its own isolated worktree.
+  Then invoke `fsad-harness:do-task` via the Skill tool, passing all selected canonical identifiers space-separated as a single argument string (e.g. `TBS-042 TBS-044 TBS-046`). `do-task`&#x27;s own Step 0.5 multi-task dispatch takes over from there — each ID is planned/executed concurrently in its own isolated worktree.
 </code></pre>
       </div></div>
     </div>
     <div class="collapsible" id="skill-def--sync" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:sync</h3>
+        <h3>/fsad-harness:sync</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsd:sync key1 key2), and full-sync (fsd:sync ALL) modes.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsad-harness:sync key1 key2), and full-sync (fsad-harness:sync ALL) modes.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
-description: Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsd:sync key1 key2), and full-sync (fsd:sync ALL) modes.
+description: Pre-flight sync check for registered projects. Fetches from remote, reports uncommitted changes, and handles four states — up-to-date, ahead, behind (warns + pulls), or diverged (warns, no pull). Supports single-project (cwd detection), named-project (fsad-harness:sync key1 key2), and full-sync (fsad-harness:sync ALL) modes.
 ---
 
-# fsd:sync — pre-flight sync check
+# fsad-harness:sync — pre-flight sync check
 
 Run this before starting any work session to confirm your local repo(s) are in sync with the remote.
 
 **Invocation:**
-- `fsd:sync` — sync the project for the current working directory
-- `fsd:sync ALL` — sync every project in `projects.yaml`
-- `fsd:sync &lt;key1&gt; &lt;key2&gt; …` — sync one or more named projects by YAML key
+- `fsad-harness:sync` — sync the project for the current working directory
+- `fsad-harness:sync ALL` — sync every project in `projects.yaml`
+- `fsad-harness:sync &lt;key1&gt; &lt;key2&gt; …` — sync one or more named projects by YAML key
 
 ## Step 0 — Parse arguments
 
@@ -1191,7 +1191,7 @@ If `git fetch` fails (no remote, no network): set `state = &quot;fetch_failed&qu
    a. Read the project version from `cfg.version_files` (first file). If the project is unregistered or has no `version_files`, skip the rest of this step.
    b. Derive the expected branch name from `cfg.release_branch_pattern` (default: `release/{version}`).
    c. If the local branch name does not equal the expected name, warn:
-      &gt; &quot;Branch `&lt;local&gt;` is stale — current version is `&lt;version&gt;`, expected `&lt;expected&gt;`. Run `/fsd:ship` to rename it.&quot;
+      &gt; &quot;Branch `&lt;local&gt;` is stale — current version is `&lt;version&gt;`, expected `&lt;expected&gt;`. Run `/fsad-harness:ship` to rename it.&quot;
    d. Run `git ls-remote --heads origin &lt;expected&gt;` to check remote presence.
       - Not found: note &quot;Expected branch `&lt;expected&gt;` has not been pushed to the remote yet.&quot;
       - Found and name is already correct: no action.
@@ -1223,7 +1223,7 @@ First confirm the branch has an upstream tracking ref:
 git rev-parse --abbrev-ref --symbolic-full-name @{u}
 ```
 
-- **Fails** (`fatal: no upstream configured for branch ...`): record state **No upstream** (`state = &quot;no_upstream&quot;`, `ahead = null`, `behind = null`) for this project and skip the rest of this step — do not run the `git rev-list` commands below, they will crash without an upstream ref. This is expected for local-only branches, e.g. a `worktree-task-*` branch created by `fsd:do-task` that hasn&#x27;t been merged/pushed yet.
+- **Fails** (`fatal: no upstream configured for branch ...`): record state **No upstream** (`state = &quot;no_upstream&quot;`, `ahead = null`, `behind = null`) for this project and skip the rest of this step — do not run the `git rev-list` commands below, they will crash without an upstream ref. This is expected for local-only branches, e.g. a `worktree-task-*` branch created by `fsad-harness:do-task` that hasn&#x27;t been merged/pushed yet.
 - **Succeeds**: continue with the ahead/behind comparison:
 
 ```bash
@@ -1247,7 +1247,7 @@ When Step 6 finds `behind &gt; 0` and `ahead == 0`, do not run `git pull` uncond
 
 1. **Precondition — check the dirty-tree result already computed in Step 5.**
    - If `dirty == true`: **skip the pull.** Set `pull_attempted = false`, `pull_succeeded = null`. Report:
-     &gt; &quot;⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsd:sync.&quot;
+     &gt; &quot;⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsad-harness:sync.&quot;
      Stop here for this project&#x27;s Behind-state handling — do not run `git pull`.
    - If `dirty == false`: proceed to step 2.
 
@@ -1272,7 +1272,7 @@ Build every summary line **from the structured per-project result record** (defi
 | `fetch_failed` | — | — | `✗ Fetch failed — &lt;error&gt;` |
 | `no_upstream` | — | — | `⚠ No upstream branch — run &#x27;git push -u origin &lt;branch&gt;&#x27; to enable sync checks.` |
 | `up_to_date` | — | — | `✓ Up to date — safe to start work.` |
-| `behind` | `false` | `null` | `⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsd:sync.` |
+| `behind` | `false` | `null` | `⚠ N commit(s) behind, but the working tree has uncommitted changes — skipping pull. Commit, stash, or discard your changes, then re-run fsad-harness:sync.` |
 | `behind` | `true` | `true` | `✓ Pulled N commit(s) — repo now up to date.` |
 | `behind` | `true` | `false` | `✗ Pull did not fully succeed — still N commit(s) behind after pull. Manual resolution required.` |
 | `ahead` | — | — | `⚠ N commit(s) ahead — push when ready.` |
@@ -1281,13 +1281,13 @@ Build every summary line **from the structured per-project result record** (defi
 **Single-project mode** — one banner line, e.g.:
 
 ```
-[fsd:sync] ✓ Up to date — safe to start work.
-[fsd:sync] ✓ Pulled 3 commit(s) — repo now up to date.
-[fsd:sync] ⚠ 2 commit(s) behind, but the working tree has uncommitted changes — skipping pull.
-[fsd:sync] ✗ Pull did not fully succeed — still 1 commit(s) behind after pull. Manual resolution required.
-[fsd:sync] ⚠ 2 commit(s) ahead — push when ready.
-[fsd:sync] ✗ Diverged — resolve before starting work.
-[fsd:sync] ⚠ No upstream branch — run &#x27;git push -u origin &lt;branch&gt;&#x27; to enable sync checks.
+[fsad-harness:sync] ✓ Up to date — safe to start work.
+[fsad-harness:sync] ✓ Pulled 3 commit(s) — repo now up to date.
+[fsad-harness:sync] ⚠ 2 commit(s) behind, but the working tree has uncommitted changes — skipping pull.
+[fsad-harness:sync] ✗ Pull did not fully succeed — still 1 commit(s) behind after pull. Manual resolution required.
+[fsad-harness:sync] ⚠ 2 commit(s) ahead — push when ready.
+[fsad-harness:sync] ✗ Diverged — resolve before starting work.
+[fsad-harness:sync] ⚠ No upstream branch — run &#x27;git push -u origin &lt;branch&gt;&#x27; to enable sync checks.
 ```
 
 Append `(uncommitted changes present)` if the record&#x27;s `dirty` field is true.
@@ -1313,7 +1313,7 @@ Append `(uncommitted)` after the status text for any record with `dirty == true`
     </div>
     <div class="collapsible" id="skill-def--ac" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:ac <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;ID&gt;</span></h3>
+        <h3>/fsad-harness:ac <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;ID&gt;</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -1324,7 +1324,7 @@ description: Verify acceptance criteria for a task. Reads the task&#x27;s detail
 argument-hint: `&lt;PREFIX-NNN | NNN&gt;`
 ---
 
-# fsd:ac — acceptance criteria verifier
+# fsad-harness:ac — acceptance criteria verifier
 
 Fan every unchecked AC in a task file out to an independent verifier subagent, adversarially refute each claimed PASS before marking it, and let only the orchestrator edit the task file.
 
@@ -1335,7 +1335,7 @@ Fan every unchecked AC in a task file out to an independent verifier subagent, a
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest match if multiple match.
 4. If a project matches, use its entry as `cfg` and resolve `project_root`. Proceed.
 5. If **no project matches**:
-   - Tell the user: &quot;This directory isn&#x27;t registered. Run `/fsd:add-task` from the project to register it.&quot;
+   - Tell the user: &quot;This directory isn&#x27;t registered. Run `/fsad-harness:add-task` from the project to register it.&quot;
    - Stop.
 
 ## Step 1 — Resolve the task identifier
@@ -1358,14 +1358,14 @@ Resolve the path using the same rules as `do-task`:
 {project_root}/{cfg.task_dir}/{rendered cfg.task_filename_template}
 ```
 
-- **File not found**: Tell the user the task file doesn&#x27;t exist. Suggest running `/fsd:do-task {ID}` to create it first. Stop.
+- **File not found**: Tell the user the task file doesn&#x27;t exist. Suggest running `/fsad-harness:do-task {ID}` to create it first. Stop.
 - **File found**: Read it end-to-end. Continue.
 
 ## Step 3 — Find the Acceptance Criteria section
 
 Scan the task file for a `## Acceptance Criteria` heading.
 
-- **Section absent**: Tell the user: &quot;No `## Acceptance Criteria` section found in `{task_file_path}`. Add one before running `/fsd:ac`.&quot; Stop.
+- **Section absent**: Tell the user: &quot;No `## Acceptance Criteria` section found in `{task_file_path}`. Add one before running `/fsad-harness:ac`.&quot; Stop.
 - **Section present but all items already `[x]`**: Tell the user all ACs are already checked. Check whether the &quot;All criteria verified&quot; timestamp line exists above the list. If it&#x27;s missing, add it (Step 7). Otherwise report: &quot;All ACs already verified — nothing to do.&quot; Stop.
 - **At least one `- [ ]` item present**: Continue.
 
@@ -1459,7 +1459,7 @@ AC                                                     Verdict
 Then:
 
 - If **all passed**: &quot;All ACs verified. Timestamp added to task file. Ready to commit.&quot;
-- If **any failed**: List each failing AC — including any refuter-downgraded ones with the refuter&#x27;s reason — and what evidence was missing. Tell the user: &quot;Fix the failing ACs and re-run `/fsd:ac {ID}`.&quot;
+- If **any failed**: List each failing AC — including any refuter-downgraded ones with the refuter&#x27;s reason — and what evidence was missing. Tell the user: &quot;Fix the failing ACs and re-run `/fsad-harness:ac {ID}`.&quot;
 - If **any unclear**: List each `UNCLEAR` AC with the reason and wait for the user&#x27;s direction before re-running.
 
 ## Guardrails
@@ -1478,7 +1478,7 @@ Then:
     </div>
     <div class="collapsible" id="skill-def--estimate" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:estimate</h3>
+        <h3>/fsad-harness:estimate</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -1498,7 +1498,7 @@ The point of an estimation pass is **relative consistency within the batch**, no
 
 ## Input
 
-The user provides work items after invoking `/fsd:estimate`. Items can be in any format:
+The user provides work items after invoking `/fsad-harness:estimate`. Items can be in any format:
 - Bullet list
 - Numbered list
 - Paragraphs
@@ -1602,7 +1602,7 @@ In panel mode, the `Complexity`/`Effort`/`Risk` columns show the factors from th
     </div>
     <div class="collapsible" id="skill-def--init" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:init</h3>
+        <h3>/fsad-harness:init</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -1786,9 +1786,9 @@ Store the resolved values as `VERSION_SCHEME` and `VERSION_FILES`.
 
 ### 8b — Write the registration entry
 
-`~/.claude/commands/fsd/projects.yaml` is the **single** registry every `fsd:` skill reads — task
-conventions (`fsd:add-task`, `fsd:do-task`, `fsd:next`) and release/sync conventions (`fsd:sync`,
-`fsd:ship-it`) all resolve from this one file. There is no second config file to keep in step.
+`~/.claude/commands/fsd/projects.yaml` is the **single** registry every `fsad-harness:` skill reads — task
+conventions (`fsad-harness:add-task`, `fsad-harness:do-task`, `fsad-harness:next`) and release/sync conventions (`fsad-harness:sync`,
+`fsad-harness:ship-it`) all resolve from this one file. There is no second config file to keep in step.
 
 Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists
 by scanning for the resolved `match_paths` value (see below).
@@ -1898,7 +1898,7 @@ the user declined it.
 
     <div class="collapsible" id="skill-def--prd" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:prd <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[feature title or goal]</span></h3>
+        <h3>/fsad-harness:prd <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[feature title or goal]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -1909,7 +1909,7 @@ description: Guide the user through writing a Product Requirements Document or f
 argument-hint: `[feature title or goal]`
 ---
 
-# fsd:prd — PRD &amp; Spec Writing Agent
+# fsad-harness:prd — PRD &amp; Spec Writing Agent
 
 Follow these phases in order. Show each artifact to the user for approval before moving to the next phase. Never skip a gate.
 
@@ -2099,7 +2099,7 @@ Then present the summary:
 &gt; - `plan.md` — how
 &gt; - `tasks.json` / `tasks.md` — ordered implementation tasks with ACs
 &gt;
-&gt; To execute: pick up tasks in order with `/fsd:do-task` or import them into your tracker with `/fsd:add-task`.&quot;
+&gt; To execute: pick up tasks in order with `/fsad-harness:do-task` or import them into your tracker with `/fsad-harness:add-task`.&quot;
 
 ## Guardrails
 
@@ -2209,19 +2209,19 @@ Write a `spec.md` file with these sections, in order:
   <span class="section-label" style="display:block; margin-top:2rem; margin-bottom:0.75rem;">Planning &amp; Specification</span>
     <div class="collapsible" id="skill-def--plan" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:plan <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[initiative name or goal] [target repo path]</span></h3>
+        <h3>/fsad-harness:plan <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[initiative name or goal] [target repo path]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md), gated phase by phase like fsd:prd. Use when the user says &quot;plan this project&quot;, &quot;plan this refactor&quot;, &quot;help me plan this epic&quot;, or similar.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md), gated phase by phase like fsad-harness:prd. Use when the user says &quot;plan this project&quot;, &quot;plan this refactor&quot;, &quot;help me plan this epic&quot;, or similar.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
 name: plan
-description: Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md), gated phase by phase like fsd:prd. Use when the user says &quot;plan this project&quot;, &quot;plan this refactor&quot;, &quot;help me plan this epic&quot;, or similar.
+description: Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md), gated phase by phase like fsad-harness:prd. Use when the user says &quot;plan this project&quot;, &quot;plan this refactor&quot;, &quot;help me plan this epic&quot;, or similar.
 argument-hint: `[initiative name or goal] [target repo path]`
 ---
 
-# fsd:plan — Large-Initiative Planning Agent
+# fsad-harness:plan — Large-Initiative Planning Agent
 
 Follow these phases in order. Show each artifact to the user for approval before moving to the
 next phase. Never generate all five documents unattended — each phase checkpoints.
@@ -2243,7 +2243,7 @@ file.
 
 ## Phase 0 — Context (mandatory, not skippable)
 
-Invoke the `fsd:set-context` skill now (as a subskill — see its own SKILL.md for its invocation
+Invoke the `fsad-harness:set-context` skill now (as a subskill — see its own SKILL.md for its invocation
 model: it runs inline, not as a fire-and-forget subagent). **If a target repo path was supplied
 as this skill&#x27;s second argument, pass it through as `set-context`&#x27;s explicit path argument** so
 it resolves the target from that path rather than the current working directory; otherwise
@@ -2348,11 +2348,11 @@ Show the user a one-line summary of what was backfilled in each document before 
 
 ## Phase 5 — Offer adversarial review
 
-Offer to invoke `fsd:plan-review` against the five generated documents as a final adversarial pass,
+Offer to invoke `fsad-harness:plan-review` against the five generated documents as a final adversarial pass,
 writing `plan_review.md` alongside them: *&quot;All five documents are drafted and reconciled. Want me
-to run `fsd:plan-review` against them before you start implementing?&quot;*
+to run `fsad-harness:plan-review` against them before you start implementing?&quot;*
 
-- **Yes** — invoke the `fsd:plan-review` skill (via the `Skill` tool), with `source` set to the
+- **Yes** — invoke the `fsad-harness:plan-review` skill (via the `Skill` tool), with `source` set to the
   `planning/plan/&lt;slug&gt;/` directory and `target` set to `planning/plan/&lt;slug&gt;/plan_review.md`.
 - **No** — skip it. Do not run the review without explicit confirmation.
 
@@ -2378,7 +2378,7 @@ to run `fsd:plan-review` against them before you start implementing?&quot;*
         <figure class="plan-flow-diagram" aria-label="Plan orchestration flow">
       <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 1458" role="img" xmlns="http://www.w3.org/2000/svg">
         <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Plan orchestration flow, dark theme</title>
-        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsd:plan command flow. Phase 0 invokes fsd:set-context inline and resolves planning/plan/&lt;slug&gt;/. Phase 1 dispatches a named Agent (plan-project-&lt;slug&gt;) to draft project.md, gated on user approval. Phase 2 dispatches two named Agents in one message (plan-architecture-&lt;slug&gt;, plan-instructions-&lt;slug&gt;) in parallel, also gated. Phases 3 and 4 dispatch unnamed, sequential Agents for roadmap.md and verification.md, each depending on the prior phase's approved output. Phase 4.5, shown with a dashed section border, resumes the three named Phase 1/2 agents one at a time via SendMessage to backfill cross-references — a dashed loop path illustrates that an interrupted Phase 4.5 resumes by sending another SendMessage to the same named agent rather than starting a fresh one. Phase 5 optionally offers fsd:plan-review, branching into a green Yes path that writes plan_review.md and a dashed No path that skips it. The flow ends with the five planning artifacts and a summary of what the gated, resumable design enables.</desc>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsad-harness:plan command flow. Phase 0 invokes fsad-harness:set-context inline and resolves planning/plan/&lt;slug&gt;/. Phase 1 dispatches a named Agent (plan-project-&lt;slug&gt;) to draft project.md, gated on user approval. Phase 2 dispatches two named Agents in one message (plan-architecture-&lt;slug&gt;, plan-instructions-&lt;slug&gt;) in parallel, also gated. Phases 3 and 4 dispatch unnamed, sequential Agents for roadmap.md and verification.md, each depending on the prior phase's approved output. Phase 4.5, shown with a dashed section border, resumes the three named Phase 1/2 agents one at a time via SendMessage to backfill cross-references — a dashed loop path illustrates that an interrupted Phase 4.5 resumes by sending another SendMessage to the same named agent rather than starting a fresh one. Phase 5 optionally offers fsad-harness:plan-review, branching into a green Yes path that writes plan_review.md and a dashed No path that skips it. The flow ends with the five planning artifacts and a summary of what the gated, resumable design enables.</desc>
         <defs>
           <linearGradient id="cg-dark-plan" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#1c2230"/>
@@ -2393,16 +2393,16 @@ to run `fsd:plan-review` against them before you start implementing?&quot;*
         
         <rect x="24" y="24" width="632" height="60" rx="14" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="40" y="38" width="20" height="3" rx="1.5" style="fill:rgb(138, 130, 221);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="56" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">fsd:plan</text>
+        <text x="340" y="56" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">fsad-harness:plan</text>
         <text x="340" y="74" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Large-initiative planning · five gated artifacts · named-agent resume</text>
         <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="124" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsd:plan &lt;initiative name or goal&gt; &lt;target repo path&gt;</text>
+        <text x="340" y="124" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsad-harness:plan &lt;initiative name or goal&gt; &lt;target repo path&gt;</text>
         <text x="340" y="142" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
         <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-dark-plan)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="48" y="170" width="584" height="132" rx="14" style="fill:rgb(31, 29, 51);stroke:rgb(138, 130, 221);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="64" y="184" width="20" height="3" rx="1.5" style="fill:rgb(138, 130, 221);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="340" y="200" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Phase 0 — Context (mandatory, not skippable)</text>
-        <text x="340" y="216" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Invokes fsd:set-context inline — not a fire-and-forget subagent</text>
+        <text x="340" y="216" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Invokes fsad-harness:set-context inline — not a fire-and-forget subagent</text>
         <rect x="64" y="232" width="176" height="36" rx="8" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="152.0" y="248" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">set-context (inline)</text>
         <text x="152.0" y="262" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto">repo → context.md</text>
@@ -2475,9 +2475,9 @@ to run `fsd:plan-review` against them before you start implementing?&quot;*
         <rect x="48" y="1102" width="584" height="132" rx="14" style="fill:rgb(31, 29, 51);stroke:rgb(138, 130, 221);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="64" y="1116" width="20" height="3" rx="1.5" style="fill:rgb(138, 130, 221);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="340" y="1132" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Phase 5 — Offer adversarial review (optional)</text>
-        <text x="340" y="1148" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">fsd:plan-review runs only if the user says yes</text>
+        <text x="340" y="1148" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">fsad-harness:plan-review runs only if the user says yes</text>
         <rect x="64" y="1164" width="264" height="36" rx="8" style="fill:rgb(20, 36, 30);stroke:rgb(76, 201, 160);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="196" y="1180" text-anchor="middle" style="fill:rgb(109, 217, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Yes → fsd:plan-review</text>
+        <text x="196" y="1180" text-anchor="middle" style="fill:rgb(109, 217, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Yes → fsad-harness:plan-review</text>
         <text x="196" y="1194" text-anchor="middle" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto">writes plan_review.md</text>
         <rect x="352" y="1164" width="264" height="36" rx="14" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="484" y="1180" text-anchor="middle" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">No → skip</text>
@@ -2504,7 +2504,7 @@ to run `fsd:plan-review` against them before you start implementing?&quot;*
         </svg>
       <svg class="flow-diagram flow-diagram--light" viewBox="0 0 690 1468" role="img" xmlns="http://www.w3.org/2000/svg">
         <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Plan orchestration flow, light theme</title>
-        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsd:plan command flow. Phase 0 invokes fsd:set-context inline and resolves planning/plan/&lt;slug&gt;/. Phase 1 dispatches a named Agent (plan-project-&lt;slug&gt;) to draft project.md, gated on user approval. Phase 2 dispatches two named Agents in one message (plan-architecture-&lt;slug&gt;, plan-instructions-&lt;slug&gt;) in parallel, also gated. Phases 3 and 4 dispatch unnamed, sequential Agents for roadmap.md and verification.md, each depending on the prior phase's approved output. Phase 4.5, shown with a dashed section border, resumes the three named Phase 1/2 agents one at a time via SendMessage to backfill cross-references — a dashed loop path illustrates that an interrupted Phase 4.5 resumes by sending another SendMessage to the same named agent rather than starting a fresh one. Phase 5 optionally offers fsd:plan-review, branching into a green Yes path that writes plan_review.md and a dashed No path that skips it. The flow ends with the five planning artifacts and a summary of what the gated, resumable design enables.</desc>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsad-harness:plan command flow. Phase 0 invokes fsad-harness:set-context inline and resolves planning/plan/&lt;slug&gt;/. Phase 1 dispatches a named Agent (plan-project-&lt;slug&gt;) to draft project.md, gated on user approval. Phase 2 dispatches two named Agents in one message (plan-architecture-&lt;slug&gt;, plan-instructions-&lt;slug&gt;) in parallel, also gated. Phases 3 and 4 dispatch unnamed, sequential Agents for roadmap.md and verification.md, each depending on the prior phase's approved output. Phase 4.5, shown with a dashed section border, resumes the three named Phase 1/2 agents one at a time via SendMessage to backfill cross-references — a dashed loop path illustrates that an interrupted Phase 4.5 resumes by sending another SendMessage to the same named agent rather than starting a fresh one. Phase 5 optionally offers fsad-harness:plan-review, branching into a green Yes path that writes plan_review.md and a dashed No path that skips it. The flow ends with the five planning artifacts and a summary of what the gated, resumable design enables.</desc>
         <defs>
           <linearGradient id="cg-light-plan" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#f4f7fb"/>
@@ -2519,16 +2519,16 @@ to run `fsd:plan-review` against them before you start implementing?&quot;*
         
         <rect x="24" y="24" width="632" height="60" rx="14" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="40" y="38" width="20" height="3" rx="1.5" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="56" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">fsd:plan</text>
+        <text x="340" y="56" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">fsad-harness:plan</text>
         <text x="340" y="74" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Large-initiative planning · five gated artifacts · named-agent resume</text>
         <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="124" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsd:plan &lt;initiative name or goal&gt; &lt;target repo path&gt;</text>
+        <text x="340" y="124" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsad-harness:plan &lt;initiative name or goal&gt; &lt;target repo path&gt;</text>
         <text x="340" y="142" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
         <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-light-plan)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="48" y="170" width="584" height="132" rx="14" style="fill:rgb(239, 236, 249);stroke:rgb(83, 74, 183);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="64" y="184" width="20" height="3" rx="1.5" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="340" y="200" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Phase 0 — Context (mandatory, not skippable)</text>
-        <text x="340" y="216" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Invokes fsd:set-context inline — not a fire-and-forget subagent</text>
+        <text x="340" y="216" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Invokes fsad-harness:set-context inline — not a fire-and-forget subagent</text>
         <rect x="64" y="232" width="176" height="36" rx="8" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="152.0" y="248" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">set-context (inline)</text>
         <text x="152.0" y="262" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto">repo → context.md</text>
@@ -2601,9 +2601,9 @@ to run `fsd:plan-review` against them before you start implementing?&quot;*
         <rect x="48" y="1102" width="584" height="132" rx="14" style="fill:rgb(239, 236, 249);stroke:rgb(83, 74, 183);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="64" y="1116" width="20" height="3" rx="1.5" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="340" y="1132" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:13px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Phase 5 — Offer adversarial review (optional)</text>
-        <text x="340" y="1148" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">fsd:plan-review runs only if the user says yes</text>
+        <text x="340" y="1148" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">fsad-harness:plan-review runs only if the user says yes</text>
         <rect x="64" y="1164" width="264" height="36" rx="8" style="fill:rgb(230, 247, 241);stroke:rgb(45, 157, 125);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="196" y="1180" text-anchor="middle" style="fill:rgb(21, 128, 101);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Yes → fsd:plan-review</text>
+        <text x="196" y="1180" text-anchor="middle" style="fill:rgb(21, 128, 101);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Yes → fsad-harness:plan-review</text>
         <text x="196" y="1194" text-anchor="middle" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto">writes plan_review.md</text>
         <rect x="352" y="1164" width="264" height="36" rx="14" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <text x="484" y="1180" text-anchor="middle" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:auto">No → skip</text>
@@ -2633,19 +2633,19 @@ to run `fsd:plan-review` against them before you start implementing?&quot;*
     </div>
     <div class="collapsible" id="skill-def--set-context" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:set-context <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">`[target repo path]`</span></h3>
+        <h3>/fsad-harness:set-context <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">`[target repo path]`</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Gather codebase and initiative context before planning starts. Runs a graphify build or query when graphify is available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsd:plan&#x27;s mandatory Phase 0.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Gather codebase and initiative context before planning starts. Runs a graphify build or query when graphify is available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsad-harness:plan&#x27;s mandatory Phase 0.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
 name: set-context
-description: Gather codebase and initiative context before planning starts — runs a graphify build or query when graphify is available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsd:plan&#x27;s mandatory Phase 0. Use when the user says &quot;set context&quot;, &quot;gather context&quot;, or as the first step of fsd:plan.
+description: Gather codebase and initiative context before planning starts — runs a graphify build or query when graphify is available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsad-harness:plan&#x27;s mandatory Phase 0. Use when the user says &quot;set context&quot;, &quot;gather context&quot;, or as the first step of fsad-harness:plan.
 argument-hint: `[target repo path]`
 ---
 
-# fsd:set-context — Context-Gathering Subskill
+# fsad-harness:set-context — Context-Gathering Subskill
 
 Gather everything a downstream planning pass needs — codebase shape plus the initiative&#x27;s own
 boundaries — and emit it as a single `context.md` file. Nothing else reads or writes to disk in
@@ -2709,7 +2709,7 @@ Ask the user each of the following that graphify or the manual sweep couldn&#x27
 Ask **one at a time**, not as a form. Record every answer in `context.md` — a question asked but
 never carried into the file is not actually gathered.
 
-1. **Initiative slug/name** — the name used to derive the output directory (see `fsd:plan`&#x27;s Step
+1. **Initiative slug/name** — the name used to derive the output directory (see `fsad-harness:plan`&#x27;s Step
    4 slug-transform algorithm: lowercase, non-alphanumeric runs collapsed to a single hyphen,
    leading/trailing hyphens trimmed — e.g. &quot;Auth Service Refactor!&quot; → `auth-service-refactor`).
 2. **Scope boundaries** — what&#x27;s in scope for this initiative, and what&#x27;s explicitly out.
@@ -2730,12 +2730,12 @@ only in the conversation and not in the file.
 
 Write a single structured `context.md` to `planning/plan/&lt;slug&gt;/` (using the slug from Step 3.1
 and the transform above), or to a scratch location — e.g. the repo root — if that directory
-doesn&#x27;t exist yet (it&#x27;s created once the initiative is confirmed, in `fsd:plan`&#x27;s Phase 0).
+doesn&#x27;t exist yet (it&#x27;s created once the initiative is confirmed, in `fsad-harness:plan`&#x27;s Phase 0).
 
-**Why a file, not an in-memory handoff:** every downstream drafting agent (`fsd:plan`&#x27;s Phase
+**Why a file, not an in-memory handoff:** every downstream drafting agent (`fsad-harness:plan`&#x27;s Phase
 1-4.5) is a separately-dispatched `Agent`-tool subagent with no memory of this skill&#x27;s own turn —
 only a file survives across that boundary. Every downstream drafting agent&#x27;s dispatch prompt must
-reference this file&#x27;s path rather than re-deriving context independently; that&#x27;s on `fsd:plan`,
+reference this file&#x27;s path rather than re-deriving context independently; that&#x27;s on `fsad-harness:plan`,
 not this skill, but it&#x27;s why this file&#x27;s shape has to be complete on its own.
 
 Template:
@@ -2775,7 +2775,7 @@ Confirm the written path to the user: *&quot;Context gathered and written to `{p
     </div>
     <div class="collapsible" id="skill-def--prompt-improver" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:prompt-improver</h3>
+        <h3>/fsad-harness:prompt-improver</h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -2843,7 +2843,7 @@ Give back the improved prompt as the primary content of your reply, formatted so
     </div>
     <div class="collapsible" id="skill-def--spec-review" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:spec-review <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[path] [--depth quick|standard|deep] [--lens &lt;names&gt;] [--stance &lt;n&gt;]</span></h3>
+        <h3>/fsad-harness:spec-review <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[path] [--depth quick|standard|deep] [--lens &lt;names&gt;] [--stance &lt;n&gt;]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -2854,7 +2854,7 @@ description: Run a detailed, adversarial multi-agent review of a written proposa
 argument-hint: `[path] [--depth quick|standard|deep] [--lens &lt;names&gt;] [--stance &lt;n&gt;]`
 ---
 
-# fsd:spec-review — Adversarial Document Review
+# fsad-harness:spec-review — Adversarial Document Review
 
 **What this optimizes for:** a report the author trusts, not one that merely looks thorough. A finding only earns a place in the report if it survives independent adversarial validation (Phase 3) against the actual document text; anything that can&#x27;t be confirmed that way goes to &quot;Considered and dropped,&quot; visible but not counted. A short report on a genuinely solid document is success, not under-delivery — a padded report is the failure mode this skill exists to avoid.
 
@@ -3427,7 +3427,7 @@ The worst realistic outcome, its likelihood, and whether the document contains a
     </div>
     <div class="collapsible" id="skill-def--plan-review" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:plan-review <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;source&gt; &lt;target&gt; [--baseline &lt;path&gt;] [--depth quick|standard|deep] [--scope &lt;text&gt;] [--run-dir &lt;path&gt;]</span></h3>
+        <h3>/fsad-harness:plan-review <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">&lt;source&gt; &lt;target&gt; [--baseline &lt;path&gt;] [--depth quick|standard|deep] [--scope &lt;text&gt;] [--run-dir &lt;path&gt;]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -3438,11 +3438,11 @@ description: Run a detailed, adversarial multi-agent review of an implementation
 argument-hint: `&lt;source&gt; &lt;target&gt; [--baseline &lt;path&gt;] [--depth quick|standard|deep] [--scope &lt;text&gt;] [--run-dir &lt;path&gt;]`
 ---
 
-# fsd:plan-review — Adversarial Implementation-Plan Review
+# fsad-harness:plan-review — Adversarial Implementation-Plan Review
 
 **What this optimizes for:** catching the thing that makes the plan unbuildable *before* anyone starts building it. A plan is cheap to change and expensive to have half-built, so the review is worth running exactly once — here — and its value comes from measuring the plan against two things it cannot check for itself: the baseline it promised to honour, and the repository it will actually land in. What that yields in practice is defined per lens in `lenses.md`, not here.
 
-This is the **plan-stage gate**. It runs before the code-stage gates (`fsd:code-review-team`, `fsd:sec-review-team`) — there is no code yet.
+This is the **plan-stage gate**. It runs before the code-stage gates (`fsad-harness:code-review-team`, `fsad-harness:sec-review-team`) — there is no code yet.
 
 Review-only. The skill writes exactly two things: the findings document at `target`, and the run directory (`run_dir`, defaulting beside `target` — see Parameters). Nothing else on disk is touched.
 
@@ -3468,7 +3468,7 @@ Review-only. The skill writes exactly two things: the findings document at `targ
 Say so and stop, rather than producing a report that pads a non-problem:
 
 - **Single-step plans.** One step, one file, one acceptance criterion. There is no sequencing to audit, no cross-reference graph, and no baseline drift to measure. A normal read is cheaper and just as good.
-- **Plans with no baseline and no cross-references.** If nothing resolves as `baseline` and the plan cites no ADRs, no sibling documents, no numbered artefacts, and no source files, then five of the seven lenses have nothing to check against — the review degenerates into proofreading. Offer `fsd:spec-review` instead, which judges a document on its own terms.
+- **Plans with no baseline and no cross-references.** If nothing resolves as `baseline` and the plan cites no ADRs, no sibling documents, no numbered artefacts, and no source files, then five of the seven lenses have nothing to check against — the review degenerates into proofreading. Offer `fsad-harness:spec-review` instead, which judges a document on its own terms.
 - **Pure-copy edits.** Wording, formatting, typo, or link-text changes to an existing plan. Diff the prose; do not convene a review team.
 
 If the user asks anyway after being told, run it — say what the reduced roster will be first.
@@ -3701,11 +3701,11 @@ Report back to the user: the path written, the verdict line, the count at each s
 
 ## Non-goals
 
-- **Not a code review.** There is no implementation yet. Use `fsd:code-review-team` once there is.
-- **Not a security review.** Threat modelling of the built system is `fsd:sec-review-team`&#x27;s job.
+- **Not a code review.** There is no implementation yet. Use `fsad-harness:code-review-team` once there is.
+- **Not a security review.** Threat modelling of the built system is `fsad-harness:sec-review-team`&#x27;s job.
 - **Not an approval.** The document is input to the plan owner&#x27;s decision, not a merge verdict rendered on their behalf.
 - **Not a rewrite service.** It never edits the plan and never opens a PR.
-- **Not a proposal critique.** Judging a document on its own merits, with no baseline to honour, is `fsd:spec-review`.
+- **Not a proposal critique.** Judging a document on its own merits, with no baseline to honour, is `fsad-harness:spec-review`.
 - **Not exhaustive by default.** `quick` and `standard` are bounded on purpose; every bound is logged in Coverage.
 
 ---
@@ -3714,12 +3714,12 @@ Report back to the user: the path written, the verdict line, the count at each s
 
 | Skill | Stage | Subject | Judged against | Output |
 |---|---|---|---|---|
-| `fsd:spec-review` | Proposal | A spec, PRD, RFC, or design doc | Its own internal consistency | `SPEC-REVIEW.md` beside the document |
-| **`fsd:plan-review`** | **Plan** | **An implementation plan — PR, branch, or planning doc** | **The baseline spec/ADR it must honour, and the repository** | **A caller-specified `target`** |
-| `fsd:code-review-team` | Code | A diff or path | Correctness, design, performance, maintainability, testing, API contract | `REVIEW-REPORT.md` |
-| `fsd:sec-review-team` | Code | A codebase or diff | A stack-selected security specialist roster | `REPORT.md` + `known-findings.jsonl` |
+| `fsad-harness:spec-review` | Proposal | A spec, PRD, RFC, or design doc | Its own internal consistency | `SPEC-REVIEW.md` beside the document |
+| **`fsad-harness:plan-review`** | **Plan** | **An implementation plan — PR, branch, or planning doc** | **The baseline spec/ADR it must honour, and the repository** | **A caller-specified `target`** |
+| `fsad-harness:code-review-team` | Code | A diff or path | Correctness, design, performance, maintainability, testing, API contract | `REVIEW-REPORT.md` |
+| `fsad-harness:sec-review-team` | Code | A codebase or diff | A stack-selected security specialist roster | `REPORT.md` + `known-findings.jsonl` |
 
-Run them in that order. `fsd:plan-review` catches what would otherwise be found in code review at ten times the cost.
+Run them in that order. `fsad-harness:plan-review` catches what would otherwise be found in code review at ten times the cost.
 
 ---
 
@@ -4044,7 +4044,7 @@ The ledger goes in the run directory alongside the findings and is rendered in t
         <figure class="planreview-flow-diagram" aria-label="Plan Review orchestration flow">
       <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 1184" role="img" xmlns="http://www.w3.org/2000/svg">
         <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Plan Review — orchestration flow, dark theme (inventory, 7-lens fan-out, verification, adjudication, completeness-critic loop)</title>
-        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsd:plan-review command flow. Step 0 resolves source, target, baseline, depth and scope. Phase 1 runs a single inventory agent that must complete before Phase 2 starts. Phase 2 fans out into up to 7 independent lens agents in one message, shown as a grid of boxes: solid borders for completeness-auditor, consistency-checker, logic-auditor, assumption-hunter and testability-auditor, which always run at standard and deep depth, and dashed borders for feasibility-critic and baseline-diff-auditor, which run conditionally depending on depth and whether a baseline resolved. Phase 3 spawns one independent verifier agent per finding that defaults to refuting when uncertain. Phase 4 clusters survivors and assigns severity. Phase 5 is a completeness-critic loop, shown looping back (dashed path) to Phase 2 to re-run named lenses, bounded at 2 rounds for standard depth and 6 for deep depth. Phase 6 writes the findings document to the caller-specified target.</desc>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsad-harness:plan-review command flow. Step 0 resolves source, target, baseline, depth and scope. Phase 1 runs a single inventory agent that must complete before Phase 2 starts. Phase 2 fans out into up to 7 independent lens agents in one message, shown as a grid of boxes: solid borders for completeness-auditor, consistency-checker, logic-auditor, assumption-hunter and testability-auditor, which always run at standard and deep depth, and dashed borders for feasibility-critic and baseline-diff-auditor, which run conditionally depending on depth and whether a baseline resolved. Phase 3 spawns one independent verifier agent per finding that defaults to refuting when uncertain. Phase 4 clusters survivors and assigns severity. Phase 5 is a completeness-critic loop, shown looping back (dashed path) to Phase 2 to re-run named lenses, bounded at 2 rounds for standard depth and 6 for deep depth. Phase 6 writes the findings document to the caller-specified target.</desc>
         <defs>
           <linearGradient id="cg-dark-planreview" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#1c2230"/>
@@ -4062,7 +4062,7 @@ The ledger goes in the run directory alongside the findings and is rendered in t
         <text x="340" y="56" text-anchor="middle" font-size="16" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Plan Review</text>
         <text x="340" y="74" text-anchor="middle" font-size="12" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Adversarial multi-lens plan review · verified findings · baseline ledger</text>
         <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="122" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsd:plan-review &lt;source&gt; &lt;target&gt;</text>
+        <text x="340" y="122" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsad-harness:plan-review &lt;source&gt; &lt;target&gt;</text>
         <text x="340" y="140" text-anchor="middle" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
         <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-dark-planreview)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="48" y="170" width="584" height="112" rx="14" style="fill:rgb(31, 29, 51);stroke:rgb(138, 130, 221);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
@@ -4160,7 +4160,7 @@ The ledger goes in the run directory alongside the findings and is rendered in t
       </svg>
       <svg class="flow-diagram flow-diagram--light" viewBox="0 0 690 1194" role="img" xmlns="http://www.w3.org/2000/svg">
         <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Plan Review — orchestration flow, light theme (inventory, 7-lens fan-out, verification, adjudication, completeness-critic loop)</title>
-        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsd:plan-review command flow. Step 0 resolves source, target, baseline, depth and scope. Phase 1 runs a single inventory agent that must complete before Phase 2 starts. Phase 2 fans out into up to 7 independent lens agents in one message, shown as a grid of boxes: solid borders for completeness-auditor, consistency-checker, logic-auditor, assumption-hunter and testability-auditor, which always run at standard and deep depth, and dashed borders for feasibility-critic and baseline-diff-auditor, which run conditionally depending on depth and whether a baseline resolved. Phase 3 spawns one independent verifier agent per finding that defaults to refuting when uncertain. Phase 4 clusters survivors and assigns severity. Phase 5 is a completeness-critic loop, shown looping back (dashed path) to Phase 2 to re-run named lenses, bounded at 2 rounds for standard depth and 6 for deep depth. Phase 6 writes the findings document to the caller-specified target.</desc>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsad-harness:plan-review command flow. Step 0 resolves source, target, baseline, depth and scope. Phase 1 runs a single inventory agent that must complete before Phase 2 starts. Phase 2 fans out into up to 7 independent lens agents in one message, shown as a grid of boxes: solid borders for completeness-auditor, consistency-checker, logic-auditor, assumption-hunter and testability-auditor, which always run at standard and deep depth, and dashed borders for feasibility-critic and baseline-diff-auditor, which run conditionally depending on depth and whether a baseline resolved. Phase 3 spawns one independent verifier agent per finding that defaults to refuting when uncertain. Phase 4 clusters survivors and assigns severity. Phase 5 is a completeness-critic loop, shown looping back (dashed path) to Phase 2 to re-run named lenses, bounded at 2 rounds for standard depth and 6 for deep depth. Phase 6 writes the findings document to the caller-specified target.</desc>
         <defs>
           <linearGradient id="cg-light-planreview" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#f4f7fb"/>
@@ -4178,7 +4178,7 @@ The ledger goes in the run directory alongside the findings and is rendered in t
         <text x="340" y="56" text-anchor="middle" font-size="16" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Plan Review</text>
         <text x="340" y="74" text-anchor="middle" font-size="12" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Adversarial multi-lens plan review · verified findings · baseline ledger</text>
         <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="122" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsd:plan-review &lt;source&gt; &lt;target&gt;</text>
+        <text x="340" y="122" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsad-harness:plan-review &lt;source&gt; &lt;target&gt;</text>
         <text x="340" y="140" text-anchor="middle" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
         <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-light-planreview)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="48" y="170" width="584" height="112" rx="14" style="fill:rgb(239, 236, 249);stroke:rgb(83, 74, 183);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
@@ -4281,7 +4281,7 @@ The ledger goes in the run directory alongside the findings and is rendered in t
   <span class="section-label" style="display:block; margin-top:2rem; margin-bottom:0.75rem;">Review &amp; Security</span>
     <div class="collapsible" id="skill-def--code-review-team" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:code-review-team <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]</span></h3>
+        <h3>/fsad-harness:code-review-team <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -4755,7 +4755,7 @@ Tell the user:
 - If `re_review_mode`: `&lt;P&gt; previously-reported issues still open (not repeated above — see known-findings.jsonl), &lt;Q&gt; nits suppressed` — if any of `&lt;P&gt;` are legacy entries counted per the still-open re-verification step&#x27;s step 2 (predating `file`/`evidence_snippet` tracking), append `(&lt;L&gt; of these counted without re-verification — ledger entry predates file/evidence tracking)`; if any critical/major entries hit step 4&#x27;s unverified branch, append a separate line: `&lt;M&gt; critical/major previously-reported issues could not be re-verified this run — status unknown, recommend manual check`
 - Tooling caveats (linters unavailable, specialists errored)
 
-Do NOT apply fixes. Fix workflow: open the relevant file, address findings manually, re-run `/fsd:code-review-team diff vs main` to verify.
+Do NOT apply fixes. Fix workflow: open the relevant file, address findings manually, re-run `/fsad-harness:code-review-team diff vs main` to verify.
 
 ---
 
@@ -5439,7 +5439,7 @@ Security-relevant defects that `correctness-reviewer` doesn&#x27;t own — corre
     </div>
     <div class="collapsible" id="skill-def--sec-review-team" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:sec-review-team <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]</span></h3>
+        <h3>/fsad-harness:sec-review-team <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -5906,7 +5906,7 @@ Tell the user:
 - Tooling caveats (scanners unavailable, fallbacks taken, specialists errored)
 - Coverage completeness score
 
-Do NOT apply fixes. Fix workflow → companion skill `/fsd:sec-review-fixes` (CBP-070).
+Do NOT apply fixes. Fix workflow → companion skill `/fsad-harness:sec-review-fixes` (CBP-070).
 
 ---
 
@@ -5923,7 +5923,7 @@ Do NOT apply fixes. Fix workflow → companion skill `/fsd:sec-review-fixes` (CB
     </div>
     <div class="collapsible" id="skill-def--sec-review-fixes" style="margin-top:0.6rem;">
       <div class="collapsible-header">
-        <h3>/fsd:sec-review-fixes <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[path to REPORT.md or findings.jsonl] [--dry-run | --re-verify <id>...] [--one-pr | --pr-per-finding]</span></h3>
+        <h3>/fsad-harness:sec-review-fixes <span style="font-size:0.8rem; font-weight:400; color:var(--text-muted); margin-left:0.25rem;">[path to REPORT.md or findings.jsonl] [--dry-run | --re-verify <id>...] [--one-pr | --pr-per-finding]</span></h3>
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
@@ -6385,7 +6385,7 @@ exit 0
         <figure class="crt-flow-diagram" aria-label="Code Review Team orchestration flow">
       <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 1198" role="img" xmlns="http://www.w3.org/2000/svg">
         <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Code Review Team — orchestration flow, dark theme</title>
-        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsd:code-review-team command flow. The Parallel specialists panel uses solid borders for the lite/always-run roster (correctness, design, performance, security) and dashed borders for full-mode-only additions (maintainability, testing, api-contract). After the parallel specialists step, correctness-reviewer and performance-reviewer fan out into a loop-until-dry consensus round (dashed boxes, 2-8 passes, kept if a finding reproduces in at least 2 passes, stopping once a round surfaces nothing new). The orchestrator consolidates findings, then every finding group passes through a severity-gated adversarial validator: minor/nit groups get a single validator whose verdict is final, while critical/major groups get a 3-validator majority panel requiring 2 of 3 confirms — shown as two branching paths converging on the same confirmed/rejected outcome. REVIEW-REPORT.md feeds a known-findings.jsonl ledger, shown looping back (dashed) to the orchestrator setup step, which drives auto re-review on the next run.</desc>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsad-harness:code-review-team command flow. The Parallel specialists panel uses solid borders for the lite/always-run roster (correctness, design, performance, security) and dashed borders for full-mode-only additions (maintainability, testing, api-contract). After the parallel specialists step, correctness-reviewer and performance-reviewer fan out into a loop-until-dry consensus round (dashed boxes, 2-8 passes, kept if a finding reproduces in at least 2 passes, stopping once a round surfaces nothing new). The orchestrator consolidates findings, then every finding group passes through a severity-gated adversarial validator: minor/nit groups get a single validator whose verdict is final, while critical/major groups get a 3-validator majority panel requiring 2 of 3 confirms — shown as two branching paths converging on the same confirmed/rejected outcome. REVIEW-REPORT.md feeds a known-findings.jsonl ledger, shown looping back (dashed) to the orchestrator setup step, which drives auto re-review on the next run.</desc>
         <defs>
           <linearGradient id="cg-dark-crt" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#1c2230"/>
@@ -6403,7 +6403,7 @@ exit 0
         <text x="340" y="56" text-anchor="middle" font-size="16" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Code Review Team</text>
         <text x="340" y="74" text-anchor="middle" font-size="12" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Orchestrated specialists · consensus fan-out · severity-gated validation</text>
         <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(37, 43, 56);stroke:rgb(74, 84, 104);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="124" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsd:code-review-team &lt;path&gt; &lt;scope&gt; [--lite]</text>
+        <text x="340" y="124" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(232, 234, 239);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsad-harness:code-review-team &lt;path&gt; &lt;scope&gt; [--lite]</text>
         <text x="340" y="142" text-anchor="middle" font-size="11" style="fill:rgb(154, 163, 180);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
         <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-dark-crt)" style="fill:rgb(0, 0, 0);stroke:rgb(138, 147, 164);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="48" y="170" width="584" height="112" rx="14" style="fill:rgb(31, 29, 51);stroke:rgb(138, 130, 221);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
@@ -6505,7 +6505,7 @@ exit 0
       </svg>
       <svg class="flow-diagram flow-diagram--light" viewBox="0 0 690 1208" role="img" xmlns="http://www.w3.org/2000/svg">
         <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Code Review Team — orchestration flow, light theme</title>
-        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsd:code-review-team command flow. The Parallel specialists panel uses solid borders for the lite/always-run roster (correctness, design, performance, security) and dashed borders for full-mode-only additions (maintainability, testing, api-contract). After the parallel specialists step, correctness-reviewer and performance-reviewer fan out into a loop-until-dry consensus round (dashed boxes, 2-8 passes, kept if a finding reproduces in at least 2 passes, stopping once a round surfaces nothing new). The orchestrator consolidates findings, then every finding group passes through a severity-gated adversarial validator: minor/nit groups get a single validator whose verdict is final, while critical/major groups get a 3-validator majority panel requiring 2 of 3 confirms — shown as two branching paths converging on the same confirmed/rejected outcome. REVIEW-REPORT.md feeds a known-findings.jsonl ledger, shown looping back (dashed) to the orchestrator setup step, which drives auto re-review on the next run.</desc>
+        <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Technical diagram of the /fsad-harness:code-review-team command flow. The Parallel specialists panel uses solid borders for the lite/always-run roster (correctness, design, performance, security) and dashed borders for full-mode-only additions (maintainability, testing, api-contract). After the parallel specialists step, correctness-reviewer and performance-reviewer fan out into a loop-until-dry consensus round (dashed boxes, 2-8 passes, kept if a finding reproduces in at least 2 passes, stopping once a round surfaces nothing new). The orchestrator consolidates findings, then every finding group passes through a severity-gated adversarial validator: minor/nit groups get a single validator whose verdict is final, while critical/major groups get a 3-validator majority panel requiring 2 of 3 confirms — shown as two branching paths converging on the same confirmed/rejected outcome. REVIEW-REPORT.md feeds a known-findings.jsonl ledger, shown looping back (dashed) to the orchestrator setup step, which drives auto re-review on the next run.</desc>
         <defs>
           <linearGradient id="cg-light-crt" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#f4f7fb"/>
@@ -6523,7 +6523,7 @@ exit 0
         <text x="340" y="56" text-anchor="middle" font-size="16" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:16px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Code Review Team</text>
         <text x="340" y="74" text-anchor="middle" font-size="12" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Orchestrated specialists · consensus fan-out · severity-gated validation</text>
         <rect x="180" y="100" width="320" height="50" rx="12" style="fill:rgb(255, 255, 255);stroke:rgb(184, 196, 212);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-        <text x="340" y="124" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsd:code-review-team &lt;path&gt; &lt;scope&gt; [--lite]</text>
+        <text x="340" y="124" text-anchor="middle" font-size="12" font-weight="600" style="fill:rgb(31, 41, 55);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, &quot;SF Mono&quot;, Menlo, monospace;font-size:12px;font-weight:600;text-anchor:middle;dominant-baseline:auto">/fsad-harness:code-review-team &lt;path&gt; &lt;scope&gt; [--lite]</text>
         <text x="340" y="142" text-anchor="middle" font-size="11" style="fill:rgb(91, 101, 119);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif, &quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">User invocation</text>
         <line x1="340" y1="150" x2="340" y2="170" stroke-width="1.5" marker-end="url(#arrow-light-crt)" style="fill:rgb(0, 0, 0);stroke:rgb(74, 85, 104);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
         <rect x="48" y="170" width="584" height="112" rx="14" style="fill:rgb(239, 236, 249);stroke:rgb(83, 74, 183);color:rgb(255, 255, 255);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
@@ -6627,7 +6627,7 @@ exit 0
 
     <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:1.5rem;">
       <div class="callout-title">Invocation</div>
-      <p>Install from the <a href="https://github.com/tbeack/fsad_playbook" style="color:var(--accent);">fsad_playbook repo</a> (see <strong>Install the Skill</strong> below), then invoke with <code>/fsd:code-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>), plus optional <code>--lite</code> (4 core specialists only) and <code>--yes</code> flags. Review-only — no fixes companion skill (unlike sec-review-team's <code>sec-review-fixes</code> pairing); open the findings in <code>REVIEW-REPORT.md</code>, address them manually, then re-run <code>/fsd:code-review-team diff vs main</code> to verify.</p>
+      <p>Install from the <a href="https://github.com/tbeack/fsad_playbook" style="color:var(--accent);">fsad_playbook repo</a> (see <strong>Install the Skill</strong> below), then invoke with <code>/fsad-harness:code-review-team &lt;target path&gt; &lt;scope&gt;</code> (scope = <code>all</code> | <code>&lt;subdir&gt;</code> | <code>diff vs main</code>), plus optional <code>--lite</code> (4 core specialists only) and <code>--yes</code> flags. Review-only — no fixes companion skill (unlike sec-review-team's <code>sec-review-fixes</code> pairing); open the findings in <code>REVIEW-REPORT.md</code>, address them manually, then re-run <code>/fsad-harness:code-review-team diff vs main</code> to verify.</p>
     </div>
 
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; font-weight:700;">The Specialist Library (7)</h3>
@@ -8529,6 +8529,6 @@ rm -rf /tmp/fsad-playbook</code></pre>
 </section>
 <footer>
   <span class="footer-brand">Full Stack Agentic Development</span>
-  <p>Skills Library — installable fsd: skills for FSAD pods.</p>
+  <p>Skills Library — installable fsad-harness: skills for FSAD pods.</p>
 </footer>
 </div><!-- end page-skills -->

@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.6 — 2026-08-31
+
+**FSAD Harness plugin (CBP-499)**
+
+The playbook's own skill set now ships as an actual installable Claude Code plugin — `.claude-plugin/plugin.json` and `hooks/hooks.json` at the repo root — so skills resolve as `/fsad-harness:<name>` once installed, replacing the previously aspirational `fsd:` references in the README and Skills Library.
+
+- **CBP-499 — Package the playbook's skills as the "FSAD Harness" plugin.** Adds a valid plugin manifest and hook wiring, renames every `fsd:` skill cross-reference across `README.md`, `skills/*/SKILL.md`, and the Skills Library page to `fsad-harness:`, and verifies the new invocation prefix resolves via a live plugin install.
+
 ### v4.1.5 — 2026-08-31
 
 **Skills Library — 5 new `fsd:` skills + Hooks Library (CBP-497)**

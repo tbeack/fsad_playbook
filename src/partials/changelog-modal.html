@@ -6,6 +6,13 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.6 <span class="changelog-date">· 2026-08-31</span></h3>
+        <p><strong>FSAD Harness plugin (CBP-499).</strong> The playbook's own skill set now ships as an actual installable Claude Code plugin — <code>.claude-plugin/plugin.json</code> and <code>hooks/hooks.json</code> at the repo root — so skills resolve as <code>/fsad-harness:&lt;name&gt;</code> once installed, replacing the previously aspirational <code>fsd:</code> references in the README and Skills Library.</p>
+        <ul>
+          <li><strong>CBP-499 — Package the playbook's skills as the "FSAD Harness" plugin.</strong> Adds a valid plugin manifest and hook wiring, renames every <code>fsd:</code> skill cross-reference across <code>README.md</code>, <code>skills/*/SKILL.md</code>, and the Skills Library page to <code>fsad-harness:</code>, and verifies the new invocation prefix resolves via a live plugin install.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.5 <span class="changelog-date">· 2026-08-31</span></h3>
         <p><strong>Skills Library — 5 new <code>fsd:</code> skills + Hooks Library.</strong> Documents the 5 new planning/review skills ported by TBS-083 — <code>plan</code>, <code>set-context</code>, <code>prompt-improver</code>, <code>spec-review</code>, <code>plan-review</code> — plus a new Hooks Library section covering <code>context-monitor.js</code> and <code>fsd-memory-recommend.sh</code>.</p>
         <ul>

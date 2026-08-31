@@ -1,11 +1,11 @@
 ---
-description: Pick the next open task from the current project's todo file and invoke `/fsd:do-task` with that task ID. Ranks candidates by readiness (has a task-detail file, no stated unmet dependency) and reports why one was chosen. Accepts an optional count (`/fsd:next 3`) to hand off multiple ranked candidates to `do-task`'s concurrent multi-task dispatch. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says "do the next task", "what's next", "next task", "next 3 tasks", or similar.
+description: Pick the next open task from the current project's todo file and invoke `/fsad-harness:do-task` with that task ID. Ranks candidates by readiness (has a task-detail file, no stated unmet dependency) and reports why one was chosen. Accepts an optional count (`/fsad-harness:next 3`) to hand off multiple ranked candidates to `do-task`'s concurrent multi-task dispatch. Auto-detects the current project from the working directory using the same YAML config as other fsd skills. Use when the user says "do the next task", "what's next", "next task", "next 3 tasks", or similar.
 argument-hint: `[N]`
 ---
 
-# fsd:next — pick the next ready task and hand off to do-task
+# fsad-harness:next — pick the next ready task and hand off to do-task
 
-You find the most **ready** unchecked task(s) in the current project's todo file and invoke `fsd:do-task` with the chosen ID(s). Readiness — not file order — decides which candidate wins.
+You find the most **ready** unchecked task(s) in the current project's todo file and invoke `fsad-harness:do-task` with the chosen ID(s). Readiness — not file order — decides which candidate wins.
 
 ## Step 0 — Detect the project
 
@@ -15,7 +15,7 @@ You find the most **ready** unchecked task(s) in the current project's todo file
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
    - Tell the user the project is not registered.
-   - Suggest running `/fsd:add-task` from the project to register it.
+   - Suggest running `/fsad-harness:add-task` from the project to register it.
    - Stop.
 
 ## Step 1 — Parse the optional count argument
@@ -24,7 +24,7 @@ You find the most **ready** unchecked task(s) in the current project's todo file
 
 - Empty → `N = 1`.
 - A positive integer → `N` = that value.
-- Anything else (non-numeric, zero, negative) → tell the user: "Expected an optional count, e.g. `/fsd:next` or `/fsd:next 3`." Stop.
+- Anything else (non-numeric, zero, negative) → tell the user: "Expected an optional count, e.g. `/fsad-harness:next` or `/fsad-harness:next 3`." Stop.
 
 ## Step 2 — Find candidate open tasks (targeted grep, not a full-file Read)
 
@@ -81,12 +81,12 @@ If `N` exceeds the number of available (non-Tier-3, or all-Tier-3-if-forced) can
 
 - **`N = 1`**: Tell the user which task was selected and why, e.g.:
 
-  > Next task: **TBS-006** — "Add a new skill `fsd:next`" (Tier 1 — ready). Handing off to `fsd:do-task`…
+  > Next task: **TBS-006** — "Add a new skill `fsad-harness:next`" (Tier 1 — ready). Handing off to `fsad-harness:do-task`…
 
-  Then invoke `fsd:do-task` via the Skill tool, passing the single canonical task identifier as the argument.
+  Then invoke `fsad-harness:do-task` via the Skill tool, passing the single canonical task identifier as the argument.
 
 - **`N > 1`**: Tell the user the full ranked list being dispatched, e.g.:
 
-  > Dispatching 3 ready tasks to `fsd:do-task`: **TBS-042, TBS-044, TBS-046**.
+  > Dispatching 3 ready tasks to `fsad-harness:do-task`: **TBS-042, TBS-044, TBS-046**.
 
-  Then invoke `fsd:do-task` via the Skill tool, passing all selected canonical identifiers space-separated as a single argument string (e.g. `TBS-042 TBS-044 TBS-046`). `do-task`'s own Step 0.5 multi-task dispatch takes over from there — each ID is planned/executed concurrently in its own isolated worktree.
+  Then invoke `fsad-harness:do-task` via the Skill tool, passing all selected canonical identifiers space-separated as a single argument string (e.g. `TBS-042 TBS-044 TBS-046`). `do-task`'s own Step 0.5 multi-task dispatch takes over from there — each ID is planned/executed concurrently in its own isolated worktree.
