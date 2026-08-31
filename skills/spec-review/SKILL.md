@@ -3,7 +3,7 @@ description: Run a detailed, adversarial multi-agent review of a written proposa
 argument-hint: `[path] [--depth quick|standard|deep] [--lens <names>] [--stance <n>]`
 ---
 
-# fsd:spec-review — Adversarial Document Review
+# fsad-harness:spec-review — Adversarial Document Review
 
 **What this optimizes for:** a report the author trusts, not one that merely looks thorough. A finding only earns a place in the report if it survives independent adversarial validation (Phase 3) against the actual document text; anything that can't be confirmed that way goes to "Considered and dropped," visible but not counted. A short report on a genuinely solid document is success, not under-delivery — a padded report is the failure mode this skill exists to avoid.
 

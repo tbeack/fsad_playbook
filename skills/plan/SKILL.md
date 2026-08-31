@@ -1,10 +1,10 @@
 ---
 name: plan
-description: Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md), gated phase by phase like fsd:prd. Use when the user says "plan this project", "plan this refactor", "help me plan this epic", or similar.
+description: Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md), gated phase by phase like fsad-harness:prd. Use when the user says "plan this project", "plan this refactor", "help me plan this epic", or similar.
 argument-hint: `[initiative name or goal] [target repo path]`
 ---
 
-# fsd:plan — Large-Initiative Planning Agent
+# fsad-harness:plan — Large-Initiative Planning Agent
 
 Follow these phases in order. Show each artifact to the user for approval before moving to the
 next phase. Never generate all five documents unattended — each phase checkpoints.
@@ -26,7 +26,7 @@ file.
 
 ## Phase 0 — Context (mandatory, not skippable)
 
-Invoke the `fsd:set-context` skill now (as a subskill — see its own SKILL.md for its invocation
+Invoke the `fsad-harness:set-context` skill now (as a subskill — see its own SKILL.md for its invocation
 model: it runs inline, not as a fire-and-forget subagent). **If a target repo path was supplied
 as this skill's second argument, pass it through as `set-context`'s explicit path argument** so
 it resolves the target from that path rather than the current working directory; otherwise
@@ -131,11 +131,11 @@ Show the user a one-line summary of what was backfilled in each document before 
 
 ## Phase 5 — Offer adversarial review
 
-Offer to invoke `fsd:plan-review` against the five generated documents as a final adversarial pass,
+Offer to invoke `fsad-harness:plan-review` against the five generated documents as a final adversarial pass,
 writing `plan_review.md` alongside them: *"All five documents are drafted and reconciled. Want me
-to run `fsd:plan-review` against them before you start implementing?"*
+to run `fsad-harness:plan-review` against them before you start implementing?"*
 
-- **Yes** — invoke the `fsd:plan-review` skill (via the `Skill` tool), with `source` set to the
+- **Yes** — invoke the `fsad-harness:plan-review` skill (via the `Skill` tool), with `source` set to the
   `planning/plan/<slug>/` directory and `target` set to `planning/plan/<slug>/plan_review.md`.
 - **No** — skip it. Do not run the review without explicit confirmation.
 

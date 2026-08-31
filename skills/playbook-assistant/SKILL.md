@@ -3,7 +3,7 @@ description: Answer "how do I…" questions about FSAD strategies and practices 
 argument-hint: `<question>`
 ---
 
-# fsd:playbook-assistant — FSAD Playbook Q&A
+# fsad-harness:playbook-assistant — FSAD Playbook Q&A
 
 Answer a "how do I…" or "what does the playbook say about…" question using **only** the content in the FSAD Playbook, and cite the section(s) the answer came from. Never answer from general Claude Code/Codex knowledge as if it were playbook content — if the playbook doesn't cover it, say so.
 

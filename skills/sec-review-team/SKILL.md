@@ -459,7 +459,7 @@ Tell the user:
 - Tooling caveats (scanners unavailable, fallbacks taken, specialists errored)
 - Coverage completeness score
 
-Do NOT apply fixes. Fix workflow → companion skill `/fsd:sec-review-fixes` (CBP-070).
+Do NOT apply fixes. Fix workflow → companion skill `/fsad-harness:sec-review-fixes` (CBP-070).
 
 ---
 

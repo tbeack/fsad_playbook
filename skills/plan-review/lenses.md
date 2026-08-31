@@ -1,4 +1,4 @@
-# `fsd:plan-review` — lens catalogue
+# `fsad-harness:plan-review` — lens catalogue
 
 Seven lenses. Each runs as an independent subagent that cannot see any other lens's output. This file is the source of truth for what each one asks, what evidence it owes, and what a good finding from it looks like. `SKILL.md` selects the roster; it does not restate any of this.
 

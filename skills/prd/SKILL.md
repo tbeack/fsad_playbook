@@ -3,7 +3,7 @@ description: Guide the user through writing a Product Requirements Document or f
 argument-hint: `[feature title or goal]`
 ---
 
-# fsd:prd — PRD & Spec Writing Agent
+# fsad-harness:prd — PRD & Spec Writing Agent
 
 Follow these phases in order. Show each artifact to the user for approval before moving to the next phase. Never skip a gate.
 
@@ -193,7 +193,7 @@ Then present the summary:
 > - `plan.md` — how
 > - `tasks.json` / `tasks.md` — ordered implementation tasks with ACs
 >
-> To execute: pick up tasks in order with `/fsd:do-task` or import them into your tracker with `/fsd:add-task`."
+> To execute: pick up tasks in order with `/fsad-harness:do-task` or import them into your tracker with `/fsad-harness:add-task`."
 
 ## Guardrails
 

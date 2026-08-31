@@ -176,9 +176,9 @@ Store the resolved values as `VERSION_SCHEME` and `VERSION_FILES`.
 
 ### 8b — Write the registration entry
 
-`~/.claude/commands/fsd/projects.yaml` is the **single** registry every `fsd:` skill reads — task
-conventions (`fsd:add-task`, `fsd:do-task`, `fsd:next`) and release/sync conventions (`fsd:sync`,
-`fsd:ship-it`) all resolve from this one file. There is no second config file to keep in step.
+`~/.claude/commands/fsd/projects.yaml` is the **single** registry every `fsad-harness:` skill reads — task
+conventions (`fsad-harness:add-task`, `fsad-harness:do-task`, `fsad-harness:next`) and release/sync conventions (`fsad-harness:sync`,
+`fsad-harness:ship-it`) all resolve from this one file. There is no second config file to keep in step.
 
 Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists
 by scanning for the resolved `match_paths` value (see below).

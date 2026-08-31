@@ -1,9 +1,9 @@
 ---
 allowed-tools: Bash(git worktree:*), Bash(git -C:*), Bash(git merge:*), Bash(git merge-base:*), Bash(git add:*), Bash(git commit:*), Bash(git branch:*), Bash(git mv:*), Bash(git rev-parse:*), Bash(git checkout:*), Bash(git push:*), Bash(git pull:*), Bash(git status:*), Bash(git log:*), Bash(git remote:*), Bash(git ls-remote:*), Bash(gh pr create:*), Bash(gh pr view:*), Bash(gh pr list:*)
-description: Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsd:do-task` has marked one or more tasks done. Takes no arguments.
+description: Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsad-harness:do-task` has marked one or more tasks done. Takes no arguments.
 ---
 
-# fsd:ship-it — wrap up and ship
+# fsad-harness:ship-it — wrap up and ship
 
 You run four sequential phases to close out a batch of completed work: worktree merge (Step 0.5), pre-flight audits — README/CHANGELOG/version/completed-task cleanup (Step 1), commit + push + PR (Step 2), and verify-shipped (Step 3). Do not skip phases or reorder them.
 
@@ -23,7 +23,7 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
    - Tell the user the project is not registered.
-   - Suggest running `/fsd:add-task` from the project to register it.
+   - Suggest running `/fsad-harness:add-task` from the project to register it.
    - Stop.
 
 ## Step 0.5 — Merge pending worktrees
@@ -44,7 +44,7 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
         2. Edit the file to keep the correct content and remove all conflict markers.
         3. Stage each resolved file: `git add <file>`.
         4. Complete the merge commit: `git commit`.
-        5. Re-run `fsd:ship-it` to continue from where it left off.
+        5. Re-run `fsad-harness:ship-it` to continue from where it left off.
         Do not proceed to Step 1. Do not remove the worktree — it may still hold the only copy of unmerged work.
      d. **Verify the merge landed before removing anything**: run `git merge-base --is-ancestor <branch> HEAD`. Exit code `0` means the branch tip is now reachable from `HEAD` — the merge is confirmed in the main tree.
         - If this check **fails** (non-zero exit): **stop immediately**. Do not remove the worktree or delete the branch — the merge did not land as expected and the worktree is the only safe copy of that work. Report the branch name and ask the user how to proceed.
@@ -162,7 +162,7 @@ Before committing, run one more fresh, independent read pass over the three Pre-
      <CHANGELOG content for this version, or a bullet-list summary if no version was cut>
 
      ## Test plan
-     - [ ] Skill files deployed and appear in `/fsd:*` command list
+     - [ ] Skill files deployed and appear in `/fsad-harness:*` command list
      - [ ] README skills table is accurate
      - [ ] CHANGELOG entry is present and correctly formatted
 

@@ -54,23 +54,23 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v4.1.5 |
-| **Date updated** | 2026-08-29 |
+| **Current version** | v4.1.6 |
+| **Date updated** | 2026-08-31 |
 | **File** | `dist/fsad-playbook.html` (built from `src/`) |
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes by version.
 
-## Skills (`fsd:` plugin namespace)
+## Skills (`fsad-harness:` plugin namespace)
 
-Reusable Claude Code skills bundled under `skills/`. Install as a plugin to invoke via `/fsd:<name>`.
+Reusable Claude Code skills bundled under `skills/`. Install as a plugin (see `.claude-plugin/plugin.json`) to invoke via `/fsad-harness:<name>`.
 
 | Skill | Description |
 |-------|-------------|
 | `do-task` | Plan or execute a task in any registered project (plan mode → execute mode) |
 | `ship-it` | Wrap up finished work — CHANGELOG, version bump, commit, push, PR |
-| `ship` | Short alias for `fsd:ship-it` |
+| `ship` | Short alias for `fsad-harness:ship-it` |
 | `add-task` | Add a new task to any registered project's todo file |
-| `next` | Auto-pick the next open task and hand off to `fsd:do-task` |
+| `next` | Auto-pick the next open task and hand off to `fsad-harness:do-task` |
 | `sync` | Pre-flight sync check across registered projects |
 | `ac` | Verify acceptance criteria independently from task execution |
 | `code-review-team` | Multi-agent code review (7 specialists in parallel) |
