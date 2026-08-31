@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mechanical hygiene checks for the tb:plan-review skill files.
+"""Mechanical hygiene checks for the fsd:plan-review skill files.
 
 Two of this skill's acceptance criteria were originally phrased as "read every
 occurrence and judge". That made them unfalsifiable in practice: three
