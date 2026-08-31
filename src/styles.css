@@ -1836,6 +1836,20 @@
   [data-theme="light"] .crt-flow-diagram .flow-diagram--dark { display: none; }
   [data-theme="light"] .crt-flow-diagram .flow-diagram--light { display: block; }
 
+  /* Plan — flow diagram (theme-aware inline SVGs) */
+  .plan-flow-diagram { margin: 1.5rem 0; max-width: 760px; }
+  .plan-flow-diagram .flow-diagram { width: 100%; height: auto; display: block; }
+  .plan-flow-diagram .flow-diagram--light { display: none; }
+  [data-theme="light"] .plan-flow-diagram .flow-diagram--dark { display: none; }
+  [data-theme="light"] .plan-flow-diagram .flow-diagram--light { display: block; }
+
+  /* Plan Review — flow diagram (theme-aware inline SVGs) */
+  .planreview-flow-diagram { margin: 1.5rem 0; max-width: 760px; }
+  .planreview-flow-diagram .flow-diagram { width: 100%; height: auto; display: block; }
+  .planreview-flow-diagram .flow-diagram--light { display: none; }
+  [data-theme="light"] .planreview-flow-diagram .flow-diagram--dark { display: none; }
+  [data-theme="light"] .planreview-flow-diagram .flow-diagram--light { display: block; }
+
   /* Auto-detect OS preference when no manual override */
   @media (prefers-color-scheme: light) {
     :root:not([data-theme]) {
