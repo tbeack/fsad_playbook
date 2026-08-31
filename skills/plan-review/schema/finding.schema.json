@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tb-skills/schemas/plan-review/finding.schema.json",
+  "title": "plan-review finding",
+  "description": "One adversarial-review finding against an implementation plan. Emitted as one JSON object per line in <lens>.findings.jsonl during Phase 2; verdict is populated by the orchestrator after Phase 3, and cluster_id/canonical/severity are finalised by the orchestrator in Phase 4.",
+  "type": "object",
+  "required": ["id", "lens", "severity", "confidence", "anchor", "evidence", "problem", "consequence"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+-[0-9]+$",
+      "description": "Stable per-run finding ID, e.g. 'baseline-diff-auditor-003'. Prefix with the lens name, zero-padded index suffix."
+    },
+    "lens": {
+      "type": "string",
+      "enum": [
+        "completeness-auditor",
+        "consistency-checker",
+        "logic-auditor",
+        "feasibility-critic",
+        "assumption-hunter",
+        "testability-auditor",
+        "baseline-diff-auditor",
+        "completeness-critic"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["blocking", "contract-gap", "minor", "judgment-call"],
+      "description": "blocking = the plan cannot be implemented as written, or shipping it breaks something live. contract-gap = a requirement is stated but no step defines the mechanism, or a baseline item was dropped with no recorded decision. minor = stale reference, wrong status line, base-branch drift with no conflict. judgment-call = an intentional-looking omission the review cannot adjudicate; must be framed as a question naming two defensible answers and what each costs."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "How directly the evidence proves the claim - high = the cited path:line or command output alone proves it; medium = evidence plus one inference step; low = inferred from indirect signals such as omission or structure."
+    },
+    "anchor": {
+      "type": "object",
+      "description": "Where in the PLAN (or its sidecar) the problem lives. The plan's own words are evidence of intent, never of fact - see `evidence` for the repository side.",
+      "required": ["document", "quote"],
+      "additionalProperties": false,
+      "properties": {
+        "document": {
+          "type": "string",
+          "description": "Repo-relative path of the plan document, decisions sidecar, or testing doc the quote is drawn from."
+        },
+        "heading": {
+          "type": "string",
+          "description": "The heading (or 'preamble') the quote falls under."
+        },
+        "step_id": {
+          "type": "string",
+          "description": "Inventory step/requirement/AC id this finding attaches to, e.g. 'S-04', 'R-11', 'AC-03'."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Exact quoted phrase from the document. A finding with no anchor is not a finding - do not paraphrase the document into a quote."
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "description": "The repository-side ground truth. A finding whose evidence cannot be produced as a path:line reference or a runnable command is dropped, not softened.",
+      "required": ["kind", "ref", "observed"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["path-line", "command"],
+          "description": "path-line = a repo-relative `path:line` (or `path:startLine-endLine`) that can be opened. command = a runnable command whose output demonstrates the claim."
+        },
+        "ref": {
+          "type": "string",
+          "description": "The `path:line` reference, or the exact runnable command including arguments (e.g. `git ls-tree origin/main -- steps/`)."
+        },
+        "observed": {
+          "type": "string",
+          "description": "What that reference or command actually shows, quoted or summarised faithfully. Not what the plan claims it shows."
+        }
+      }
+    },
+    "refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(S|R|AC|X|B|E)-[0-9]+$"
+      },
+      "description": "Phase 1 inventory IDs this finding relates to: S=Steps, R=Requirements, AC=Acceptance criteria, X=Cross-references, B=Baseline items, E=Ground-truth facts."
+    },
+    "baseline_ref": {
+      "type": "string",
+      "description": "Baseline inventory id (B-nn) plus its section number, for baseline-diff-auditor findings."
+    },
+    "disposition": {
+      "type": "string",
+      "enum": ["adopted", "rewritten", "dropped", "reversed"],
+      "description": "baseline-diff-auditor only. How the plan treats this baseline item. A 'dropped' entry the plan neither implements nor lists as a non-goal with a reason is always a finding."
+    },
+    "problem": {
+      "type": "string",
+      "description": "What is wrong, stated concretely."
+    },
+    "consequence": {
+      "type": "string",
+      "description": "The concrete downstream failure if unaddressed - not 'this is unclear' but what actually breaks, for whom, when."
+    },
+    "suggested_fix": {
+      "type": "string",
+      "description": "Optional. The specific question the plan owner needs to answer. This skill is a gate, not implementation - do not propose fixes unless asked."
+    },
+    "cluster_id": {
+      "type": "string",
+      "description": "Populated by the orchestrator in Phase 4 when near-duplicate findings across lenses are merged. All members of a cluster share one id."
+    },
+    "canonical": {
+      "type": "boolean",
+      "description": "Populated by the orchestrator in Phase 4. True for the one finding in a cluster whose statement reaches the report."
+    },
+    "verdict": {
+      "type": "object",
+      "description": "Populated by the orchestrator after Phase 3 ground-truth verification. Absent on the lens's initial emission.",
+      "required": ["status", "reasoning"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["survived", "refuted"]
+        },
+        "reasoning": {
+          "type": "string",
+          "description": "The verifier's reasoning, kept for the report's 'Considered and dropped' appendix when refuted."
+        },
+        "lenses_used": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["reproduces", "is-a-defect", "already-handled"]
+          },
+          "description": "deep mode only - which of the three verifier lenses were run."
+        },
+        "votes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3,
+          "description": "Number of verifiers voting 'survived', out of votes_total. Only present at depth deep (3-verifier majority)."
+        },
+        "votes_total": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        }
+      }
+    }
+  }
+}
