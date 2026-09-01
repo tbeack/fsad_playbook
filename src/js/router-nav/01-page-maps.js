@@ -3,6 +3,7 @@
     'fsad-hero': 'fsad', 'overview': 'fsad', 'workflow': 'fsad', 'pod': 'fsad', 'markdown': 'fsad', 'comparison': 'fsad', 'advantages': 'fsad', 'tradeoffs': 'fsad', 'closing-fsad': 'fsad',
     'pods-hero': 'pods', 'pod-explorer': 'pods', 'sizing': 'pods', 'antipatterns': 'pods',
     'workflows-hero': 'workflows', 'project-initialize-context': 'workflows', 'project-create-spec': 'workflows', 'add-task-skill': 'workflows', 'commit-changes-skill': 'workflows',
+    'harness-hero': 'harness', 'model-vs-harness': 'harness', 'seven-jobs': 'harness', 'instructions-infrastructure': 'harness', 'bounded-loop': 'harness', 'failure-upgrades': 'harness', 'brain-hands-history': 'harness', 'maturity-ladder': 'harness', 'checklist': 'harness',
     'tips-hero': 'tips', 'token-limits': 'tips', 'effort-levels': 'tips', 'session-patterns': 'tips',
     'skills-hero': 'skills', 'skills-library': 'skills', 'skills-definitions': 'skills', 'hooks-library': 'skills', 'code-review-team': 'skills', 'security-review': 'skills',
     'practices-hero': 'practices', 'practices-hub': 'practices', 'getting-started': 'practices', 'claude-setup': 'practices', 'config-cascade': 'practices', 'integrations': 'practices', 'code-review': 'practices', 'building-skills': 'practices', 'best-practices': 'practices', 'model-effort': 'practices', 'cheat-sheet': 'practices', 'power-usage': 'practices', 'hooks-deep-dive': 'practices', 'cloud-integrations': 'practices', 'monitoring': 'practices', 'production-monitoring': 'practices',

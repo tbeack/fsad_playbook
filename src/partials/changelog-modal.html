@@ -6,6 +6,13 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.2.0 <span class="changelog-date">· 2026-09-01</span></h3>
+        <p><strong>New "Harness Engineering" section (CBP-500).</strong> A new left-nav section, positioned between Workflows and Practical Best Practices, makes the case that reliable agents come from the environment built around the model — not from prompt tweaks or bigger models alone — walking through the seven jobs a harness performs (contract, map, tools, memory, sensors, permissions, traces), the bounded-retry-loop pattern, failure-driven system upgrades, the brain/hands/history separation, a four-level maturity ladder, and a 12-item self-assessment checklist.</p>
+        <ul>
+          <li><strong>CBP-500 — Add a "Harness Engineering" section to the main left nav.</strong> New <code>src/pages/harness.html</code> module wired into the build via <code>@include</code>, with two theme-aware inline SVG diagrams (model-vs-harness overview, four-level maturity ladder) matching the playbook's existing diagram convention, full sidebar nav and router registry wiring, and live full-text search coverage.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.6 <span class="changelog-date">· 2026-08-31</span></h3>
         <p><strong>FSAD Harness plugin (CBP-499).</strong> The playbook's own skill set now ships as an actual installable Claude Code plugin — <code>.claude-plugin/plugin.json</code> and <code>hooks/hooks.json</code> at the repo root — so skills resolve as <code>/fsad-harness:&lt;name&gt;</code> once installed, replacing the previously aspirational <code>fsd:</code> references in the README and Skills Library.</p>
         <ul>

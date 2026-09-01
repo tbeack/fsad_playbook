@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.2.0 — 2026-09-01
+
+**New "Harness Engineering" section (CBP-500)**
+
+A new left-nav section, positioned between Workflows and Practical Best Practices, makes the case that reliable agents come from the environment built around the model — not from prompt tweaks or bigger models alone — walking through the seven jobs a harness performs (contract, map, tools, memory, sensors, permissions, traces), the bounded-retry-loop pattern, failure-driven system upgrades, the brain/hands/history separation, a four-level maturity ladder, and a 12-item self-assessment checklist.
+
+- **CBP-500 — Add a "Harness Engineering" section to the main left nav.** New `src/pages/harness.html` module wired into the build via `@include`, with two theme-aware inline SVG diagrams (model-vs-harness overview, four-level maturity ladder) matching the playbook's existing diagram convention, full sidebar nav and router registry wiring, and live full-text search coverage.
+
 ### v4.1.6 — 2026-08-31
 
 **FSAD Harness plugin (CBP-499)**
