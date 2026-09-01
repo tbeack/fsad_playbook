@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.7 <span class="changelog-date">· 2026-09-01</span></h3>
+        <p><strong>Codex CLI rust-v0.152.0 auto-update.</strong> Four documentation updates covering Vim mode draft search, rate-limit banner inline actions, per-MCP-tool output token limits with resume-consistent truncation, and the planning tool's new disabled-by-default configuration.</p>
+        <ul>
+          <li><strong>CBP-501 — [Codex] Vim mode <code>/</code> and <code>?</code> draft search.</strong> Codex's Vim editing mode gained forward (<code>/</code>) and backward (<code>?</code>) search within the current draft, with match highlighting and repeat navigation via <code>n</code>/<code>N</code>.</li>
+          <li><strong>CBP-502 — [Codex] Rate-limit banner inline actions.</strong> Rate-limit banners now offer direct actions to check usage, manage credits, reset limits, or manage the plan, in addition to the existing <code>/usage</code> command.</li>
+          <li><strong>CBP-503 — [Codex] Per-MCP-tool <code>output_token_limit</code> + resume-consistent truncation.</strong> Individual MCP tools can now be configured with a per-tool <code>output_token_limit</code>, and truncation behavior is now consistent across session resumes.</li>
+          <li><strong>CBP-504 — [Codex] <code>tools.update_plan.enabled</code> config row.</strong> Codex's internal planning tool is now disabled by default; users who relied on it must opt in via <code>tools.update_plan.enabled = true</code> in <code>config.toml</code>.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.6 <span class="changelog-date">· 2026-08-31</span></h3>
         <p><strong>FSAD Harness plugin (CBP-499).</strong> The playbook's own skill set now ships as an actual installable Claude Code plugin — <code>.claude-plugin/plugin.json</code> and <code>hooks/hooks.json</code> at the repo root — so skills resolve as <code>/fsad-harness:&lt;name&gt;</code> once installed, replacing the previously aspirational <code>fsd:</code> references in the README and Skills Library.</p>
         <ul>

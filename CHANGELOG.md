@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v4.1.7 — 2026-09-01
+
+**Codex CLI rust-v0.152.0 auto-update (CBP-501 through CBP-504)**
+
+Four documentation updates covering Vim mode draft search, rate-limit banner inline actions, per-MCP-tool output token limits with resume-consistent truncation, and the planning tool's new disabled-by-default configuration.
+
+- **[Codex] CBP-501 — Vim mode `/` and `?` draft search.** Codex's Vim editing mode gained forward (`/`) and backward (`?`) search within the current draft, with match highlighting and repeat navigation via `n`/`N`.
+- **[Codex] CBP-502 — Rate-limit banner inline actions.** Rate-limit banners now offer direct actions to check usage, manage credits, reset limits, or manage the plan, in addition to the existing `/usage` command.
+- **[Codex] CBP-503 — Per-MCP-tool `output_token_limit` + resume-consistent truncation.** Individual MCP tools can now be configured with a per-tool `output_token_limit`, and truncation behavior is now consistent across session resumes.
+- **[Codex] CBP-504 — `tools.update_plan.enabled` config row.** Codex's internal planning tool is now disabled by default; users who relied on it must opt in via `tools.update_plan.enabled = true` in `config.toml`.
+
 ### v4.1.6 — 2026-08-31
 
 **FSAD Harness plugin (CBP-499)**

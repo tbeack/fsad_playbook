@@ -362,6 +362,8 @@ orders, and payments.
 
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Extensions can inspect or replace MCP tool results (rust-v0.151.0):</strong> Codex extensions can now intercept MCP tool results before they reach the model — useful for redacting sensitive output, reformatting responses, or injecting additional context. This extends the plugin hook model: where hooks previously acted on tool calls and session events, extensions can now also transform what the model sees from tool responses.</p>
 
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Per-tool output token limits (rust-v0.152.0):</strong> Individual MCP tools now support an <code>output_token_limit</code> setting in <code>~/.codex/config.toml</code>, capping how many tokens a single tool result can return. Truncation behavior is now consistent across session resumes, so a resumed thread won't re-truncate a previously-returned result differently than the original session did.</p>
+
     <div class="step-card">
       <span class="step-number">1</span>
       <h3>Add an MCP Server</h3>
@@ -1009,7 +1011,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>/rename</code></td><td>Rename the current thread — suggests an editable title based on the conversation. Unnamed terminal tasks also receive descriptive titles automatically. (rust-v0.150.0)</td></tr>
           <tr><td><code>/export</code></td><td>Export the complete conversation as Markdown — copy it to the clipboard or write it to a new file (rust-v0.148.0)</td></tr>
           <tr><td><code>/status</code></td><td>Show session config and token usage metrics. For eligible workspaces, also shows estimated thread credits or cost — the same estimate surfaced in status lines and terminal titles (rust-v0.148.0)</td></tr>
-          <tr><td><code>/usage</code></td><td>View daily, weekly, and cumulative account token activity. Redeem earned usage-limit reset credits directly from this view. (v0.140.0)</td></tr>
+          <tr><td><code>/usage</code></td><td>View daily, weekly, and cumulative account token activity. Redeem earned usage-limit reset credits directly from this view. (v0.140.0) As of rust-v0.152.0, rate-limit banners shown when you hit a limit also offer inline actions to check usage, manage credits, reset limits, or manage your plan.</td></tr>
           <tr><td><code>/debug-config</code></td><td>Print configuration layers and policy diagnostics</td></tr>
           <tr><td><code>/exit</code></td><td>Close session</td></tr>
         </tbody>
@@ -1065,6 +1067,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>[agents].max_depth</code></td><td>Max agent nesting depth</td><td><code>1</code></td></tr>
           <tr><td><code>[agents].job_max_runtime_seconds</code></td><td>Per-worker timeout</td><td><code>3600</code></td></tr>
           <tr><td><code>[features].codex_hooks</code></td><td>Enable the hooks system</td><td><code>true</code></td></tr>
+          <tr><td><code>tools.update_plan.enabled</code></td><td>Enable the model's internal planning tool (tracks/updates its own step-by-step plan during a task — distinct from the <code>/plan</code> slash command). Disabled by default as of rust-v0.152.0.</td><td><code>false</code></td></tr>
           <tr><td><code>[otel]</code></td><td>OpenTelemetry export config (exporter, endpoint, metrics)</td><td>—</td></tr>
         </tbody>
       </table>
@@ -1173,7 +1176,7 @@ vim_mode = true
 <span class="cm"># Or toggle mid-session</span>
 /vim</code></pre>
         </div>
-        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection), plus expanded change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (<code>r&lt;char&gt;</code>) (rust-v0.149.0), and dot-repeat (<code>.</code>) to repeat your last edit (rust-v0.150.0). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
+        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection), plus expanded change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (<code>r&lt;char&gt;</code>) (rust-v0.149.0), dot-repeat (<code>.</code>) to repeat your last edit (rust-v0.150.0), and <code>/</code> / <code>?</code> search within the current draft with highlighted matches and <code>n</code>/<code>N</code> repeat navigation (rust-v0.152.0). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use <code>/keymap debug</code> to inspect what key events your terminal is sending — helpful when certain Vim chords don't register correctly.</p>
       </div></div>
     </div>
