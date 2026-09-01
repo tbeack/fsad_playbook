@@ -7,10 +7,11 @@ A comprehensive, interactive single-page guide that documents best practices for
 - **FSAD Methodology** — spec-driven, agentic-first development where small cross-functional pods use markdown as a common language to direct teams of AI agents
 - **Pod Compositions** — team structures and role definitions for different project types
 - **Workflows** — concrete end-to-end walkthroughs of skills and rituals an FSAD pod uses day-to-day (starts with the Squad Setup Skill)
+- **Harness Engineering** — why reliable agents come from the environment around the model — context, tools, memory, permissions, and traces — not from prompt tweaks or bigger models alone
 - **Claude Best Practices** — getting started guides, project anatomy, CLAUDE.md configuration, integrations (MCP), code review agents, custom skills, cheat sheet, and power usage
 - **Codex Best Practices** — equivalent coverage for OpenAI's Codex CLI: AGENTS.md setup, TOML-based MCP config, approval modes, sandbox security, multi-agent workflows, and more
 - **KPIs to Measure Impact** — metrics framework for measuring FSAD adoption, productivity, and ROI
-- **Interactive UI** — 10-page navigation, collapsible sections, searchable content, code blocks with copy buttons, dark/light/auto theme toggle
+- **Interactive UI** — 11-page navigation, collapsible sections, searchable content, code blocks with copy buttons, dark/light/auto theme toggle
 
 ## Tech Stack
 
@@ -54,7 +55,7 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v4.1.8 |
+| **Current version** | v4.1.10 |
 | **Date updated** | 2026-09-01 |
 | **File** | `dist/fsad-playbook.html` (built from `src/`) |
 

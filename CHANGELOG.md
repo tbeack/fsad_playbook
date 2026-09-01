@@ -1,10 +1,18 @@
 ## Changes in This Version
 
-### v4.1.8 — 2026-09-01
+### v4.1.10 — 2026-09-01
 
 **Remove `fsd-memory-recommend.sh` Stop hook**
 
 Unregisters the memory-recommendation hook from `hooks/hooks.json` and removes the script and its Hooks Library documentation card from the Skills Library page; the plugin now ships only the `context-monitor.js` `PostToolUse` hook.
+
+### v4.1.9 — 2026-09-01
+
+**New "Harness Engineering" section (CBP-500)**
+
+A new left-nav section, positioned between Workflows and Practical Best Practices, makes the case that reliable agents come from the environment built around the model — not from prompt tweaks or bigger models alone — walking through the seven jobs a harness performs (contract, map, tools, memory, sensors, permissions, traces), the bounded-retry-loop pattern, failure-driven system upgrades, the brain/hands/history separation, a four-level maturity ladder, and a 12-item self-assessment checklist.
+
+- **CBP-500 — Add a "Harness Engineering" section to the main left nav.** New `src/pages/harness.html` module wired into the build via `@include`, with two theme-aware inline SVG diagrams (model-vs-harness overview, four-level maturity ladder) matching the playbook's existing diagram convention, full sidebar nav and router registry wiring, and live full-text search coverage.
 
 ### v4.1.7 — 2026-09-01
 
