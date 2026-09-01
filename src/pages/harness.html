@@ -1,0 +1,314 @@
+<div class="page" id="page-harness">
+
+<div class="hero" id="harness-hero" style="padding-bottom: 1.2rem;">
+  <div class="hero-badge">The Environment Around the Model</div>
+  <h1>Harness <em>Engineering</em></h1>
+  <p>A reliable agent isn't a smarter model — it's a smarter environment. This section covers the discipline of engineering that environment: the boundaries the agent operates inside, the record of what it did, and the point at which it has to hand control back to a person.</p>
+</div>
+<hr class="divider">
+
+<section id="model-vs-harness">
+  <span class="section-label">01 — The Thesis</span>
+  <h2 class="section-title">The Model Proposes. <em>The Harness Decides.</em></h2>
+  <p class="section-subtitle">Picture the usual response to an agent that keeps going wrong: rewrite the prompt, upgrade the model, hand it a wider context window. None of it sticks — decisions still get dropped, the wrong tool still gets reached for, checks still get skipped, the same failure loop still repeats. Blaming the model is usually a mistake. What's missing is rarely intelligence — it's the scaffolding the model is operating inside.</p>
+
+  <p>That scaffolding is what this section calls <strong>the harness</strong> — the part of the system that decides what the model gets shown, what actions it's permitted to take, what survives after the conversation ends, and where the run is required to stop and wait for a person. A model on its own can only propose; it has no way to grant itself permissions, remember past runs, or check its own work. Consider two deployments of the exact same weights: dropped into a bare chat window, the model can only converse. Wired into a coding environment with file access, a test suite, a sandboxed shell, and a review step before merge, that same model can carry a ticket through to a shipped pull request. Nothing about the model changed between those two pictures — the difference was built entirely by what surrounded it.</p>
+
+  <figure class="harness-flow-diagram" aria-label="Model versus Harness — the seven harness jobs">
+    <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 482" role="img" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg-a-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1c2230"/>
+          <stop offset="100%" stop-color="#141822"/>
+        </linearGradient>
+        <marker id="ha-a-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="680" height="482" rx="24" fill="url(#hg-a-dark)"/><title>Model versus Harness — the seven harness jobs</title><desc>Two-panel diagram. On the left, a box labeled MODEL, which reads its context and puts forward a candidate next action. On the right, a box labeled HARNESS, listing seven responsibilities stacked as rows: turn the request into a contract, give the agent a map instead of a manual, expose tools with clear contracts and permission boundaries, externalize memory into durable state, add sensors before autonomy, enforce permissions outside the model, record traces and recover locally. An arrow connects the two boxes, labeled proposes, illustrating that every action the model puts forward passes through the harness before it runs.</desc><rect x="24" y="24" width="632" height="56" rx="14" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><rect x="40" y="38" width="24" height="3" rx="1.5" fill="#8a82dd"/><text x="340.0" y="50" text-anchor="middle" font-size="15" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">The Model Proposes. The Harness Decides.</text><text x="340.0" y="68" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Same weights, different reliability — depending on what surrounds them</text><rect x="24" y="100" width="280" height="292" rx="16" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/><rect x="44" y="116" width="24" height="3" rx="1.5" fill="#8a82dd"/><text x="164" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">MODEL</text><text x="164" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">the reasoning engine</text><text x="48" y="182" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Reads context it is given</text><text x="48" y="206" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Proposes the next action</text><text x="48" y="230" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Cannot see beyond its window</text><text x="48" y="254" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Cannot enforce its own limits</text><line x1="304" y1="246.0" x2="336" y2="246.0" stroke="#8a82dd" stroke-width="1.5" marker-end="url(#ha-a-dark)"/><text x="320" y="238.0" text-anchor="middle" font-size="9" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#8a82dd">proposes</text><rect x="336" y="100" width="320" height="292" rx="16" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/><rect x="356" y="116" width="24" height="3" rx="1.5" fill="#8a82dd"/><text x="496" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">HARNESS</text><text x="496" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">seven jobs it must do</text><rect x="352" y="168" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="496" y="186" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">(a) Turn request into a contract</text><rect x="352" y="200" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="496" y="218" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">(b) Give the agent a map, not a manual</text><rect x="352" y="232" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="496" y="250" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">(c) Expose tools with clear contracts</text><rect x="352" y="264" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="496" y="282" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">(d) Externalize memory into durable state</text><rect x="352" y="296" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="496" y="314" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">(e) Add sensors before autonomy</text><rect x="352" y="328" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="496" y="346" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">(f) Enforce permissions outside the model</text><rect x="352" y="360" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="496" y="378" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">(g) Record traces, recover locally</text><rect x="24" y="408" width="632" height="54" rx="14" fill="#14241e" stroke="#4cc9a0" stroke-width="1.2"/><text x="340.0" y="430" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#6dd9b3">No new weights — the system around them changed.</text><text x="340.0" y="448" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Same model, different environment, different reliability</text></svg>
+      <svg class="flow-diagram flow-diagram--light" viewBox="0 0 680 482" role="img" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg-a-light" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f4f7fb"/>
+          <stop offset="100%" stop-color="#e6ecf3"/>
+        </linearGradient>
+        <marker id="ha-a-light" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="680" height="482" rx="24" fill="url(#hg-a-light)"/><title>Model versus Harness — the seven harness jobs</title><desc>Two-panel diagram. On the left, a box labeled MODEL, which reads its context and puts forward a candidate next action. On the right, a box labeled HARNESS, listing seven responsibilities stacked as rows: turn the request into a contract, give the agent a map instead of a manual, expose tools with clear contracts and permission boundaries, externalize memory into durable state, add sensors before autonomy, enforce permissions outside the model, record traces and recover locally. An arrow connects the two boxes, labeled proposes, illustrating that every action the model puts forward passes through the harness before it runs.</desc><rect x="24" y="24" width="632" height="56" rx="14" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><rect x="40" y="38" width="24" height="3" rx="1.5" fill="#534ab7"/><text x="340.0" y="50" text-anchor="middle" font-size="15" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">The Model Proposes. The Harness Decides.</text><text x="340.0" y="68" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Same weights, different reliability — depending on what surrounds them</text><rect x="24" y="100" width="280" height="292" rx="16" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/><rect x="44" y="116" width="24" height="3" rx="1.5" fill="#534ab7"/><text x="164" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">MODEL</text><text x="164" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">the reasoning engine</text><text x="48" y="182" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Reads context it is given</text><text x="48" y="206" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Proposes the next action</text><text x="48" y="230" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Cannot see beyond its window</text><text x="48" y="254" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Cannot enforce its own limits</text><line x1="304" y1="246.0" x2="336" y2="246.0" stroke="#534ab7" stroke-width="1.5" marker-end="url(#ha-a-light)"/><text x="320" y="238.0" text-anchor="middle" font-size="9" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#534ab7">proposes</text><rect x="336" y="100" width="320" height="292" rx="16" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/><rect x="356" y="116" width="24" height="3" rx="1.5" fill="#534ab7"/><text x="496" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">HARNESS</text><text x="496" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">seven jobs it must do</text><rect x="352" y="168" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="496" y="186" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">(a) Turn request into a contract</text><rect x="352" y="200" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="496" y="218" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">(b) Give the agent a map, not a manual</text><rect x="352" y="232" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="496" y="250" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">(c) Expose tools with clear contracts</text><rect x="352" y="264" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="496" y="282" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">(d) Externalize memory into durable state</text><rect x="352" y="296" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="496" y="314" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">(e) Add sensors before autonomy</text><rect x="352" y="328" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="496" y="346" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">(f) Enforce permissions outside the model</text><rect x="352" y="360" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="496" y="378" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">(g) Record traces, recover locally</text><rect x="24" y="408" width="632" height="54" rx="14" fill="#e6f5ef" stroke="#2f9e78" stroke-width="1.2"/><text x="340.0" y="430" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f7a5c">No new weights — the system around them changed.</text><text x="340.0" y="448" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Same model, different environment, different reliability</text></svg>
+  </figure>
+
+  <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:1.5rem;">
+    <div class="callout-title">Where the industry converged on this</div>
+    <p>This isn't a niche opinion — it surfaces everywhere people build production agents. Anthropic's account of how Claude Code came together draws the same line: reasoning is the model's job, while a separate layer governs what it can see, act on, keep, and where it must halt. OpenAI landed on the identical lesson from a different angle while retooling Codex for agent-first work — early momentum stalled because the surrounding setup hadn't yet defined what the agent was and wasn't allowed to do, and things picked back up once each missing capability got a name and a way to check for it, rather than leaving the agent to somehow figure it out on its own. Both stories point to the same fix: a model failing over and over is a cue to examine what surrounds it, not to keep rewording the ask.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="seven-jobs">
+  <span class="section-label">02 — The Seven Jobs</span>
+  <h2 class="section-title">What a Production Harness Actually Does</h2>
+  <p class="section-subtitle">Each job below is a distinct responsibility with its own failure mode if skipped. Click one open to see the worked example.</p>
+
+  <div class="collapsible" id="harness-job--contract">
+    <div class="collapsible-header">
+      <h3>(a) Turn the request into a contract</h3>
+      <span class="collapsible-chevron">&#9660;</span>
+    </div>
+    <div class="collapsible-body"><div class="collapsible-content">
+      <p>Turn the raw ask into a scoped spec before any tool call happens: a goal, the inputs it's allowed to use, what output counts as acceptable, hard constraints, and a concrete definition of done. Skip that step and an agent can drift into solving an adjacent problem — one it's happy to mark "complete" — without anyone catching the substitution until much later.</p>
+      <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; color:var(--text-secondary);"><code>{
+  goal: "Add pagination to the /orders endpoint",
+  inputs: ["src/routes/orders.ts", "existing query params"],
+  output: "PR with tests passing",
+  constraints: ["no breaking changes to the response shape"],
+  done_when: ["tests pass", "p95 latency unchanged"]
+}</code></pre>
+      <p style="color:var(--text-secondary); margin-top:0.5rem;"><strong>In this repo:</strong> this is what a task-detail file's Summary + Acceptance Criteria sections already are — a contract written before implementation starts, not after.</p>
+    </div></div>
+  </div>
+
+  <div class="collapsible" id="harness-job--map">
+    <div class="collapsible-header">
+      <h3>(b) Give the agent a map, not a manual</h3>
+      <span class="collapsible-chevron">&#9660;</span>
+    </div>
+    <div class="collapsible-body"><div class="collapsible-content">
+      <p>An agent still needs to know how the project works, but dumping every doc into the context window every time isn't the answer. Keep a lean root guide that just points elsewhere — to an architecture reference, a testing reference, product and security rules, task-specific guides — and pull each one in only when the work at hand actually calls for it. A pointer costs almost nothing; a wall of pasted docs eats the budget you need for actual reasoning.</p>
+      <p style="color:var(--text-secondary); margin-top:0.5rem;"><strong>In this repo:</strong> a root <code>CLAUDE.md</code> plus per-pod and per-project <code>CLAUDE.md</code> files, each documenting only what's specific at that level — never repeating what a parent doc already covers.</p>
+    </div></div>
+  </div>
+
+  <div class="collapsible" id="harness-job--tools">
+    <div class="collapsible-header">
+      <h3>(c) Expose the right tools inside the right environment</h3>
+      <span class="collapsible-chevron">&#9660;</span>
+    </div>
+    <div class="collapsible-body"><div class="collapsible-content">
+      <p>A tool is less a convenience for the model and more a contract with the real world it reaches into — what it does, what it returns, how loudly it fails, and exactly how far its permissions extend. A well-scoped tool removes the guesswork before the model ever has to reason under uncertainty; a vague one forces the model to reconstruct, after the fact, what its own action actually did.</p>
+      <div class="card-grid">
+        <div class="card"><h4>Read files</h4><p>No approval needed — the default-safe action.</p></div>
+        <div class="card"><h4>Run tests</h4><p>Fine inside an isolated sandbox, never against production.</p></div>
+        <div class="card"><h4>Write files</h4><p>Confined to the task's own workspace or worktree.</p></div>
+        <div class="card"><h4>Deploy or delete</h4><p>Blocked until a person explicitly signs off.</p></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="collapsible" id="harness-job--memory">
+    <div class="collapsible-header">
+      <h3>(d) Externalize memory into durable state</h3>
+      <span class="collapsible-chevron">&#9660;</span>
+    </div>
+    <div class="collapsible-body"><div class="collapsible-content">
+      <p>Don't treat the chat transcript as your durable record of what happened. Push the things that matter — task id, where the run currently stands, artifacts produced, decisions made, failures encountered, approvals still pending — into structured state that lives outside the conversation window. Do that, and whoever (or whatever) picks the work back up gets the real, current state of the task instead of trying to reconstruct it from a compressed summary of the chat. That's the difference between an agent that can be handed off, interrupted, or restarted cleanly, and one that can't.</p>
+      <p style="color:var(--text-secondary); margin-top:0.5rem;"><strong>In this repo:</strong> a task-detail file plus a checked-in <code>todo.md</code> entry — durable state that outlives any single session's context window.</p>
+    </div></div>
+  </div>
+
+  <div class="collapsible" id="harness-job--sensors">
+    <div class="collapsible-header">
+      <h3>(e) Add sensors before adding autonomy</h3>
+      <span class="collapsible-chevron">&#9660;</span>
+    </div>
+    <div class="collapsible-body"><div class="collapsible-content">
+      <p>A model can only fix what it's actually able to see going wrong. Concrete signals — a test suite, a linter, a screenshot, a log line, a metric, a schema check — replace a vague "looks fine" with something that can actually be argued about. There's a division of labor worth keeping straight: something has to build the thing, something else has to test it, and a third party has to rule on whether that test result is convincing enough to move forward. The model only ever fills the first seat — the other two belong to the surrounding tooling and the harness's own judgment call.</p>
+      <div class="card-grid">
+        <div class="card"><h4>Code</h4><p>Tests, type checks, lint.</p></div>
+        <div class="card"><h4>UI</h4><p>Render, screenshot, visual inspection.</p></div>
+        <div class="card"><h4>Research</h4><p>Source check, contradiction check.</p></div>
+        <div class="card"><h4>Data</h4><p>Schema, range, and freshness checks.</p></div>
+      </div>
+      <p style="color:var(--text-secondary); margin-top:0.5rem;"><strong>In this repo:</strong> this is exactly what the adversarial AC-verification pattern does — a task isn't marked done because the implementing agent says so, it's done because an independent verifier produced evidence and a refuter failed to break it.</p>
+    </div></div>
+  </div>
+
+  <div class="collapsible" id="harness-job--permissions">
+    <div class="collapsible-header">
+      <h3>(f) Enforce permissions outside the model</h3>
+      <span class="collapsible-chevron">&#9660;</span>
+    </div>
+    <div class="collapsible-body"><div class="collapsible-content">
+      <p>A model's job stops at recommending; whether that recommendation is allowed to run is a separate decision, made by policy rather than by the model itself — <code>MODEL SUGGESTS &rarr; POLICY CHECKS &rarr; TOOL EXECUTES</code>, always in that order and never collapsed into one step. That separation earns its keep exactly when the stakes are highest — money moving, data being deleted, another person on the other end of the action. When a single system both picks the move and clears itself to take it, nobody's left standing between the idea and its consequences — that's usually how an expensive mistake slips through unnoticed until it's too late.</p>
+    </div></div>
+  </div>
+
+  <div class="collapsible" id="harness-job--traces">
+    <div class="collapsible-header">
+      <h3>(g) Record traces and recover locally</h3>
+      <span class="collapsible-chevron">&#9660;</span>
+    </div>
+    <div class="collapsible-body"><div class="collapsible-content">
+      <p>A well-kept run leaves behind enough of a paper trail that someone who wasn't there could reconstruct it: how many attempts it took and what that cost, what got surfaced to the model and in what order the tools actually ran, what shifted in stored state, the verdict verification returned, and what ultimately got shipped along with a way to walk that decision back. No trace means every failure starts from zero next time; a good one means each failure teaches the harness something permanent.</p>
+      <p style="color:var(--text-secondary); margin-top:0.5rem;"><strong>In this repo:</strong> this is the role a session log plays — a durable record of what an agent actually did, independent of what it says it did.</p>
+    </div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="instructions-infrastructure">
+  <span class="section-label">03 — Instructions as Infrastructure</span>
+  <h2 class="section-title">Say It Once as Guidance. <em>Say It Again as a Check.</em></h2>
+  <p class="section-subtitle">A rule written only in prose gets read once, then drifts out of practice. Encoding it twice is what makes it stick.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>The guidance</h4>
+      <p>A rule a person or agent can understand: <em>"background jobs must go through the shared queue instead of calling the payments API directly."</em> It carries the reasoning behind the boundary.</p>
+    </div>
+    <div class="card">
+      <h4>The check</h4>
+      <p>A mechanical enforcement nobody can talk their way around: CI rejects the diff if a background job's code path touches the payments client outside the queue module. It holds regardless of who's writing the code.</p>
+    </div>
+  </div>
+  <p>Do this once and the fix outlives the person who made it — nobody downstream has to recall the war story, because the enforcement mechanism carries the memory instead. A repo hook that mechanically enforces a <code>CLAUDE.md</code> rule is this pattern in practice.</p>
+</section>
+
+<hr class="divider">
+
+<section id="bounded-loop">
+  <span class="section-label">04 — The Bounded Loop</span>
+  <h2 class="section-title">Retry Belongs to the Harness, Not the Model</h2>
+  <p class="section-subtitle">Telling an agent to just keep trying isn't a strategy — it's the absence of one. A retry loop only earns trust once it has evidence gating each attempt, a hard cap on how many it gets, a cost ceiling, and somewhere to escalate when it runs out.</p>
+
+  <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; color:var(--text-secondary);"><code>for attempt in range(1, 4):
+    result = model.attempt_fix(state)
+    evidence = harness.verify(result)
+    if evidence.passes:
+        return accept(result)
+    state = harness.record_failure(state, evidence)
+
+return requestHumanReview(state)  # 3 failed attempts, stop and escalate</code></pre>
+
+  <p>Repairing the gap is the model's job; deciding whether it's earned another swing belongs to the harness. That division shows up in how Anthropic thinks about agents that run for hours or days — the work has to be broken into artifacts that outlive any single context window, and grading those artifacts has to fall to something other than the agent that produced them, or the grade means nothing. It's the identical logic behind never letting the person who wrote a change have the last word on whether it's correct.</p>
+</section>
+
+<hr class="divider">
+
+<section id="failure-upgrades">
+  <span class="section-label">05 — Failure-Driven Upgrades</span>
+  <h2 class="section-title">Fix the <em>Class</em> of Failure, Not Just the Run</h2>
+  <p class="section-subtitle">Most fixes stop at the run that broke. The more durable habit is mapping each failure to a category and closing that category for good — a one-off fix buys nothing next time; a system-level fix pays off on every future run that would have hit the same wall.</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>Missing context</h4><p>Broaden what the map points to instead of pasting in more raw text.</p></div>
+    <div class="card"><h4>Wrong tool</h4><p>Rewrite its description or fix how it gets routed to.</p></div>
+    <div class="card"><h4>Bad output</h4><p>Tighten the contract or bolt on a check that catches it next time.</p></div>
+    <div class="card"><h4>Repeated loop</h4><p>Cap the retries and wire in an escalation path.</p></div>
+    <div class="card"><h4>Unsafe action</h4><p>Gate it behind an explicit permission check.</p></div>
+    <div class="card"><h4>Lost decision</h4><p>Write it down somewhere state actually survives, not just this chat.</p></div>
+    <div class="card"><h4>Unknown failure</h4><p>That's the signal to add tracing you didn't have before.</p></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="brain-hands-history">
+  <span class="section-label">06 — Brain, Hands, History</span>
+  <h2 class="section-title">Keep the Three Components Separate</h2>
+  <p class="section-subtitle">A reliable agent is easier to reason about, debug, and evolve when three roles stay distinct.</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>Brain</h4><p>The reasoning core — proposes moves, remembers nothing between calls on its own.</p></div>
+    <div class="card"><h4>Hands</h4><p>The execution surface — the sandboxed tools that actually touch files, tests, and the network.</p></div>
+    <div class="card"><h4>History</h4><p>The permanent log — every step captured on the way past, immune to the sandbox or the model being swapped out.</p></div>
+  </div>
+  <p>Killing the sandbox doesn't erase what happened, because the record lives outside it. Swap the model out entirely and the tools and policy layer don't even notice — they were never coupled to it. Resume a task days later and a fresh session can rebuild exactly where things stood from nothing but the stored artifacts and log. None of that holds up if a single piece of software is asked to reason, hold the files, gatekeep permissions, and keep the official record all at once — stacking every role onto one component erases the independence that made each check meaningful in the first place. A pod keeping a model's judgment walled off from the sandboxed tools it's handed is this exact idea, just applied to how a team gets put together.</p>
+
+  <h3 style="font-family:var(--font-display); font-size:1.2rem; margin:1.5rem 0 0.75rem;">The Change Receipt</h3>
+  <p>The output alone tells you nothing about how it got made. Keep a small receipt alongside it instead, and four things become possible that weren't before: comparing one model version against another on equal footing, tracing a regression back to the change that caused it, producing something an auditor can actually check, and stopping a plausible-looking answer from concealing a process that was broken the whole way through.</p>
+  <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; color:var(--text-secondary);"><code>{
+  context_sources: ["CLAUDE.md", "orders.ts", "orders.test.ts"],
+  policy_version: "v3",
+  model_route: "claude-sonnet-5",
+  tools_used: ["read", "edit", "run_tests"],
+  test_results: { pass: 14, fail: 0 },
+  human_corrections: 1,
+  retries: 1,
+  cost_tokens: 42000,
+  accepted_artifact: "PR #206",
+  rollback_point: "commit 47b7ffe"
+}</code></pre>
+</section>
+
+<hr class="divider">
+
+<section id="maturity-ladder">
+  <span class="section-label">07 — The Maturity Ladder</span>
+  <h2 class="section-title">Start With the Smallest Harness That Closes the Loop</h2>
+  <p class="section-subtitle">None of this is a license to build a full platform before shipping a single task. Begin with the leanest setup that can watch what happens, check it, and recover from a bad step — then add weight only as the risk of the task actually calls for it.</p>
+
+  <figure class="harness-flow-diagram" aria-label="The harness maturity ladder — four levels">
+    <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 560" role="img" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg-b-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1c2230"/>
+          <stop offset="100%" stop-color="#141822"/>
+        </linearGradient>
+        <marker id="ha-b-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="680" height="560" rx="24" fill="url(#hg-b-dark)"/><title>The harness maturity ladder — four levels</title><desc>Four stacked levels rising bottom to top, connected by upward arrows, showing that harness weight should track task risk instead of being maxed out from day one. The bottom level is a bare prompt talking to a bare model. The next level folds in a project guide and a scoped toolset. Above that, structured state, an automated test suite, and a retry loop with a cap come together. The top level layers in enforced permissions, full run tracing, recovery paths, and checkpoints where a human has to approve before continuing. A closing note argues that how much harness you build should be set by the risk you're guarding against, and nothing more.</desc><rect x="24" y="24" width="632" height="54" rx="14" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><rect x="40" y="38" width="24" height="3" rx="1.5" fill="#8a82dd"/><text x="340.0" y="50" text-anchor="middle" font-size="14" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">Start With the Smallest Harness That Closes the Loop</text><text x="340.0" y="68" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Complexity gets added only once a task has earned it</text><rect x="160.0" y="470" width="360" height="72" rx="12" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="340.0" y="492" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#8a82dd">LEVEL 0</text><text x="340.0" y="510" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">One prompt, one model call</text><text x="340.0" y="528" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">One instruction, one model call, one human review</text><rect x="120.0" y="378" width="440" height="72" rx="12" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="340.0" y="400" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#8a82dd">LEVEL 1</text><text x="340.0" y="418" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">A lightweight codebase guide plus scoped tools</text><text x="340.0" y="436" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">A map (CLAUDE.md-style) and scoped tool access</text><line x1="340.0" y1="454" x2="340.0" y2="466" stroke="#8a82dd" stroke-width="1.5" marker-end="url(#ha-b-dark)"/><rect x="80.0" y="286" width="520" height="72" rx="12" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="340.0" y="308" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#8a82dd">LEVEL 2</text><text x="340.0" y="326" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">State that survives the chat, a real test suite, a cap on retries</text><text x="340.0" y="344" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Durable state, evidence, capped retries</text><line x1="340.0" y1="362" x2="340.0" y2="374" stroke="#8a82dd" stroke-width="1.5" marker-end="url(#ha-b-dark)"/><rect x="40.0" y="194" width="600" height="72" rx="12" fill="#14241e" stroke="#4cc9a0" stroke-width="1.2"/><text x="340.0" y="216" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#6dd9b3">LEVEL 3</text><text x="340.0" y="234" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">Every permission enforced, every step traced, someone who has to say yes</text><text x="340.0" y="252" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Policy checks, full trace, rollback point</text><line x1="340.0" y1="270" x2="340.0" y2="282" stroke="#8a82dd" stroke-width="1.5" marker-end="url(#ha-b-dark)"/><text x="340.0" y="178" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Fit the harness to the risk on the table, and stop there</text></svg>
+      <svg class="flow-diagram flow-diagram--light" viewBox="0 0 680 560" role="img" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg-b-light" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f4f7fb"/>
+          <stop offset="100%" stop-color="#e6ecf3"/>
+        </linearGradient>
+        <marker id="ha-b-light" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="680" height="560" rx="24" fill="url(#hg-b-light)"/><title>The harness maturity ladder — four levels</title><desc>Four stacked levels rising bottom to top, connected by upward arrows, showing that harness weight should track task risk instead of being maxed out from day one. The bottom level is a bare prompt talking to a bare model. The next level folds in a project guide and a scoped toolset. Above that, structured state, an automated test suite, and a retry loop with a cap come together. The top level layers in enforced permissions, full run tracing, recovery paths, and checkpoints where a human has to approve before continuing. A closing note argues that how much harness you build should be set by the risk you're guarding against, and nothing more.</desc><rect x="24" y="24" width="632" height="54" rx="14" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><rect x="40" y="38" width="24" height="3" rx="1.5" fill="#534ab7"/><text x="340.0" y="50" text-anchor="middle" font-size="14" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">Start With the Smallest Harness That Closes the Loop</text><text x="340.0" y="68" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Complexity gets added only once a task has earned it</text><rect x="160.0" y="470" width="360" height="72" rx="12" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="340.0" y="492" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#534ab7">LEVEL 0</text><text x="340.0" y="510" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">One prompt, one model call</text><text x="340.0" y="528" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">One instruction, one model call, one human review</text><rect x="120.0" y="378" width="440" height="72" rx="12" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="340.0" y="400" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#534ab7">LEVEL 1</text><text x="340.0" y="418" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">A lightweight codebase guide plus scoped tools</text><text x="340.0" y="436" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">A map (CLAUDE.md-style) and scoped tool access</text><line x1="340.0" y1="454" x2="340.0" y2="466" stroke="#534ab7" stroke-width="1.5" marker-end="url(#ha-b-light)"/><rect x="80.0" y="286" width="520" height="72" rx="12" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="340.0" y="308" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#534ab7">LEVEL 2</text><text x="340.0" y="326" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">State that survives the chat, a real test suite, a cap on retries</text><text x="340.0" y="344" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Durable state, evidence, capped retries</text><line x1="340.0" y1="362" x2="340.0" y2="374" stroke="#534ab7" stroke-width="1.5" marker-end="url(#ha-b-light)"/><rect x="40.0" y="194" width="600" height="72" rx="12" fill="#e6f5ef" stroke="#2f9e78" stroke-width="1.2"/><text x="340.0" y="216" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f7a5c">LEVEL 3</text><text x="340.0" y="234" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">Every permission enforced, every step traced, someone who has to say yes</text><text x="340.0" y="252" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Policy checks, full trace, rollback point</text><line x1="340.0" y1="270" x2="340.0" y2="282" stroke="#534ab7" stroke-width="1.5" marker-end="url(#ha-b-light)"/><text x="340.0" y="178" text-anchor="middle" font-size="10" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Fit the harness to the risk on the table, and stop there</text></svg>
+  </figure>
+
+  <p>A quick, low-stakes task can get away with a single prompt and someone eyeballing the result afterward. Something that runs for hours, touches live files, reaches out over the network, and ends in an open pull request is a different animal and needs the full apparatus. The general rule: <strong>don't build more harness than the risk in front of you justifies</strong> — reach for the heaviest multi-agent pod setup only when the task's actual blast radius calls for it, not by default.</p>
+</section>
+
+<hr class="divider">
+
+<section id="checklist">
+  <span class="section-label">08 — Self-Assessment</span>
+  <h2 class="section-title">The Harness Engineering Checklist</h2>
+  <p class="section-subtitle">Work through this list before an agent touches anything that matters. A pile of "no" answers won't be rescued by upgrading the model — it just means the eventual failure costs more.</p>
+
+  <div class="card-grid">
+    <div class="card"><p>Does the task have a concrete definition of done before the agent starts?</p></div>
+    <div class="card"><p>Can the agent retrieve just the relevant project knowledge instead of the whole codebase?</p></div>
+    <div class="card"><p>Would a new teammate know exactly what each tool promises and how it signals a failure?</p></div>
+    <div class="card"><p>Could a bug in this run touch anything a real user depends on?</p></div>
+    <div class="card"><p>If the conversation vanished right now, would the decisions made in it survive somewhere else?</p></div>
+    <div class="card"><p>For the steps that matter most, is there proof beyond the model's own say-so?</p></div>
+    <div class="card"><p>Does anything that can't be undone wait for a person to say go?</p></div>
+    <div class="card"><p>If a step keeps repeating, is there a hard ceiling on how many times before it escalates?</p></div>
+    <div class="card"><p>If the run is interrupted, can it pick back up where it left off?</p></div>
+    <div class="card"><p>Six months from now, could you explain why a specific tool fired at a specific moment?</p></div>
+    <div class="card"><p>When a run fails, does that lesson get written into something durable — a test, a policy, a tool's description — or does it just fade after a conversation about it?</p></div>
+    <div class="card"><p>If the result turns out to be wrong after the fact, is there a way back?</p></div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.2rem; margin:2rem 0 0.75rem;">The Real Shift</h3>
+  <p>A prompt engineer worries about the wording of the ask. A context engineer worries about what's loaded into view before the model answers it. A harness engineer goes one layer further and worries about the entire operating environment — the thing that turns a technically-correct instruction into an outcome you can actually trust.</p>
+  <div class="card-grid">
+    <div class="card"><h4>PROMPT</h4><p>Instruction</p></div>
+    <div class="card"><h4>CONTEXT</h4><p>Working view</p></div>
+    <div class="card"><h4>HARNESS</h4><p>Operating system</p></div>
+    <div class="card"><h4>LOOP</h4><p>Local improvement</p></div>
+    <div class="card"><h4>GRAPH</h4><p>Coordination</p></div>
+  </div>
+
+  <div class="callout callout-best-practice" style="margin-top:1.5rem;">
+    <div class="callout-title">The durable advantage</div>
+    <p>Next month's model release will make this month's obsolete, but a good tool, test suite, policy layer, or trace log doesn't expire the same way — it keeps compounding no matter which model sits behind it. That's where the lasting edge actually accumulates: not in whoever has the sharpest model this quarter, but in whoever built the sturdiest environment for it to operate inside. Naming that discipline is the whole point of this section.</p>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-brand">Full Stack Agentic Development</span>
+  <p>Harness Engineering — building the environment that makes intelligence reliable.</p>
+</footer>
+</div><!-- end page-harness -->
