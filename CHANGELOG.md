@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.10 — 2026-09-01
+
+**Remove `fsd-memory-recommend.sh` Stop hook**
+
+Unregisters the memory-recommendation hook from `hooks/hooks.json` and removes the script and its Hooks Library documentation card from the Skills Library page; the plugin now ships only the `context-monitor.js` `PostToolUse` hook.
+
 ### v4.1.9 — 2026-09-01
 
 **New "Harness Engineering" section (CBP-500)**
