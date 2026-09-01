@@ -511,4 +511,4 @@
 - [x] `CBP-502` [Codex] Document rate-limit banner actions on `/usage` row (rust-v0.152.0) → [task-cbp-502.md](completed/task-cbp-502.md)
 - [x] `CBP-503` [Codex] Document per-MCP-tool `output_token_limit` + resume-consistent truncation (rust-v0.152.0) → [task-cbp-503.md](completed/task-cbp-503.md)
 - [x] `CBP-504` [Codex] Add `tools.update_plan.enabled` config row — planning tool disabled by default (rust-v0.152.0) → [task-cbp-504.md](completed/task-cbp-504.md)
-- [x] `CBP-505` Rework Harness Engineering section diagrams to match source reference + turn checklist into an actual checklist → [task-cbp-505.md](task-cbp-505.md)
+- [x] `CBP-505` Rework Harness Engineering section diagrams to match source reference + turn checklist into an actual checklist → [task-cbp-505.md](completed/task-cbp-505.md)
