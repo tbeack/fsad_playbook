@@ -1643,6 +1643,20 @@
   .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.2rem; }
   .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.2rem; }
 
+  /* ─── Interactive checklist (harness-check-item) ─── */
+  .harness-check-item { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; }
+  .harness-check-item .harness-check-input {
+    flex: none; width: 1.15rem; height: 1.15rem; margin-top: 0.15rem;
+    accent-color: var(--accent-violet); cursor: pointer;
+  }
+  .harness-check-item label { font-size: 0.84rem; color: var(--text-secondary); line-height: 1.65; cursor: pointer; }
+  .harness-check-item:has(.harness-check-input:checked) {
+    border-color: var(--accent-emerald);
+    background: color-mix(in srgb, var(--accent-emerald) 8%, var(--bg-card));
+  }
+  .harness-check-item:has(.harness-check-input:checked) label { color: var(--text-primary); text-decoration: line-through; text-decoration-color: var(--accent-emerald); text-decoration-thickness: 1.5px; }
+  .harness-checklist-progress { margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; }
+
   .callout { border-radius: var(--radius); padding: 1.1rem 1.3rem; margin: 1.2rem 0; font-size: 0.86rem; line-height: 1.7; }
   .callout-title { font-weight: 600; font-size: 0.82rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.35rem; }
   .callout-tip { background: var(--callout-tip-bg); border: 1px solid var(--callout-tip-border); color: var(--text-secondary); }
@@ -1856,6 +1870,12 @@
   .harness-flow-diagram .flow-diagram--light { display: none; }
   [data-theme="light"] .harness-flow-diagram .flow-diagram--dark { display: none; }
   [data-theme="light"] .harness-flow-diagram .flow-diagram--light { display: block; }
+
+  .harness-jobs-flow-diagram { margin: 1.5rem 0 2rem; max-width: 680px; }
+  .harness-jobs-flow-diagram .flow-diagram { width: 100%; height: auto; display: block; }
+  .harness-jobs-flow-diagram .flow-diagram--light { display: none; }
+  [data-theme="light"] .harness-jobs-flow-diagram .flow-diagram--dark { display: none; }
+  [data-theme="light"] .harness-jobs-flow-diagram .flow-diagram--light { display: block; }
 
   /* Auto-detect OS preference when no manual override */
   @media (prefers-color-scheme: light) {

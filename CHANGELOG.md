@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.11 — 2026-09-01
+
+**Rework Harness Engineering diagrams + turn checklist into an actual checklist (CBP-505)**
+
+The model-vs-harness diagram now labels the seven harness jobs with the source reference's own terminology (CONTRACT/CONTEXT/TOOLS/STATE/SENSORS/POLICY/TRACES paired with DEFINE/SELECT/ACT/REMEMBER/VERIFY/AUTHORIZE/EXPLAIN); a new horizontal seven-box pipeline diagram was added directly under "What a Production Harness Actually Does"; and the 12-item self-assessment checklist is now a real interactive checklist with checkbox state persisted via `localStorage`.
+
+- **CBP-505 — Rework Harness Engineering section diagrams + checklist.** Reworked `#model-vs-harness` diagram terminology, added a new seven-box pipeline diagram to `#seven-jobs`, and converted the `#checklist` section's 12 cards into real checkboxes with `localStorage`-backed persistence (new `src/js/harness-checklist.js`).
+
 ### v4.1.10 — 2026-09-01
 
 **Remove `fsd-memory-recommend.sh` Stop hook**
