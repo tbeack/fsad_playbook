@@ -6,6 +6,10 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.11 <span class="changelog-date">· 2026-09-01</span></h3>
+        <p><strong>Rework Harness Engineering diagrams + turn checklist into an actual checklist (CBP-505).</strong> The model-vs-harness diagram now labels the seven harness jobs with the source reference's own terminology (CONTRACT/CONTEXT/TOOLS/STATE/SENSORS/POLICY/TRACES paired with DEFINE/SELECT/ACT/REMEMBER/VERIFY/AUTHORIZE/EXPLAIN); a new horizontal seven-box pipeline diagram was added directly under "What a Production Harness Actually Does"; and the 12-item self-assessment checklist is now a real interactive checklist with checkbox state persisted via <code>localStorage</code>.</p>
+      </section>
+      <section>
         <h3>v4.1.10 <span class="changelog-date">· 2026-09-01</span></h3>
         <p><strong>Remove the <code>fsd-memory-recommend.sh</code> Stop hook.</strong> Unregisters the memory-recommendation hook from <code>hooks/hooks.json</code> and removes the script and its Hooks Library documentation card from the Skills Library page; the plugin now ships only the <code>context-monitor.js</code> <code>PostToolUse</code> hook.</p>
       </section>
