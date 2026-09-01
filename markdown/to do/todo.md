@@ -506,3 +506,7 @@
 - [x] `CBP-497` — Document the 5 new `fsd:` skills (plan, set-context, prompt-improver, spec-review, plan-review) and 2 new hooks (context-monitor.js, fsd-memory-recommend.sh) in the Skills Library HTML page, add diagrams where warranted, and rebuild dist/ → [task-cbp-497.md](completed/task-cbp-497.md)
 - [x] `CBP-498` — Update the skills to use the prefix "fsd" similar to how "tb skills" do it. → [task-cbp-498.md](completed/task-cbp-498.md)
 - [x] `CBP-499` Set the playbook skills up as a plugin that is titled "fsd" → [task-cbp-499.md](completed/task-cbp-499.md)
+- [x] `CBP-501` [Codex] Document Vim mode `/` and `?` search within drafts (rust-v0.152.0) → [task-cbp-501.md](completed/task-cbp-501.md)
+- [x] `CBP-502` [Codex] Document rate-limit banner actions on `/usage` row (rust-v0.152.0) → [task-cbp-502.md](completed/task-cbp-502.md)
+- [x] `CBP-503` [Codex] Document per-MCP-tool `output_token_limit` + resume-consistent truncation (rust-v0.152.0) → [task-cbp-503.md](completed/task-cbp-503.md)
+- [x] `CBP-504` [Codex] Add `tools.update_plan.enabled` config row — planning tool disabled by default (rust-v0.152.0) → [task-cbp-504.md](completed/task-cbp-504.md)
