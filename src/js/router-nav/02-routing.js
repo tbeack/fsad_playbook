@@ -117,7 +117,7 @@
     document.getElementById('sidebar').classList.remove('open');
     const backdrop = document.getElementById('sidebarBackdrop');
     if (backdrop) backdrop.classList.remove('visible');
-    const pageTitles = { fsad: 'Full Stack Agentic Development', pods: 'Pod Compositions', workflows: 'Workflows', skills: 'Skills Library', practices: 'Claude Best Practices', codex: 'Codex Best Practices', kpis: 'KPIs to Measure Impact', 'open-source': 'Open Source Frameworks' };
+    const pageTitles = { fsad: 'Full Stack Agentic Development', pods: 'Pod Compositions', workflows: 'Workflows', harness: 'Harness Engineering', skills: 'Skills Library', practices: 'Claude Best Practices', codex: 'Codex Best Practices', kpis: 'KPIs to Measure Impact', 'open-source': 'Open Source Frameworks' };
     const titleEl = document.getElementById('pageTitle');
     if (titleEl) titleEl.textContent = pageTitles[pageId] || '';
     if (pageId === 'practices' && !window.__currentTopic) {
