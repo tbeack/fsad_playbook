@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v4.1.12 — 2026-09-02
+
+**Claude Code v2.1.258 auto-update (CBP-506 through CBP-509)**
+
+Four documentation updates covering the new default Fable 5.1 model, a subagent model-forcing env var, a session-only effort shortcut, and two new auto-mode safety controls.
+
+- **CBP-506 — Claude Fable 5.1 default model.** Claude Code v2.1.257 added Claude Fable 5.1 (`claude-fable-5-1`), which is now the default Fable model, carrying 1M context, $10/$50 per Mtok, and $0.25/Mtok cache reads — updated from Fable 5 (`claude-fable-5`), which previously showed no pricing.
+- **CBP-507 — `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`.** Claude Code v2.1.257 added `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` to apply `CLAUDE_CODE_SUBAGENT_MODEL` (or the main model) to every subagent, ignoring per-spawn and agent-definition `model:` overrides — the forcing escape hatch for the v2.1.251 default-only behavior (CBP-494).
+- **CBP-508 — `/effort` session-only `s` shortcut.** Claude Code v2.1.257 added `s` in `/effort` to change effort for the current session only, matching the existing `/model` picker's `s` shortcut.
+- **CBP-509 — Auto-mode Containment Escape rule + working-directory read guard.** Claude Code v2.1.257 added a Containment Escape rule to auto mode — cloud metadata-credential fetches, egress evasion, and cross-tenant reach are no longer auto-approved unless the environment marks them expected — plus a one-time prompt before the first file read outside the working directories, with an opt-in hard block via `permissions.blockReadsOutsideWorkingDirectories`.
+
 ### v4.1.11 — 2026-09-01
 
 **Rework Harness Engineering diagrams + turn checklist into an actual checklist (CBP-505)**

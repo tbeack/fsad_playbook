@@ -512,3 +512,7 @@
 - [x] `CBP-503` [Codex] Document per-MCP-tool `output_token_limit` + resume-consistent truncation (rust-v0.152.0) → [task-cbp-503.md](completed/task-cbp-503.md)
 - [x] `CBP-504` [Codex] Add `tools.update_plan.enabled` config row — planning tool disabled by default (rust-v0.152.0) → [task-cbp-504.md](completed/task-cbp-504.md)
 - [x] `CBP-505` Rework Harness Engineering section diagrams to match source reference + turn checklist into an actual checklist → [task-cbp-505.md](completed/task-cbp-505.md)
+- [x] `CBP-506` [Claude] Update Model & Effort section with Claude Fable 5.1 (default Fable model, pricing, cache-read rate) (v2.1.257) → [task-cbp-506.md](completed/task-cbp-506.md)
+- [x] `CBP-507` [Claude] Document `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` in Model & Effort and Power Usage env var table (v2.1.257) → [task-cbp-507.md](completed/task-cbp-507.md)
+- [x] `CBP-508` [Claude] Add `/effort` session-only `s` shortcut to the Cheat Sheet row (v2.1.257) → [task-cbp-508.md](completed/task-cbp-508.md)
+- [x] `CBP-509` [Claude] Add Containment Escape auto-mode rule and `permissions.blockReadsOutsideWorkingDirectories` to the Notable `settings.json` Keys callout (v2.1.257) → [task-cbp-509.md](completed/task-cbp-509.md)
