@@ -65,6 +65,68 @@ See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes by version.
 
 Reusable Claude Code skills bundled under `skills/`. Install as a plugin (see `.claude-plugin/plugin.json`) to invoke via `/fsad-harness:<name>`.
 
+### Installing the plugin
+
+**Local, single session** (quickest for testing — loads the plugin from the checkout):
+
+```bash
+claude --plugin-dir /path/to/fsad_playbook
+```
+
+**Persistent, via the bundled marketplace** (run inside a Claude Code session):
+
+```
+/plugin marketplace add tbeack/fsad_playbook
+/plugin install fsad-harness@fsad-playbook
+```
+
+The marketplace name is `fsad-playbook` and the plugin name is `fsad-harness`, both defined in `.claude-plugin/marketplace.json`. To install from a local clone instead of GitHub, pass the checkout path to `marketplace add`:
+
+```
+/plugin marketplace add /path/to/fsad_playbook
+```
+
+Once installed, skills resolve as `/fsad-harness:<name>` — e.g. `/fsad-harness:do-task`, `/fsad-harness:ship`, `/fsad-harness:next`.
+
+#### Let Claude Code do the install
+
+Paste this prompt into a Claude Code session to have it clone the repo and install the plugin for you. It needs read access to the repo (SSH key or `gh auth login`). The `/plugin` lines are Claude Code slash commands, so Claude may hand them back for you to type.
+
+```
+Install the FSAD Harness Claude Code plugin from the tbeack/fsad_playbook GitHub repo.
+
+Steps:
+1. Clone the repo into ~/Repo/fsad_playbook if it isn't already there:
+   git clone git@github.com:tbeack/fsad_playbook.git ~/Repo/fsad_playbook
+   If SSH fails, retry with https://github.com/tbeack/fsad_playbook.git.
+   If the clone already exists, run `git pull` on main instead.
+
+2. Confirm the plugin manifest and marketplace file exist:
+   ~/Repo/fsad_playbook/.claude-plugin/plugin.json  (name must be "fsad-harness")
+   ~/Repo/fsad_playbook/.claude-plugin/marketplace.json  (name must be "fsad-playbook")
+   Stop and tell me if either is missing.
+
+3. Register the local checkout as a marketplace and install the plugin.
+   These are Claude Code slash commands, so tell me to run them if you cannot run them yourself:
+   /plugin marketplace add ~/Repo/fsad_playbook
+   /plugin install fsad-harness@fsad-playbook
+
+4. Verify the install:
+   - `/plugin list` should show fsad-harness.
+   - Skills should resolve under the fsad-harness namespace, e.g. /fsad-harness:do-task,
+     /fsad-harness:ship, /fsad-harness:next, /fsad-harness:ac.
+   If they don't appear, tell me to restart Claude Code and check again.
+
+5. Report back: the commit SHA that was installed, the list of fsad-harness skills
+   available, and anything that failed.
+
+Do not modify any files inside the repo. Do not install anything else.
+```
+
+To skip the local clone and install straight from GitHub, replace step 3's first line with `/plugin marketplace add tbeack/fsad_playbook` and drop steps 1 and 2.
+
+### Available skills
+
 | Skill | Description |
 |-------|-------------|
 | `do-task` | Plan or execute a task in any registered project (plan mode → execute mode) |
