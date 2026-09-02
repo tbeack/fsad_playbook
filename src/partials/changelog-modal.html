@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.12 <span class="changelog-date">· 2026-09-02</span></h3>
+        <p><strong>Claude Code v2.1.258 auto-update.</strong> Four documentation updates covering the new default Fable 5.1 model, a subagent model-forcing env var, a session-only effort shortcut, and two new auto-mode safety controls.</p>
+        <ul>
+          <li><strong>CBP-506 — Claude Fable 5.1 default model.</strong> Claude Code v2.1.257 added Claude Fable 5.1 (<code>claude-fable-5-1</code>), which is now the default Fable model, carrying 1M context, $10/$50 per Mtok, and $0.25/Mtok cache reads — updated from Fable 5 (<code>claude-fable-5</code>), which previously showed no pricing.</li>
+          <li><strong>CBP-507 — <code>CLAUDE_CODE_SUBAGENT_MODEL_FORCE</code>.</strong> Claude Code v2.1.257 added <code>CLAUDE_CODE_SUBAGENT_MODEL_FORCE</code> to apply <code>CLAUDE_CODE_SUBAGENT_MODEL</code> (or the main model) to every subagent, ignoring per-spawn and agent-definition <code>model:</code> overrides — the forcing escape hatch for the v2.1.251 default-only behavior (CBP-494).</li>
+          <li><strong>CBP-508 — <code>/effort</code> session-only <code>s</code> shortcut.</strong> Claude Code v2.1.257 added <code>s</code> in <code>/effort</code> to change effort for the current session only, matching the existing <code>/model</code> picker's <code>s</code> shortcut.</li>
+          <li><strong>CBP-509 — Auto-mode Containment Escape rule + working-directory read guard.</strong> Claude Code v2.1.257 added a Containment Escape rule to auto mode — cloud metadata-credential fetches, egress evasion, and cross-tenant reach are no longer auto-approved unless the environment marks them expected — plus a one-time prompt before the first file read outside the working directories, with an opt-in hard block via <code>permissions.blockReadsOutsideWorkingDirectories</code>.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.11 <span class="changelog-date">· 2026-09-01</span></h3>
         <p><strong>Rework Harness Engineering diagrams + turn checklist into an actual checklist (CBP-505).</strong> The model-vs-harness diagram now labels the seven harness jobs with the source reference's own terminology (CONTRACT/CONTEXT/TOOLS/STATE/SENSORS/POLICY/TRACES paired with DEFINE/SELECT/ACT/REMEMBER/VERIFY/AUTHORIZE/EXPLAIN); a new horizontal seven-box pipeline diagram was added directly under "What a Production Harness Actually Does"; and the 12-item self-assessment checklist is now a real interactive checklist with checkbox state persisted via <code>localStorage</code>.</p>
       </section>
