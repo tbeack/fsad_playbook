@@ -88,9 +88,53 @@ The marketplace name is `fsad-playbook` and the plugin name is `fsad-harness`, b
 
 Once installed, skills resolve as `/fsad-harness:<name>` — e.g. `/fsad-harness:do-task`, `/fsad-harness:ship`, `/fsad-harness:next`.
 
+#### Context-monitor hook and statusline
+
+Two companion scripts ship alongside the skills. They work as a pair: the statusline writes per-session context metrics to a bridge file (`/tmp/claude-ctx-<session_id>.json`), and the hook reads that file after every tool call to warn the *agent* when remaining context drops below 35% / 25%. Both need Node.js on `PATH`.
+
+| Script | Purpose |
+|--------|---------|
+| `scripts/statusline.js` | Claude Code statusline showing model, current task, directory, and context usage. Also writes the bridge file the hook depends on. |
+| `hooks/context-monitor.js` | `PostToolUse` hook that injects context-pressure warnings into the agent's conversation. Registered automatically by `hooks/hooks.json` when the plugin is installed via `/plugin`. |
+
+Copy both into your Claude config directory:
+
+```bash
+mkdir -p ~/.claude/hooks
+cp /path/to/fsad_playbook/scripts/statusline.js ~/.claude/hooks/statusline.js
+cp /path/to/fsad_playbook/hooks/context-monitor.js ~/.claude/hooks/context-monitor.js
+```
+
+Then merge the following into `~/.claude/settings.json` (keep any existing keys). Omit the `hooks` block if you installed via `/plugin` — the plugin already registers the hook, and registering it twice just runs it twice per tool call.
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "node \"$HOME/.claude/hooks/statusline.js\""
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$HOME/.claude/hooks/context-monitor.js\"",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Restart Claude Code. The statusline appears immediately; the hook only speaks up once context is actually running low.
+
 #### Let Claude Code do the install
 
-Paste this prompt into a Claude Code session to have it clone the repo and install the plugin for you. It needs read access to the repo (SSH key or `gh auth login`). The `/plugin` lines are Claude Code slash commands, so Claude may hand them back for you to type.
+Paste this prompt into a Claude Code session to have it clone the repo, install the plugin, and set up the statusline and context-monitor hook for you. It needs read access to the repo (SSH key or `gh auth login`). The `/plugin` lines are Claude Code slash commands, so Claude may hand them back for you to type.
 
 ```
 Install the FSAD Harness Claude Code plugin from the tbeack/fsad_playbook GitHub repo.
@@ -117,13 +161,33 @@ Steps:
      /fsad-harness:ship, /fsad-harness:next, /fsad-harness:ac.
    If they don't appear, tell me to restart Claude Code and check again.
 
-5. Report back: the commit SHA that was installed, the list of fsad-harness skills
-   available, and anything that failed.
+5. Set up the statusline. Confirm `node` is on PATH (stop and tell me if not), then:
+   mkdir -p ~/.claude/hooks
+   cp ~/Repo/fsad_playbook/scripts/statusline.js ~/.claude/hooks/statusline.js
+   Edit ~/.claude/settings.json (create it if missing; merge, do not overwrite
+   existing keys) so it contains:
+   "statusLine": { "type": "command", "command": "node \"$HOME/.claude/hooks/statusline.js\"" }
+   Show me the diff before writing it.
+
+6. Set up the context-monitor hook:
+   cp ~/Repo/fsad_playbook/hooks/context-monitor.js ~/.claude/hooks/context-monitor.js
+   The plugin's hooks/hooks.json already registers this hook when installed via
+   /plugin, so check /hooks (or the plugin's hooks.json) first. Only if it is NOT
+   already registered, add a PostToolUse entry to ~/.claude/settings.json with
+   matcher "" and command: node "$HOME/.claude/hooks/context-monitor.js", with
+   "async": true. Show me the diff before writing it.
+
+7. Verify: `node ~/.claude/hooks/statusline.js < /dev/null` should exit without
+   throwing. Tell me to restart Claude Code and confirm the statusline renders.
+
+8. Report back: the commit SHA that was installed, the list of fsad-harness skills
+   available, whether the hook was registered by the plugin or by settings.json,
+   and anything that failed.
 
 Do not modify any files inside the repo. Do not install anything else.
 ```
 
-To skip the local clone and install straight from GitHub, replace step 3's first line with `/plugin marketplace add tbeack/fsad_playbook` and drop steps 1 and 2.
+To skip the local clone and install straight from GitHub, replace step 3's first line with `/plugin marketplace add tbeack/fsad_playbook` and drop steps 1 and 2. Steps 5 and 6 still need the two script files, so fetch them with `curl -O` from the raw GitHub URLs under `scripts/` and `hooks/` instead of `cp`.
 
 ### Available skills
 
