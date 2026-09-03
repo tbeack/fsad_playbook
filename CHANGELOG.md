@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.13 — 2026-09-03
+
+**Claude Code v2.1.259 + Codex rust-v0.153.0 auto-update (CBP-510 through CBP-514)**
+
+Five documentation updates covering a new headless permission flag, org-wide managed MCP servers, Vim mode undo/redo, plugin CLI listing, and a new auto-recap config toggle.
+
+- **CBP-510 — `--permission-prompts none` headless flag.** Claude Code v2.1.259 adds `--permission-prompts none`: any action that would display a permission prompt is automatically denied, making it safe for unattended headless hosts. Added as a new row in the Cheat Sheet CLI flags table between `--permission-mode` and `--allowedTools`.
+- **CBP-511 — `managedMcpServers` org-level MCP setting.** Claude Code v2.1.259 adds `managedMcpServers` as a managed setting — orgs can push HTTP/SSE MCP servers to every user via org/MDM policy, with the same entry shape as `.mcp.json`. Accompanied by a behavior change: `allowedMcpServers` now governs only user-added servers; use `deniedMcpServers` to block managed ones. Added as a new list item in the Notable `settings.json` Keys callout.
+- **CBP-512 — Codex Vim mode undo/redo.** Codex rust-v0.153.0 adds undo (`u`) and redo (`Ctrl+R`) to the Vim mode TUI composer, preserving complete drafts including pasted content and attachments. Updated the Vim section paragraph in the Codex Best Practices page.
+- **CBP-513 — `codex plugin list` and remote marketplace CLI.** Codex rust-v0.153.0 makes the plugin CLI able to list, install, and remove plugins from remote marketplaces. Added `codex plugin list` to the plugin CLI code block and a note about remote marketplace CLI support in the plugin section paragraph.
+- **CBP-514 — `tui.auto_recap` config row.** Codex rust-v0.153.0 adds `tui.auto_recap = false` to disable automatic recaps while keeping the manual `/recap` command available. Added as a new row in the config.toml reference table.
+
 ### v4.1.12 — 2026-09-02
 
 **Claude Code v2.1.258 auto-update (CBP-506 through CBP-509)**

@@ -516,3 +516,8 @@
 - [x] `CBP-507` [Claude] Document `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` in Model & Effort and Power Usage env var table (v2.1.257) → [task-cbp-507.md](completed/task-cbp-507.md)
 - [x] `CBP-508` [Claude] Add `/effort` session-only `s` shortcut to the Cheat Sheet row (v2.1.257) → [task-cbp-508.md](completed/task-cbp-508.md)
 - [x] `CBP-509` [Claude] Add Containment Escape auto-mode rule and `permissions.blockReadsOutsideWorkingDirectories` to the Notable `settings.json` Keys callout (v2.1.257) → [task-cbp-509.md](completed/task-cbp-509.md)
+- [x] `CBP-510` [Claude] Add `--permission-prompts none` headless flag to Cheat Sheet CLI flags table (v2.1.259) → [task-cbp-510.md](task-cbp-510.md)
+- [x] `CBP-511` [Claude] Document `managedMcpServers` org-level MCP managed setting in Notable settings.json Keys (v2.1.259) → [task-cbp-511.md](task-cbp-511.md)
+- [x] `CBP-512` [Codex] Add Vim mode undo (`u`) and redo (`Ctrl+R`) to Codex Vim section (rust-v0.153.0) → [task-cbp-512.md](task-cbp-512.md)
+- [x] `CBP-513` [Codex] Add `codex plugin list` and remote marketplace CLI note to Codex Plugins section (rust-v0.153.0) → [task-cbp-513.md](task-cbp-513.md)
+- [x] `CBP-514` [Codex] Add `tui.auto_recap` config row to Codex config.toml reference table (rust-v0.153.0) → [task-cbp-514.md](task-cbp-514.md)
