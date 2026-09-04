@@ -530,3 +530,4 @@
 - [x] `CBP-521` [Claude] Add 1M auto-compact bullet for Opus/Fable to context-management list (v2.1.260) → [task-cbp-521.md](completed/task-cbp-521.md)
 - [x] `CBP-522` [Claude] Update `/ultrareview` row with 45-minute wait (v2.1.260) → [task-cbp-522.md](completed/task-cbp-522.md)
 - [x] `CBP-523` [Claude] Note removal of one-hour subagent background-command limit in Monitor Tool collapsible (v2.1.260) → [task-cbp-523.md](completed/task-cbp-523.md)
+- [ ] `CBP-524` Research: build the fact base for a "how to build your own harness" guide (Claude Code + Codex) → [task-cbp-524.md](task-cbp-524.md)
