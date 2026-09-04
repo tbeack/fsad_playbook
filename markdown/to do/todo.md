@@ -531,3 +531,4 @@
 - [x] `CBP-522` [Claude] Update `/ultrareview` row with 45-minute wait (v2.1.260) → [task-cbp-522.md](completed/task-cbp-522.md)
 - [x] `CBP-523` [Claude] Note removal of one-hour subagent background-command limit in Monitor Tool collapsible (v2.1.260) → [task-cbp-523.md](completed/task-cbp-523.md)
 - [ ] `CBP-524` Research: build the fact base for a "how to build your own harness" guide (Claude Code + Codex) → [task-cbp-524.md](task-cbp-524.md)
+- [ ] `CBP-525` Plan a refactor of the Harness Engineering page: new structure, organization, flow, markdown snippets, and a mermaid-diagram mockup → [task-cbp-525.md](task-cbp-525.md)
