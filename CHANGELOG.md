@@ -1,5 +1,21 @@
 ## Changes in This Version
 
+### v4.1.14 — 2026-09-04
+
+**Claude Code v2.1.260 auto-update (CBP-515 through CBP-523)**
+
+Nine documentation updates covering the fullscreen live diff panel, prompt-cache miss diagnostics, headless `/advisor` and `/reload-plugins`, fullscreen transcript clearing, the bash-mode sandbox escape, the Chrome org admin setting, 1M auto-compact, longer `/ultrareview` waits, and unlimited subagent background commands. Codex rust-v0.153.1 / 0.153.2 reviewed: no playbook impact.
+
+- **CBP-515 — `/diff` fullscreen live diff panel.** Claude Code v2.1.260 adds a diff panel that opens beside the conversation in fullscreen mode and shows uncommitted changes live as Claude edits, toggled with `/diff`. Updated the `/diff` Cheat Sheet row.
+- **CBP-516 — Prompt-cache miss cause on `/cost` and `/effort` cache note.** Claude Code v2.1.260 adds a likely cause for prompt-cache misses (tool definitions or system prompt changed, idle past the TTL) to `/cost` and the status line `prompt_cache` object, and changing `/effort` mid-session on Claude Fable 5.1 no longer invalidates the prompt cache. Updated the `/usage` and `/effort` Cheat Sheet rows.
+- **CBP-517 — `/advisor` text form and headless `/reload-plugins`.** Claude Code v2.1.260 adds a text form of `/advisor` (`/advisor <model>`, `/advisor off`) usable from the desktop app, Remote Control and headless (`-p` / Agent SDK) sessions, and makes `/reload-plugins` available in headless sessions. Added a new `/advisor` Cheat Sheet row and a note on the `/reload-plugins` row.
+- **CBP-518 — `Ctrl+L` / `Cmd+K` clear transcript in fullscreen.** Claude Code v2.1.260 changes `Ctrl+L` / `Cmd+K` in fullscreen mode to clear the transcript view like a terminal `clear`; scroll up to see earlier messages. Updated the keyboard shortcuts row.
+- **CBP-519 — `!` bash-mode escapes strict sandbox.** Claude Code v2.1.260 runs commands typed at the `!` bash-mode prompt outside the sandbox even when `sandbox.allowUnsandboxedCommands: false` is set, like typing into your own terminal. Noted in the sandbox settings table row.
+- **CBP-520 — Claude in Chrome follows org admin setting.** Claude Code v2.1.260 makes Claude in Chrome follow the organization's Claude in Chrome admin setting; when an admin turns it off, `--chrome`, `/chrome` and the browser tools are unavailable. Updated the Chrome Integration collapsible.
+- **CBP-521 — 1M auto-compact for Opus and Fable.** Claude Code v2.1.260 improves auto-compact on 1M-context models: Opus and Fable sessions now compact shortly before the 1M-token limit, and recovery compaction on very large contexts no longer times out at 10 minutes. Added a bullet to the context-management list.
+- **CBP-522 — `/ultrareview` waits up to 45 minutes.** Claude Code v2.1.260 makes `/ultrareview` and `claude ultrareview` wait up to 45 minutes (previously 30) for long-running cloud reviews. Updated the `/ultrareview` Cheat Sheet row.
+- **CBP-523 — Subagent background-command time limit removed.** Claude Code v2.1.260 removes the one-hour time limit on background commands started by subagents; they now run until exit or stopped, matching the main session. Updated the Monitor Tool collapsible.
+
 ### v4.1.13 — 2026-09-03
 
 **Claude Code v2.1.259 + Codex rust-v0.153.0 auto-update (CBP-510 through CBP-514)**
