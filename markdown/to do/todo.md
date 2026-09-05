@@ -530,3 +530,8 @@
 - [x] `CBP-521` [Claude] Add 1M auto-compact bullet for Opus/Fable to context-management list (v2.1.260) → [task-cbp-521.md](completed/task-cbp-521.md)
 - [x] `CBP-522` [Claude] Update `/ultrareview` row with 45-minute wait (v2.1.260) → [task-cbp-522.md](completed/task-cbp-522.md)
 - [x] `CBP-523` [Claude] Note removal of one-hour subagent background-command limit in Monitor Tool collapsible (v2.1.260) → [task-cbp-523.md](completed/task-cbp-523.md)
+- [x] `CBP-524` [Claude] Add `/skill-doctor` slash command to Cheat Sheet (v2.1.261) → [task-cbp-524.md](task-cbp-524.md)
+- [x] `CBP-525` [Claude] Add `bashOutputMaxChars` / `taskOutputMaxChars` to Notable settings.json Keys (v2.1.261) → [task-cbp-525.md](task-cbp-525.md)
+- [x] `CBP-526` [Claude] Add `--append-subagent-system-prompt-file` to CLI Launch Flags table (v2.1.261) → [task-cbp-526.md](task-cbp-526.md)
+- [x] `CBP-527` [Claude] Update `keybindingFlavor` entries — setting deprecated, Bash keys now default (v2.1.261) → [task-cbp-527.md](task-cbp-527.md)
+- [x] `CBP-528` [Codex] Document GPT-6-Astra on Amazon Bedrock (rust-v0.153.3/v0.153.4) → [task-cbp-528.md](task-cbp-528.md)

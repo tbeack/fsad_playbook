@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.15 <span class="changelog-date">· 2026-09-05</span></h3>
+        <p><strong>Claude Code v2.1.261 + Codex rust-v0.153.4 auto-update.</strong> Five documentation updates covering the new <code>/skill-doctor</code> command, larger inline output limits, a subagent system-prompt file flag, the Bash keybinding default, and GPT-6-Astra on Amazon Bedrock.</p>
+        <ul>
+          <li><strong>CBP-524 <code>/skill-doctor</code> slash command.</strong> Claude Code v2.1.261 added `/skill-doctor`, a new slash command that shows which loaded skills go unused and what they cost in context, so you can prune them. Added a new Cheat Sheet row after <code>/doctor</code>.</li>
+          <li><strong>CBP-525 <code>bashOutputMaxChars</code> / <code>taskOutputMaxChars</code> settings.</strong> Claude Code v2.1.261 added two new settings, <code>bashOutputMaxChars</code> and <code>taskOutputMaxChars</code>, which allow raising how much command and background-task output Claude receives inline (before it is saved to a file), up to 128K characters. Added new entries to the Notable <code>settings.json</code> Keys callout after <code>managedMcpServers</code>.</li>
+          <li><strong>CBP-526 <code>--append-subagent-system-prompt-file</code> CLI flag.</strong> Claude Code v2.1.261 added <code>--append-subagent-system-prompt-file</code>, a new CLI flag that reads the subagent system prompt from a file — useful for prompts too large to pass on the command line. Added a new row to the CLI Launch Flags table after <code>--append-system-prompt</code>.</li>
+          <li><strong>CBP-527 Bash-style word-editing keys are now the default.</strong> Claude Code v2.1.261 changed the prompt's word-editing keys to match Bash by default: <code>Ctrl+W</code> deletes back to whitespace, <code>Alt+F</code> and <code>Alt+D</code> stop at word end, punctuation separates words. As a result, <code>keybindingFlavor</code> no longer has any effect — the Bash keybinding behavior is now the permanent default. Updated the <code>keybindingFlavor</code> settings entry and the <code>Ctrl+W</code> keyboard shortcuts row.</li>
+          <li><strong>CBP-528 GPT-6-Astra on Amazon Bedrock.</strong> Codex rust-v0.153.3 added GPT-6-Astra to the Amazon Bedrock model picker for Mantle and Runtime global/US routes. In rust-v0.153.4, Astra was made the default model in the bundled model picker when no model is explicitly configured. Updated the Codex Bedrock provider table and collapsible prose.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.14 <span class="changelog-date">· 2026-09-04</span></h3>
         <p><strong>Claude Code v2.1.260 auto-update.</strong> Nine documentation updates covering the fullscreen live diff panel, prompt-cache miss diagnostics, headless <code>/advisor</code> and <code>/reload-plugins</code>, fullscreen transcript clearing, the bash-mode sandbox escape, the Chrome org admin setting, 1M auto-compact, longer <code>/ultrareview</code> waits, and unlimited subagent background commands. Codex rust-v0.153.1 / 0.153.2 reviewed: no playbook impact.</p>
         <ul>
