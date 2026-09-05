@@ -6,6 +6,13 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.16 <span class="changelog-date">· 2026-09-05</span></h3>
+        <p><strong>Claude Code v2.1.261 follow-up.</strong> One documentation update, filling a gap from the same v2.1.261 cycle: wider dangerous-<code>rm</code> detection.</p>
+        <ul>
+          <li><strong>CBP-529 Wider dangerous-<code>rm</code> detection.</strong> Claude Code v2.1.261 extends the dangerous-<code>rm</code> safety prompt to also catch <code>rm -rf</code> on positional parameters and inside double-quoted <code>sh -c</code> scripts. Extended the Subprocess Sandboxing paragraph.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.15 <span class="changelog-date">· 2026-09-05</span></h3>
         <p><strong>Claude Code v2.1.261 + Codex rust-v0.153.4 auto-update.</strong> Five documentation updates covering the new <code>/skill-doctor</code> command, larger inline output limits, a subagent system-prompt file flag, the Bash keybinding default, and GPT-6-Astra on Amazon Bedrock.</p>
         <ul>

@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.16 — 2026-09-05
+
+**Claude Code v2.1.261 follow-up (CBP-529)**
+
+One documentation update, filling a gap from the same v2.1.261 cycle: wider dangerous-`rm` detection.
+
+- **CBP-529 — Wider dangerous-`rm` detection.** Claude Code v2.1.261 extends the dangerous-`rm` safety prompt to also catch `rm -rf` on positional parameters and inside double-quoted `sh -c` scripts. Extended the Subprocess Sandboxing paragraph.
+
 ### v4.1.15 — 2026-09-05
 
 **Claude Code v2.1.261 + Codex rust-v0.153.4 auto-update (CBP-524 through CBP-528)**
