@@ -6,6 +6,19 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.15 <span class="changelog-date">· 2026-09-05</span></h3>
+        <p><strong>Claude Code v2.1.261 auto-update.</strong> Seven documentation updates covering a new skill-usage auditor, larger inline command output, a file-based subagent system prompt flag, an organization-policy status line, always-on Bash-style word editing, a new auto-mode safety rule for diagram-renderer links, and wider dangerous-<code>rm</code> detection. Codex CLI not checked this cycle (GitHub access to <code>openai/codex</code> not enabled for this session).</p>
+        <ul>
+          <li><strong>CBP-524 <code>/skill-doctor</code>.</strong> Claude Code v2.1.261 adds <code>/skill-doctor</code>, showing which loaded skills go unused and what they cost in context so you can prune them. Added a new Cheat Sheet row.</li>
+          <li><strong>CBP-525 <code>bashOutputMaxChars</code> / <code>taskOutputMaxChars</code>.</strong> Claude Code v2.1.261 adds these settings to raise how much command and background-task output Claude receives inline before it is saved to a file, up to 128K characters. Added a new item to the Notable <code>settings.json</code> Keys callout.</li>
+          <li><strong>CBP-526 <code>--append-subagent-system-prompt-file</code>.</strong> Claude Code v2.1.261 adds this flag to read the subagent system prompt from a file, for prompts too large to pass on the command line. Added a new row to the Cheat Sheet CLI flags table.</li>
+          <li><strong>CBP-527 <code>/status</code> Organization policy line.</strong> Claude Code v2.1.261 adds an "Organization policy" line to <code>/status</code> and <code>claude doctor</code> explaining why an org's managed policy could not be loaded, e.g. a proxy not passing the endpoint through. Updated the <code>/status</code> Cheat Sheet row.</li>
+          <li><strong>CBP-528 <code>keybindingFlavor</code> is now a no-op.</strong> Claude Code v2.1.261 makes Bash-style word-editing keys (<code>Ctrl+W</code>, <code>Alt+F</code>, <code>Alt+D</code>, punctuation word breaks) always on; <code>keybindingFlavor</code> no longer has any effect. Updated the <code>Ctrl+W</code> Cheat Sheet row and the Notable <code>settings.json</code> Keys item.</li>
+          <li><strong>CBP-529 Public diagram-renderer auto-mode rule.</strong> Claude Code v2.1.261 changes auto mode to treat a link that packs content into a public diagram renderer's URL as an upload to that site, no longer auto-approved unless asked for. Added a new item to the Notable <code>settings.json</code> Keys auto-mode safety list.</li>
+          <li><strong>CBP-530 Wider dangerous-<code>rm</code> detection.</strong> Claude Code v2.1.261 extends the dangerous-<code>rm</code> safety prompt to also catch <code>rm -rf</code> on positional parameters and inside double-quoted <code>sh -c</code> scripts. Extended the Subprocess Sandboxing paragraph.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.14 <span class="changelog-date">· 2026-09-04</span></h3>
         <p><strong>Claude Code v2.1.260 auto-update.</strong> Nine documentation updates covering the fullscreen live diff panel, prompt-cache miss diagnostics, headless <code>/advisor</code> and <code>/reload-plugins</code>, fullscreen transcript clearing, the bash-mode sandbox escape, the Chrome org admin setting, 1M auto-compact, longer <code>/ultrareview</code> waits, and unlimited subagent background commands. Codex rust-v0.153.1 / 0.153.2 reviewed: no playbook impact.</p>
         <ul>

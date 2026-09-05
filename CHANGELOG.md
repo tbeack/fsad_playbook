@@ -1,5 +1,19 @@
 ## Changes in This Version
 
+### v4.1.15 — 2026-09-05
+
+**Claude Code v2.1.261 auto-update (CBP-524 through CBP-530)**
+
+Seven documentation updates covering a new skill-usage auditor, larger inline command output, a file-based subagent system prompt flag, an organization-policy status line, always-on Bash-style word editing, a new auto-mode safety rule for diagram-renderer links, and wider dangerous-`rm` detection. Codex CLI not checked this cycle: GitHub access to `openai/codex` is not enabled for this session's network scope.
+
+- **CBP-524 — `/skill-doctor`.** Claude Code v2.1.261 adds `/skill-doctor`, showing which loaded skills go unused and what they cost in context so you can prune them. Added a new Cheat Sheet row.
+- **CBP-525 — `bashOutputMaxChars` / `taskOutputMaxChars`.** Claude Code v2.1.261 adds these settings to raise how much command and background-task output Claude receives inline before it is saved to a file, up to 128K characters. Added a new item to the Notable `settings.json` Keys callout.
+- **CBP-526 — `--append-subagent-system-prompt-file`.** Claude Code v2.1.261 adds this flag to read the subagent system prompt from a file, for prompts too large to pass on the command line. Added a new row to the Cheat Sheet CLI flags table.
+- **CBP-527 — `/status` Organization policy line.** Claude Code v2.1.261 adds an "Organization policy" line to `/status` and `claude doctor` explaining why an org's managed policy could not be loaded, e.g. a proxy not passing the endpoint through. Updated the `/status` Cheat Sheet row.
+- **CBP-528 — `keybindingFlavor` is now a no-op.** Claude Code v2.1.261 makes Bash-style word-editing keys (`Ctrl+W`, `Alt+F`, `Alt+D`, punctuation word breaks) always on; `keybindingFlavor` no longer has any effect. Updated the `Ctrl+W` Cheat Sheet row and the Notable `settings.json` Keys item.
+- **CBP-529 — Public diagram-renderer auto-mode rule.** Claude Code v2.1.261 changes auto mode to treat a link that packs content into a public diagram renderer's URL as an upload to that site, no longer auto-approved unless asked for. Added a new item to the Notable `settings.json` Keys auto-mode safety list.
+- **CBP-530 — Wider dangerous-`rm` detection.** Claude Code v2.1.261 extends the dangerous-`rm` safety prompt to also catch `rm -rf` on positional parameters and inside double-quoted `sh -c` scripts. Extended the Subprocess Sandboxing paragraph.
+
 ### v4.1.14 — 2026-09-04
 
 **Claude Code v2.1.260 auto-update (CBP-515 through CBP-523)**
