@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.15 — 2026-09-05
+
+**Claude Code v2.1.261 + Codex rust-v0.153.4 auto-update (CBP-524 through CBP-528)**
+
+Five documentation updates covering the new `/skill-doctor` command, larger inline output limits, a subagent system-prompt file flag, the Bash keybinding default, and GPT-6-Astra on Amazon Bedrock.
+
+- **CBP-524 — `/skill-doctor` slash command.** Claude Code v2.1.261 added `/skill-doctor`, a new slash command that shows which loaded skills go unused and what they cost in context, so you can prune them. Added a new Cheat Sheet row after `/doctor`.
+- **CBP-525 — `bashOutputMaxChars` / `taskOutputMaxChars` settings.** Claude Code v2.1.261 added two new settings, `bashOutputMaxChars` and `taskOutputMaxChars`, which allow raising how much command and background-task output Claude receives inline (before it is saved to a file), up to 128K characters. Added new entries to the Notable `settings.json` Keys callout after `managedMcpServers`.
+- **CBP-526 — `--append-subagent-system-prompt-file` CLI flag.** Claude Code v2.1.261 added `--append-subagent-system-prompt-file`, a new CLI flag that reads the subagent system prompt from a file — useful for prompts too large to pass on the command line. Added a new row to the CLI Launch Flags table after `--append-system-prompt`.
+- **CBP-527 — Bash-style word-editing keys are now the default.** Claude Code v2.1.261 changed the prompt's word-editing keys to match Bash by default: `Ctrl+W` deletes back to whitespace, `Alt+F` and `Alt+D` stop at word end, punctuation separates words. As a result, `keybindingFlavor` no longer has any effect — the Bash keybinding behavior is now the permanent default. Updated the `keybindingFlavor` settings entry and the `Ctrl+W` keyboard shortcuts row.
+- **[Codex] CBP-528 — GPT-6-Astra on Amazon Bedrock.** Codex rust-v0.153.3 added GPT-6-Astra to the Amazon Bedrock model picker for Mantle and Runtime global/US routes. In rust-v0.153.4, Astra was made the default model in the bundled model picker when no model is explicitly configured. Updated the Codex Bedrock provider table and collapsible prose.
+
 ### v4.1.14 — 2026-09-04
 
 **Claude Code v2.1.260 auto-update (CBP-515 through CBP-523)**
