@@ -1298,7 +1298,7 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
             <tbody>
               <tr><td>OpenAI</td><td><code>gpt-5.5</code>, <code>codex-mini-latest</code></td><td>Default — uses <code>OPENAI_API_KEY</code></td></tr>
               <tr><td>Azure OpenAI</td><td>Deployed models</td><td>Azure endpoint + API key</td></tr>
-              <tr><td>Amazon Bedrock</td><td><code>gpt-5.6</code>, hosted foundation models</td><td>Built-in provider — AWS profile + region (rust-v0.148.0)</td></tr>
+              <tr><td>Amazon Bedrock</td><td><code>gpt-5.6</code>, <code>gpt-6-astra</code>, hosted foundation models</td><td>Built-in provider — AWS profile + region (rust-v0.148.0); GPT-6-Astra on Mantle/Runtime routes (rust-v0.153.3)</td></tr>
               <tr><td>Ollama</td><td>Local models</td><td>Local endpoint (<code>http://localhost:11434</code>)</td></tr>
               <tr><td>Gemini</td><td><code>gemini-2.5-pro</code></td><td>Google AI API key</td></tr>
               <tr><td>Mistral</td><td><code>mistral-large</code></td><td>Mistral API key</td></tr>
@@ -1375,7 +1375,7 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
 <span class="cm"># Credentials via standard AWS env vars also work:</span>
 <span class="cm"># AWS_PROFILE=my-profile AWS_REGION=us-west-2 codex</span></code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch. In addition to standard AWS credential env vars and named profiles, <code>aws login</code> console-login credentials (from <code>aws login</code> profiles) are supported for Bedrock auth as of v0.130.0. As of rust-v0.147.0, cached web search and remote conversation compaction are also enabled for Bedrock deployments, bringing them to parity with the default OpenAI-hosted setup. As of rust-v0.148.0, Amazon Bedrock Runtime ships as a <strong>built-in provider</strong> — configure it with an AWS profile and region without hand-rolling a custom provider block, and route <code>gpt-5.6</code> requests through Bedrock.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch. In addition to standard AWS credential env vars and named profiles, <code>aws login</code> console-login credentials (from <code>aws login</code> profiles) are supported for Bedrock auth as of v0.130.0. As of rust-v0.147.0, cached web search and remote conversation compaction are also enabled for Bedrock deployments, bringing them to parity with the default OpenAI-hosted setup. As of rust-v0.148.0, Amazon Bedrock Runtime ships as a <strong>built-in provider</strong> — configure it with an AWS profile and region without hand-rolling a custom provider block, and route <code>gpt-5.6</code> requests through Bedrock. As of rust-v0.153.3, <strong>GPT-6-Astra</strong> is available on Amazon Bedrock via the Mantle and Runtime global/US routes. As of rust-v0.153.4, Astra is the bundled default model when no model is explicitly configured.</p>
       </div></div>
     </div>
 
