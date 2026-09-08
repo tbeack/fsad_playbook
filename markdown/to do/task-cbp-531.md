@@ -1,4 +1,4 @@
-# CBP-525 — Plan a refactor of the Harness Engineering page: new structure, organization, flow, markdown snippets, and a mermaid-diagram mockup
+# CBP-531 — Plan a refactor of the Harness Engineering page: new structure, organization, flow, markdown snippets, and a mermaid-diagram mockup
 
 ## Source
 Follow-on from `CBP-524` (research: build fact base for "how to build your own harness" guide). Theo's own idea (2026-09-04), requested directly via `/tb:at`.

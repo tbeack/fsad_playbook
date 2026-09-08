@@ -1,4 +1,4 @@
-# CBP-524 — Research: build the fact base for a "how to build your own harness" guide (Claude Code + Codex)
+# CBP-530 — Research: build the fact base for a "how to build your own harness" guide (Claude Code + Codex)
 
 ## Source
 
