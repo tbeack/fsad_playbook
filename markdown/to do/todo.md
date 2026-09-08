@@ -536,3 +536,5 @@
 - [x] `CBP-527` [Claude] Update `keybindingFlavor` entries — setting deprecated, Bash keys now default (v2.1.261) → [task-cbp-527.md](task-cbp-527.md)
 - [x] `CBP-528` [Codex] Document GPT-6-Astra on Amazon Bedrock (rust-v0.153.3/v0.153.4) → [task-cbp-528.md](task-cbp-528.md)
 - [x] `CBP-529` [Claude] Extend Subprocess Sandboxing paragraph — dangerous-`rm` prompt catches positional params and quoted `sh -c` scripts (v2.1.261) → [task-cbp-529.md](completed/task-cbp-529.md)
+- [ ] `CBP-530` Research: build the fact base for a "how to build your own harness" guide (Claude Code + Codex) → [task-cbp-530.md](task-cbp-530.md)
+- [ ] `CBP-531` Plan a refactor of the Harness Engineering page: new structure, organization, flow, markdown snippets, and a mermaid-diagram mockup → [task-cbp-531.md](task-cbp-531.md)
