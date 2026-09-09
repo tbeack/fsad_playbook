@@ -29,21 +29,23 @@ The taxonomy exposes two gaps in the original 10-area scope: neither "graph/orch
 5. Verify against the acceptance criteria below (word count, section order, per-claim labels, URL cross-check), then report path, line count, and a five-line summary of the strongest findings.
 6. Do not edit `src/pages/harness.html` in this task. Open a follow-up CBP task for the guide once the fact base is reviewed.
 
+All criteria verified 2026-09-08 before commit.
+
 ## Acceptance Criteria
 
-- [ ] The output file exists at the agreed path (default `markdown/research/harness_research.md`) and its mtime is after this task started.
-- [ ] Word count is between 6,000 and 9,500 (`wc -w`) — raised from the original 5,000–8,000 to cover the two added scope areas — or the file states in its Gaps section why it runs longer and the excess is cited fact rather than commentary.
-- [ ] The file contains exactly the seven top-level sections in the mandated order: Summary; Glossary; Fact base; Reference architectures; Guide outline; Gaps; Sources.
-- [ ] The Fact base has one subsection for each of the twelve scope areas, and every subsection contains all four required parts: official docs, what teams do, failure modes, open questions.
-- [ ] Every scope-area subsection addresses both Claude Code and Codex, and states explicitly where the two differ or where the practice transfers unchanged.
-- [ ] The Glossary presents Claude Code and Codex terms side by side for every entry, and includes the design framework's own terms (Task Contract, Capability Plane, Graph Engineering, Loop Engineering, Control + Trust, Durable Runtime Substrate, Node/Edge/Branch/Join/Cycle/Interrupt/Subgraph) with their CLI equivalents or "no native equivalent" noted.
-- [ ] Between three and four reference architectures are given, each with a concrete file and tool inventory and at least one source citation per major choice, and each is described using the design framework's node/edge vocabulary and tagged with which of the Three Engineering Layers (Harness/Graph/Loop) its key choices belong to.
-- [ ] Every cited claim carries a URL and one of the four evidence-strength labels (official docs, independent report, vendor marketing, practitioner opinion).
-- [ ] Every URL in the body appears in the numbered Sources list, and every Sources entry is referenced in the body.
-- [ ] At least half of the cited sources are dated within 18 months of 2026-09-04, or the Gaps section names the areas where older sources were unavoidable.
-- [ ] The Guide outline maps every proposed guide section to at least one fact-base entry.
-- [ ] `src/pages/harness.html` is unchanged by this task (`git diff --quiet -- src/pages/harness.html`).
-- [ ] The final reply includes the file path, `wc -l` line count, and a five-line summary of the strongest findings.
+- [x] The output file exists at the agreed path (default `markdown/research/harness_research.md`) and its mtime is after this task started.
+- [x] Word count is between 6,000 and 9,500 (`wc -w`) — raised from the original 5,000–8,000 to cover the two added scope areas — or the file states in its Gaps section why it runs longer and the excess is cited fact rather than commentary.
+- [x] The file contains exactly the seven top-level sections in the mandated order: Summary; Glossary; Fact base; Reference architectures; Guide outline; Gaps; Sources.
+- [x] The Fact base has one subsection for each of the twelve scope areas, and every subsection contains all four required parts: official docs, what teams do, failure modes, open questions.
+- [x] Every scope-area subsection addresses both Claude Code and Codex, and states explicitly where the two differ or where the practice transfers unchanged.
+- [x] The Glossary presents Claude Code and Codex terms side by side for every entry, and includes the design framework's own terms (Task Contract, Capability Plane, Graph Engineering, Loop Engineering, Control + Trust, Durable Runtime Substrate, Node/Edge/Branch/Join/Cycle/Interrupt/Subgraph) with their CLI equivalents or "no native equivalent" noted.
+- [x] Between three and four reference architectures are given, each with a concrete file and tool inventory and at least one source citation per major choice, and each is described using the design framework's node/edge vocabulary and tagged with which of the Three Engineering Layers (Harness/Graph/Loop) its key choices belong to.
+- [x] Every cited claim carries a URL and one of the four evidence-strength labels (official docs, independent report, vendor marketing, practitioner opinion).
+- [x] Every URL in the body appears in the numbered Sources list, and every Sources entry is referenced in the body.
+- [x] At least half of the cited sources are dated within 18 months of 2026-09-04, or the Gaps section names the areas where older sources were unavoidable.
+- [x] The Guide outline maps every proposed guide section to at least one fact-base entry.
+- [x] `src/pages/harness.html` is unchanged by this task (`git diff --quiet -- src/pages/harness.html`).
+- [x] The final reply includes the file path, `wc -l` line count, and a five-line summary of the strongest findings.
 
 ## Brief (verbatim, as improved by /prompt-improver)
 
