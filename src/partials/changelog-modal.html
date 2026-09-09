@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.17 <span class="changelog-date">· 2026-09-09</span></h3>
+        <p><strong>Claude Code v2.1.266 auto-update.</strong> Three documentation updates covering folder-of-plugins support for <code>--plugin-dir</code>, the new 1 GB tool-result disk cap, and mid-prompt slash-command autocomplete changes.</p>
+        <ul>
+          <li><strong>CBP-532 <code>--plugin-dir</code> folder-of-plugins support.</strong> Claude Code v2.1.265 lets <code>--plugin-dir</code> point at a folder containing multiple plugin subfolders, each with its own manifest; folders added or removed while Claude Code is running are picked up live. Updated the CLI plugin-dir example and the Plugins collapsible.</li>
+          <li><strong>CBP-533 1 GB tool-result disk cap.</strong> Claude Code v2.1.265 adds a 1 GB cap on tool results saved to disk; the in-conversation preview now says the saved file was truncated once the cap is hit. Updated the <code>bashOutputMaxChars</code> / <code>taskOutputMaxChars</code> entry in the Notable <code>settings.json</code> Keys callout.</li>
+          <li><strong>CBP-534 Mid-prompt slash-command autocomplete.</strong> Claude Code v2.1.265 changes mid-prompt slash-command matches to show as a full list (<code>Tab</code> opens it outside fullscreen) instead of a single suggestion, and plugin skills are now found by their bare name with no <code>/plugin:</code> prefix required. Updated the Cheat Sheet <code>/commands</code> card.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.16 <span class="changelog-date">· 2026-09-05</span></h3>
         <p><strong>Claude Code v2.1.261 follow-up.</strong> One documentation update, filling a gap from the same v2.1.261 cycle: wider dangerous-<code>rm</code> detection.</p>
         <ul>
