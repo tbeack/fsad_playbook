@@ -37,12 +37,15 @@ Theo also supplied a design reference (2026-09-08, same image used to update `CB
 8. Do not edit `src/pages/harness.html`, `src/pages/practices.html`, `src/pages/codex.html`, or run either build script in this task — planning only. Open a follow-up CBP task to implement the refactor once this plan is reviewed.
 
 ## Acceptance Criteria
-- [ ] Output file exists at `markdown/plans/harness-page-refactor-plan.md` with mtime after this task started.
-- [ ] Plan explicitly enumerates the proposed new page structure (ordered section list with headings), states the flow rationale for the ordering, and states explicitly whether/how it adopts, adapts, or rejects `markdown/research/assets/harness-architecture-framework.jpg`'s 7-component framework as the scaffold, with reasoning.
-- [ ] Plan includes, for every proposed section, at least one practical markdown snippet illustrating example content for that section.
-- [ ] Plan includes a page mockup section combining text and Mermaid diagram code blocks.
-- [ ] Mockup includes at least one Mermaid DAG (`graph`/`flowchart` direction) connecting the proposed sections/flow, using the reference diagram's node/edge/branch/join/cycle/interrupt vocabulary rather than a generic flowchart.
-- [ ] Plan states which currently-accurate content from `src/pages/harness.html` is retained, and which is cut or rewritten, with a one-line reason for each cut.
-- [ ] Plan references or incorporates findings from `markdown/research/harness_research.md` if that file exists at task run time; otherwise the plan states this as an open dependency on `CBP-530`.
-- [ ] `src/pages/harness.html` is unchanged by this task (`git diff --quiet src/pages/harness.html`).
-- [ ] Neither `scripts/build-source.py` nor `scripts/build-dist.py` was run as part of this task (no generated `fsad-playbook.html`/`dist/fsad-playbook.html` diff attributable to this task).
+
+All criteria verified 2026-09-09 before commit.
+
+- [x] Output file exists at `markdown/plans/harness-page-refactor-plan.md` with mtime after this task started.
+- [x] Plan explicitly enumerates the proposed new page structure (ordered section list with headings), states the flow rationale for the ordering, and states explicitly whether/how it adopts, adapts, or rejects `markdown/research/assets/harness-architecture-framework.jpg`'s 7-component framework as the scaffold, with reasoning.
+- [x] Plan includes, for every proposed section, at least one practical markdown snippet illustrating example content for that section.
+- [x] Plan includes a page mockup section combining text and Mermaid diagram code blocks.
+- [x] Mockup includes at least one Mermaid DAG (`graph`/`flowchart` direction) connecting the proposed sections/flow, using the reference diagram's node/edge/branch/join/cycle/interrupt vocabulary rather than a generic flowchart.
+- [x] Plan states which currently-accurate content from `src/pages/harness.html` is retained, and which is cut or rewritten, with a one-line reason for each cut.
+- [x] Plan references or incorporates findings from `markdown/research/harness_research.md` if that file exists at task run time; otherwise the plan states this as an open dependency on `CBP-530`.
+- [x] `src/pages/harness.html` is unchanged by this task (`git diff --quiet src/pages/harness.html`).
+- [x] Neither `scripts/build-source.py` nor `scripts/build-dist.py` was run as part of this task (no generated `fsad-playbook.html`/`dist/fsad-playbook.html` diff attributable to this task).
