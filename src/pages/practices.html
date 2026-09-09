@@ -653,7 +653,7 @@ description: Structured code review with security and quality checks
         <li style="margin-bottom:0.4rem;"><code>feedbackDrafts</code> — Set <code>false</code> to stop Claude from drafting a feedback report when something goes wrong in a session. When enabled (default), review and send the draft from <code>/feedback</code> (v2.1.247).</li>
         <li style="margin-bottom:0.4rem;"><code>spinnerTipsOverride</code> — Customize the tips shown while Claude works. As of v2.1.247, accepts an array of <code>{id, text, cooldownSessions, priority}</code> entries (rotate your own tips alongside the built-in ones, with cooldown and priority control), a <code>tipsFile</code> path to load tips from an external file, and a <code>label</code> to distinguish org-supplied tips in the UI.</li>
         <li style="margin-bottom:0.4rem;"><code>managedMcpServers</code> — Managed setting (org/MDM only): push HTTP/SSE MCP servers to every user — uses the same entry shape as <code>.mcp.json</code>. Entries that specify a command to run are skipped; only remote servers are delivered. Use <code>deniedMcpServers</code> (not <code>allowedMcpServers</code>) to block a managed server from loading — as of v2.1.259, <code>allowedMcpServers</code> governs only servers individual users add, not managed ones (v2.1.259).</li>
-        <li style="margin-bottom:0;"><code>bashOutputMaxChars</code> / <code>taskOutputMaxChars</code> — Raise how much Bash command output (<code>bashOutputMaxChars</code>) and background-task output (<code>taskOutputMaxChars</code>) Claude receives inline before the rest is saved to a file; maximum is 128 000 characters each. Useful when large build logs or test output would otherwise be truncated (v2.1.261).</li>
+        <li style="margin-bottom:0;"><code>bashOutputMaxChars</code> / <code>taskOutputMaxChars</code> — Raise how much Bash command output (<code>bashOutputMaxChars</code>) and background-task output (<code>taskOutputMaxChars</code>) Claude receives inline before the rest is saved to a file; maximum is 128 000 characters each. Useful when large build logs or test output would otherwise be truncated (v2.1.261). Files saved to disk this way (and other large tool results saved to disk) are capped at 1 GB total; the in-conversation preview says the file was truncated once the cap is hit (v2.1.265).</li>
       </ul>
     </div>
 
@@ -2182,7 +2182,7 @@ smoke tests against the staging URL."</code></pre>
       </div>
       <div class="card">
         <h3>/commands</h3>
-        <p>Type <code>/</code> for slash command and skill autocomplete.</p>
+        <p>Type <code>/</code> for slash command and skill autocomplete. Typed mid-prompt (not at the start), matches now show as a full list instead of a single suggestion — <kbd>Tab</kbd> opens it outside fullscreen mode. Plugin skills are now found by their bare name, no <code>/plugin:</code> prefix required (v2.1.265).</p>
       </div>
       <div class="card">
         <h3>!bash</h3>
@@ -2615,6 +2615,7 @@ smoke tests against the staging URL."</code></pre>
 <span class="cm"># Load plugins from a directory or .zip archive</span>
 <span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins
 <span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugin.zip  <span class="cm"># .zip archives also accepted</span>
+<span class="kw">claude</span> <span class="val">--plugin-dir</span> ./my-plugins-folder  <span class="cm"># folder of multiple plugins: each child folder w/ manifest loads; add/remove children while running, picked up live (v2.1.265)</span>
 
 <span class="cm"># Fetch and load a plugin from a URL (current session only)</span>
 <span class="kw">claude</span> <span class="val">--plugin-url</span> https://example.com/my-plugin.zip
@@ -2630,6 +2631,7 @@ smoke tests against the staging URL."</code></pre>
         </div>
         <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
           <li><strong>Auto-load from <code>.claude/skills/</code>:</strong> plugin directories placed in <code>.claude/skills/</code> are automatically loaded without marketplace registration or <code>claude plugin install</code>. Commit them to the repo so every teammate gets them automatically (v2.1.157).</li>
+          <li><strong>Folder of plugins:</strong> point <code>--plugin-dir</code> at a folder containing multiple plugin subfolders (each with its own manifest) to load them all at once; folders added or removed while Claude Code is running are picked up live, no restart needed (v2.1.265).</li>
           <li><strong><code>/reload-plugins</code> LSP handling (v2.1.243):</strong> No longer keeps the LSP tool registered after the last LSP plugin is disabled. Reloading now also warns before an LSP plugin change that would cause the conversation to be re-read.</li>
           <li><strong>Archive plugin source:</strong> install a plugin persistently from a zip over HTTPS — no git or npm required. Add an <code>archive</code>-type source to your plugin config pointing at the zip URL; optionally pin it with a SHA-256 hash for integrity verification (v2.1.224). Unlike <code>--plugin-url</code> (session-only, above), this registers the plugin as a normal persistent source.</li>
           <li><strong>Command plugin source:</strong> add a <code>command</code>-type source that runs a local command (e.g. one supplied by an IDE) to print the plugin directory. The directory is re-resolved every session and applied without a restart, so it stays in sync with whatever the command reports. Set <code>"mode": "link"</code> to use the resolved directory in place rather than copying it (v2.1.229).</li>
