@@ -536,3 +536,8 @@
 - [x] `CBP-527` [Claude] Update `keybindingFlavor` entries — setting deprecated, Bash keys now default (v2.1.261) → [task-cbp-527.md](task-cbp-527.md)
 - [x] `CBP-528` [Codex] Document GPT-6-Astra on Amazon Bedrock (rust-v0.153.3/v0.153.4) → [task-cbp-528.md](task-cbp-528.md)
 - [x] `CBP-529` [Claude] Extend Subprocess Sandboxing paragraph — dangerous-`rm` prompt catches positional params and quoted `sh -c` scripts (v2.1.261) → [task-cbp-529.md](completed/task-cbp-529.md)
+- [x] `CBP-530` [Claude] Update `--plugin-dir` to document folder-of-plugins with hot-reload (v2.1.265) → [task-cbp-530.md](task-cbp-530.md)
+- [x] `CBP-531` [Claude] Update `/workflows` cheat sheet row with agent detail improvements (v2.1.265) → [task-cbp-531.md](task-cbp-531.md)
+- [x] `CBP-532` [Claude] Update `/commands` card text with slash command list behavior (v2.1.265) → [task-cbp-532.md](task-cbp-532.md)
+- [x] `CBP-533` [Claude] Add 1 GB tool result disk cap to Context Management collapsible (v2.1.265) → [task-cbp-533.md](task-cbp-533.md)
+- [x] `CBP-534` [Claude] Add VS Code auto-archive inactive sessions note (v2.1.265) → [task-cbp-534.md](task-cbp-534.md)

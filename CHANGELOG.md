@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.17 — 2026-09-10
+
+**Claude Code v2.1.265 auto-update (CBP-530 through CBP-534)**
+
+Five documentation updates covering the folder-of-plugins hot-reload mode for `--plugin-dir`, the improved `/workflows` agent detail view, slash command list display and bare-name plugin skill lookup, the 1 GB tool result disk cap, and VS Code inactive-session auto-archiving.
+
+- **CBP-530 — `--plugin-dir` folder-of-plugins with hot-reload.** Claude Code v2.1.265 extended `--plugin-dir` to support pointing at a folder of plugins: each child subfolder with a `plugin.json` manifest loads automatically, and children added or removed while the session runs are picked up without a restart. Updated the Plugins collapsible code block and added a Folder-of-plugins bullet to the list.
+- **CBP-531 — `/workflows` agent detail improvements.** Claude Code v2.1.265 improved the `/workflows` agent detail view: tool calls are now marked running, failed, or done; the subagent's task list is shown when it has one; and pressing Enter unfolds calls with their inputs and results. Updated the `/workflows` Cheat Sheet row.
+- **CBP-532 — Slash command list display + bare-name plugin skills.** Claude Code v2.1.265 changed slash command completion typed mid-prompt to show matches as a scrollable list (Tab opens it outside fullscreen) instead of a single inline suggestion; plugin skills are now findable by bare name without the `plugin:` namespace prefix. Updated the `/commands` Prompt Tips card.
+- **CBP-533 — 1 GB tool result disk cap.** Claude Code v2.1.265 added a 1 GB cap on tool results saved to disk, with an in-conversation preview note when a saved file was truncated. Added a bullet to the Context Management collapsible list.
+- **CBP-534 — VS Code inactive-session auto-archiving.** Claude Code v2.1.265 added automatic archiving of sessions inactive for a configurable period to the VS Code extension (default 14 days), adjustable via the new "Archive inactive sessions" setting. Added a bullet to the Remote Control & Cross-Device collapsible list.
+
 ### v4.1.16 — 2026-09-05
 
 **Claude Code v2.1.261 follow-up (CBP-529)**
