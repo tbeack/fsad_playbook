@@ -1,0 +1,39 @@
+# CBP-543 — Implement the Harness Engineering page refactor per markdown/plans/harness-page-refactor-plan.md
+
+## Source
+`markdown/plans/harness-page-refactor-plan.md` (291 lines, written to close the gap left by CBP-531, whose merge never actually committed a plan file despite being marked complete). That plan is the authoritative spec for this task — read it in full before starting. It was built from `src/pages/harness.html` (current live page), `markdown/research/harness_research.md` (CBP-530 dossier), and `markdown/research/assets/harness-architecture-framework.jpg` (design reference).
+
+## Summary
+Restructure `src/pages/harness.html` from its current 8-section layout into the 12-section layout specified in the plan, organized around the design reference's 7-component framework (Task Contract, Context + State, Capability Plane, Graph Engineering + Loop Engineering, Control + Trust, Observe + Improve, Durable Runtime Substrate). This is a content and structure rewrite of one page — no other `src/` file changes are in scope.
+
+## Assessment
+Current state: `src/pages/harness.html` (320 lines) has 8 top-level sections plus 7 lettered sub-collapsibles under "The Seven Jobs" (`#seven-jobs`). The plan (section 2, "Proposed new section order") maps every current section to kept / merged / rewritten / net-new status against the new 12-section order. Section 3 of the plan gives the full retain/cut/rewrite inventory with reasons — most notably the current "Brain, Hands, History" section is cut entirely, its ideas relocated into the new Graph Engineering and Observe + Improve sections. Section 4 of the plan gives section-by-section prose direction and ships-ready snippets (including 3 Mermaid-notation diagrams that must be reimplemented as hand-built dual-theme inline SVG, matching this page's existing SVG pattern — this repo's `CLAUDE.md` states there is no Mermaid.js runtime).
+
+## Plan
+
+1. **Re-read the plan file end-to-end** (`markdown/plans/harness-page-refactor-plan.md`) and the current `src/pages/harness.html` before editing anything — confirm neither has drifted since the plan was written (`git log -1 --format=%cI -- src/pages/harness.html` vs. the plan's stated read date).
+2. **Section 1 — The Thesis**: keep existing prose/diagram; add the three-layer strip (Harness/Graph/Loop Engineering) beneath the "where the industry converged" callout, per plan §4 "1 — The Thesis (extended)".
+3. **Section 2 — Say It Once/Say It Again**: leave unchanged.
+4. **Section 3 — Task Contract**: rewrite old Contract subsection per plan §4 "3 — Task Contract" (goal/constraints/identity/data/allowed_actions/success_criteria JSON, "no CLI ships this natively" caveat, keep existing "In this repo" callout).
+5. **Section 4 — Context + State**: merge old map-not-manual + externalize-memory content per plan §4 "4 — Context + State" (add line-count convergence finding + ETH Zurich/LogicStar null-result caveat, keep both "In this repo" callouts).
+6. **Section 5 — Capability Plane**: rewrite old Tools subsection per plan §4 "5 — Capability Plane" (keep 4-card grid, add tool-description-quality + layered-sandboxing findings, add weak-vs-strong tool description snippet).
+7. **Section 6 — Control + Trust**: rewrite old Permissions subsection per plan §4 "6 — Control + Trust" (keep MODEL SUGGESTS → POLICY CHECKS → TOOL EXECUTES line, add hard-boundaries list, incident examples, `.claude/settings.json` snippet).
+8. **Section 7 — Graph Engineering & Loop Engineering (net new)**: write per plan §4 "7 — ..." — node/edge/branch/join/cycle/interrupt/subgraph vocabulary, "neither CLI ships a native graph engine" caveat, absorbed bounded-loop retry pseudocode, multi-agent decomposition-by-context guidance. Build the 3 diagrams described (top-level graph, nested loop cycle, permission sequence) as hand-built dual-theme inline SVG pairs matching the existing page's SVG convention (see `#model-vs-harness` or `#maturity-ladder` for the pattern) — do not emit literal `<svg class="mermaid">` or any Mermaid.js markup.
+9. **Section 8 — Observe + Improve**: merge old Sensors + Traces per plan §4 "8 — ..." (keep sensors card-grid + AC-verification callout, relocate audit-receipt JSON here, relocate+reframe failure-upgrade cards, add evals-vs-observability gap stat).
+10. **Section 9 — Durable Runtime Substrate (net new)**: write per plan §4 "9 — ..." (scheduling/durability/resilience/side-effects sub-areas, "neither CLI ships native durable execution" caveat, claim-before-execute idempotency snippet, human-in-the-loop unbounded-latency framing).
+11. **Section 10 — Maturity Ladder**: keep existing prose/diagram, add the new ladder-level → components → reference-architecture table per plan §4 "10 — ...".
+12. **Section 11 — Checklist**: keep all 12 existing items, add the 3 new items from plan §4 "11 — ..." (explicit graph vs. implicit judgment, idempotency, checkpoint-resume). Keep the PROMPT/CONTEXT/HARNESS/LOOP/GRAPH card row and closing callout unchanged.
+13. **Cross-check**: after implementing, re-verify every prose block, card-grid item, snippet, and "In this repo" callout that existed on the pre-refactor page is accounted for (retained-in-place, relocated, or cut-with-reason) — per plan §5.
+14. **Build + verify**: run `python3 scripts/build-source.py` then `python3 scripts/build-dist.py` (confirm `Injected PLAYBOOK_EMBEDDINGS` in the log). Serve the built file locally and visually check all 12 sections, all new/reworked diagrams, and the extended checklist in both dark and light themes (no clipped/overlapping SVG text, legible contrast, existing checkbox persistence still works).
+15. Stage `src/` and `dist/` together in the same commit per this repo's build+commit requirement — commit only when explicitly asked to.
+
+## Acceptance Criteria
+- [ ] `src/pages/harness.html` has 12 top-level sections in the order specified in plan §2 (Hero, Thesis, Say Once/Say Again, Task Contract, Context+State, Capability Plane, Control+Trust, Graph+Loop Engineering, Observe+Improve, Durable Runtime Substrate, Maturity Ladder, Checklist).
+- [ ] The old "Brain, Hands, History" section no longer exists as a standalone section; its independence-of-components argument appears in the new Graph Engineering section and its audit-receipt JSON example appears in Observe + Improve.
+- [ ] The new Graph Engineering & Loop Engineering section explicitly states neither Claude Code nor Codex ships a native graph-orchestration engine, and uses the node/edge/branch/join/cycle/interrupt/subgraph vocabulary.
+- [ ] The new Graph Engineering & Loop Engineering section contains 3 diagrams (top-level graph, nested loop cycle, permission sequence) implemented as hand-built dual-theme (`flow-diagram--dark`/`flow-diagram--light`) inline `<svg>` pairs — no Mermaid.js markup or `<svg class="mermaid">` anywhere in the file.
+- [ ] The new Durable Runtime Substrate section explicitly states neither Claude Code nor Codex ships native durable execution, and covers scheduling/durability/resilience/side-effects.
+- [ ] The Task Contract, Capability Plane, and Control + Trust sections each contain their plan-specified dossier caveat (no-native-contract-object; tool-description-quality + layered-sandboxing; hard-boundaries list + incident examples respectively) in addition to their retained original content.
+- [ ] The Checklist section has 15 items total (12 original + 3 new from plan §4 "11"), all rendered as toggleable checkboxes consistent with the existing checkbox pattern.
+- [ ] `python3 scripts/build-source.py` and `python3 scripts/build-dist.py` both run clean, with `build-dist.py` logging `Injected PLAYBOOK_EMBEDDINGS`.
+- [ ] Both dark and light theme renders of the rebuilt page show no clipped or overlapping SVG text in any of the reworked/new diagrams (visual check, browser-verified).
