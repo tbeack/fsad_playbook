@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.20 — 2026-09-10
+
+**CBP-543 — Harness Engineering page refactor**
+
+Restructured the Harness Engineering page from 8 to 12 sections around the Task Contract / Context + State / Capability Plane / Control + Trust / Graph + Loop Engineering / Observe + Improve / Durable Runtime Substrate framework, with 3 new hand-built dual-theme SVG diagrams and an extended 15-item checklist.
+
+- **CBP-543 — New "Harness Engineering — at a Glance" infographic.** Added a hand-coded dual-theme SVG summary figure beneath the page hero, showing the Model vs. Harness split and the 7-chip job row.
+- **CBP-543 — Fixed duplicate theme diagrams.** The Graph Engineering, Loop Engineering, and Permission Check diagrams were rendering both dark and light variants at once; each now shows only the PNG matching the active theme.
+
 ### v4.1.19 — 2026-09-10
 
 **Codex CLI rust-v0.154.0 auto-update (CBP-537 through CBP-542)**

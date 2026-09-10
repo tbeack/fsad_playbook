@@ -549,3 +549,5 @@
 - [x] `CBP-540` [Codex] Update the Vim Editing Mode collapsible to cover `R` replace mode (rust-v0.154.0) → [task-cbp-540.md](completed/task-cbp-540.md)
 - [x] `CBP-541` [Codex] Update the `/copy` Cheat Sheet row for rich-text formatting + status/field copy (rust-v0.154.0) → [task-cbp-541.md](completed/task-cbp-541.md)
 - [x] `CBP-542` [Codex] Update the "Codex as MCP Server" callout — `codex mcp-server` now removed, not just deprecated (rust-v0.154.0) → [task-cbp-542.md](completed/task-cbp-542.md)
+- [x] `CBP-543` Implement the Harness Engineering page refactor per markdown/plans/harness-page-refactor-plan.md → [task-cbp-543.md](completed/task-cbp-543.md)
+- [ ] `CBP-544` Incorporate the recommendations into a plan → [task-cbp-544.md](task-cbp-544.md)
