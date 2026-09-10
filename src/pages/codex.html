@@ -539,7 +539,7 @@ codex mcp add google-workspace -- /path/to/google_workspace_mcp</code></pre>
 
     <div class="callout callout-tip" style="margin-top:1.5rem;">
       <div class="callout-title">Codex as MCP Server</div>
-      <p>Unlike Claude Code, Codex can act as a tool other agents invoke. As of 2026-08-24, the <code>codex mcp-server</code> command is <strong>deprecated</strong> — use the <a href="https://developers.openai.com/codex/app-server" target="_blank" style="color:var(--accent-blue);">Codex app server</a> instead for programmatic integration. To use Codex from within Claude Code specifically, use the <a href="https://github.com/openai/codex-plugin-cc" target="_blank" style="color:var(--accent-blue);">Codex plugin for Claude Code</a>. Full MCP docs at <a href="https://developers.openai.com/codex/mcp/" target="_blank" style="color:var(--accent-blue);">developers.openai.com/codex/mcp</a>.</p>
+      <p>Unlike Claude Code, Codex can act as a tool other agents invoke. The <code>codex mcp-server</code> command was deprecated on 2026-08-24 and has since been fully <strong>removed</strong> — use the <a href="https://developers.openai.com/codex/app-server" target="_blank" style="color:var(--accent-blue);">Codex app server</a> instead for programmatic integration. To use Codex from within Claude Code specifically, use the <a href="https://github.com/openai/codex-plugin-cc" target="_blank" style="color:var(--accent-blue);">Codex plugin for Claude Code</a>. Full MCP docs at <a href="https://developers.openai.com/codex/mcp/" target="_blank" style="color:var(--accent-blue);">developers.openai.com/codex/mcp</a>.</p>
     </div>
 
     <!-- Chrome Extension -->
@@ -1002,12 +1002,13 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>/permissions</code></td><td>Change approval mode mid-session</td></tr>
           <tr><td><code>/init</code></td><td>Generate an AGENTS.md scaffold for the current project</td></tr>
           <tr><td><code>/import</code></td><td>Migrate settings, MCP servers, plugins, sessions, commands, and project-scoped memories from <strong>Cursor</strong> or <strong>Claude Code</strong>. Selectively import any combination for full cross-tool migration. (v0.140.0, expanded v0.145.0) As of rust-v0.147.0, also imports Cursor-managed skills, and re-running the import synchronizes changes to previously-imported Claude/Cursor conversations without creating duplicates.</td></tr>
+          <tr><td><code>/worktree</code></td><td>Create an isolated checkout for a new or forked session (experimental); browse and resume existing worktree sessions. Equivalent to the <code>--worktree</code> CLI flag. (rust-v0.154.0)</td></tr>
           <tr><td><code>/vim</code></td><td>Toggle Vim modal editing in the composer. Set <code>vim_mode = true</code> in <code>config.toml</code> to enable by default.</td></tr>
           <tr><td><code>/keymap</code> <code>[debug]</code></td><td>Remap TUI keyboard shortcuts interactively. As of rust-v0.150.0 you can bind shortcuts to cycle through permission modes. Use <code>/keymap debug</code> to inspect raw terminal key events — helpful when Vim mode or chord bindings don't register.</td></tr>
           <tr><td><code>/statusline</code></td><td>Configure footer status items — including the estimated thread credits/cost item for eligible workspaces (rust-v0.148.0)</td></tr>
           <tr><td><code>/hooks</code></td><td>Browse and toggle configured hooks from the TUI without editing config files</td></tr>
           <tr><td><code>/personality</code></td><td>Set agent personality (friendly / pragmatic / none)</td></tr>
-          <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>). As of rust-v0.150.0, opens a picker so you can copy the full response, an individual code block, or a blockquote.</td></tr>
+          <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>). As of rust-v0.150.0, opens a picker so you can copy the full response, an individual code block, or a blockquote. As of rust-v0.154.0, copied content preserves formatting when pasted into rich-text apps, and the picker can also copy status output or individual session fields.</td></tr>
           <tr><td><code>/rename</code></td><td>Rename the current thread — suggests an editable title based on the conversation. Unnamed terminal tasks also receive descriptive titles automatically. (rust-v0.150.0)</td></tr>
           <tr><td><code>/export</code></td><td>Export the complete conversation as Markdown — copy it to the clipboard or write it to a new file (rust-v0.148.0)</td></tr>
           <tr><td><code>/status</code></td><td>Show session config and token usage metrics. For eligible workspaces, also shows estimated thread credits or cost — the same estimate surfaced in status lines and terminal titles (rust-v0.148.0)</td></tr>
@@ -1162,6 +1163,37 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
       </div></div>
     </div>
 
+    <!-- Worktree Sessions -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Worktree Sessions</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>As of rust-v0.154.0, Codex supports <strong>experimental worktree sessions</strong> — starting a new or forked session with <code>--worktree</code> or <code>/worktree</code> creates an isolated git worktree checkout for that session, so it can make changes without touching your main working directory. Use <code>/worktree</code> to browse and resume existing worktree sessions from the TUI.</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <pre><code><span class="cm"># Start a new session in an isolated worktree</span>
+codex --worktree
+
+<span class="cm"># Or from within a session:</span>
+/worktree</code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Pairs well with <code>/fork</code> — fork a conversation into a new thread, then run it in its own worktree so parallel explorations don't collide on the same files.</p>
+      </div></div>
+    </div>
+
+    <!-- Inline Async Questions -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Inline Async Questions</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>As of rust-v0.154.0, Codex can ask a clarifying question <strong>while it keeps working in the background</strong> instead of blocking on your answer. Questions offer suggested-choice buttons or free-text input, and answering one does not discard whatever reply you were already typing in the main composer — your draft is preserved alongside the question.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Useful for long-running tasks: you can keep steering the current turn in your draft while resolving a side question Codex raised, rather than losing your train of thought.</p>
+      </div></div>
+    </div>
+
     <!-- Vim Editing Mode -->
     <div class="collapsible">
       <div class="collapsible-header">
@@ -1177,7 +1209,7 @@ vim_mode = true
 <span class="cm"># Or toggle mid-session</span>
 /vim</code></pre>
         </div>
-        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection), plus expanded change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (<code>r&lt;char&gt;</code>) (rust-v0.149.0), dot-repeat (<code>.</code>) to repeat your last edit (rust-v0.150.0), <code>/</code> / <code>?</code> search within the current draft with highlighted matches and <code>n</code>/<code>N</code> repeat navigation (rust-v0.152.0), and undo (<code>u</code>) and redo (<code>Ctrl+R</code>) that preserve complete drafts including pasted content and attachments (rust-v0.153.0). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
+        <p style="margin-top:0.75rem;">In Vim mode the composer supports standard motions (<code>hjkl</code>, <code>w/b/e</code>, <code>0/$</code>, <code>dd</code>, <code>yy</code>, <code>p</code>, visual selection), plus expanded change motions (<code>cw</code>, <code>c$</code>, <code>cc</code>) and character replacement (<code>r&lt;char&gt;</code>) (rust-v0.149.0), dot-repeat (<code>.</code>) to repeat your last edit (rust-v0.150.0), <code>/</code> / <code>?</code> search within the current draft with highlighted matches and <code>n</code>/<code>N</code> repeat navigation (rust-v0.152.0), and undo (<code>u</code>) and redo (<code>Ctrl+R</code>) that preserve complete drafts including pasted content and attachments (rust-v0.153.0), and multi-character replace mode (<code>R</code>) with its own undo and dot-repeat support (rust-v0.154.0). Vim-specific keybindings are scoped separately from the global TUI keymap so your <code>/keymap</code> overrides don't collide with Vim operators.</p>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use <code>/keymap debug</code> to inspect what key events your terminal is sending — helpful when certain Vim chords don't register correctly.</p>
       </div></div>
     </div>
