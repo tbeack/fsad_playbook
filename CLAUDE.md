@@ -76,6 +76,10 @@ python3 scripts/build-dist.py          # must log "Injected PLAYBOOK_EMBEDDINGS"
 
 `dist/fsad-playbook.html` is the fully self-contained build artifact (fonts and playgrounds inlined). It must always be in sync with `src/` and included in every release commit. `fsad-playbook.html` itself is gitignored and never committed.
 
+### Read discipline
+
+Never `Read`/`cat` the full contents of `dist/fsad-playbook.html`, `dist/embeddings.json`, or `CHANGELOG.md` — these are large generated or accumulated files where a full read burns tens of thousands of tokens for little benefit. Use targeted `grep -n` and offset/limit reads instead, and rely on build-script log lines (e.g. `Injected PLAYBOOK_EMBEDDINGS`) rather than reading the artifacts they produce. `CHANGELOG.md` holds only the current minor-version series; older entries live in `CHANGELOG-archive.md` (see `CHANGELOG.md`'s pointer note).
+
 ### Version bump checklist
 
 See the `version-bump` skill (`.claude/skills/version-bump/SKILL.md`) for the full checklist of the 3 locations that must stay in sync when cutting a new version.
