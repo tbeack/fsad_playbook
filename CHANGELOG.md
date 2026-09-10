@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.18 — 2026-09-10
+
+**Claude Code v2.1.267 auto-update (CBP-535 through CBP-536)**
+
+Two documentation updates covering the new `maxEffortLevel` settings cap and the `--system-prompt-snapshot off` CLI flag.
+
+- **CBP-535 — `maxEffortLevel` setting.** Claude Code v2.1.267 adds `maxEffortLevel`, a settings.json key that caps the maximum `/effort` level a session can run at — set top-level for a global cap or per model under `modelSettings`, applying across every provider including Bedrock, Vertex, and Foundry. Users can still pick a lower effort level than the cap. Added a new entry to the Notable `settings.json` Keys callout after `modelPricing`.
+- **CBP-536 — `--system-prompt-snapshot off` CLI flag.** Claude Code v2.1.267 adds `--system-prompt-snapshot off`, which renders the system prompt fresh on every request instead of reusing the conversation's recorded prompt — useful when iterating on prompt text. Added a new row to the System prompt & config CLI flags table after `--append-system-prompt`.
+
 ### v4.1.17 — 2026-09-09
 
 **Claude Code v2.1.266 auto-update (CBP-532 through CBP-534)**
