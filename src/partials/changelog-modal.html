@@ -6,6 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.18 <span class="changelog-date">· 2026-09-10</span></h3>
+        <p><strong>Claude Code v2.1.267 auto-update.</strong> Two documentation updates covering the new <code>maxEffortLevel</code> settings cap and the <code>--system-prompt-snapshot off</code> CLI flag.</p>
+        <ul>
+          <li><strong>CBP-535 <code>maxEffortLevel</code> setting.</strong> Claude Code v2.1.267 adds <code>maxEffortLevel</code>, a settings.json key that caps the maximum <code>/effort</code> level a session can run at — set top-level for a global cap or per model under <code>modelSettings</code>, applying across every provider including Bedrock, Vertex, and Foundry. Users can still pick a lower effort level than the cap. Added a new entry to the Notable <code>settings.json</code> Keys callout after <code>modelPricing</code>.</li>
+          <li><strong>CBP-536 <code>--system-prompt-snapshot off</code> CLI flag.</strong> Claude Code v2.1.267 adds <code>--system-prompt-snapshot off</code>, which renders the system prompt fresh on every request instead of reusing the conversation's recorded prompt — useful when iterating on prompt text. Added a new row to the System prompt &amp; config CLI flags table after <code>--append-system-prompt</code>.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.17 <span class="changelog-date">· 2026-09-09</span></h3>
         <p><strong>Claude Code v2.1.266 auto-update.</strong> Three documentation updates covering folder-of-plugins support for <code>--plugin-dir</code>, the new 1 GB tool-result disk cap, and mid-prompt slash-command autocomplete changes.</p>
         <ul>

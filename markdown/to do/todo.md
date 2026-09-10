@@ -541,3 +541,5 @@
 - [x] `CBP-532` [Claude] Document `--plugin-dir` folder-of-plugins support (v2.1.265) → [task-cbp-532.md](completed/task-cbp-532.md)
 - [x] `CBP-533` [Claude] Document 1 GB tool-result disk cap in Notable settings.json Keys (v2.1.265) → [task-cbp-533.md](completed/task-cbp-533.md)
 - [x] `CBP-534` [Claude] Update Cheat Sheet `/commands` card — mid-prompt match list + bare-name plugin skills (v2.1.265) → [task-cbp-534.md](completed/task-cbp-534.md)
+- [x] `CBP-535` [Claude] Document `maxEffortLevel` setting in Notable settings.json Keys (v2.1.267) → [task-cbp-535.md](completed/task-cbp-535.md)
+- [x] `CBP-536` [Claude] Add `--system-prompt-snapshot off` CLI flag to the System prompt & config table (v2.1.267) → [task-cbp-536.md](completed/task-cbp-536.md)
