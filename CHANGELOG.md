@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v4.1.19 — 2026-09-10
+
+**Codex CLI rust-v0.154.0 auto-update (CBP-537 through CBP-542)**
+
+Six documentation updates covering experimental worktree sessions, inline async questions, Vim replace mode, richer `/copy` behavior, and the full removal of `codex mcp-server`.
+
+- **[Codex] CBP-537 — `/worktree` slash command.** Codex CLI rust-v0.154.0 adds experimental worktree support: a new `/worktree` TUI command (and `--worktree` CLI flag) creates an isolated checkout for a new or forked session, and lets you browse and resume existing worktree sessions. Added a new Cheat Sheet row.
+- **[Codex] CBP-538 — Worktree Sessions collapsible.** Beyond the Cheat Sheet row, isolated git-worktree-backed session checkouts, forking into a worktree, and browsing/resuming worktree sessions are substantial enough to warrant their own explanatory collapsible in the Power Usage section. Added a new "Worktree Sessions" collapsible.
+- **[Codex] CBP-539 — Inline Async Questions collapsible.** Codex CLI rust-v0.154.0 adds asynchronous inline questions: while Codex keeps working in the background, it can surface a question with suggested-choice or free-text answers, and answering it does not discard whatever reply draft you were already composing. Added a new "Inline Async Questions" collapsible in Power Usage.
+- **[Codex] CBP-540 — Vim `R` replace mode.** Codex CLI rust-v0.154.0 adds `R` (multi-character replace mode, distinct from the single-character `r<char>` already documented) to Vim modal editing, with undo and dot-repeat support. Updated the Vim Editing Mode collapsible.
+- **[Codex] CBP-541 — `/copy` rich-text formatting + status/field copy.** Codex CLI rust-v0.154.0 extends `/copy`: copied content now preserves formatting when pasted into rich-text applications, and the picker can also copy `/status`-style output or individual session fields, not just response content. Updated the Cheat Sheet `/copy` row.
+- **[Codex] CBP-542 — `codex mcp-server` fully removed.** The playbook's "Codex as MCP Server" callout said `codex mcp-server` was deprecated as of 2026-08-24; Codex CLI rust-v0.154.0 has since fully removed the command. Updated the callout's wording from deprecated to removed.
+
 ### v4.1.18 — 2026-09-10
 
 **Claude Code v2.1.267 auto-update (CBP-535 through CBP-536)**

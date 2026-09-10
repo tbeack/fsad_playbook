@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.19 <span class="changelog-date">· 2026-09-10</span></h3>
+        <p><strong>Codex CLI rust-v0.154.0 auto-update.</strong> Six documentation updates covering experimental worktree sessions, inline async questions, Vim replace mode, richer <code>/copy</code> behavior, and the full removal of <code>codex mcp-server</code>.</p>
+        <ul>
+          <li><strong>CBP-537 <code>/worktree</code> slash command.</strong> Codex CLI rust-v0.154.0 adds experimental worktree support: a new <code>/worktree</code> TUI command (and <code>--worktree</code> CLI flag) creates an isolated checkout for a new or forked session, and lets you browse and resume existing worktree sessions. Added a new Cheat Sheet row.</li>
+          <li><strong>CBP-538 Worktree Sessions collapsible.</strong> Beyond the Cheat Sheet row, isolated git-worktree-backed session checkouts, forking into a worktree, and browsing/resuming worktree sessions are substantial enough to warrant their own explanatory collapsible in the Power Usage section. Added a new "Worktree Sessions" collapsible.</li>
+          <li><strong>CBP-539 Inline Async Questions collapsible.</strong> Codex CLI rust-v0.154.0 adds asynchronous inline questions: while Codex keeps working in the background, it can surface a question with suggested-choice or free-text answers, and answering it does not discard whatever reply draft you were already composing. Added a new "Inline Async Questions" collapsible in Power Usage.</li>
+          <li><strong>CBP-540 Vim <code>R</code> replace mode.</strong> Codex CLI rust-v0.154.0 adds <code>R</code> (multi-character replace mode, distinct from the single-character <code>r&lt;char&gt;</code> already documented) to Vim modal editing, with undo and dot-repeat support. Updated the Vim Editing Mode collapsible.</li>
+          <li><strong>CBP-541 <code>/copy</code> rich-text formatting + status/field copy.</strong> Codex CLI rust-v0.154.0 extends <code>/copy</code>: copied content now preserves formatting when pasted into rich-text applications, and the picker can also copy <code>/status</code>-style output or individual session fields, not just response content. Updated the Cheat Sheet <code>/copy</code> row.</li>
+          <li><strong>CBP-542 <code>codex mcp-server</code> fully removed.</strong> The playbook's "Codex as MCP Server" callout said <code>codex mcp-server</code> was deprecated as of 2026-08-24; Codex CLI rust-v0.154.0 has since fully removed the command. Updated the callout's wording from deprecated to removed.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.18 <span class="changelog-date">· 2026-09-10</span></h3>
         <p><strong>Claude Code v2.1.267 auto-update.</strong> Two documentation updates covering the new <code>maxEffortLevel</code> settings cap and the <code>--system-prompt-snapshot off</code> CLI flag.</p>
         <ul>
