@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.22 <span class="changelog-date">· 2026-09-11</span></h3>
+        <p><strong>Claude Code v2.1.269 auto-update.</strong> Six documentation updates covering the new plugin eval command, <code>/output-style</code> slash command, a higher Workflow tool concurrency ceiling, a Bash-edit-diff setting, an OTel repository-tagging env var, and a gateway model-discovery timeout.</p>
+        <ul>
+          <li><strong>CBP-550 <code>/output-style</code> Cheat Sheet row.</strong> Added a new Configuration &amp; setup table row for the v2.1.269 <code>/output-style [name]</code> command, which lists and switches output styles directly, including over Remote Control and in cloud/headless sessions.</li>
+          <li><strong>CBP-551 <code>claude plugin eval</code> in Plugins collapsible.</strong> Documented the new v2.1.269 command that runs a plugin's eval suite against Claude Code and returns a scored, reproducible JSON and HTML report.</li>
+          <li><strong>CBP-552 <code>CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS</code> in Dynamic Workflows.</strong> Added a bullet for the new v2.1.269 env var (accepts 1–256) that raises the Workflow tool's per-run concurrent agent limit for inference-bound fan-outs.</li>
+          <li><strong>CBP-553 <code>OTEL_METRICS_INCLUDE_REPOSITORY</code> in Available Metrics.</strong> Added a note for the new v2.1.269 env var that tags OpenTelemetry metrics events with <code>vcs.*</code> repository attributes, with the commit-count metric additionally getting <code>vcs.ref.head.*</code>.</li>
+          <li><strong>CBP-554 <code>CLAUDE_CODE_GATEWAY_MODEL_DISCOVERY_TIMEOUT_MS</code> in the <code>/model</code> row.</strong> Documented the new v2.1.269 env var that extends the gateway <code>/v1/models</code> discovery timeout beyond its 3-second default.</li>
+          <li><strong>CBP-555 <code>bashEditDiffEnabled</code> in Notable settings.json Keys.</strong> Added a bullet for the new v2.1.269 setting that shows a diff of files a Bash command changed directly in the Bash tool result.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.21 <span class="changelog-date">· 2026-09-11</span></h3>
         <p><strong>Claude Code v2.1.268 auto-update.</strong> Five documentation updates covering the new WebFetch deadline env var, plugin menu auto-apply behavior, updated task-tracking model scope, and a new WebFetch/Artifact permission rule note.</p>
         <ul>
