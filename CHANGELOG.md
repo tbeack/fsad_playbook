@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.21 — 2026-09-11
+
+**Claude Code v2.1.268 auto-update (CBP-545 through CBP-549)**
+
+Five documentation updates covering plugin menu auto-apply behavior, updated task-tracking model scope, a new WebFetch deadline env var, and a new WebFetch/Artifact permission rule note.
+
+- **[Claude] CBP-545 — `/reload-plugins` cheat sheet update.** As of v2.1.268, installing, enabling, or disabling a plugin through the `/plugin` menu takes effect when you close the menu; added a note to the Cheat Sheet row.
+- **[Claude] CBP-546 — Plugins collapsible menu auto-apply note.** Added a bullet explaining the v2.1.268 immediate-apply behavior and updated the code block comment to clarify when `/reload-plugins` is still useful.
+- **[Claude] CBP-547 — Todo Tools card — precise model list.** Updated to reflect the v2.1.268 model scope: TaskCreate/Get/Update/List and TodoWrite are available by default only on Claude 3.x, Opus 4.0–4.7, Sonnet 4.0–4.6, and Haiku 4.5.
+- **[Claude] CBP-548 — `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` env var.** Added a new env vars table row for the v2.1.268 hard-timeout env var (default 300 s; set to `0` to disable).
+- **[Claude] CBP-549 — WebFetch/Artifact permission rule separation.** Added a Notable Settings bullet noting that plain `WebFetch` deny/ask rules no longer gate Artifact reads as of v2.1.268; use an `Artifact` rule or `WebFetch(domain:claude.ai)` instead.
+
 ### v4.1.20 — 2026-09-10
 
 **CBP-543 — Harness Engineering page refactor**

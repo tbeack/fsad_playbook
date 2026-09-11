@@ -551,3 +551,8 @@
 - [x] `CBP-542` [Codex] Update the "Codex as MCP Server" callout — `codex mcp-server` now removed, not just deprecated (rust-v0.154.0) → [task-cbp-542.md](completed/task-cbp-542.md)
 - [x] `CBP-543` Implement the Harness Engineering page refactor per markdown/plans/harness-page-refactor-plan.md → [task-cbp-543.md](completed/task-cbp-543.md)
 - [x] `CBP-544` Incorporate the recommendations into a plan → [task-cbp-544.md](completed/task-cbp-544.md)
+- [x] `CBP-545` [Claude] Update `/reload-plugins` Cheat Sheet row — note v2.1.268 makes it no longer needed after `/plugin` menu changes → [task-cbp-545.md](task-cbp-545.md)
+- [x] `CBP-546` [Claude] Update Plugins collapsible — add bullet that `/plugin` menu changes take effect on close (v2.1.268) → [task-cbp-546.md](task-cbp-546.md)
+- [x] `CBP-547` [Claude] Update Todo Tools card — precise model support list from v2.1.268 → [task-cbp-547.md](task-cbp-547.md)
+- [x] `CBP-548` [Claude] Add `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` env var row to env vars table (v2.1.268) → [task-cbp-548.md](task-cbp-548.md)
+- [x] `CBP-549` [Claude] Add WebFetch/Artifact permission rule separation note to Notable Settings (v2.1.268) → [task-cbp-549.md](task-cbp-549.md)
