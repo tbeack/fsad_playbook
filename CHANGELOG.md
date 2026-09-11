@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v4.1.22 — 2026-09-11
+
+**Claude Code v2.1.269 auto-update (CBP-550 through CBP-555)**
+
+Six documentation updates covering the new plugin eval command, `/output-style` slash command, a higher Workflow tool concurrency ceiling, a Bash-edit-diff setting, an OTel repository-tagging env var, and a gateway model-discovery timeout.
+
+- **[Claude] CBP-550 — `/output-style` Cheat Sheet row.** Added a new Configuration & setup table row for the v2.1.269 `/output-style [name]` command, which lists and switches output styles directly, including over Remote Control and in cloud/headless sessions.
+- **[Claude] CBP-551 — `claude plugin eval` in Plugins collapsible.** Documented the new v2.1.269 command that runs a plugin's eval suite against Claude Code and returns a scored, reproducible JSON and HTML report.
+- **[Claude] CBP-552 — `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` in Dynamic Workflows.** Added a bullet for the new v2.1.269 env var (accepts 1–256) that raises the Workflow tool's per-run concurrent agent limit for inference-bound fan-outs.
+- **[Claude] CBP-553 — `OTEL_METRICS_INCLUDE_REPOSITORY` in Available Metrics.** Added a note for the new v2.1.269 env var that tags OpenTelemetry metrics events with `vcs.*` repository attributes, with the commit-count metric additionally getting `vcs.ref.head.*`.
+- **[Claude] CBP-554 — `CLAUDE_CODE_GATEWAY_MODEL_DISCOVERY_TIMEOUT_MS` in the `/model` row.** Documented the new v2.1.269 env var that extends the gateway `/v1/models` discovery timeout beyond its 3-second default.
+- **[Claude] CBP-555 — `bashEditDiffEnabled` in Notable settings.json Keys.** Added a bullet for the new v2.1.269 setting that shows a diff of files a Bash command changed directly in the Bash tool result.
+
 ### v4.1.21 — 2026-09-11
 
 **Claude Code v2.1.268 auto-update (CBP-545 through CBP-549)**
