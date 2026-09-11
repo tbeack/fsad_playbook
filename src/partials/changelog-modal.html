@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.21 <span class="changelog-date">· 2026-09-11</span></h3>
+        <p><strong>Claude Code v2.1.268 auto-update.</strong> Five documentation updates covering the new WebFetch deadline env var, plugin menu auto-apply behavior, updated task-tracking model scope, and a new WebFetch/Artifact permission rule note.</p>
+        <ul>
+          <li><strong>CBP-545 <code>/reload-plugins</code> no longer needed after menu changes.</strong> As of v2.1.268, installing, enabling, or disabling a plugin through the <code>/plugin</code> menu takes effect when you close the menu; updated the Cheat Sheet row to note this.</li>
+          <li><strong>CBP-546 Plugins collapsible — menu auto-apply note.</strong> Added a new bullet to the Plugins collapsible explaining the v2.1.268 immediate-apply behavior and updated the code block comment to clarify when <code>/reload-plugins</code> is still useful.</li>
+          <li><strong>CBP-547 Todo Tools card — precise model list.</strong> Updated the card to reflect the v2.1.268 model scope: TaskCreate/Get/Update/List and TodoWrite are available by default only on Claude 3.x, Opus 4.0–4.7, Sonnet 4.0–4.6, and Haiku 4.5.</li>
+          <li><strong>CBP-548 <code>CLAUDE_CODE_WEBFETCH_DEADLINE_MS</code> env var.</strong> Added a new env vars table row for the v2.1.268 hard-timeout env var (default 300 s; set to <code>0</code> to disable).</li>
+          <li><strong>CBP-549 WebFetch/Artifact permission rule separation.</strong> Added a Notable Settings bullet noting that plain <code>WebFetch</code> deny/ask rules no longer gate Artifact reads as of v2.1.268; use an <code>Artifact</code> rule or <code>WebFetch(domain:claude.ai)</code> instead.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.20 <span class="changelog-date">· 2026-09-10</span></h3>
         <p><strong>CBP-543 — Harness Engineering page refactor.</strong> Restructured the Harness Engineering page from 8 to 12 sections around the Task Contract / Context + State / Capability Plane / Control + Trust / Graph + Loop Engineering / Observe + Improve / Durable Runtime Substrate framework, with 3 new hand-built dual-theme SVG diagrams and an extended 15-item checklist.</p>
         <ul>
