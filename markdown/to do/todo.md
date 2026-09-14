@@ -562,3 +562,5 @@
 - [x] `CBP-553` [Claude] Document `OTEL_METRICS_INCLUDE_REPOSITORY` in Monitoring → Available Metrics collapsible (v2.1.269) → [task-cbp-553.md](task-cbp-553.md)
 - [x] `CBP-554` [Claude] Add `CLAUDE_CODE_GATEWAY_MODEL_DISCOVERY_TIMEOUT_MS` to the `/model` Cheat Sheet row (v2.1.269) → [task-cbp-554.md](task-cbp-554.md)
 - [x] `CBP-555` [Claude] Add `bashEditDiffEnabled` to Notable settings.json Keys (v2.1.269) → [task-cbp-555.md](task-cbp-555.md)
+- [x] `CBP-556` [Claude] Update `/workflows` cheat sheet row with agent detail improvements (v2.1.265) → [task-cbp-556.md](task-cbp-556.md)
+- [x] `CBP-557` [Claude] Add VS Code auto-archive inactive sessions note to Remote Control collapsible (v2.1.265) → [task-cbp-557.md](task-cbp-557.md)
