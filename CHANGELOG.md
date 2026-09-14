@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.23 — 2026-09-14
+
+**Claude Code v2.1.265 documentation catch-up (CBP-556 through CBP-557)**
+
+Two documentation updates completing gaps identified in an earlier assessment: the `/workflows` agent detail view and VS Code's auto-archive inactive sessions setting.
+
+- **[Claude] CBP-556 — `/workflows` agent detail view.** As of v2.1.265, the agent detail view marks tool calls running, failed, or done; shows the subagent's task list when it has one; and pressing Enter unfolds calls with their inputs and results. Added to the `/workflows` Cheat Sheet row.
+- **[Claude] CBP-557 — VS Code auto-archive inactive sessions.** As of v2.1.265, the VS Code extension automatically archives sessions inactive for a configurable period (default 14 days) via the "Archive inactive sessions" setting. Added to the Remote Control & Cross-Device collapsible.
+
 ### v4.1.22 — 2026-09-11
 
 **Claude Code v2.1.269 auto-update (CBP-550 through CBP-555)**
