@@ -1,5 +1,19 @@
 ## Changes in This Version
 
+### v3.2.19 — 2026-09-15
+
+**Claude Code v2.1.202–v2.1.272 auto-update (CBP-297 through CBP-303)**
+
+Seven targeted updates spanning 71 minor versions:
+
+- **CBP-297 — Cheat Sheet: `/diff` row.** Updated to document the v2.1.260 fullscreen panel: in fullscreen mode, `/diff` opens a live panel beside the conversation showing uncommitted changes as Claude edits (v2.1.260).
+- **CBP-298 — Cheat Sheet: `/output-style [name]`.** Added new slash command to list and switch output styles (e.g. `Concise`), including over Remote Control, cloud, and headless sessions. Custom styles go in `~/.claude/output-styles/` (v2.1.269).
+- **CBP-299 — Cheat Sheet: `/skill-doctor`.** Added new slash command that shows which loaded skills go unused and what they cost in context tokens — use to prune expensive skills from the context window (v2.1.261).
+- **CBP-300 — Cheat Sheet: `/advisor [model|off]`.** Added the text form of the advisor tool as a slash command. Pass a model name (`/advisor opus`) or turn off with `/advisor off`. Works in interactive, `-p`, Remote Control, and Agent SDK sessions (v2.1.260).
+- **CBP-301 — Hooks: `PreModelSwitch` and `PostModelSwitch`.** Added two new hook events to the Environment & context hooks table. `PreModelSwitch` fires before a model switch and can block, confirm, or annotate it; `PostModelSwitch` fires after the switch completes (v2.1.252).
+- **CBP-302 — Code Review: `omitClaudeMd` agent property.** Added a tip callout to the Local Review with Custom Subagents section documenting the new `omitClaudeMd: true` agent frontmatter property. When set, the subagent runs without loading user, project, and local CLAUDE.md files — managed policy files still load. Use for clean-room review agents that must not inherit project-specific instructions (v2.1.271).
+- **CBP-303 — Subprocess Sandboxing: per-command `allowed_domains`.** Added a callout after the sandbox settings table documenting per-command network access in auto mode with sandboxing. Bash, PowerShell, and Monitor commands can now declare required hosts, which are reviewed with the command and opened for that command alone — tighter than the session-wide `sandbox.network.allowedDomains` allowlist (v2.1.271).
+
 ### v3.2.18 — 2026-07-04
 
 **Claude Code v2.1.201 auto-update (CBP-296)**

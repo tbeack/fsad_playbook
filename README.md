@@ -49,11 +49,15 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v3.2.18 |
-| **Date updated** | 2026-07-04 |
+| **Current version** | v3.2.19 |
+| **Date updated** | 2026-09-15 |
 | **File** | `fsad-playbook.html` |
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes by version.
+
+### v3.2.19 — 2026-09-15
+
+Claude Code v2.1.202–v2.1.272 auto-update (CBP-297 through CBP-303). Seven targeted updates: `/diff` fullscreen panel (CBP-297), `/output-style [name]` command (CBP-298), `/skill-doctor` command (CBP-299), `/advisor [model|off]` command (CBP-300), `PreModelSwitch`/`PostModelSwitch` hook events (CBP-301), `omitClaudeMd` agent property (CBP-302), per-command `allowed_domains` in sandboxed auto mode (CBP-303).
 
 ## Skills (`fsd:` plugin namespace)
 
