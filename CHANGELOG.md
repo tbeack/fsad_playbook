@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v4.1.24 — 2026-09-15
+
+**Claude Code v2.1.271 auto-update (CBP-558 through CBP-563)**
+
+Six documentation updates covering per-command network allowlisting in auto mode, an agent frontmatter option to skip CLAUDE.md, a scripted plugin-install approval flag, a lowered default Dynamic Workflow size, a Monitor watch deadline change, and fast mode reaching Remote sessions.
+
+- **[Claude] CBP-558 — Per-command `allowed_domains` in auto mode.** As of v2.1.271, auto mode with sandboxing supports per-command `allowed_domains` for Bash, PowerShell, and Monitor — the hosts a command needs are reviewed with it and opened for that command alone. Added to the Subprocess Sandboxing collapsible.
+- **[Claude] CBP-559 — `omitClaudeMd` agent frontmatter.** Documented the new v2.1.271 field that lets a custom or plugin subagent run without user, project, and local CLAUDE.md files (managed policy files still load). Added to the Frontmatter Reference collapsible.
+- **[Claude] CBP-560 — `--accept-command <sha256>` plugin flag.** Added a bullet for the new v2.1.271 flag on `claude plugin install`/`update` that accepts exactly the command a prior `--json` run displayed, for scripted or CI installs.
+- **[Claude] CBP-561 — Lowered default Dynamic Workflow size.** As of v2.1.271, the default workflow size is now `small` on Pro plans, and the `medium` guideline dropped from 15 to 10 agents. Added to the Dynamic Workflows collapsible.
+- **[Claude] CBP-562 — Monitor watch deadline change.** As of v2.1.271, Monitor watches always carry a deadline (30 min max, 10 min in `-p` runs) and notify Claude to re-arm, replacing the no-timeout `persistent` option. Added to the Monitor Tool collapsible.
+- **[Claude] CBP-563 — Fast mode in Remote sessions.** As of v2.1.271, fast mode works in Claude Code Remote sessions (cloud and self-hosted runners), following the host's fast-mode setting or `/fast` typed in the session. Added to the Remote Control & Cross-Device collapsible.
+
 ### v4.1.23 — 2026-09-14
 
 **Claude Code v2.1.265 documentation catch-up (CBP-556 through CBP-557)**

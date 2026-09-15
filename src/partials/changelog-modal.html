@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.24 <span class="changelog-date">· 2026-09-15</span></h3>
+        <p><strong>Claude Code v2.1.271 auto-update.</strong> Six documentation updates covering per-command network allowlisting in auto mode, an agent frontmatter option to skip CLAUDE.md, a scripted plugin-install approval flag, a lowered default Dynamic Workflow size, a Monitor watch deadline change, and fast mode reaching Remote sessions.</p>
+        <ul>
+          <li><strong>CBP-558 Per-command <code>allowed_domains</code> in auto mode.</strong> As of v2.1.271, auto mode with sandboxing supports per-command <code>allowed_domains</code> for Bash, PowerShell, and Monitor — the hosts a command needs are reviewed with it and opened for that command alone. Added to the Subprocess Sandboxing collapsible.</li>
+          <li><strong>CBP-559 <code>omitClaudeMd</code> agent frontmatter.</strong> Documented the new v2.1.271 field that lets a custom or plugin subagent run without user, project, and local CLAUDE.md files (managed policy files still load). Added to the Frontmatter Reference collapsible.</li>
+          <li><strong>CBP-560 <code>--accept-command &lt;sha256&gt;</code> plugin flag.</strong> Added a bullet for the new v2.1.271 flag on <code>claude plugin install</code>/<code>update</code> that accepts exactly the command a prior <code>--json</code> run displayed, for scripted or CI installs.</li>
+          <li><strong>CBP-561 Lowered default Dynamic Workflow size.</strong> As of v2.1.271, the default workflow size is now <code>small</code> on Pro plans, and the <code>medium</code> guideline dropped from 15 to 10 agents. Added to the Dynamic Workflows collapsible.</li>
+          <li><strong>CBP-562 Monitor watch deadline change.</strong> As of v2.1.271, Monitor watches always carry a deadline (30 min max, 10 min in <code>-p</code> runs) and notify Claude to re-arm, replacing the no-timeout <code>persistent</code> option. Added to the Monitor Tool collapsible.</li>
+          <li><strong>CBP-563 Fast mode in Remote sessions.</strong> As of v2.1.271, fast mode works in Claude Code Remote sessions (cloud and self-hosted runners), following the host's fast-mode setting or <code>/fast</code> typed in the session. Added to the Remote Control &amp; Cross-Device collapsible.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.23 <span class="changelog-date">· 2026-09-14</span></h3>
         <p><strong>Claude Code v2.1.265 documentation catch-up.</strong> Two documentation updates completing gaps identified in an earlier assessment: the <code>/workflows</code> agent detail view and VS Code's auto-archive inactive sessions setting.</p>
         <ul>
