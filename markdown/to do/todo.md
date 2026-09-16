@@ -570,3 +570,7 @@
 - [x] `CBP-561` [Claude] Document lowered default Dynamic Workflow size — Dynamic Workflows collapsible (v2.1.271) → [task-cbp-561.md](task-cbp-561.md)
 - [x] `CBP-562` [Claude] Document Monitor watch deadline change — Monitor Tool collapsible (v2.1.271) → [task-cbp-562.md](task-cbp-562.md)
 - [x] `CBP-563` [Claude] Add fast mode in Remote sessions note — Remote Control & Cross-Device collapsible (v2.1.271) → [task-cbp-563.md](task-cbp-563.md)
+- [x] `CBP-564` [Claude] Add `CLAUDE_CODE_GATEWAY_HINT_HEADERS=1` to Notable Environment Variables table (v2.1.273) → [task-cbp-564.md](task-cbp-564.md)
+- [x] `CBP-565` [Claude] Add `CLAUDE_CODE_AUTO_MODE_SERVER=1` to Notable Environment Variables table (v2.1.273) → [task-cbp-565.md](task-cbp-565.md)
+- [x] `CBP-566` [Claude] Add session-forking note to Remote Control & Cross-Device collapsible (v2.1.273) → [task-cbp-566.md](task-cbp-566.md)
+- [x] `CBP-567` [Claude] Update `OTEL_LOG_TOOL_DETAILS=1` description in Monitoring callout (v2.1.273) → [task-cbp-567.md](task-cbp-567.md)

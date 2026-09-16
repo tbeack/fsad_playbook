@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v4.1.25 — 2026-09-15
+
+**Claude Code v2.1.273 auto-update (CBP-564 through CBP-567)**
+
+Four documentation updates covering LLM gateway hint headers, a new auto-mode classifier env var for Bedrock/Vertex/Foundry, session forking from Remote Control, and an expanded OTEL tool-details description.
+
+- **[Claude] CBP-564 — `CLAUDE_CODE_GATEWAY_HINT_HEADERS=1`.** New env var that sends five hint headers (`x-claude-code-request-class`, `x-claude-code-agent-type`, `x-claude-code-prev-tool-durations`, `x-claude-code-compaction`, `x-claude-code-context-compacted`) on every LLM gateway request. Added to the Notable Environment Variables table.
+- **[Claude] CBP-565 — `CLAUDE_CODE_AUTO_MODE_SERVER=1`.** As of v2.1.273, auto mode on Bedrock, Vertex AI, and Foundry uses the local classifier by default; set this var to switch back to the platform's server-side classifier. Added to the Notable Environment Variables table.
+- **[Claude] CBP-566 — Session forking from Remote Control.** Sessions started with `claude --remote-control` or `/remote-control` can now be forked from the Claude app; the fork runs as a background session on your local machine. Added to the Remote Control & Cross-Device collapsible.
+- **[Claude] CBP-567 — Expanded `OTEL_LOG_TOOL_DETAILS=1` coverage.** As of v2.1.273, this env var also surfaces real agent, skill, plugin, and MCP server names on cost and token metrics. Updated the Opt-in Detail Levels callout in the Monitoring collapsible.
+
 ### v4.1.24 — 2026-09-15
 
 **Claude Code v2.1.271 auto-update (CBP-558 through CBP-563)**
