@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.25 <span class="changelog-date">· 2026-09-15</span></h3>
+        <p><strong>Claude Code v2.1.273 auto-update.</strong> Four documentation updates covering LLM gateway hint headers, a new auto-mode classifier env var for Bedrock/Vertex/Foundry, session forking from Remote Control, and an expanded OTEL tool-details description.</p>
+        <ul>
+          <li><strong>CBP-564 <code>CLAUDE_CODE_GATEWAY_HINT_HEADERS=1</code>.</strong> New env var that sends five hint headers (<code>x-claude-code-request-class</code>, <code>x-claude-code-agent-type</code>, <code>x-claude-code-prev-tool-durations</code>, <code>x-claude-code-compaction</code>, <code>x-claude-code-context-compacted</code>) on every LLM gateway request. Added to the Notable Environment Variables table.</li>
+          <li><strong>CBP-565 <code>CLAUDE_CODE_AUTO_MODE_SERVER=1</code>.</strong> As of v2.1.273, auto mode on Bedrock, Vertex AI, and Foundry uses the local classifier by default; set this var to switch back to the platform's server-side classifier. Added to the Notable Environment Variables table.</li>
+          <li><strong>CBP-566 Session forking from Remote Control.</strong> Sessions started with <code>claude --remote-control</code> or <code>/remote-control</code> can now be forked from the Claude app; the fork runs as a background session on your local machine. Added to the Remote Control &amp; Cross-Device collapsible.</li>
+          <li><strong>CBP-567 Expanded <code>OTEL_LOG_TOOL_DETAILS=1</code> coverage.</strong> As of v2.1.273, this env var also surfaces real agent, skill, plugin, and MCP server names on cost and token metrics. Updated the Opt-in Detail Levels callout in the Monitoring collapsible.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.24 <span class="changelog-date">· 2026-09-15</span></h3>
         <p><strong>Claude Code v2.1.271 auto-update.</strong> Six documentation updates covering per-command network allowlisting in auto mode, an agent frontmatter option to skip CLAUDE.md, a scripted plugin-install approval flag, a lowered default Dynamic Workflow size, a Monitor watch deadline change, and fast mode reaching Remote sessions.</p>
         <ul>
