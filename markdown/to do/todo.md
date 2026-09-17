@@ -574,3 +574,6 @@
 - [x] `CBP-565` [Claude] Add `CLAUDE_CODE_AUTO_MODE_SERVER=1` to Notable Environment Variables table (v2.1.273) → [task-cbp-565.md](task-cbp-565.md)
 - [x] `CBP-566` [Claude] Add session-forking note to Remote Control & Cross-Device collapsible (v2.1.273) → [task-cbp-566.md](task-cbp-566.md)
 - [x] `CBP-567` [Claude] Update `OTEL_LOG_TOOL_DETAILS=1` description in Monitoring callout (v2.1.273) → [task-cbp-567.md](task-cbp-567.md)
+- [x] `CBP-568` [Claude] Add `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` to Subprocess Sandboxing hardening env vars (v2.1.274) → [task-cbp-568.md](task-cbp-568.md)
+- [x] `CBP-569` [Claude] Extend Subprocess Sandboxing paragraph — special shell-variable checks + worktree nested-expansion refusal (v2.1.274) → [task-cbp-569.md](task-cbp-569.md)
+- [x] `CBP-570` [Claude] Update `/code-review` Cheat Sheet row — leaner inline review prompts for untuned models (v2.1.274) → [task-cbp-570.md](task-cbp-570.md)
