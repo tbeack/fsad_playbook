@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.26 — 2026-09-17
+
+**Claude Code v2.1.274 auto-update (CBP-568 through CBP-570)**
+
+Three documentation updates covering a new MCP startup-wait env var, two Bash permission-check tightenings, and a leaner `/code-review` execution path for untuned models.
+
+- **[Claude] CBP-568 — `CLAUDE_CODE_MCP_STARTUP_WAIT_MS`.** New env var bounding how long the first non-interactive (`-p` / headless) turn waits for still-connecting MCP servers; `0` disables the wait entirely. Added to the Subprocess Sandboxing hardening env vars table.
+- **[Claude] CBP-569 — Two Bash permission-check tightenings.** As of v2.1.274, commands that loop over or assign certain special shell variables now require approval, and worktree-isolated sessions refuse Bash commands with certain nested shell expansions that were previously accepted. Updated the Subprocess Sandboxing collapsible's opening paragraph.
+- **[Claude] CBP-570 — Leaner `/code-review` execution for untuned models.** As of v2.1.274, `/code-review` runs leaner inline review prompts — instead of spawning many review subagents — for any model without its own tuned review settings. Updated the `/code-review` Cheat Sheet row.
+
 ### v4.1.25 — 2026-09-15
 
 **Claude Code v2.1.273 auto-update (CBP-564 through CBP-567)**

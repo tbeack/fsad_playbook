@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.26 <span class="changelog-date">· 2026-09-17</span></h3>
+        <p><strong>Claude Code v2.1.274 auto-update.</strong> Three documentation updates covering a new MCP startup-wait env var, two Bash permission-check tightenings, and a leaner <code>/code-review</code> execution path for untuned models.</p>
+        <ul>
+          <li><strong>CBP-568 <code>CLAUDE_CODE_MCP_STARTUP_WAIT_MS</code>.</strong> New env var bounding how long the first non-interactive (<code>-p</code> / headless) turn waits for still-connecting MCP servers; <code>0</code> disables the wait entirely. Added to the Subprocess Sandboxing hardening env vars table.</li>
+          <li><strong>CBP-569 Two Bash permission-check tightenings.</strong> As of v2.1.274, commands that loop over or assign certain special shell variables now require approval, and worktree-isolated sessions refuse Bash commands with certain nested shell expansions that were previously accepted. Updated the Subprocess Sandboxing collapsible's opening paragraph.</li>
+          <li><strong>CBP-570 Leaner <code>/code-review</code> execution for untuned models.</strong> As of v2.1.274, <code>/code-review</code> runs leaner inline review prompts — instead of spawning many review subagents — for any model without its own tuned review settings. Updated the <code>/code-review</code> Cheat Sheet row.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.25 <span class="changelog-date">· 2026-09-15</span></h3>
         <p><strong>Claude Code v2.1.273 auto-update.</strong> Four documentation updates covering LLM gateway hint headers, a new auto-mode classifier env var for Bedrock/Vertex/Foundry, session forking from Remote Control, and an expanded OTEL tool-details description.</p>
         <ul>
