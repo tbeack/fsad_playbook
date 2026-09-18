@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v4.1.28 — 2026-09-18
+
+**[Codex] Codex CLI rust-v0.155.0 auto-update (CBP-576 through CBP-581)**
+
+Six documentation updates covering a new experimental voice-conversation mode, agents-dashboard task management, worktree ownership details, Touch ID for MCP requests, remote-control daemon update scheduling, and command-sourced Bedrock credentials.
+
+- **[Codex] CBP-576 — Worktree Sessions — ownership details + confirmed deletion.** As of rust-v0.155.0, the worktree browser shows ownership details for each worktree, and deleting a clean, managed worktree now asks for confirmation first. Updated the `/worktree` Cheat Sheet row and the Worktree Sessions collapsible.
+- **[Codex] CBP-577 — Agents dashboard — hide, archive, delete.** The `codex agents` interactive dashboard gains task hiding, archiving, and deletion, alongside its existing search/start/open/rename/stop actions. Updated the Multi-Agent Workflows collapsible.
+- **[Codex] CBP-578 — Touch ID verification for MCP requests.** On supported Macs, Codex can require Touch ID confirmation before honoring an MCP request in a local TUI session — an extra identity check on top of project trust and managed-auth protections. Updated the Project Trust & Managed Auth callout.
+- **[Codex] CBP-579 — `codex remote-control` daemon update scheduling.** The app-server daemon's auto-update schedule is now configurable, `codex app-server daemon update` triggers an update on demand, and saved threads/active goals recover automatically after a daemon restart. Updated the `codex remote-control` Cheat Sheet row.
+- **[Codex] CBP-580 — Amazon Bedrock — command-sourced AWS credentials.** Bedrock can now obtain AWS credentials by running a configured command, with the result cached and refreshed automatically as it nears expiration, plus recovery if authentication fails. Updated the Amazon Bedrock collapsible.
+- **[Codex] CBP-581 — `/voice` experimental voice conversations.** New experimental mode enabled via `/experimental`: `/voice` starts a live, transcribed voice session with a mute shortcut and recording-activity indicator. Added a Cheat Sheet row and a new Voice Conversations collapsible.
+
 ### v4.1.27 — 2026-09-18
 
 **Claude Code v2.1.275/v2.1.276 auto-update (CBP-571 through CBP-575)**
