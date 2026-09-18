@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.28 <span class="changelog-date">· 2026-09-18</span></h3>
+        <p><strong>[Codex] Codex CLI rust-v0.155.0 auto-update.</strong> Six documentation updates covering a new experimental voice-conversation mode, agents-dashboard task management, worktree ownership details, Touch ID for MCP requests, remote-control daemon update scheduling, and command-sourced Bedrock credentials.</p>
+        <ul>
+          <li><strong>[Codex] CBP-576 Worktree Sessions — ownership details + confirmed deletion.</strong> As of rust-v0.155.0, the worktree browser shows ownership details for each worktree, and deleting a clean, managed worktree now asks for confirmation first. Updated the <code>/worktree</code> Cheat Sheet row and the Worktree Sessions collapsible.</li>
+          <li><strong>[Codex] CBP-577 Agents dashboard — hide, archive, delete.</strong> The <code>codex agents</code> interactive dashboard gains task hiding, archiving, and deletion, alongside its existing search/start/open/rename/stop actions. Updated the Multi-Agent Workflows collapsible.</li>
+          <li><strong>[Codex] CBP-578 Touch ID verification for MCP requests.</strong> On supported Macs, Codex can require Touch ID confirmation before honoring an MCP request in a local TUI session — an extra identity check on top of project trust and managed-auth protections. Updated the Project Trust &amp; Managed Auth callout.</li>
+          <li><strong>[Codex] CBP-579 <code>codex remote-control</code> daemon update scheduling.</strong> The app-server daemon's auto-update schedule is now configurable, <code>codex app-server daemon update</code> triggers an update on demand, and saved threads/active goals recover automatically after a daemon restart. Updated the <code>codex remote-control</code> Cheat Sheet row.</li>
+          <li><strong>[Codex] CBP-580 Amazon Bedrock — command-sourced AWS credentials.</strong> Bedrock can now obtain AWS credentials by running a configured command, with the result cached and refreshed automatically as it nears expiration, plus recovery if authentication fails. Updated the Amazon Bedrock collapsible.</li>
+          <li><strong>[Codex] CBP-581 <code>/voice</code> experimental voice conversations.</strong> New experimental mode enabled via <code>/experimental</code>: <code>/voice</code> starts a live, transcribed voice session with a mute shortcut and recording-activity indicator. Added a Cheat Sheet row and a new Voice Conversations collapsible.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.27 <span class="changelog-date">· 2026-09-18</span></h3>
         <p><strong>Claude Code v2.1.275/v2.1.276 auto-update.</strong> Five documentation updates covering a new send-now key binding, claude.ai skill/plugin sync reaching terminal sessions, a <code>/plugin install --marketplace</code> flag, an OTEL headers-helper startup warning, and auto-approved artifact saves from scheduled/Run-now routines.</p>
         <ul>
