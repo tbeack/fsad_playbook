@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.27 — 2026-09-18
+
+**Claude Code v2.1.275/v2.1.276 auto-update (CBP-571 through CBP-575)**
+
+Five documentation updates covering a new send-now key binding, claude.ai skill/plugin sync reaching terminal sessions, a `/plugin install --marketplace` flag, an OTEL headers-helper startup warning, and auto-approved artifact saves from scheduled/Run-now routines.
+
+- **[Claude] CBP-571 — Send-now key binding.** `Ctrl+Enter` / `Ctrl+X` `Ctrl+S` interrupts the current turn and sends all queued messages at once; sent and queued messages show in gray until Claude receives them. Added to the Keyboard Shortcuts table.
+- **[Claude] CBP-572 — Terminal sync from claude.ai.** Skills and plugins enabled on your claude.ai account now sync to terminal sessions signed in with that account, the same way they already sync to cloud sessions. Opt out with `syncClaudeAiSkills` / `syncClaudeAiPlugins` in `settings.json`. Updated the Skills page and the Plugins collapsible.
+- **[Claude] CBP-573 — `/plugin install --marketplace`.** Install a plugin by name and offer to add its marketplace in the same step, instead of requiring the marketplace to already be registered. Updated the Plugins collapsible.
+- **[Claude] CBP-574 — `otelHeadersHelper` startup warning.** Claude Code now logs a startup warning when a configured `otelHeadersHelper` fails, so a session silently exporting no telemetry is noticed. Updated the Notable settings.json Keys entry and the Monitoring collapsible.
+- **[Claude] CBP-575 — Scheduled/Run-now routine artifact auto-approval.** A scheduled or Run-now routine run now saves data to, and republishes the page of, an artifact you can already edit without asking each time; a public artifact, a first publish, and any delete still ask. Added to Notable settings.json Keys.
+
 ### v4.1.26 — 2026-09-17
 
 **Claude Code v2.1.274 auto-update (CBP-568 through CBP-570)**
