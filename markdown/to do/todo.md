@@ -577,3 +577,8 @@
 - [x] `CBP-568` [Claude] Add `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` to Subprocess Sandboxing hardening env vars (v2.1.274) → [task-cbp-568.md](task-cbp-568.md)
 - [x] `CBP-569` [Claude] Extend Subprocess Sandboxing paragraph — special shell-variable checks + worktree nested-expansion refusal (v2.1.274) → [task-cbp-569.md](task-cbp-569.md)
 - [x] `CBP-570` [Claude] Update `/code-review` Cheat Sheet row — leaner inline review prompts for untuned models (v2.1.274) → [task-cbp-570.md](task-cbp-570.md)
+- [x] `CBP-571` [Claude] Add send-now key binding (Ctrl+Enter / Ctrl+X Ctrl+S) to Keyboard Shortcuts table (v2.1.275) → [task-cbp-571.md](task-cbp-571.md)
+- [x] `CBP-572` [Claude] Add terminal sync from claude.ai (`syncClaudeAiSkills`/`syncClaudeAiPlugins`) to Skills page and Plugins collapsible (v2.1.275) → [task-cbp-572.md](task-cbp-572.md)
+- [x] `CBP-573` [Claude] Add `/plugin install --marketplace` flag note to Plugins collapsible (v2.1.275) → [task-cbp-573.md](task-cbp-573.md)
+- [x] `CBP-574` [Claude] Update `otelHeadersHelper` note — startup warning on failure (v2.1.275) → [task-cbp-574.md](task-cbp-574.md)
+- [x] `CBP-575` [Claude] Add scheduled/Run-now routine artifact auto-approval note to Notable settings.json Keys (v2.1.275) → [task-cbp-575.md](task-cbp-575.md)
