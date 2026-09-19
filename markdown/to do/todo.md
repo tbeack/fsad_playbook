@@ -588,3 +588,7 @@
 - [x] `CBP-579` [Codex] Update `codex remote-control` row — daemon update schedules + restart recovery (rust-v0.155.0) → [task-cbp-579.md](task-cbp-579.md)
 - [x] `CBP-580` [Codex] Update Amazon Bedrock collapsible — command-sourced AWS credentials (rust-v0.155.0) → [task-cbp-580.md](task-cbp-580.md)
 - [x] `CBP-581` [Codex] Add `/voice` Cheat Sheet row + Voice Conversations collapsible (rust-v0.155.0) → [task-cbp-581.md](task-cbp-581.md)
+- [x] `CBP-582` [Claude] Update `/status` cheat sheet row — add "Auto mode server" indicator (v2.1.278) → [task-cbp-582.md](task-cbp-582.md)
+- [x] `CBP-583` [Claude] Update `CLAUDE_CODE_AUTO_MODE_SERVER` env var row — default now server-side, `=0` opts out (v2.1.278) → [task-cbp-583.md](task-cbp-583.md)
+- [x] `CBP-584` [Claude] Add AGENTS.md fallback note to Claude Code practices — Claude Code reads AGENTS.md when no CLAUDE.md present (v2.1.277) → [task-cbp-584.md](task-cbp-584.md)
+- [x] `CBP-585` [Claude] Add `CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY=1` to Notable Environment Variables table (v2.1.277) → [task-cbp-585.md](task-cbp-585.md)

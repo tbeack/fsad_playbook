@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.29 <span class="changelog-date">· 2026-09-19</span></h3>
+        <p><strong>Claude Code v2.1.277/v2.1.278 auto-update.</strong> Four documentation updates covering the new server-side auto mode classifier default, a new <code>/status</code> indicator row, AGENTS.md fallback support, and a new gateway egress-boundary env var.</p>
+        <ul>
+          <li><strong>CBP-582 — <code>/status</code> "Auto mode server" row.</strong> Claude Code v2.1.278 added an "Auto mode server" row to <code>/status</code> output, showing whether the current session's auto mode classifier runs on the server or locally. Updated the Cheat Sheet <code>/status</code> row.</li>
+          <li><strong>CBP-583 — <code>CLAUDE_CODE_AUTO_MODE_SERVER</code> default flip.</strong> As of v2.1.278, the server-side classifier is now the default for Claude API and Enterprise users, and on Bedrock, Vertex, Foundry, and gateways; <code>CLAUDE_CODE_AUTO_MODE_SERVER=0</code> opts out to the local classifier. Rewrote the Notable Environment Variables row.</li>
+          <li><strong>CBP-584 — AGENTS.md fallback for Claude Code.</strong> As of v2.1.277, Claude Code reads <code>AGENTS.md</code> instead of <code>CLAUDE.md</code> when no <code>CLAUDE.md</code> is present in a project. Updated the Codex Equivalent callout in Project Anatomy.</li>
+          <li><strong>CBP-585 — <code>CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY</code>.</strong> New v2.1.277 env var for Claude apps gateways whose only egress path is a forward proxy — passes the proxy the hostname instead of resolving it locally. Added to the Notable Environment Variables table.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.28 <span class="changelog-date">· 2026-09-18</span></h3>
         <p><strong>[Codex] Codex CLI rust-v0.155.0 auto-update.</strong> Six documentation updates covering a new experimental voice-conversation mode, agents-dashboard task management, worktree ownership details, Touch ID for MCP requests, remote-control daemon update scheduling, and command-sourced Bedrock credentials.</p>
         <ul>
