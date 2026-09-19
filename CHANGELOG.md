@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v4.1.29 — 2026-09-19
+
+**Claude Code v2.1.277/v2.1.278 auto-update (CBP-582 through CBP-585)**
+
+Four documentation updates covering the new server-side auto mode classifier default, a new `/status` indicator row, AGENTS.md fallback support, and a new gateway egress-boundary env var.
+
+- **[Claude] CBP-582 — `/status` "Auto mode server" row.** Claude Code v2.1.278 added an "Auto mode server" row to `/status` output, showing whether the current session's auto mode classifier runs on the server or locally. Updated the Cheat Sheet `/status` row.
+- **[Claude] CBP-583 — `CLAUDE_CODE_AUTO_MODE_SERVER` default flip.** As of v2.1.278, the server-side classifier is now the default for Claude API and Enterprise users, and on Bedrock, Vertex, Foundry, and gateways (no billing for classifier overhead); `CLAUDE_CODE_AUTO_MODE_SERVER=0` opts out to the local classifier. Previously (v2.1.273) the local classifier was the default on Bedrock/Vertex/Foundry with `=1` to opt in to server-side. Rewrote the Notable Environment Variables row.
+- **[Claude] CBP-584 — AGENTS.md fallback for Claude Code.** As of v2.1.277, Claude Code reads `AGENTS.md` instead of `CLAUDE.md` when no `CLAUDE.md` is present in a project (configurable under "Project instructions" in `/config`; not yet available on Bedrock, Vertex, or Foundry). Updated the Codex Equivalent callout in Project Anatomy.
+- **[Claude] CBP-585 — `CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY`.** New v2.1.277 env var for Claude apps gateways whose only egress path is a forward proxy — when set, every outbound request passes the proxy the hostname instead of resolving it locally. Added to the Notable Environment Variables table.
+
 ### v4.1.28 — 2026-09-18
 
 **[Codex] Codex CLI rust-v0.155.0 auto-update (CBP-576 through CBP-581)**
