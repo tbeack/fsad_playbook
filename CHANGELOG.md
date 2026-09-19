@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.29 — 2026-09-19
+
+**Claude Code v2.1.277/v2.1.278 auto-update (CBP-582, CBP-583)**
+
+Two documentation updates: Claude Code now reads AGENTS.md as a CLAUDE.md fallback, and auto mode's billing default flips to the server-side classifier.
+
+- **[Claude] CBP-582 — AGENTS.md fallback.** As of v2.1.277, a project with no `CLAUDE.md` causes Claude Code to read `AGENTS.md` instead — the same file Codex CLI already uses; toggle which file is read under Project instructions in `/config` (not yet on Bedrock, Vertex, or Foundry). Added an AGENTS.md Fallback callout and updated the Codex Equivalent cross-reference on the Claude Best Practices page.
+- **[Claude] CBP-583 — Auto mode server-side classifier billing.** As of v2.1.278, auto mode for Claude API and Enterprise users, and on Bedrock, Vertex, Foundry, and gateways, defaults to the server-side classifier, which doesn't charge for classifier overhead; `CLAUDE_CODE_AUTO_MODE_SERVER=0` opts back into the local classifier on Bedrock/Vertex/Foundry/gateways, reversing the var's v2.1.273 polarity. `/status` gains an Auto mode server row. Updated the `CLAUDE_CODE_AUTO_MODE_SERVER` row in the Notable Environment Variables table.
+
 ### v4.1.28 — 2026-09-18
 
 **[Codex] Codex CLI rust-v0.155.0 auto-update (CBP-576 through CBP-581)**

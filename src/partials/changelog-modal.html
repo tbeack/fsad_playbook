@@ -6,6 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.29 <span class="changelog-date">· 2026-09-19</span></h3>
+        <p><strong>Claude Code v2.1.277/v2.1.278 auto-update.</strong> Two documentation updates: Claude Code now reads AGENTS.md as a CLAUDE.md fallback, and auto mode's billing default flips to the server-side classifier.</p>
+        <ul>
+          <li><strong>CBP-582 AGENTS.md fallback.</strong> As of v2.1.277, a project with no <code>CLAUDE.md</code> causes Claude Code to read <code>AGENTS.md</code> instead — the same file Codex CLI already uses; toggle which file is read under Project instructions in <code>/config</code> (not yet on Bedrock, Vertex, or Foundry). Added an AGENTS.md Fallback callout and updated the Codex Equivalent cross-reference on the Claude Best Practices page.</li>
+          <li><strong>CBP-583 Auto mode server-side classifier billing.</strong> As of v2.1.278, auto mode for Claude API and Enterprise users, and on Bedrock, Vertex, Foundry, and gateways, defaults to the server-side classifier, which doesn't charge for classifier overhead; <code>CLAUDE_CODE_AUTO_MODE_SERVER=0</code> opts back into the local classifier on Bedrock/Vertex/Foundry/gateways, reversing the var's v2.1.273 polarity. <code>/status</code> gains an Auto mode server row. Updated the <code>CLAUDE_CODE_AUTO_MODE_SERVER</code> row in the Notable Environment Variables table.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.28 <span class="changelog-date">· 2026-09-18</span></h3>
         <p><strong>[Codex] Codex CLI rust-v0.155.0 auto-update.</strong> Six documentation updates covering a new experimental voice-conversation mode, agents-dashboard task management, worktree ownership details, Touch ID for MCP requests, remote-control daemon update scheduling, and command-sourced Bedrock credentials.</p>
         <ul>

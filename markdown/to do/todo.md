@@ -588,3 +588,5 @@
 - [x] `CBP-579` [Codex] Update `codex remote-control` row — daemon update schedules + restart recovery (rust-v0.155.0) → [task-cbp-579.md](task-cbp-579.md)
 - [x] `CBP-580` [Codex] Update Amazon Bedrock collapsible — command-sourced AWS credentials (rust-v0.155.0) → [task-cbp-580.md](task-cbp-580.md)
 - [x] `CBP-581` [Codex] Add `/voice` Cheat Sheet row + Voice Conversations collapsible (rust-v0.155.0) → [task-cbp-581.md](task-cbp-581.md)
+- [x] `CBP-582` [Claude] Add AGENTS.md fallback callout + update Codex Equivalent cross-reference (v2.1.277) → [task-cbp-582.md](task-cbp-582.md)
+- [x] `CBP-583` [Claude] Fix `CLAUDE_CODE_AUTO_MODE_SERVER` env var row — default flipped to server-side classifier (v2.1.278) → [task-cbp-583.md](task-cbp-583.md)

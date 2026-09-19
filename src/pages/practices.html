@@ -709,10 +709,16 @@ description: Structured code review with security and quality checks
       </ul>
     </div>
 
-    <!-- Codex cross-reference -->
+    <!-- AGENTS.md fallback -->
     <div class="callout callout-tip" style="margin-top:2rem;">
+      <div class="callout-title">AGENTS.md Fallback</div>
+      <p>As of v2.1.277, a project with <strong>no <code>CLAUDE.md</code></strong> causes Claude Code to read <code>AGENTS.md</code> instead — the same file Codex CLI already reads by default. Useful for repos shared between both tools: write one file and both agents pick it up, as long as no <code>CLAUDE.md</code> is also present (when both exist, <code>CLAUDE.md</code> wins). Toggle which file is read under <strong>Project instructions</strong> in <code>/config</code>. Not yet available on Bedrock, Vertex, or Foundry.</p>
+    </div>
+
+    <!-- Codex cross-reference -->
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
       <div class="callout-title">Codex Equivalent</div>
-      <p>OpenAI's Codex CLI uses the same layered architecture with different filenames: <code>AGENTS.md</code> instead of <code>CLAUDE.md</code>, <code>.rules/</code> for guardrails, and <code>.agents/skills/</code> for reusable workflows. The cascade model (org → project → user) is identical. See the <strong>Codex Best Practices</strong> page for the full mapping.</p>
+      <p>OpenAI's Codex CLI uses the same layered architecture with different filenames: <code>AGENTS.md</code> instead of <code>CLAUDE.md</code>, <code>.rules/</code> for guardrails, and <code>.agents/skills/</code> for reusable workflows. The cascade model (org → project → user) is identical. Since v2.1.277, Claude Code also falls back to <code>AGENTS.md</code> when a project has none of its own — see the <strong>AGENTS.md Fallback</strong> callout above. See the <strong>Codex Best Practices</strong> page for the full mapping.</p>
     </div>
 </section>
 
@@ -2820,7 +2826,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_USE_POWERSHELL_TOOL=0</code></td><td>Disables the PowerShell tool entirely. The tool is now enabled by default on Windows for Bedrock, Vertex, and Foundry users — use this opt-out in environments where PowerShell access is prohibited.</td></tr>
               <tr><td><code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=N</code></td><td>Maximum number of consecutive stop-hook blocks before the turn ends with a warning. Default: <code>8</code>. Raise the cap if your stop hook legitimately needs more retry cycles; set to <code>1</code> to fail fast.</td></tr>
               <tr><td><code>CLAUDE_CODE_ENABLE_AUTO_MODE=1</code></td><td><strong>Deprecated as of v2.1.207.</strong> Auto mode is now available by default on Amazon Bedrock, Google Vertex AI, and Foundry — no opt-in flag needed. To disable auto mode on these platforms, use <code>disableAutoMode: true</code> in <code>~/.claude/settings.json</code> instead. (Previously required to enable auto mode on Bedrock/Vertex/Foundry for Opus 4.7/4.8 — v2.1.158.)</td></tr>
-              <tr><td><code>CLAUDE_CODE_AUTO_MODE_SERVER=1</code></td><td>On Bedrock, Vertex AI, and Foundry, auto mode uses the <strong>local</strong> permission classifier by default as of v2.1.273. Set this var to switch to the cloud platform's own server-side classifier — useful when that platform's classifier is tuned for your organization's policies (v2.1.273).</td></tr>
+              <tr><td><code>CLAUDE_CODE_AUTO_MODE_SERVER=0</code></td><td>As of v2.1.278, auto mode for Claude API and Enterprise users, and on Bedrock, Vertex AI, Foundry, and gateways, defaults to the platform's <strong>server-side</strong> permission classifier, which doesn't charge for classifier overhead. Set this var to <code>0</code> on Bedrock, Vertex, Foundry, or a gateway to fall back to the local classifier instead; Claude Code warns when a session falls back to billed local classification. <code>/status</code> shows an <strong>Auto mode server</strong> row for whether the session's classifier runs server-side. (Between v2.1.273 and v2.1.277, this var instead opted <em>into</em> the server-side classifier on Bedrock/Vertex/Foundry, with the local classifier as default — v2.1.278 reverses that default.)</td></tr>
               <tr><td><code>API_FORCE_IDLE_TIMEOUT=0</code></td><td>Opts out of the default 5-minute idle timeout on Vertex AI and Foundry deployments (restored in v2.1.169). Stalled streams abort automatically after 5 minutes by default — set to <code>0</code> to disable the timeout for long-running batch jobs or custom streaming pipelines.</td></tr>
               <tr><td><code>CLAUDE_CLIENT_PRESENCE_FILE</code></td><td>Desktop presence — path to a marker file that signals you're at the machine. When the file exists, Claude Code suppresses mobile push notifications. Create the file at session start and delete it when you step away (v2.1.181)</td></tr>
               <tr><td><code>CLAUDE_CODE_RETRY_WATCHDOG</code></td><td>For unattended / CI sessions that need more than 15 retry attempts. Set to an integer (e.g. <code>30</code>) to allow that many retries. Use this instead of <code>CLAUDE_CODE_MAX_RETRIES</code>, which is now capped at 15 and should not be set higher. Designed for long-running automation where transient API errors should not abort a session (v2.1.186). As of v2.1.239, retries stop immediately on organization spend-limit and out-of-credits errors instead of waiting indefinitely for a reset — these are treated as unrecoverable rather than transient.</td></tr>
