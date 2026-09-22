@@ -592,3 +592,8 @@
 - [x] `CBP-583` [Claude] Update `CLAUDE_CODE_AUTO_MODE_SERVER` env var row — default now server-side, `=0` opts out (v2.1.278) → [task-cbp-583.md](task-cbp-583.md)
 - [x] `CBP-584` [Claude] Add AGENTS.md fallback note to Claude Code practices — Claude Code reads AGENTS.md when no CLAUDE.md present (v2.1.277) → [task-cbp-584.md](task-cbp-584.md)
 - [x] `CBP-585` [Claude] Add `CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY=1` to Notable Environment Variables table (v2.1.277) → [task-cbp-585.md](task-cbp-585.md)
+- [x] `CBP-586` [Claude] Update `Ctrl+L` / `Cmd+K` keyboard shortcut row — v2.1.260 transcript-clear behavior reverted in v2.1.280 → [task-cbp-586.md](task-cbp-586.md)
+- [x] `CBP-587` [Claude] Add Claude Opus 5.5 to model comparison table + update `best`/`opus` alias row (v2.1.280) → [task-cbp-587.md](task-cbp-587.md)
+- [x] `CBP-588` [Claude] Update `default` alias row — Pro and Team Std now default to Opus, not Sonnet 5 (v2.1.280) → [task-cbp-588.md](task-cbp-588.md)
+- [x] `CBP-589` [Claude] Add `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` to Notable Environment Variables table (v2.1.280) → [task-cbp-589.md](task-cbp-589.md)
+- [x] `CBP-590` [Claude] Add note to PermissionRequest hook row — agent-type hooks not accepted; use command or http only (v2.1.280) → [task-cbp-590.md](task-cbp-590.md)
