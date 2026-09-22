@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.30 — 2026-09-22
+
+**Claude Code v2.1.280 auto-update (CBP-586 through CBP-590)**
+
+Five documentation updates covering the new Claude Opus 5.5 default model, a Pro/Team Std default-model change, a reverted keyboard shortcut, a new MCP description-length env var, and a `PermissionRequest` hook restriction.
+
+- **[Claude] CBP-586 — `Ctrl+L` / `Cmd+K` transcript-clear revert.** v2.1.280 reverted the v2.1.260 behavior where these keys cleared the transcript view in fullscreen mode — both keys now redraw the screen again (original readline behavior).
+- **[Claude] CBP-587 — Claude Opus 5.5 added to model comparison.** v2.1.280 added Claude Opus 5.5 (`claude-opus-5-5`) as the new default Opus model, with a 1M context window, $4/$20 per Mtok pricing (cheaper than Opus 5 at $10/$50), and $0.20/Mtok cache reads.
+- **[Claude] CBP-588 — `default` alias row updated for Pro/Team Std.** v2.1.280 changed the default model on Pro and Team Standard plans from Sonnet to Opus, matching Max, Team Premium, and Enterprise.
+- **[Claude] CBP-589 — `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` env var.** New in v2.1.280: controls the character cap on MCP tool descriptions and server instructions for every MCP server in the session. The default cap is 2,048 characters.
+- **[Claude] CBP-590 — `PermissionRequest` hook restriction.** v2.1.280 changed `PermissionRequest` hooks so an agent-type hook no longer runs there, since its answer could never allow or deny the request — it now shows an error pointing to command or http hooks.
+
 ### v4.1.29 — 2026-09-19
 
 **Claude Code v2.1.277/v2.1.278 auto-update (CBP-582 through CBP-585)**

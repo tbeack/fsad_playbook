@@ -1679,7 +1679,8 @@ smoke tests against the staging URL."</code></pre>
           <tr>
             <th>Capability</th>
             <th>Fable 5.1 <span style="font-size:0.7em; font-weight:500; color:var(--accent); vertical-align:middle;">New</span></th>
-            <th>Opus 5 <span style="font-size:0.7em; font-weight:500; color:var(--accent); vertical-align:middle;">New</span></th>
+            <th>Opus 5.5 <span style="font-size:0.7em; font-weight:500; color:var(--accent); vertical-align:middle;">New</span></th>
+            <th>Opus 5</th>
             <th>Opus 4.8</th>
             <th>Opus 4.7</th>
             <th>Sonnet 4.6</th>
@@ -1687,14 +1688,14 @@ smoke tests against the staging URL."</code></pre>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Positioning</td><td>Mythos-class — most capable model ever made generally available; 5.1 is now the default Fable model (v2.1.257)</td><td>Next-gen Opus — 1M context, fast mode; now default <code>opus</code> alias (v2.1.219)</td><td>Frontier reasoning, agentic coding, long-horizon autonomy</td><td>Frontier reasoning + agentic coding</td><td>Balanced daily driver</td><td>Fast, near-frontier</td></tr>
-          <tr><td>API ID</td><td><code>claude-fable-5-1</code></td><td><code>claude-opus-5</code></td><td><code>claude-opus-4-8</code></td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5</code></td></tr>
-          <tr><td>Input / Output (per MTok)</td><td>$10 / $50, $0.25/Mtok cache reads</td><td>$10 / $50 (fast mode)</td><td>$5 / $25</td><td>$5 / $25</td><td>$3 / $15</td><td>$1 / $5</td></tr>
-          <tr><td>Context window</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>200K tokens</td></tr>
-          <tr><td>Max output</td><td>See docs</td><td>See docs</td><td>128K</td><td>128K</td><td>64K</td><td>64K</td></tr>
-          <tr><td>Adaptive thinking</td><td>Yes</td><td>Yes</td><td>Yes (default <code>high</code>)</td><td>Yes (default <code>xhigh</code>)</td><td>Yes</td><td>No (extended thinking only)</td></tr>
-          <tr><td>Relative latency</td><td>See docs</td><td>See docs</td><td>Moderate</td><td>Moderate</td><td>Fast</td><td>Fastest</td></tr>
-          <tr><td>Best for</td><td>Highest-stakes reasoning, frontier capability tasks, architecture, RCA</td><td>Complex reasoning, architecture, gnarly bugs — when Fable 5.1 is over-budget</td><td>Long-horizon agentic coding, multi-day projects, computer-use, architecture</td><td>Long-horizon agentic coding, large refactors, architecture, RCA</td><td>80%+ of day-to-day coding, tests, tool use</td><td>Sub-agent work, batch reviews, mechanical edits</td></tr>
+          <tr><td>Positioning</td><td>Mythos-class — most capable model ever made generally available; 5.1 is now the default Fable model (v2.1.257)</td><td>New default Opus model — 1M context; now default <code>opus</code> alias (v2.1.280)</td><td>Previous default Opus — superseded by Opus 5.5 (v2.1.280)</td><td>Frontier reasoning, agentic coding, long-horizon autonomy</td><td>Frontier reasoning + agentic coding</td><td>Balanced daily driver</td><td>Fast, near-frontier</td></tr>
+          <tr><td>API ID</td><td><code>claude-fable-5-1</code></td><td><code>claude-opus-5-5</code></td><td><code>claude-opus-5</code></td><td><code>claude-opus-4-8</code></td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5</code></td></tr>
+          <tr><td>Input / Output (per MTok)</td><td>$10 / $50, $0.25/Mtok cache reads</td><td>$4 / $20, $0.20/Mtok cache reads</td><td>$10 / $50 (fast mode)</td><td>$5 / $25</td><td>$5 / $25</td><td>$3 / $15</td><td>$1 / $5</td></tr>
+          <tr><td>Context window</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>200K tokens</td></tr>
+          <tr><td>Max output</td><td>See docs</td><td>See docs</td><td>See docs</td><td>128K</td><td>128K</td><td>64K</td><td>64K</td></tr>
+          <tr><td>Adaptive thinking</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes (default <code>high</code>)</td><td>Yes (default <code>xhigh</code>)</td><td>Yes</td><td>No (extended thinking only)</td></tr>
+          <tr><td>Relative latency</td><td>See docs</td><td>See docs</td><td>See docs</td><td>Moderate</td><td>Moderate</td><td>Fast</td><td>Fastest</td></tr>
+          <tr><td>Best for</td><td>Highest-stakes reasoning, frontier capability tasks, architecture, RCA</td><td>Complex reasoning, architecture, gnarly bugs — when Fable 5.1 is over-budget</td><td>Complex reasoning, architecture, gnarly bugs — when Opus 5.5 is unavailable</td><td>Long-horizon agentic coding, multi-day projects, computer-use, architecture</td><td>Long-horizon agentic coding, large refactors, architecture, RCA</td><td>80%+ of day-to-day coding, tests, tool use</td><td>Sub-agent work, batch reviews, mechanical edits</td></tr>
         </tbody>
       </table>
     </div>
@@ -1704,9 +1705,9 @@ smoke tests against the staging URL."</code></pre>
       <table class="styled-table">
         <thead><tr><th>Alias</th><th>Resolves to</th><th>When to use</th></tr></thead>
         <tbody>
-          <tr><td><code>default</code></td><td>Tier-dependent (Max / Team Premium → Opus 4.8; Pro / Team Std / Enterprise / API → Sonnet 5; Bedrock / Vertex / Foundry → Opus 4.8)</td><td>Daily driver if unsure</td></tr>
+          <tr><td><code>default</code></td><td>Tier-dependent — Opus on Max, Team Premium, Pro, Team Std, and Enterprise (changed in v2.1.280: Pro and Team Std moved from Sonnet 5 to Opus, matching Max, Team Premium, and Enterprise); API → Sonnet 5; Bedrock / Vertex / Foundry → Opus 4.8</td><td>Daily driver if unsure</td></tr>
           <tr><td><code>fable</code></td><td>Claude Fable 5.1 (<code>claude-fable-5-1</code>) — Mythos-class frontier model, now the default Fable model as of v2.1.257 (supersedes Fable 5, v2.1.170+). Includes 1M context by default — <code>fable[1m]</code> suffix is redundant and stripped automatically (v2.1.173)</td><td>Highest-stakes reasoning, frontier capability tasks</td></tr>
-          <tr><td><code>best</code> / <code>opus</code></td><td>Claude Opus 5 (<code>claude-opus-5</code>) — now the default Opus model (v2.1.219). 1M context window; fast mode at $10/$50 per MTok. Previously resolved to Opus 4.8.</td><td>Complex reasoning, architecture, gnarly bugs</td></tr>
+          <tr><td><code>best</code> / <code>opus</code></td><td>Claude Opus 5.5 (<code>claude-opus-5-5</code>) — now the default Opus model (v2.1.280). 1M context window; $4/$20 per MTok, $0.20/Mtok cache reads. Previously resolved to Opus 5 (<code>claude-opus-5</code>).</td><td>Complex reasoning, architecture, gnarly bugs</td></tr>
           <tr><td><code>sonnet</code></td><td>Claude Sonnet 5 — now the default Claude Code model (v2.1.197). Native 1M-token context window; promotional pricing $2/$10 per MTok through August 31, 2026. (4.5 on Bedrock / Vertex / Foundry)</td><td>80%+ of coding tasks; daily driver</td></tr>
           <tr><td><code>haiku</code></td><td>Latest Haiku</td><td>Cheap sub-agent / background work</td></tr>
           <tr><td><code>opus[1m]</code> / <code>sonnet[1m]</code></td><td>1M context variant</td><td>Long-session work across large codebases</td></tr>
@@ -1781,6 +1782,7 @@ smoke tests against the staging URL."</code></pre>
     <div class="callout callout-warning" style="margin-top:0.75rem;">
       <div class="callout-title">Key Dates (Apr–Jul 2026)</div>
       <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
+        <li><strong>September 22, 2026</strong> — <strong>Claude Opus 5.5 released</strong> (<code>claude-opus-5-5</code>). Now the default <code>opus</code> alias target. 1M context; $4/$20 per MTok, $0.20/Mtok cache reads. Requires Claude Code v2.1.280+.</li>
         <li><strong>September 1, 2026</strong> — <strong>Claude Fable 5.1 released</strong> (<code>claude-fable-5-1</code>). Now the default Fable model. 1M context; $10/$50 per MTok, $0.25/Mtok cache reads. Requires Claude Code v2.1.257+.</li>
         <li><strong>July 25, 2026</strong> — <strong>Claude Opus 5 released</strong> (<code>claude-opus-5</code>). Now the default <code>opus</code> alias target. 1M context window; fast mode pricing at $10/$50 per MTok. Requires Claude Code v2.1.219+.</li>
         <li><strong>June 9, 2026</strong> — <strong>Claude Fable 5 released</strong> (<code>claude-fable-5</code>). Mythos-class model — "capabilities exceed those of any model we've ever made generally available." Update Claude Code to v2.1.170 for access. <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" target="_blank" style="color:var(--accent);">Announcement →</a></li>
@@ -1835,7 +1837,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><kbd>Esc</kbd></td><td>Interrupt / stop generation. In fullscreen mode it no longer clears a mouse text selection — the highlight stays put while Esc interrupts or dismisses as usual. Bind the <code>selection:clear</code> action in <code>~/.claude/keybindings.json</code> if you want a key that clears it (v2.1.234)</td></tr>
           <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Rewind / restore previous state</td></tr>
           <tr><td><kbd>Shift+Tab</kbd></td><td>Cycle permission mode: manual &#8594; acceptEdits &#8594; plan &#8594; auto (v2.1.200: "default" renamed to "manual")</td></tr>
-          <tr><td><kbd>Ctrl+L</kbd> / <kbd>Cmd+K</kbd></td><td><kbd>Ctrl+L</kbd> forces a screen redraw (does not clear input — readline behavior as of v2.1.126). In fullscreen mode, as of v2.1.260, both <kbd>Ctrl+L</kbd> and <kbd>Cmd+K</kbd> clear the transcript view like a terminal <code>clear</code> — scroll up to see earlier messages.</td></tr>
+          <tr><td><kbd>Ctrl+L</kbd> / <kbd>Cmd+K</kbd></td><td><kbd>Ctrl+L</kbd> forces a screen redraw (does not clear input — readline behavior as of v2.1.126). In fullscreen mode, <kbd>Ctrl+L</kbd> and <kbd>Cmd+K</kbd> also redraw the screen — the v2.1.260 behavior of clearing the transcript view was reverted in v2.1.280.</td></tr>
           <tr><td><kbd>Ctrl+C</kbd></td><td>Cancel current operation (hard stop)</td></tr>
           <tr><td><kbd>Ctrl+R</kbd></td><td>Search prompt history across all projects (default). Press <kbd>Ctrl+S</kbd> to narrow to the current project or session.</td></tr>
           <tr><td><kbd>Ctrl+S</kbd></td><td>Narrow <kbd>Ctrl+R</kbd> history picker to the current project or session only</td></tr>
@@ -2140,7 +2142,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>PreToolUse</code></td><td>Before EVERY tool use — check, audit, intercept</td></tr>
           <tr><td><code>PostToolUse</code></td><td>After EVERY tool use — lint, format, auto-fix</td></tr>
           <tr><td><code>PostToolUseFailure</code></td><td>After a tool call fails</td></tr>
-          <tr><td><code>PermissionRequest</code></td><td>When a permission prompt is shown</td></tr>
+          <tr><td><code>PermissionRequest</code></td><td>When a permission prompt is shown. Only <code>command</code> and <code>http</code> hook types are accepted here — an agent-type hook now produces an error instead of running (v2.1.280).</td></tr>
           <tr><td><code>PermissionDenied</code></td><td>After a permission is denied in auto mode</td></tr>
         </tbody>
       </table>
@@ -2826,6 +2828,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_RETRY_WATCHDOG</code></td><td>For unattended / CI sessions that need more than 15 retry attempts. Set to an integer (e.g. <code>30</code>) to allow that many retries. Use this instead of <code>CLAUDE_CODE_MAX_RETRIES</code>, which is now capped at 15 and should not be set higher. Designed for long-running automation where transient API errors should not abort a session (v2.1.186). As of v2.1.239, retries stop immediately on organization spend-limit and out-of-credits errors instead of waiting indefinitely for a reset — these are treated as unrecoverable rather than transient.</td></tr>
               <tr><td><code>CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT</code></td><td>Override the default 5-minute abort timeout for remote MCP tool calls that produce no response. Set to an integer number of milliseconds (e.g. <code>300000</code> for 5 min). Increase for slow or high-latency MCP servers; decrease in CI to fail fast on unresponsive tools (v2.1.187).</td></tr>
               <tr><td><code>CLAUDE_CODE_MCP_STARTUP_WAIT_MS</code></td><td>Bounds how long the first non-interactive (<code>-p</code> / headless) turn waits for still-connecting MCP servers before proceeding. Set to <code>0</code> to not wait at all — useful in CI/scripts where a slow-starting MCP server shouldn't delay the first turn (v2.1.274).</td></tr>
+              <tr><td><code>CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH</code></td><td>Changes the 2,048-character cap on MCP tool descriptions and server instructions. The cap applies to every MCP server in the session. Increase if your MCP tools have long descriptions that are truncated; decrease in memory-constrained environments. Set to an integer (e.g. <code>4096</code>). (v2.1.280)</td></tr>
               <tr><td><code>CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1</code></td><td>Disables automatic memory-pressure reaping of idle background shell commands. By default, Claude Code terminates idle background shells when the system is under memory pressure. Set this to preserve long-running background shells (e.g. persistent dev servers) at the cost of higher memory usage (v2.1.193).</td></tr>
               <tr><td><code>CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1</code></td><td>Disables mouse click, drag, and hover events in fullscreen mode while preserving mouse-wheel scroll. Set this in terminals where accidental clicks disrupt the interface — you keep scroll-only mouse interaction in fullscreen TUI sessions (v2.1.195).</td></tr>
               <tr><td><code>CLAUDE_CODE_PROCESS_WRAPPER</code></td><td>Path to an executable that wraps every Claude Code self-spawn — agent view workers and background-service sessions run through this wrapper instead of invoking the binary directly. Use for corporate launchers, security wrappers, audit proxies, or environment injectors that must intercept all spawned subprocesses (v2.1.208).</td></tr>
