@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.31 — 2026-09-23
+
+**Codex rust-v0.156.0 / rust-v0.156.1 auto-update (CBP-591 through CBP-595)**
+
+Five documentation updates covering voice conversations now enabled by default, the new fullscreen `/tui` command, worktree graduating out of experimental status, the `/daemon` and `--no-daemon` daemon controls, and GPT-6 Sol/Luna model additions.
+
+- **[Codex] CBP-591 — Voice conversations now on by default.** rust-v0.156.0 removed the experimental opt-in: voice works out of the box with `/voice`. Added F8 toggle, `/voice settings` picker, and bundled Linux/Windows audio runtimes. Updated the cheat sheet row and the Voice Conversations collapsible.
+- **[Codex] CBP-592 — New `/tui` slash command.** rust-v0.156.0 added `/tui` to switch to a fullscreen TUI on next launch, adding transcript search, mouse text selection, and right-click copying. New row added to the Slash Commands table.
+- **[Codex] CBP-593 — Worktree no longer experimental.** rust-v0.156.0 made worktree support default. Removed "(experimental)" from the `/worktree` cheat sheet row and the Worktree Sessions collapsible; added a note about filtering tasks by status and creating worktree sessions from the agent command center.
+- **[Codex] CBP-594 — `/daemon` and `--no-daemon`.** rust-v0.156.0 added a `/daemon` TUI command to update the background server in place, and a `--no-daemon` CLI flag to bypass it entirely. New rows added to both tables.
+- **[Codex] CBP-595 — GPT-6 Sol and Luna in model picker.** rust-v0.156.1 added GPT-6 Sol and Luna to the model picker; the rate-limit switch prompt now recommends GPT-6 Luna. Updated the OpenAI row in the Multi-Provider Models table.
+
 ### v4.1.30 — 2026-09-22
 
 **Claude Code v2.1.280 auto-update (CBP-586 through CBP-590)**

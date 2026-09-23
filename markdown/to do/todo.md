@@ -597,3 +597,8 @@
 - [x] `CBP-588` [Claude] Update `default` alias row — Pro and Team Std now default to Opus, not Sonnet 5 (v2.1.280) → [task-cbp-588.md](task-cbp-588.md)
 - [x] `CBP-589` [Claude] Add `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` to Notable Environment Variables table (v2.1.280) → [task-cbp-589.md](task-cbp-589.md)
 - [x] `CBP-590` [Claude] Add note to PermissionRequest hook row — agent-type hooks not accepted; use command or http only (v2.1.280) → [task-cbp-590.md](task-cbp-590.md)
+- [x] `CBP-591` [Codex] Update `/voice` cheat sheet row + Voice Conversations collapsible — voice now on by default, F8 toggle, `/voice settings` picker, bundled Linux/Windows runtimes (rust-v0.156.0) → [task-cbp-591.md](task-cbp-591.md)
+- [x] `CBP-592` [Codex] Add `/tui` cheat sheet row — fullscreen UI with transcript search, mouse selection, right-click copying (rust-v0.156.0) → [task-cbp-592.md](task-cbp-592.md)
+- [x] `CBP-593` [Codex] Update `/worktree` cheat sheet row + Worktree Sessions collapsible — remove experimental label, worktree now enabled by default, agent command center task filter (rust-v0.156.0) → [task-cbp-593.md](task-cbp-593.md)
+- [x] `CBP-594` [Codex] Add `/daemon` cheat sheet row + `--no-daemon` CLI flag row (rust-v0.156.0) → [task-cbp-594.md](task-cbp-594.md)
+- [x] `CBP-595` [Codex] Add GPT-6 Sol and Luna to OpenAI row in Multi-Provider Models table; note rate-limit switch recommends Luna (rust-v0.156.1) → [task-cbp-595.md](task-cbp-595.md)

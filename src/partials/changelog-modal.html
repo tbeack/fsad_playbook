@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.31 <span class="changelog-date">· 2026-09-23</span></h3>
+        <p><strong>Codex rust-v0.156.0 / rust-v0.156.1 auto-update.</strong> Five documentation updates covering voice conversations now on by default, the new fullscreen <code>/tui</code> command, worktree graduating out of experimental, the <code>/daemon</code> and <code>--no-daemon</code> daemon controls, and GPT-6 Sol/Luna model additions.</p>
+        <ul>
+          <li><strong>CBP-591 — [Codex] Voice on by default.</strong> rust-v0.156.0 removed the experimental opt-in: voice works out of the box with <code>/voice</code>. Added F8 toggle, <code>/voice settings</code> picker, and bundled Linux/Windows audio runtimes. Updated the cheat sheet row and Voice Conversations collapsible.</li>
+          <li><strong>CBP-592 — [Codex] New <code>/tui</code> slash command.</strong> rust-v0.156.0 added <code>/tui</code> to switch to a fullscreen TUI on next launch, with transcript search, mouse text selection, and right-click copying. New row added to the Slash Commands table.</li>
+          <li><strong>CBP-593 — [Codex] Worktree no longer experimental.</strong> rust-v0.156.0 made worktree support default. Removed "(experimental)" from the <code>/worktree</code> row and collapsible; added a note about task filtering and worktree creation from the agent command center.</li>
+          <li><strong>CBP-594 — [Codex] <code>/daemon</code> and <code>--no-daemon</code>.</strong> rust-v0.156.0 added a <code>/daemon</code> TUI command to update the background server in place and a <code>--no-daemon</code> CLI flag to bypass it. New rows added to both tables.</li>
+          <li><strong>CBP-595 — [Codex] GPT-6 Sol and Luna.</strong> rust-v0.156.1 added GPT-6 Sol and Luna to the model picker; the rate-limit switch prompt recommends GPT-6 Luna. Updated the OpenAI row in the Multi-Provider Models table.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.30 <span class="changelog-date">· 2026-09-22</span></h3>
         <p><strong>Claude Code v2.1.280 auto-update.</strong> Five documentation updates covering the new Claude Opus 5.5 default model, a Pro/Team Std default-model change, a reverted keyboard shortcut, a new MCP description-length env var, and a <code>PermissionRequest</code> hook restriction.</p>
         <ul>
