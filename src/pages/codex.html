@@ -1002,11 +1002,13 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>/permissions</code></td><td>Change approval mode mid-session</td></tr>
           <tr><td><code>/init</code></td><td>Generate an AGENTS.md scaffold for the current project</td></tr>
           <tr><td><code>/import</code></td><td>Migrate settings, MCP servers, plugins, sessions, commands, and project-scoped memories from <strong>Cursor</strong> or <strong>Claude Code</strong>. Selectively import any combination for full cross-tool migration. (v0.140.0, expanded v0.145.0) As of rust-v0.147.0, also imports Cursor-managed skills, and re-running the import synchronizes changes to previously-imported Claude/Cursor conversations without creating duplicates.</td></tr>
-          <tr><td><code>/worktree</code></td><td>Create an isolated checkout for a new or forked session (experimental); browse and resume existing worktree sessions. Equivalent to the <code>--worktree</code> CLI flag. (rust-v0.154.0) As of rust-v0.155.0, the worktree browser shows ownership details for each worktree, and deleting a clean, managed worktree asks for confirmation first.</td></tr>
-          <tr><td><code>/voice</code></td><td>Start an experimental voice conversation with live transcripts and microphone controls; enable first via <code>/experimental</code> (rust-v0.155.0)</td></tr>
+          <tr><td><code>/worktree</code></td><td>Create an isolated checkout for a new or forked session; browse and resume existing worktree sessions. Equivalent to the <code>--worktree</code> CLI flag. (rust-v0.154.0) As of rust-v0.155.0, the worktree browser shows ownership details for each worktree, and deleting a clean, managed worktree asks for confirmation first. As of rust-v0.156.0, worktree support is enabled by default and you can create worktree sessions directly from the agent command center, which also supports filtering tasks by status.</td></tr>
+          <tr><td><code>/tui</code></td><td>Switch to the optional fullscreen TUI for your next launch. The fullscreen mode adds transcript search, mouse-based text selection, and right-click copying. (rust-v0.156.0)</td></tr>
+          <tr><td><code>/voice</code></td><td>Start a voice conversation with live transcripts and microphone controls. Voice is enabled by default as of rust-v0.156.0 — no opt-in needed. Press <kbd>F8</kbd> to toggle the microphone, or use <code>/voice settings</code> to pick a different voice. Bundled audio runtimes are included for Linux and Windows.</td></tr>
           <tr><td><code>/vim</code></td><td>Toggle Vim modal editing in the composer. Set <code>vim_mode = true</code> in <code>config.toml</code> to enable by default.</td></tr>
           <tr><td><code>/keymap</code> <code>[debug]</code></td><td>Remap TUI keyboard shortcuts interactively. As of rust-v0.150.0 you can bind shortcuts to cycle through permission modes. Use <code>/keymap debug</code> to inspect raw terminal key events — helpful when Vim mode or chord bindings don't register.</td></tr>
           <tr><td><code>/statusline</code></td><td>Configure footer status items — including the estimated thread credits/cost item for eligible workspaces (rust-v0.148.0)</td></tr>
+          <tr><td><code>/daemon</code></td><td>Update the local background server from within the TUI. Use the <code>--no-daemon</code> CLI flag at startup to bypass the daemon entirely. (rust-v0.156.0)</td></tr>
           <tr><td><code>/hooks</code></td><td>Browse and toggle configured hooks from the TUI without editing config files</td></tr>
           <tr><td><code>/personality</code></td><td>Set agent personality (friendly / pragmatic / none)</td></tr>
           <tr><td><code>/copy</code></td><td>Copy the latest completed response to clipboard (also <kbd>Ctrl+O</kbd>). As of rust-v0.150.0, opens a picker so you can copy the full response, an individual code block, or a blockquote. As of rust-v0.154.0, copied content preserves formatting when pasted into rich-text apps, and the picker can also copy status output or individual session fields.</td></tr>
@@ -1041,6 +1043,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>--ephemeral</code></td><td>No session persistence (use with <code>exec</code>)</td></tr>
           <tr><td><code>codex update</code></td><td>Update Codex CLI to the latest version</td></tr>
           <tr><td><code>codex remote-control</code></td><td>Start a headless, remotely controllable app-server — a simpler entrypoint than configuring the full app-server stack. Allows external clients to drive a Codex session via the protocol API (v0.130.0). Use <code>codex remote-control pair</code> to generate a manual pairing code from a running daemon when automated OAuth pairing isn't available (rust-v0.143.0). As of rust-v0.155.0, the daemon's auto-update schedule is configurable, <code>codex app-server daemon update</code> triggers an update on demand, and saved threads/active goals recover automatically after a daemon restart.</td></tr>
+          <tr><td><code>--no-daemon</code></td><td>Bypass the local background server and run without a daemon process. Useful when the daemon is not desired or when troubleshooting daemon issues. Use <code>/daemon</code> from within the TUI to update the daemon in place. (rust-v0.156.0)</td></tr>
           <tr><td><code>codex exec fork</code></td><td>Fork an existing session non-interactively from the CLI — branch a thread for scripted or automated follow-up work without opening the TUI (rust-v0.148.0).</td></tr>
           <tr><td><code>codex doctor</code></td><td>Run support-ready diagnostics across runtime, auth, terminal, network, config, storage, and local state. Added in v0.131.0; storage diagnostics added in rust-v0.148.0.</td></tr>
           <tr><td><code>codex agents</code></td><td>Open an interactive dashboard to search, start, open, rename, and stop tasks, with configurable shortcuts (rust-v0.149.0).</td></tr>
@@ -1171,7 +1174,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>As of rust-v0.154.0, Codex supports <strong>experimental worktree sessions</strong> — starting a new or forked session with <code>--worktree</code> or <code>/worktree</code> creates an isolated git worktree checkout for that session, so it can make changes without touching your main working directory. Use <code>/worktree</code> to browse and resume existing worktree sessions from the TUI. As of rust-v0.155.0, the worktree browser shows ownership details for each worktree, and deleting a clean, managed worktree asks for confirmation first.</p>
+        <p>As of rust-v0.154.0, Codex supports <strong>worktree sessions</strong> — starting a new or forked session with <code>--worktree</code> or <code>/worktree</code> creates an isolated git worktree checkout for that session, so it can make changes without touching your main working directory. Use <code>/worktree</code> to browse and resume existing worktree sessions from the TUI. As of rust-v0.155.0, the worktree browser shows ownership details for each worktree, and deleting a clean, managed worktree asks for confirmation first. As of rust-v0.156.0, worktree support is <strong>enabled by default</strong> — no experimental flag needed. The agent command center (<code>codex agents</code>) can now create worktree sessions directly and supports filtering tasks by status.</p>
         <div class="code-block" style="margin-top:1rem;">
           <pre><code><span class="cm"># Start a new session in an isolated worktree</span>
 codex --worktree
@@ -1190,15 +1193,15 @@ codex --worktree
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>As of rust-v0.155.0, Codex supports <strong>experimental voice conversations</strong> — enable the feature with <code>/experimental</code>, then start one with <code>/voice</code>. Voice sessions show a live, on-screen transcript as you speak, with a mute shortcut and a recording-activity indicator in the composer. Available on supported builds.</p>
+        <p>As of rust-v0.156.0, voice conversations are <strong>enabled by default</strong> — no opt-in or <code>/experimental</code> flag needed. Start a voice session with <code>/voice</code> and see a live transcript as you speak. Press <kbd>F8</kbd> to toggle the microphone. Use <code>/voice settings</code> to choose your preferred voice. Bundled audio runtimes are included for Linux and Windows.</p>
         <div class="code-block" style="margin-top:1rem;">
-          <pre><code><span class="cm"># Turn on the experimental voice feature</span>
-/experimental
+          <pre><code><span class="cm"># Start a voice conversation (enabled by default)</span>
+/voice
 
-<span class="cm"># Start a voice conversation</span>
-/voice</code></pre>
+<span class="cm"># Choose a voice</span>
+/voice settings</code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Early-stage feature — expect the controls and transcript styling to keep evolving across releases.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Press <kbd>F8</kbd> from any session to toggle voice without opening a new session.</p>
       </div></div>
     </div>
 
@@ -1348,7 +1351,7 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
           <table class="styled-table">
             <thead><tr><th>Provider</th><th>Example Models</th><th>Configuration</th></tr></thead>
             <tbody>
-              <tr><td>OpenAI</td><td><code>gpt-5.5</code>, <code>codex-mini-latest</code></td><td>Default — uses <code>OPENAI_API_KEY</code></td></tr>
+              <tr><td>OpenAI</td><td><code>gpt-5.5</code>, <code>codex-mini-latest</code>, <code>gpt-6-sol</code>, <code>gpt-6-luna</code></td><td>Default — uses <code>OPENAI_API_KEY</code>. As of rust-v0.156.1, GPT-6 Sol and Luna are available from the model picker; the rate-limit switch prompt recommends GPT-6 Luna.</td></tr>
               <tr><td>Azure OpenAI</td><td>Deployed models</td><td>Azure endpoint + API key</td></tr>
               <tr><td>Amazon Bedrock</td><td><code>gpt-5.6</code>, <code>gpt-6-astra</code>, hosted foundation models</td><td>Built-in provider — AWS profile + region (rust-v0.148.0); GPT-6-Astra on Mantle/Runtime routes (rust-v0.153.3)</td></tr>
               <tr><td>Ollama</td><td>Local models</td><td>Local endpoint (<code>http://localhost:11434</code>)</td></tr>
