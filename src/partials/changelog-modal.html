@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.32 <span class="changelog-date">· 2026-09-24</span></h3>
+        <p><strong>Claude Code v2.1.281 auto-update.</strong> Six documentation updates covering a new top-level attribution setting, wider auto mode classifier coverage, two dangerous-<code>rm</code> safety changes, a send-now behavior change, new file-based system-prompt flags for self-hosted runners, and an <code>/insights</code> report addition.</p>
+        <ul>
+          <li><strong>CBP-596 — <code>attribution: false</code> setting.</strong> v2.1.281 added a top-level boolean that hides all commit and PR attribution lines, broader than the existing <code>attribution.sessionUrl</code>. Older CLI versions skip a settings file holding the bare boolean, so shared settings files should keep the object form.</li>
+          <li><strong>CBP-597 — Auto mode classifier reviews read-only/sandboxed shell commands.</strong> v2.1.281 extended server-side classifier review to read-only and sandboxed shell commands, which were previously auto-approved without a classifier round-trip.</li>
+          <li><strong>CBP-598 — Dangerous-<code>rm</code> timeout + substitution-output prompt.</strong> v2.1.281 made the dangerous-<code>rm</code> prompt wait 2 minutes then deny in unattended sessions (<code>CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1</code> to disable), and closed a gap where <code>rm -rf "$(pwd)"</code>-style command-substitution targets skipped the prompt with a matching allow rule (<code>CLAUDE_CODE_DISABLE_SUBSTITUTION_RM_PROMPT=1</code> to disable).</li>
+          <li><strong>CBP-599 — Send-now backgrounds instead of cancels.</strong> v2.1.281 changed send-now (<kbd>Ctrl+Enter</kbd> / <kbd>Ctrl+X</kbd> <kbd>Ctrl+S</kbd>) to move the current turn's running tools to the background instead of cancelling them.</li>
+          <li><strong>CBP-600 — <code>--system-prompt-file</code> / <code>--append-system-prompt-file</code>.</strong> v2.1.281 added file-based system-prompt flags; self-hosted runners now pass system prompts as private files instead of command-line text, so large prompts no longer fail the launch. Wrappers/hooks using <code>--system-prompt</code> or <code>--append-system-prompt</code> must switch to the file-based forms.</li>
+          <li><strong>CBP-601 — <code>/insights</code> auto mode recommendation.</strong> v2.1.281 added an estimate of how many permission prompts auto mode could have handled in your recent sessions to the <code>/insights</code> report.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.31 <span class="changelog-date">· 2026-09-23</span></h3>
         <p><strong>Codex rust-v0.156.0 / rust-v0.156.1 auto-update.</strong> Five documentation updates covering voice conversations now on by default, the new fullscreen <code>/tui</code> command, worktree graduating out of experimental, the <code>/daemon</code> and <code>--no-daemon</code> daemon controls, and GPT-6 Sol/Luna model additions.</p>
         <ul>
