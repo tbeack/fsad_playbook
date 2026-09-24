@@ -1,5 +1,18 @@
 ## Changes in This Version
 
+### v4.1.32 — 2026-09-24
+
+**Claude Code v2.1.281 auto-update (CBP-596 through CBP-601)**
+
+Six documentation updates covering a new top-level attribution setting, wider auto mode classifier coverage, two dangerous-`rm` safety changes, a send-now behavior change, new file-based system-prompt flags for self-hosted runners, and an `/insights` report addition.
+
+- **CBP-596 — `attribution: false` setting.** v2.1.281 added a top-level boolean that hides all commit and PR attribution lines, broader than the existing `attribution.sessionUrl`. Older CLI versions skip a settings file holding the bare boolean, so shared settings files should keep the object form.
+- **CBP-597 — Auto mode classifier reviews read-only/sandboxed shell commands.** v2.1.281 extended server-side classifier review to read-only and sandboxed shell commands, which were previously auto-approved without a classifier round-trip.
+- **CBP-598 — Dangerous-`rm` timeout + substitution-output prompt.** v2.1.281 made the dangerous-`rm` prompt wait 2 minutes then deny in unattended sessions (`CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1` to disable), and closed a gap where `rm -rf "$(pwd)"`-style command-substitution targets skipped the prompt with a matching allow rule (`CLAUDE_CODE_DISABLE_SUBSTITUTION_RM_PROMPT=1` to disable).
+- **CBP-599 — Send-now backgrounds instead of cancels.** v2.1.281 changed send-now (`Ctrl+Enter` / `Ctrl+X Ctrl+S`) to move the current turn's running tools to the background instead of cancelling them.
+- **CBP-600 — `--system-prompt-file` / `--append-system-prompt-file`.** v2.1.281 added file-based system-prompt flags; self-hosted runners now pass system prompts as private files instead of command-line text, so large prompts no longer fail the launch. Wrappers/hooks using `--system-prompt` or `--append-system-prompt` must switch to the file-based forms.
+- **CBP-601 — `/insights` auto mode recommendation.** v2.1.281 added an estimate of how many permission prompts auto mode could have handled in your recent sessions to the `/insights` report.
+
 ### v4.1.31 — 2026-09-23
 
 **Codex rust-v0.156.0 / rust-v0.156.1 auto-update (CBP-591 through CBP-595)**
