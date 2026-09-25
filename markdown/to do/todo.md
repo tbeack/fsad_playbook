@@ -608,3 +608,5 @@
 - [x] `CBP-599` [Claude] Update Send-now keyboard shortcut row — moves running tools to background instead of cancelling (v2.1.281) → [task-cbp-599.md](task-cbp-599.md)
 - [x] `CBP-600` [Claude] Add `--system-prompt-file`/`--append-system-prompt-file` flags + self-hosted runner compat note (v2.1.281) → [task-cbp-600.md](task-cbp-600.md)
 - [x] `CBP-601` [Claude] Add auto mode adoption recommendation to `/insights` collapsible (v2.1.281) → [task-cbp-601.md](task-cbp-601.md)
+- [x] `CBP-602` [Claude] Add `maxProseWidth` setting to Notable settings.json Keys (v2.1.282) → [task-cbp-602.md](task-cbp-602.md)
+- [x] `CBP-603` [Claude] Document telemetry-ignored/disabled startup notice, `/status`, and `claude doctor` entries (v2.1.282) → [task-cbp-603.md](task-cbp-603.md)
