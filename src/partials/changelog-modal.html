@@ -6,6 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.33 <span class="changelog-date">· 2026-09-25</span></h3>
+        <p><strong>Claude Code v2.1.282 auto-update.</strong> Two documentation updates covering a new terminal prose-width setting and a telemetry-visibility notice surfaced at startup and in <code>/status</code>/<code>claude doctor</code>.</p>
+        <ul>
+          <li><strong>CBP-602 — <code>maxProseWidth</code> setting.</strong> v2.1.282 added a setting that caps the width of Claude's prose output in wide terminals, while tables and code blocks keep the full terminal width. Added to the Notable settings.json Keys list.</li>
+          <li><strong>CBP-603 — Telemetry-ignored/disabled visibility.</strong> v2.1.282 added a startup notice, plus matching <code>/status</code> and <code>claude doctor</code> entries, listing telemetry environment variables in a project's settings files that were ignored (overridden by a higher-precedence source) or that turned telemetry off. Updated the Monitoring section and the <code>/status</code>/<code>/doctor</code> Cheat Sheet rows.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.32 <span class="changelog-date">· 2026-09-24</span></h3>
         <p><strong>Claude Code v2.1.281 auto-update.</strong> Six documentation updates covering a new top-level attribution setting, wider auto mode classifier coverage, two dangerous-<code>rm</code> safety changes, a send-now behavior change, new file-based system-prompt flags for self-hosted runners, and an <code>/insights</code> report addition.</p>
         <ul>

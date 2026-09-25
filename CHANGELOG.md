@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.33 — 2026-09-25
+
+**Claude Code v2.1.282 auto-update (CBP-602 through CBP-603)**
+
+Two documentation updates covering a new terminal prose-width setting and a telemetry-visibility notice surfaced at startup and in `/status`/`claude doctor`.
+
+- **CBP-602 — `maxProseWidth` setting.** v2.1.282 added a setting that caps the width of Claude's prose output in wide terminals, while tables and code blocks keep the full terminal width. Added to the Notable settings.json Keys list.
+- **CBP-603 — Telemetry-ignored/disabled visibility.** v2.1.282 added a startup notice, plus matching `/status` and `claude doctor` entries, listing telemetry environment variables in a project's settings files that were ignored (overridden by a higher-precedence source) or that turned telemetry off. Updated the Monitoring section and the `/status`/`/doctor` Cheat Sheet rows.
+
 ### v4.1.32 — 2026-09-24
 
 **Claude Code v2.1.281 auto-update (CBP-596 through CBP-601)**
