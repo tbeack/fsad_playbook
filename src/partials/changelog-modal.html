@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.34 <span class="changelog-date">· 2026-09-26</span></h3>
+        <p><strong>Claude Code v2.1.283 auto-update.</strong> Three documentation updates covering a new CLAUDE.md/skills/agents/commands prompt-audit command, combinable system-prompt text and file flags, and two new model-allowlist managed settings.</p>
+        <ul>
+          <li><strong>CBP-604 — <code>/doctor prompt-audit</code>.</strong> v2.1.283 added a <code>/doctor prompt-audit</code> (also <code>/checkup prompt-audit</code>) subcommand that audits your CLAUDE.md files, skills, agents, and commands for prompting patterns written for older models — useful after a model upgrade to find instructions that no longer need workarounds. Updated the <code>/doctor</code> Cheat Sheet row.</li>
+          <li><strong>CBP-605 — Combinable system-prompt flags.</strong> v2.1.283 changed <code>--system-prompt-file</code>/<code>--append-system-prompt-file</code> so they can now be combined with their command-line-text counterparts (<code>--system-prompt</code>/<code>--append-system-prompt</code>) in the same invocation — the file's text comes first, followed by the command-line text. Updated the System prompt &amp; config table rows.</li>
+          <li><strong>CBP-606 — <code>availableModelsMatch</code> / <code>deniedModels</code>.</strong> v2.1.283 added two enterprise managed settings extending the <code>availableModels</code> allowlist: <code>availableModelsMatch: "exact"</code> blocks new model releases until explicitly added to the list, and <code>deniedModels</code> blocks specific models outright even when <code>availableModels</code> would allow them. Added to the Notable settings.json Keys list.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.33 <span class="changelog-date">· 2026-09-25</span></h3>
         <p><strong>Claude Code v2.1.282 auto-update.</strong> Two documentation updates covering a new terminal prose-width setting and a telemetry-visibility notice surfaced at startup and in <code>/status</code>/<code>claude doctor</code>.</p>
         <ul>
