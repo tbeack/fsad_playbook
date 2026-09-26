@@ -610,3 +610,6 @@
 - [x] `CBP-601` [Claude] Add auto mode adoption recommendation to `/insights` collapsible (v2.1.281) → [task-cbp-601.md](task-cbp-601.md)
 - [x] `CBP-602` [Claude] Add `maxProseWidth` setting to Notable settings.json Keys (v2.1.282) → [task-cbp-602.md](task-cbp-602.md)
 - [x] `CBP-603` [Claude] Document telemetry-ignored/disabled startup notice, `/status`, and `claude doctor` entries (v2.1.282) → [task-cbp-603.md](task-cbp-603.md)
+- [x] `CBP-604` [Claude] Add `/doctor prompt-audit` / `/checkup prompt-audit` note to Cheat Sheet (v2.1.283) → [task-cbp-604.md](task-cbp-604.md)
+- [x] `CBP-605` [Claude] Update `--system-prompt-file`/`--append-system-prompt-file` rows — combinable with text forms (v2.1.283) → [task-cbp-605.md](task-cbp-605.md)
+- [x] `CBP-606` [Claude] Add `availableModelsMatch` / `deniedModels` managed settings to Notable settings.json Keys (v2.1.283) → [task-cbp-606.md](task-cbp-606.md)

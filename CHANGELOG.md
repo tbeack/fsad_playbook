@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.34 — 2026-09-26
+
+**Claude Code v2.1.283 auto-update (CBP-604 through CBP-606)**
+
+Three documentation updates covering a new CLAUDE.md/skills/agents/commands prompt-audit command, combinable system-prompt text and file flags, and two new model-allowlist managed settings.
+
+- **CBP-604 — `/doctor prompt-audit`.** v2.1.283 added a `/doctor prompt-audit` (also `/checkup prompt-audit`) subcommand that audits your CLAUDE.md files, skills, agents, and commands for prompting patterns written for older models. Updated the `/doctor` Cheat Sheet row.
+- **CBP-605 — Combinable system-prompt flags.** v2.1.283 changed `--system-prompt-file`/`--append-system-prompt-file` so they can now be combined with `--system-prompt`/`--append-system-prompt` in the same invocation — the file's text comes first. Updated the System prompt & config table rows.
+- **CBP-606 — `availableModelsMatch` / `deniedModels`.** v2.1.283 added two enterprise managed settings extending the `availableModels` allowlist: `availableModelsMatch: "exact"` blocks new model releases until explicitly added, and `deniedModels` blocks specific models outright. Added to the Notable settings.json Keys list.
+
 ### v4.1.33 — 2026-09-25
 
 **Claude Code v2.1.282 auto-update (CBP-602 through CBP-603)**
