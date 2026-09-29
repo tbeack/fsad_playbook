@@ -1,5 +1,19 @@
 ## Changes in This Version
 
+### v4.1.35 — 2026-09-29
+
+**Claude Code v2.1.284 auto-update (CBP-607 through CBP-613)**
+
+Seven documentation updates covering the new Claude Sonnet 5.5 default model, auto mode becoming the default starting permission mode everywhere, a standalone Ultracode toggle, a bulk MCP-reconnect command, and a refined outside-working-directory read prompt.
+
+- **CBP-607 — Claude Sonnet 5.5 added to model comparison.** v2.1.284 added Claude Sonnet 5.5 (`claude-sonnet-5-5`) as the new default Sonnet model on the Anthropic API, with a 1M context window and $2/$10 per Mtok pricing ($0.20/Mtok cache reads). Added a new table column and updated the `sonnet` alias row.
+- **CBP-608 — `default` alias row updated for the API tier.** v2.1.284 changed the default model on the Anthropic API from Sonnet 5 to Sonnet 5.5.
+- **CBP-609 — Sonnet 5.5 added to Key Dates.** Added the September 29, 2026 release to the Key Dates callout, matching the existing Opus 5.5 / Fable 5.1 entries.
+- **CBP-610 — Ultracode is now a standalone `/effort` toggle.** v2.1.284 changed Ultracode into its own toggle (Tab, or `/effort ultracode [on|off]`) — it no longer forces `xhigh` effort and stays on at any effort level.
+- **CBP-611 — Auto mode is the new default starting permission mode.** v2.1.284 changed interactive terminal and VS Code sessions to start in auto mode when no permission mode is configured, on every plan and provider — extending the Bedrock/Vertex/Foundry-only default from v2.1.207. `permissions.defaultMode` still overrides it.
+- **CBP-612 — `/mcp reconnect all`.** v2.1.284 added a subcommand to retry every MCP server that failed to connect or needs authentication at once, instead of one at a time.
+- **CBP-613 — "Ask again next time" for outside-working-directory reads.** v2.1.284 added a third answer to auto mode's prompt before a read outside the working directories, letting you allow one read while staying prompted for later ones.
+
 ### v4.1.34 — 2026-09-26
 
 **Claude Code v2.1.283 auto-update (CBP-604 through CBP-606)**
