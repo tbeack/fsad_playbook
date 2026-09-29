@@ -620,3 +620,8 @@
 - [x] `CBP-611` [Claude] Document auto mode as default starting permission mode, every plan/provider (v2.1.284) → [task-cbp-611.md](task-cbp-611.md)
 - [x] `CBP-612` [Claude] Add `/mcp reconnect all` note to `/mcp` Cheat Sheet row (v2.1.284) → [task-cbp-612.md](task-cbp-612.md)
 - [x] `CBP-613` [Claude] Update `permissions.blockReadsOutsideWorkingDirectories` bullet — new "ask again next time" prompt answer (v2.1.284) → [task-cbp-613.md](task-cbp-613.md)
+- [x] `CBP-614` [Codex] Update Amazon Bedrock row + collapsible for GPT-6 Sol and Luna (rust-v0.157.0) → [task-cbp-614.md](task-cbp-614.md)
+- [x] `CBP-615` [Codex] Update `/tui` row — fullscreen now default, add Shift-click keyboard shortcut (rust-v0.157.0) → [task-cbp-615.md](task-cbp-615.md)
+- [x] `CBP-616` [Codex] Update `/daemon` and `--no-daemon` rows — automatic background-server startup now default (rust-v0.157.0) → [task-cbp-616.md](task-cbp-616.md)
+- [x] `CBP-617` [Codex] Add `f` keyboard shortcut for forking conversations locked by another app (rust-v0.157.0) → [task-cbp-617.md](task-cbp-617.md)
+- [x] `CBP-618` [Codex] Update `/import` row — available in remote and local background-server sessions (rust-v0.157.0) → [task-cbp-618.md](task-cbp-618.md)
