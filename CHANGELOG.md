@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.34 — 2026-09-29
+
+**Codex rust-v0.157.0 auto-update (CBP-604 through CBP-608)**
+
+Five documentation updates covering Amazon Bedrock GPT-6 Sol/Luna model support, fullscreen TUI as the new default, new keyboard shortcuts (Shift-click and `f`), automatic daemon startup, and `/import` availability in remote and background-server sessions.
+
+- **[Codex] CBP-604 — Amazon Bedrock GPT-6 Sol and Luna.** rust-v0.157.0 adds GPT-6 Sol and Luna to the Amazon Bedrock provider. Updated the Amazon Bedrock row in the Multi-Provider Models table and appended a note to the Amazon Bedrock collapsible body.
+- **[Codex] CBP-605 — `/tui` fullscreen now default + Shift-click.** rust-v0.157.0 enables fullscreen transcripts by default. Updated the `/tui` cheat sheet row to remove "optional" and note the new default. Added a Shift-click row to the Keyboard Shortcuts table.
+- **[Codex] CBP-606 — Automatic daemon startup.** rust-v0.157.0 starts the background server automatically for eligible interactive sessions. Updated the `/daemon` row to note automatic startup and recovery choices; updated `--no-daemon` to note it opts out of automatic startup.
+- **[Codex] CBP-607 — `f` shortcut for forking locked conversations.** rust-v0.157.0 adds an `f` keyboard shortcut to fork a conversation locked/open in another app, preserving drafts and queued prompts. New row added to the Keyboard Shortcuts table.
+- **[Codex] CBP-608 — `/import` in remote and background-server sessions.** rust-v0.157.0 makes `/import` available in remote sessions and local background-server (daemon) sessions. Updated the `/import` cheat sheet row.
+
 ### v4.1.33 — 2026-09-25
 
 **Claude Code v2.1.282 auto-update (CBP-602 through CBP-603)**
