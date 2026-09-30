@@ -632,3 +632,8 @@
 - [x] `CBP-623` [Claude] Add `allowedProviders` managed setting to Notable settings.json Keys (v2.1.285) → [task-cbp-623.md](task-cbp-623.md)
 - [x] `CBP-624` [Claude] Add `CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES` env var to Notable Environment Variables table (v2.1.285) → [task-cbp-624.md](task-cbp-624.md)
 - [x] `CBP-625` [Claude] Extend Auto Mode default-starting-mode callout to `claude -p`/Python Agent SDK (v2.1.285) → [task-cbp-625.md](task-cbp-625.md)
+- [x] `CBP-626` [Codex] Add `--oauth-client-secret` flag to `codex mcp add` documentation (rust-v0.158.0) → [task-cbp-626.md](task-cbp-626.md)
+- [x] `CBP-627` [Codex] Add `k` keyboard shortcut for keeping warnings in the warnings viewer (rust-v0.159.0) → [task-cbp-627.md](task-cbp-627.md)
+- [x] `CBP-628` [Codex] Add `instant_interrupt` opt-in setting to Notable config.toml Keys (rust-v0.159.0) → [task-cbp-628.md](task-cbp-628.md)
+- [x] `CBP-629` [Codex] Add GPT-6.1 Sol to Amazon Bedrock Mantle/Runtime catalogs (rust-v0.159.1) → [task-cbp-629.md](task-cbp-629.md)
+- [x] `CBP-630` [Codex] Note terminal input approval default for elevated-permission commands (rust-v0.158.0) → [task-cbp-630.md](task-cbp-630.md)
