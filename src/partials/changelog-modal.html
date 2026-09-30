@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.38 <span class="changelog-date">· 2026-09-30</span></h3>
+        <p><strong>Codex rust-v0.158.0 / rust-v0.159.0 / rust-v0.159.1 auto-update.</strong> Five documentation updates covering pre-registered OAuth client secrets for MCP, a new warnings-viewer keyboard shortcut, an instant-interrupt opt-in config key, GPT-6.1 Sol in Amazon Bedrock Mantle/Runtime catalogs, and terminal input approval now enabled by default for elevated-permission commands.</p>
+        <ul>
+          <li><strong>CBP-626 — [Codex] <code>codex mcp add --oauth-client-secret</code>.</strong> rust-v0.158.0 added support for MCP servers that require a pre-registered OAuth client secret. Use <code>codex mcp add --oauth-client-secret &lt;value&gt;</code> to store the secret alongside the server entry. Added as a version note in the MCP Integrations section.</li>
+          <li><strong>CBP-627 — [Codex] <code>k</code> keyboard shortcut.</strong> rust-v0.159.0 added a <code>k</code> shortcut in the warnings viewer that keeps the current warning for later review instead of dismissing it when the viewer closes. New row added to the Keyboard Shortcuts table.</li>
+          <li><strong>CBP-628 — [Codex] <code>instant_interrupt</code> config key.</strong> rust-v0.159.0 added an opt-in <code>instant_interrupt</code> setting: when enabled, new user input immediately steers Codex during model responses or long-running code-mode calls. Added to the Notable config.toml Keys table with default <code>false</code>.</li>
+          <li><strong>CBP-629 — [Codex] GPT-6.1 Sol in Amazon Bedrock.</strong> rust-v0.159.1 made GPT-6.1 Sol the default model in the Mantle and Runtime catalogs. Updated the Amazon Bedrock table row to include <code>gpt-6.1-sol</code> and appended a note to the Bedrock description paragraph.</li>
+          <li><strong>CBP-630 — [Codex] Terminal input approval by default.</strong> rust-v0.158.0 enabled terminal input approval by default for commands running with elevated permissions; runtime-only grants no longer trigger unnecessary prompts. Added a callout in the Permission Profiles section.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.37 <span class="changelog-date">· 2026-09-30</span></h3>
         <p><strong>Claude Code v2.1.285 auto-update.</strong> Seven documentation updates covering a new WebFetch kill-switch env var, a desktop-app launch flag, plugin install-time and standalone configuration commands, a provider-allowlist managed setting, a non-streaming retry cap, and auto mode's default-starting-mode extending to headless and SDK sessions.</p>
         <ul>

@@ -364,6 +364,8 @@ orders, and payments.
 
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Per-tool output token limits (rust-v0.152.0):</strong> Individual MCP tools now support an <code>output_token_limit</code> setting in <code>~/.codex/config.toml</code>, capping how many tokens a single tool result can return. Truncation behavior is now consistent across session resumes, so a resumed thread won't re-truncate a previously-returned result differently than the original session did.</p>
 
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Pre-registered OAuth client secrets (rust-v0.158.0):</strong> Use <code>codex mcp add --oauth-client-secret &lt;value&gt;</code> to register MCP servers that require a pre-registered OAuth client secret. Codex stores the secret alongside the server entry. This supports servers that issue a client ID and secret at registration rather than using a standard public OAuth flow.</p>
+
     <div class="step-card">
       <span class="step-number">1</span>
       <h3>Add an MCP Server</h3>
@@ -971,6 +973,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><kbd>Alt+.</kbd></td><td>Raise reasoning level for current model</td></tr>
           <tr><td><kbd>Shift</kbd>+click</td><td>Extend the transcript text selection from the current cursor position (rust-v0.157.0)</td></tr>
           <tr><td><kbd>f</kbd></td><td>Fork a conversation that is currently locked/open in another app — preserves drafts and queued prompts (rust-v0.157.0)</td></tr>
+          <tr><td><kbd>k</kbd></td><td>Keep a warning for later review in the warnings viewer — prevents the warning from being dismissed when the viewer closes (rust-v0.159.0)</td></tr>
         </tbody>
       </table>
     </div>
@@ -1076,6 +1079,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>[features].codex_hooks</code></td><td>Enable the hooks system</td><td><code>true</code></td></tr>
           <tr><td><code>tools.update_plan.enabled</code></td><td>Enable the model's internal planning tool (tracks/updates its own step-by-step plan during a task — distinct from the <code>/plan</code> slash command). Disabled by default as of rust-v0.152.0.</td><td><code>false</code></td></tr>
           <tr><td><code>tui.auto_recap</code></td><td>Set to <code>false</code> to disable automatic recaps between turns — the manual <code>/recap</code> command remains available regardless of this setting (rust-v0.153.0)</td><td><code>true</code></td></tr>
+          <tr><td><code>instant_interrupt</code></td><td>Opt-in: new user input immediately steers Codex during model responses or long-running code-mode calls instead of waiting for the current turn to complete (rust-v0.159.0)</td><td><code>false</code></td></tr>
           <tr><td><code>[otel]</code></td><td>OpenTelemetry export config (exporter, endpoint, metrics)</td><td>—</td></tr>
         </tbody>
       </table>
@@ -1355,7 +1359,7 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
             <tbody>
               <tr><td>OpenAI</td><td><code>gpt-5.5</code>, <code>codex-mini-latest</code>, <code>gpt-6-sol</code>, <code>gpt-6-luna</code></td><td>Default — uses <code>OPENAI_API_KEY</code>. As of rust-v0.156.1, GPT-6 Sol and Luna are available from the model picker; the rate-limit switch prompt recommends GPT-6 Luna.</td></tr>
               <tr><td>Azure OpenAI</td><td>Deployed models</td><td>Azure endpoint + API key</td></tr>
-              <tr><td>Amazon Bedrock</td><td><code>gpt-5.6</code>, <code>gpt-6-astra</code>, <code>gpt-6-sol</code>, <code>gpt-6-luna</code>, hosted foundation models</td><td>Built-in provider — AWS profile + region (rust-v0.148.0); GPT-6-Astra on Mantle/Runtime routes (rust-v0.153.3); GPT-6 Sol and Luna added in rust-v0.157.0</td></tr>
+              <tr><td>Amazon Bedrock</td><td><code>gpt-5.6</code>, <code>gpt-6-astra</code>, <code>gpt-6-sol</code>, <code>gpt-6-luna</code>, <code>gpt-6.1-sol</code>, hosted foundation models</td><td>Built-in provider — AWS profile + region (rust-v0.148.0); GPT-6-Astra on Mantle/Runtime routes (rust-v0.153.3); GPT-6 Sol and Luna added in rust-v0.157.0; GPT-6.1 Sol is the default in Mantle/Runtime catalogs (rust-v0.159.1)</td></tr>
               <tr><td>Ollama</td><td>Local models</td><td>Local endpoint (<code>http://localhost:11434</code>)</td></tr>
               <tr><td>Gemini</td><td><code>gemini-2.5-pro</code></td><td>Google AI API key</td></tr>
               <tr><td>Mistral</td><td><code>mistral-large</code></td><td>Mistral API key</td></tr>
@@ -1409,6 +1413,10 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
           <p>Sandbox restrictions now <strong>fail closed</strong> on both Linux and Windows: if a path is explicitly denied — or simply unreadable — the agent is refused access rather than being allowed through. Managed deny-read rules are also enforced inside the Windows sandbox, so <code>requirements.toml</code> policies apply consistently across platforms.</p>
         </div>
         <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Terminal input approval by default (rust-v0.158.0)</div>
+          <p>Terminal input approval is now enabled by default for commands running with elevated permissions — Codex prompts before sending stdin to a command that has been granted elevated access. Runtime-only permission grants no longer trigger unnecessary approval prompts.</p>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
           <div class="callout-title">Enterprise: requirements.toml</div>
           <p>Admins can enforce which profiles are allowed and deny filesystem paths via <code>requirements.toml</code> — an admin-managed policy file that users cannot override. Install it at a system path or distribute via MDM.</p>
         </div>
@@ -1432,7 +1440,7 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
 <span class="cm"># Credentials via standard AWS env vars also work:</span>
 <span class="cm"># AWS_PROFILE=my-profile AWS_REGION=us-west-2 codex</span></code></pre>
         </div>
-        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch. In addition to standard AWS credential env vars and named profiles, <code>aws login</code> console-login credentials (from <code>aws login</code> profiles) are supported for Bedrock auth as of v0.130.0. As of rust-v0.147.0, cached web search and remote conversation compaction are also enabled for Bedrock deployments, bringing them to parity with the default OpenAI-hosted setup. As of rust-v0.148.0, Amazon Bedrock Runtime ships as a <strong>built-in provider</strong> — configure it with an AWS profile and region without hand-rolling a custom provider block, and route <code>gpt-5.6</code> requests through Bedrock. As of rust-v0.153.3, <strong>GPT-6-Astra</strong> is available on Amazon Bedrock via the Mantle and Runtime global/US routes. As of rust-v0.153.4, Astra is the bundled default model when no model is explicitly configured. As of rust-v0.155.0, Bedrock can also obtain AWS credentials by running a configured command, with the result cached and refreshed automatically as it nears expiration, plus recovery if authentication fails — useful for teams whose AWS credentials come from an internal vending tool rather than a static profile. As of rust-v0.157.0, <strong>GPT-6 Sol and GPT-6 Luna</strong> are also available on Amazon Bedrock.</p>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">AWS account state (available models, quota) is surfaced to app clients. Pairs well with permission profiles to restrict what Bedrock agents can touch. In addition to standard AWS credential env vars and named profiles, <code>aws login</code> console-login credentials (from <code>aws login</code> profiles) are supported for Bedrock auth as of v0.130.0. As of rust-v0.147.0, cached web search and remote conversation compaction are also enabled for Bedrock deployments, bringing them to parity with the default OpenAI-hosted setup. As of rust-v0.148.0, Amazon Bedrock Runtime ships as a <strong>built-in provider</strong> — configure it with an AWS profile and region without hand-rolling a custom provider block, and route <code>gpt-5.6</code> requests through Bedrock. As of rust-v0.153.3, <strong>GPT-6-Astra</strong> is available on Amazon Bedrock via the Mantle and Runtime global/US routes. As of rust-v0.153.4, Astra is the bundled default model when no model is explicitly configured. As of rust-v0.155.0, Bedrock can also obtain AWS credentials by running a configured command, with the result cached and refreshed automatically as it nears expiration, plus recovery if authentication fails — useful for teams whose AWS credentials come from an internal vending tool rather than a static profile. As of rust-v0.157.0, <strong>GPT-6 Sol and GPT-6 Luna</strong> are also available on Amazon Bedrock. As of rust-v0.159.1, <strong>GPT-6.1 Sol</strong> is the new default model in the Mantle and Runtime catalogs.</p>
       </div></div>
     </div>
 

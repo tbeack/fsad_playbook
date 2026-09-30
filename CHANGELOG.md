@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.38 — 2026-09-30
+
+**Codex rust-v0.158.0 / rust-v0.159.0 / rust-v0.159.1 auto-update (CBP-626 through CBP-630)**
+
+Five documentation updates covering pre-registered OAuth client secrets for MCP, a new warnings-viewer keyboard shortcut, an instant-interrupt config key, GPT-6.1 Sol in Amazon Bedrock Mantle/Runtime catalogs, and terminal input approval now enabled by default for elevated-permission commands.
+
+- **[Codex] CBP-626 — `codex mcp add --oauth-client-secret`.** rust-v0.158.0 adds support for MCP servers that require a pre-registered OAuth client secret via `codex mcp add --oauth-client-secret <value>`. Added as a version note in the MCP Integrations section (after the Per-tool output token limits note).
+- **[Codex] CBP-627 — `k` keyboard shortcut.** rust-v0.159.0 adds a `k` shortcut in the warnings viewer that keeps the current warning for later review instead of dismissing it when the viewer closes. New row added to the Keyboard Shortcuts table.
+- **[Codex] CBP-628 — `instant_interrupt` config key.** rust-v0.159.0 adds an opt-in `instant_interrupt` setting that lets new user input immediately steer Codex during model responses or long-running code-mode calls. Added to the Notable config.toml Keys table with default `false`.
+- **[Codex] CBP-629 — GPT-6.1 Sol in Amazon Bedrock.** rust-v0.159.1 makes GPT-6.1 Sol the default model in the Mantle and Runtime catalogs. Updated the Amazon Bedrock table row to include `gpt-6.1-sol` and appended a note to the Bedrock description paragraph.
+- **[Codex] CBP-630 — Terminal input approval by default.** rust-v0.158.0 enables terminal input approval by default for commands running with elevated permissions; runtime-only grants no longer trigger unnecessary prompts. Added a callout in the Permission Profiles section.
+
 ### v4.1.37 — 2026-09-30
 
 **Claude Code v2.1.285 auto-update (CBP-619 through CBP-625)**
