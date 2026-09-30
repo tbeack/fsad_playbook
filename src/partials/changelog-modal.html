@@ -6,6 +6,30 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.37 <span class="changelog-date">· 2026-09-30</span></h3>
+        <p><strong>Claude Code v2.1.285 auto-update.</strong> Seven documentation updates covering a new WebFetch kill-switch env var, a desktop-app launch flag, plugin install-time and standalone configuration commands, a provider-allowlist managed setting, a non-streaming retry cap, and auto mode's default-starting-mode extending to headless and SDK sessions.</p>
+        <ul>
+          <li><strong>CBP-619 — <code>CLAUDE_CODE_DISABLE_WEB_FETCH</code>.</strong> v2.1.285 added an env var that turns off the WebFetch tool entirely for the session, regardless of permission rules. Added to the Notable Environment Variables table.</li>
+          <li><strong>CBP-620 — <code>claude --desktop</code>.</strong> v2.1.285 added a flag that opens the Claude desktop app on the current directory, or on a session opened with <code>--continue</code> / <code>--resume &lt;id&gt;</code>, instead of starting the terminal session. Added to the Session &amp; resume Cheat Sheet table.</li>
+          <li><strong>CBP-621 — <code>claude plugin configure &lt;plugin&gt;</code>.</strong> v2.1.285 added a subcommand that shows a plugin's options and which are unset, or saves new values read from stdin with <code>--values-stdin</code> — no need to visit <code>/plugin</code> → Configure. Added to the Plugins collapsible.</li>
+          <li><strong>CBP-622 — <code>claude plugin install --config server.key=value</code>.</strong> v2.1.285 let a bundled <code>.mcpb</code> MCP server's own settings be set at install time, so the server starts configured without a separate Configure step. Added to the Plugins collapsible.</li>
+          <li><strong>CBP-623 — <code>allowedProviders</code> managed setting.</strong> v2.1.285 added an enterprise managed setting restricting which API providers a machine may use (Anthropic API, a custom endpoint, Bedrock, Mantle, Vertex AI, Foundry, Claude Platform on AWS, or a Cloud gateway). Added to the Notable settings.json Keys list.</li>
+          <li><strong>CBP-624 — <code>CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES</code>.</strong> v2.1.285 added an env var capping re-sends of a non-streaming fallback request that timed out. Added to the Notable Environment Variables table.</li>
+          <li><strong>CBP-625 — Auto mode default extends to <code>-p</code>/SDK sessions.</strong> v2.1.285 changed <code>claude -p</code> and Python Agent SDK sessions on third-party providers or with telemetry off to start in auto mode when no permission mode is configured, matching interactive sessions — <code>--permission-mode</code> still overrides it. Updated the Auto Mode Is Now the Default Starting Mode callout.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v4.1.36 <span class="changelog-date">· 2026-09-29</span></h3>
+        <p><strong>Codex rust-v0.157.0 auto-update.</strong> Five documentation updates covering Amazon Bedrock GPT-6 Sol/Luna model support, fullscreen TUI as the new default, new keyboard shortcuts (Shift-click and <code>f</code>), automatic daemon startup, and <code>/import</code> availability in remote and background-server sessions.</p>
+        <ul>
+          <li><strong>CBP-614 — [Codex] Amazon Bedrock GPT-6 Sol and Luna.</strong> rust-v0.157.0 added GPT-6 Sol and Luna to the Amazon Bedrock provider. Updated the Amazon Bedrock row in the Multi-Provider Models table and the Amazon Bedrock collapsible.</li>
+          <li><strong>CBP-615 — [Codex] <code>/tui</code> fullscreen now default + Shift-click.</strong> rust-v0.157.0 made fullscreen transcripts the default. Updated the <code>/tui</code> cheat sheet row and added a Shift-click row to the Keyboard Shortcuts table.</li>
+          <li><strong>CBP-616 — [Codex] Automatic daemon startup.</strong> rust-v0.157.0 starts the background server automatically for eligible interactive sessions. Updated the <code>/daemon</code> and <code>--no-daemon</code> rows.</li>
+          <li><strong>CBP-617 — [Codex] <code>f</code> shortcut for forking locked conversations.</strong> rust-v0.157.0 added an <code>f</code> keyboard shortcut to fork a conversation locked open in another app, preserving drafts and queued prompts. New row added to the Keyboard Shortcuts table.</li>
+          <li><strong>CBP-618 — [Codex] <code>/import</code> in remote and background-server sessions.</strong> rust-v0.157.0 made <code>/import</code> available in remote sessions and local background-server (daemon) sessions. Updated the <code>/import</code> cheat sheet row.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.35 <span class="changelog-date">· 2026-09-29</span></h3>
         <p><strong>Claude Code v2.1.284 auto-update.</strong> Seven documentation updates covering the new Claude Sonnet 5.5 default model, auto mode becoming the default starting permission mode everywhere, a standalone Ultracode toggle, a bulk MCP-reconnect command, and a refined outside-working-directory read prompt.</p>
         <ul>
