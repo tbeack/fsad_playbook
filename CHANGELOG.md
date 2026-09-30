@@ -1,5 +1,19 @@
 ## Changes in This Version
 
+### v4.1.37 — 2026-09-30
+
+**Claude Code v2.1.285 auto-update (CBP-619 through CBP-625)**
+
+Seven documentation updates covering a new WebFetch kill-switch env var, a desktop-app launch flag, plugin install-time and standalone configuration commands, a provider-allowlist managed setting, a non-streaming retry cap, and auto mode's default-starting-mode extending to headless and SDK sessions.
+
+- **CBP-619 — `CLAUDE_CODE_DISABLE_WEB_FETCH`.** v2.1.285 adds an env var that turns off the WebFetch tool entirely for the session, regardless of permission rules. Added to the Notable Environment Variables table.
+- **CBP-620 — `claude --desktop`.** v2.1.285 adds a flag that opens the Claude desktop app on the current directory, or on a session opened with `--continue` / `--resume <id>`, instead of starting the terminal session. Added to the Session & resume Cheat Sheet table.
+- **CBP-621 — `claude plugin configure <plugin>`.** v2.1.285 adds a subcommand that shows a plugin's options and which are unset, or saves new values read from stdin with `--values-stdin`. Added to the Plugins collapsible.
+- **CBP-622 — `claude plugin install --config server.key=value`.** v2.1.285 lets a bundled `.mcpb` MCP server's own settings be set at install time, so the server starts configured without a separate Configure step. Added to the Plugins collapsible.
+- **CBP-623 — `allowedProviders` managed setting.** v2.1.285 adds an enterprise managed setting restricting which API providers a machine may use. Added to the Notable settings.json Keys list.
+- **CBP-624 — `CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES`.** v2.1.285 adds an env var capping re-sends of a timed-out non-streaming fallback request. Added to the Notable Environment Variables table.
+- **CBP-625 — Auto mode default extends to `-p`/SDK sessions.** v2.1.285 changes `claude -p` and Python Agent SDK sessions on third-party providers or with telemetry off to start in auto mode when no permission mode is configured, matching interactive sessions. Updated the Auto Mode Is Now the Default Starting Mode callout.
+
 ### v4.1.36 — 2026-09-29
 
 **Codex rust-v0.157.0 auto-update (CBP-614 through CBP-618)**
