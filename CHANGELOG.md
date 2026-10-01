@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.39 — 2026-10-01
+
+**Claude Code v2.1.286 auto-update (CBP-631 through CBP-632)**
+
+Two documentation updates covering commit-time auto-invocation for a project/user skill named `verify`, and expanded `--bare` flag semantics (MCP scoping, system reminders, background tasks, and shell timeout behavior).
+
+- **CBP-631 — `/verify` auto-runs before commit.** v2.1.286 improved commit guidance: when a project or user skills directory includes one named `verify`, Claude is now told to run it right before committing, except for docs-only and tests-only commits. Added as a new sentence on the `/verify` Cheat Sheet row.
+- **CBP-632 — `--bare` flag details.** v2.1.286 changed `--bare` to connect only the MCP servers named on the command line, send the model no system reminders, and start no background tasks; a shell command that reaches its timeout under `--bare` now stops instead of moving to the background. Expanded the terse `--bare` row in the CLI flags Cheat Sheet table.
+
 ### v4.1.38 — 2026-09-30
 
 **Codex rust-v0.158.0 / rust-v0.159.0 / rust-v0.159.1 auto-update (CBP-626 through CBP-630)**
