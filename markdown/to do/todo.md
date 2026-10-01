@@ -637,3 +637,5 @@
 - [x] `CBP-628` [Codex] Add `instant_interrupt` opt-in setting to Notable config.toml Keys (rust-v0.159.0) → [task-cbp-628.md](task-cbp-628.md)
 - [x] `CBP-629` [Codex] Add GPT-6.1 Sol to Amazon Bedrock Mantle/Runtime catalogs (rust-v0.159.1) → [task-cbp-629.md](task-cbp-629.md)
 - [x] `CBP-630` [Codex] Note terminal input approval default for elevated-permission commands (rust-v0.158.0) → [task-cbp-630.md](task-cbp-630.md)
+- [x] `CBP-631` [Claude] Update `/verify` row — skills named `verify` now auto-run before commit (v2.1.286) → [task-cbp-631.md](task-cbp-631.md)
+- [x] `CBP-632` [Claude] Expand `--bare` flag description — MCP/system-reminder/background-task scope and timeout behavior (v2.1.286) → [task-cbp-632.md](task-cbp-632.md)

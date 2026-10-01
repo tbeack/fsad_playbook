@@ -6,6 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.39 <span class="changelog-date">· 2026-10-01</span></h3>
+        <p><strong>Claude Code v2.1.286 auto-update.</strong> Two documentation updates covering commit-time auto-invocation for a project/user skill named <code>verify</code>, and expanded <code>--bare</code> flag semantics (MCP scoping, system reminders, background tasks, and shell timeout behavior).</p>
+        <ul>
+          <li><strong>CBP-631 — <code>/verify</code> auto-runs before commit.</strong> v2.1.286 improved commit guidance: when a project or user skills directory includes one named <code>verify</code>, Claude is now told to run it right before committing, except for docs-only and tests-only commits. Added as a new sentence on the <code>/verify</code> Cheat Sheet row.</li>
+          <li><strong>CBP-632 — <code>--bare</code> flag details.</strong> v2.1.286 changed <code>--bare</code> to connect only the MCP servers named on the command line, send the model no system reminders, and start no background tasks; a shell command that reaches its timeout under <code>--bare</code> now stops instead of moving to the background. Expanded the terse <code>--bare</code> row in the CLI flags Cheat Sheet table.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.38 <span class="changelog-date">· 2026-09-30</span></h3>
         <p><strong>Codex rust-v0.158.0 / rust-v0.159.0 / rust-v0.159.1 auto-update.</strong> Five documentation updates covering pre-registered OAuth client secrets for MCP, a new warnings-viewer keyboard shortcut, an instant-interrupt opt-in config key, GPT-6.1 Sol in Amazon Bedrock Mantle/Runtime catalogs, and terminal input approval now enabled by default for elevated-permission commands.</p>
         <ul>
