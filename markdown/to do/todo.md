@@ -639,3 +639,8 @@
 - [x] `CBP-630` [Codex] Note terminal input approval default for elevated-permission commands (rust-v0.158.0) → [task-cbp-630.md](task-cbp-630.md)
 - [x] `CBP-631` [Claude] Update `/verify` row — skills named `verify` now auto-run before commit (v2.1.286) → [task-cbp-631.md](task-cbp-631.md)
 - [x] `CBP-632` [Claude] Expand `--bare` flag description — MCP/system-reminder/background-task scope and timeout behavior (v2.1.286) → [task-cbp-632.md](task-cbp-632.md)
+- [x] `CBP-633` [Claude] Document "You Should Know" built-in mod in Plugins section (v2.1.287) → [task-cbp-633.md](task-cbp-633.md)
+- [x] `CBP-634` [Claude] Add `n:<text>` filter to `claude agents` row in cheat sheet (v2.1.287) → [task-cbp-634.md](task-cbp-634.md)
+- [x] `CBP-635` [Claude] Document `bareElicitationCapability` for MCP servers with URL prompts (v2.1.287) → [task-cbp-635.md](task-cbp-635.md)
+- [x] `CBP-636` [Codex] Document Guardian review capabilities in Multi-Agent Workflows (rust-v0.160.0) → [task-cbp-636.md](task-cbp-636.md)
+- [x] `CBP-637` [Codex] Document workspace-defaults sessions outside a project (rust-v0.160.0) → [task-cbp-637.md](task-cbp-637.md)

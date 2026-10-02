@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.40 — 2026-10-02
+
+**Claude Code v2.1.287 + Codex rust-v0.160.0 auto-update (CBP-633 through CBP-637)**
+
+Five documentation updates covering the "You Should Know" built-in mod, an agents-view name filter, the `bareElicitationCapability` MCP config flag, Codex Guardian review, and workspace-defaults sessions outside a project.
+
+- **CBP-633 — Claude Mods / "You Should Know" built-in mod.** v2.1.287 introduced Claude Mods — plugins that modify deeper Claude Code behavior. The first built-in mod, "You Should Know", runs as a background side-agent that flags things you or Claude might miss. Added a bullet to the Plugins section with the enable command (`/plugin enable cc-plugin-you-should-know@builtin`) and the telemetry/first-party session requirement.
+- **CBP-634 — `n:<text>` agents-view filter.** v2.1.287 added a text filter to the agents view. Typing `n:<text>` matches session names and tasks, shows matches in collapsed sections, and Enter opens the first result. Appended as a note at the end of the `claude agents` Cheat Sheet row.
+- **CBP-635 — `bareElicitationCapability` MCP config.** v2.1.287 added URL-prompt support from MCP servers on the 2025-11-25 protocol. Servers that stop connecting after this update need `"bareElicitationCapability": true` in their config entry. Added as a paragraph before the `alwaysLoad` note in the Plugins / MCP section.
+- **[Codex] CBP-636 — Guardian review (opt-in).** rust-v0.160.0 added opt-in Guardian review capabilities: Codex retrieves earlier user instructions and includes context from agent handoffs so sub-agents stay aligned across long sessions. Added as a paragraph at the end of the Multi-Agent Workflows collapsible.
+- **[Codex] CBP-637 — Workspace-defaults sessions.** rust-v0.160.0 lets users start sessions outside any named project when policy permits, applying workspace defaults and restoring saved permissions on resume. Added as a paragraph between the Configuration Reference table and the Environment Variables heading.
+
 ### v4.1.39 — 2026-10-01
 
 **Claude Code v2.1.286 auto-update (CBP-631 through CBP-632)**

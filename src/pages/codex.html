@@ -1085,6 +1085,8 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
       </table>
     </div>
 
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Workspace-defaults sessions (rust-v0.160.0):</strong> When policy permits, you can start a Codex session from any directory — even outside a named project. Codex applies your workspace defaults for that session. When you resume the session later, your saved permissions are restored automatically.</p>
+
     <!-- Environment Variables -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Environment Variables</h3>
     <div class="table-wrap">
@@ -1151,6 +1153,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
 <span class="val">rollout_budget_reminder_threshold</span> = 0.8  <span class="cm"># warn at 80% consumed</span></code></pre>
         </div>
         <p style="margin-top:1rem;"><strong>Interactive dashboard (rust-v0.149.0):</strong> Run <code>codex agents</code> to open an interactive dashboard for day-to-day management of running agent tasks — search, start, open, rename, and stop tasks, with configurable keyboard shortcuts. This is distinct from the <code>[agents]</code> config.toml settings above, which govern concurrency and per-role behavior rather than task management. As of rust-v0.155.0, tasks in the dashboard can also be hidden, archived, and deleted.</p>
+        <p style="margin-top:1rem;"><strong>Guardian review (opt-in, rust-v0.160.0):</strong> Enable Guardian to give Codex persistent review context across multi-agent sessions. When active, Codex retrieves your earlier instructions and includes context from agent handoffs, so sub-agents stay aligned with the original intent even after the conversation spans many turns or role transitions. Guardian is opt-in — enable it from session settings or via the config.</p>
       </div></div>
     </div>
 
