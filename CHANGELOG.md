@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.41 — 2026-10-03
+
+**Claude Code v2.1.288 auto-update (CBP-638 through CBP-642)**
+
+Five documentation updates covering the `--max-findings` flag for `/code-review`, the `claude purge` command rename, agents-view Ctrl+F and Alt+↑/↓ shortcuts, the `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS` env var, and Ctrl+C draft recovery via the Up key.
+
+- **CBP-638 — `--max-findings` for `/code-review`.** v2.1.288 added `--max-findings <n>|all` to `/code-review` to report more or fewer findings than the default limit; `--max-findings default` resets the choice. The choice persists until reset. Appended as a sentence at the end of the `/code-review` Cheat Sheet row.
+- **CBP-639 — `claude purge` rename.** v2.1.288 renamed `claude project purge` to `claude purge`; the old name still works and prints a notice. Updated the row's command cell to `claude purge [path]` and added a backward-compatibility note in the description.
+- **CBP-640 — Agents-view Ctrl+F, Alt+↑/↓, best-match Enter.** v2.1.288 added Ctrl+F to open the name-search filter, Alt+↑/↓ to jump between groups, and changed Enter to open the best-match session instead of the top row. Also corrected the v2.1.287 sentence (was "opens the first result"). Appended as a sentence on the `claude agents` Cheat Sheet row.
+- **CBP-641 — `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS` env var.** v2.1.288 added this variable to fix session titles, memory recall, and prompt hooks failing on Mantle or gateways that reject structured outputs. Added as a new row at the end of the Notable Environment Variables table.
+- **CBP-642 — Ctrl+C draft recovery.** v2.1.288 added draft recovery after Ctrl+C: pressing Up on an empty prompt restores the cleared draft, including pasted text and images. Added as a sentence on the Ctrl+C keyboard-shortcuts row.
+
 ### v4.1.40 — 2026-10-02
 
 **Claude Code v2.1.287 + Codex rust-v0.160.0 auto-update (CBP-633 through CBP-637)**

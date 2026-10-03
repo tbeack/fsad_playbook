@@ -644,3 +644,8 @@
 - [x] `CBP-635` [Claude] Document `bareElicitationCapability` for MCP servers with URL prompts (v2.1.287) → [task-cbp-635.md](task-cbp-635.md)
 - [x] `CBP-636` [Codex] Document Guardian review capabilities in Multi-Agent Workflows (rust-v0.160.0) → [task-cbp-636.md](task-cbp-636.md)
 - [x] `CBP-637` [Codex] Document workspace-defaults sessions outside a project (rust-v0.160.0) → [task-cbp-637.md](task-cbp-637.md)
+- [x] `CBP-638` [Claude] Add `--max-findings <n>|all` to `/code-review` cheat sheet row (v2.1.288) → [task-cbp-638.md](task-cbp-638.md)
+- [x] `CBP-639` [Claude] Update `claude project purge` row — `claude purge` is now the primary name (v2.1.288) → [task-cbp-639.md](task-cbp-639.md)
+- [x] `CBP-640` [Claude] Update `claude agents` row — Ctrl+F, Alt+↑/↓, best-match Enter, rebindable (v2.1.288) → [task-cbp-640.md](task-cbp-640.md)
+- [x] `CBP-641` [Claude] Add `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS` to env vars table (v2.1.288) → [task-cbp-641.md](task-cbp-641.md)
+- [x] `CBP-642` [Claude] Add Ctrl+C draft recovery (Up on empty prompt) to keyboard shortcuts (v2.1.288) → [task-cbp-642.md](task-cbp-642.md)
