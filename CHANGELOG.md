@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.41 — 2026-10-03
+
+**Claude Code v2.1.288 auto-update (CBP-638 through CBP-642)**
+
+Five documentation updates covering a findings cap for `/code-review`, new agents-view shortcuts and best-match Enter, an env var to turn off structured outputs, the `claude purge` rename, and background time limits that now apply only in unattended sessions.
+
+- **CBP-638 — `/code-review --max-findings`.** v2.1.288 added `--max-findings <n>|all` to `/code-review`. Pass a number to cap the findings, or `all` to remove the usual limit; the choice is reused until `--max-findings default` resets it. Appended to the `/code-review` Cheat Sheet row.
+- **CBP-639 — Agents-view shortcuts.** v2.1.288 added Ctrl+F to find a session by name and Alt+↑/↓ to jump between groups; both, and rename, can be rebound in `keybindings.json`. Enter in the `n:` filter (and Ctrl+F search) now opens the best name match instead of the top row. Updated the `claude agents` Cheat Sheet row.
+- **CBP-640 — `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS`.** v2.1.288 added this env var to turn off structured outputs for session-title, memory-recall, and prompt-hook requests. Use it on Mantle or behind gateways that reject structured outputs. Added a row to the Notable Environment Variables table.
+- **CBP-641 — `claude purge` rename.** v2.1.288 renamed `claude project purge` to `claude purge`; the old name still works and prints a notice. Updated the Cheat Sheet row.
+- **CBP-642 — Background time limit only in unattended sessions.** v2.1.288 changed the background command time limit to apply only in unattended sessions (`-p`, Agent SDK, CI, cloud); terminal, desktop app, and VS Code sessions have no limit. Added a note to the Monitor section.
+
 ### v4.1.40 — 2026-10-02
 
 **Claude Code v2.1.287 + Codex rust-v0.160.0 auto-update (CBP-633 through CBP-637)**
