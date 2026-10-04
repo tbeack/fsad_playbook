@@ -31,9 +31,9 @@
       </button>
       <button type="button" class="hub-card" onclick="showTopic('skills-hooks')">
         <div class="hub-card-icon" aria-hidden="true">⚡</div>
-        <h3>Skills &amp; Hooks</h3>
-        <p>Package repeatable workflows and enforce invariants that models forget.</p>
-        <div class="hub-card-chips"><span>Building Skills</span><span>Hooks Deep Dive</span></div>
+        <h3>Skills, Hooks, Mods</h3>
+        <p>Package repeatable workflows, enforce invariants that models forget, and extend Claude Code from the inside.</p>
+        <div class="hub-card-chips"><span>Building Skills</span><span>Hooks Deep Dive</span><span>Mods</span></div>
         <div class="hub-card-depth" aria-label="Depth: deep"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></div>
       </button>
       <button type="button" class="hub-card" onclick="showTopic('operations')">
@@ -2693,7 +2693,7 @@ smoke tests against the staging URL."</code></pre>
           <li><strong>Dependency enforcement:</strong> <code>claude plugin disable</code> is blocked when another enabled plugin depends on the target — the error includes a copy-pasteable chain command showing what to disable first. <code>claude plugin enable</code> automatically force-enables all transitive dependencies. Fixed in v2.1.243: dependencies declared via a plugin's <code>marketplace</code> field now resolve correctly when both the dependent and depended-on plugin are loaded together via <code>--plugin-dir</code> (previously these never resolved).</li>
           <li><strong>Scaffold a plugin locally:</strong> <code>claude plugin init &lt;name&gt;</code> creates a new plugin skeleton in <code>.claude/skills/&lt;name&gt;/</code> — no marketplace required. Generates <code>plugin.json</code>, a starter <code>SKILL.md</code>, and the standard directory layout ready for customization (v2.1.157).</li>
           <li><strong>Marketplace search bar:</strong> the <code>/plugin</code> marketplace view includes a search bar for filtering plugins by name — no more scrolling through long lists (v2.1.172).</li>
-          <li><strong>Claude Mods</strong> — Plugins may modify deeper Claude Code behavior via the Mods category. The first built-in mod is <strong>You Should Know</strong>: a background side-agent that watches your session and flags things you or Claude might miss. Enable it with <code>/plugin enable cc-plugin-you-should-know@builtin</code> — requires a first-party session with telemetry on (v2.1.287). As of v2.1.289, mod hooks can call <code>agent.spawn</code> to launch a teammate, maintain a stable agent id across hook invocations, and read idle or waiting states from <code>$.agent.list()</code>.</li>
+          <li><strong>Claude Mods</strong> — A plugin can hold a mod: JavaScript or TypeScript functions that run inside Claude Code and can draw panes, intercept tool calls, and add instant commands (v2.1.287). See <a href="#practices/mods" onclick="event.preventDefault(); scrollToId('mods')" style="color:var(--accent-blue);">Mods</a>.</li>
         </ul>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>MCP server <code>bareElicitationCapability</code></strong> — MCP servers on the 2025-11-25 protocol can now send URL prompts (for example, to open a sign-in page). If a server stops connecting after Claude Code v2.1.287, add <code>"bareElicitationCapability": true</code> to its config entry so Claude Code advertises support for this capability.</p>
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>MCP server <code>alwaysLoad</code> option</strong> — set <code>"alwaysLoad": true</code> in an MCP server config to make all its tools skip tool-search deferral and stay permanently available. Useful for servers whose tools you use in nearly every session.</p>
@@ -2960,6 +2960,11 @@ ENABLE_PROMPT_CACHING_1H=1</code></pre>
     <p class="section-subtitle">Automate workflows, enforce policies, and extend Claude Code with event-driven hooks. Models forget. Hooks don't.</p>
 
     <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.8; margin-top:1.5rem;">Hooks are user-defined shell commands, HTTP endpoints, LLM prompts, or agents that execute automatically at specific points in Claude Code's lifecycle. They fire deterministically — unlike instructions in CLAUDE.md that Claude may or may not follow, hooks <strong>always</strong> execute when their event triggers.</p>
+
+    <div class="callout callout-tip" style="margin-top:1rem;">
+      <div class="callout-title">Hooks vs Mods</div>
+      <p>This section covers <strong>settings hooks</strong>: commands, HTTP endpoints, prompts, or agents configured in a settings file. Claude Code also has <strong>mods</strong>, plugins of JavaScript or TypeScript functions that run inside Claude Code. The mods docs call a mod's handler a "hook". See <a href="#practices/mods" onclick="event.preventDefault(); scrollToId('mods')" style="color:var(--accent-blue);">Mods</a>.</p>
+    </div>
 
     <!-- Hook Lifecycle -->
     <div class="collapsible open" id="hooks-deep-dive--lifecycle">
@@ -3729,6 +3734,191 @@ hookdeck listen 3000 claude-code-channel
           <div class="callout-title">Use HTTP Hooks for Team-Wide Policies, Command Hooks for Personal Automation</div>
           <p>HTTP hooks make sense when the policy, rule, or notification target is shared across multiple developers. Command hooks are better for personal automation (formatting, linting) that doesn't need a server. The two types compose — a single event can have both.</p>
         </div>
+      </div></div>
+    </div>
+
+</section>
+
+<hr class="divider">
+<section id="mods">
+    <span class="section-label">15.6 — Mods</span>
+    <h2 class="section-title">Mods — Extend Claude Code from the Inside</h2>
+    <p class="section-subtitle">A mod is a plugin of JavaScript or TypeScript event handlers that run inside Claude Code. Mods draw panes, restyle the interface, step into tool calls, and add instant commands. Mods need Claude Code v2.1.287 or later.</p>
+
+    <div class="callout callout-tip" style="margin-top:1.5rem;">
+      <div class="callout-title">"Hook" Means Two Things</div>
+      <p>The mods docs call a mod's handler a "hook". The shell, HTTP, or prompt hook in a settings file is a "settings hook". The <a href="#practices/hooks-deep-dive" onclick="event.preventDefault(); scrollToId('hooks-deep-dive')" style="color:var(--accent-blue);">Hooks</a> section above covers settings hooks.</p>
+    </div>
+
+    <!-- What a mod is -->
+    <div class="collapsible open" id="mods--what">
+      <div class="collapsible-header">
+        <h3>What a Mod Is</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>A mod is a plugin whose hooks module registers event handlers. Claude Code calls a handler when its event happens, such as a tool call, a submitted prompt, or a part of the interface being drawn. A handler can <strong>observe</strong> the event, <strong>rewrite</strong> it, or <strong>answer</strong> it so the usual behavior does not run.</p>
+        <ul style="padding-left:1.25rem; font-size:0.88rem; line-height:2;">
+          <li><strong>Draw an interface</strong>: a pane beside the transcript or a band above the prompt, with tabs, buttons, and text fields.</li>
+          <li><strong>Redraw built-in UI</strong>: restyle a tool call's row, the spinner, or the question dialog.</li>
+          <li><strong>Step into a tool call or request</strong>: hold a tool call, answer it without running the tool, or send a request to a different model.</li>
+          <li><strong>Add instant <code>/commands</code></strong>: run your function at once, with no Claude turn, even while Claude works.</li>
+          <li><strong>Share state between hooks</strong>: hooks in one file share its variables, so one hook can record what another shows.</li>
+        </ul>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Files in a small mod:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-text">first-mod/
+├── .claude-plugin/
+│   └── plugin.json      # the plugin manifest
+└── hooks/
+    ├── hooks.json       # points to the hooks module
+    └── register.js      # your code</code></pre>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>Example: count tool calls and show the count beside the spinner</strong> (<code>Thinking · tool calls: 3…</code>):</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-javascript">// The count, shared by the two hooks below
+let calls = 0
+
+// Claude Code calls this once when the mod loads
+export function register(on) {
+  // Runs each time Claude is about to use a tool
+  on('tool.call', async ($, e, next) =&gt; {
+    calls += 1
+    // Ask Claude Code to draw the interface again, so the new count shows
+    $.ui.invalidate('ui.render')
+    // Let the tool run as usual
+    return next(e)
+  })
+
+  // Runs each time Claude Code draws the spinner
+  on('ui.render', { component: 'Spinner' }, async ($, e, next) =&gt; {
+    // Keep Claude Code's spinner, with the count added after its word
+    return next({ ...e, props: { ...e.props, suffix: ' · tool calls: ' + calls + '…' } })
+  })
+}</code></pre>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">To do anything outside its own code (draw, add a command, call a model, read a file, start a process, or make a network request), a hook calls the mods API through <code>$</code>. Since v2.1.289, a hook can call <code>agent.spawn</code> to start a teammate with a stable agent id, and <code>$.agent.list()</code> reports idle and waiting states.</p>
+        <p style="font-size:0.82rem; color:var(--text-secondary);">You can also describe the mod you want in a session. The built-in <code>plugin-authoring</code> skill helps Claude write it.</p>
+      </div></div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="collapsible open" id="mods--compare">
+      <div class="collapsible-header">
+        <h3>Mod vs Settings Hook vs Skill vs MCP Server</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th></th><th>Mod</th><th>Settings hook</th><th>Skill</th><th>MCP server</th></tr></thead>
+            <tbody>
+              <tr><td><strong>What it is</strong></td><td>Functions in a plugin that Claude Code calls in its own process</td><td>A shell command, HTTP request, or prompt that Claude Code runs on a lifecycle event</td><td>A <code>SKILL.md</code> file of instructions Claude reads</td><td>An external process or service that gives Claude tools</td></tr>
+              <tr><td><strong>What it can change</strong></td><td>Tool calls, prompts, commands, turns, and what the interface draws</td><td>Whether a tool call or prompt goes ahead, a tool call's arguments and result, and context added for Claude</td><td>What Claude knows and does</td><td>Which tools Claude has</td></tr>
+              <tr><td><strong>Draws in the interface</strong></td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
+              <tr><td><strong>What you write</strong></td><td>JavaScript or TypeScript</td><td>A script and a <code>settings.json</code> entry</td><td>Markdown</td><td>A server in any language</td></tr>
+              <tr><td><strong>Pick it when</strong></td><td>You want a pane, a band above the prompt, a custom command, or to rewrite an event</td><td>You want to block, allow, or log an event with a script you already have</td><td>You keep pasting the same instructions into chat</td><td>Claude needs to reach an external system</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">One plugin can hold all four, so a mod can ship with a skill and an MCP server.</p>
+      </div></div>
+    </div>
+
+    <!-- Install, trust, off switches -->
+    <div class="collapsible open" id="mods--install-trust">
+      <div class="collapsible-header">
+        <h3>Install, Trust, and Turn Off</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <div class="callout callout-warning" style="margin-top:0;">
+          <div class="callout-title">Mods Are Not Sandboxed</div>
+          <p>Install mods only from authors and marketplaces you trust. A mod runs with your permissions. It can read and write your files, read your secrets, see and rewrite your prompts and tool calls, approve a tool call before you are asked, and spend your usage. Processes a mod starts run outside the Bash sandbox. A mod cannot restyle the permission prompt.</p>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>1. Review a mod before you install it:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-bash">claude plugin validate ./some-mod</code></pre>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">The <code>hooks:</code> lines list the events the mod handles. The <code>calls:</code> lines list what it asks Claude Code to do, such as read a file or make a network request.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>2. Install it from a marketplace:</strong></p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-bash"># In a session
+/plugin install token-chart@your-org
+
+# In your shell (then run /reload-plugins in any open session)
+claude plugin install token-chart@your-org</code></pre>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">Run <code>/plugin</code> to see which mods loaded. A dim line under the tabs shows the count and names, such as <code>1 mod active · first-mod</code>. Sample mods (<code>token-weather</code>, <code>blast-radius</code>, <code>replay-theater</code>) are in the <a href="https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods" target="_blank" rel="noopener" style="color:var(--accent-blue);">claude-code-playground repository</a>. Load one for a session with <code>--plugin-dir</code>.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>3. Turn mods off:</strong></p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Scope</th><th>How</th></tr></thead>
+            <tbody>
+              <tr><td>One mod</td><td>Disable or uninstall its plugin in the <strong>Installed</strong> tab of <code>/plugin</code></td></tr>
+              <tr><td>Every installed mod, one session</td><td>Start with <code>--safe-mode</code> (also disables your other customizations)</td></tr>
+              <tr><td>Every installed mod, every session</td><td>Set <code>"disableAllHooks": true</code> in <code>~/.claude/settings.json</code>. Settings hooks and custom status lines stop too.</td></tr>
+              <tr><td>Organization</td><td>Administrators set <code>allowManagedModsOnly</code> in managed settings</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;"><code>disableAllHooks</code> and <code>allowManagedModsOnly</code> stop the mod code only. The plugin's skills, commands, agents, and MCP servers still load. These switches do not stop built-in mods. Remove <code>CLAUDE_CODE_ENABLE_FUNCTION_HOOKS</code> if you set it during early access: v2.1.287 and later ignore it.</p>
+      </div></div>
+    </div>
+
+    <!-- Where mods run -->
+    <div class="collapsible open" id="mods--where">
+      <div class="collapsible-header">
+        <h3>Where Mods Run</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Hooks run in every session that loads the plugin. Only the terminal and the Desktop app show what a mod draws.</p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Where you run Claude Code</th><th>Hooks run</th><th>Drawing appears</th></tr></thead>
+            <tbody>
+              <tr><td><code>claude</code> in a terminal (including editor terminals and JetBrains)</td><td>Yes</td><td>Yes</td></tr>
+              <tr><td>Desktop app Code tab (not WSL)</td><td>Yes</td><td>Yes, except terminal-only elements</td></tr>
+              <tr><td>Desktop app WSL session</td><td>No</td><td>No</td></tr>
+              <tr><td>VS Code extension chat panel</td><td>Yes</td><td>No</td></tr>
+              <tr><td><code>claude -p</code> and the Agent SDK</td><td>Yes</td><td>No</td></tr>
+              <tr><td>Remote Control (claude.ai or mobile)</td><td>Yes, on your machine</td><td>In the terminal on your machine</td></tr>
+              <tr><td>Cloud session</td><td>Yes, if the plugin reaches the session</td><td>No</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">A mod that draws can check which app it runs in. Where nothing draws, it can fall back to a transcript line or a command's text reply.</p>
+      </div></div>
+    </div>
+
+    <!-- Built-in mods -->
+    <div class="collapsible open" id="mods--built-in">
+      <div class="collapsible-header">
+        <h3>Built-in Mods</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Some Claude Code features are mods. See them in <code>/plugin</code> → <strong>Installed</strong> → <strong>Built-in</strong>. You cannot update or uninstall them.</p>
+        <div class="table-wrap">
+          <table class="styled-table">
+            <thead><tr><th>Name in <code>/plugin</code></th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><code>cc-plugin-agents-md</code></td><td>Loads <code>AGENTS.md</code> as project instructions</td></tr>
+              <tr><td><code>cc-plugin-diff</code></td><td>Takes over <code>/diff</code> and draws its pane (interactive terminal sessions)</td></tr>
+              <tr><td><code>cc-plugin-plugin-authoring</code></td><td>Gives Claude the <code>plugin-authoring</code> skill for writing mods</td></tr>
+              <tr><td><code>cc-plugin-sec-default</code></td><td>Guards what your organization manages from user-installed mods. You cannot turn it off.</td></tr>
+              <tr><td><code>cc-plugin-telemetry</code></td><td>Sends the analytics records of Claude Code and its built-in mods</td></tr>
+              <tr><td><code>cc-plugin-you-should-know</code></td><td>A side agent that watches longer tasks and shows a note above the prompt when it finds something you might miss. Off by default. Enable with <code>/plugin enable cc-plugin-you-should-know@builtin</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">Read the source of some built-in mods in the <a href="https://github.com/anthropics/claude-code/tree/main/mods" target="_blank" rel="noopener" style="color:var(--accent-blue);"><code>mods</code> directory of the Claude Code repository</a>. Full docs: <a href="https://code.claude.com/docs/en/plugins/mods/overview" target="_blank" rel="noopener" style="color:var(--accent-blue);">Mods overview</a>.</p>
       </div></div>
     </div>
 

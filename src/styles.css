@@ -488,6 +488,7 @@
   }
   .swn-widget-footer a:hover { opacity: 1; }
   .swn-cat-hooks  { --swn-card-accent: #a78bfa; }
+  .swn-cat-mods   { --swn-card-accent: #fb923c; }
   .swn-cat-nav    { --swn-card-accent: #60a5fa; }
   .swn-cat-skills { --swn-card-accent: #34d399; }
   .swn-cat-ui     { --swn-card-accent: #f472b6; }
