@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.42 — 2026-10-04
+
+**Claude Code v2.1.289 auto-update (CBP-643)**
+
+One documentation update covering the new mod SDK additions in v2.1.289: `agent.spawn` for spawning teammates from within a mod/plugin hook, a stable agent id across hook invocations, and idle/waiting states in `$.agent.list()`.
+
+- **CBP-643 — Mod SDK: `agent.spawn` and `$.agent.list()` states.** v2.1.289 added `agent.spawn` for teammates (a mod hook can now launch a teammate directly), ensured one stable agent id across plugin hook events, and exposed idle and waiting states in `$.agent.list()`. Appended as a sentence at the end of the Claude Mods bullet in the Plugins collapsible.
+
 ### v4.1.41 — 2026-10-03
 
 **Claude Code v2.1.288 auto-update (CBP-638 through CBP-642)**

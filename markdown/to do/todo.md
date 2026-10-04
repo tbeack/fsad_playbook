@@ -649,3 +649,4 @@
 - [x] `CBP-640` [Claude] Update `claude agents` row — Ctrl+F, Alt+↑/↓, best-match Enter, rebindable (v2.1.288) → [task-cbp-640.md](task-cbp-640.md)
 - [x] `CBP-641` [Claude] Add `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS` to env vars table (v2.1.288) → [task-cbp-641.md](task-cbp-641.md)
 - [x] `CBP-642` [Claude] Add Ctrl+C draft recovery (Up on empty prompt) to keyboard shortcuts (v2.1.288) → [task-cbp-642.md](task-cbp-642.md)
+- [x] `CBP-643` [Claude] Add `agent.spawn` for teammates and `$.agent.list()` idle/waiting states to Claude Mods bullet (v2.1.289) → [task-cbp-643.md](task-cbp-643.md)
