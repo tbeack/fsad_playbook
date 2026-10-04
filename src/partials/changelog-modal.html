@@ -6,6 +6,35 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.42 <span class="changelog-date">· 2026-10-04</span></h3>
+        <p><strong>Claude Code v2.1.289 auto-update.</strong> One documentation update covering the new mod SDK additions: <code>agent.spawn</code> for teammates, stable agent id across hook events, and idle/waiting states in <code>$.agent.list()</code>.</p>
+        <ul>
+          <li><strong>CBP-643 — Mod SDK: <code>agent.spawn</code> and <code>$.agent.list()</code> states.</strong> v2.1.289 added <code>agent.spawn</code> for spawning a teammate from within a mod/plugin hook, a stable agent id that persists across hook invocations, and idle and waiting states in <code>$.agent.list()</code>. Updated the Claude Mods bullet in the Plugins section.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v4.1.41 <span class="changelog-date">· 2026-10-03</span></h3>
+        <p><strong>Claude Code v2.1.288 auto-update.</strong> Five documentation updates covering a new <code>--max-findings</code> flag for <code>/code-review</code>, renaming <code>claude project purge</code> to <code>claude purge</code>, agents view keyboard shortcut additions, a new env var to disable structured outputs, and Ctrl+C draft recovery via the Up key.</p>
+        <ul>
+          <li><strong>CBP-638 — <code>/code-review --max-findings &lt;n&gt;|all</code>.</strong> v2.1.288 added a flag to report more or fewer findings than the default limit; pass <code>--max-findings default</code> to reset. The choice persists until reset. Added to the <code>/code-review</code> Cheat Sheet row.</li>
+          <li><strong>CBP-639 — <code>claude purge</code> is now the primary command name.</strong> v2.1.288 renamed <code>claude project purge</code> to <code>claude purge</code> (the old name still works and prints a notice). Updated the CLI commands Cheat Sheet row.</li>
+          <li><strong>CBP-640 — Agents view shortcuts: Ctrl+F, Alt+↑/↓, best-match Enter.</strong> v2.1.288 added <kbd>Ctrl+F</kbd> to open name-search without typing <code>n:</code>, and <kbd>Alt+↑</kbd>/<kbd>Alt+↓</kbd> to jump between groups; both shortcuts and the rename action can be rebound in <code>keybindings.json</code>. Updated the <code>claude agents</code> Cheat Sheet row.</li>
+          <li><strong>CBP-641 — <code>CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS</code>.</strong> v2.1.288 added an env var to turn off structured outputs for session-title and prompt-hook requests — useful for Bedrock-backed gateways that reject structured-output format. Added to the Notable Environment Variables table.</li>
+          <li><strong>CBP-642 — Ctrl+C draft recovery via Up key.</strong> v2.1.288 added recovery for a prompt cleared with Ctrl+C: pressing Up on the empty prompt restores the cleared draft, including pasted text and images. Added to the Keyboard Shortcuts table.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v4.1.40 <span class="changelog-date">· 2026-10-02</span></h3>
+        <p><strong>Claude Code v2.1.287 + Codex rust-v0.160.0 auto-update.</strong> Five documentation updates: the You Should Know built-in mod, an <code>n:&lt;text&gt;</code> filter for the agents view, <code>bareElicitationCapability</code> for MCP URL prompts, Codex Guardian review capabilities, and Codex workspace-defaults sessions outside a project.</p>
+        <ul>
+          <li><strong>CBP-633 — You Should Know built-in mod.</strong> v2.1.287 added the You Should Know mod — a background side-agent that flags things you or Claude might miss. Enable with <code>/plugin enable cc-plugin-you-should-know@builtin</code> (first-party sessions with telemetry on). Added to the Claude Mods bullet in the Plugins section.</li>
+          <li><strong>CBP-634 — <code>n:&lt;text&gt;</code> filter in agents view.</strong> v2.1.287 added an <code>n:&lt;text&gt;</code> filter to the agents view to match session names and tasks; collapsed sections show matches and Enter opens the best match. Updated the <code>claude agents</code> Cheat Sheet row.</li>
+          <li><strong>CBP-635 — MCP <code>bareElicitationCapability</code>.</strong> v2.1.287 made MCP servers on the 2025-11-25 protocol able to send URL prompts (for sign-in). Servers that stop connecting after v2.1.287 need <code>"bareElicitationCapability": true</code> added to their config entry. Added a note to the Plugins section.</li>
+          <li><strong>CBP-636 — [Codex] Guardian review capabilities.</strong> rust-v0.160.0 added a Guardian agent role that can review and block unsafe plans before execution. Documented in the Multi-Agent Workflows section of the Codex Best Practices page.</li>
+          <li><strong>CBP-637 — [Codex] Workspace-defaults sessions outside a project.</strong> rust-v0.160.0 introduced workspace-defaults sessions that use sensible defaults when run outside any project directory. Documented in the Session Management section of the Codex Best Practices page.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.39 <span class="changelog-date">· 2026-10-01</span></h3>
         <p><strong>Claude Code v2.1.286 auto-update.</strong> Two documentation updates covering commit-time auto-invocation for a project/user skill named <code>verify</code>, and expanded <code>--bare</code> flag semantics (MCP scoping, system reminders, background tasks, and shell timeout behavior).</p>
         <ul>
