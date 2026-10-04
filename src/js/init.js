@@ -53,6 +53,7 @@
     const cutoff = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     const CATEGORIES = [
+      { keywords: ['mods','register(on)'], label: 'Mods', icon: '◆', cls: 'swn-cat-mods' },
       { keywords: ['hook','Stop','SubagentStop','PreToolUse','PostToolUse','additionalContext'], label: 'Hooks', icon: '⚡', cls: 'swn-cat-hooks' },
       { keywords: ['Security Review','sec-review','security'], label: 'Security', icon: '🔒', cls: 'swn-cat-skills' },
       { keywords: ['skill','SKILL.md','Skills Library'], label: 'Skills', icon: '✦', cls: 'swn-cat-skills' },

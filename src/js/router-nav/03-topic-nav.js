@@ -5,7 +5,7 @@
     'hub': 'Hub',
     'foundations': 'Foundations',
     'integrations': 'Integrations & Review',
-    'skills-hooks': 'Skills & Hooks',
+    'skills-hooks': 'Skills, Hooks, Mods',
     'operations': 'Operations',
     'reference': 'Reference'
   };

@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.43 — 2026-10-04
+
+**New Mods section and "Skills, Hooks, Mods" topic rename (CBP-644)**
+
+- **CBP-644 — Mods section.** Renamed the Claude topic "Skills & Hooks" to "Skills, Hooks, Mods" in the sidebar, the topic label, and the hub card (new `Mods` chip). Added `#mods` (15.6) with the `register(on)` tool-call counter example, the mod / settings hook / skill / MCP server comparison table, install and trust guidance (`claude plugin validate`), off switches (`--safe-mode`, `disableAllHooks`, `allowManagedModsOnly`), the "where mods run" table, and the built-in mods list. Added a `Mods` sidebar item with 5 leaves, a Hooks → Mods cross-link that explains "hook" vs "settings hook", a shorter Claude Mods bullet in the plugins list that links to the new section, the `mods` route in `sectionToPageMap`, and a Mods category in the What's New widget.
+
 ### v4.1.42 — 2026-10-04
 
 **Claude Code v2.1.289 auto-update (CBP-643)**

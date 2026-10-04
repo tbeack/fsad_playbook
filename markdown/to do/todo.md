@@ -650,3 +650,5 @@
 - [x] `CBP-641` [Claude] Add `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS` to env vars table (v2.1.288) → [task-cbp-641.md](task-cbp-641.md)
 - [x] `CBP-642` [Claude] Add Ctrl+C draft recovery (Up on empty prompt) to keyboard shortcuts (v2.1.288) → [task-cbp-642.md](task-cbp-642.md)
 - [x] `CBP-643` [Claude] Add `agent.spawn` for teammates and `$.agent.list()` idle/waiting states to Claude Mods bullet (v2.1.289) → [task-cbp-643.md](task-cbp-643.md)
+- [x] `CBP-644` [Claude] Add "Mods" section and rename "Skills & Hooks" to "Skills, Hooks, Mods" → [task-cbp-644.md](task-cbp-644.md)
+- [ ] `CBP-645` [Claude] Fix scroll spy not highlighting the sub-item of tall Claude sections → [task-cbp-645.md](task-cbp-645.md)
