@@ -26,7 +26,9 @@ Split topics in `src/pages/practices.html`:
 
 ## Acceptance Criteria
 
-- [ ] On `#practices/skills-hooks`, `.topic-footer` is the last child element of the second `.topic-view[data-topic="skills-hooks"]` container (the one that holds `#mods`).
-- [ ] On `#practices/operations`, `.topic-footer` is in the container that holds `#production-monitoring`.
-- [ ] On `#practices/foundations` (one container), exactly 1 `.topic-footer` exists, and it is in that container.
-- [ ] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+- [x] On `#practices/skills-hooks`, `.topic-footer` is the last child element of the second `.topic-view[data-topic="skills-hooks"]` container (the one that holds `#mods`).
+- [x] On `#practices/operations`, `.topic-footer` is in the container that holds `#production-monitoring`.
+- [x] On `#practices/foundations` (one container), exactly 1 `.topic-footer` exists, and it is in that container.
+- [x] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+
+All criteria verified 2026-10-05 before commit.
