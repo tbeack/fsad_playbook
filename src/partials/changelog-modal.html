@@ -6,7 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
-        <h3>v4.1.43 <span class="changelog-date">· 2026-10-04</span></h3>
+        <h3>v4.1.44 <span class="changelog-date">· 2026-10-05</span></h3>
+        <p><strong>Scroll spy fix for the Claude page.</strong> The sidebar now highlights every Claude section when you scroll to it, including the Hooks, HTTP Hooks &amp; Web Agents, Mods and Monitoring sections and tall sections such as Getting Started.</p>
+        <ul>
+          <li><strong>CBP-645 — [Claude] Scroll spy highlights every Claude section.</strong> The scroll spy now watches every container of a split topic and triggers on tall sections. When several short collapsibles are in view, the topmost one gets the leaf highlight and the deep link.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v4.1.43<span class="changelog-date">· 2026-10-04</span></h3>
         <p><strong>New Mods section.</strong> The Claude topic for skills and hooks is now "Skills, Hooks, Mods". A new Mods section explains Claude Code mods (v2.1.287+): plugins of JavaScript or TypeScript functions that run inside Claude Code.</p>
         <ul>
           <li><strong>CBP-644 — [Claude] Mods section.</strong> Covers what a mod is, with the tool-call counter <code>register(on)</code> example, a comparison of mods, settings hooks, skills, and MCP servers, install and trust steps with <code>claude plugin validate</code>, the off switches (<code>--safe-mode</code>, <code>disableAllHooks</code>, <code>allowManagedModsOnly</code>), where mods run, and the built-in mods.</li>

@@ -1,6 +1,6 @@
 ## Changes in This Version
 
-### Unreleased
+### v4.1.44 — 2026-10-05
 
 **Scroll spy fix for tall and split-topic Claude sections (CBP-645)**
 
