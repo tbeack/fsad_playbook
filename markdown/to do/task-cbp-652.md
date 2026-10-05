@@ -26,7 +26,9 @@ The sidebar lists the Operations topic as Monitoring â†’ Production Monitoring â
 
 ## Acceptance Criteria
 
-- [ ] In `src/pages/practices.html`, `#best-practices` comes after `#production-monitoring` in the DOM (`grep -n 'id="production-monitoring"\|id="best-practices"'` shows the larger line number for `best-practices`).
-- [ ] With the Operations topic shown, the top-to-bottom order of the section headings on the page matches the order of the Operations sub-items in the sidebar.
-- [ ] The Operations topic shows exactly one `.topic-footer`, and it is the last element in the topic.
-- [ ] `#practices/best-practices` opens the Operations topic and scrolls to Guidelines.
+- [x] In `src/pages/practices.html`, `#best-practices` comes after `#production-monitoring` in the DOM (`grep -n 'id="production-monitoring"\|id="best-practices"'` shows the larger line number for `best-practices`).
+- [x] With the Operations topic shown, the top-to-bottom order of the section headings on the page matches the order of the Operations sub-items in the sidebar.
+- [x] The Operations topic shows exactly one `.topic-footer`, and it is the last element in the topic.
+- [x] `#practices/best-practices` opens the Operations topic and scrolls to Guidelines.
+
+All criteria verified 2026-10-05 before commit.
