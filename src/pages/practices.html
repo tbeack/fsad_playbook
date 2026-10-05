@@ -1556,119 +1556,6 @@ smoke tests against the staging URL."</code></pre>
 <hr class="divider">
 </div>
 
-<div class="topic-view" data-topic="operations" hidden>
-<section id="best-practices">
-    <span class="section-label">12 — Best Practices & Guidelines</span>
-    <h2 class="section-title">Lessons from Real-World FSAD Adoption</h2>
-    <p class="section-subtitle">Practical guidance for teams adopting spec-driven agentic development.</p>
-
-    <div class="callout callout-best-practice" style="margin-bottom:2rem;">
-      <div class="callout-title">Background Context Matters</div>
-      <p>Avoid over-emphasis on technical capabilities. Insufficient business context hurts initial coding sessions. A holistic approach beyond engineering-only specifications yields best results. Include background details, business context, problems to be solved, and design systems.</p>
-    </div>
-
-    <!-- Prompting -->
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Prompting</h3>
-    <div class="card-grid">
-      <div class="card ">
-        <h3>Be Specific About What, Not How</h3>
-        <p>Tell Claude what outcome you want, not the implementation steps. Let the agent choose the approach based on codebase context.</p>
-      </div>
-      <div class="card ">
-        <h3>Provide Business Context</h3>
-        <p>Include business requirements, constraints, and existing patterns. "We need a user preferences API because mobile users complain about notification noise" is better than "add a PATCH endpoint."</p>
-      </div>
-      <div class="card ">
-        <h3>Use @ References</h3>
-        <p>Point Claude at specific files with <code>@filename</code>. This ensures the right context is loaded and prevents the agent from searching in the wrong places.</p>
-      </div>
-      <div class="card ">
-        <h3>Use Plan Mode First</h3>
-        <p>For complex features, start with <code>--conversation-mode plan</code>. Let Claude analyze and propose before making changes. Review the plan, then execute.</p>
-      </div>
-    </div>
-
-    <!-- Project Structure -->
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Project Structure</h3>
-    <div class="card-grid">
-      <div class="card ">
-        <h3>Keep CLAUDE.md Concise</h3>
-        <p>Under 100 lines. If it's too long, Claude may miss critical rules. Move detailed docs to <code>docs/</code> for progressive loading.</p>
-      </div>
-      <div class="card ">
-        <h3>Use Local CLAUDE.md Files</h3>
-        <p>Place module-specific rules near the code they protect. <code>src/auth/CLAUDE.md</code> gets loaded when Claude works in that directory.</p>
-      </div>
-      <div class="card ">
-        <h3>Organize docs/ for Progressive Context</h3>
-        <p>Architecture overview, ADRs, and runbooks in <code>docs/</code>. Claude reads them when relevant, not every session.</p>
-      </div>
-      <div class="card ">
-        <h3>Version Control Your Prompts</h3>
-        <p>Specs, skills, and configuration are code. Commit them. Review changes in PRs. Roll back if something breaks.</p>
-      </div>
-    </div>
-
-    <!-- Workflow -->
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Workflow</h3>
-    <div class="card-grid">
-      <div class="card ">
-        <h3>Use /clear Between Tasks</h3>
-        <p>Reset context between unrelated tasks. Stale context from a previous task can mislead agents on the current one.</p>
-      </div>
-      <div class="card ">
-        <h3>Use /compact When Context Gets Large</h3>
-        <p>Compress conversation history to free up context window space for the current task. Especially useful in long sessions.</p>
-      </div>
-      <div class="card ">
-        <h3>Commit Frequently</h3>
-        <p>Small, atomic changes. Each commit should represent one logical unit of work. Makes it easy to revert if an agent goes off track.</p>
-      </div>
-      <div class="card ">
-        <h3>Review Agent Output Before Shipping</h3>
-        <p>Agents produce consistent code from specs, but they can hallucinate or over-interpret. Human review is non-negotiable.</p>
-      </div>
-      <div class="card ">
-        <h3>Todo Tools Are Opt-In on Newer Models</h3>
-        <p>TaskCreate, TaskGet, TaskUpdate, TaskList, and TodoWrite are available by default only on Claude 3.x, Opus 4.0–4.7, Sonnet 4.0–4.6, and Haiku 4.5 (v2.1.268). Set <code>CLAUDE_CODE_ENABLE_TODO_TOOLS=1</code> to enable them on other models.</p>
-      </div>
-    </div>
-
-    <!-- Common Pitfalls -->
-    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Common Pitfalls</h3>
-    <div class="card-grid" style="gap:1rem;">
-      <div class="bp-anti-card ">
-        <h4>Jumping Straight to Code</h4>
-        <p>Without a spec, agents guess at requirements. The result is wasted cycles and code that doesn't match what was needed.</p>
-      </div>
-      <div class="bp-anti-card ">
-        <h4>Technical Specs Without Business Context</h4>
-        <p>"Add a PATCH endpoint" tells the agent what to build but not why. Missing context leads to wrong trade-offs.</p>
-      </div>
-      <div class="bp-anti-card ">
-        <h4>Not Using Plan Mode</h4>
-        <p>For complex features, jumping straight to implementation means no opportunity to catch misunderstandings before they become code.</p>
-      </div>
-      <div class="bp-anti-card ">
-        <h4>Ignoring Context Window Limits</h4>
-        <p>Overloading a session with too many files or too large a scope causes the agent to lose track of requirements mid-task.</p>
-      </div>
-      <div class="bp-anti-card ">
-        <h4>Not Reviewing Agent Code</h4>
-        <p>Agents are powerful but non-deterministic. Code that passes tests can still have logic errors, security gaps, or architectural drift.</p>
-      </div>
-      <div class="bp-anti-card ">
-        <h4>Bloated CLAUDE.md</h4>
-        <p>Stuffing every rule into CLAUDE.md defeats the purpose. Keep it focused on high-level rules; use docs/ and local CLAUDE.md for details.</p>
-      </div>
-    </div>
-
-
-  </section>
-
-<hr class="divider">
-</div>
-
 <div class="topic-view" data-topic="reference" hidden>
 <section id="model-effort">
     <span class="section-label">12.5 — Model &amp; Effort</span>
@@ -4282,6 +4169,117 @@ bands:
         </div>
       </div></div>
     </div>
+
+  </section>
+
+<hr class="divider">
+
+<section id="best-practices">
+    <span class="section-label">12 — Best Practices & Guidelines</span>
+    <h2 class="section-title">Lessons from Real-World FSAD Adoption</h2>
+    <p class="section-subtitle">Practical guidance for teams adopting spec-driven agentic development.</p>
+
+    <div class="callout callout-best-practice" style="margin-bottom:2rem;">
+      <div class="callout-title">Background Context Matters</div>
+      <p>Avoid over-emphasis on technical capabilities. Insufficient business context hurts initial coding sessions. A holistic approach beyond engineering-only specifications yields best results. Include background details, business context, problems to be solved, and design systems.</p>
+    </div>
+
+    <!-- Prompting -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2rem; margin-bottom:1rem;">Prompting</h3>
+    <div class="card-grid">
+      <div class="card ">
+        <h3>Be Specific About What, Not How</h3>
+        <p>Tell Claude what outcome you want, not the implementation steps. Let the agent choose the approach based on codebase context.</p>
+      </div>
+      <div class="card ">
+        <h3>Provide Business Context</h3>
+        <p>Include business requirements, constraints, and existing patterns. "We need a user preferences API because mobile users complain about notification noise" is better than "add a PATCH endpoint."</p>
+      </div>
+      <div class="card ">
+        <h3>Use @ References</h3>
+        <p>Point Claude at specific files with <code>@filename</code>. This ensures the right context is loaded and prevents the agent from searching in the wrong places.</p>
+      </div>
+      <div class="card ">
+        <h3>Use Plan Mode First</h3>
+        <p>For complex features, start with <code>--conversation-mode plan</code>. Let Claude analyze and propose before making changes. Review the plan, then execute.</p>
+      </div>
+    </div>
+
+    <!-- Project Structure -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Project Structure</h3>
+    <div class="card-grid">
+      <div class="card ">
+        <h3>Keep CLAUDE.md Concise</h3>
+        <p>Under 100 lines. If it's too long, Claude may miss critical rules. Move detailed docs to <code>docs/</code> for progressive loading.</p>
+      </div>
+      <div class="card ">
+        <h3>Use Local CLAUDE.md Files</h3>
+        <p>Place module-specific rules near the code they protect. <code>src/auth/CLAUDE.md</code> gets loaded when Claude works in that directory.</p>
+      </div>
+      <div class="card ">
+        <h3>Organize docs/ for Progressive Context</h3>
+        <p>Architecture overview, ADRs, and runbooks in <code>docs/</code>. Claude reads them when relevant, not every session.</p>
+      </div>
+      <div class="card ">
+        <h3>Version Control Your Prompts</h3>
+        <p>Specs, skills, and configuration are code. Commit them. Review changes in PRs. Roll back if something breaks.</p>
+      </div>
+    </div>
+
+    <!-- Workflow -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Workflow</h3>
+    <div class="card-grid">
+      <div class="card ">
+        <h3>Use /clear Between Tasks</h3>
+        <p>Reset context between unrelated tasks. Stale context from a previous task can mislead agents on the current one.</p>
+      </div>
+      <div class="card ">
+        <h3>Use /compact When Context Gets Large</h3>
+        <p>Compress conversation history to free up context window space for the current task. Especially useful in long sessions.</p>
+      </div>
+      <div class="card ">
+        <h3>Commit Frequently</h3>
+        <p>Small, atomic changes. Each commit should represent one logical unit of work. Makes it easy to revert if an agent goes off track.</p>
+      </div>
+      <div class="card ">
+        <h3>Review Agent Output Before Shipping</h3>
+        <p>Agents produce consistent code from specs, but they can hallucinate or over-interpret. Human review is non-negotiable.</p>
+      </div>
+      <div class="card ">
+        <h3>Todo Tools Are Opt-In on Newer Models</h3>
+        <p>TaskCreate, TaskGet, TaskUpdate, TaskList, and TodoWrite are available by default only on Claude 3.x, Opus 4.0–4.7, Sonnet 4.0–4.6, and Haiku 4.5 (v2.1.268). Set <code>CLAUDE_CODE_ENABLE_TODO_TOOLS=1</code> to enable them on other models.</p>
+      </div>
+    </div>
+
+    <!-- Common Pitfalls -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Common Pitfalls</h3>
+    <div class="card-grid" style="gap:1rem;">
+      <div class="bp-anti-card ">
+        <h4>Jumping Straight to Code</h4>
+        <p>Without a spec, agents guess at requirements. The result is wasted cycles and code that doesn't match what was needed.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>Technical Specs Without Business Context</h4>
+        <p>"Add a PATCH endpoint" tells the agent what to build but not why. Missing context leads to wrong trade-offs.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>Not Using Plan Mode</h4>
+        <p>For complex features, jumping straight to implementation means no opportunity to catch misunderstandings before they become code.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>Ignoring Context Window Limits</h4>
+        <p>Overloading a session with too many files or too large a scope causes the agent to lose track of requirements mid-task.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>Not Reviewing Agent Code</h4>
+        <p>Agents are powerful but non-deterministic. Code that passes tests can still have logic errors, security gaps, or architectural drift.</p>
+      </div>
+      <div class="bp-anti-card ">
+        <h4>Bloated CLAUDE.md</h4>
+        <p>Stuffing every rule into CLAUDE.md defeats the purpose. Keep it focused on high-level rules; use docs/ and local CLAUDE.md for details.</p>
+      </div>
+    </div>
+
 
   </section>
 </div>

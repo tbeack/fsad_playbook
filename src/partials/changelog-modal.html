@@ -6,7 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
-        <h3>v4.1.46 <span class="changelog-date">· 2026-10-05</span></h3>
+        <h3>v4.1.47 <span class="changelog-date">· 2026-10-05</span></h3>
+        <p><strong>Sidebar, page order and playground fixes.</strong> The sidebar leaf highlight no longer goes stale, the playgrounds load without script errors, and the Operations topic follows the sidebar order.</p>
+        <ul>
+          <li><strong>CBP-648 — [Claude] No stale leaf highlight.</strong> The scroll spy now clears the leaf highlight after a page change, and when a section enters view with none of its collapsibles in the detection band.</li>
+          <li><strong>CBP-649 — No script errors on page load.</strong> The build inlined the two playgrounds with their <code>\n</code> escapes expanded, which broke their scripts. The playgrounds now load with no console errors.</li>
+          <li><strong>CBP-652 — [Claude] Operations order matches the sidebar.</strong> Guidelines now renders at the end of the Operations topic, where the sidebar lists it.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v4.1.46<span class="changelog-date">· 2026-10-05</span></h3>
         <p><strong>Build guard fix after worktree merges.</strong> The build no longer reports a false hand edit after a worktree merge, and it refuses to build <code>dist/</code> from an out-of-date intermediate (CBP-650).</p>
       </section>
       <section>

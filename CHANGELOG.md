@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.47 — 2026-10-05
+
+**Sidebar, page order and playground fixes (CBP-648, CBP-649, CBP-652)**
+
+- **CBP-648 — No stale leaf highlight.** A sidebar leaf stayed highlighted after a page change, or after a section entered the detection band with none of its collapsibles in view. The scroll spy now clears the leaf highlight in both cases.
+- **CBP-649 — No script errors on page load.** `build-dist.py` passed the playground iframe markup to `re.subn` as a string, so Python expanded the `\n` escapes in the playground JavaScript. Each of the two inlined playgrounds threw "Invalid or unexpected token". The script now passes a function, so the markup goes in unchanged.
+- **CBP-652 — Operations order matches the sidebar.** Guidelines (`#best-practices`) rendered first in the Operations topic, but the sidebar lists it last. The section now sits at the end of the topic, and the topic is one container.
+
 ### v4.1.46 — 2026-10-05
 
 **Build guard fix after worktree merges (CBP-650)**
