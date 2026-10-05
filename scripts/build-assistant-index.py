@@ -88,14 +88,21 @@ def main():
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     version = extract_version(content)
-    meta = {
-        "playbook_version": version,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "chunk_count": len(chunks),
-    }
-    with open(META_OUT, "w", encoding="utf-8") as f:
-        json.dump(meta, f, ensure_ascii=False, indent=2)
-        f.write("\n")
+    # Rewrite meta.json only when its content changes, so a rebuild with no
+    # change leaves it clean and a release bump shows just the version (CBP-651).
+    try:
+        old = json.loads(META_OUT.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        old = {}
+    if old.get("playbook_version") != version or old.get("chunk_count") != len(chunks):
+        meta = {
+            "playbook_version": version,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "chunk_count": len(chunks),
+        }
+        with open(META_OUT, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+            f.write("\n")
 
     size_kb = JSONL_OUT.stat().st_size / 1024
     print(f"Chunks: {len(chunks)}")
