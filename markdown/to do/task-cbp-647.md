@@ -25,8 +25,10 @@ The section branch of the `sectionObserver` callback uses `item.getAttribute('on
 
 ## Acceptance Criteria
 
-- [ ] After `scroll_to` `#monitoring` on `#practices/operations`, `.nav-sub-item.active` matches exactly 1 element, with `href="#practices/monitoring"`.
-- [ ] After `scroll_to` `#building-skills` on `#practices/skills-hooks`, `.nav-sub-item.active` matches exactly 1 element, with `href="#practices/building-skills"`.
-- [ ] After `scroll_to` `#workflow` on `#fsad`, `.nav-sub-item.active` matches exactly 1 element, with `href="#fsad/workflow"`.
-- [ ] The CBP-645 checks still pass: `#mods`, `#hooks-deep-dive`, `#cloud-integrations` and `#getting-started` each highlight their own sub-item.
-- [ ] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+- [x] After `scroll_to` `#monitoring` on `#practices/operations`, `.nav-sub-item.active` matches exactly 1 element, with `href="#practices/monitoring"`.
+- [x] After `scroll_to` `#building-skills` on `#practices/skills-hooks`, `.nav-sub-item.active` matches exactly 1 element, with `href="#practices/building-skills"`.
+- [x] After `scroll_to` `#workflow` on `#fsad`, `.nav-sub-item.active` matches exactly 1 element, with `href="#fsad/workflow"`.
+- [x] The CBP-645 checks still pass: `#mods`, `#hooks-deep-dive`, `#cloud-integrations` and `#getting-started` each highlight their own sub-item.
+- [x] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+
+All criteria verified 2026-10-05 before commit.
