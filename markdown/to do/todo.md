@@ -656,7 +656,7 @@
 - [x] `CBP-647` Fix scroll spy substring match lighting more than one sidebar sub-item → [task-cbp-647.md](task-cbp-647.md)
 - [ ] `CBP-648` Fix stale leaf highlight after page change or section-only band entry → [task-cbp-648.md](task-cbp-648.md)
 - [ ] `CBP-649` Fix two "Invalid or unexpected token" errors on page load → [task-cbp-649.md](task-cbp-649.md)
-- [ ] `CBP-650` Fix false build-source divergence error after a worktree merge → [task-cbp-650.md](task-cbp-650.md)
+- [x] `CBP-650` Fix false build-source divergence error after a worktree merge → [task-cbp-650.md](task-cbp-650.md)
 - [ ] `CBP-651` Fix stale playbook_version in the playbook-assistant index meta → [task-cbp-651.md](task-cbp-651.md)
 - [ ] `CBP-652` Fix Guidelines rendering first in the Operations topic while the sidebar lists it last → [task-cbp-652.md](task-cbp-652.md)
 - [ ] `CBP-653` Fix scroll spy rewriting the URL hash after a search result click → [task-cbp-653.md](task-cbp-653.md)

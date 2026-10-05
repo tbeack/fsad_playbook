@@ -52,6 +52,8 @@ docs/
 
 # Generated intermediate — assembled from src/ by scripts/build-source.py (D-01); edit src/*, not this file
 /fsad-playbook.html
+# Local build stamp for the intermediate above — untracked so a merge never changes it (CBP-650)
+/src/.build-stamp
 
 # Python bytecode from build scripts
 scripts/__pycache__/
