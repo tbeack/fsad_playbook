@@ -22,15 +22,17 @@ So the documented gate (look for `Injected PLAYBOOK_EMBEDDINGS`) can pass on a s
 
 ## Plan
 
-1. Pick one fix and record the choice here:
+1. Pick one fix and record the choice here. **Chosen (2026-10-05): (a).** A local stamp cannot change in a merge. Option (b) only covers the merge shapes seen so far.
    - (a) Make the stamp local: gitignore `src/.build-stamp` and untrack it, so a merge never changes it.
    - (b) Keep the stamp tracked, but also accept an intermediate whose hash matches the stamp at `HEAD^1` or `origin/main`.
-2. Make `build-dist.py` fail when `fsad-playbook.html` is older than any file under `src/`, or when the hash of `fsad-playbook.html` does not match the stamp.
+2. Make `build-dist.py` fail when `fsad-playbook.html` does not match the stamp, or when the content of `src/` changed since the last `build-source.py` run. **Decided (2026-10-05):** compare content hashes, not file times. A checkout or merge rewrites file times, so a time check fails falsely after every merge. `build-source.py` adds a second stamp line with a hash of every file under `src/`, and `build-dist.py` computes it again.
 3. Update the `CLAUDE.md` Development Workflow note if the stamp behavior changes.
 
 ## Acceptance Criteria
 
-- [ ] Reproduce: build in a worktree, merge the worktree branch into a branch whose `fsad-playbook.html` is an unedited older build, then run `python3 scripts/build-source.py`. It exits 0 and writes `fsad-playbook.html`, with no `--force`.
-- [ ] A real hand edit is still caught: append one character to `fsad-playbook.html`, then run `python3 scripts/build-source.py`. It exits non-zero with the divergence error.
-- [ ] Make a `src/` file newer than `fsad-playbook.html`, then run `python3 scripts/build-dist.py`. It exits non-zero and does not write `dist/fsad-playbook.html`.
-- [ ] A normal `build-source.py` → `build-dist.py` run still logs `Injected PLAYBOOK_EMBEDDINGS`.
+- [x] Reproduce: build in a worktree, merge the worktree branch into a branch whose `fsad-playbook.html` is an unedited older build, then run `python3 scripts/build-source.py`. It exits 0 and writes `fsad-playbook.html`, with no `--force`.
+- [x] A real hand edit is still caught: append one character to `fsad-playbook.html`, then run `python3 scripts/build-source.py`. It exits non-zero with the divergence error.
+- [x] Change the content of a `src/` file after a build, then run `python3 scripts/build-dist.py`. It exits non-zero and does not write `dist/fsad-playbook.html`. A plain `touch` of a `src/` file does not fail the check. (Reworded 2026-10-05: content change, not a newer file time.)
+- [x] A normal `build-source.py` → `build-dist.py` run still logs `Injected PLAYBOOK_EMBEDDINGS`.
+
+All criteria verified 2026-10-05 before commit.

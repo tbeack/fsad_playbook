@@ -17,10 +17,12 @@ Directives:
      A "<name>.b64" file holds verbatim base64 text (used when re-encoding
      a decoded binary is not byte-identical); its text is used as-is.
 
-Divergence guard: src/.build-stamp holds the sha256 of the last build's
-output. If fsad-playbook.html exists and does not match the stamp, the
+Divergence guard: src/.build-stamp (local, gitignored) holds two lines:
+the sha256 of the last build's output, and "src <sha256>" over every file
+under src/. If fsad-playbook.html exists and does not match line 1, the
 build aborts — the generated file was edited directly; port the edit into
-src/ or pass --force.
+src/ or pass --force. build-dist.py checks both lines before it builds.
+The stamp is untracked so a merge can never change it (CBP-650).
 
 Requirements: Python 3.6+, stdlib only. Single pass, deterministic.
 """
@@ -59,10 +61,32 @@ def sha256_file(path):
     return h.hexdigest()
 
 
+def src_digest():
+    """sha256 over every file under src/ (path + content), dotfiles skipped."""
+    h = hashlib.sha256()
+    for path in sorted(SRC_DIR.rglob("*")):
+        rel = path.relative_to(SRC_DIR)
+        if not path.is_file() or any(p.startswith(".") for p in rel.parts):
+            continue
+        h.update(rel.as_posix().encode("utf-8") + b"\0")
+        h.update(sha256_file(path).encode("ascii") + b"\n")
+    return h.hexdigest()
+
+
+def read_stamp():
+    """Return (output sha256, src digest or None), or (None, None) if absent."""
+    if not STAMP.exists():
+        return None, None
+    lines = STAMP.read_text().split()
+    out_hash = lines[0] if lines else None
+    src_hash = lines[2] if len(lines) >= 3 and lines[1] == "src" else None
+    return out_hash, src_hash
+
+
 def check_divergence(force):
-    if not OUT.exists() or not STAMP.exists():
+    stamped, _ = read_stamp()
+    if not OUT.exists() or stamped is None:
         return
-    stamped = STAMP.read_text().strip()
     actual = sha256_file(OUT)
     if actual != stamped:
         if force:
@@ -120,7 +144,7 @@ def main():
 
     OUT.write_bytes(content)
     digest = hashlib.sha256(content).hexdigest()
-    STAMP.write_text(digest + "\n")
+    STAMP.write_text(f"{digest}\nsrc {src_digest()}\n")
 
     print(f"  Includes: {include_directive.count}, assets: {asset_directive.count}")
     print(f"  Written: {OUT} ({len(content):,} bytes)")

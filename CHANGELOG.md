@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.46 — 2026-10-05
+
+**Build guard fix after worktree merges (CBP-650)**
+
+- **CBP-650 — No false divergence error after a worktree merge.** `src/.build-stamp` is now local and gitignored, so a merge can no longer change it. Before, a merged stamp made `build-source.py` report a hand edit that did not happen. The stamp now has a second line with a hash of every file under `src/`. `build-dist.py` refuses to build when `fsad-playbook.html` does not match the stamp, or when the content of `src/` changed since the last `build-source.py` run. A stale intermediate can no longer reach `dist/`. The check compares content, not file times, so a checkout or merge does not trigger it.
+
 ### v4.1.45 — 2026-10-05
 
 **Session Review section and two Claude sidebar fixes (CBP-045, CBP-646, CBP-647)**
