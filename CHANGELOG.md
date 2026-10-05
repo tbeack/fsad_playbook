@@ -1,10 +1,12 @@
 ## Changes in This Version
 
-### Unreleased
+### v4.1.45 — 2026-10-05
 
-**New Session Review section in Claude Operations (CBP-045)**
+**Session Review section and two Claude sidebar fixes (CBP-045, CBP-646, CBP-647)**
 
 - **CBP-045 — Session Review & Refinement.** Added `#session-review` (16.5) to the Operations topic, after Monitoring. The section links live rewind, `/recap`, and post-hoc transcript review into one learning loop. It has 4 collapsibles: the three review modes, a review checklist, a table that shows where each lesson should land (CLAUDE.md, skill, hook, feedback memory, permissions), and a meta-review prompt for a fresh Claude instance. Added a `Session Review` sidebar item under Operations, the `session-review` route in `sectionToPageMap`, and cross-links from the Cheat Sheet `/rewind` row and the Power Usage Session Logs card.
+- **CBP-646 — Topic footer at the end of split topics.** The "Next topic" footer of a split topic ("Skills, Hooks, Mods" and "Operations") rendered in the first container, in the middle of the page. The footer now goes in the last container.
+- **CBP-647 — One sidebar sub-item per section.** The scroll spy lit every sub-item whose `onclick` text contained the section id. So `#monitoring` also lit Production Monitoring, and `#building-skills` also lit the Codex item. The scroll spy now matches the section id exactly against the item's href.
 
 ### v4.1.44 — 2026-10-05
 
