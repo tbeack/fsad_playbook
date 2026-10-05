@@ -25,7 +25,9 @@ Evidence: tb:browser-verify run on the CBP-644 build. A `scroll` check with `scr
 
 ## Acceptance Criteria
 
-- [ ] After `scroll_to` `#mods`, `#hooks-deep-dive`, and `#cloud-integrations`, `.nav-sub-item.active[href="#practices/<id>"]` matches for each one.
-- [ ] A short section (for example `#getting-started`) still highlights its sub-item after scrolling to it.
-- [ ] Scrolling to a collapsible (for example `#hooks-deep-dive--recipes`) still highlights its `.nav-leaf-item` and updates the hash to the leaf deep link.
-- [ ] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+All criteria verified 2026-10-05 before commit.
+
+- [x] After `scroll_to` `#mods`, `#hooks-deep-dive`, and `#cloud-integrations`, `.nav-sub-item.active[href="#practices/<id>"]` matches for each one.
+- [x] A short section (for example `#getting-started`) still highlights its sub-item after scrolling to it.
+- [x] Scrolling to a collapsible (for example `#hooks-deep-dive--recipes`) still highlights its `.nav-leaf-item` and updates the hash to the leaf deep link.
+- [x] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.

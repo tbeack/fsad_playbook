@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### Unreleased
+
+**Scroll spy fix for tall and split-topic Claude sections (CBP-645)**
+
+- **CBP-645 — Scroll spy highlights every Claude section.** The scroll spy watched only the first container of a topic. The second containers of "Skills, Hooks, Mods" and "Operations" were never watched. So `#hooks-deep-dive`, `#cloud-integrations`, `#mods`, `#monitoring` and `#production-monitoring` never highlighted their sidebar item. The scroll spy now watches every visible container. The observer threshold changed from `0.1` to `0`, so tall sections such as `#getting-started` also highlight. When several short collapsibles share the detection band, the leaf highlight and the hash deep link now go to the topmost one, not the last one to enter the band.
+
 ### v4.1.43 — 2026-10-04
 
 **New Mods section and "Skills, Hooks, Mods" topic rename (CBP-644)**
