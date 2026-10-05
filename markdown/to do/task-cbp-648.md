@@ -25,7 +25,9 @@ Seen in the browser on `main` and on the CBP-645 build:
 
 ## Acceptance Criteria
 
-- [ ] After `scroll_to` `#production-monitoring--control-bands`, then navigation to `#fsad`, `.nav-leaf-item.active` matches 0 elements.
-- [ ] After `scroll_to` `#hooks-deep-dive--recipes`, then `scroll_to` `#mods` (section top, above its first collapsible), no `.nav-leaf-item.active` has a `data-leaf` that starts with `hooks-deep-dive--`.
-- [ ] The CBP-645 AC3 check still passes: after `scroll_to` `#hooks-deep-dive--recipes`, `.nav-leaf-item.active[data-leaf="hooks-deep-dive--recipes"]` matches, and the hash is `#practices/hooks-deep-dive/recipes`.
-- [ ] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+All criteria verified 2026-10-05 before commit.
+
+- [x] After `scroll_to` `#production-monitoring--control-bands`, then navigation to `#fsad`, `.nav-leaf-item.active` matches 0 elements.
+- [x] After `scroll_to` `#hooks-deep-dive--recipes`, then `scroll_to` `#mods` (section top, above its first collapsible), no `.nav-leaf-item.active` has a `data-leaf` that starts with `hooks-deep-dive--`.
+- [x] The CBP-645 AC3 check still passes: after `scroll_to` `#hooks-deep-dive--recipes`, `.nav-leaf-item.active[data-leaf="hooks-deep-dive--recipes"]` matches, and the hash is `#practices/hooks-deep-dive/recipes`.
+- [x] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
