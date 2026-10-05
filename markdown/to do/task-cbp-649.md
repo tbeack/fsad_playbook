@@ -23,8 +23,18 @@ Each load of `dist/fsad-playbook.html` throws 2 `pageerror` events with the mess
 3. Fix the code in `src/` or in the build script.
 4. Run `python3 scripts/build-source.py` and `python3 scripts/build-dist.py`.
 
+## Root Cause
+
+`scripts/build-dist.py:124` (before the fix) called `obj_re.subn(iframe_tag, content)` with a string replacement. `re` expands backslash escapes in a string replacement. The playground JS has string literals with `\n` (for example `add-task-playground.html:361`). In the `srcdoc`, each `\n` became a real newline. This made an unterminated string literal, so each of the 2 playground iframes threw `Invalid or unexpected token`.
+
+`fsad-playbook.html` (the `build-source.py` output) has no errors. It loads the playgrounds through `<object>`, not through `srcdoc`.
+
+**Fix:** `scripts/build-dist.py:126` now passes a callable, `obj_re.subn(lambda _: iframe_tag, content)`. `re` does not process escapes in the return value of a callable.
+
 ## Acceptance Criteria
 
-- [ ] When `dist/fsad-playbook.html` loads over HTTP in headless Chromium, there are 0 `pageerror` events within 3 s.
-- [ ] The task file records the root cause, with a `file:line` reference.
-- [ ] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+- [x] When `dist/fsad-playbook.html` loads over HTTP in headless Chromium, there are 0 `pageerror` events within 3 s.
+- [x] The task file records the root cause, with a `file:line` reference.
+- [x] `build-dist.py` logs `Injected PLAYBOOK_EMBEDDINGS`.
+
+All criteria verified 2026-10-05 before commit.

@@ -121,7 +121,9 @@ def inline_playground(content, filename):
         f'width="100%" height="720" '
         f'style="display:block; color-scheme:dark; border:none;"></iframe>'
     )
-    result, n = obj_re.subn(iframe_tag, content)
+    # Callable replacement: a str would have its backslash escapes (\n in the
+    # playground's JS strings) expanded by re, breaking the inlined scripts.
+    result, n = obj_re.subn(lambda _: iframe_tag, content)
     if n == 0:
         print(f"  WARNING: <object> for {filename} not found.")
     else:
