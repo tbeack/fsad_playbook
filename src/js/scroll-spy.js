@@ -27,12 +27,9 @@
       }
       if (!entry.isIntersecting) return;
       const id = entry.target.id;
-      // A section became visible → highlight matching section nav item
+      // A section became visible → highlight the nav item whose href is exactly #page/<id>
       document.querySelectorAll('.nav-sub-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.getAttribute('onclick')?.includes(id)) {
-          item.classList.add('active');
-        }
+        item.classList.toggle('active', item.getAttribute('href')?.split('/')[1] === id);
       });
       document.querySelectorAll('.page-indicator-pill').forEach(pill => {
         pill.classList.toggle('active', pill.dataset.section === id);
