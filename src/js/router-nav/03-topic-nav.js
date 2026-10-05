@@ -68,7 +68,9 @@
     // Remove any existing footers across topic-views
     document.querySelectorAll('#page-practices .topic-footer').forEach(f => f.remove());
     if (topicId === 'hub') return;
-    const view = document.querySelector(`#page-practices .topic-view[data-topic="${topicId}"]:not([hidden])`);
+    // Split topics span several containers; the footer goes in the last one.
+    const views = document.querySelectorAll(`#page-practices .topic-view[data-topic="${topicId}"]:not([hidden])`);
+    const view = views[views.length - 1];
     if (!view) return;
     const idx = TOPIC_ORDER.indexOf(topicId);
     const next = TOPIC_ORDER[(idx + 1) % TOPIC_ORDER.length];
