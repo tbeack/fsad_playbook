@@ -23,6 +23,8 @@ When you scroll from a collapsible into a part of the same section that has no c
 
 ## Acceptance Criteria
 
-- [ ] Open a Claude section with a collapsible followed by plain text in the same section. Scroll until the collapsible is in the band: its leaf is active. Scroll on until only plain text of the same section is in the band: no `.nav-leaf-item` has `active`.
-- [ ] Scrolling between two collapsibles in one section still moves the highlight to the topmost one in the band (CBP-645 behaviour).
-- [ ] The CBP-648 checks still pass: no stale leaf after a page change or a section-only band entry.
+- [x] Open a Claude section with a collapsible followed by plain text in the same section. Scroll until the collapsible is in the band: its leaf is active. Scroll on until only plain text of the same section is in the band: no `.nav-leaf-item` has `active`.
+- [x] Scrolling between two collapsibles in one section still moves the highlight to the topmost one in the band (CBP-645 behaviour).
+- [x] The CBP-648 checks still pass: no stale leaf after a page change or a section-only band entry.
+
+All criteria verified 2026-10-05 before commit.

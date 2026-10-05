@@ -24,7 +24,9 @@ The search result click handler navigates by calling `switchPage()`, `showTopic(
 
 ## Acceptance Criteria
 
-- [ ] Search for "rewind", click the `#session-review` result, and wait 1 s. `location.hash` is `#practices/session-review`.
-- [ ] Search for "monitoring", click the `#monitoring` result, and wait 1 s. `location.hash` is `#practices/monitoring`, not a leaf hash such as `#practices/monitoring/backends`.
-- [ ] After the route settles, scrolling by hand still updates the hash (the scroll spy is not left disabled).
-- [ ] `routeSettling` is set in exactly one function (`grep -n 'routeSettling = true' src/js -r` returns one line).
+- [x] Search for "rewind", click the `#session-review` result, and wait 1 s. `location.hash` is `#practices/session-review`.
+- [x] Search for "monitoring", click the `#monitoring` result, and wait 1 s. `location.hash` is `#practices/monitoring`, not a leaf hash such as `#practices/monitoring/backends`.
+- [x] After the route settles, scrolling by hand still updates the hash (the scroll spy is not left disabled).
+- [x] `routeSettling` is set in exactly one function (`grep -n 'routeSettling = true' src/js -r` returns one line).
+
+All criteria verified 2026-10-05 before commit.
