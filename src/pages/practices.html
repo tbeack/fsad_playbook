@@ -1887,7 +1887,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/cd</code> <code>&lt;path&gt;</code></td><td>Move the session to a new working directory without breaking the prompt cache mid-session (v2.1.169)</td></tr>
           <tr><td><code>/add-dir</code> <code>&lt;path&gt;</code></td><td>Grant the session access to an additional working directory. As of v2.1.234 it can be run while Claude is working, so a mid-run "needs a directory it doesn't have access to" no longer means interrupting the turn. In the fullscreen TUI, <code>/add-dir</code>, <code>/autocompact</code>, <code>/theme</code>, <code>/help</code>, <code>/config</code> and <code>/advisor</code> all open their dialogs mid-turn (v2.1.234)</td></tr>
           <tr><td><code>/recap</code></td><td>Replay session context — useful when returning to a long-running session. Configurable in <code>/config</code>. Force on: <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>; opt out: <code>=0</code> (also disables the default-on behavior on Bedrock / Vertex / Foundry).</td></tr>
-          <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>). The Rewind menu also offers <strong>Summarize up to here</strong> — compress earlier context while preserving recent turns, without rolling back state. As of v2.1.191, the Rewind menu also lets you resume from before a <code>/clear</code> was run, recovering the conversation state that existed before the context was cleared.</td></tr>
+          <tr><td><code>/rewind</code></td><td>Rewind to previous checkpoint (aliases: <code>/undo</code>, <code>/checkpoint</code>). The Rewind menu also offers <strong>Summarize up to here</strong> — compress earlier context while preserving recent turns, without rolling back state. As of v2.1.191, the Rewind menu also lets you resume from before a <code>/clear</code> was run, recovering the conversation state that existed before the context was cleared. See <a href="#practices/session-review" style="color:var(--accent);">Session Review</a> for the full learning loop.</td></tr>
           <tr><td><code>/export</code></td><td>Export conversation to file or clipboard</td></tr>
           <tr><td><code>/copy</code> <code>[N]</code></td><td>Copy last response to clipboard (or Nth-last)</td></tr>
           <tr><td><code>/diff</code></td><td>Open interactive diff viewer. In the detail view, scroll with arrow keys, <kbd>j</kbd>/<kbd>k</kbd>, <kbd>PgUp</kbd>/<kbd>PgDn</kbd>, <kbd>Space</kbd>, <kbd>Home</kbd>/<kbd>End</kbd> (v2.1.149). As of v2.1.260, in fullscreen mode <code>/diff</code> toggles a diff panel beside the conversation that shows your uncommitted changes live as Claude edits.</td></tr>
@@ -2409,6 +2409,7 @@ smoke tests against the staging URL."</code></pre>
           <li>Use <code>/export</code> to save a conversation to file or clipboard</li>
           <li>Press <kbd>Ctrl+O</kbd> to toggle normal / verbose transcript; use <code>/focus</code> to toggle focus view</li>
         </ul>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">See <a href="#practices/session-review" style="color:var(--accent);">Session Review</a> for the full learning loop: what to look for in a transcript and where each lesson should land.</p>
       </div></div>
     </div>
 
@@ -4119,6 +4120,106 @@ claude</code></pre>
       <div class="callout-title">ROI Measurement Guide</div>
       <p>Anthropic provides a ready-to-use monitoring starter kit with Docker Compose configs, Prometheus + OTel setup, and Linear integration templates for automated productivity reports.</p>
       <p style="margin-top:0.5rem;"><a href="https://github.com/anthropics/claude-code-monitoring-guide" target="_blank" rel="noopener" style="color:var(--accent-violet); text-decoration:underline;">github.com/anthropics/claude-code-monitoring-guide</a></p>
+    </div>
+
+  </section>
+
+<hr class="divider">
+
+<section id="session-review">
+    <span class="section-label">16.5 — Session Review</span>
+    <h2 class="section-title">Session Review &amp; Refinement</h2>
+    <p class="section-subtitle">Every session is training data for <em>you</em>. Claude Code gives you three ways to watch the tape: live rewind during the run, in-session recap when you return, and post-hoc transcript review from <code>~/.claude/projects/</code>. Use them as a learning loop that turns one-off corrections into persistent guidance.</p>
+
+    <!-- Three Review Modes -->
+    <div class="collapsible open" id="session-review--review-modes">
+      <div class="collapsible-header">
+        <h3>Three Review Modes</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>Pick the mode that matches when you notice the problem. Each one uses a feature you already have; the value comes from using them on purpose, not by accident.</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>Mode</th><th>When</th><th>How</th><th>Best for</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Live rewind</strong></td><td>Mid-session, when you spot a wrong turn</td><td><code>/rewind</code> or <kbd>Esc</kbd> <kbd>Esc</kbd> &rarr; pick a checkpoint</td><td>Killing a bad branch before it compounds; A/B-ing two approaches from the same checkpoint</td></tr>
+              <tr><td><strong>In-session recap</strong></td><td>Returning to a long-running session</td><td><code>/recap</code> (or set <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1</code>)</td><td>Re-loading context after hours away; <code>/resume</code>-ing a named session</td></tr>
+              <tr><td><strong>Post-hoc transcript review</strong></td><td>After the session ends</td><td>Open the <code>.jsonl</code> in <code>~/.claude/projects/&lt;project&gt;/</code>, or re-open with <code>claude --resume</code> + <kbd>Ctrl+O</kbd></td><td>Pattern-spotting across many sessions; extracting lessons worth persisting</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- What to Look For -->
+    <div class="collapsible" id="session-review--checklist">
+      <div class="collapsible-header">
+        <h3>What to Look For: Review Checklist</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>When you replay a session, scan for these signals. Each one points at a specific gap you can close.</p>
+        <ul style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li><strong>Claude asked a clarifying question</strong> &rarr; your CLAUDE.md, skill, or prompt is missing that context</li>
+          <li><strong>You corrected Claude's approach</strong> &rarr; candidate for a feedback memory (include <strong>Why</strong> and <strong>How to apply</strong> so future sessions can judge edge cases)</li>
+          <li><strong>Wasted tool calls</strong> (re-reading the same file, searching for known paths) &rarr; candidate for a CLAUDE.md hint or a hook</li>
+          <li><strong>Long, unreadable tool outputs</strong> &rarr; candidate for delegating that work to a subagent</li>
+          <li><strong>Repeated failures in the same class</strong> (tests, linter, build) &rarr; candidate for a <code>PostToolUse</code> hook or a skill</li>
+          <li><strong>Operations you had to approve again and again</strong> &rarr; candidate for a <code>permissions</code> entry in <code>settings.json</code></li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Where Learnings Land -->
+    <div class="collapsible" id="session-review--where-to-land">
+      <div class="collapsible-header">
+        <h3>Where Learnings Should Land</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>A lesson only compounds if it lands somewhere Claude reads next time. Use this decision tree to pick the destination:</p>
+        <div class="table-wrap" style="margin-top:0.75rem;">
+          <table class="styled-table">
+            <thead><tr><th>If the learning is&hellip;</th><th>Put it in</th></tr></thead>
+            <tbody>
+              <tr><td>A one-off nuance about this project</td><td>Project-level <code>CLAUDE.md</code></td></tr>
+              <tr><td>A repeatable procedure</td><td>A new skill under <code>.claude/skills/</code></td></tr>
+              <tr><td>A rule Claude should enforce on every tool call</td><td>A hook in <code>settings.json</code></td></tr>
+              <tr><td>A preference about how you like to work</td><td>A feedback memory (the auto memory system already records these)</td></tr>
+              <tr><td>A noisy permission prompt</td><td><code>permissions.allow</code> in <code>settings.json</code></td></tr>
+              <tr><td>Cross-project wisdom</td><td>User-level <code>~/.claude/CLAUDE.md</code> or a user-level skill</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Meta-Review -->
+    <div class="collapsible" id="session-review--meta-review">
+      <div class="collapsible-header">
+        <h3>Meta-Review With a Fresh Claude</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>You are too close to your own sessions to spot every pattern. A fresh Claude instance with no shared context gives an independent critique.</p>
+        <ol style="padding-left:1.25rem; color:var(--text-secondary); font-size:0.88rem; line-height:2; margin-top:0.75rem;">
+          <li>Open a fresh session in a scratch directory.</li>
+          <li>Paste the transcript, or point Claude at the <code>.jsonl</code> file.</li>
+          <li>Ask for a critique with the prompt below.</li>
+          <li>Save the answer. Apply only the top 1&ndash;2 changes, so you do not churn your config on every review.</li>
+        </ol>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code>Review this transcript as a senior engineer. Where did I prompt poorly?
+Where did Claude make bad calls I should have caught? What one change to
+my CLAUDE.md would have saved the most turns? Return a single actionable
+punch list.</code></pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1.5rem;">
+          <div class="callout-title">Keep the Loop Small</div>
+          <p>Treat the review like a code review: ask for one punch list, act on the highest-value items, and re-check after a few more sessions. Small, steady refinements to CLAUDE.md, skills, and memory beat a large rewrite after every session.</p>
+        </div>
+      </div></div>
     </div>
 
   </section>

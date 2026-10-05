@@ -1,0 +1,50 @@
+[
+  {
+    "index": 1,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "skipped"
+  },
+  {
+    "index": 2,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "confirmed"
+  },
+  {
+    "index": 3,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "confirmed"
+  },
+  {
+    "index": 4,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "confirmed"
+  },
+  {
+    "index": 5,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "confirmed"
+  },
+  {
+    "index": 6,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "rejected"
+  },
+  {
+    "index": 7,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "confirmed"
+  },
+  {
+    "index": 8,
+    "verdict": "pass",
+    "date": "2026-10-05",
+    "refuter": "confirmed"
+  }
+]

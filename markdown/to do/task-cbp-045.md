@@ -83,11 +83,13 @@ Add a new sub-section to Claude Best Practices → **Operations** called "Sessio
    - Bump version in `README.md` and add a CHANGELOG entry under the next version
 
 ## Acceptance Criteria
-- [ ] New `#session-review` section renders under Practices → Operations, between Monitoring and Guidelines
-- [ ] Section contains intro + 4 collapsibles (three review modes, review checklist, where-to-land decision tree, meta-review)
-- [ ] Sidebar nav entry appears under Operations between Monitoring and Guidelines
-- [ ] `sectionToPageMap` and `sectionToTopicMap` both include `session-review`
-- [ ] Search finds the new content (try: "rewind", "transcript review", "meta-review", "learning loop")
-- [ ] Clicking a search result for `session-review` navigates to Operations topic (not Hub) and scrolls correctly
-- [ ] Cheat Sheet `/rewind` row and Power Usage Session Logs card have cross-links to the new section
-- [ ] No Mermaid/Highlight.js regressions; dark and light themes both render cleanly
+- [x] New `#session-review` section renders in the Operations topic directly after Monitoring (reworded 2026-10-05: Guidelines renders first in the DOM, see CBP-652)
+- [x] Section contains intro + 4 collapsibles (three review modes, review checklist, where-to-land decision tree, meta-review)
+- [x] Sidebar nav entry appears under Operations between Monitoring and Guidelines
+- [x] `sectionToPageMap` and `sectionToTopicMap` both include `session-review`
+- [x] Search finds the new content (try: "rewind", "transcript review", "meta-review", "learning loop")
+- [x] Clicking a search result for `session-review` navigates to Operations topic (not Hub) and scrolls correctly
+- [x] Cheat Sheet `/rewind` row and Power Usage Session Logs card have cross-links to the new section
+- [x] No Mermaid/Highlight.js regressions; dark and light themes both render cleanly
+
+All criteria verified 2026-10-05 before commit.
