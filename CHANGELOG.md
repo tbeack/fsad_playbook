@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### Unreleased
+
+**New Session Review section in Claude Operations (CBP-045)**
+
+- **CBP-045 — Session Review & Refinement.** Added `#session-review` (16.5) to the Operations topic, after Monitoring. The section links live rewind, `/recap`, and post-hoc transcript review into one learning loop. It has 4 collapsibles: the three review modes, a review checklist, a table that shows where each lesson should land (CLAUDE.md, skill, hook, feedback memory, permissions), and a meta-review prompt for a fresh Claude instance. Added a `Session Review` sidebar item under Operations, the `session-review` route in `sectionToPageMap`, and cross-links from the Cheat Sheet `/rewind` row and the Power Usage Session Logs card.
+
 ### v4.1.44 — 2026-10-05
 
 **Scroll spy fix for tall and split-topic Claude sections (CBP-645)**
