@@ -6,7 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
-        <h3>v4.1.47 <span class="changelog-date">· 2026-10-05</span></h3>
+        <h3>v4.1.48 <span class="changelog-date">· 2026-10-05</span></h3>
+        <p><strong>Search landing, leaf highlight and assistant index fixes.</strong> Search results now keep the URL you clicked, the sidebar leaf highlight clears when its section part scrolls away, and the assistant index keeps its version current.</p>
+        <ul>
+          <li><strong>CBP-651 — Assistant index version stays current.</strong> The build now rewrites the playbook-assistant <code>meta.json</code> only when its version or chunk count changes, so a release keeps the new version.</li>
+          <li><strong>CBP-653 — [Claude] Search clicks keep the target URL.</strong> A search result now lands instantly on its section and keeps <code>#page/section</code> in the URL, instead of passing through neighbouring sections.</li>
+          <li><strong>CBP-654 — [Claude] Leaf highlight clears when its collapsible leaves view.</strong> The sidebar leaf no longer stays highlighted after you scroll past its collapsible into plain text.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v4.1.47<span class="changelog-date">· 2026-10-05</span></h3>
         <p><strong>Sidebar, page order and playground fixes.</strong> The sidebar leaf highlight no longer goes stale, the playgrounds load without script errors, and the Operations topic follows the sidebar order.</p>
         <ul>
           <li><strong>CBP-648 — [Claude] No stale leaf highlight.</strong> The scroll spy now clears the leaf highlight after a page change, and when a section enters view with none of its collapsibles in the detection band.</li>

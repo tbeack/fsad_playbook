@@ -62,7 +62,7 @@ open "fsad-playbook.html"              # or serve: python3 -m http.server 8000
 python3 scripts/build-dist.py          # must log "Injected PLAYBOOK_EMBEDDINGS"
 ```
 
-**All edits happen in `src/*`.** `fsad-playbook.html` is a generated intermediate (gitignored): `build-source.py` refuses to overwrite it if it was hand-edited since the last build (divergence guard via `src/.build-stamp`; `--force` overrides after you port the edit into `src/`). The stamp is local and gitignored, so a merge never changes it. `build-dist.py` refuses to run when `fsad-playbook.html` does not match the stamp, or when the content of `src/` changed since the last `build-source.py` run. Run `build-source.py` first after every pull or merge. `build-dist.py` also touches `skills/playbook-assistant/index/meta.json` (timestamp only) — revert that with `git checkout -- skills/playbook-assistant/index/meta.json` unless the index actually changed.
+**All edits happen in `src/*`.** `fsad-playbook.html` is a generated intermediate (gitignored): `build-source.py` refuses to overwrite it if it was hand-edited since the last build (divergence guard via `src/.build-stamp`; `--force` overrides after you port the edit into `src/`). The stamp is local and gitignored, so a merge never changes it. `build-dist.py` refuses to run when `fsad-playbook.html` does not match the stamp, or when the content of `src/` changed since the last `build-source.py` run. Run `build-source.py` first after every pull or merge. `build-dist.py` also regenerates `skills/playbook-assistant/index/meta.json`, but rewrites it only when `playbook_version` or `chunk_count` changes. Commit any `meta.json` change: after a version bump it carries the new `playbook_version`, which the playbook-assistant skill compares with the `<title>` version.
 
 ### Build + Commit requirement
 
@@ -71,7 +71,7 @@ python3 scripts/build-dist.py          # must log "Injected PLAYBOOK_EMBEDDINGS"
 1. Make all edits under `src/` (and any other source files).
 2. Run `python3 scripts/build-source.py` — this writes `fsad-playbook.html`.
 3. Run `python3 scripts/build-dist.py` — this writes `dist/fsad-playbook.html`. Confirm it logs `Injected PLAYBOOK_EMBEDDINGS`.
-4. Stage **both** the source tree and `dist/` in the same commit: `git add src/ dist/`.
+4. Stage **both** the source tree and `dist/` in the same commit, plus `meta.json` when it changed: `git add src/ dist/ skills/playbook-assistant/index/meta.json`.
 5. Commit and push as normal.
 
 `dist/fsad-playbook.html` is the fully self-contained build artifact (fonts and playgrounds inlined). It must always be in sync with `src/` and included in every release commit. `fsad-playbook.html` itself is gitignored and never committed.

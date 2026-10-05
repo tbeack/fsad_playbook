@@ -51,6 +51,8 @@
     });
     // A section became active with none of its collapsibles in the band → drop the stale leaf
     if (activeSection && ![...leavesInBand].some(c => activeSection.contains(c))) clearLeaves();
+    // The last collapsible left the band → no leaf is in view any more
+    if (leavesChanged && !leavesInBand.size) clearLeaves();
     // Highlight the topmost collapsible in the band, not the last one to enter it
     if (leavesChanged && leavesInBand.size) {
       const top = [...leavesInBand].reduce((a, b) =>

@@ -14,14 +14,20 @@
   // suppress the scroll-spy's hash rewrites until the route settles so it can't
   // clobber the target hash with an intermediate one.
   let routeSettling = false;
+  let settleTimer;
+
+  // Shared by every programmatic navigation (route changes, search clicks).
+  function settleRoute() {
+    routeSettling = true;
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(() => { routeSettling = false; }, 500);
+  }
 
   function handleRoute() {
     const hash = window.location.hash.substring(1);
     if (!hash) return;
 
-    routeSettling = true;
-    clearTimeout(handleRoute._settleTimer);
-    handleRoute._settleTimer = setTimeout(() => { routeSettling = false; }, 500);
+    settleRoute();
 
     const [pageId, sectionId, leafSlug] = hash.split('/');
     const navBtn = document.querySelector(`.nav-group-toggle[data-page="${pageId}"]`);

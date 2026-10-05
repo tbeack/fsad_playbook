@@ -197,11 +197,13 @@
         e.preventDefault();
         const targetPage = sectionToPageMap[sectionId];
         const navBtn = document.querySelector(`.nav-group-toggle[data-page="${targetPage}"]`);
+        // Land like a deep link: hold off scroll-spy hash rewrites, then jump and pin the hash
+        settleRoute();
         switchPage(targetPage, navBtn);
         if (targetPage === 'practices' && sectionToTopicMap[sectionId]) {
           showTopic(sectionToTopicMap[sectionId]);
         }
-        setTimeout(() => scrollToId(sectionId), 150);
+        setTimeout(() => scrollToId(sectionId, true, `#${targetPage}/${sectionId}`), 150);
         const input = document.getElementById('sidebarSearchInput');
         if (input) { input.value = ''; input.blur(); }
         closeSidebarSearch();
