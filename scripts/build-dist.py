@@ -15,6 +15,7 @@ Requirements: Python 3.6+, stdlib only.
 
 import base64
 import html
+import importlib.util
 import json
 import os
 import re
@@ -30,6 +31,14 @@ OUT = DIST_DIR / "fsad-playbook.html"
 EMBEDDINGS_JSON = DIST_DIR / "embeddings.json"
 EMBEDDINGS_SCRIPT = Path(__file__).parent / "build-embeddings.py"
 ASSISTANT_INDEX_SCRIPT = Path(__file__).parent / "build-assistant-index.py"
+
+# build-source.py has a hyphen in its filename, so it can't be a normal
+# `import` target — load it by path to reuse its stamp helpers.
+_spec = importlib.util.spec_from_file_location(
+    "build_source", Path(__file__).parent / "build-source.py"
+)
+_build_source = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_build_source)
 
 FONTS_URL = (
     "https://fonts.googleapis.com/css2"
@@ -165,10 +174,22 @@ def inject_embeddings(content):
     return content.replace(old, new, 1)
 
 
+def check_fresh():
+    """Refuse to build from an intermediate that does not match src/ (CBP-650)."""
+    out_hash, src_hash = _build_source.read_stamp()
+    if out_hash is None or src_hash is None:
+        sys.exit("ERROR: src/.build-stamp missing or old format — run python3 scripts/build-source.py first.")
+    if _build_source.sha256_file(SRC) != out_hash:
+        sys.exit(f"ERROR: {SRC.name} does not match src/.build-stamp — run python3 scripts/build-source.py first.")
+    if _build_source.src_digest() != src_hash:
+        sys.exit(f"ERROR: src/ changed since {SRC.name} was built — run python3 scripts/build-source.py first.")
+
+
 def main():
     if not SRC.exists():
         print(f"ERROR: source file not found: {SRC}")
         sys.exit(1)
+    check_fresh()
 
     print(f"Source: {SRC} ({SRC.stat().st_size:,} bytes)")
 

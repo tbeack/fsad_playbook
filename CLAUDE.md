@@ -53,7 +53,7 @@ When picking up a task:
 # 1. Edit files under src/ (never fsad-playbook.html directly)
 
 # 2. Assemble the app from src/
-python3 scripts/build-source.py        # writes fsad-playbook.html + src/.build-stamp
+python3 scripts/build-source.py        # writes fsad-playbook.html + local src/.build-stamp
 
 # 3. Verify in a browser
 open "fsad-playbook.html"              # or serve: python3 -m http.server 8000
@@ -62,7 +62,7 @@ open "fsad-playbook.html"              # or serve: python3 -m http.server 8000
 python3 scripts/build-dist.py          # must log "Injected PLAYBOOK_EMBEDDINGS"
 ```
 
-**All edits happen in `src/*`.** `fsad-playbook.html` is a generated intermediate (gitignored): `build-source.py` refuses to overwrite it if it was hand-edited since the last build (divergence guard via `src/.build-stamp`; `--force` overrides after you port the edit into `src/`). `build-dist.py` also touches `skills/playbook-assistant/index/meta.json` (timestamp only) — revert that with `git checkout -- skills/playbook-assistant/index/meta.json` unless the index actually changed.
+**All edits happen in `src/*`.** `fsad-playbook.html` is a generated intermediate (gitignored): `build-source.py` refuses to overwrite it if it was hand-edited since the last build (divergence guard via `src/.build-stamp`; `--force` overrides after you port the edit into `src/`). The stamp is local and gitignored, so a merge never changes it. `build-dist.py` refuses to run when `fsad-playbook.html` does not match the stamp, or when the content of `src/` changed since the last `build-source.py` run. Run `build-source.py` first after every pull or merge. `build-dist.py` also touches `skills/playbook-assistant/index/meta.json` (timestamp only) — revert that with `git checkout -- skills/playbook-assistant/index/meta.json` unless the index actually changed.
 
 ### Build + Commit requirement
 
