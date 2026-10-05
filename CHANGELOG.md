@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.48 — 2026-10-05
+
+**Search landing, leaf highlight and assistant index fixes (CBP-651, CBP-653, CBP-654)**
+
+- **CBP-651 — Assistant index version stays current.** `build-assistant-index.py` rewrote `meta.json` on every build, so the "revert `meta.json`" rule also threw away the new `playbook_version` after a bump. The script now rewrites `meta.json` only when `playbook_version` or `chunk_count` changes. `CLAUDE.md` now says to commit the change.
+- **CBP-653 — Search clicks keep the target URL.** A search result click scrolled smoothly while the scroll spy rewrote the hash on the way, for example to `#practices/monitoring/backends`. Search clicks now land instantly like a deep link and set `#page/section`. One `settleRoute()` helper holds off the scroll spy for every programmatic navigation.
+- **CBP-654 — Leaf highlight clears when its collapsible leaves view.** When the last collapsible left the detection band, its sidebar leaf stayed highlighted. The scroll spy now clears it.
+
 ### v4.1.47 — 2026-10-05
 
 **Sidebar, page order and playground fixes (CBP-648, CBP-649, CBP-652)**
