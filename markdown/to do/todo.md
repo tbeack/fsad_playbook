@@ -661,3 +661,6 @@
 - [x] `CBP-652` Fix Guidelines rendering first in the Operations topic while the sidebar lists it last → [task-cbp-652.md](task-cbp-652.md)
 - [x] `CBP-653` Fix scroll spy rewriting the URL hash after a search result click → [task-cbp-653.md](task-cbp-653.md)
 - [x] `CBP-654` Fix leaf highlight staying on after its collapsible leaves the band → [task-cbp-654.md](task-cbp-654.md)
+- [x] `CBP-655` [Claude] Add `/claude-api managed-agents-onboard` to slash commands cheat sheet (v2.1.290) → [task-cbp-655.md](task-cbp-655.md)
+- [x] `CBP-656` [Claude] Add `CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR` env var and update WebSearch budget note (v2.1.290) → [task-cbp-656.md](task-cbp-656.md)
+- [x] `CBP-657` [Claude] Update `claude attach / logs` row to mention partial session name support (v2.1.290) → [task-cbp-657.md](task-cbp-657.md)
