@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.49 — 2026-10-06
+
+**Claude Code v2.1.290 cheat sheet updates (CBP-655, CBP-656, CBP-657)**
+
+- **CBP-655 — [Claude] `/claude-api managed-agents-onboard` slash command.** Added a new cheat sheet row after `/claude-api cost-optimize` documenting the two forms: `<url>` to apply a Managed Agents pattern from a docs page as `ant apply` files, and `<quickstart-name>` to build a Console quickstart template (e.g., `deep-researcher`) with the `ant` CLI (v2.1.290).
+- **CBP-656 — [Claude] WebSearch refill budget.** Updated the `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` row to note that the budget now refills over time. Added a new `CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR` env var row: default 100 calls/hour; set to `0` to make the session cap a hard lifetime limit (v2.1.290).
+- **CBP-657 — [Claude] Partial name support for `claude attach / logs`.** Updated the row header from `<id>` to `<id|name>` and noted that a partial session name works in place of the full id for the `attach` and `logs` sub-commands (v2.1.290).
+
 ### v4.1.48 — 2026-10-05
 
 **Search landing, leaf highlight and assistant index fixes (CBP-651, CBP-653, CBP-654)**

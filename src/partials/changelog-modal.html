@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.49 <span class="changelog-date">· 2026-10-06</span></h3>
+        <p><strong>Claude Code v2.1.290 cheat sheet updates.</strong> New <code>/claude-api managed-agents-onboard</code> slash command, a new <code>CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR</code> env var, and partial session name support in <code>claude attach</code> / <code>logs</code>.</p>
+        <ul>
+          <li><strong>CBP-655 — [Claude] <code>/claude-api managed-agents-onboard</code>.</strong> New cheat sheet row documents setting up the Managed Agents pattern from a URL or building a Console quickstart template by name (v2.1.290).</li>
+          <li><strong>CBP-656 — [Claude] WebSearch refill budget.</strong> <code>CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION</code> note updated to mention the refill model; new <code>CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR</code> env var row added (v2.1.290).</li>
+          <li><strong>CBP-657 — [Claude] Partial name for <code>claude attach / logs</code>.</strong> Row header updated to <code>&lt;id|name&gt;</code> and description notes that a partial session name works in place of the full id (v2.1.290).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.48 <span class="changelog-date">· 2026-10-05</span></h3>
         <p><strong>Search landing, leaf highlight and assistant index fixes.</strong> Search results now keep the URL you clicked, the sidebar leaf highlight clears when its section part scrolls away, and the assistant index keeps its version current.</p>
         <ul>
