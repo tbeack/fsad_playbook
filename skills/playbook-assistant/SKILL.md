@@ -1,6 +1,6 @@
 ---
 description: Answer "how do I…" questions about FSAD strategies and practices using only the content already in the FSAD Playbook — no external knowledge. Retrieves the relevant section(s) from a bundled offline index and cites each answer back to a real in-app section anchor. Use when a teammate asks how the playbook recommends handling something (pod sizing, hooks, code review, KPIs, Codex setup, etc.) instead of re-deriving an answer from general Claude Code knowledge.
-argument-hint: `<question>`
+argument-hint: '`<question>`'
 ---
 
 # fsad-harness:playbook-assistant — FSAD Playbook Q&A

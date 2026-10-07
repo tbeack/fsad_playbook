@@ -210,10 +210,10 @@
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Execute or plan a task in any of your local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/fsd/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Execute or plan a task in any of your local projects. Auto-detects the current project from the working directory, reads conventions from `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
-description: Execute or plan a task in any of your local projects. Auto-detects the current project from the working directory, reads conventions from `~/.claude/commands/fsd/projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.
+description: Execute or plan a task in any of your local projects. Auto-detects the current project from the working directory, reads conventions from `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`, and either drafts a missing task plan (plan mode) or implements the existing one (execute mode). Always creates a task-detail file before executing — even for lightweight projects. Use when the user says &quot;do CBP-087&quot;, &quot;work on FSD-031&quot;, &quot;execute task 12&quot;, or similar.
 argument-hint: `&lt;PREFIX-NNN | NNN&gt; [PREFIX-NNN | NNN...]`
 ---
 
@@ -229,7 +229,7 @@ A task-detail file is **always required** before executing — even for projects
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/fsd/projects.yaml`.
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
@@ -244,19 +244,14 @@ Split `$ARGUMENTS` on whitespace to get a list of tokens.
 - If there is **only one token**: skip this step entirely. Continue to Step 1 with that single token as `$ARGUMENTS`.
 - If there are **two or more tokens**:
   1. Tell the user: &quot;Dispatching N tasks concurrently: TOKEN1, TOKEN2, …&quot;
-  2. Write an aggregate badge to the main project root so the statusline shows all dispatched IDs immediately. Use the absolute `project_root` path resolved in Step 0 (not the literal string, not a relative path) and quote it to handle spaces:
-     ```
-     echo &quot;orange:TOKEN1+TOKEN2+…&quot; &gt; &quot;{project_root}/.pmon-session-task&quot;
-     ```
-  3. For each token, spawn one Agent using the `Agent` tool with `isolation: &quot;worktree&quot;` so each agent works on its own branch. Each agent&#x27;s prompt must include:
+  2. For each token, spawn one Agent using the `Agent` tool with `isolation: &quot;worktree&quot;` so each agent works on its own branch. Each agent&#x27;s prompt must include:
      - The current working directory (project root).
      - The single task ID assigned to that agent.
      - The full instruction to run the complete `fsad-harness:do-task` flow for that ID — entering plan mode if no task-detail file exists yet, or execute mode if it does. The agent must follow all steps (Step 0 through the relevant terminal step) exactly as this skill describes, operating on its one assigned ID only.
-     - An explicit note: **do NOT write or delete `.pmon-session-task`** — badge ownership belongs to the orchestrator.
      - An explicit note: **do NOT edit `{project_root}/{cfg.todo_file}` yourself** — completing agents must not write the shared main-tree todo file concurrently with siblings. Instead, return `todo_marked: false` in the structured result below and let the orchestrator batch the edit after every agent has returned.
      - The exact structured-return contract (below) — the agent&#x27;s final message must be only this structure, not free text.
-  4. Send **all Agent calls in a single message** so they run concurrently.
-  5. **Structured per-agent return.** Each agent must return exactly:
+  3. Send **all Agent calls in a single message** so they run concurrently.
+  4. **Structured per-agent return.** Each agent must return exactly:
      ```
      {id, mode, acs_passed, acs_total, files_changed[], blocked_reason?, todo_marked: false}
      ```
@@ -268,18 +263,15 @@ Split `$ARGUMENTS` on whitespace to get a list of tokens.
      - `todo_marked`: always `false` — agents never mark the todo file; this field exists so the orchestrator has one consistent shape to batch off of.
 
      A free-text summary in place of this structure counts as a failed/ambiguous return — treat it as `blocked_reason: &quot;non-structured return&quot;` and surface it to the user rather than assuming success.
-  6. **Batch the todo.md edit orchestrator-side.** After all agents return, for every result with `mode: &quot;execute&quot;` and `blocked_reason` absent and `acs_passed == acs_total`, mark that task&#x27;s entry `- [x]` in `{project_root}/{cfg.todo_file}`. Apply all such edits sequentially, one `Edit` call per entry, in the main tree (not any worktree) — never let a sub-agent perform this write, and never batch-write a single edit that touches multiple entries&#x27; surrounding context at once (keep each `Edit` scoped to its own entry so a bad match on one task can&#x27;t corrupt another). Tasks that returned a `blocked_reason` or partial ACs stay unmarked.
-  7. After the todo.md batch, print a summary table:
+  5. **Batch the todo.md edit orchestrator-side.** After all agents return, for every result with `mode: &quot;execute&quot;` and `blocked_reason` absent and `acs_passed == acs_total`, mark that task&#x27;s entry `- [x]` in `{project_root}/{cfg.todo_file}`. Apply all such edits sequentially, one `Edit` call per entry, in the main tree (not any worktree) — never let a sub-agent perform this write, and never batch-write a single edit that touches multiple entries&#x27; surrounding context at once (keep each `Edit` scoped to its own entry so a bad match on one task can&#x27;t corrupt another). Tasks that returned a `blocked_reason` or partial ACs stay unmarked.
+  6. After the todo.md batch, print a summary table:
      ```
      TBS-012   plan mode    task file written — changes isolated in worktree branch
      TBS-013   execute mode  4/4 ACs verified, CHANGELOG updated, todo.md marked — changes isolated in worktree branch
      TBS-014   execute mode  2/3 ACs verified, blocked: refuted AC after 2 repair attempts — todo.md NOT marked
      ```
-     Then remove the badge file and tell the user: &quot;Each agent&#x27;s changes are in an isolated worktree branch. Run `fsad-harness:ship-it` to merge them sequentially into your working tree before committing.&quot;
-     ```
-     rm -f &quot;{project_root}/.pmon-session-task&quot;
-     ```
-  8. **Stop here.** Do not continue to Step 1.
+     Then tell the user: &quot;Each agent&#x27;s changes are in an isolated worktree branch. Run `fsad-harness:ship-it` to merge them sequentially into your working tree before committing.&quot;
+  7. **Stop here.** Do not continue to Step 1.
 
 ## Step 1 — Resolve the task identifier
 
@@ -426,7 +418,7 @@ For each chunk, build the agent prompt as follows:
 &gt;
 &gt; **Your scope:** Implement **ONLY steps {start}–{end}** from the `## Plan` section above. Steps before {start} are already complete; steps after {end} belong to a later chunk — do not implement them.
 &gt;
-&gt; **Do NOT:** verify acceptance criteria, update CHANGELOG.md, mark the task complete in the todo file, or write `.pmon-session-task`. The orchestrator handles all of that after every chunk finishes.
+&gt; **Do NOT:** verify acceptance criteria, update CHANGELOG.md, or mark the task complete in the todo file. The orchestrator handles all of that after every chunk finishes.
 &gt;
 &gt; Return a brief summary of the files you changed.
 
@@ -434,19 +426,7 @@ For each chunk, build the agent prompt as follows:
 
 ### 5b. Build a working task list
 
-Before creating any tasks, write the session badge so the task-id appears as an orange badge in the Claude Code statusline. Use the absolute `project_root` path resolved in Step 0 — not the literal string `{project_root}` and not a relative path. Quote the path to handle directory names with spaces:
-
-```bash
-echo &quot;orange:{taskId}&quot; &gt; &quot;{project_root}/.pmon-session-task&quot;
-```
-
-Then use `TaskCreate` to add one task per phase or major step in the plan. Mark each `in_progress` before starting and `completed` when done — don&#x27;t batch.
-
-At step 5i (hand off), clean up the tag file using the same absolute path:
-
-```bash
-rm -f &quot;{project_root}/.pmon-session-task&quot;
-```
+Use `TaskCreate` to add one task per phase or major step in the plan. Mark each `in_progress` before starting and `completed` when done — don&#x27;t batch.
 
 ### 5c. Sync and create worktree
 
@@ -534,26 +514,6 @@ Do not run the review without explicit user confirmation.
 
 Change the entry&#x27;s `- [ ]` to `- [x]` at `{project_root}/{cfg.todo_file}`. Use `Edit` with unique surrounding context. Do not reorder lines or touch other entries.
 
-After marking the entry done, proceed to Step 5h.5.
-
-### 5h.5. Write session summary to temp file
-
-Before handing off, write a narrative summary so the Stop hook produces a meaningful log entry instead of mechanical boilerplate.
-
-1. Count ACs in the task file: scan `## Acceptance Criteria` for `- [x]` (verified) and `- [ ]` (remaining) lines.
-2. Generate a 4–6 sentence narrative in past tense covering: what was implemented, the approach taken, which ACs were verified, any notable decisions or deviations, and which files changed.
-3. Write the block to `/tmp/tb-session-summary-{TASK_ID}.txt` using the `Write` tool. The file content must be exactly:
-
-```
-{TASK_ID} — {task title}
-
-{narrative text}
-
-ACs verified: N/M
-```
-
-The Stop hook reads and deletes this file automatically when the session ends — do not delete it here.
-
 ### 5i. Hand off — do not auto-commit
 
 Call `ExitWorktree` with `action: &quot;keep&quot;` to return the session to the original working directory while leaving the worktree branch intact on disk.
@@ -602,16 +562,16 @@ Then provide a concise summary covering: what was implemented, which ACs were ve
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Add a new task to any of your local projects. Auto-detects the current project from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/fsd/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea.</p>
+        <p style="color:var(--text-secondary); margin-bottom:0.75rem;">Add a new task to any of your local projects. Auto-detects the current project from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea.</p>
         <h4 style="font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:0.5rem 0 0.5rem;">Definition file</h4>
         <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; color:var(--text-secondary);"><code>---
-description: Add a new task to any of your local projects. Auto-detects the current project from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `~/.claude/commands/fsd/projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea.
+description: Add a new task to any of your local projects. Auto-detects the current project from the working directory and conforms to that project&#x27;s conventions — prefix, numbering, todo-file layout, task-file template. Reads conventions from `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`. Use when the user wants to add a task, capture a TODO, or track a new idea.
 argument-hint: `[brief task title]`
 ---
 
 # fsad-harness:add-task — multi-project task adder
 
-You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `~/.claude/commands/fsd/projects.yaml` — always read that file before doing anything else.
+You add a new task entry (and, where the project warrants it, a per-task detail file) in whichever local project the user is currently working in. Project-specific conventions are defined in `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml` — always read that file before doing anything else.
 
 `$ARGUMENTS` (if present) is the brief task title.
 
@@ -625,7 +585,7 @@ The steps below exist to satisfy these criteria, not just to move mechanically f
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/fsd/projects.yaml`.
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). The cwd may be a descendant of a match path. If multiple match, prefer the longest (most specific) match.
 4. If a project matches, refer to its entry as `cfg` and proceed.
 5. If **no** project matches:
@@ -818,7 +778,7 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/fsd/projects.yaml`.
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
@@ -1022,7 +982,7 @@ You find the most **ready** unchecked task(s) in the current project&#x27;s todo
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/fsd/projects.yaml`.
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
@@ -1123,15 +1083,15 @@ Run this before starting any work session to confirm your local repo(s) are in s
 
 **Invocation:**
 - `fsad-harness:sync` — sync the project for the current working directory
-- `fsad-harness:sync ALL` — sync every project in `projects.yaml`
+- `fsad-harness:sync ALL` — sync every project in `add-task-projects.yaml`
 - `fsad-harness:sync &lt;key1&gt; &lt;key2&gt; …` — sync one or more named projects by YAML key
 
 ## Step 0 — Parse arguments
 
 1. Inspect the arguments passed to the skill.
 2. **No arguments** → single-project mode. Proceed to Step 1 to detect the project from cwd.
-3. **Single argument `ALL`** (case-insensitive) → multi-project mode. Load `~/.claude/commands/fsd/projects.yaml`. For every project key, resolve `match_paths[0]` (expand `~`) as that project&#x27;s `project_root`. Build the full project list. Proceed to Step 2.
-4. **One or more project keys** → multi-project mode. Load `~/.claude/commands/fsd/projects.yaml`. For each key:
+3. **Single argument `ALL`** (case-insensitive) → multi-project mode. Load `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`. For every project key, resolve `match_paths[0]` (expand `~`) as that project&#x27;s `project_root`. Build the full project list. Proceed to Step 2.
+4. **One or more project keys** → multi-project mode. Load `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`. For each key:
    - If found: add `(key, expand(match_paths[0]))` to the list.
    - If **not found**: print `Unknown project: &#x27;&lt;key&gt;&#x27; — skipping.` and continue.
    - If all keys are unknown (list is empty after skipping): print `No valid projects to sync.` and stop.
@@ -1140,7 +1100,7 @@ Run this before starting any work session to confirm your local repo(s) are in s
 ## Step 1 — Detect the project (single-project mode only)
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/fsd/projects.yaml`.
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest match.
 4. If a project matches, note `project_root`. Build a one-item list: `[(matched_key, project_root)]`. Proceed to Step 2.
 5. If **no project matches**: use cwd as `project_root` — sync is useful in any git repo. Build a one-item list: `[(&quot;(unregistered)&quot;, cwd)]`. Proceed to Step 2.
@@ -1331,7 +1291,7 @@ Fan every unchecked AC in a task file out to an independent verifier subagent, a
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/fsd/projects.yaml`.
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`.
 3. Match cwd against each project&#x27;s `match_paths` (expand `~`). Prefer the longest match if multiple match.
 4. If a project matches, use its entry as `cfg` and resolve `project_root`. Proceed.
 5. If **no project matches**:
@@ -1659,7 +1619,7 @@ Sweep two independent sources for prefixes already in use, and treat a hit in ei
 1. **Sibling `todo.md` files** — use the Bash tool to grep across `../*/planning/to do/todo.md` for
    lines matching a task identifier pattern (backtick, 2–5 uppercase letters, hyphen, digit), extract
    just the prefix, and sort for uniqueness.
-2. **Registered config** — read `~/.claude/commands/fsd/projects.yaml` and collect every `prefix:`
+2. **Registered config** — read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml` and collect every `prefix:`
    value present. A prefix can be reserved in config before any task file using it exists, so this
    catches conflicts the todo-file grep alone would miss.
 
@@ -1729,7 +1689,7 @@ GitHub repository. Before proceeding, ask the user once, covering both together:
 &gt; Ready to `git init` + commit and create a private GitHub repo for **PROJECT_NAME**? (yes/no)
 
 Wait for an affirmative response before running anything in Step 5 or Step 6. If the user declines,
-skip both steps and note it in the Step 9 output.
+skip both steps and note it in the Step 8 output.
 
 Check whether `.git/` already exists in the project root.
 
@@ -1762,15 +1722,9 @@ Replace `PROJECT_NAME` with the actual directory name. Use `--private` by defaul
 
 ---
 
-## Step 7 — Register in p_mon
+## Step 7 — Detect project type and register in `projects.yaml`
 
-Invoke the `p_mon` skill via the Skill tool, passing `add-project PROJECT_NAME` as the argument (substitute the actual project name). This appends the project to `~/repo/p_mon/p_mon.config.json` if not already present, or reports it as already registered.
-
----
-
-## Step 8 — Detect project type and register in `projects.yaml`
-
-### 8a — Detect project type
+### 7a — Detect project type
 
 Before registering, inspect the project root to pick a `version_scheme`/`version_files` pair instead
 of assuming every project is Node-based:
@@ -1784,13 +1738,13 @@ of assuming every project is Node-based:
 
 Store the resolved values as `VERSION_SCHEME` and `VERSION_FILES`.
 
-### 8b — Write the registration entry
+### 7b — Write the registration entry
 
-`~/.claude/commands/fsd/projects.yaml` is the **single** registry every `fsad-harness:` skill reads — task
+`${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml` is the **single** registry every `fsad-harness:` skill reads — task
 conventions (`fsad-harness:add-task`, `fsad-harness:do-task`, `fsad-harness:next`) and release/sync conventions (`fsad-harness:sync`,
 `fsad-harness:ship-it`) all resolve from this one file. There is no second config file to keep in step.
 
-Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists
+Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`. Check whether an entry for this project already exists
 by scanning for the resolved `match_paths` value (see below).
 
 **If already present:** skip and note in the output checklist.
@@ -1824,14 +1778,14 @@ Resolve the placeholders as follows:
 - `RELATIVE_PATH` — derive from `pwd`: replace the home directory prefix with `~`. For example
   `&lt;home&gt;/repo/my_project` → `~/repo/my_project`.
 - `TASK_PREFIX` — the confirmed prefix from Step 2.
-- `VERSION_SCHEME` / `VERSION_FILES` — resolved in 8a.
+- `VERSION_SCHEME` / `VERSION_FILES` — resolved in 7a.
 
 Use the `Edit` tool to insert the block, not a full file rewrite. Use the `# Fallback` comment line
 (or the last existing entry) as the unique anchor for the `old_string`.
 
 ---
 
-## Step 9 — Verify and report
+## Step 8 — Verify and report
 
 Do not report from memory of which steps ran. Re-check every artifact on disk (and in config) and
 print ✓/✗ from that live check.
@@ -1845,9 +1799,8 @@ For each item below, perform the stated check and record the result:
 - **Git** — confirm `.git/` exists on disk. If Steps 5/6 were confirmed and run, confirm
   `git remote -v` lists `origin`, and optionally run `gh repo view` to confirm the remote resolves.
   If the user declined the Step 5/6 confirmation gate, report both as skipped-by-choice, not as ✗.
-- **p_mon** — confirm the project appears in `~/repo/p_mon/p_mon.config.json`.
-- **Task tracking** — re-read `~/.claude/commands/fsd/projects.yaml` fresh and confirm the project&#x27;s
-  entry is present (not from memory of having written it in Step 8).
+- **Task tracking** — re-read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml` fresh and confirm the project&#x27;s
+  entry is present (not from memory of having written it in Step 7).
 
 Print the checklist using this format:
 
@@ -1878,10 +1831,6 @@ Git
   — git already initialized, skipped
   — remote origin already exists, skipped
   — git/GitHub steps skipped by user choice at the Step 5/6 confirmation gate
-
-p_mon
-  ✓ PROJECT_NAME registered in p_mon (verified in p_mon.config.json)
-  — PROJECT_NAME already registered, skipped
 
 Task tracking
   ✓ PROJECT_NAME registered in projects.yaml (verified on re-read)

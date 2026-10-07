@@ -1,11 +1,26 @@
 ---
 description: Run a multi-agent code review TEAM over a codebase diff or path. Dispatches 7 specialist reviewers in parallel (correctness, design, performance, maintainability, testing, api-contract, security), consolidates findings into a severity-ranked REVIEW-REPORT.md with inter-agent agreement scoring, adversarial validation, and a merge recommendation. correctness and performance run as a loop-until-dry consensus fan-out (2-8 passes); every surviving finding is verified by a dedicated validator agent before it can appear in the report. Use when the user says "code review team", "multi-agent code review", "team review", "review this diff with a team", or similar. Review-only — no fixes.
-argument-hint: `[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]`
+argument-hint: '`[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]`'
 ---
 
 # Multi-Agent Code Review Team — Orchestration
 
+**What this optimizes for:** recall on real, provable defects — not exhaustive coverage of every stylistic nit, and not raw finding count. A finding only earns a place in the final report if it survives independent adversarial verification (Step 4.5) against a category-appropriate proof standard; anything that can't be confirmed that way is dropped rather than shown as a maybe. "Done" means every specialist's scope was covered (or explicitly logged as not-checked), every surviving finding is validator-confirmed, and the merge recommendation reflects only what actually held up — not what was merely raised.
+
 Follow these steps. Review-only. Never apply fixes.
+
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
 
 ## Step 0: Pre-run confirmation
 
@@ -26,10 +41,10 @@ Never spawn specialists without showing this block (unless `--yes` / `auto-appro
 
 ### 0.1a Detect prior run (re-review mode)
 
-Every run writes its artifacts under a run-scoped directory, `RUN_DIR = <TARGET>/.planning/code-review/runs/<run_id>/` (`run_id` = an ISO-timestamp-derived slug), so a later run never overwrites an earlier one. Runs accumulate a top-level ledger at `<TARGET>/.planning/code-review/known-findings.jsonl` — one record per confirmed `root_issue` ever reported for this target (`root_issue`, `title`, `severity`, `first_seen_run_id`, `first_seen_date`).
+Every run writes its artifacts under a run-scoped directory, `RUN_DIR = <TARGET>/.planning/code-review/runs/<run_id>/` (`run_id` = an ISO-timestamp-derived slug), so a later run never overwrites an earlier one. Runs accumulate a top-level ledger at `<TARGET>/.planning/code-review/known-findings.jsonl` — one record per confirmed `root_issue` ever reported for this target (`root_issue`, `title`, `severity`, `first_seen_run_id`, `first_seen_date`, `file`, `evidence_snippet` — the latter two exist solely so a later run can cheaply re-verify the issue is still actually present before reporting it as "still open"; see Step 4's ledger-append and Step 5's still-open re-verification).
 
 1. Check whether `<TARGET>/.planning/code-review/known-findings.jsonl` exists.
-2. **Exists, and `--full` was not passed** → `re_review_mode = true`. This run will skip `root_issue`s already in the ledger and suppress all `nit`-severity findings from the report (Step 4's consolidation, `re_review_mode` branch). Announce this in the Step 0.7 confirmation block.
+2. **Exists, and `--full` was not passed** → `re_review_mode = true`. This run will skip `root_issue`s already in the ledger and suppress all `nit`-severity findings from the report (Step 4.5's re-review filter, `re_review_mode` branch). Announce this in the Step 0.7 confirmation block.
 3. **Missing, or `--full` was passed** → `re_review_mode = false`. This is a baseline scan; every validator-confirmed finding is eligible for the report, and the ledger is (re)built from this run's results.
 
 All `RUN_DIR`-relative paths referenced in Steps 0.9 through 5 below resolve against the `RUN_DIR` computed here — the ledger itself is the one exception, always written at the top-level `<TARGET>/.planning/code-review/` regardless of `run_id`.
@@ -474,3 +489,4 @@ Do NOT apply fixes. Fix workflow: open the relevant file, address findings manua
 
 - **Specialist library:** `specialists/` (7 briefs)
 - **Consolidation template:** `docs/consolidation-template.md`
+- **Research basis:** `planning/research/code-review-agents-research.md` (TBS-022)

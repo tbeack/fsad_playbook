@@ -1,7 +1,7 @@
 ---
 name: set-context
 description: Gather codebase and initiative context before planning starts — runs a graphify build or query when graphify is available locally, falls back to a manual repo sweep otherwise, then asks targeted questions and writes a single context.md. Invocable standalone or as fsad-harness:plan's mandatory Phase 0. Use when the user says "set context", "gather context", or as the first step of fsad-harness:plan.
-argument-hint: `[target repo path]`
+argument-hint: '`[target repo path]`'
 ---
 
 # fsad-harness:set-context — Context-Gathering Subskill
@@ -9,6 +9,19 @@ argument-hint: `[target repo path]`
 Gather everything a downstream planning pass needs — codebase shape plus the initiative's own
 boundaries — and emit it as a single `context.md` file. Nothing else reads or writes to disk in
 this skill besides that one file (and, when graphify runs, whatever `graphify-out/` it produces).
+
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
 
 ## Invocation model — read this first
 
@@ -75,9 +88,8 @@ never carried into the file is not actually gathered.
 3. **Non-negotiable constraints** — technical, business, timeline, or behavior-preservation
    constraints that must hold no matter what the plan proposes.
 4. **Stakeholders** — who cares about this initiative's outcome, and who needs to sign off.
-5. **Target repo** — confirm whether the plan ships to this same repo or a different one (this
-   matters when the plan is authored in one repo but targets another — don't assume they're the
-   same without asking).
+5. **Target repo** — confirm whether the plan ships to this same repo or a different one (for
+   example, a plan authored in one repo that targets another).
 6. **Versioning/release conventions** — the target repo's versioning scheme and release process,
    if not already discoverable from the codebase sweep above.
 
@@ -94,8 +106,8 @@ doesn't exist yet (it's created once the initiative is confirmed, in `fsad-harne
 **Why a file, not an in-memory handoff:** every downstream drafting agent (`fsad-harness:plan`'s Phase
 1-4.5) is a separately-dispatched `Agent`-tool subagent with no memory of this skill's own turn —
 only a file survives across that boundary. Every downstream drafting agent's dispatch prompt must
-reference this file's path rather than re-deriving context independently; that's on `fsad-harness:plan`,
-not this skill, but it's why this file's shape has to be complete on its own.
+reference this file's path rather than re-deriving context independently; that's on `fsad-harness:plan`, not
+this skill, but it's why this file's shape has to be complete on its own.
 
 Template:
 

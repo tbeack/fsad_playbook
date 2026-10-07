@@ -39,13 +39,21 @@ Drift after the `tb:` → `fsad-harness:` rename (lines that differ / lines only
 - Generic wording ("your local projects", no personal name or home path).
 - `prd`: the embedded Analyst and PM role briefs (tb_skills keeps them in a separate `roles/` folder).
 - `init`: the `fsad_playbook` → `FPL` prefix example.
-- `ship-it`: its `allowed-tools` line.
+- `ship-it`: its `allowed-tools` line. Step 6 merged it with the tb_skills line, so every command the body runs is allowed.
+- `add-task`, `plan`, `set-context`, `sync`, `sec-review-team`: generic wording (no project list, `p_mon` reference or personal project names in examples), `plan`'s role-file message (reinstall the plugin), and `/fsad-harness:sec-review-fixes`.
+- `init`: the 3-4 character prefix rules and `MNA` example, and one registration step for the single registry file.
+- `sec-review-team/docs/tradeoffs.md`: the fsad wording, kept as is (the script skips it).
+- `add-task/add-task-projects.yaml`: the fsad copy, with the single registry per decision D2. `sync/projects.yaml` has no fsad copy.
 
 **tb-only content to leave out or make generic:**
 - `.pmon-session-task` badge writes (6 places) — p_mon is a personal monitor.
 - `/tmp/tb-session-summary-*.txt` (do-task 5h.5) — a personal Stop hook.
 - "Theo's" and `/Users/theobeack` paths.
 - `tb:browser-verify` and `tb:log` calls — those skills are not in the plugin. Keep the step and drop the call, or mark it optional.
+- `do-task`, `next`, `ac`, `add-task`: the stop-and-ask guardrail for a project found in one registry file but not the other, the "absent from both files" wording, and the "one config file but not the other" bullet. They are removed because the registry is one file (D2). `sync`'s `projects.yaml` mention now names `add-task-projects.yaml`.
+- `init` Step 7 (register in p_mon), its checklist bullet and summary lines — removed, and Steps 8-9 renumbered to 7-8.
+- `next`: the pointer to `hooks/tb-task-preflight.sh` (the hook is not in this repo) and "other tb skills" wording.
+- `prd`: the two cross-references to `roles/` files, now "that section" and "the PM Role".
 - `.acs.json` status files — keep. They are plain files in the project and do not need a mod.
 
 **Frontmatter:** 13 files fail `check-frontmatter.sh` today. 12 have an unquoted backtick-leading `argument-hint` (tb_skills TBS-112). `sec-review-fixes` has an unquoted `: ` in `description` at column 426.
@@ -67,10 +75,13 @@ Drift after the `tb:` → `fsad-harness:` rename (lines that differ / lines only
 8. Reinstall the plugin locally and test one skill end to end.
 
 ## Acceptance Criteria
-- [ ] `scripts/check-frontmatter.sh` exits 0 for `skills/*/SKILL.md`.
-- [ ] `grep -rn 'tb:' skills/*/SKILL.md` finds no `tb:` skill name. Each match, if any, is not a skill reference (for example `ftb:`), and the task file lists it.
-- [ ] `grep -rnE '\.pmon-session-task|tb-session-summary|/Users/theobeack|Theo'"'"'s' skills/` finds nothing.
-- [ ] Each of the 15 shared skills, put through the step 3 rewrites in reverse, differs from its tb_skills source only in lines this task file lists as fsad-only or tb-only.
-- [ ] `skills/prd/SKILL.md` still holds the Analyst and PM role briefs, and `skills/init/SKILL.md` still holds the `FPL` example.
-- [ ] `.claude-plugin/plugin.json` `version`, the README, and CHANGELOG all show the new plugin version.
-- [ ] After a local plugin reinstall, a new session lists `fsad-harness:do-task` with its real `description`, and `/fsad-harness:next` reads the config from the step 2 path without an error.
+- [x] `scripts/check-frontmatter.sh` exits 0 for `skills/*/SKILL.md`.
+- [x] `grep -rn 'tb:' skills/*/SKILL.md` finds no `tb:` skill name. Each match, if any, is not a skill reference (for example `ftb:`), and the task file lists it.
+- [x] `grep -rnE '\.pmon-session-task|tb-session-summary|/Users/theobeack|Theo'"'"'s' skills/` finds nothing.
+- [x] Each of the 15 shared skills, put through the step 3 rewrites in reverse, differs from its tb_skills source only in lines this task file lists as fsad-only or tb-only.
+- [x] `skills/prd/SKILL.md` still holds the Analyst and PM role briefs, and `skills/init/SKILL.md` still holds the `FPL` example.
+- [x] `.claude-plugin/plugin.json` `version`, the README, and CHANGELOG all show the new plugin version.
+- [x] After a local plugin reinstall, a new session lists `fsad-harness:do-task` with its real `description`, and `/fsad-harness:next` reads the config from the step 2 path without an error.
+
+
+All criteria verified 2026-10-07 before commit. AC7 evidence: headless `claude -p --plugin-dir <worktree>` sessions listed all 19 `fsad-harness:` skills with descriptions (a minimal session; in a crowded session the skill list drops descriptions for size). `${CLAUDE_PLUGIN_ROOT}` resolved to a real path, and `/fsad-harness:next` read the registry there, matched `fsad_playbook` and ranked CBP-658 first without an error. A refuter cannot re-run a live session, so AC7 rests on these runs.

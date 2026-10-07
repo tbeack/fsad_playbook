@@ -55,7 +55,7 @@ Output: `dist/fsad-playbook.html` — a single file that works offline and can b
 
 | Field | Value |
 |-------|-------|
-| **Current version** | v4.1.50 |
+| **Current version** | v4.1.51 |
 | **Date updated** | 2026-10-07 |
 | **File** | `dist/fsad-playbook.html` (built from `src/`) |
 
@@ -63,7 +63,7 @@ See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes by version.
 
 ## Skills (`fsad-harness:` plugin namespace)
 
-Reusable Claude Code skills bundled under `skills/`. Install as a plugin (see `.claude-plugin/plugin.json`) to invoke via `/fsad-harness:<name>`.
+Reusable Claude Code skills bundled under `skills/`. Install as a plugin (see `.claude-plugin/plugin.json`) to invoke via `/fsad-harness:<name>`. Current plugin version: **0.2.0**.
 
 ### Installing the plugin
 
@@ -87,6 +87,10 @@ The marketplace name is `fsad-playbook` and the plugin name is `fsad-harness`, b
 ```
 
 Once installed, skills resolve as `/fsad-harness:<name>` — e.g. `/fsad-harness:do-task`, `/fsad-harness:ship`, `/fsad-harness:next`.
+
+The task skills (`add-task`, `do-task`, `next`, `ac`, `ship-it`, `sync`, `init`) read their project registry from `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`. A plugin update replaces this file, so keep a copy of your own entries.
+
+To re-sync the skills from a tb_skills checkout, run `scripts/resync-skills.sh <tb_skills path>`, then `scripts/check-frontmatter.sh`.
 
 #### Context-monitor hook and statusline
 

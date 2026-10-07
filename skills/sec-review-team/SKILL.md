@@ -1,6 +1,6 @@
 ---
 description: Run a multi-agent security review TEAM over a codebase or recent diff. Picks a specialist roster based on detected stack signals (webapp / desktop / iac / llm-agent / container / backend / mobile / etc.) from a library of 13 specialists. Each specialist writes structured JSONL + prose findings in parallel; input-validation-auditor and auth-authz-auditor run a loop-until-dry consensus fan-out (2-8 passes); every deduped finding is adversarially verified by a dedicated validator agent before it can appear in the report. Orchestrator consolidates into a single severity-ranked REPORT.md with deduped root issues, archived per-run under a known-findings.jsonl ledger that drives auto re-review. Distinct from the built-in `/security-review` (which is a single-pass branch review). Use when the user says "multi-agent security review", "security review team", "sec-review team", "audit this branch with a team", "pre-release hardening team pass", or similar. Review-only — no fixes.
-argument-hint: `[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]`
+argument-hint: '`[target path] [scope: all | <subdir> | diff vs main] [--lite] [--yes]`'
 ---
 
 # Multi-Agent Security Review Team — Orchestration
@@ -8,6 +8,19 @@ argument-hint: `[target path] [scope: all | <subdir> | diff vs main] [--lite] [-
 **What this optimizes for:** two complementary guarantees, in this order of priority. First, coverage-of-absence — a "clean" verdict on any category must cite the searches that back it, never a bare assertion. Second, verification-of-positives — a finding only reaches the report after surviving independent adversarial validation (Step 4.5) against a category-appropriate proof standard, with self-reported specialist confidence no longer sufficient on its own. "Done" means every roster specialist's owned categories are accounted for (checked-clean, checked-issues-found, or explicitly not-checked with a reason), and every surviving finding in the report is validator-confirmed, not merely raised.
 
 Follow these steps. Review-only. Never apply fixes.
+
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
 
 ## Step 0: Pre-run confirmation
 
@@ -77,7 +90,7 @@ For each scanner in Step 2.5's pre-pass list, run `command -v <name>`. Flag avai
 
 ### 0.6 Estimate runtime + tokens + cost
 
-**Historical baseline** (from the CBP-060 reference run against a mid-size repo, executed on Opus 4.7 — kept as a labeled historical data point, not a current default):
+**Historical baseline** (from the CBP-060 reference run against `recall`, executed on Opus 4.7 — kept as a labeled historical data point, not a current default):
 
 - **Input tokens per specialist:** `~min(40k, 30 + 0.02 × LINE_COUNT)` k tokens — small repos float near 30k overhead; large repos grow linearly with source lines but the agent self-caps reads.
 - **Output tokens per specialist:** `~5–10k` regardless of repo size (findings + prose).
@@ -351,7 +364,7 @@ Each specialist writes four files to `<RUN_DIR>`:
 
 ## Step 3a: Multi-pass consensus fan-out (input-validation-auditor, auth-authz-auditor)
 
-`input-validation-auditor` and `auth-authz-auditor` own the two highest-variance tasks in the roster — tracing every external input to its sink, and mapping every endpoint/IPC command to its auth requirement, are both enumerate-everything jobs a single pass under-samples, finding a different random subset of the real issues (and missing others) each run. When either is in the confirmed roster (per Step 0.4 / Step 1), run it through a **loop-until-dry** fan-out — independent passes with the file scope reordered per pass, keeping only findings that reproduce across at least 2 passes, and stopping once a pass stops contributing anything new rather than always running a fixed count — the same design `code-review-team` uses for `correctness-reviewer`/`performance-reviewer`, modeled on Cursor Bugbot's multi-pass agreement design, adapted so effort scales with how much variance the target is actually producing.
+`input-validation-auditor` and `auth-authz-auditor` own the two highest-variance tasks in the roster — tracing every external input to its sink, and mapping every endpoint/IPC command to its auth requirement, are both enumerate-everything jobs a single pass under-samples, finding a different random subset of the real issues (and missing others) each run. When either is in the confirmed roster (per Step 0.4 / Step 1), run it through a **loop-until-dry** fan-out — independent passes with the file scope reordered per pass, keeping only findings that reproduce across at least 2 passes, and stopping once a pass stops contributing anything new rather than always running a fixed count — the same design `code-review-team` uses for `correctness-reviewer`/`performance-reviewer` (TBS-044), modeled on Cursor Bugbot's multi-pass agreement design, adapted so effort scales with how much variance the target is actually producing.
 
 `MAX_PASSES = 8` — the hard ceiling regardless of whether passes are still finding new issues. `MIN_PASSES = 2` — the floor, since `hit_count >= 2` can never have a survivor with fewer than 2 passes.
 
@@ -467,7 +480,10 @@ Do NOT apply fixes. Fix workflow → companion skill `/fsad-harness:sec-review-f
 - **Specialist library:** `specialists/` (13 briefs)
 - **Stack signals:** `stack-signals.md`
 - **Schemas:** `schema/finding.schema.json`, `schema/coverage.schema.json`
-- **Shared output-format contract:** [`docs/output-contract.md`](docs/output-contract.md)
-- **Consolidation template:** [`docs/consolidation-template.md`](docs/consolidation-template.md)
-- **Design tradeoffs:** [`docs/tradeoffs.md`](docs/tradeoffs.md)
+- **Shared output-format contract:** `docs/output-contract.md`
+- **Consolidation template:** `docs/consolidation-template.md`
+- **Design tradeoffs:** `docs/tradeoffs.md`
+- **Canonical prompt source:** [`markdown/design/Team_of_security_agents.md`](../../../markdown/design/Team_of_security_agents.md)
 - **Embedded playbook section:** `fsad-playbook.html` → `#practices/security-review`
+- **Opus 4.7 validation (historical):** [`markdown/research/security-review-opus-4.7-validation.md`](../../../markdown/research/security-review-opus-4.7-validation.md)
+- **Improvement recommendations:** [`markdown/research/sec-review-recommendations.md`](../../../markdown/research/sec-review-recommendations.md)
