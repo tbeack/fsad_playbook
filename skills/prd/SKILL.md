@@ -1,11 +1,24 @@
 ---
 description: Guide the user through writing a Product Requirements Document or feature spec. Uses a four-phase gated flow (Discovery → Specify → Plan → Tasks) to produce spec.md, plan.md, and tasks.md in the project's planning/prd/ directory. Use when the user says "write a PRD", "write a spec", "spec out this feature", "help me define requirements", or similar.
-argument-hint: `[feature title or goal]`
+argument-hint: '`[feature title or goal]`'
 ---
 
 # fsad-harness:prd — PRD & Spec Writing Agent
 
 Follow these phases in order. Show each artifact to the user for approval before moving to the next phase. Never skip a gate.
+
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
 
 ## Role definitions
 

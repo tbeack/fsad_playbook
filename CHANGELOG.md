@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.51 — 2026-10-07 (`fsad-harness` plugin 0.2.0)
+
+**Skill library re-sync from tb_skills (CBP-658)**
+
+- **CBP-658 — Re-synced the `fsad-harness:` skill library.** The 15 skills that have a tb_skills source (`ac`, `add-task`, `code-review-team`, `do-task`, `estimate`, `init`, `next`, `plan`, `plan-review`, `prd`, `prompt-improver`, `sec-review-team`, `set-context`, `ship`, `ship-it`, `spec-review`, `sync`) are back in step with tb_skills, with the `fsad-harness:` names and fsad-only content kept. Adds the TBS-112 frontmatter fix, the refuter gates, `.acs.json` AC status files, and the `decision-tracker` question logging. Removes the `.pmon-session-task` badge writes and the `/tmp/tb-session-summary-*` step. `browser-verify` is now an optional step. The project registry moves to `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`, so no file in `~/.claude/commands/` is needed. All `skills/*/SKILL.md` frontmatter now parses (`scripts/check-frontmatter.sh`). The Skills Library page (`src/pages/skills.html`) drops the same badge and session-summary steps from its `do-task` copy. New `scripts/resync-skills.sh` repeats the re-sync. Plugin version 0.1.0 to 0.2.0.
+
 ### v4.1.50 — 2026-10-07
 
 **Claude Code v2.1.292 cheat sheet updates (CBP-659, CBP-660, CBP-661)**
