@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.50 <span class="changelog-date">· 2026-10-07</span></h3>
+        <p><strong>Claude Code v2.1.292 cheat sheet updates.</strong> A one-command marketplace install for plugins, a new overload retry env var, and the Agent tool <code>effort</code> parameter.</p>
+        <ul>
+          <li><strong>CBP-659 — [Claude] <code>claude plugin install --marketplace</code>.</strong> New plugins bullet: adds the marketplace if needed, then installs the plugin from it in one command (v2.1.292).</li>
+          <li><strong>CBP-660 — [Claude] Overloaded retry delay.</strong> New <code>CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS</code> env var row sets the base backoff delay for overloaded (529) retries (v2.1.292).</li>
+          <li><strong>CBP-661 — [Claude] Agent tool <code>effort</code> parameter.</strong> New cost tip: Claude can run a sub-agent at a chosen effort level without changing the session effort (v2.1.292).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.49 <span class="changelog-date">· 2026-10-06</span></h3>
         <p><strong>Claude Code v2.1.290 cheat sheet updates.</strong> New <code>/claude-api managed-agents-onboard</code> slash command, a new <code>CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR</code> env var, and partial session name support in <code>claude attach</code> / <code>logs</code>.</p>
         <ul>

@@ -664,3 +664,7 @@
 - [x] `CBP-655` [Claude] Add `/claude-api managed-agents-onboard` to slash commands cheat sheet (v2.1.290) → [task-cbp-655.md](task-cbp-655.md)
 - [x] `CBP-656` [Claude] Add `CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR` env var and update WebSearch budget note (v2.1.290) → [task-cbp-656.md](task-cbp-656.md)
 - [x] `CBP-657` [Claude] Update `claude attach / logs` row to mention partial session name support (v2.1.290) → [task-cbp-657.md](task-cbp-657.md)
+- [ ] `CBP-658` Re-sync the `fsad-harness:` skill library from tb_skills, keeping fsad-only changes → [task-cbp-658.md](task-cbp-658.md)
+- [x] `CBP-659` [Claude] Add `claude plugin install --marketplace <source>` (v2.1.292) → [task-cbp-659.md](task-cbp-659.md)
+- [x] `CBP-660` [Claude] Add `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` env var (v2.1.292) → [task-cbp-660.md](task-cbp-660.md)
+- [x] `CBP-661` [Claude] Document Agent tool `effort` parameter (v2.1.292) → [task-cbp-661.md](task-cbp-661.md)

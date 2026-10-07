@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.50 — 2026-10-07
+
+**Claude Code v2.1.292 cheat sheet updates (CBP-659, CBP-660, CBP-661)**
+
+- **CBP-659 — [Claude] `claude plugin install --marketplace`.** New plugins bullet: adds the marketplace if needed, then installs the plugin from it in one command (v2.1.292).
+- **CBP-660 — [Claude] Overloaded retry delay.** New `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` env var row sets the base backoff delay for overloaded (529) retries (v2.1.292).
+- **CBP-661 — [Claude] Agent tool `effort` parameter.** New cost tip: Claude can run a sub-agent at a chosen effort level without changing the session effort (v2.1.292).
+
 ### v4.1.49 — 2026-10-06
 
 **Claude Code v2.1.290 cheat sheet updates (CBP-655, CBP-656, CBP-657)**
