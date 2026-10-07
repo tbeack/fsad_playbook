@@ -1,6 +1,6 @@
 ---
 description: Run a detailed, adversarial multi-agent review of an implementation plan — a GitHub PR, a branch, or a planning document — against the baseline spec, ADR, or prior plan it is meant to honour. Reviews the plan, not the code. Builds a shared inventory, runs up to 7 independent lenses in parallel (completeness, consistency, logic, feasibility, assumptions, testability, baseline-diff), verifies every finding against the repository so that anything without a path:line or a runnable command is dropped, adjudicates by severity, then loops a completeness critic until dry. Writes a findings document to a caller-specified target. Use when the user says "review this plan", "review this PR's plan", "does this plan match the spec", "red team this implementation plan", "what's missing from this plan", "check this plan against the ADR", "plan review", or similar. Review-only — never edits the plan, the PR, or any source file.
-argument-hint: `<source> <target> [--baseline <path>] [--depth quick|standard|deep] [--scope <text>] [--run-dir <path>]`
+argument-hint: '`<source> <target> [--baseline <path>] [--depth quick|standard|deep] [--scope <text>] [--run-dir <path>]`'
 ---
 
 # fsad-harness:plan-review — Adversarial Implementation-Plan Review
@@ -12,6 +12,19 @@ This is the **plan-stage gate**. It runs before the code-stage gates (`fsad-harn
 Review-only. The skill writes exactly two things: the findings document at `target`, and the run directory (`run_dir`, defaulting beside `target` — see Parameters). Nothing else on disk is touched.
 
 ---
+
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
 
 ## Parameters
 

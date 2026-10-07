@@ -16,6 +16,20 @@ template files for any that are missing, and initializes a local + remote git re
 
 ---
 
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
+
+
 ## Step 1 — Establish project name
 
 Use the Bash tool to run `pwd`, then take the last path segment (everything after the final `/`) as the project name. Store this as `PROJECT_NAME`. Use it to personalize template content where indicated below.
@@ -49,7 +63,7 @@ Sweep two independent sources for prefixes already in use, and treat a hit in ei
 1. **Sibling `todo.md` files** — use the Bash tool to grep across `../*/planning/to do/todo.md` for
    lines matching a task identifier pattern (backtick, 2–5 uppercase letters, hyphen, digit), extract
    just the prefix, and sort for uniqueness.
-2. **Registered config** — read `~/.claude/commands/fsd/projects.yaml` and collect every `prefix:`
+2. **Registered config** — read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml` and collect every `prefix:`
    value present. A prefix can be reserved in config before any task file using it exists, so this
    catches conflicts the todo-file grep alone would miss.
 
@@ -119,7 +133,7 @@ GitHub repository. Before proceeding, ask the user once, covering both together:
 > Ready to `git init` + commit and create a private GitHub repo for **PROJECT_NAME**? (yes/no)
 
 Wait for an affirmative response before running anything in Step 5 or Step 6. If the user declines,
-skip both steps and note it in the Step 9 output.
+skip both steps and note it in the Step 8 output.
 
 Check whether `.git/` already exists in the project root.
 
@@ -152,15 +166,9 @@ Replace `PROJECT_NAME` with the actual directory name. Use `--private` by defaul
 
 ---
 
-## Step 7 — Register in p_mon
+## Step 7 — Detect project type and register in `add-task-projects.yaml`
 
-Invoke the `p_mon` skill via the Skill tool, passing `add-project PROJECT_NAME` as the argument (substitute the actual project name). This appends the project to `~/repo/p_mon/p_mon.config.json` if not already present, or reports it as already registered.
-
----
-
-## Step 8 — Detect project type and register in `projects.yaml`
-
-### 8a — Detect project type
+### 7a — Detect project type
 
 Before registering, inspect the project root to pick a `version_scheme`/`version_files` pair instead
 of assuming every project is Node-based:
@@ -170,17 +178,17 @@ of assuming every project is Node-based:
   `Cargo.toml`, etc.) → `version_scheme: semver`, `version_files: [<that manifest>]`
 - No manifest found (docs / plain-markdown project) → default to `version_scheme: semver`,
   `version_files: [README.md]` (the pattern already used for markdown-only projects in
-  `projects.yaml`), or ask the user if the project's shape is ambiguous — never guess silently.
+  `add-task-projects.yaml`), or ask the user if the project's shape is ambiguous — never guess silently.
 
 Store the resolved values as `VERSION_SCHEME` and `VERSION_FILES`.
 
-### 8b — Write the registration entry
+### 7b — Write the registration entry
 
-`~/.claude/commands/fsd/projects.yaml` is the **single** registry every `fsad-harness:` skill reads — task
+`${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml` is the **single** registry every `fsad-harness:` skill reads — task
 conventions (`fsad-harness:add-task`, `fsad-harness:do-task`, `fsad-harness:next`) and release/sync conventions (`fsad-harness:sync`,
 `fsad-harness:ship-it`) all resolve from this one file. There is no second config file to keep in step.
 
-Read `~/.claude/commands/fsd/projects.yaml`. Check whether an entry for this project already exists
+Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`. Check whether an entry for this project already exists
 by scanning for the resolved `match_paths` value (see below).
 
 **If already present:** skip and note in the output checklist.
@@ -214,14 +222,14 @@ Resolve the placeholders as follows:
 - `RELATIVE_PATH` — derive from `pwd`: replace the home directory prefix with `~`. For example
   `<home>/repo/my_project` → `~/repo/my_project`.
 - `TASK_PREFIX` — the confirmed prefix from Step 2.
-- `VERSION_SCHEME` / `VERSION_FILES` — resolved in 8a.
+- `VERSION_SCHEME` / `VERSION_FILES` — resolved in 7a.
 
 Use the `Edit` tool to insert the block, not a full file rewrite. Use the `# Fallback` comment line
 (or the last existing entry) as the unique anchor for the `old_string`.
 
 ---
 
-## Step 9 — Verify and report
+## Step 8 — Verify and report
 
 Do not report from memory of which steps ran. Re-check every artifact on disk (and in config) and
 print ✓/✗ from that live check.
@@ -235,9 +243,8 @@ For each item below, perform the stated check and record the result:
 - **Git** — confirm `.git/` exists on disk. If Steps 5/6 were confirmed and run, confirm
   `git remote -v` lists `origin`, and optionally run `gh repo view` to confirm the remote resolves.
   If the user declined the Step 5/6 confirmation gate, report both as skipped-by-choice, not as ✗.
-- **p_mon** — confirm the project appears in `~/repo/p_mon/p_mon.config.json`.
-- **Task tracking** — re-read `~/.claude/commands/fsd/projects.yaml` fresh and confirm the project's
-  entry is present (not from memory of having written it in Step 8).
+- **Task tracking** — re-read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml` fresh and confirm the project's
+  entry is present (not from memory of having written it in Step 7).
 
 Print the checklist using this format:
 
@@ -269,13 +276,9 @@ Git
   — remote origin already exists, skipped
   — git/GitHub steps skipped by user choice at the Step 5/6 confirmation gate
 
-p_mon
-  ✓ PROJECT_NAME registered in p_mon (verified in p_mon.config.json)
-  — PROJECT_NAME already registered, skipped
-
 Task tracking
-  ✓ PROJECT_NAME registered in projects.yaml (verified on re-read)
-  — PROJECT_NAME already registered in projects.yaml, skipped
+  ✓ PROJECT_NAME registered in add-task-projects.yaml (verified on re-read)
+  — PROJECT_NAME already registered in add-task-projects.yaml, skipped
 ```
 
 Show only the items that are relevant — don't show both the "created" and "skipped" lines for the

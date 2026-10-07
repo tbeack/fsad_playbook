@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(git worktree:*), Bash(git -C:*), Bash(git merge:*), Bash(git merge-base:*), Bash(git add:*), Bash(git commit:*), Bash(git branch:*), Bash(git mv:*), Bash(git rev-parse:*), Bash(git checkout:*), Bash(git push:*), Bash(git pull:*), Bash(git status:*), Bash(git log:*), Bash(git remote:*), Bash(git ls-remote:*), Bash(gh pr create:*), Bash(gh pr view:*), Bash(gh pr list:*)
+allowed-tools: Bash(git worktree:*), Bash(git -C:*), Bash(git merge:*), Bash(git merge-base:*), Bash(git add:*), Bash(git commit:*), Bash(git branch:*), Bash(git mv:*), Bash(git rev-parse:*), Bash(git checkout:*), Bash(git push:*), Bash(git pull:*), Bash(git status:*), Bash(git log:*), Bash(git remote:*), Bash(git ls-remote:*), Bash(gh pr create:*), Bash(gh pr view:*), Bash(gh pr list:*), Bash(git fetch:*), Bash(git tag:*), Bash(git diff:*), Bash(date:*)
 description: Wrap up a finished round of work — verify README and CHANGELOG are current, cut a version if warranted, move completed task files into the completed/ folder, then create a feature branch if needed, commit, push, and open a PR. Run after `/fsad-harness:do-task` has marked one or more tasks done. Takes no arguments.
 ---
 
 # fsad-harness:ship-it — wrap up and ship
 
-You run four sequential phases to close out a batch of completed work: worktree merge (Step 0.5), pre-flight audits — README/CHANGELOG/version/completed-task cleanup (Step 1), commit + push + PR (Step 2), and verify-shipped (Step 3). Do not skip phases or reorder them.
+You run five sequential phases to close out a batch of completed work: pre-merge branch guard (Step 0.4), worktree merge (Step 0.5), pre-flight audits — README/CHANGELOG/version/completed-task cleanup (Step 1), commit + push + PR (Step 2), and verify-shipped (Step 3). Do not skip phases or reorder them.
 
 "Shipped" means all three of the following verifiable predicates hold — not that a phase list was walked:
 
@@ -15,10 +15,23 @@ You run four sequential phases to close out a batch of completed work: worktree 
 
 Step 3 (Verify shipped) checks all three explicitly before the skill reports success — see that step for details.
 
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
+
 ## Step 0 — Detect the project
 
 1. Determine the current working directory.
-2. Read `~/.claude/commands/fsd/projects.yaml`.
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/add-task/add-task-projects.yaml`.
 3. Match cwd against each project's `match_paths` (expand `~`). Prefer the longest (most specific) match if multiple match.
 4. If a project matches, refer to its entry as `cfg` and the resolved project root as `project_root`. Proceed.
 5. If **no project matches**:
@@ -26,7 +39,41 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
    - Suggest running `/fsad-harness:add-task` from the project to register it.
    - Stop.
 
+## Step 0.2 — Skill routing
+
+Resolve which skill should actually ship this work for `cfg`'s project:
+
+1. `desired_skill` = `cfg.skills.ship` (if set) → else the YAML's top-level `defaults.skills.ship` (if set) → else `"fsad-harness:ship-it"`.
+2. If `desired_skill` differs from `"fsad-harness:ship-it"`: invoke the `Skill` tool with that skill name, passing `$ARGUMENTS` unchanged, and **stop** — none of this skill's remaining steps run in this invocation.
+3. Otherwise continue to Step 0.4.
+
+## Step 0.4 — Pre-merge branch guard
+
+Step 0.5 merges worktree branches into whatever branch is currently checked out, with no branch awareness of its own. If that happens to be `main`/`master`, the merge commit lands directly on the default branch — before Step 2.0's branch guard ever runs. This step closes that gap by moving off the default branch first, whenever a merge is about to happen.
+
+1. Run `git worktree list --porcelain` from `project_root`. Parse the output to get all worktrees (each block starts with `worktree <path>`), then filter out the main worktree — the one whose path equals `project_root`.
+2. If **no additional worktrees** exist: skip this step entirely and proceed to Step 0.5 (which will independently reach the same conclusion and pass through to Step 1).
+3. If additional worktrees exist, check the current branch: `git rev-parse --abbrev-ref HEAD`.
+   - **Not `main`/`master`**: already off the default branch — proceed to Step 0.5.
+   - **Is `main`/`master`**: a merge is about to happen and must not land here.
+     - Propose a branch name that does **not** depend on a version string (the version isn't cut until Step 1b):
+       - If the worktree branch names encode task IDs (e.g. `worktree-task-tbs-070` → `tbs-070`), suggest `task/{task-ids}` — joining multiple IDs with `+` when merging more than one worktree (e.g. `task/tbs-070+tbs-071`).
+       - Otherwise, suggest `ship/{YYYY-MM-DD}` using today's date (`date +%F`).
+     - Ask the user: "About to merge {N} worktree branch(es) while on `{main|master}` — create and switch to `{branch}` first? (y/n or type a different name)"
+     - On confirmation: run `git checkout -b {branch}`.
+     - If declined: stop here. Do not proceed to Step 0.5 — merging while on the default branch is the exact failure this step exists to prevent.
+4. Proceed to Step 0.5.
+
 ## Step 0.5 — Merge pending worktrees
+
+This step must never run while `HEAD` is the default branch (`main`/`master`) — Step 0.4 ensures that by branching off first whenever a merge is pending. The merge itself cannot simply be deferred to run *after* Step 2.0's branch guard instead: Step 1's audits (README/CHANGELOG/completed-task checks) read the post-merge tree, so the merge must still happen before those audits — just off the default branch rather than on it.
+
+**Main-tree writeback reconciliation.** `fsad-harness:do-task` (Step 5h) and `fsad-harness:add-task` write to the *main* tree even when their session runs inside a worktree: `todo.md` gets `[x]` marks and new bullets, and a task-detail file may be edited in place. At merge time these main-tree edits are therefore **expected to be uncommitted** — they are not a sign of a dirty tree that must be cleaned first. Meanwhile the worktree branch may carry new task-detail files whose bullets already sit in the main-tree `todo.md`, or a `todo.md` edit of its own. Reconcile as follows:
+
+- **Leave the main-tree `todo.md` / task-file edits in the working tree** — do not stash, discard, or "clean up" them before merging. They are staged by name together with the merge result in Step 2.2 and land in the same commit batch.
+- If `git merge` refuses to start because a file the branch touches is also modified in the main tree (typically `todo.md`), commit the main-tree edit first — `git add "{cfg.todo_file}" && git commit -m "todo: mark {IDs} done"` — then re-run the merge. Committing, not stashing, is the only accepted way to clear this.
+- **`todo.md` conflict → keep both sides.** When the merge conflicts in `todo.md`, the correct resolution is almost always the union: keep every bullet from both sides, deduplicate any bullet that appears on both (keeping the `- [x]` form if either side has it), and order the bullets by task ID. Never drop a bullet to make the conflict go away.
+- A task-detail file arriving from the branch whose bullet is already in the main-tree `todo.md` is the normal case, not a conflict — nothing to reconcile.
 
 1. Run `git worktree list --porcelain` from `project_root`. Parse the output to get all worktrees (each block starts with `worktree <path>`).
 2. Filter out the main worktree — the one whose path equals `project_root`.
@@ -41,7 +88,7 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
      b. Merge the branch into the main worktree: `git merge --no-ff <branch>`.
      c. If the merge produces a conflict: **stop immediately**. Tell the user which file(s) conflict and provide these resolution steps:
         1. Open each conflicting file and locate the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
-        2. Edit the file to keep the correct content and remove all conflict markers.
+        2. Edit the file to keep the correct content and remove all conflict markers. For `{cfg.todo_file}`, apply the keep-both rule above: union of both sides' bullets, `- [x]` wins over `- [ ]` for the same ID, sorted by task ID.
         3. Stage each resolved file: `git add <file>`.
         4. Complete the merge commit: `git commit`.
         5. Re-run `fsad-harness:ship-it` to continue from where it left off.
@@ -53,20 +100,43 @@ Step 3 (Verify shipped) checks all three explicitly before the skill reports suc
 
 ## Step 1 — Pre-flight audits (run concurrently)
 
-These three checks are read-only and independent of each other — none needs another's output. Dispatch them as concurrent subagents (or, if subagents aren't available in the current context, run the three read passes back-to-back with no dependency ordering between them) rather than sequentially:
+### 1.0 — Does versioning apply to this project?
+
+Decide this **before** dispatching the audits, because it determines whether Audit B and Step 1b run at all. Set `versioning = off` if **either** of the following holds:
+
+- `cfg.version_scheme` is explicitly `none` (or the YAML null forms `null` / `~`). This is different from the key being **absent** — an absent key still runs Audit B and falls through to the "No `version_scheme` configured" prompt in 1b.
+- The CHANGELOG file does not exist on disk. Resolve `changelog_path` = `{project_root}/{cfg.changelog_file}` if `cfg.changelog_file` is set, else `{project_root}/CHANGELOG.md`; every later reference to the CHANGELOG in this skill means this path.
+
+When `versioning = off`:
+
+- Tell the user **once**, naming the reason that applied: "Versioning skipped for this project — `version_scheme: none`." or "Versioning skipped for this project — no CHANGELOG at `{changelog_path}`." Do not mention it again in later steps.
+- **Skip Audit B and Step 1b entirely.** Run only Audits A, C, and D.
+- **Do not create a CHANGELOG, do not invent or propose a version, and do not touch `cfg.version_files`.** A project without versioning ships as a plain commit + PR; Step 2.0 then names the branch `task/…` or `ship/…`, Step 2.1 item 1 and item 3 are skipped, and Step 3 predicate 3 is not applicable.
+
+Otherwise (`versioning = on`) run all four audits below.
+
+These checks are read-only and independent of each other — none needs another's output. Dispatch them as concurrent subagents (or, if subagents aren't available in the current context, run the read passes back-to-back with no dependency ordering between them) rather than sequentially:
 
 - **Audit A — README ↔ skills-table consistency:** List all subdirectories in `{project_root}/skills/` (each is a skill). Read `{project_root}/README.md`. For every skill directory, check a corresponding row exists in the README skills table (match on directory name). Report any skills missing from the README.
-- **Audit B — CHANGELOG/version derivation:** Read `{project_root}/CHANGELOG.md`. Find the `## [Unreleased]` section and collect everything between that heading and the next `## [` heading (the pending content). Read `cfg.version_scheme` and `cfg.version_files`; if set, read the first file in the list and extract the current version string (JSON `"version"` field, README version-table row, or HTML `<title>`). Report: pending CHANGELOG content (or "empty"), current version scheme, and current version string.
-- **Audit C — completed-task cross-reference:** Scan `{project_root}/{cfg.task_dir}/` for files matching the task filename pattern (e.g. `task-proj-NNN.md`) not already inside `completed/`. For each, look up the corresponding identifier in `cfg.todo_file`: `- [x]` → candidate to move; `- [ ]` or not found → leave in place. Report the candidate list.
+- **Audit B — CHANGELOG/version derivation:** Read `{changelog_path}`. Find the `## [Unreleased]` section and collect everything between that heading and the next `## [` heading (the pending content). Read `cfg.version_scheme` and `cfg.version_files`; if set, read the first file in the list and extract the current version string (JSON `"version"` field, README version-table row, or HTML `<title>`). Report: pending CHANGELOG content (or "empty"), current version scheme, and current version string.
+- **Audit C — completed-task cross-reference:** Scan `{project_root}/{cfg.task_dir}/` for files matching the task filename pattern (e.g. `task-tbs-NNN.md`) not already inside `completed/`. For each, look up the corresponding identifier in `cfg.todo_file`: `- [x]` → candidate to move; `- [ ]` or not found → leave in place. For each candidate, also list its AC status file (the same path with `.md` replaced by `.acs.json`) when one exists, so it moves with the task file. Report the candidate list.
+- **Audit D — skill frontmatter parse:** If `{project_root}/scripts/check-frontmatter.sh` exists, run it with no arguments and report its `BAD:` lines and exit code. If the script does not exist, report "not applicable".
 
-Once all three audits report back, apply their results serially (writes must stay serial even though the reads were concurrent):
+Once the audits report back, apply their results serially (writes must stay serial even though the reads were concurrent):
 
 ### 1a — README check
 
 - If Audit A found missing skills: tell the user which ones (e.g. `ship-it`, `next`). Ask them to update the README before continuing. Stop — do not proceed until the user confirms it's done and re-invokes.
 - If clean: tell the user "README check passed." and proceed.
 
+### 1a.5 — Frontmatter check
+
+- If Audit D reported a non-zero exit: show the user its output (`BAD:` lines, or "ruby not found" on exit 2). A bad frontmatter block makes Claude Code drop the skill's `description`. Ask them to fix it (usually: quote the value). Stop — do not proceed until the user confirms it's done and re-invokes.
+- If exit 0: tell the user "Frontmatter check passed." and proceed. If "not applicable", proceed silently.
+
 ### 1b — CHANGELOG + version
+
+Skip this whole sub-step when Step 1.0 set `versioning = off` — go straight to 1c.
 
 1. If Audit B's pending content is **empty** (no bullets/subsections):
    - Tell the user: "The [Unreleased] section has no content — there may be nothing to release. Proceed anyway? (y/n)"
@@ -82,13 +152,21 @@ Once all three audits report back, apply their results serially (writes must sta
      - `no`/skip → proceed to 1c without modifying CHANGELOG or version files.
      - `minor`/`major` (semver only) → recompute at that level and re-present.
      - Confirmed/different tag → use that tag and continue.
+   - **Version-collision check** — the confirmed tag must not already be claimed by work that hasn't shipped yet. Run `git fetch origin --tags --prune` once, then inspect **all three** of these sources and report what each found:
+     1. **Tags:** `git tag --list "{tag}"` — non-empty output is a collision.
+     2. **Remote release branches:** `git ls-remote --heads origin "release/*"` — any branch named `release/{tag}` (other than the branch currently checked out, if it already carries that name) is a collision: someone cut this version on another branch that hasn't merged.
+     3. **Uncommitted CHANGELOG diff:** `git diff HEAD -- "{changelog_path}"` — an added line matching `## [{tag}]` is a collision: a prior, unfinished ship attempt (or another session) already wrote this version into the working tree.
+     If all three are clean, continue to **Write version files**. On any collision, name the source(s) and what they contain, then ask the user to choose exactly one of two outcomes:
+     - **Renumber** — bump once more at the same level (`vX.Y.Z` → `vX.Y.(Z+1)` for a patch, etc.), re-present the new tag, and re-run this collision check on it. If three consecutive candidates collide, stop and treat it as Abort — something other than a stale tag is going on.
+     - **Abort** — stop `fsad-harness:ship-it` here with no files written; the user resolves the conflicting source (deletes the stale tag/branch, finishes or reverts the WIP CHANGELOG edit) and re-invokes.
+     Do **not** stash the user's working-tree changes to get past a collision, and never stash silently at any point in this skill: the stash stack is shared by every worktree of the repo, so a stash made here hides WIP from the session that owns it. If the user explicitly asks to set a change aside, the only acceptable form is a tagged, untracked-inclusive one — `git stash push -u -m "fsad-harness:ship-it: {reason}"` — announced before it runs and listed in the handoff.
    - **Write version files:** update every file in `cfg.version_files` with the new version string, preserving each file's existing format (JSON `"version"` field, README table row, HTML `<title>`).
    - **Update CHANGELOG:** replace `## [Unreleased]` with `## [vN] — YYYY-MM-DD` (today's date), insert a fresh empty `## [Unreleased]` block above it, write the file. Tell the user "CHANGELOG updated — [vN] cut."
 
 ### 1c — Move completed task files
 
 - If Audit C found no candidates: tell the user "No completed task files to move." and proceed to Step 2.
-- If candidates exist: tell the user "Moving these to `completed/`:" followed by the list, then `git mv` each file into `{project_root}/{cfg.task_dir}/completed/`.
+- If candidates exist: tell the user "Moving these to `completed/`:" followed by the list, then `git mv` each file into `{project_root}/{cfg.task_dir}/completed/`. A task file's `.acs.json` status file moves in the same step, never left behind. If it is untracked, `git add` it first so `git mv` can move it.
 
 ## Step 2 — Commit, push, PR
 
@@ -98,14 +176,17 @@ Once all three audits report back, apply their results serially (writes must sta
 2. If the branch is `main` or `master`:
    - Propose a feature branch name:
      - If a version was cut in Step 1: suggest `release/{version}` (e.g. `release/v4`).
-     - Otherwise: suggest `task/{task-ids}` using any task IDs marked done during this session (e.g. `task/proj-007`), or `ship/{YYYY-MM-DD}` if no IDs are in scope.
+     - Otherwise: suggest `task/{task-ids}` using any task IDs marked done during this session (e.g. `task/tbs-007`), or `ship/{YYYY-MM-DD}` if no IDs are in scope.
    - Ask the user: "Create and switch to `{branch}`? (y/n or type a different name)"
    - On confirmation: run `git checkout -b {branch}`.
 3. If already on a non-default branch:
    - Tell the user "Already on branch `{branch}`."
-   - If a version was cut in Step 1 **and** the current branch matches the pattern `release/vX.Y.Z` **and** `vX.Y.Z` does not equal the newly cut version:
-     - Propose renaming: "Branch name `{branch}` is stale — rename to `release/{version}`? (y/n)"
-     - If yes:
+   - Determine whether the branch needs renaming to `release/{version}` — this applies in two cases:
+     - **Provisional branch**: `{branch}` matches `^ship/` or `^task/` (a branch Step 0.4 created to hold a pending worktree merge off `main`), and a version was cut in Step 1.
+     - **Stale release branch**: `{branch}` matches `release/vX.Y.Z`, a version was cut in Step 1, and `vX.Y.Z` does not equal the newly cut version.
+   - If either case applies:
+     - Propose renaming: "Branch name `{branch}` should be `release/{version}` — rename? (y/n)"
+     - If yes, reuse the same rename procedure for both cases:
        a. `git branch -m {branch} release/{version}` — rename locally.
        b. `git push origin release/{version}` — push the new name.
        c. `git push origin --delete {branch}` — delete the old remote branch (ignore error if it didn't exist remotely).
@@ -113,21 +194,24 @@ Once all three audits report back, apply their results serially (writes must sta
        e. Tell the user "Branch renamed to `release/{version}`."
      - If no: continue on the current branch name.
    - Otherwise: continue without renaming.
+4. **Main-cleanliness assertion**: run `git fetch origin main` then compare `git rev-parse main` against `git rev-parse origin/main`.
+   - **Equal**: proceed to Step 2.1.
+   - **Not equal**: stop and report. Local `main` has diverged from `origin/main` — most likely a merge commit landed directly on `main` (the failure this guard exists to catch). Remedy: `git branch -f main origin/main` to reset local `main` to match remote, then re-run `fsad-harness:ship-it`. Do not proceed to Step 2.1 until this passes.
 
 ### 2.1 — Independent pre-PR checklist verifier
 
 Before committing, run one more fresh, independent read pass over the three Pre-PR Checklist items (README, CHANGELOG, version files — see `CLAUDE.md`'s Pre-PR Checklist section if present). This pass must **re-read the files from disk**, not reuse conclusions from Step 1 — the point is to catch a mistake the same pass that wrote them could have missed:
 
-1. Re-read `{project_root}/CHANGELOG.md`: confirm the change has an entry either under `## [Unreleased]` or in a freshly cut version block.
+1. Re-read `{project_root}/CHANGELOG.md`: confirm the change has an entry either under `## [Unreleased]` or in a freshly cut version block. (Skip when Step 1.0 set `versioning = off` — there is no CHANGELOG to read and none should be created.)
 2. Re-read `{project_root}/README.md`: confirm the version table's **Current version** and **Date** match what's being shipped (if a version was cut).
-3. Re-read every file in `cfg.version_files`: confirm all carry the identical new version string (if a version was cut).
+3. Re-read every file in `cfg.version_files`: confirm all carry the identical new version string (if a version was cut; skip when `versioning = off`).
 4. If any mismatch is found: report it to the user and stop — do not commit with a known Pre-PR Checklist violation. Ask whether to fix it now or abort.
-5. If all three check out: tell the user "Pre-PR checklist verified independently." and proceed.
+5. If every applicable item checks out: tell the user "Pre-PR checklist verified independently." and proceed.
 
 ### 2.2 — Commit
 
 1. Run `git status` to see what's staged and unstaged. Stage all relevant changed files by name (do **not** use `git add -A` or `git add .`):
-   - Modified: `CHANGELOG.md`, `README.md`, todo file, any other files changed during this work session.
+   - Modified: `CHANGELOG.md`, `README.md`, todo file (including the main-tree `[x]` marks and bullets written back by `fsad-harness:do-task`/`fsad-harness:add-task` — see Step 0.5), any other files changed during this work session.
    - Moved task files (already staged by `git mv`).
 2. Run `git log --oneline -5` to read recent commit message style.
 3. Draft a commit message:
@@ -180,6 +264,6 @@ Confirm the three "shipped" predicates from the top of this document, using fres
 
 1. **Remote-HEAD parity**: `git ls-remote origin {branch}` — the returned SHA must equal `git rev-parse HEAD`. PASS/FAIL.
 2. **PR existence**: `gh pr view --json url,state,baseRefName` — must return a PR targeting the default branch. PASS/FAIL.
-3. **Version-string consistency** (only if a version was cut in Step 1): re-read every file in `cfg.version_files` and confirm they all carry the identical new version string. PASS/FAIL.
+3. **Version-string consistency** (only if a version was cut in Step 1; N/A when Step 1.0 set `versioning = off`): re-read every file in `cfg.version_files` and confirm they all carry the identical new version string. PASS/FAIL.
 
 Report all three verdicts to the user. If any predicate fails, say so explicitly — do not report the work as "shipped" on a partial result. Only report success when all applicable predicates pass.

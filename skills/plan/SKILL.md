@@ -1,7 +1,7 @@
 ---
 name: plan
-description: Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md), gated phase by phase like fsad-harness:prd. Use when the user says "plan this project", "plan this refactor", "help me plan this epic", or similar.
-argument-hint: `[initiative name or goal] [target repo path]`
+description: Guide the user through planning a significant project, a large epic/initiative spanning multiple epics, or a codebase refactor. Produces five planning artifacts (project.md, architecture.md, roadmap.md, verification.md, instructions.md) gated phase by phase like fsad-harness:prd. Use when the user says "plan this project", "plan this refactor", "help me plan this epic", or similar.
+argument-hint: '`[initiative name or goal] [target repo path]`'
 ---
 
 # fsad-harness:plan — Large-Initiative Planning Agent
@@ -9,20 +9,29 @@ argument-hint: `[initiative name or goal] [target repo path]`
 Follow these phases in order. Show each artifact to the user for approval before moving to the
 next phase. Never generate all five documents unattended — each phase checkpoints.
 
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
+
 ## Role files
 
-This skill uses five specialist role briefs loaded from `roles/` (relative to this skill's own
-directory):
+This skill uses five specialist role briefs loaded from `roles/`:
 - `project.md` — drafts the initiative's Project Overview
 - `architecture.md` — drafts the Architecture document
 - `instructions.md` — drafts the Standing Instructions
 - `roadmap.md` — drafts the Roadmap
 - `verification.md` — drafts the Verification Plan
 
-**If any role file is missing:** stop immediately and tell the user: *"`roles/{file}.md` is missing
-from this skill's directory — this skill needs its role-brief files present to run. Restore them
-from the skill's source, then re-run this command."* Do not improvise a persona for a missing role
-file.
+**If any role file is missing:** stop immediately and tell the user: *"`roles/{file}.md` is missing — this skill needs its role-brief files to run. Reinstall the `fsad-harness` plugin, then re-run this command."* Do not improvise a persona for a missing role file.
 
 ## Phase 0 — Context (mandatory, not skippable)
 
@@ -64,9 +73,9 @@ Do not proceed until the user approves.
 
 ## Phase 2 — `architecture.md` and `instructions.md` (parallel)
 
-Read both `roles/architecture.md` and `roles/instructions.md`. Dispatch **two `Agent` calls in a
-single message** — both depend only on `project.md` and `context.md`, not on each other, so they
-run concurrently:
+Read both `roles/architecture.md` and
+`roles/instructions.md`. Dispatch **two `Agent` calls in a single message**
+— both depend only on `project.md` and `context.md`, not on each other, so they run concurrently:
 - `name: "plan-architecture-<slug>"`, given the architecture role brief, `context.md`, and
   `project.md`.
 - `name: "plan-instructions-<slug>"`, given the instructions role brief, `context.md`, and
@@ -81,10 +90,10 @@ Do not proceed until the user approves.
 
 ## Phase 3 — `roadmap.md`
 
-Read `roles/roadmap.md`. Dispatch one `Agent` (no `name:` needed — nothing resumes this one later)
-with the role brief, `context.md`, `project.md`, and the finished `architecture.md`. This phase is
-sequential — it depends on `architecture.md`'s target layout to define phases and a dependency
-graph, so it does not start until Phase 2 is fully approved.
+Read `roles/roadmap.md`. Dispatch one `Agent` (no `name:` needed — nothing
+resumes this one later) with the role brief, `context.md`, `project.md`, and the finished
+`architecture.md`. This phase is sequential — it depends on `architecture.md`'s target layout to
+define phases and a dependency graph, so it does not start until Phase 2 is fully approved.
 
 Show the draft path to the user: *"`roadmap.md` written. Review it and tell me what to change, or
 say 'approved' to move to the Verification phase."*
@@ -93,10 +102,10 @@ Do not proceed until the user approves.
 
 ## Phase 4 — `verification.md`
 
-Read `roles/verification.md`. Dispatch one `Agent` (no `name:` needed) with the role brief,
-`context.md`, `project.md`, `architecture.md`, and the finished `roadmap.md`. This phase is
-sequential — it depends on `roadmap.md`'s phase list to produce per-phase checklists, so it does
-not start until Phase 3 is approved.
+Read `roles/verification.md`. Dispatch one `Agent` (no `name:` needed) with
+the role brief, `context.md`, `project.md`, `architecture.md`, and the finished `roadmap.md`. This
+phase is sequential — it depends on `roadmap.md`'s phase list to produce per-phase checklists, so
+it does not start until Phase 3 is approved.
 
 Show the draft path to the user: *"`verification.md` written. Review it and tell me what to
 change, or say 'approved' to move to the reconciliation pass."*
@@ -155,5 +164,5 @@ to run `fsad-harness:plan-review` against them before you start implementing?"*
   first.
 - **Never skip the Phase 5 offer** — even when the documents look obviously complete, ask before
   running or skipping the review.
-- **Never proceed with a missing role-brief file** — stop and ask the user to restore it (see Role
+- **Never proceed with a missing role-brief file** — stop and ask the user to deploy it (see Role
   files above) rather than improvising the persona.

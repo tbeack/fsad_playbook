@@ -1,6 +1,6 @@
 ---
 description: Run a detailed, adversarial multi-agent review of a written proposal or specification (spec.md, PRD, RFC, design doc, architecture proposal, business case) — reviews the document, not code. Runs a steelman/inventory pass, then up to 10 specialist lenses (logic, assumptions, evidence, completeness, feasibility, alternatives, consistency, stakeholders, testability, risk), then adversarial validation that defaults to refuting each finding unless it survives, then a loop-until-dry completeness pass. Writes a single severity-ranked SPEC-REVIEW.md next to the document. Use when the user says "review this spec", "adversarial review", "poke holes in this proposal", "red team this PRD", "critique this design doc", "what's wrong with this RFC", "stress test this plan", or similar. Review-only — never edits the document.
-argument-hint: `[path] [--depth quick|standard|deep] [--lens <names>] [--stance <n>]`
+argument-hint: '`[path] [--depth quick|standard|deep] [--lens <names>] [--stance <n>]`'
 ---
 
 # fsad-harness:spec-review — Adversarial Document Review
@@ -8,6 +8,19 @@ argument-hint: `[path] [--depth quick|standard|deep] [--lens <names>] [--stance 
 **What this optimizes for:** a report the author trusts, not one that merely looks thorough. A finding only earns a place in the report if it survives independent adversarial validation (Phase 3) against the actual document text; anything that can't be confirmed that way goes to "Considered and dropped," visible but not counted. A short report on a genuinely solid document is success, not under-delivery — a padded report is the failure mode this skill exists to avoid.
 
 Follow these phases in order. Review-only. Never edit the document under review — the skill writes exactly one file, the report.
+
+## Asking the user
+
+This rule covers every question this skill asks the user: a confirmation, a choice, a missing value, a numbered decision list, or a stop-and-ask. It applies even where a later step says "ask the user" or "ask exactly once". The user may watch the decisions pane rather than the chat, so a question that only goes to chat can go unanswered.
+
+- **When `mcp__decision-tracker__decision` is in your tool list** (loaded, or named as a deferred tool; load a deferred one with `ToolSearch` first), log each question before you ask it:
+  1. Call it with `action: "open"`, the question (ending in `?`), and `options` when the answers are a closed set. Set `required: false` when the work can go on without an answer. A numbered list of questions opens one decision per item. Keep each returned `id`.
+  2. Ask the question in chat as this skill says. The open call does not replace the chat question.
+  3. When the user answers, in chat or as a `Decision Dn: <answer>` message from the plugin, call the tool with `action: "close"`, the `id` and the answer.
+  4. When the change the answer asked for is in place, call it with `action: "implement"`, the `id` and a `path:line`.
+- **When the tool is absent**, ask in chat only.
+- An `AskUserQuestion` call is logged on its own. Do not open it again.
+- This rule changes where a question is logged. It does not change when this skill asks, or how many times.
 
 ## Step 0 — Resolve arguments
 
