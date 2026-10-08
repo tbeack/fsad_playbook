@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.52 <span class="changelog-date">· 2026-10-08</span></h3>
+        <p><strong>Claude Code v2.1.294 and Codex CLI rust-v0.161.0 updates.</strong> The Haiku alias names Haiku 5.5, and the Codex pages gain MCP login, voice device choice, Daybreak and GPT-6.1 Sol default model coverage.</p>
+        <ul>
+          <li><strong>CBP-663 — [Claude] Haiku 5.5 is the default Haiku model.</strong> The <code>haiku</code> alias row names Claude Haiku 5.5 (<code>claude-haiku-5-5</code>) with $0.10/$0.50 per MTok (v2.1.293).</li>
+          <li><strong>CBP-664 — [Codex] <code>/mcp login &lt;name&gt;</code>.</strong> New cheat sheet row: sign in to an MCP server from the active terminal session (rust-v0.161.0).</li>
+          <li><strong>CBP-665 — [Codex] Voice microphone and speaker selection.</strong> The <code>/voice</code> row and the Voice Conversations section cover microphone, speaker and input-channel choice (rust-v0.161.0).</li>
+          <li><strong>CBP-666 — [Codex] <code>cli_daybreak</code> and <code>--cyber-access-program</code>.</strong> New config row for the opt-in <code>cli_daybreak</code> feature and new CLI row for the <code>codex exec --cyber-access-program</code> flag (rust-v0.161.0).</li>
+          <li><strong>CBP-667 — [Codex] GPT-6.1 Sol default model.</strong> GPT-6.1 Sol is the default in the bundled and Bedrock catalogs; Bedrock supports multi-agent V2 and Ultra reasoning, and Mantle accepts AWS GovCloud regions (rust-v0.161.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.51 <span class="changelog-date">· 2026-10-07</span></h3>
         <p><strong>Skill library re-sync.</strong> The <code>fsad-harness:</code> task skills are back in step with tb_skills, and the Skills Library page drops the personal-monitor steps from <code>do-task</code>.</p>
         <ul>
