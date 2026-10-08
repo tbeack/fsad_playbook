@@ -669,3 +669,8 @@
 - [x] `CBP-660` [Claude] Add `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` env var (v2.1.292) → [task-cbp-660.md](task-cbp-660.md)
 - [x] `CBP-661` [Claude] Document Agent tool `effort` parameter (v2.1.292) → [task-cbp-661.md](task-cbp-661.md)
 - [ ] `CBP-662` Fix the CBP-152 todo entry that links `task-cbp-151.md` instead of its own task file → [task-cbp-662.md](task-cbp-662.md)
+- [x] `CBP-663` [Claude] Haiku 5.5 is the default Haiku model (v2.1.293) → [task-cbp-663.md](completed/task-cbp-663.md)
+- [x] `CBP-664` [Codex] Add `/mcp login <name>` (rust-v0.161.0) → [task-cbp-664.md](completed/task-cbp-664.md)
+- [x] `CBP-665` [Codex] Voice microphone/speaker selection (rust-v0.161.0) → [task-cbp-665.md](completed/task-cbp-665.md)
+- [x] `CBP-666` [Codex] Opt-in `cli_daybreak` feature and `exec --cyber-access-program` (rust-v0.161.0) → [task-cbp-666.md](completed/task-cbp-666.md)
+- [x] `CBP-667` [Codex] GPT-6.1 Sol default model in bundled and Bedrock catalogs (rust-v0.161.0) → [task-cbp-667.md](completed/task-cbp-667.md)

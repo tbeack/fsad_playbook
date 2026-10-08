@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.52 — 2026-10-08
+
+**Claude Code v2.1.294 and Codex CLI rust-v0.161.0 updates (CBP-663 to CBP-667)**
+
+- **CBP-663 — [Claude] Haiku 5.5 is the default Haiku model.** The `haiku` alias row names Claude Haiku 5.5 (`claude-haiku-5-5`) with $0.10/$0.50 per MTok (v2.1.293).
+- **CBP-664 — [Codex] `/mcp login <name>`.** New cheat sheet row: sign in to an MCP server from the active terminal session (rust-v0.161.0).
+- **CBP-665 — [Codex] Voice microphone and speaker selection.** The `/voice` row and the Voice Conversations section cover microphone, speaker and input-channel choice (rust-v0.161.0).
+- **CBP-666 — [Codex] `cli_daybreak` and `--cyber-access-program`.** New config row for the opt-in `cli_daybreak` feature and new CLI row for the `codex exec --cyber-access-program` flag (rust-v0.161.0).
+- **CBP-667 — [Codex] GPT-6.1 Sol default model.** GPT-6.1 Sol is the default in the bundled and Bedrock catalogs; Bedrock supports multi-agent V2 and Ultra reasoning, and Mantle accepts AWS GovCloud regions (rust-v0.161.0).
+
 ### v4.1.51 — 2026-10-07 (`fsad-harness` plugin 0.2.0)
 
 **Skill library re-sync from tb_skills (CBP-658)**
