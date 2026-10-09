@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.53 — 2026-10-09
+
+**Claude Code v2.1.295 and Codex CLI rust-v0.162.0 updates (CBP-668 to CBP-672)**
+
+- **CBP-668 — [Claude] `onFailure: "block"` for hooks.** The hooks section documents the new fail-closed option for `command` and `http` hooks, and the HTTP Hooks callout notes when the fail-open default applies (v2.1.295).
+- **CBP-669 — [Claude] `CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS`.** New env var row: limits how long the retry watchdog waits between 429 and 529 retries in unattended sessions (v2.1.295).
+- **CBP-670 — [Claude] MCP tool-search cap raised to 16,384.** The `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` row notes that descriptions loaded through tool search are cut at 16,384 characters by default instead of 2,048 (v2.1.295).
+- **CBP-671 — [Codex] `/copy` block navigation.** The `/copy` cheat sheet row notes transcript block navigation, `Ctrl+Insert` for copying selections, and the `tui.mouse_scroll_speed` config option (rust-v0.162.0).
+- **CBP-672 — [Codex] Managed worktrees and Command Center pinning.** The `/worktree` row and Worktree Sessions section document managed Git worktree tools from trusted local projects and the `p` keybinding for pinning tasks in the Command Center (rust-v0.162.0).
+
 ### v4.1.52 — 2026-10-08
 
 **Claude Code v2.1.294 and Codex CLI rust-v0.161.0 updates (CBP-663 to CBP-667)**
