@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.53 — 2026-10-09
+
+**Claude Code v2.1.295 and Codex CLI rust-v0.162.0 updates (CBP-668 to CBP-672)**
+
+- **CBP-668 — [Claude] `onFailure: "block"` for hooks.** New section with a JSON snippet documents the fail-closed hook option; best practices list updated (v2.1.295).
+- **CBP-669 — [Claude] `CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS`.** New env var row caps the maximum wait between 429/529 retries in watchdog mode (v2.1.295).
+- **CBP-670 — [Claude] `$.ui.notify` in mods API.** The mods API description now includes `$.ui.notify` for native OS notifications from a mod (v2.1.295).
+- **CBP-671 — [Codex] Managed Git worktree API tools.** `/worktree` cheat sheet row and worktrees prose updated with programmatic worktree creation/listing from trusted local projects (rust-v0.162.0).
+- **CBP-672 — [Codex] Agent dashboard task pinning and `/copy` quoted text.** `codex agents` row and Command Center prose document `p` to pin tasks; `/copy` row updated with quoted text copy and `Ctrl+Insert` (rust-v0.162.0).
+
 ### v4.1.52 — 2026-10-08
 
 **Claude Code v2.1.294 and Codex CLI rust-v0.161.0 updates (CBP-663 to CBP-667)**

@@ -674,3 +674,8 @@
 - [x] `CBP-665` [Codex] Voice microphone/speaker selection (rust-v0.161.0) → [task-cbp-665.md](completed/task-cbp-665.md)
 - [x] `CBP-666` [Codex] Opt-in `cli_daybreak` feature and `exec --cyber-access-program` (rust-v0.161.0) → [task-cbp-666.md](completed/task-cbp-666.md)
 - [x] `CBP-667` [Codex] GPT-6.1 Sol default model in bundled and Bedrock catalogs (rust-v0.161.0) → [task-cbp-667.md](completed/task-cbp-667.md)
+- [x] `CBP-668` [Claude] Add `onFailure: "block"` for hooks — hooks that fail to start or time out now block the action (v2.1.295) → [task-cbp-668.md](task-cbp-668.md)
+- [x] `CBP-669` [Claude] Add `CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS` env var — caps watchdog retry wait time (v2.1.295) → [task-cbp-669.md](task-cbp-669.md)
+- [x] `CBP-670` [Claude] Add `$.ui.notify` to mods API section (v2.1.295) → [task-cbp-670.md](task-cbp-670.md)
+- [x] `CBP-671` [Codex] Update worktrees section — add managed Git worktree API tools (rust-v0.162.0) → [task-cbp-671.md](task-cbp-671.md)
+- [x] `CBP-672` [Codex] Update agent Command Center and `/copy` — pin tasks with `p`, quoted text copy (rust-v0.162.0) → [task-cbp-672.md](task-cbp-672.md)

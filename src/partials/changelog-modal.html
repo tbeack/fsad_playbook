@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.53 <span class="changelog-date">· 2026-10-09</span></h3>
+        <p><strong>Claude Code v2.1.295 and Codex CLI rust-v0.162.0 updates.</strong> Hooks get a fail-closed <code>onFailure: "block"</code> option and a watchdog retry cap; mods gain <code>$.ui.notify</code>; Codex gains programmatic worktree tools and task-pinning in the agent dashboard.</p>
+        <ul>
+          <li><strong>CBP-668 — [Claude] <code>onFailure: "block"</code> for hooks.</strong> New section in the async hooks area with a JSON snippet showing fail-closed enforcement hooks; best practices list updated to mention the option alongside <code>async: true</code> (v2.1.295).</li>
+          <li><strong>CBP-669 — [Claude] <code>CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS</code>.</strong> New env var row caps the maximum wait between 429/529 retries in watchdog mode (v2.1.295).</li>
+          <li><strong>CBP-670 — [Claude] <code>$.ui.notify</code> in mods API.</strong> The mods API description notes that <code>$.ui.notify</code> raises a native OS notification tagged with the mod's channel (v2.1.295).</li>
+          <li><strong>CBP-671 — [Codex] Managed Git worktree API tools.</strong> The <code>/worktree</code> cheat sheet row and worktrees prose gain a note about the new tools for creating and listing managed Git worktrees from trusted local projects (rust-v0.162.0).</li>
+          <li><strong>CBP-672 — [Codex] Agent dashboard task pinning and <code>/copy</code> quoted text.</strong> <code>codex agents</code> cheat sheet row and Command Center prose updated to document <kbd>p</kbd> to pin tasks; <code>/copy</code> row updated to mention quoted text (without <code>&gt;</code> markers) and <kbd>Ctrl+Insert</kbd> selection copy (rust-v0.162.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.52 <span class="changelog-date">· 2026-10-08</span></h3>
         <p><strong>Claude Code v2.1.294 and Codex CLI rust-v0.161.0 updates.</strong> The Haiku alias names Haiku 5.5, and the Codex pages gain MCP login, voice device choice, Daybreak and GPT-6.1 Sol default model coverage.</p>
         <ul>

@@ -2742,6 +2742,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>API_FORCE_IDLE_TIMEOUT=0</code></td><td>Opts out of the default 5-minute idle timeout on Vertex AI and Foundry deployments (restored in v2.1.169). Stalled streams abort automatically after 5 minutes by default — set to <code>0</code> to disable the timeout for long-running batch jobs or custom streaming pipelines.</td></tr>
               <tr><td><code>CLAUDE_CLIENT_PRESENCE_FILE</code></td><td>Desktop presence — path to a marker file that signals you're at the machine. When the file exists, Claude Code suppresses mobile push notifications. Create the file at session start and delete it when you step away (v2.1.181)</td></tr>
               <tr><td><code>CLAUDE_CODE_RETRY_WATCHDOG</code></td><td>For unattended / CI sessions that need more than 15 retry attempts. Set to an integer (e.g. <code>30</code>) to allow that many retries. Use this instead of <code>CLAUDE_CODE_MAX_RETRIES</code>, which is now capped at 15 and should not be set higher. Designed for long-running automation where transient API errors should not abort a session (v2.1.186). As of v2.1.239, retries stop immediately on organization spend-limit and out-of-credits errors instead of waiting indefinitely for a reset — these are treated as unrecoverable rather than transient.</td></tr>
+              <tr><td><code>CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS</code></td><td>Caps how long the watchdog waits between 429 and 529 retry attempts. Without this, the watchdog's backoff can grow without an upper bound; set to a millisecond value (e.g. <code>60000</code> for 1 min) to keep long-running automation from stalling indefinitely on rate-limit events (v2.1.295).</td></tr>
               <tr><td><code>CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS</code></td><td>Set a longer base delay for the backoff when retrying an overloaded (529) request. Useful for unattended sessions that keep hitting overload (v2.1.292).</td></tr>
               <tr><td><code>CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT</code></td><td>Override the default 5-minute abort timeout for remote MCP tool calls that produce no response. Set to an integer number of milliseconds (e.g. <code>300000</code> for 5 min). Increase for slow or high-latency MCP servers; decrease in CI to fail fast on unresponsive tools (v2.1.187).</td></tr>
               <tr><td><code>CLAUDE_CODE_MCP_STARTUP_WAIT_MS</code></td><td>Bounds how long the first non-interactive (<code>-p</code> / headless) turn waits for still-connecting MCP servers before proceeding. Set to <code>0</code> to not wait at all — useful in CI/scripts where a slow-starting MCP server shouldn't delay the first turn (v2.1.274).</td></tr>
@@ -3301,7 +3302,7 @@ exit 0</code></pre>
           <li><strong>Use exit 2 to enforce</strong> — exit 1 is non-blocking and won't stop anything</li>
           <li><strong>Test with <code>--debug</code></strong> — see full hook execution details in the debug log</li>
           <li><strong>Use the <code>if</code> field</strong> — narrow trigger conditions to avoid unnecessary process spawns</li>
-          <li><strong>Use <code>async: true</code></strong> — for fire-and-forget operations like logging</li>
+          <li><strong>Use <code>async: true</code></strong> — for fire-and-forget operations like logging; use <code>"onFailure": "block"</code> on enforcement hooks so a startup or timeout failure closes the action instead of letting it through (v2.1.295)</li>
           <li><strong>Reference scripts via <code>$CLAUDE_PROJECT_DIR</code></strong> — always quote for paths with spaces</li>
           <li><strong>View hooks with <code>/hooks</code></strong> — read-only browser showing all configured hooks by source</li>
           <li><strong>Disable all with <code>"disableAllHooks": true</code></strong> — in settings.json for troubleshooting</li>
@@ -3601,6 +3602,28 @@ hookdeck listen 3000 claude-code-channel
 
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Async hooks for non-blocking background work:</strong></p>
         <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">Async hooks (released January 2026) run in the background without blocking Claude's execution. Use them for slow operations — sending telemetry, triggering CI, updating dashboards — where you don't need the result to inform the next step. Configure with <code>"async": true</code> in the hook definition.</p>
+
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.25rem; margin-bottom:0.5rem;"><strong>onFailure: "block" — fail-closed hooks (v2.1.295):</strong></p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.5rem;">By default, a hook that fails to start, times out, or exits with an unexpected code logs a warning and lets the action through. Add <code>"onFailure": "block"</code> to a command or HTTP hook to make it fail-closed instead — if the hook can't run or doesn't finish cleanly, the triggering action is blocked. Use this for enforcement hooks where a silent failure would be worse than a hard stop.</p>
+        <div class="code-block" style="margin-top:0.25rem;">
+          <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/policy-check.sh",
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+        </div>
+
         <div class="code-block" style="margin-top:0.25rem;">
           <pre><code class="language-json">{
   "hooks": {
@@ -3692,7 +3715,7 @@ export function register(on) {
   })
 }</code></pre>
         </div>
-        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">To do anything outside its own code (draw, add a command, call a model, read a file, start a process, or make a network request), a hook calls the mods API through <code>$</code>. Since v2.1.289, a hook can call <code>agent.spawn</code> to start a teammate with a stable agent id, and <code>$.agent.list()</code> reports idle and waiting states.</p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.5rem;">To do anything outside its own code (draw, add a command, call a model, read a file, start a process, or make a network request), a hook calls the mods API through <code>$</code>. Since v2.1.289, a hook can call <code>agent.spawn</code> to start a teammate with a stable agent id, and <code>$.agent.list()</code> reports idle and waiting states. As of v2.1.295, <code>$.ui.notify</code> raises a native OS notification through the user's notification setting, tagged with the mod's channel — useful for surfacing important events without interrupting the conversation flow.</p>
         <p style="font-size:0.82rem; color:var(--text-secondary);">You can also describe the mod you want in a session. The built-in <code>plugin-authoring</code> skill helps Claude write it.</p>
       </div></div>
     </div>
