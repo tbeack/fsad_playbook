@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.54 <span class="changelog-date">· 2026-10-10</span></h3>
+        <p><strong>Claude Code v2.1.296 updates.</strong> Sonnet 5.5 cache read pricing drops to $0.10/MTok, two new env vars land for overload backoff cap and workflow subagent model, and the MCP description default cap rises to 4,096 characters.</p>
+        <ul>
+          <li><strong>CBP-673 — [Claude] Sonnet 5.5 cache read price $0.10/MTok.</strong> The model table, <code>sonnet</code> alias row, and model news item now show $0.10/MTok cache reads (reduced from $0.20 in v2.1.296).</li>
+          <li><strong>CBP-674 — [Claude] <code>CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL</code>.</strong> New env var row: sets the model for every workflow agent while other subagents keep their configured model (v2.1.296).</li>
+          <li><strong>CBP-675 — [Claude] <code>CLAUDE_CODE_OVERLOADED_RETRY_MAX_DELAY_MS</code>.</strong> New env var row: caps the maximum delay for the exponential backoff when retrying overloaded (529) requests (v2.1.296).</li>
+          <li><strong>CBP-676 — [Claude] MCP description default cap raised to 4,096.</strong> The <code>CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH</code> row now says the default cap is 4,096 characters (raised from 2,048 in v2.1.296), with an updated example value.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.53 <span class="changelog-date">· 2026-10-09</span></h3>
         <p><strong>Claude Code v2.1.295 and Codex CLI rust-v0.162.0 updates.</strong> Hooks gain fail-closed control, the MCP tool-search cap rises to 16,384 characters, a new retry watchdog env var lands, and the Codex cheat sheet gains block copy and managed worktree coverage.</p>
         <ul>

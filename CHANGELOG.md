@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.54 — 2026-10-10
+
+**Claude Code v2.1.296 updates (CBP-673 to CBP-676)**
+
+- **CBP-673 — [Claude] Sonnet 5.5 cache read price $0.10/MTok.** The model table, `sonnet` alias row, and model news item now show $0.10/MTok cache reads (reduced from $0.20 in v2.1.296).
+- **CBP-674 — [Claude] `CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL`.** New env var row: sets the model for every workflow agent while other subagents keep their configured model (v2.1.296).
+- **CBP-675 — [Claude] `CLAUDE_CODE_OVERLOADED_RETRY_MAX_DELAY_MS`.** New env var row: caps the maximum delay for the exponential backoff when retrying overloaded (529) requests (v2.1.296).
+- **CBP-676 — [Claude] MCP description default cap raised to 4,096.** The `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` row now says the default cap is 4,096 characters (raised from 2,048 in v2.1.296), with an updated example value.
+
 ### v4.1.53 — 2026-10-09
 
 **Claude Code v2.1.295 and Codex CLI rust-v0.162.0 updates (CBP-668 to CBP-672)**
