@@ -679,3 +679,7 @@
 - [x] `CBP-670` [Claude] Update `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` — tool-search cap is now 16,384 (v2.1.295) → [task-cbp-670.md](completed/task-cbp-670.md)
 - [x] `CBP-671` [Codex] Update `/copy` to mention block navigation and `Ctrl+Insert` (rust-v0.162.0) → [task-cbp-671.md](completed/task-cbp-671.md)
 - [x] `CBP-672` [Codex] Update worktree entries to mention managed worktree tools and `p` pinning (rust-v0.162.0) → [task-cbp-672.md](completed/task-cbp-672.md)
+- [x] `CBP-673` [Claude] Update Sonnet 5.5 cache read price ($0.20 → $0.10/MTok) in model table (v2.1.296) → [task-cbp-673.md](task-cbp-673.md)
+- [x] `CBP-674` [Claude] Add `CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL` env var (v2.1.296) → [task-cbp-674.md](task-cbp-674.md)
+- [x] `CBP-675` [Claude] Add `CLAUDE_CODE_OVERLOADED_RETRY_MAX_DELAY_MS` env var (v2.1.296) → [task-cbp-675.md](task-cbp-675.md)
+- [x] `CBP-676` [Claude] Update `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` default to 4,096 (v2.1.296) → [task-cbp-676.md](task-cbp-676.md)
