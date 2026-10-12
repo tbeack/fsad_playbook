@@ -685,3 +685,4 @@
 - [x] `CBP-676` [Claude] Update `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` default to 4,096 (v2.1.296) → [task-cbp-676.md](task-cbp-676.md)
 - [x] `CBP-677` — revise the harness page using this artifact: https://claude.ai/artifact/TYgXGg4zTRcLdYCj8NynkB → [task-cbp-677.md](completed/task-cbp-677.md)
 - [ ] `CBP-678` — Fix dead sidebar anchors on the Harness Engineering page → [task-cbp-678.md](task-cbp-678.md)
+- [x] `CBP-679` — Replace the Harness page introduction with the Agentic Harness Blueprint (supersedes the CBP-677 edits) → [task-cbp-679.md](completed/task-cbp-679.md)

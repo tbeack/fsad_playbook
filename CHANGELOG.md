@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.56 — 2026-10-11
+
+**Harness Engineering page opens with the Agentic Harness Blueprint (CBP-679)**
+
+- **CBP-679 — Harness page opens with the Agentic Harness Blueprint.** The Blueprint replaces the old hero neighbours and the Model vs Harness section. It has 11 clickable components, an animated agent loop and a searchable detail panel for each component. Each panel links to the section that covers it in depth. The CBP-677 worked example and turn-budget paragraph are removed because the Blueprint holds them.
+
 ### v4.1.55 — 2026-10-11
 
 **Harness Engineering page revised from the Agentic Harness Blueprint (CBP-677)**
