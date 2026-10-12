@@ -126,7 +126,7 @@
   <h2 class="section-title">The Model Proposes. <em>The Harness Decides.</em></h2>
   <p class="section-subtitle">Picture the usual response to an agent that keeps failing: rewrite the prompt, upgrade the model, give it a wider context window. None of it works. Decisions still get dropped. The wrong tool still gets picked. Checks still get skipped. The same failure loop still repeats. Blaming the model is usually a mistake. The model rarely lacks intelligence. It lacks the scaffolding it needs to work inside.</p>
 
-  <p>This section calls that scaffolding <strong>the harness</strong>. The harness decides what the model sees, what actions it may take, what survives after the conversation ends, and when the run must stop and wait for a person. A model on its own can only propose. It cannot grant itself permissions, remember past runs, or check its own work.</p>
+  <p>The short form is <strong>Agent = Model + Harness</strong>. The model decides. The harness acts. This section calls that scaffolding <strong>the harness</strong>. The harness decides what the model sees, what actions it may take, what survives after the conversation ends, and when the run must stop and wait for a person. A model on its own can only propose. It cannot grant itself permissions, remember past runs, or check its own work.</p>
 
   <p>Consider two deployments of the same weights. Dropped into a bare chat window, the model can only talk. Wired into a coding environment with file access, a test suite, a sandboxed shell, and a review step before merge, the same model can carry a ticket through to a shipped pull request. The model did not change between these two pictures. The environment around it did.</p>
 
@@ -338,6 +338,22 @@ return requestHumanReview(state)  # 3 failed attempts, stop and escalate</code><
     <img class="loop-engineering-diagram loop-engineering-diagram-dark" src="@asset(loop-engineering-dark.png)" alt="Loop Engineering — the inner cycle (dark theme): a six-step cycle — load state, plan and select, act or call, observe the result, evaluate the evidence, and update or replan — which cycles back to load state. Two exits break the cycle: evaluate can pass a success test and accept the result, or update/replan can decide to stop and escalate when max turns, budget, timeout, or lack of progress is reached.">
     <img class="loop-engineering-diagram loop-engineering-diagram-light" src="@asset(loop-engineering-light.png)" alt="Loop Engineering — the inner cycle (light theme): the same six-step cycle as the dark-theme version, with the same two exits — accept on a passed success test, or stop and escalate when max turns, budget, timeout, or lack of progress is reached.">
   </figure>
+
+  <h3 style="font-family:var(--font-display); font-size:1.2rem; margin:1.5rem 0 0.75rem;">Worked Example: Fix a Failing Checkout Test</h3>
+  <p>One small task shows the cycle in order. The model must fix a failing checkout test.</p>
+
+  <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; color:var(--text-secondary);"><code>1. Load     The context builder gives the model the task and the test output.
+2. Think    The model reads the context and proposes a tool call to open the checkout file.
+3. Check    The policy gate compares the call with the allow rules and approves it.
+4. Act      The sandbox runs the approved call.
+5. Observe  The harness trims the result and puts it back into the context.
+6. Verify   The verifier runs the test. The test still fails, so the loop starts again (turn 2 of 25).
+7. Remember The harness saves a note about the failed try. The next turn loads the note.
+8. Done     The verifier passes the test. The harness accepts the fix and ships it.</code></pre>
+
+  <p>For a larger job, the model can hand part of the work to a subagent. The subagent returns a short summary, not its full transcript. Tracing records the tokens and the cost of every step.</p>
+
+  <p>The loop also needs a turn budget. Each pass through the cycle spends one turn, and the harness counts the turns. The loop runs until the verifier says the work is done or the turns run out. When the turns run out, the harness stops the run and writes a report of what is left. It does not let the loop keep running.</p>
 
   <h3 style="font-family:var(--font-display); font-size:1.2rem; margin:1.5rem 0 0.75rem;">Independence Is What Makes the Graph Trustworthy</h3>
   <p>The same reasoning that shapes the loop shapes the whole graph. Keep the reasoning node, the execution node, and the state and log node independent, joined only by explicit edges, instead of folding all three responsibilities into one component. Killing the execution subgraph, the sandbox and the tool runner, does not erase what happened, because the record lives in a separate node outside it. Swapping the reasoning node for a newer model version does not touch the edges to the tool subgraph, because those edges were never coupled to which model sits behind them.</p>
