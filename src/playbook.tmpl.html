@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v4.1.56)</title>
+<title>FSAD — Full Stack Agentic Development (v4.1.57)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
@@ -22,7 +22,8 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v4.1.56</a></span>
+    <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Hide sidebar" title="Hide sidebar">«</button>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v4.1.57</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <button class="swn-trigger" id="swnTrigger" onclick="switchPage('whats-new')" style="display:none">
       <span class="swn-trigger-dot"></span>
@@ -339,6 +340,8 @@
     For R&D teams adopting agentic workflows
   </div>
 </aside>
+<div class="sidebar-resizer" id="sidebarResizer" role="separator" aria-orientation="vertical" aria-label="Resize sidebar" tabindex="0"></div>
+<button class="sidebar-expand-btn" id="sidebarExpandBtn" aria-label="Show sidebar" title="Show sidebar">»</button>
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <!-- ═══════════════════════════════════════
@@ -450,6 +453,7 @@
   // Fallback: dist build injects populated PLAYBOOK_EMBEDDINGS constant (text chunks for semantic search).
   if (typeof PLAYBOOK_EMBEDDINGS === 'undefined') { var PLAYBOOK_EMBEDDINGS = []; }
 
+<!-- @include src/js/sidebar-resize.js -->
 <!-- @include src/js/changelog.js -->
 <!-- @include src/js/pod-lightbox.js -->
 <!-- @include src/js/theme-toggle.js -->

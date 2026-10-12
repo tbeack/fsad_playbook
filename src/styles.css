@@ -669,6 +669,46 @@
     display: block;
   }
 
+  /* Sidebar resize + collapse (desktop only) */
+  .sidebar-resizer, .sidebar-collapse-btn, .sidebar-expand-btn { display: none; }
+  @media (min-width: 901px) {
+    .sidebar { transition: transform 0.3s, width 0.2s; }
+    .main { transition: margin-left 0.2s; }
+    .sidebar-resizer {
+      display: block;
+      position: fixed; top: 0; bottom: 0;
+      left: calc(var(--sidebar-w) - 3px);
+      width: 6px;
+      cursor: col-resize;
+      z-index: 201;
+      background: transparent;
+      transition: background 0.15s;
+    }
+    .sidebar-resizer:hover, .sidebar-resizer:focus-visible, body.sidebar-resizing .sidebar-resizer {
+      background: var(--gradient-brand);
+      outline: none;
+    }
+    .sidebar-collapse-btn, .sidebar-expand-btn {
+      align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .sidebar-collapse-btn { display: flex; position: absolute; top: 0.9rem; right: 0.9rem; }
+    .sidebar-expand-btn { display: none; position: fixed; top: 12px; left: 12px; z-index: 300; }
+    .sidebar-collapse-btn:hover, .sidebar-expand-btn:hover { color: var(--text-primary); }
+    body.sidebar-collapsed { --sidebar-w: 0px; }
+    body.sidebar-collapsed .sidebar { visibility: hidden; overflow: hidden; border-right-width: 0; }
+    body.sidebar-collapsed .sidebar-resizer { display: none; }
+    body.sidebar-collapsed .sidebar-expand-btn { display: flex; }
+    body.sidebar-resizing { user-select: none; cursor: col-resize; }
+    body.sidebar-resizing .sidebar, body.sidebar-resizing .main { transition: none; }
+  }
+
   /* ─── POD LIGHTBOX ─── */
   .pod-lightbox-modal {
     display: none; position: fixed; inset: 0;
@@ -1623,7 +1663,7 @@
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
-    .sidebar { transform: translateX(-100%); }
+    .sidebar { transform: translateX(-100%); width: 290px; }
     .sidebar.open { transform: translateX(0); }
     .sidebar-toggle { display: flex; }
     .main { margin-left: 0; }
