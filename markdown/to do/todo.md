@@ -686,3 +686,5 @@
 - [x] `CBP-677` — revise the harness page using this artifact: https://claude.ai/artifact/TYgXGg4zTRcLdYCj8NynkB → [task-cbp-677.md](completed/task-cbp-677.md)
 - [ ] `CBP-678` — Fix dead sidebar anchors on the Harness Engineering page → [task-cbp-678.md](task-cbp-678.md)
 - [x] `CBP-679` — Replace the Harness page introduction with the Agentic Harness Blueprint (supersedes the CBP-677 edits) → [task-cbp-679.md](completed/task-cbp-679.md)
+- [x] `CBP-680` — make the left nav collapsible and resizable. → [task-cbp-680.md](completed/task-cbp-680.md)
+- [ ] `CBP-681` — Guard `localStorage` in theme-toggle.js so blocked storage does not abort the app script → [task-cbp-681.md](task-cbp-681.md)

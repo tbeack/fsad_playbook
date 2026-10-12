@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSAD — Full Stack Agentic Development (v4.1.56)</title>
+<title>FSAD — Full Stack Agentic Development (v4.1.57)</title>
 <style>
 /* cyrillic-ext */
 @font-face {
@@ -3010,7 +3010,7 @@
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Hide sidebar" title="Hide sidebar">«</button>
-    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v4.1.56</a></span>
+    <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v4.1.57</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <button class="swn-trigger" id="swnTrigger" onclick="switchPage('whats-new')" style="display:none">
       <span class="swn-trigger-dot"></span>
@@ -21070,7 +21070,15 @@ Works across Claude Code, Codex, Cowork, and other AI agent harnesses.</p>
     </header>
     <div class="changelog-body">
       <section>
-        <h3>v4.1.56 <span class="changelog-date">· 2026-10-11</span></h3>
+        <h3>v4.1.57 <span class="changelog-date">· 2026-10-11</span></h3>
+        <p><strong>The left nav collapses and resizes.</strong> Drag the edge of the sidebar to change its width, or hide it with the « button.</p>
+        <ul>
+          <li><strong>CBP-680 — The left nav collapses and resizes.</strong> The width ranges from 220 to 520px. Double-click the edge to reset it. The arrow keys resize it. The playbook remembers both choices between visits. The mobile layout is unchanged.</li>
+          <li><strong>CBP-681 — The theme toggle no longer fails when browser storage is blocked.</strong> The playbook starts normally and follows the OS theme when <code>localStorage</code> throws an error.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>v4.1.56<span class="changelog-date">· 2026-10-11</span></h3>
         <p><strong>Harness Engineering page opens with the Agentic Harness Blueprint.</strong> The Harness Engineering page now opens with the Agentic Harness Blueprint: 11 clickable components, an animated agent loop and a detail panel for each one. It replaces the earlier introduction and links each component to the section that covers it.</p>
         <ul>
           <li><strong>CBP-679 — Harness page opens with the Agentic Harness Blueprint.</strong> The hero's neighbours and the Model vs Harness section are replaced. The earlier CBP-677 worked example is removed because the Blueprint holds it.</li>

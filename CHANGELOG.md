@@ -1,6 +1,6 @@
 ## Changes in This Version
 
-### Unreleased
+### v4.1.57 — 2026-10-11
 
 **Collapsible and resizable left nav (CBP-680)**
 
