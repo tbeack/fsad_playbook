@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.55 — 2026-10-11
+
+**Harness Engineering page revised from the Agentic Harness Blueprint (CBP-677)**
+
+- **CBP-677 — Harness page revised from the Agentic Harness Blueprint.** The thesis section gains the line "Agent = Model + Harness". The Graph & Loop Engineering section gains a worked example that fixes a failing checkout test in 8 ordered steps, and the turn-budget rule that stops a loop and leaves a report.
+
 ### v4.1.54 — 2026-10-10
 
 **Claude Code v2.1.296 updates (CBP-673 to CBP-676)**
