@@ -22,6 +22,7 @@
      ═══════════════════════════════════════ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
+    <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Hide sidebar" title="Hide sidebar">«</button>
     <span class="sidebar-brand">FSAD <a href="#changelog" onclick="event.preventDefault(); openChangelog();" style="color: var(--text-muted); font-weight: 400; text-decoration: none; cursor: pointer; font-size: 0.5em;" title="View changelog">· v4.1.56</a></span>
     <span class="sidebar-tagline">Methodology Guide</span>
     <button class="swn-trigger" id="swnTrigger" onclick="switchPage('whats-new')" style="display:none">
@@ -339,6 +340,8 @@
     For R&D teams adopting agentic workflows
   </div>
 </aside>
+<div class="sidebar-resizer" id="sidebarResizer" role="separator" aria-orientation="vertical" aria-label="Resize sidebar" tabindex="0"></div>
+<button class="sidebar-expand-btn" id="sidebarExpandBtn" aria-label="Show sidebar" title="Show sidebar">»</button>
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <!-- ═══════════════════════════════════════
@@ -450,6 +453,7 @@
   // Fallback: dist build injects populated PLAYBOOK_EMBEDDINGS constant (text chunks for semantic search).
   if (typeof PLAYBOOK_EMBEDDINGS === 'undefined') { var PLAYBOOK_EMBEDDINGS = []; }
 
+<!-- @include src/js/sidebar-resize.js -->
 <!-- @include src/js/changelog.js -->
 <!-- @include src/js/pod-lightbox.js -->
 <!-- @include src/js/theme-toggle.js -->

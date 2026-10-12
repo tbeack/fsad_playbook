@@ -1,6 +1,7 @@
   // ─── THEME TOGGLE ───
   function getEffectiveTheme() {
-    const saved = localStorage.getItem('theme');
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
     if (saved === 'light' || saved === 'dark') return saved;
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   }
@@ -17,7 +18,7 @@
   function cycleTheme() {
     // 2-state toggle (Phase 3): light ↔ dark. Default on first load follows OS.
     const current = getEffectiveTheme();
-    localStorage.setItem('theme', current === 'light' ? 'dark' : 'light');
+    try { localStorage.setItem('theme', current === 'light' ? 'dark' : 'light'); } catch (e) {}
     applyTheme();
   }
 

@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### Unreleased
+
+**Collapsible and resizable left nav (CBP-680)**
+
+- **CBP-680 — The left nav collapses and resizes.** Drag the edge of the sidebar to change its width (220-520px). Double-click the edge to reset it. The arrow keys resize it from the keyboard. The « button hides the sidebar and the » button brings it back. The playbook remembers both choices between visits. Mobile layout is unchanged.
+- **CBP-681 — The theme toggle no longer fails when browser storage is blocked.** The playbook now starts normally and follows the OS theme when `localStorage` throws an error.
+
 ### v4.1.56 — 2026-10-11
 
 **Harness Engineering page opens with the Agentic Harness Blueprint (CBP-679)**
