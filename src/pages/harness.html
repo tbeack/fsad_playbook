@@ -6,154 +6,311 @@
   <p>A reliable agent does not need a smarter model. It needs a smarter environment. This section covers the discipline of building that environment. It covers the boundaries the agent works inside and the record of what it did. It also covers the point where it must hand control back to a person.</p>
 </div>
 <hr class="divider">
-<figure class="harness-jobs-flow-diagram" aria-label="Harness Engineering — at a glance">
-  <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 360" role="img" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="hov-d-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#1c2230"/>
-        <stop offset="100%" stop-color="#141822"/>
-      </linearGradient>
-      <marker id="hov-d-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </marker>
-    </defs>
-    <rect x="0" y="0" width="680" height="360" rx="24" fill="url(#hov-d-bg)"/>
-    <title>Harness Engineering — at a glance</title>
-    <desc>An overview diagram. A header reads "Harness Engineering" with the line "The model proposes. The harness decides." Below it, a MODEL box with an arrow pointing to a HARNESS box. Under that, a row of seven small chips, one per harness job: 01 Contract / Define, 02 Context / Select, 03 Tools / Act, 04 State / Remember, 05 Sensors / Verify, 06 Policy / Authorize, 07 Traces / Explain. Below the chips, a three-segment strip names the page's three engineering layers: Harness Engineering (environment, contract, policy), Graph Engineering (explicit nodes and edges), and Loop Engineering (bounded retry, capped cost). A closing bar reads: same three layers, every task — weight scales with risk.</desc>
-    <rect x="24" y="20" width="632" height="48" rx="14" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="340" y="42" text-anchor="middle" font-size="14" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">Harness Engineering — At a Glance</text>
-    <text x="340" y="59" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">The model proposes. The harness decides.</text>
-    <rect x="24" y="84" width="130" height="64" rx="12" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/>
-    <text x="89" y="112" text-anchor="middle" font-size="12" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">MODEL</text>
-    <text x="89" y="130" text-anchor="middle" font-size="9.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">proposes</text>
-    <line x1="154" y1="116" x2="176" y2="116" stroke="#8a82dd" stroke-width="1.5" marker-end="url(#hov-d-arrow)"/>
-    <rect x="180" y="84" width="476" height="64" rx="12" fill="#251f2c" stroke="#8a82dd" stroke-width="1.6"/>
-    <text x="418" y="108" text-anchor="middle" font-size="12" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">HARNESS</text>
-    <text x="418" y="128" text-anchor="middle" font-size="9.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">decides what happens next — seven jobs, one line each</text>
-    <rect x="28" y="162" width="84" height="40" rx="8" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="70" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">01 CONTRACT</text>
-    <text x="70" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Define</text>
-    <rect x="118" y="162" width="84" height="40" rx="8" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="160" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">02 CONTEXT</text>
-    <text x="160" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Select</text>
-    <rect x="208" y="162" width="84" height="40" rx="8" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="250" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">03 TOOLS</text>
-    <text x="250" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Act</text>
-    <rect x="298" y="162" width="84" height="40" rx="8" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="340" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">04 STATE</text>
-    <text x="340" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Remember</text>
-    <rect x="388" y="162" width="84" height="40" rx="8" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="430" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">05 SENSORS</text>
-    <text x="430" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Verify</text>
-    <rect x="478" y="162" width="84" height="40" rx="8" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="520" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">06 POLICY</text>
-    <text x="520" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Authorize</text>
-    <rect x="568" y="162" width="84" height="40" rx="8" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/>
-    <text x="610" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">07 TRACES</text>
-    <text x="610" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Explain</text>
-    <rect x="24" y="218" width="204" height="70" rx="12" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/>
-    <text x="126" y="246" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">HARNESS ENGINEERING</text>
-    <text x="126" y="264" text-anchor="middle" font-size="9" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">environment, contract, policy</text>
-    <rect x="238" y="218" width="204" height="70" rx="12" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/>
-    <text x="340" y="246" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">GRAPH ENGINEERING</text>
-    <text x="340" y="264" text-anchor="middle" font-size="9" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">explicit nodes and edges</text>
-    <rect x="452" y="218" width="204" height="70" rx="12" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/>
-    <text x="554" y="246" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">LOOP ENGINEERING</text>
-    <text x="554" y="264" text-anchor="middle" font-size="9" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">bounded retry, capped cost</text>
-    <rect x="24" y="298" width="632" height="42" rx="14" fill="#14241e" stroke="#4cc9a0" stroke-width="1.2"/>
-    <text x="340" y="323" text-anchor="middle" font-size="11" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#6dd9b3">Same three layers, every task — weight scales with risk.</text>
-  </svg>
-  <svg class="flow-diagram flow-diagram--light" viewBox="0 0 680 360" role="img" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="hov-l-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#f4f7fb"/>
-        <stop offset="100%" stop-color="#e6ecf3"/>
-      </linearGradient>
-      <marker id="hov-l-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </marker>
-    </defs>
-    <rect x="0" y="0" width="680" height="360" rx="24" fill="url(#hov-l-bg)"/>
-    <title>Harness Engineering — at a glance</title>
-    <desc>An overview diagram. A header reads "Harness Engineering" with the line "The model proposes. The harness decides." Below it, a MODEL box with an arrow pointing to a HARNESS box. Under that, a row of seven small chips, one per harness job: 01 Contract / Define, 02 Context / Select, 03 Tools / Act, 04 State / Remember, 05 Sensors / Verify, 06 Policy / Authorize, 07 Traces / Explain. Below the chips, a three-segment strip names the page's three engineering layers: Harness Engineering (environment, contract, policy), Graph Engineering (explicit nodes and edges), and Loop Engineering (bounded retry, capped cost). A closing bar reads: same three layers, every task — weight scales with risk.</desc>
-    <rect x="24" y="20" width="632" height="48" rx="14" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="340" y="42" text-anchor="middle" font-size="14" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">Harness Engineering — At a Glance</text>
-    <text x="340" y="59" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">The model proposes. The harness decides.</text>
-    <rect x="24" y="84" width="130" height="64" rx="12" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/>
-    <text x="89" y="112" text-anchor="middle" font-size="12" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">MODEL</text>
-    <text x="89" y="130" text-anchor="middle" font-size="9.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">proposes</text>
-    <line x1="154" y1="116" x2="176" y2="116" stroke="#534ab7" stroke-width="1.5" marker-end="url(#hov-l-arrow)"/>
-    <rect x="180" y="84" width="476" height="64" rx="12" fill="#efecf9" stroke="#534ab7" stroke-width="1.6"/>
-    <text x="418" y="108" text-anchor="middle" font-size="12" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">HARNESS</text>
-    <text x="418" y="128" text-anchor="middle" font-size="9.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">decides what happens next — seven jobs, one line each</text>
-    <rect x="28" y="162" width="84" height="40" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="70" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">01 CONTRACT</text>
-    <text x="70" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Define</text>
-    <rect x="118" y="162" width="84" height="40" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="160" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">02 CONTEXT</text>
-    <text x="160" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Select</text>
-    <rect x="208" y="162" width="84" height="40" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="250" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">03 TOOLS</text>
-    <text x="250" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Act</text>
-    <rect x="298" y="162" width="84" height="40" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="340" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">04 STATE</text>
-    <text x="340" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Remember</text>
-    <rect x="388" y="162" width="84" height="40" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="430" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">05 SENSORS</text>
-    <text x="430" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Verify</text>
-    <rect x="478" y="162" width="84" height="40" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="520" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">06 POLICY</text>
-    <text x="520" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Authorize</text>
-    <rect x="568" y="162" width="84" height="40" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/>
-    <text x="610" y="178" text-anchor="middle" font-size="8.5" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">07 TRACES</text>
-    <text x="610" y="192" text-anchor="middle" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Explain</text>
-    <rect x="24" y="218" width="204" height="70" rx="12" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/>
-    <text x="126" y="246" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">HARNESS ENGINEERING</text>
-    <text x="126" y="264" text-anchor="middle" font-size="9" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">environment, contract, policy</text>
-    <rect x="238" y="218" width="204" height="70" rx="12" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/>
-    <text x="340" y="246" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">GRAPH ENGINEERING</text>
-    <text x="340" y="264" text-anchor="middle" font-size="9" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">explicit nodes and edges</text>
-    <rect x="452" y="218" width="204" height="70" rx="12" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/>
-    <text x="554" y="246" text-anchor="middle" font-size="11" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">LOOP ENGINEERING</text>
-    <text x="554" y="264" text-anchor="middle" font-size="9" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">bounded retry, capped cost</text>
-    <rect x="24" y="298" width="632" height="42" rx="14" fill="#e6f5ef" stroke="#2f9e78" stroke-width="1.2"/>
-    <text x="340" y="323" text-anchor="middle" font-size="11" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f7a5c">Same three layers, every task — weight scales with risk.</text>
-  </svg>
-</figure>
-
 <section id="model-vs-harness">
-  <span class="section-label">01 — The Thesis</span>
-  <h2 class="section-title">The Model Proposes. <em>The Harness Decides.</em></h2>
-  <p class="section-subtitle">Picture the usual response to an agent that keeps failing: rewrite the prompt, upgrade the model, give it a wider context window. None of it works. Decisions still get dropped. The wrong tool still gets picked. Checks still get skipped. The same failure loop still repeats. Blaming the model is usually a mistake. The model rarely lacks intelligence. It lacks the scaffolding it needs to work inside.</p>
+  <span class="section-label">01 — The Blueprint</span>
+  <h2 class="section-title">The Agentic Harness <em>Blueprint</em></h2>
+  <p class="section-subtitle hb-tagline">Agent = Model + Harness. The model <em>decides</em>. The harness <em>executes</em>.</p>
 
-  <p>The short form is <strong>Agent = Model + Harness</strong>. The model decides. The harness acts. This section calls that scaffolding <strong>the harness</strong>. The harness decides what the model sees, what actions it may take, what survives after the conversation ends, and when the run must stop and wait for a person. A model on its own can only propose. It cannot grant itself permissions, remember past runs, or check its own work.</p>
+  <p>A harness is everything around the model that turns it into a working agent. Each step runs a <strong>think → act → observe</strong> loop: the <strong>context builder</strong> decides what the model sees, the <strong>model</strong> picks the next call, the <strong>tool registry</strong> and <strong>policy gate</strong> decide what it may do, the <strong>sandbox</strong> runs it, and results are <strong>trimmed</strong> back into context. The <strong>verifier</strong> defines done, <strong>memory</strong> carries lessons past the context window, <strong>subagents</strong> split the work, and <strong>tracing</strong> records tokens and cost at every step. The model stays the engine; the harness wraps it.</p>
 
-  <p>Consider two deployments of the same weights. Dropped into a bare chat window, the model can only talk. Wired into a coding environment with file access, a test suite, a sandboxed shell, and a review step before merge, the same model can carry a ticket through to a shipped pull request. The model did not change between these two pictures. The environment around it did.</p>
+  <div class="hb-legend" aria-label="Legend">
+    <span><i class="hb-dot" style="background:var(--hb-think)"></i><b>Think</b>&nbsp;context + model</span>
+    <span><i class="hb-dot" style="background:var(--hb-act)"></i><b>Act</b>&nbsp;tools + policy + sandbox</span>
+    <span><i class="hb-dot" style="background:var(--hb-observe)"></i><b>Observe</b>&nbsp;trim + verify + remember</span>
+    <span><i class="hb-dot" style="background:var(--hb-muted)"></i><b>Cross-cutting</b>&nbsp;result + tracing</span>
+  </div>
 
-  <figure class="harness-flow-diagram" aria-label="Model versus Harness — the seven harness jobs">
-    <svg class="flow-diagram flow-diagram--dark" viewBox="0 0 680 482" role="img" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="hg-a-dark" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#1c2230"/>
-          <stop offset="100%" stop-color="#141822"/>
-        </linearGradient>
-        <marker id="ha-a-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="680" height="482" rx="24" fill="url(#hg-a-dark)"/><title>Model versus Harness — the seven harness jobs</title><desc>Two-panel diagram. On the left, a box labeled MODEL, which reads its context and puts forward a candidate next action. On the right, a box labeled HARNESS, listing seven jobs as rows, each row pairing a name, a one-word verb, and its inputs: 01 Contract — Define — goal, limits, done; 02 Context — Select — maps, rules, facts; 03 Tools — Act — sandbox, browser, shell; 04 State — Remember — artifacts, decisions; 05 Sensors — Verify — tests, logs, screenshots; 06 Policy — Authorize — scope, approval, budget; 07 Traces — Explain — events, cost, rollback. An arrow connects the two boxes, labeled proposes, illustrating that every action the model puts forward passes through the harness before it runs.</desc><rect x="24" y="24" width="632" height="56" rx="14" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><rect x="40" y="38" width="24" height="3" rx="1.5" fill="#8a82dd"/><text x="340.0" y="50" text-anchor="middle" font-size="15" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">The Model Proposes. The Harness Decides.</text><text x="340.0" y="68" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Same weights, different reliability — depending on what surrounds them</text><rect x="24" y="100" width="280" height="292" rx="16" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/><rect x="44" y="116" width="24" height="3" rx="1.5" fill="#8a82dd"/><text x="164" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">MODEL</text><text x="164" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">the reasoning engine</text><text x="48" y="182" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Reads context it is given</text><text x="48" y="206" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Proposes the next action</text><text x="48" y="230" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Cannot see beyond its window</text><text x="48" y="254" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">&#8226; Cannot enforce its own limits</text><line x1="304" y1="246.0" x2="336" y2="246.0" stroke="#8a82dd" stroke-width="1.5" marker-end="url(#ha-a-dark)"/><text x="320" y="238.0" text-anchor="middle" font-size="9" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#8a82dd">proposes</text><rect x="336" y="100" width="320" height="292" rx="16" fill="#251f2c" stroke="#8a82dd" stroke-width="1.2"/><rect x="356" y="116" width="24" height="3" rx="1.5" fill="#8a82dd"/><text x="496" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">HARNESS</text><text x="496" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">seven jobs it must do</text><rect x="352" y="168" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="364" y="186" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">01 / CONTRACT</text><text x="628" y="186" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">DEFINE &#183; goal &#183; limits &#183; done</text><rect x="352" y="200" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="364" y="218" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">02 / CONTEXT</text><text x="628" y="218" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">SELECT &#183; maps &#183; rules &#183; facts</text><rect x="352" y="232" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="364" y="250" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">03 / TOOLS</text><text x="628" y="250" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">ACT &#183; sandbox &#183; browser &#183; shell</text><rect x="352" y="264" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="364" y="282" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">04 / STATE</text><text x="628" y="282" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">REMEMBER &#183; artifacts &#183; decisions</text><rect x="352" y="296" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="364" y="314" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">05 / SENSORS</text><text x="628" y="314" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">VERIFY &#183; tests &#183; logs &#183; screenshots</text><rect x="352" y="328" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="364" y="346" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">06 / POLICY</text><text x="628" y="346" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">AUTHORIZE &#183; scope &#183; approval &#183; budget</text><rect x="352" y="360" width="288" height="26" rx="7" fill="#252b38" stroke="#4a5468" stroke-width="1.2"/><text x="364" y="378" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#e8eaef">07 / TRACES</text><text x="628" y="378" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">EXPLAIN &#183; events &#183; cost &#183; rollback</text><rect x="24" y="408" width="632" height="54" rx="14" fill="#14241e" stroke="#4cc9a0" stroke-width="1.2"/><text x="340.0" y="430" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#6dd9b3">No new weights — the system around them changed.</text><text x="340.0" y="448" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#9aa3b4">Same model, different environment, different reliability</text></svg>
-    <svg class="flow-diagram flow-diagram--light" viewBox="0 0 680 482" role="img" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="hg-a-light" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#f4f7fb"/>
-          <stop offset="100%" stop-color="#e6ecf3"/>
-        </linearGradient>
-        <marker id="ha-a-light" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="680" height="482" rx="24" fill="url(#hg-a-light)"/><title>Model versus Harness — the seven harness jobs</title><desc>Two-panel diagram. On the left, a box labeled MODEL, which reads its context and puts forward a candidate next action. On the right, a box labeled HARNESS, listing seven jobs as rows, each row pairing a name, a one-word verb, and its inputs: 01 Contract — Define — goal, limits, done; 02 Context — Select — maps, rules, facts; 03 Tools — Act — sandbox, browser, shell; 04 State — Remember — artifacts, decisions; 05 Sensors — Verify — tests, logs, screenshots; 06 Policy — Authorize — scope, approval, budget; 07 Traces — Explain — events, cost, rollback. An arrow connects the two boxes, labeled proposes, illustrating that every action the model puts forward passes through the harness before it runs.</desc><rect x="24" y="24" width="632" height="56" rx="14" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><rect x="40" y="38" width="24" height="3" rx="1.5" fill="#534ab7"/><text x="340.0" y="50" text-anchor="middle" font-size="15" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">The Model Proposes. The Harness Decides.</text><text x="340.0" y="68" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Same weights, different reliability — depending on what surrounds them</text><rect x="24" y="100" width="280" height="292" rx="16" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/><rect x="44" y="116" width="24" height="3" rx="1.5" fill="#534ab7"/><text x="164" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">MODEL</text><text x="164" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">the reasoning engine</text><text x="48" y="182" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Reads context it is given</text><text x="48" y="206" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Proposes the next action</text><text x="48" y="230" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Cannot see beyond its window</text><text x="48" y="254" text-anchor="start" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">&#8226; Cannot enforce its own limits</text><line x1="304" y1="246.0" x2="336" y2="246.0" stroke="#534ab7" stroke-width="1.5" marker-end="url(#ha-a-light)"/><text x="320" y="238.0" text-anchor="middle" font-size="9" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#534ab7">proposes</text><rect x="336" y="100" width="320" height="292" rx="16" fill="#efecf9" stroke="#534ab7" stroke-width="1.2"/><rect x="356" y="116" width="24" height="3" rx="1.5" fill="#534ab7"/><text x="496" y="138" text-anchor="middle" font-size="15" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">HARNESS</text><text x="496" y="158" text-anchor="middle" font-size="11" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">seven jobs it must do</text><rect x="352" y="168" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="364" y="186" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">01 / CONTRACT</text><text x="628" y="186" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">DEFINE &#183; goal &#183; limits &#183; done</text><rect x="352" y="200" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="364" y="218" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">02 / CONTEXT</text><text x="628" y="218" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">SELECT &#183; maps &#183; rules &#183; facts</text><rect x="352" y="232" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="364" y="250" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">03 / TOOLS</text><text x="628" y="250" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">ACT &#183; sandbox &#183; browser &#183; shell</text><rect x="352" y="264" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="364" y="282" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">04 / STATE</text><text x="628" y="282" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">REMEMBER &#183; artifacts &#183; decisions</text><rect x="352" y="296" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="364" y="314" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">05 / SENSORS</text><text x="628" y="314" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">VERIFY &#183; tests &#183; logs &#183; screenshots</text><rect x="352" y="328" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="364" y="346" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">06 / POLICY</text><text x="628" y="346" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">AUTHORIZE &#183; scope &#183; approval &#183; budget</text><rect x="352" y="360" width="288" height="26" rx="7" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.2"/><text x="364" y="378" text-anchor="start" font-size="10" font-weight="700" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f2937">07 / TRACES</text><text x="628" y="378" text-anchor="end" font-size="7.5" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">EXPLAIN &#183; events &#183; cost &#183; rollback</text><rect x="24" y="408" width="632" height="54" rx="14" fill="#e6f5ef" stroke="#2f9e78" stroke-width="1.2"/><text x="340.0" y="430" text-anchor="middle" font-size="12" font-weight="600" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#1f7a5c">No new weights — the system around them changed.</text><text x="340.0" y="448" text-anchor="middle" font-size="10" font-weight="400" font-family="'Anthropic Sans',-apple-system,'Segoe UI',sans-serif" fill="#5b6577">Same model, different environment, different reliability</text></svg>
-  </figure>
+  <div class="hb-sheet">
+    <div class="hb-sheet-head">
+      <h3 class="hb-sheet-title">The loop, component by component</h3>
+      <span class="hb-example-task"><span class="hb-eyebrow">Worked example</span><b>fix the failing checkout test</b></span>
+    </div>
+    <div class="hb-diagram">
+      <div class="hb-conn hb-h" style="grid-area:a12"><span class="hb-arrow">→</span></div>
+      <div class="hb-conn hb-h" style="grid-area:a23"><span class="hb-arrow">→</span>tool call</div>
+      <div class="hb-conn hb-v" style="grid-area:a34"><span class="hb-arrow">↓</span>check permission</div>
+      <div class="hb-conn hb-v" style="grid-area:a45"><span class="hb-arrow">↓</span>approved call</div>
+      <div class="hb-conn hb-h" style="grid-area:a56"><span class="hb-arrow">←</span>trimmed</div>
+      <div class="hb-conn hb-h" style="grid-area:a67"><span class="hb-arrow">←</span></div>
+      <div class="hb-conn hb-v hb-loopback" style="grid-area:a78"><span class="hb-arrow">↑</span>not done → loop again</div>
+      <div class="hb-conn hb-v hb-loopback" style="grid-area:a81"><span class="hb-arrow">↑</span>load notes into context</div>
+      <div class="hb-conn hb-v hb-ship" style="grid-area:a7r"><span class="hb-arrow">↓</span>done → ship it</div>
+      <div class="hb-conn hb-v" style="grid-area:a5s"><span class="hb-arrow">↕</span>delegate ↔ summary</div>
+      <div class="hb-loop">
+        <div class="hb-loop-inner">
+          <svg viewBox="0 0 132 132" aria-hidden="true">
+            <circle cx="66" cy="66" r="52" fill="none" stroke="var(--hb-rule)" stroke-width="10"/>
+            <g class="hb-spin">
+              <path d="M66 14 A52 52 0 0 1 111 92" fill="none" stroke="var(--hb-think)" stroke-width="10"/>
+              <path d="M111 92 A52 52 0 0 1 21 92" fill="none" stroke="var(--hb-act)" stroke-width="10"/>
+              <path d="M21 92 A52 52 0 0 1 66 14" fill="none" stroke="var(--hb-observe)" stroke-width="10"/>
+            </g>
+            <text x="66" y="62" text-anchor="middle" fill="var(--text-primary)" font-family="var(--font-display)" font-weight="600" font-size="14">think · act</text>
+            <text x="66" y="80" text-anchor="middle" fill="var(--text-primary)" font-family="var(--font-display)" font-weight="600" font-size="14">observe</text>
+          </svg>
+          <div class="hb-loop-text">
+            <span class="hb-eyebrow">the agent loop</span>
+            <span class="hb-big">Until done</span>
+            <div class="hb-stat"><span>phase<b>ACT</b></span><span>turn<b class="hb-turn">2 / 25</b></span></div>
+            <small>Think, act, observe until the verifier says done or the turn budget runs out. On exhaustion, stop and report what is left instead of spinning.</small>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="hb-node hb-ph-think" id="hb-node-c1" data-hb="c1" style="grid-area:c1" aria-pressed="true" aria-controls="hb-detail-c1">
+        <span class="hb-node-top"><span class="hb-num">1</span><b class="hb-tag-phase">Think</b></span>
+        <span class="hb-node-name">Context Builder</span>
+        <span class="hb-sub">what the model sees</span>
+        <span class="hb-card">Assembles each turn&#x27;s prompt from instructions, task state and retrieved knowledge.</span>
+        <span class="hb-ex"><div class="hb-row"><span>200K window</span><span><b>72% used</b> <span class="hb-dim">· compacted</span></span></div><div class="hb-segbar"><i style="width:9%;background:var(--hb-think)"></i><i style="width:12%;background:var(--hb-act)"></i><i style="width:6%;background:var(--hb-accent)"></i><i style="width:9%;background:var(--hb-observe)"></i><i style="width:26%;background:var(--hb-muted)"></i><i style="width:10%;background:#c0397a"></i></div><div class="hb-seglegend"><span><b style="background:var(--hb-think)"></b>system</span><span><b style="background:var(--hb-act)"></b>tools</span><span><b style="background:var(--hb-accent)"></b>AGENTS.md</span><span><b style="background:var(--hb-observe)"></b>memory</span><span><b style="background:var(--hb-muted)"></b>history</span><span><b style="background:#c0397a"></b>summary</span></div></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-think" id="hb-node-c2" data-hb="c2" style="grid-area:c2" aria-pressed="false" aria-controls="hb-detail-c2">
+        <span class="hb-node-top"><span class="hb-num">2</span><b class="hb-tag-phase">Think</b></span>
+        <span class="hb-node-name">Model</span>
+        <span class="hb-sub">decides</span>
+        <span class="hb-card">Reasons over the context and chooses the next action: respond, call a tool or delegate.</span>
+        <span class="hb-ex"><pre>{"tool": "run_tests",
+ "args": {
+  "path": "checkout/",
+  "filter": "test_guest_checkout",
+  "timeout_s": 120}}</pre><span class="hb-dim">swap in any LLM: Claude, GPT, Gemini</span></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-act" id="hb-node-c3" data-hb="c3" style="grid-area:c3" aria-pressed="false" aria-controls="hb-detail-c3">
+        <span class="hb-node-top"><span class="hb-num">3</span><b class="hb-tag-phase">Act</b></span>
+        <span class="hb-node-name">Tool Registry</span>
+        <span class="hb-sub">schemas in, calls out</span>
+        <span class="hb-card">One machine-readable catalog of every tool, its inputs, outputs and side effects.</span>
+        <span class="hb-ex"><div class="hb-toolchips"><span>read_file</span><span>edit_file</span><span class="hb-hot">run_tests</span><span>search_docs</span><span>sql_query</span><span>mcp:github</span><span>spawn_agent</span></div></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-act" id="hb-node-c4" data-hb="c4" style="grid-area:c4" aria-pressed="false" aria-controls="hb-detail-c4">
+        <span class="hb-node-top"><span class="hb-num">4</span><b class="hb-tag-phase">Act</b></span>
+        <span class="hb-node-name">Policy Gate</span>
+        <span class="hb-sub">permissions</span>
+        <span class="hb-card">Checks every call against rules: allow, ask a human, or deny.</span>
+        <span class="hb-ex"><div class="hb-row"><span>run_tests test_guest_checkout</span><span class="hb-tag hb-ok">allow</span></div><div class="hb-row"><span>edit_file checkout/orders.py</span><span class="hb-tag hb-ask">approved</span></div><div class="hb-row"><span>rm -rf ~/</span><span class="hb-tag hb-bad">deny</span></div></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-act" id="hb-node-c5" data-hb="c5" style="grid-area:c5" aria-pressed="false" aria-controls="hb-detail-c5">
+        <span class="hb-node-top"><span class="hb-num">5</span><b class="hb-tag-phase">Act</b></span>
+        <span class="hb-node-name">Sandbox</span>
+        <span class="hb-sub">runs the call safely</span>
+        <span class="hb-card">Runs approved calls in isolation with time, network and filesystem limits.</span>
+        <span class="hb-ex"><pre>$ pytest checkout/ -q
+<span class="hb-ask">40 passed, 2 failed</span>
+<span class="hb-bad">FAILED test_guest_checkout</span></pre><div class="hb-toolchips"><span>fs: /repo</span><span>net: off</span><span>120s cap</span></div></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-observe" id="hb-node-c6" data-hb="c6" style="grid-area:c6" aria-pressed="false" aria-controls="hb-detail-c6">
+        <span class="hb-node-top"><span class="hb-num">6</span><b class="hb-tag-phase">Observe</b></span>
+        <span class="hb-node-name">Observe &amp; Trim</span>
+        <span class="hb-sub">results back into context</span>
+        <span class="hb-card">Turns raw tool output into a compact, structured observation.</span>
+        <span class="hb-ex"><div class="hb-row"><span class="hb-dim">raw</span><div class="hb-meter"><i style="width:100%;background:var(--hb-muted)"></i></div><span>4,812 ln</span></div><div class="hb-row"><span class="hb-dim">kept</span><div class="hb-meter"><i style="width:3%"></i></div><span>14 ln</span></div><span class="hb-bad">KeyError 'customer_id' · orders.py:88</span></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-observe" id="hb-node-c7" data-hb="c7" style="grid-area:c7" aria-pressed="false" aria-controls="hb-detail-c7">
+        <span class="hb-node-top"><span class="hb-num">7</span><b class="hb-tag-phase">Observe</b></span>
+        <span class="hb-node-name">Verifier</span>
+        <span class="hb-sub">defines done</span>
+        <span class="hb-card">Checks work against explicit acceptance criteria and decides: done, or loop again.</span>
+        <span class="hb-ex"><div class="hb-row"><span>tests pass</span><span class="hb-bad">✗ no</span></div><div class="hb-row"><span>no new lint errors</span><span class="hb-ok">✓ yes</span></div><div class="hb-row"><span>turn budget</span><span>1 / 25</span></div><div class="hb-row"><span class="hb-dim">status</span><span class="hb-tag hb-bad">not done</span></div></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-observe" id="hb-node-c8" data-hb="c8" style="grid-area:c8" aria-pressed="false" aria-controls="hb-detail-c8">
+        <span class="hb-node-top"><span class="hb-num">8</span><b class="hb-tag-phase">Observe</b></span>
+        <span class="hb-node-name">Memory</span>
+        <span class="hb-sub">outlives the context</span>
+        <span class="hb-card">Keeps state across turns, tasks and sessions: checkpoint, task record, lessons.</span>
+        <span class="hb-ex"><div class="hb-row"><span>scratchpad</span><div class="hb-meter"><i style="width:20%"></i></div><span class="hb-dim">this turn</span></div><div class="hb-row"><span>todo.md</span><div class="hb-meter"><i style="width:55%"></i></div><span class="hb-dim">this task</span></div><div class="hb-row"><span>MEMORY.md</span><div class="hb-meter"><i style="width:100%"></i></div><span class="hb-dim">forever</span></div><span class="hb-ok">+ "guest bug: orders.py:88"</span></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-all" id="hb-node-res" data-hb="res" style="grid-area:res" aria-pressed="false" aria-controls="hb-detail-res">
+        <span class="hb-node-top"><span class="hb-num">✓</span><b class="hb-tag-phase">Cross-cutting</b></span>
+        <span class="hb-node-name">Result</span>
+        <span class="hb-sub">leaves the harness</span>
+        <span class="hb-card">Packages finished work with evidence: what was done, how it was checked, what it cost.</span>
+        <span class="hb-ex"><b style="font-family:var(--font-display);font-size:15px">PR #306 opened</b><span class="hb-dim">42/42 tests pass · 3 turns · human-approved edit</span></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-all" id="hb-node-trc" data-hb="trc" style="grid-area:trc" aria-pressed="false" aria-controls="hb-detail-trc">
+        <span class="hb-node-top"><span class="hb-num">◉</span><b class="hb-tag-phase">Cross-cutting</b></span>
+        <span class="hb-node-name">Tracing &amp; Cost</span>
+        <span class="hb-sub">watches every step</span>
+        <span class="hb-card">Records a span per step with tokens, cost, time and context use.</span>
+        <span class="hb-ex"><div class="hb-spark"><i style="height:35%"></i><i style="height:80%"></i><i style="height:55%"></i><i style="height:60%"></i><i style="height:90%"></i><i style="height:70%"></i><i style="height:40%"></i></div><span>286K tokens · $1.84 · 7 spans</span></span>
+      </button>
+      <button type="button" class="hb-node hb-ph-act" id="hb-node-sub" data-hb="sub" style="grid-area:sub" aria-pressed="false" aria-controls="hb-detail-sub">
+        <span class="hb-node-top"><span class="hb-num">ψ</span><b class="hb-tag-phase">Act</b></span>
+        <span class="hb-node-name">Subagents</span>
+        <span class="hb-sub">split the work</span>
+        <span class="hb-card">Delegates scoped work to agents with fresh context, limited tools and a return schema.</span>
+        <span class="hb-ex"><div class="hb-tree"><span class="hb-lead">lead</span><span class="hb-kid">find 'customer_id' usages</span><span class="hb-kid">read guest-checkout docs</span></div><span class="hb-dim">fresh context each · short summaries back</span></span>
+      </button>
+    </div>
+
+    <div class="hb-detail-wrap" aria-live="polite">
+    <div class="hb-detail hb-ph-think" id="hb-detail-c1" role="region" aria-labelledby="hb-detail-c1-h">
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Think</b><span class="hb-eyebrow">what the model sees</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c1-h">Context Builder</h4>
+        <p>The context builder decides exactly what goes into the model&#x27;s window on every turn: standing instructions, the current task and its acceptance criteria, the relevant files, and prior decisions and lessons pulled from memory. It manages the agent&#x27;s most limited resource, attention.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>Rebuilt every turn. For the checkout fix it holds the system prompt, tool schemas, AGENTS.md, notes from memory and the turn history; at 72% of a 200K window, old turns are summarized to make room.</dd><dt>Without it</dt><dd>The model works from stale or missing facts, or drowns in irrelevant text and loses the thread.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Load standing rules and project conventions</li><li>Load the task definition and its definition of done</li><li>Retrieve only the files, decisions and lessons this step needs</li><li>Measure context use and checkpoint before it overflows</li><li>Re-inject critical state after compaction</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>What always loads versus what is fetched on demand</li><li>Instructions as a short spine plus stage files, not one monolith</li><li>Measured token use, not an estimate</li><li>What must survive compaction</li></ul>
+        <p class="hb-more"><a href="#harness/context-state" onclick="scrollToSection('context-state')" style="color:var(--accent);">Read more: Context and State</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-think" id="hb-detail-c2" role="region" aria-labelledby="hb-detail-c2-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Think</b><span class="hb-eyebrow">decides</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c2-h">Model</h4>
+        <p>The model is the reasoning engine. Given the assembled context, it plans, picks the next tool call or writes output. A harness treats model choice as configuration, matching capability and cost to each role.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>The model decides the next step is to reproduce the failure, so it returns a run_tests call scoped to checkout/ and the failing test, with a 120-second timeout. It returns text or a tool call and never touches the system itself, so any capable model can sit here.</dd><dt>Without it</dt><dd>Every call runs on one model: too costly for simple checks, too weak for hard planning.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Plan and break down the task</li><li>Choose the next tool call and its arguments</li><li>Decide when to delegate to a subagent</li><li>Produce output once the done criteria look met</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Tier by role: strongest model orchestrates, a mid tier implements, a fast tier checks</li><li>Set tiers in config, not per call</li><li>Keep the model that judges work separate from the one that did it</li></ul>
+        <p class="hb-more"><a href="#harness/graph-loop-engineering" onclick="scrollToSection('graph-loop-engineering')" style="color:var(--accent);">Read more: Graph and Loop Engineering</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-act" id="hb-detail-c3" role="region" aria-labelledby="hb-detail-c3-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Act</b><span class="hb-eyebrow">schemas in, calls out</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c3-h">Tool Registry</h4>
+        <p>The registry is the single source of truth for what the agent can do. Each entry declares a name, purpose, input schema, return schema and a side-effect class that the policy gate acts on.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>run_tests is looked up in the registry. Each tool is a name, a description and a JSON schema — built-ins, MCP servers like mcp:github, and spawn_agent for subagents alike.</dd><dt>Without it</dt><dd>Tools are listed in several hand-kept places that drift apart, and policy has nothing reliable to key off.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Expose tool schemas to the model</li><li>Classify each tool&#x27;s side effect: read, local write, shared write, outward, destructive</li><li>Generate docs and permission config from one file</li><li>Fail checks on missing or dangling entries</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Side-effect classes coarse enough to write policy against</li><li>Return schemas so results can be validated</li><li>Docs generated from the registry, never the reverse</li></ul>
+        <p class="hb-more"><a href="#harness/capability-plane" onclick="scrollToSection('capability-plane')" style="color:var(--accent);">Read more: Tools and Sandbox</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-act" id="hb-detail-c4" role="region" aria-labelledby="hb-detail-c4-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Act</b><span class="hb-eyebrow">permissions</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c4-h">Policy Gate</h4>
+        <p>The policy gate sits between the model&#x27;s intended action and its execution. It maps each tool&#x27;s side-effect class, and where needed its arguments, to allow, ask or deny, and tells the model why when it blocks.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>The run_tests call from step 2 is a read, so it runs. Editing checkout/orders.py is a risky write, so a human approves it. rm -rf ~/ is destructive and blocked outright.</dd><dt>Without it</dt><dd>Safety depends on the model remembering instructions, and destructive or outward actions slip through.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Intercept every tool call before it runs</li><li>Allow, escalate to a human, or deny by rule</li><li>Return the deny reason to the model so it can adjust</li><li>Log every decision for audit</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Policy as one data file, not prose scattered through prompts</li><li>Deny reasons visible to the model, not only to the user</li><li>Roll out in warn mode, then enforce</li><li>Which actions always need a human</li></ul>
+        <p class="hb-more"><a href="#harness/control-trust" onclick="scrollToSection('control-trust')" style="color:var(--accent);">Read more: Control and Trust</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-act" id="hb-detail-c5" role="region" aria-labelledby="hb-detail-c5-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Act</b><span class="hb-eyebrow">runs the call safely</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c5-h">Sandbox</h4>
+        <p>The sandbox is where approved actions actually execute. It isolates each task&#x27;s work and caps what a single call can consume or touch, so a bad command fails small.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>The test run executes confined to /repo with the network off and a 120-second cap. 40 pass, 2 fail, including test_guest_checkout.</dd><dt>Without it</dt><dd>A runaway test, wrong directory or stray network call affects the host or other work in flight.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Isolate each task in its own workspace, such as a git worktree or container</li><li>Enforce timeouts and resource limits</li><li>Restrict network and filesystem access</li><li>Pin the working directory; avoid machine-specific paths</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Isolation unit: per task, per agent or per call</li><li>Default timeouts and when longer runs are allowed</li><li>Network off by default where possible</li><li>Portable paths only</li></ul>
+        <p class="hb-more"><a href="#harness/capability-plane" onclick="scrollToSection('capability-plane')" style="color:var(--accent);">Read more: Tools and Sandbox</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-observe" id="hb-detail-c6" role="region" aria-labelledby="hb-detail-c6-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Observe</b><span class="hb-eyebrow">results back into context</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c6-h">Observe &amp; Trim</h4>
+        <p>Tool output is often huge: logs, diffs, test runs. This step keeps the full output on disk and feeds back only what the model needs — failures, errors, the summary line and a path to the full log. Structured returns are validated against their schema.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>4,812 lines of test output become 14. The line that matters — KeyError &#x27;customer_id&#x27; at orders.py:88 — is what the next turn sees; the full log stays on disk.</dd><dt>Without it</dt><dd>Raw output floods the context, crowds out the task and degrades reasoning.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Persist full output outside the context window</li><li>Extract failures, errors and summaries</li><li>Validate tool and subagent returns against schemas</li><li>Hand a compact observation back to the context builder</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>What the trim keeps for each kind of tool</li><li>Always include a path to the full log</li><li>Reject or repair returns that fail validation</li></ul>
+        <p class="hb-more"><a href="#harness/observe-improve" onclick="scrollToSection('observe-improve')" style="color:var(--accent);">Read more: Observe and Improve</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-observe" id="hb-detail-c7" role="region" aria-labelledby="hb-detail-c7-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Observe</b><span class="hb-eyebrow">defines done</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c7-h">Verifier</h4>
+        <p>The verifier holds the definition of done. It tests results against falsifiable acceptance criteria, independently of the agent that did the work, and either passes the work or sends specific failures back into the loop.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>After turn 1 the tests still fail, so the work is not done and the loop runs again. It checks real state, not the model&#x27;s claim that it fixed the bug.</dd><dt>Without it</dt><dd>The agent grades its own work and declares done too early.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Run cheap automated checks after each step</li><li>Run a full, independent verification before release</li><li>Try to refute claims rather than confirm them</li><li>Send failures back with concrete repair notes</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Acceptance criteria written as falsifiable tests up front</li><li>Independent context and, ideally, a different model</li><li>Step-level gates plus one final hard gate</li><li>A cap on repair attempts</li></ul>
+        <p class="hb-more"><a href="#harness/task-contract" onclick="scrollToSection('task-contract')" style="color:var(--accent);">Read more: The Task Contract</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-observe" id="hb-detail-c8" role="region" aria-labelledby="hb-detail-c8-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Observe</b><span class="hb-eyebrow">outlives the context</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-c8-h">Memory</h4>
+        <p>Memory holds what must outlast a single context window. It works in tiers: turn-level checkpoints for resuming, a task record of decisions and status, and long-lived lessons that future tasks read back.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>The finding is written down — &quot;guest bug: orders.py:88&quot; — so it survives a reset or a new session and gets loaded back into context next time.</dd><dt>Without it</dt><dd>Each session starts cold and repeats the same mistakes.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Checkpoint progress so work resumes after compaction or interruption</li><li>Record decisions, status and verification results per task</li><li>Capture lessons and feed them into future context builds</li><li>Review what gets promoted to long-term memory</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Three tiers: turn, task, long-term</li><li>Every write needs a reader; memory nobody loads is waste</li><li>Key lessons by file or area so retrieval is precise</li><li>Human review before promoting to long-term</li></ul>
+        <p class="hb-more"><a href="#harness/context-state" onclick="scrollToSection('context-state')" style="color:var(--accent);">Read more: Context and State</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-all" id="hb-detail-res" role="region" aria-labelledby="hb-detail-res-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Cross-cutting</b><span class="hb-eyebrow">leaves the harness</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-res-h">Result</h4>
+        <p>The result is what leaves the harness once the verifier passes: a pull request, document, deployment or answer. It ships with an evidence block so a reviewer can trust it without redoing the work.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>Turn 3 passes the verifier. The harness opens PR #306: 42 of 42 tests passing, three turns, one human-approved edit.</dd><dt>Without it</dt><dd>Reviewers have to re-derive whether the work is correct and what it cost.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Run release checks such as docs, changelog and versioning</li><li>Attach evidence: criteria verdicts, checks run, decisions made, cost</li><li>Pass through a human approval gate where policy requires</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Evidence travels with the output, not in a separate log</li><li>Which outputs need human sign-off before release</li></ul>
+        <p class="hb-more"><a href="#harness/graph-loop-engineering" onclick="scrollToSection('graph-loop-engineering')" style="color:var(--accent);">Read more: Graph and Loop Engineering</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-all" id="hb-detail-trc" role="region" aria-labelledby="hb-detail-trc-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Cross-cutting</b><span class="hb-eyebrow">watches every step</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-trc-h">Tracing &amp; Cost</h4>
+        <p>Tracing observes the whole loop. Each stage emits a span with tokens, cost, duration and context use, so runs can be debugged, compared and budgeted.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>Every step is a span. The whole guest-checkout fix — three turns plus two subagents — costs 286K tokens and about $1.84 across 7 spans.</dd><dt>Without it</dt><dd>No one knows what a task cost or where time and tokens went.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Emit a span per stage and per subagent</li><li>Track tokens, cost, latency and context percentage</li><li>Compare estimates with actuals</li><li>Surface totals in the result</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Span granularity: per stage, per tool call or per turn</li><li>Where traces live and who reads them</li><li>Budgets and alerts on overruns</li></ul>
+        <p class="hb-more"><a href="#harness/observe-improve" onclick="scrollToSection('observe-improve')" style="color:var(--accent);">Read more: Observe and Improve</a></p>
+      </div>
+    </div>
+    <div class="hb-detail hb-ph-act" id="hb-detail-sub" role="region" aria-labelledby="hb-detail-sub-h" hidden>
+      <div class="hb-detail-col">
+        <div class="hb-detail-title"><b class="hb-chip">Act</b><span class="hb-eyebrow">split the work</span></div>
+        <h4 class="hb-detail-name" id="hb-detail-sub-h">Subagents</h4>
+        <p>Subagents let the orchestrator split work — research, implementation chunks, verification, review — into isolated agents. Each starts with a fresh context, a limited tool set and a required return shape.</p>
+        <dl class="hb-kv"><dt>In example</dt><dd>The lead agent spawns two helpers — one finds every use of &#x27;customer_id&#x27;, one reads the guest-checkout docs. Each starts fresh and returns a short summary.</dd><dt>Without it</dt><dd>The main context fills with sub-task detail and parallel work collides.</dd></dl>
+      </div>
+      <div class="hb-detail-col">
+        <span class="hb-eyebrow">Responsibilities</span>
+        <ul class="hb-list"><li>Run parallel or specialized work in isolated contexts</li><li>Limit each role&#x27;s tools</li><li>Return schema-bound summaries, not transcripts</li><li>Keep the orchestrator&#x27;s context clean</li></ul>
+        <span class="hb-eyebrow">Design decisions</span>
+        <ul class="hb-list"><li>Define each role in the registry: model tier, tool allowlist, return schema</li><li>Partition work so agents don&#x27;t write to the same files</li><li>Summaries over transcripts</li></ul>
+        <p class="hb-more"><a href="#harness/graph-loop-engineering" onclick="scrollToSection('graph-loop-engineering')" style="color:var(--accent);">Read more: Graph and Loop Engineering</a></p>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <p>Each component has a section further down this page. Select a component above, then follow its link to read more.</p>
 
   <div class="callout callout-tip" style="margin-top:1rem; margin-bottom:1.5rem;">
     <div class="callout-title">Where the industry converged on this</div>
@@ -339,22 +496,6 @@ return requestHumanReview(state)  # 3 failed attempts, stop and escalate</code><
     <img class="loop-engineering-diagram loop-engineering-diagram-light" src="@asset(loop-engineering-light.png)" alt="Loop Engineering — the inner cycle (light theme): the same six-step cycle as the dark-theme version, with the same two exits — accept on a passed success test, or stop and escalate when max turns, budget, timeout, or lack of progress is reached.">
   </figure>
 
-  <h3 style="font-family:var(--font-display); font-size:1.2rem; margin:1.5rem 0 0.75rem;">Worked Example: Fix a Failing Checkout Test</h3>
-  <p>One small task shows the cycle in order. The model must fix a failing checkout test.</p>
-
-  <pre data-copy style="background:var(--surface-2); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8rem; overflow-x:auto; color:var(--text-secondary);"><code>1. Load     The context builder gives the model the task and the test output.
-2. Think    The model reads the context and proposes a tool call to open the checkout file.
-3. Check    The policy gate compares the call with the allow rules and approves it.
-4. Act      The sandbox runs the approved call.
-5. Observe  The harness trims the result and puts it back into the context.
-6. Verify   The verifier runs the test. The test still fails, so the loop starts again (turn 2 of 25).
-7. Remember The harness saves a note about the failed try. The next turn loads the note.
-8. Done     The verifier passes the test. The harness accepts the fix and ships it.</code></pre>
-
-  <p>For a larger job, the model can hand part of the work to a subagent. The subagent returns a short summary, not its full transcript. Tracing records the tokens and the cost of every step.</p>
-
-  <p>The loop also needs a turn budget. Each pass through the cycle spends one turn, and the harness counts the turns. The loop runs until the verifier says the work is done or the turns run out. When the turns run out, the harness stops the run and writes a report of what is left. It does not let the loop keep running.</p>
-
   <h3 style="font-family:var(--font-display); font-size:1.2rem; margin:1.5rem 0 0.75rem;">Independence Is What Makes the Graph Trustworthy</h3>
   <p>The same reasoning that shapes the loop shapes the whole graph. Keep the reasoning node, the execution node, and the state and log node independent, joined only by explicit edges, instead of folding all three responsibilities into one component. Killing the execution subgraph, the sandbox and the tool runner, does not erase what happened, because the record lives in a separate node outside it. Swapping the reasoning node for a newer model version does not touch the edges to the tool subgraph, because those edges were never coupled to which model sits behind them.</p>
 
@@ -493,7 +634,7 @@ return result</code></pre>
   </figure>
 
   <h3 style="font-family:var(--font-display); font-size:1.2rem; margin:2rem 0 0.75rem;">From Ladder to Components</h3>
-  <p>Each rung is not just a metaphor. It maps onto the seven components above, and onto the reference architectures the CBP-530 dossier surveyed. Climbing the ladder just means turning on more of those components.</p>
+  <p>Each rung is not just a metaphor. It maps onto the components in the blueprint above, and onto the reference architectures the CBP-530 dossier surveyed. Climbing the ladder just means turning on more of those components.</p>
   <div class="table-wrap">
     <table class="styled-table">
       <thead>
