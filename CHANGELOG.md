@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### v4.1.59 — 2026-10-14
+
+**Claude Code v2.1.299 follow-up updates (CBP-684 to CBP-685)**
+
+- **CBP-684 — [Claude] Agent-view `/effort` and `/fast`.** Updated `claude agents` row: `/effort` and `/fast` now work inside the agent view to set what new sessions start with. A bare `/model`, `/effort`, or `/fast` opens a picker (v2.1.299).
+- **CBP-685 — [Claude] `/usage` inline warnings.** Updated `/usage` row: v2.1.299 adds inline warnings when you approach or reach limits for max effort, workflows, always-on context, and large tool results (v2.1.299).
+
 ### v4.1.58 — 2026-10-14
 
 **Claude Code v2.1.299 updates (CBP-682, CBP-683)**
