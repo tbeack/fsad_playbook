@@ -662,7 +662,8 @@ description: Structured code review with security and quality checks
         <li style="margin-bottom:0.4rem;"><code>bashEditDiffEnabled</code> — Shows a diff of files a Bash command changed directly in the Bash tool result, so file edits made via shell commands (not just the Edit/Write tools) are visible inline (v2.1.269).</li>
         <li style="margin-bottom:0.4rem;"><code>maxProseWidth</code> — Caps the width of Claude's prose output in wide terminals; tables and code blocks still render at the full terminal width (v2.1.282).</li>
         <li style="margin-bottom:0.4rem;"><code>availableModelsMatch</code> / <code>deniedModels</code> — Two more enterprise managed settings for the <code>availableModels</code> allowlist. Set <code>availableModelsMatch: "exact"</code> so an <code>availableModels</code> entry allows only the exact model version it names — a new model release stays blocked until explicitly added to the list. <code>deniedModels</code> blocks specific models outright, even ones <code>availableModels</code> would otherwise allow. Set via org/MDM managed settings only (v2.1.283).</li>
-        <li style="margin-bottom:0;"><code>allowedProviders</code> — Enterprise managed setting restricting which API providers a machine may use: Anthropic API, a custom endpoint, Bedrock, Mantle, Vertex AI, Foundry, Claude Platform on AWS, or a Cloud gateway. Set via org/MDM managed settings only (v2.1.285).</li>
+        <li style="margin-bottom:0.4rem;"><code>allowedProviders</code> — Enterprise managed setting restricting which API providers a machine may use: Anthropic API, a custom endpoint, Bedrock, Mantle, Vertex AI, Foundry, Claude Platform on AWS, or a Cloud gateway. Set via org/MDM managed settings only (v2.1.285).</li>
+        <li style="margin-bottom:0;"><code>idleCompaction</code> — Set to <code>false</code> to turn off idle compaction. By default, a session with 200K+ tokens left idle for ~54 minutes is auto-compacted before its 1-hour prompt cache expires. Raise or lower the token threshold with <code>CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS</code>. Requires v2.1.290+ (v2.1.299).</li>
       </ul>
     </div>
 
@@ -2648,6 +2649,7 @@ smoke tests against the staging URL."</code></pre>
           <li>Auto-compact is toggleable in <code>/config</code> — when it is off, the context-limit error says so and points you there (v2.1.235)</li>
           <li>Sonnet 5's default auto-compact window now uses its full 1M-token context — sessions on the 1M window auto-compact at about 967K tokens instead of about 934K (v2.1.247)</li>
           <li>Opus and Fable sessions on the 1M window now auto-compact shortly before the 1M-token limit, and recovery compaction on very large contexts no longer times out at 10 minutes (v2.1.260)</li>
+          <li><strong>Idle compaction</strong> (v2.1.299): a session with 200K+ tokens left idle for ~54 minutes is auto-compacted before its 1-hour prompt cache expires — your next message finds a warm cache instead of re-paying full input cost. Change the threshold: <code>CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS=&lt;tokens&gt;</code>. Disable it: <code>"idleCompaction": false</code> in settings.json. Both require v2.1.290+.</li>
         </ul>
       </div></div>
     </div>
@@ -2772,6 +2774,7 @@ smoke tests against the staging URL."</code></pre>
               <tr><td><code>CLAUDE_CODE_DISABLE_WEB_FETCH=1</code></td><td>Turns off the WebFetch tool entirely for the session. Use where fetching external URLs should never be possible, regardless of permission rules (v2.1.285).</td></tr>
               <tr><td><code>CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES</code></td><td>Caps how many times a timed-out non-streaming fallback request is re-sent. Set to an integer to bound retry time on flaky connections to the non-streaming endpoint (v2.1.285).</td></tr>
               <tr><td><code>CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS=1</code></td><td>Turns off structured output formatting for session-title generation, memory recall, and prompt-hook requests. Use when running behind Mantle or a gateway that rejects structured outputs and those features are failing (v2.1.288).</td></tr>
+              <tr><td><code>CLAUDE_CODE_DISABLE_FILE_MENTIONS=1</code></td><td>When set, Claude receives only the file paths of @-mentioned files rather than their contents — Claude then reads each file with its file tools on its own terms. Use when @-mentioning large or sensitive files where automatic content injection is undesirable (v2.1.299).</td></tr>
             </tbody>
           </table>
         </div>

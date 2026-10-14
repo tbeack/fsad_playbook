@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### v4.1.58 — 2026-10-14
+
+**Claude Code v2.1.299 updates (CBP-682, CBP-683)**
+
+- **CBP-682 — [Claude] Idle compaction added to context management.** A new bullet in the Context Management collapsible explains that sessions with 200K+ tokens are auto-compacted after ~54 minutes idle, before the 1-hour prompt cache expires. The settings.json list gains an `idleCompaction` entry with `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` (v2.1.299).
+- **CBP-683 — [Claude] `CLAUDE_CODE_DISABLE_FILE_MENTIONS` added to env vars table.** When set, Claude receives only file paths of @-mentioned files rather than their contents, letting it read each file via its file tools (v2.1.299).
+
 ### v4.1.57 — 2026-10-11
 
 **Collapsible and resizable left nav (CBP-680)**
