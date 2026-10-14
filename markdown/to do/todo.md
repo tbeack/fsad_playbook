@@ -688,3 +688,7 @@
 - [x] `CBP-679` — Replace the Harness page introduction with the Agentic Harness Blueprint (supersedes the CBP-677 edits) → [task-cbp-679.md](completed/task-cbp-679.md)
 - [x] `CBP-680` — make the left nav collapsible and resizable. → [task-cbp-680.md](completed/task-cbp-680.md)
 - [ ] `CBP-681` — Guard `localStorage` in theme-toggle.js so blocked storage does not abort the app script → [task-cbp-681.md](task-cbp-681.md)
+- [x] `CBP-682` [Claude] Add `CLAUDE_CODE_DISABLE_FILE_MENTIONS` env var (v2.1.299) → [task-cbp-682.md](task-cbp-682.md)
+- [x] `CBP-683` [Claude] Add idle compaction — env var + settings key + auto-compact note (v2.1.299) → [task-cbp-683.md](task-cbp-683.md)
+- [x] `CBP-684` [Claude] Update `claude agents` row — `/effort` and `/fast` in agent view (v2.1.299) → [task-cbp-684.md](task-cbp-684.md)
+- [x] `CBP-685` [Claude] Update `/usage` row — add v2.1.299 warnings clause (v2.1.299) → [task-cbp-685.md](task-cbp-685.md)

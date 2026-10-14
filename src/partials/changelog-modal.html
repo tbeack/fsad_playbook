@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.58 <span class="changelog-date">· 2026-10-14</span></h3>
+        <p><strong>Claude Code v2.1.299 — idle compaction, file-mention control, agent-view effort picker, usage warnings.</strong></p>
+        <ul>
+          <li><strong>CBP-682 — Add <code>CLAUDE_CODE_DISABLE_FILE_MENTIONS</code> env var.</strong> When set, <code>@</code> file mentions pass paths to Claude instead of inlining file contents. Claude reads files on demand.</li>
+          <li><strong>CBP-683 — Document idle compaction.</strong> Sessions with over 200K tokens that sit idle for ~54 min compact before their one-hour cache expires. New env var <code>CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS</code> controls the threshold. New <code>"idleCompaction": false</code> setting opts out.</li>
+          <li><strong>CBP-684 — Update agent-view entry.</strong> <code>/effort</code> and <code>/fast</code> now work inside the agent view to set what new sessions start with. A bare <code>/model</code>, <code>/effort</code>, or <code>/fast</code> opens a picker.</li>
+          <li><strong>CBP-685 — Update <code>/usage</code> entry.</strong> <code>/usage</code> now shows inline warnings when you approach or reach limits for max effort, workflows, always-on context, and large tool results.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.57 <span class="changelog-date">· 2026-10-11</span></h3>
         <p><strong>The left nav collapses and resizes.</strong> Drag the edge of the sidebar to change its width, or hide it with the « button.</p>
         <ul>

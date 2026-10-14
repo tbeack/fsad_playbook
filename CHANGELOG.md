@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.58 — 2026-10-14
+
+**Claude Code v2.1.299 updates (CBP-682 to CBP-685)**
+
+- **CBP-682 — [Claude] `CLAUDE_CODE_DISABLE_FILE_MENTIONS`.** New env var row: when set, `@` file mentions pass the file path to Claude instead of inlining file contents. Claude reads files on demand with its tools. Also adds a note to the `@mention` input card (v2.1.299).
+- **CBP-683 — [Claude] Idle compaction.** New `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` env var row: changes the 200K-token threshold that triggers idle compaction. New `idleCompaction` settings.json key: set to `false` to opt out. New bullet in the auto-compact section (v2.1.299).
+- **CBP-684 — [Claude] Agent-view `/effort` and `/fast`.** Updated `claude agents` row: `/effort` and `/fast` now work inside the agent view to set what new sessions start with. A bare `/model`, `/effort`, or `/fast` opens a picker (v2.1.299).
+- **CBP-685 — [Claude] `/usage` warnings.** Updated `/usage` row: `v2.1.299` now shows inline warnings when you approach or reach limits for max effort, workflows, always-on context, and large tool results (v2.1.299).
+
 ### v4.1.57 — 2026-10-11
 
 **Collapsible and resizable left nav (CBP-680)**
