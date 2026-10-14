@@ -6,6 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.58 <span class="changelog-date">· 2026-10-14</span></h3>
+        <p><strong>Claude Code v2.1.299 updates.</strong> Idle compaction lands in the Context Management section, and <code>CLAUDE_CODE_DISABLE_FILE_MENTIONS</code> is added to the hardening env vars table.</p>
+        <ul>
+          <li><strong>CBP-682 — [Claude] Idle compaction.</strong> Sessions with 200K+ tokens are auto-compacted after ~54 minutes idle, before the 1-hour prompt cache expires. Configurable via <code>CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS</code>; disable with <code>"idleCompaction": false</code> in settings.json (v2.1.299).</li>
+          <li><strong>CBP-683 — [Claude] <code>CLAUDE_CODE_DISABLE_FILE_MENTIONS</code>.</strong> When set, Claude receives only file paths of @-mentioned files rather than their contents, letting it read each file via its file tools (v2.1.299).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.57 <span class="changelog-date">· 2026-10-11</span></h3>
         <p><strong>The left nav collapses and resizes.</strong> Drag the edge of the sidebar to change its width, or hide it with the « button.</p>
         <ul>
