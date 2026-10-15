@@ -692,3 +692,8 @@
 - [x] `CBP-683` [Claude] Add CLAUDE_CODE_DISABLE_FILE_MENTIONS to hardening env vars table → [task-cbp-683.md](task-cbp-683.md)
 - [x] `CBP-684` [Claude] Update `claude agents` row — `/effort` and `/fast` in agent view (v2.1.299) → [task-cbp-684.md](task-cbp-684.md)
 - [x] `CBP-685` [Claude] Update `/usage` row — add v2.1.299 warnings clause (v2.1.299) → [task-cbp-685.md](task-cbp-685.md)
+- [x] `CBP-686` [Claude] Update `/advisor` row — AWS availability and CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1 (v2.1.300) → [task-cbp-686.md](task-cbp-686.md)
+- [x] `CBP-687` [Claude] Add `prompt.change` mod hook note to mods section (v2.1.300) → [task-cbp-687.md](task-cbp-687.md)
+- [x] `CBP-688` [Claude] Add `$.ui.view({ agentId })` to mods API note (v2.1.300) → [task-cbp-688.md](task-cbp-688.md)
+- [x] `CBP-689` [Claude] Add `virtualText` prompt decoration to mods section (v2.1.300) → [task-cbp-689.md](task-cbp-689.md)
+- [x] `CBP-690` [Claude] Update `claude_code.api_request` OTel row — cache lifetime fields (v2.1.300) → [task-cbp-690.md](task-cbp-690.md)

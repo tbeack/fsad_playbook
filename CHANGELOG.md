@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.60 — 2026-10-15
+
+**Claude Code v2.1.300 updates (CBP-686 to CBP-690)**
+
+- **CBP-686 — [Claude] `/advisor` on AWS + `CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1`.** The `/advisor` cheat sheet row now notes it is available on Claude Platform on AWS as of v2.1.300. No advisor runs until you pick one; set `CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1` to disable the advisor tool entirely.
+- **CBP-687 — [Claude] `prompt.change` mod hook.** The mods "What a Mod Is" section now documents the `prompt.change` event, fired when the prompt box's text changes without a typed edit (recalled history, clear, undo, plugin fill) (v2.1.300).
+- **CBP-688 — [Claude] `$.ui.view({ agentId })` mod API.** The mods API note now covers `$.ui.view({ agentId })` to open an agent's transcript in the main view, and `$.ui.view({})` to return to the previous view (v2.1.300).
+- **CBP-689 — [Claude] `virtualText` prompt decorations.** A new bullet in the mods capabilities list explains that `virtualText` draws hint text inside the prompt box that is visible but never enters the draft or the submitted prompt (v2.1.300).
+- **CBP-690 — [Claude] OTel `api_request` cache lifetime fields.** The `claude_code.api_request` event row now lists `cache_creation_5m_tokens` and `cache_creation_1h_tokens`. A note documents the OpenAI GenAI semantic-convention span attributes added in v2.1.300: `gen_ai.provider.name`, `gen_ai.conversation.id`, `gen_ai.tool.name`, and `error.type`.
+
 ### v4.1.59 — 2026-10-14
 
 **Claude Code v2.1.299 follow-up updates (CBP-684 to CBP-685)**

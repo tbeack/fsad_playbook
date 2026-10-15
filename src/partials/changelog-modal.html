@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.60 <span class="changelog-date">· 2026-10-15</span></h3>
+        <p><strong>Claude Code v2.1.300 — mods API, OTel, and advisor updates.</strong></p>
+        <ul>
+          <li><strong>CBP-686 — [Claude] <code>/advisor</code> on AWS + <code>CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1</code>.</strong> The <code>/advisor</code> cheat sheet row now notes it is available on Claude Platform on AWS as of v2.1.300. No advisor runs until you pick one with <code>/advisor</code>, <code>advisorModel</code>, or <code>--advisor</code>. Set <code>CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1</code> to disable the advisor tool entirely.</li>
+          <li><strong>CBP-687 — [Claude] <code>prompt.change</code> mod hook.</strong> The mods section documents the new event fired when the prompt box's text changes without a typed edit: a recalled history entry, a clear, an undo, or a plugin's fill (v2.1.300).</li>
+          <li><strong>CBP-688 — [Claude] <code>$.ui.view({ agentId })</code>.</strong> The mods API note now includes <code>$.ui.view({ agentId })</code> to open an agent's transcript in the main view, and <code>$.ui.view({})</code> to return to the previous view (v2.1.300).</li>
+          <li><strong>CBP-689 — [Claude] <code>virtualText</code> prompt decorations.</strong> A new bullet in the mods capabilities list explains that <code>virtualText</code> draws hint text inside the prompt box that is visible but never enters the draft or the submitted prompt (v2.1.300).</li>
+          <li><strong>CBP-690 — [Claude] OTel <code>api_request</code> cache lifetime fields.</strong> The <code>claude_code.api_request</code> event row now lists <code>cache_creation_5m_tokens</code> and <code>cache_creation_1h_tokens</code>. A new note documents the OpenTelemetry GenAI semantic-convention span attributes added in v2.1.300: <code>gen_ai.provider.name</code>, <code>gen_ai.conversation.id</code>, <code>gen_ai.tool.name</code>, and <code>error.type</code>.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.59 <span class="changelog-date">· 2026-10-14</span></h3>
         <p><strong>Claude Code v2.1.299 — agent-view effort picker and usage warnings.</strong></p>
         <ul>
