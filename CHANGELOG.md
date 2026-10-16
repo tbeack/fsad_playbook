@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.61 — 2026-10-16
+
+**Claude Code v2.1.301 and Codex rust-v0.163.0 updates (CBP-691 to CBP-695)**
+
+- **CBP-691 — [Claude] `CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS`.** New env var row added to the unattended/CI table in the env vars section. Set to a millisecond threshold; the retry watchdog ends the request instead of waiting when a usage-limit reset is that far away (v2.1.301).
+- **CBP-692 — [Claude] `tool_decision` OTel attributes.** The `claude_code.tool_decision` event row now lists `classifier_verdict` and `permission_mode`. `classifier_category` is noted as available with `OTEL_LOG_TOOL_DETAILS=1` (v2.1.301).
+- **CBP-693 — [Codex] `/config` preferences panel.** New row added to the Codex slash commands cheat sheet. Opens a searchable TUI panel to find settings, apply supported changes immediately, and see which need a restart (rust-v0.163.0).
+- **CBP-694 — [Codex] `/keymap` leader key.** The `/keymap` row now documents the configurable leader key (default `Ctrl+X`). Shortcut hints stay open until you choose or cancel; voice mute moves to `F9` (rust-v0.163.0).
+- **CBP-695 — [Codex] Daybreak default-on.** The `features.cli_daybreak` config row now shows a default of `true (eligible accounts)`. Set `features.cli_daybreak=false` to opt out (rust-v0.163.0).
+
 ### v4.1.60 — 2026-10-15
 
 **Claude Code v2.1.300 updates (CBP-686 to CBP-690)**
