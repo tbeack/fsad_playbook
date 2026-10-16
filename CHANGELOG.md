@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.61 — 2026-10-16
+
+**Claude Code v2.1.301 + Codex rust-v0.163.0 updates (CBP-691 to CBP-695)**
+
+- **CBP-691 — [Claude] `CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS` env var.** Added to the env vars table after `CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS`. This variable caps how long the retry watchdog waits before ending a request when a usage-limit reset is too far away (v2.1.301).
+- **CBP-692 — [Claude] OTel `tool_decision` classifier fields.** Updated the `claude_code.tool_decision` event row to include `classifier_verdict`, `permission_mode`, and `classifier_category` (the last requires `OTEL_LOG_TOOL_DETAILS=1`) (v2.1.301).
+- **CBP-693 — [Claude] `fable` and `best` alias retry-on-previous note.** Both alias rows now document that when the newest Fable model is unavailable to an organization, Claude Code retries once on the previous Fable model instead of erroring (v2.1.301).
+- **CBP-694 — [Claude] Model-switch summarization in context management.** Added a bullet to the context management section: when switching to a model with a smaller context window, the previous model summarizes the conversation first so the new model starts from a compact summary (v2.1.301).
+- **CBP-695 — [Codex] `features.cli_daybreak` default-on.** Updated the `features.cli_daybreak` row to reflect that Daybreak is now enabled by default for eligible accounts as of rust-v0.163.0. The default column updated from `false` to `true (eligible accounts)`.
+
 ### v4.1.60 — 2026-10-15
 
 **Claude Code v2.1.300 updates (CBP-686 to CBP-690)**
