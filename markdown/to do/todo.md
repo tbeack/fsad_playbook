@@ -697,3 +697,9 @@
 - [x] `CBP-688` [Claude] Add `$.ui.view({ agentId })` to mods API note (v2.1.300) → [task-cbp-688.md](task-cbp-688.md)
 - [x] `CBP-689` [Claude] Add `virtualText` prompt decoration to mods section (v2.1.300) → [task-cbp-689.md](task-cbp-689.md)
 - [x] `CBP-690` [Claude] Update `claude_code.api_request` OTel row — cache lifetime fields (v2.1.300) → [task-cbp-690.md](task-cbp-690.md)
+
+- [x] `CBP-691` [Claude] Add `CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS` env var (v2.1.301) → [task-cbp-691.md](task-cbp-691.md)
+- [x] `CBP-692` [Claude] Update `tool_decision` OTel event attributes: add `classifier_verdict`, `permission_mode`, `classifier_category` (v2.1.301) → [task-cbp-692.md](task-cbp-692.md)
+- [x] `CBP-693` [Codex] Add `/config` preferences panel to slash commands table (rust-v0.163.0) → [task-cbp-693.md](task-cbp-693.md)
+- [x] `CBP-694` [Codex] Update `/keymap` row for configurable leader key (Ctrl+X default) (rust-v0.163.0) → [task-cbp-694.md](task-cbp-694.md)
+- [x] `CBP-695` [Codex] Update `features.cli_daybreak` default to `true` for eligible accounts (rust-v0.163.0) → [task-cbp-695.md](task-cbp-695.md)

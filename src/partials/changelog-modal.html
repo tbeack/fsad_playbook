@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.61 <span class="changelog-date">· 2026-10-16</span></h3>
+        <p><strong>Claude Code v2.1.301 and Codex rust-v0.163.0 updates.</strong></p>
+        <ul>
+          <li><strong>CBP-691 — [Claude] <code>CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS</code>.</strong> New env var added to the unattended/CI env vars table. Set to a millisecond threshold; the retry watchdog ends the request instead of waiting when a usage-limit reset is that far away (v2.1.301).</li>
+          <li><strong>CBP-692 — [Claude] <code>tool_decision</code> OTel attributes.</strong> The <code>claude_code.tool_decision</code> event row now lists <code>classifier_verdict</code> and <code>permission_mode</code>, which distinguish auto-mode classifier decisions from permission rules. <code>classifier_category</code> (names the matched built-in rule) is also available with <code>OTEL_LOG_TOOL_DETAILS=1</code> (v2.1.301).</li>
+          <li><strong>CBP-693 — [Codex] <code>/config</code> preferences panel.</strong> New slash command row added to the Codex cheat sheet. Opens a searchable TUI panel to search settings, apply supported changes immediately, and see which ones need a restart (rust-v0.163.0).</li>
+          <li><strong>CBP-694 — [Codex] <code>/keymap</code> leader key.</strong> The <code>/keymap</code> row now notes the configurable leader key introduced in rust-v0.163.0. The default is <kbd>Ctrl+X</kbd>; shortcut hints stay open until you choose or cancel, and voice mute moves to <kbd>F9</kbd>.</li>
+          <li><strong>CBP-695 — [Codex] Daybreak enabled by default.</strong> The <code>features.cli_daybreak</code> config row now shows a default of <code>true (eligible accounts)</code>. Eligible accounts need a ChatGPT sign-in, the OpenAI provider, and model/program support. Set <code>features.cli_daybreak=false</code> to opt out (rust-v0.163.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.60 <span class="changelog-date">· 2026-10-15</span></h3>
         <p><strong>Claude Code v2.1.300 — mods API, OTel, and advisor updates.</strong></p>
         <ul>
