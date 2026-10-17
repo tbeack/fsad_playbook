@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.62 — 2026-10-17
+
+**Claude Code v2.1.302 updates (CBP-696 to CBP-700)**
+
+- **CBP-696 — [Claude] `CLAUDE_CODE_AUTO_MODE_MODEL`.** New env var row added to the env vars table after `CLAUDE_CODE_AUTO_MODE_SERVER=0`. Sets the model for the client-side auto mode classifier. Applies only when the local classifier is active (v2.1.302).
+- **CBP-697 — [Claude] Permission mode default for `claude -p` and Agent SDK.** The "Auto Mode Is Now the Default Starting Mode" callout is updated: `claude -p` and Agent SDK sessions on third-party providers, with telemetry off, or on a fresh install now start in **default** mode instead of auto mode (v2.1.302 reversal of v2.1.285). Use `--permission-mode auto` to keep auto mode.
+- **CBP-698 — [Claude] Fork subagents on by default in more contexts.** The subagent forking bullet now documents that `subagent_type: "fork"` is on by default in `claude -p`, the Agent SDK, the desktop app, and VS Code (v2.1.302). Includes `CLAUDE_CODE_FORK_SUBAGENT=0` opt-out, the `claude mcp serve` exclusion, and the new foreground/background behavior for subagent-spawned agents.
+- **CBP-699 — [Claude] Max 12 concurrent prompt/agent hooks.** The hooks section intro paragraph now notes that prompt and agent hooks run at most 12 of the same event at a time; additional concurrent firings wait their turn. This limit does not apply to command or HTTP hooks (v2.1.302).
+- **CBP-700 — [Claude] Idle compaction `/config` toggle.** The idle compaction bullet in Context Management and the `idleCompaction` entry in the settings list now note that `/config` shows an "Idle compaction" row to toggle it off or on without editing settings.json (v2.1.302).
+
 ### v4.1.61 — 2026-10-16
 
 **Claude Code v2.1.301 and Codex rust-v0.163.0 updates (CBP-691 to CBP-695)**

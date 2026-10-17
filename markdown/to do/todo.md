@@ -703,3 +703,9 @@
 - [x] `CBP-693` [Codex] Add `/config` preferences panel to slash commands table (rust-v0.163.0) → [task-cbp-693.md](task-cbp-693.md)
 - [x] `CBP-694` [Codex] Update `/keymap` row for configurable leader key (Ctrl+X default) (rust-v0.163.0) → [task-cbp-694.md](task-cbp-694.md)
 - [x] `CBP-695` [Codex] Update `features.cli_daybreak` default to `true` for eligible accounts (rust-v0.163.0) → [task-cbp-695.md](task-cbp-695.md)
+
+- [x] `CBP-696` [Claude] Add `CLAUDE_CODE_AUTO_MODE_MODEL` env var to env vars table (v2.1.302) → [task-cbp-696.md](task-cbp-696.md)
+- [x] `CBP-697` [Claude] Update permission mode callout: -p/Agent SDK start in default mode on third-party providers (v2.1.302) → [task-cbp-697.md](task-cbp-697.md)
+- [x] `CBP-698` [Claude] Extend fork-subagents bullet: on by default in -p, SDK, desktop, VS Code; CLAUDE_CODE_FORK_SUBAGENT=0 (v2.1.302) → [task-cbp-698.md](task-cbp-698.md)
+- [x] `CBP-699` [Claude] Add max 12 concurrent prompt/agent hooks note to hooks section (v2.1.302) → [task-cbp-699.md](task-cbp-699.md)
+- [x] `CBP-700` [Claude] Update idle compaction docs with /config toggle (v2.1.302) → [task-cbp-700.md](task-cbp-700.md)
