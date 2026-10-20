@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.63 — 2026-10-20
+
+**Claude Code v2.1.304 updates (CBP-701 to CBP-704)**
+
+- **CBP-701 — [Claude] `/auto-mode-setup`.** New slash command row added to the cheat sheet, after `claude auto-mode reset`. Guided setup that reads your project and recent sessions to teach auto mode about your environment; also available on Bedrock, Vertex, Foundry, the Claude apps gateway, and telemetry-disabled sessions (v2.1.304).
+- **CBP-702 — [Claude] `/claude-api managed-agents-secure`.** New subcommand row added after `managed-agents-onboard`. Compares a Managed Agents agent's settings against Anthropic's published security guide, without changing anything (v2.1.304).
+- **CBP-703 — [Claude] Code Review levels and org-wide repo selection.** The Code Review Agent setup guide now documents that admins can choose to review every repository in a GitHub organization automatically, and that owners set a Quick/Standard/Deep review level for the organization with a per-repository override (v2.1.304).
+- **CBP-704 — [Claude] Usage-limit warning on `/resume`.** The `/resume` row now notes that resuming an inactive conversation on Pro/Max plans warns when it would use a noticeable share of the 5-hour usage limit, offering to resume anyway or start fresh (v2.1.304).
+
 ### v4.1.62 — 2026-10-17
 
 **Claude Code v2.1.302 updates (CBP-696 to CBP-700)**
