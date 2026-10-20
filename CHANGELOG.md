@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.63 — 2026-10-20
+
+**Claude Code v2.1.304 updates (CBP-701 to CBP-704)**
+
+- **CBP-701 — [Claude] `/auto-mode-setup`.** New cheat sheet row added before `claude auto-mode reset`. Guided setup that reads your project and recent sessions to teach auto mode about your environment. Available on Bedrock, Vertex, Foundry, the Claude apps gateway, and telemetry-disabled sessions (v2.1.304).
+- **CBP-702 — [Claude] `/claude-api managed-agents-secure`.** New cheat sheet row after `/claude-api managed-agents-onboard`. Compares a Managed Agents agent's settings with Anthropic's published security guide without changing anything (v2.1.304).
+- **CBP-703 — [Claude] Code Review Agent: review levels and org-wide enrollment.** Step 2 of the Setup Guide now mentions the Review all repositories option. A new step 3a documents Quick, Standard (default), and Deep review levels, configurable per organization or per repository (v2.1.304).
+- **CBP-704 — [Claude] `/reload-skills` behavior.** The row now notes that as of v2.1.304 the command sends only new or changed skills to Claude; after a compaction, the full skill list is sent automatically.
+
 ### v4.1.62 — 2026-10-17
 
 **Claude Code v2.1.302 updates (CBP-696 to CBP-700)**

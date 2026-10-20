@@ -709,3 +709,8 @@
 - [x] `CBP-698` [Claude] Extend fork-subagents bullet: on by default in -p, SDK, desktop, VS Code; CLAUDE_CODE_FORK_SUBAGENT=0 (v2.1.302) → [task-cbp-698.md](task-cbp-698.md)
 - [x] `CBP-699` [Claude] Add max 12 concurrent prompt/agent hooks note to hooks section (v2.1.302) → [task-cbp-699.md](task-cbp-699.md)
 - [x] `CBP-700` [Claude] Update idle compaction docs with /config toggle (v2.1.302) → [task-cbp-700.md](task-cbp-700.md)
+
+- [x] `CBP-701` [Claude] Add `/auto-mode-setup` slash command to cheat sheet (v2.1.304) → [task-cbp-701.md](task-cbp-701.md)
+- [x] `CBP-702` [Claude] Add `/claude-api managed-agents-secure` row to cheat sheet (v2.1.304) → [task-cbp-702.md](task-cbp-702.md)
+- [x] `CBP-703` [Claude] Update Code Review Agent section with review levels and org-wide enrollment (v2.1.304) → [task-cbp-703.md](task-cbp-703.md)
+- [x] `CBP-704` [Claude] Update `/reload-skills` row with new behavior (v2.1.304) → [task-cbp-704.md](task-cbp-704.md)
