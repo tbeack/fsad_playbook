@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.64 <span class="changelog-date">· 2026-10-21</span></h3>
+        <p><strong>Claude Code v2.1.305 and v2.1.306 updates (CBP-705 to CBP-709).</strong></p>
+        <ul>
+          <li><strong>CBP-705 — [Claude] <code>CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS</code>.</strong> New env var row added after <code>CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS</code>. Sets how often the retry watchdog rechecks whether a usage limit has lifted before its reset time (v2.1.305).</li>
+          <li><strong>CBP-706 — [Claude] <code>sandbox.allowNestedUserNamespaces</code>.</strong> New sandbox config row after <code>sandbox.socatPath</code>. Set to <code>true</code> on Linux to allow sandboxed commands to create user namespaces, as Chromium and rootless podman require (v2.1.305).</li>
+          <li><strong>CBP-707 — [Claude] <code>/usage</code> per-source warnings and <code>f</code> shortcut.</strong> The <code>/usage</code> cheat sheet row now notes that each inline warning is a one-line fix naming its source, and that pressing <kbd>f</kbd> applies all fixes at once. The same fixes appear in VS Code and <code>/doctor</code> (v2.1.305).</li>
+          <li><strong>CBP-708 — [Claude] <code>allowedMcpServers</code> and <code>managed-mcp.json</code> <code>${VAR}</code> servers.</strong> The <code>managedMcpServers</code> settings note now documents the v2.1.305 change: stdio servers in <code>managed-mcp.json</code> that use <code>${VAR}</code> only in <code>env</code> are no longer filtered by <code>allowedMcpServers</code>; use <code>deniedMcpServers</code> to keep such a server off (v2.1.305).</li>
+          <li><strong>CBP-709 — [Claude] <code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code>.</strong> New env var row after <code>CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT</code>. Sets a custom token threshold for auto-compaction; accepts <code>k</code>/<code>M</code> suffixes (e.g. <code>200k</code>, <code>1M</code>) and warns when the value is out of range or ignored (v2.1.305).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.63 <span class="changelog-date">· 2026-10-20</span></h3>
         <p><strong>Claude Code v2.1.304 updates (CBP-701 to CBP-704).</strong></p>
         <ul>
