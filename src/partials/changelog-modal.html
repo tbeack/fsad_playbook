@@ -6,6 +6,14 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.64 <span class="changelog-date">· 2026-10-21</span></h3>
+        <p><strong>Claude Code v2.1.305 updates (CBP-705, CBP-706).</strong></p>
+        <ul>
+          <li><strong>CBP-705 — [Claude] <code>sandbox.allowNestedUserNamespaces</code>.</strong> New setting.json row added to the sandbox settings table. Set to <code>true</code> on Linux to let sandboxed commands create user namespaces, needed for Chromium and rootless podman — this gets around the sandbox's file protections, so only enable it when you trust the commands being sandboxed (v2.1.305).</li>
+          <li><strong>CBP-706 — [Claude] <code>CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS</code>.</strong> New env var row added after the other retry-watchdog rows. Controls how often unattended retry mode (<code>CLAUDE_CODE_RETRY_WATCHDOG</code>) rechecks whether a usage limit was lifted before its scheduled reset, so a waiting session resumes as soon as the limit actually clears (v2.1.305).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.63 <span class="changelog-date">· 2026-10-20</span></h3>
         <p><strong>Claude Code v2.1.304 updates (CBP-701 to CBP-704).</strong></p>
         <ul>

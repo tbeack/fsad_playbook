@@ -714,3 +714,6 @@
 - [x] `CBP-702` [Claude] Add `/claude-api managed-agents-secure` (v2.1.304) → [task-cbp-702.md](task-cbp-702.md)
 - [x] `CBP-703` [Claude] Document Code Review review levels and org-wide repo selection (v2.1.304) → [task-cbp-703.md](task-cbp-703.md)
 - [x] `CBP-704` [Claude] Document usage-limit warning on resuming inactive conversations (v2.1.304) → [task-cbp-704.md](task-cbp-704.md)
+
+- [x] `CBP-705` [Claude] Add `sandbox.allowNestedUserNamespaces` setting to sandbox settings table (v2.1.305) → [task-cbp-705.md](task-cbp-705.md)
+- [x] `CBP-706` [Claude] Add `CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS` env var (v2.1.305) → [task-cbp-706.md](task-cbp-706.md)

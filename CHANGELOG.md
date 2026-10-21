@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### v4.1.64 — 2026-10-21
+
+**Claude Code v2.1.305 updates (CBP-705, CBP-706)**
+
+- **CBP-705 — [Claude] `sandbox.allowNestedUserNamespaces`.** New setting.json row added to the sandbox settings table. Set to `true` on Linux to let sandboxed commands create user namespaces, needed for Chromium and rootless podman — this gets around the sandbox's file protections, so only enable it when you trust the commands being sandboxed (v2.1.305).
+- **CBP-706 — [Claude] `CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS`.** New env var row added after the other retry-watchdog rows. Controls how often unattended retry mode (`CLAUDE_CODE_RETRY_WATCHDOG`) rechecks whether a usage limit was lifted before its scheduled reset, so a waiting session resumes as soon as the limit actually clears (v2.1.305).
+
 ### v4.1.63 — 2026-10-20
 
 **Claude Code v2.1.304 updates (CBP-701 to CBP-704)**
