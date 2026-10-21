@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.64 — 2026-10-21
+
+**Claude Code v2.1.305 and v2.1.306 updates (CBP-705 to CBP-709)**
+
+- **CBP-705 — [Claude] `CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS`.** New env var row added after `CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS`. Sets how often (in milliseconds) the retry watchdog rechecks whether a usage limit has lifted before its scheduled reset, so unattended sessions can resume sooner when a limit clears early (v2.1.305).
+- **CBP-706 — [Claude] `sandbox.allowNestedUserNamespaces`.** New sandbox config row added after `sandbox.socatPath`. Set to `true` on Linux to allow sandboxed commands to create user namespaces, which Chromium and rootless podman require (v2.1.305).
+- **CBP-707 — [Claude] `/usage` per-source warnings and `f` shortcut.** The `/usage` cheat sheet row now notes that each inline warning is a one-line fix naming its source, and that pressing `f` applies all fixes at once. The same fixes appear in VS Code and `/doctor` (v2.1.305).
+- **CBP-708 — [Claude] `allowedMcpServers` and `managed-mcp.json` `${VAR}` servers.** The `managedMcpServers` settings note now documents the v2.1.305 change: stdio servers in `managed-mcp.json` that use `${VAR}` only in `env` are no longer filtered by `allowedMcpServers`; use `deniedMcpServers` to keep such a server off (v2.1.305).
+- **CBP-709 — [Claude] `CLAUDE_CODE_AUTO_COMPACT_WINDOW`.** New env var row added after `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT`. Sets a custom token threshold for auto-compaction; accepts `k`/`M` suffixes (e.g. `200k`, `1M`) and warns when the value is out of range or ignored (v2.1.305).
+
 ### v4.1.63 — 2026-10-20
 
 **Claude Code v2.1.304 updates (CBP-701 to CBP-704)**

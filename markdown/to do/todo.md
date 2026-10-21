@@ -714,3 +714,9 @@
 - [x] `CBP-702` [Claude] Add `/claude-api managed-agents-secure` (v2.1.304) → [task-cbp-702.md](task-cbp-702.md)
 - [x] `CBP-703` [Claude] Document Code Review review levels and org-wide repo selection (v2.1.304) → [task-cbp-703.md](task-cbp-703.md)
 - [x] `CBP-704` [Claude] Document usage-limit warning on resuming inactive conversations (v2.1.304) → [task-cbp-704.md](task-cbp-704.md)
+
+- [x] `CBP-705` [Claude] Add `CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS` env var (v2.1.305) → [task-cbp-705.md](task-cbp-705.md)
+- [x] `CBP-706` [Claude] Add `sandbox.allowNestedUserNamespaces` config (v2.1.305) → [task-cbp-706.md](task-cbp-706.md)
+- [x] `CBP-707` [Claude] Update `/usage` with per-source warnings and `f` fix shortcut (v2.1.305) → [task-cbp-707.md](task-cbp-707.md)
+- [x] `CBP-708` [Claude] Update `managedMcpServers` note for `allowedMcpServers` + `${VAR}` servers (v2.1.305) → [task-cbp-708.md](task-cbp-708.md)
+- [x] `CBP-709` [Claude] Add `CLAUDE_CODE_AUTO_COMPACT_WINDOW` env var (v2.1.305) → [task-cbp-709.md](task-cbp-709.md)
