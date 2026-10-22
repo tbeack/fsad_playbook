@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.65 <span class="changelog-date">· 2026-10-22</span></h3>
+        <p><strong>Claude Code v2.1.307 and v2.1.308 updates (CBP-710 to CBP-712).</strong></p>
+        <ul>
+          <li><strong>CBP-710 — [Claude] <code>/claude-api api-version</code>.</strong> New subcommand row added after <code>/claude-api managed-agents-secure</code>. Moves a project's Claude API code to the current API version (<code>2026-10-21</code>) (v2.1.307).</li>
+          <li><strong>CBP-711 — [Claude] <code>claude_code.safety_event</code> OTEL event.</strong> New log event row added after <code>claude_code.tool_decision</code> in the Monitoring section. Fires for each tool call a permission rule, auto mode, a safety check, a hook, or the sandbox stopped, prompted, or sent back (v2.1.307).</li>
+          <li><strong>CBP-712 — [Claude] Code Review PR comment commands.</strong> New "PR Comment Commands" table added to the Code Review Agent section. Documents <code>@claude review</code>, <code>@claude review always</code>, and the new <code>@claude review stop</code> / <code>off</code> / <code>pause</code> commands that end an <code>@claude review always</code> subscription (v2.1.307).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.64 <span class="changelog-date">· 2026-10-21</span></h3>
         <p><strong>Claude Code v2.1.305 and v2.1.306 updates (CBP-705 to CBP-709).</strong></p>
         <ul>

@@ -1073,6 +1073,25 @@ claude mcp add google-workspace -- ./target/release/google_workspace_mcp</code><
       <p>Claude Code Review <strong>does not approve or block</strong> PRs. Your existing review workflows stay intact. Each comment includes a collapsible extended reasoning section explaining the agent's analysis.</p>
     </div>
 
+    <!-- PR comment commands -->
+    <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem; font-weight:700;">PR Comment Commands</h3>
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">Post these as PR comments on GitHub to control Code Review without leaving the browser:</p>
+    <div class="table-wrap">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>@claude review</code></td><td>Trigger a one-off review of the current PR</td></tr>
+          <tr><td><code>@claude review always</code></td><td>Subscribe to reviews on every future push to this PR</td></tr>
+          <tr><td><code>@claude review stop</code> / <code>off</code> / <code>pause</code></td><td>End an <code>@claude review always</code> subscription without starting a new review (v2.1.307)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <!-- Alternatives -->
     <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem; font-weight:700;">Alternative: GitHub Actions (Self-Hosted)</h3>
     <p style="color:var(--text-secondary); margin-bottom:1rem;">If you prefer self-hosted review or are on a Pro plan, use <code>claude-code-action</code> on GitHub Marketplace:</p>
@@ -1894,6 +1913,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>/claude-api cost-optimize</code></td><td>Profile a project's existing Claude API spend and work through cost levers — caching, token hygiene, batch, effort, model choice — one measured change at a time (v2.1.247). The <code>/claude-api</code> skill also gained Admin API coverage in v2.1.247 (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK).</td></tr>
           <tr><td><code>/claude-api managed-agents-onboard</code></td><td>Set up the Managed Agents pattern from a docs URL (<code>/claude-api managed-agents-onboard &lt;url&gt;</code>) or build a Console quickstart template such as <code>deep-researcher</code> by name (<code>/claude-api managed-agents-onboard &lt;quickstart-name&gt;</code>) (v2.1.290)</td></tr>
           <tr><td><code>/claude-api managed-agents-secure</code></td><td>Compare a Managed Agents agent's settings against Anthropic's published security guide, without changing anything (v2.1.304).</td></tr>
+          <tr><td><code>/claude-api api-version</code></td><td>Move a project's Claude API code to the current API version (<code>2026-10-21</code>) (v2.1.307).</td></tr>
           <tr><td><code>/feedback</code></td><td>Review and send a feedback report Claude drafted when something went wrong in the session, via the <code>SendFeedback</code> tool. Turn off with the <code>feedbackDrafts</code> setting (v2.1.247).</td></tr>
           <tr><td><code>/login</code></td><td>Sign in to Anthropic account. As of v2.1.243, choosing Anthropic Console offers a keyless "Sign in with your Console account" option (recommended) alongside creating an API key — useful for organizations that don't allow API keys.</td></tr>
           <tr><td><code>/logout</code></td><td>Sign out</td></tr>
@@ -3921,6 +3941,7 @@ claude</code></pre>
               <tr><td><code>claude_code.api_request</code></td><td>API call to Claude completes</td><td>model, cost_usd, input/output tokens, cache_creation_5m_tokens, cache_creation_1h_tokens (cache writes split by TTL lifetime, v2.1.300)</td></tr>
               <tr><td><code>claude_code.api_error</code></td><td>API call fails (after retries)</td><td>error, status_code, attempt count</td></tr>
               <tr><td><code>claude_code.tool_decision</code></td><td>Tool permission accept/reject</td><td>tool_name, decision, source, tool_use_id, classifier_verdict, permission_mode; <code>classifier_category</code> (names the matched built-in rule) available with <code>OTEL_LOG_TOOL_DETAILS=1</code> (v2.1.301)</td></tr>
+              <tr><td><code>claude_code.safety_event</code></td><td>Tool call stopped, prompted, or sent back by a permission rule, auto mode, a safety check, a hook, or the sandbox (v2.1.307)</td><td>tool_name, safety_source, tool_use_id</td></tr>
               <tr><td><code>claude_code.skill_activated</code></td><td>Skill is invoked</td><td>skill_name, invocation_trigger (<code>user-slash</code> | <code>claude-proactive</code> | <code>nested-skill</code>)</td></tr>
               <tr><td><code>claude_code.at_mention</code></td><td>@-mention is resolved</td><td>mention_target, resolution_result</td></tr>
             </tbody>
