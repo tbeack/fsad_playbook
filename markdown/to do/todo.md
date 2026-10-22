@@ -720,3 +720,7 @@
 - [x] `CBP-707` [Claude] Update `/usage` with per-source warnings and `f` fix shortcut (v2.1.305) → [task-cbp-707.md](task-cbp-707.md)
 - [x] `CBP-708` [Claude] Update `managedMcpServers` note for `allowedMcpServers` + `${VAR}` servers (v2.1.305) → [task-cbp-708.md](task-cbp-708.md)
 - [x] `CBP-709` [Claude] Add `CLAUDE_CODE_AUTO_COMPACT_WINDOW` env var (v2.1.305) → [task-cbp-709.md](task-cbp-709.md)
+
+- [x] `CBP-710` [Claude] Add `/claude-api api-version` slash command (v2.1.307) → [task-cbp-710.md](task-cbp-710.md)
+- [x] `CBP-711` [Claude] Add `claude_code.safety_event` OTEL log event (v2.1.307) → [task-cbp-711.md](task-cbp-711.md)
+- [x] `CBP-712` [Claude] Add `@claude review stop`/`off`/`pause` Code Review PR commands (v2.1.307) → [task-cbp-712.md](task-cbp-712.md)

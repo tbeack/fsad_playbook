@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.65 — 2026-10-22
+
+**Claude Code v2.1.307 and v2.1.308 updates (CBP-710 to CBP-712)**
+
+- **CBP-710 — [Claude] `/claude-api api-version`.** New subcommand row added after `/claude-api managed-agents-secure`. Moves a project's Claude API code to the current API version (`2026-10-21`) (v2.1.307).
+- **CBP-711 — [Claude] `claude_code.safety_event` OTEL event.** New log event row added after `claude_code.tool_decision` in the Monitoring section. Fires for each tool call a permission rule, auto mode, a safety check, a hook, or the sandbox stopped, prompted, or sent back (v2.1.307).
+- **CBP-712 — [Claude] Code Review PR comment commands.** New "PR Comment Commands" table added to the Code Review Agent section. Documents `@claude review`, `@claude review always`, and the new `@claude review stop` / `off` / `pause` commands that end an `@claude review always` subscription (v2.1.307).
+
 ### v4.1.64 — 2026-10-21
 
 **Claude Code v2.1.305 and v2.1.306 updates (CBP-705 to CBP-709)**
