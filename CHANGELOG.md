@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.66 — 2026-10-23
+
+**Claude Code v2.1.309 updates (CBP-713 to CBP-715)**
+
+- **CBP-713 — [Claude] `/ultrareview` workspace trust.** The `/ultrareview` cheat sheet row now notes that non-interactive/CI use requires `--trust-workspace` (or `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK=1`) — it asks on a terminal, else refuses (v2.1.309).
+- **CBP-714 — [Claude] Bypass-mode `rm`/`rmdir` denial in Desktop/VS Code.** The Bypass Permissions card and the sandboxing section's dangerous-`rm` history now note that the Desktop app and VS Code deny a dangerous `rm`/`rmdir` at once in bypass permissions mode, skipping the 2-minute prompt wait (v2.1.309).
+- **CBP-715 — [Claude] Nested CLAUDE.md size limit.** "Pillar 5: Local CLAUDE.md for Risky Modules" now notes that an oversized nested CLAUDE.md used to cause repeated compaction, and as of v2.1.309 loads only its start instead — keep these files small (v2.1.309).
+
 ### v4.1.65 — 2026-10-22
 
 **Claude Code v2.1.307 and v2.1.308 updates (CBP-710 to CBP-712)**

@@ -724,3 +724,7 @@
 - [x] `CBP-710` [Claude] Add `/claude-api api-version` slash command (v2.1.307) → [task-cbp-710.md](task-cbp-710.md)
 - [x] `CBP-711` [Claude] Add `claude_code.safety_event` OTEL log event (v2.1.307) → [task-cbp-711.md](task-cbp-711.md)
 - [x] `CBP-712` [Claude] Add `@claude review stop`/`off`/`pause` Code Review PR commands (v2.1.307) → [task-cbp-712.md](task-cbp-712.md)
+
+- [x] `CBP-713` [Claude] Update `/ultrareview` row — workspace trust requirement (v2.1.309) → [task-cbp-713.md](task-cbp-713.md)
+- [x] `CBP-714` [Claude] Update bypass-mode dangerous `rm`/`rmdir` denial in Desktop/VS Code (v2.1.309) → [task-cbp-714.md](task-cbp-714.md)
+- [x] `CBP-715` [Claude] Note nested CLAUDE.md size limit fix in Pillar 5 (v2.1.309) → [task-cbp-715.md](task-cbp-715.md)

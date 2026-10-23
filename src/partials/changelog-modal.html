@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.66 <span class="changelog-date">· 2026-10-23</span></h3>
+        <p><strong>Claude Code v2.1.309 updates (CBP-713 to CBP-715).</strong></p>
+        <ul>
+          <li><strong>CBP-713 — [Claude] <code>/ultrareview</code> workspace trust.</strong> The <code>/ultrareview</code> cheat sheet row now notes that non-interactive/CI use requires <code>--trust-workspace</code> (or <code>CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK=1</code>) — it asks on a terminal, else refuses (v2.1.309).</li>
+          <li><strong>CBP-714 — [Claude] Bypass-mode <code>rm</code>/<code>rmdir</code> denial in Desktop/VS Code.</strong> The Bypass Permissions card and the sandboxing section's dangerous-<code>rm</code> history now note that the Desktop app and VS Code deny a dangerous <code>rm</code>/<code>rmdir</code> at once in bypass permissions mode, skipping the 2-minute prompt wait (v2.1.309).</li>
+          <li><strong>CBP-715 — [Claude] Nested CLAUDE.md size limit.</strong> "Pillar 5: Local CLAUDE.md for Risky Modules" now notes that an oversized nested CLAUDE.md used to cause repeated compaction, and as of v2.1.309 loads only its start instead — keep these files small (v2.1.309).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.65 <span class="changelog-date">· 2026-10-22</span></h3>
         <p><strong>Claude Code v2.1.307 and v2.1.308 updates (CBP-710 to CBP-712).</strong></p>
         <ul>
