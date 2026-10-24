@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.67 — 2026-10-24
+
+**Claude Code v2.1.310 updates (CBP-716)**
+
+- **CBP-716 — [Claude] Monitor Tool on Bedrock, Vertex, and Foundry.** The Monitor Tool collapsible now notes that as of v2.1.310, the Monitor tool and plugin monitors also work on Bedrock, Vertex, and Foundry, and in sessions with telemetry or nonessential traffic disabled; long foreground sleeps are blocked on those platforms too (v2.1.310).
+
 ### v4.1.66 — 2026-10-23
 
 **Claude Code v2.1.309 updates (CBP-713 to CBP-715)**

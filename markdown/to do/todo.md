@@ -728,3 +728,5 @@
 - [x] `CBP-713` [Claude] Update `/ultrareview` row — workspace trust requirement (v2.1.309) → [task-cbp-713.md](task-cbp-713.md)
 - [x] `CBP-714` [Claude] Update bypass-mode dangerous `rm`/`rmdir` denial in Desktop/VS Code (v2.1.309) → [task-cbp-714.md](task-cbp-714.md)
 - [x] `CBP-715` [Claude] Note nested CLAUDE.md size limit fix in Pillar 5 (v2.1.309) → [task-cbp-715.md](task-cbp-715.md)
+
+- [x] `CBP-716` [Claude] Update Monitor Tool section — Bedrock/Vertex/Foundry availability (v2.1.310) → [task-cbp-716.md](task-cbp-716.md)
