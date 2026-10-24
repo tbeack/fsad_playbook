@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### v4.1.67 — 2026-10-24
+
+**Claude Code v2.1.310 updates (CBP-716 to CBP-717)**
+
+- **CBP-716 — [Claude] Monitor tool now on Bedrock/Vertex/Foundry/telemetry-disabled.** The Monitor Tool collapsible now notes that as of v2.1.310, the Monitor tool, plugin monitors, and the long-foreground-sleep block are also available on Amazon Bedrock, Google Vertex AI, and Foundry, and when telemetry or nonessential traffic is disabled (v2.1.310).
+- **CBP-717 — [Claude] Outside-working-directory read prompt explains shell-command tradeoff.** The `permissions.blockReadsOutsideWorkingDirectories` row now notes that as of v2.1.310, the one-time prompt also explains that blocking these reads makes shell commands ask for permission too (v2.1.310).
+
 ### v4.1.66 — 2026-10-23
 
 **Claude Code v2.1.309 updates (CBP-713 to CBP-715)**
