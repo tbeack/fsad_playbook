@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.68 — 2026-10-24
+
+**Claude Code v2.1.310 updates (CBP-717)**
+
+- **CBP-717 — [Claude] Outside-working-directory read prompt explains shell-command tradeoff.** The `permissions.blockReadsOutsideWorkingDirectories` row now notes that as of v2.1.310, the one-time prompt also explains that blocking these reads makes shell commands ask for permission too (v2.1.310).
+
 ### v4.1.67 — 2026-10-24
 
 **Claude Code v2.1.310 updates (CBP-716)**
