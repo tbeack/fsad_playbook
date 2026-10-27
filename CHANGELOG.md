@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.69 — 2026-10-27
+
+**Claude Code v2.1.311 updates (CBP-718 to CBP-720)**
+
+- **CBP-718 — [Claude] `self-hosted-runner` `--hold-idle-file` / `--max-hold-min`.** New examples added to the Self-Hosted Runner code block, after `--client-label`. Keeps the runner marked idle while the host reports processes it left running, up to N minutes (v2.1.311).
+- **CBP-719 — [Claude] Typed `ultrathink` mid-turn effort raise.** The Model & Effort section now documents the `ultrathink` keyword shortcut: typing it runs that turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 via Anthropic's API; typed while Claude is already working, it raises the rest of the current turn instead of only the next one. Also notes the rainbow highlight now only appears where the keyword can actually raise effort, not when quoted or part of a file path (v2.1.311).
+- **CBP-720 — [Claude] `[1m]` suffix dropped where redundant.** The `opus[1m]` / `sonnet[1m]` alias row now notes the suffix is dropped from display for any model that already defaults to 1M context (Opus 5.5, Sonnet 5.5 included), generalizing the fable-specific v2.1.173 behavior. The suffix is still accepted if typed (v2.1.311).
+
 ### v4.1.68 — 2026-10-24
 
 **Claude Code v2.1.310 updates (CBP-717)**
