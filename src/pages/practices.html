@@ -1624,7 +1624,7 @@ smoke tests against the staging URL."</code></pre>
           <tr><td><code>best</code> / <code>opus</code></td><td>Claude Opus 5.5 (<code>claude-opus-5-5</code>) — now the default Opus model (v2.1.280). 1M context window; $4/$20 per MTok, $0.20/Mtok cache reads. Previously resolved to Opus 5 (<code>claude-opus-5</code>).</td><td>Complex reasoning, architecture, gnarly bugs</td></tr>
           <tr><td><code>sonnet</code></td><td>Claude Sonnet 5.5 (<code>claude-sonnet-5-5</code>) — now the default Sonnet model on the Anthropic API (v2.1.284). 1M context window; $2/$10 per MTok, $0.10/Mtok cache reads (reduced from $0.20 in v2.1.296). Previously resolved to Sonnet 5. (4.5 on Bedrock / Vertex / Foundry)</td><td>80%+ of coding tasks; daily driver</td></tr>
           <tr><td><code>haiku</code></td><td>Claude Haiku 5.5 (<code>claude-haiku-5-5</code>) &mdash; now the default Haiku model on the Anthropic API (v2.1.293). 1M context window; $0.10/$0.50 per MTok</td><td>Cheap sub-agent / background work</td></tr>
-          <tr><td><code>opus[1m]</code> / <code>sonnet[1m]</code></td><td>1M context variant</td><td>Long-session work across large codebases</td></tr>
+          <tr><td><code>opus[1m]</code> / <code>sonnet[1m]</code></td><td>1M context variant. As of v2.1.311, this generalizes the fable-specific stripping from v2.1.173: since Opus 5.5 and Sonnet 5.5 already default to 1M context, the <code>[1m]</code> suffix has no effect and is dropped from display — it's still accepted if you type it.</td><td>Long-session work across large codebases</td></tr>
           <tr><td><strong><code>opusplan</code></strong></td><td>Opus during plan mode → Sonnet during execution</td><td><strong>Recommended default for non-trivial feature work</strong> — ~40% cheaper than pure Opus</td></tr>
         </tbody>
       </table>
@@ -1658,12 +1658,18 @@ smoke tests against the staging URL."</code></pre>
 /effort              <span class="cm"># No args: opens interactive slider (arrow keys + Enter)</span>
 <span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
 
+<span class="cm"># Type "ultrathink" directly in a prompt to run that turn at xhigh effort — on Opus 5.5, Sonnet 5.5,</span>
+<span class="cm"># Haiku 5.5, and Fable 5.1 via Anthropic's API. Typed while Claude is already working, it raises the</span>
+<span class="cm"># rest of the current turn's effort instead of waiting for the next turn (v2.1.311)</span>
+ultrathink, then refactor this module
+
 <span class="cm"># Toggle fast mode (same model, faster output)</span>
 /fast on
 
 <span class="cm"># Auto-fallback when primary model not found (interactive + print mode)</span>
 <span class="kw">claude</span> <span class="val">-p</span> <span class="val">--fallback-model</span> sonnet <span class="str">"query"</span></code></pre>
     </div>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.75rem;">As of v2.1.311, the <code>ultrathink</code> rainbow highlight appears only where the keyword can actually raise effort — not when it's quoted or part of a file path — so the highlight is a reliable signal that it will take effect.</p>
 
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1.5rem; margin-bottom:0.5rem;"><strong>Best-practice combinations by workload</strong></p>
     <div class="table-wrap">
@@ -2487,7 +2493,10 @@ smoke tests against the staging URL."</code></pre>
 <span class="kw">claude</span> self-hosted-runner <span class="val">--proxy-authorization-command</span> <span class="str">"..."</span>
 
 <span class="cm"># Override the registered runner label instead of using the hostname (v2.1.248)</span>
-<span class="kw">claude</span> self-hosted-runner <span class="val">--client-label</span> <span class="str">"ci-runner-3"</span></code></pre>
+<span class="kw">claude</span> self-hosted-runner <span class="val">--client-label</span> <span class="str">"ci-runner-3"</span>
+
+<span class="cm"># Stay marked idle while the host reports processes this runner left running, up to N minutes (v2.1.311)</span>
+<span class="kw">claude</span> self-hosted-runner <span class="val">--hold-idle-file</span> /path/to/hold-file <span class="val">--max-hold-min</span> 10</code></pre>
         </div>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Once registered, web, mobile, and desktop sessions started by your org can be scheduled onto the runner instead of Anthropic-hosted infrastructure.</p>
       </div></div>

@@ -731,3 +731,7 @@
 
 - [x] `CBP-716` [Claude] Update Monitor Tool section — Bedrock/Vertex/Foundry availability (v2.1.310) → [task-cbp-716.md](task-cbp-716.md)
 - [x] `CBP-717` [Claude] Auto mode's outside-working-directory read prompt explains the shell-command tradeoff (v2.1.310) → [task-cbp-717.md](task-cbp-717.md)
+
+- [x] `CBP-718` [Claude] Add `--hold-idle-file` / `--max-hold-min` to self-hosted-runner (v2.1.311) → [task-cbp-718.md](task-cbp-718.md)
+- [x] `CBP-719` [Claude] Document typed `ultrathink` keyword mid-turn effort raise (v2.1.311) → [task-cbp-719.md](task-cbp-719.md)
+- [x] `CBP-720` [Claude] Note `[1m]` suffix now redundant/stripped for `opus[1m]` / `sonnet[1m]` too (v2.1.311) → [task-cbp-720.md](task-cbp-720.md)
