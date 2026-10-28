@@ -735,3 +735,8 @@
 - [x] `CBP-718` [Claude] Add `--hold-idle-file` / `--max-hold-min` to self-hosted-runner (v2.1.311) → [task-cbp-718.md](task-cbp-718.md)
 - [x] `CBP-719` [Claude] Document typed `ultrathink` keyword mid-turn effort raise (v2.1.311) → [task-cbp-719.md](task-cbp-719.md)
 - [x] `CBP-720` [Claude] Note `[1m]` suffix now redundant/stripped for `opus[1m]` / `sonnet[1m]` too (v2.1.311) → [task-cbp-720.md](task-cbp-720.md)
+
+- [x] `CBP-721` [Claude] Write tool read-before-overwrite protection for large CLAUDE.md/rules files (v2.1.312) → [task-cbp-721.md](task-cbp-721.md)
+- [x] `CBP-722` [Claude] Hooks concurrency limit raised to 24 (sub-agents included), plus 12 past-timeout grace slots (v2.1.312) → [task-cbp-722.md](task-cbp-722.md)
+- [x] `CBP-723` [Claude] Remove `claude_code.safety_event` OTel row — event no longer sent (v2.1.312) → [task-cbp-723.md](task-cbp-723.md)
+- [x] `CBP-724` [Claude] `CLAUDE_CODE_AUTO_COMPACT_WINDOW` only lowers a subagent's window, never raises it (v2.1.312) → [task-cbp-724.md](task-cbp-724.md)
