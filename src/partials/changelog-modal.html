@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.70 <span class="changelog-date">· 2026-10-28</span></h3>
+        <p><strong>Claude Code v2.1.312 updates (CBP-721 to CBP-724).</strong></p>
+        <ul>
+          <li><strong>CBP-721 — [Claude] Write read-before-overwrite protection for large CLAUDE.md/rules files.</strong> "Pillar 5: Local CLAUDE.md for Risky Modules" now notes that as of v2.1.312, Write refuses to overwrite a very large CLAUDE.md, rules file, or @-included file after seeing only its truncated start — it asks Claude to read the whole file or edit in place instead (v2.1.312).</li>
+          <li><strong>CBP-722 — [Claude] Hooks concurrency limit raised to 24, plus 12 past-timeout grace slots.</strong> The Hooks section intro paragraph now says prompt and agent hooks run at most 24 of the same event at a time per session, sub-agents included, plus up to 12 more that have waited past their event's timeout (a <code>timeout</code> under 1 second counts as 1 second), superseding the flat 12-concurrent limit from v2.1.302 (v2.1.312).</li>
+          <li><strong>CBP-723 — [Claude] Removed <code>claude_code.safety_event</code> OTel row.</strong> The Monitoring OTel log-events table no longer lists <code>claude_code.safety_event</code> — Claude Code stopped sending it (v2.1.312).</li>
+          <li><strong>CBP-724 — [Claude] <code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code> subagent behavior.</strong> The <code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code> row now notes that for a subagent's own window, this var can only lower it, never raise it — previously it had no effect on subagents at all (v2.1.312).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.69 <span class="changelog-date">· 2026-10-27</span></h3>
         <p><strong>Claude Code v2.1.311 updates (CBP-718 to CBP-720).</strong></p>
         <ul>

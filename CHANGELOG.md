@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.70 — 2026-10-28
+
+**Claude Code v2.1.312 updates (CBP-721 to CBP-724)**
+
+- **CBP-721 — [Claude] Write read-before-overwrite protection for large CLAUDE.md/rules files.** "Pillar 5: Local CLAUDE.md for Risky Modules" now notes that as of v2.1.312, Write refuses to overwrite a very large CLAUDE.md, rules file, or @-included file after seeing only its truncated start — it asks Claude to read the whole file or edit in place instead (v2.1.312).
+- **CBP-722 — [Claude] Hooks concurrency limit raised to 24, plus 12 past-timeout grace slots.** The Hooks section intro paragraph now says prompt and agent hooks run at most 24 of the same event at a time per session, sub-agents included, plus up to 12 more that have waited past their event's timeout (a `timeout` under 1 second counts as 1 second), superseding the flat 12-concurrent limit from v2.1.302 (v2.1.312).
+- **CBP-723 — [Claude] Removed `claude_code.safety_event` OTel row.** The Monitoring OTel log-events table no longer lists `claude_code.safety_event` — Claude Code stopped sending it (v2.1.312).
+- **CBP-724 — [Claude] `CLAUDE_CODE_AUTO_COMPACT_WINDOW` subagent behavior.** The `CLAUDE_CODE_AUTO_COMPACT_WINDOW` row now notes that for a subagent's own window, this var can only lower it, never raise it — previously it had no effect on subagents at all (v2.1.312).
+
 ### v4.1.69 — 2026-10-27
 
 **Claude Code v2.1.311 updates (CBP-718 to CBP-720)**
