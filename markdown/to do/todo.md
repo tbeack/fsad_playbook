@@ -740,3 +740,9 @@
 - [x] `CBP-722` [Claude] Hooks concurrency limit raised to 24 (sub-agents included), plus 12 past-timeout grace slots (v2.1.312) → [task-cbp-722.md](task-cbp-722.md)
 - [x] `CBP-723` [Claude] Remove `claude_code.safety_event` OTel row — event no longer sent (v2.1.312) → [task-cbp-723.md](task-cbp-723.md)
 - [x] `CBP-724` [Claude] `CLAUDE_CODE_AUTO_COMPACT_WINDOW` only lowers a subagent's window, never raises it (v2.1.312) → [task-cbp-724.md](task-cbp-724.md)
+
+- [x] `CBP-725` [Codex] Add `/presets` slash command to Cheat Sheet (rust-v0.164.0) → [task-cbp-725.md](task-cbp-725.md)
+- [x] `CBP-726` [Codex] Update `/model` and `/permissions` rows with inline argument syntax (rust-v0.164.0) → [task-cbp-726.md](task-cbp-726.md)
+- [x] `CBP-727` [Codex] Add Google Cloud Vertex AI built-in provider to Multi-Provider Models table (rust-v0.165.0) → [task-cbp-727.md](task-cbp-727.md)
+- [x] `CBP-728` [Codex] Add GPT-6.1 Terra to model catalogs table (rust-v0.165.0) → [task-cbp-728.md](task-cbp-728.md)
+- [x] `CBP-729` [Codex] Update Amazon Bedrock collapsible — setup wizard enabled by default (rust-v0.164.0) → [task-cbp-729.md](task-cbp-729.md)
