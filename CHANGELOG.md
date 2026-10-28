@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.71 — 2026-10-28
+
+**Codex rust-v0.164.0 and rust-v0.165.0 updates (CBP-725 to CBP-729)**
+
+- **CBP-725 — [Codex] `/presets` slash command.** Added a new `/presets` row to the Codex Cheat Sheet slash commands table: ten numbered slots for saving reusable prompts and slash commands with a keyboard shortcut menu for quick access (rust-v0.164.0).
+- **CBP-726 — [Codex] Inline `/model` and `/permissions` arguments.** Updated both Cheat Sheet rows to mention inline argument syntax — e.g. `/model gpt-6.1-sol` or `/permissions suggest` — which sets the value immediately without opening a picker (rust-v0.164.0).
+- **CBP-727 — [Codex] Google Cloud Vertex AI built-in provider.** Added a new row for Google Cloud Vertex AI to the Multi-Provider Models table, configured with `model_provider = "gcp"` and GCP application default credentials (rust-v0.165.0).
+- **CBP-728 — [Codex] GPT-6.1 Terra in model catalogs.** Added `gpt-6.1-terra` to the OpenAI row in the Multi-Provider Models table and noted its addition to the bundled model catalog (rust-v0.165.0).
+- **CBP-729 — [Codex] Amazon Bedrock setup wizard enabled by default.** Updated the Amazon Bedrock collapsible to note that the Bedrock setup wizard is now enabled by default — Codex surfaces it automatically when AWS credentials are detected, with API key entry grouped alongside other AWS sign-in methods (rust-v0.164.0).
+
 ### v4.1.70 — 2026-10-28
 
 **Claude Code v2.1.312 updates (CBP-721 to CBP-724)**
