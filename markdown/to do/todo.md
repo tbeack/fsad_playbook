@@ -746,3 +746,9 @@
 - [x] `CBP-727` [Codex] Add Google Cloud Vertex AI built-in provider to Multi-Provider Models table (rust-v0.165.0) → [task-cbp-727.md](task-cbp-727.md)
 - [x] `CBP-728` [Codex] Add GPT-6.1 Terra to model catalogs table (rust-v0.165.0) → [task-cbp-728.md](task-cbp-728.md)
 - [x] `CBP-729` [Codex] Update Amazon Bedrock collapsible — setup wizard enabled by default (rust-v0.164.0) → [task-cbp-729.md](task-cbp-729.md)
+
+- [x] `CBP-730` [Claude] Add `permissions.blockWritesOutsideWorkingDirectories` to settings reference (v2.1.314) → [task-cbp-730.md](task-cbp-730.md)
+- [x] `CBP-731` [Claude] Update idle compaction — now runs in VS Code and Claude Desktop Code tab (v2.1.314) → [task-cbp-731.md](task-cbp-731.md)
+- [x] `CBP-732` [Claude] Document PreCompact hook output limit of 10,000 characters (v2.1.314) → [task-cbp-732.md](task-cbp-732.md)
+- [x] `CBP-733` [Codex] Update `codex queue` row with `--resume` option (rust-v0.166.0) → [task-cbp-733.md](task-cbp-733.md)
+- [x] `CBP-734` [Codex] Update `codex doctor` row with `--network-only` option (rust-v0.166.0) → [task-cbp-734.md](task-cbp-734.md)
