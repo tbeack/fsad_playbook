@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.72 <span class="changelog-date">· 2026-10-30</span></h3>
+        <p><strong>Claude Code v2.1.314 and Codex rust-v0.166.0 updates (CBP-730 to CBP-734).</strong></p>
+        <ul>
+          <li><strong>CBP-730 — [Claude] <code>permissions.blockWritesOutsideWorkingDirectories</code>.</strong> Added a new bullet to the settings reference: set this key to <code>true</code> to make Write, Edit, and NotebookEdit refuse paths outside the working directories in every permission mode (v2.1.314).</li>
+          <li><strong>CBP-731 — [Claude] Idle compaction in VS Code and Desktop Code tab.</strong> Both idle compaction bullets now note that idle compaction also runs in VS Code and Claude Desktop's Code tab as of v2.1.314.</li>
+          <li><strong>CBP-732 — [Claude] PreCompact hook output limit.</strong> Added an Output limit note below the PreCompact blocking table: a PreCompact hook's stdout is cut at 10,000 characters; output past that limit is dropped (v2.1.314).</li>
+          <li><strong>CBP-733 — [Codex] <code>codex queue --resume</code>.</strong> Updated the <code>codex queue</code> CLI row to note that <code>--resume</code> also resumes an unloaded thread after queueing the message (rust-v0.166.0).</li>
+          <li><strong>CBP-734 — [Codex] <code>codex doctor --network-only</code>.</strong> Updated the <code>codex doctor</code> CLI row to note that <code>--network-only</code> runs focused configuration, connectivity, and WebSocket diagnostics (rust-v0.166.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.71 <span class="changelog-date">· 2026-10-28</span></h3>
         <p><strong>Codex rust-v0.164.0 and rust-v0.165.0 updates (CBP-725 to CBP-729).</strong></p>
         <ul>
