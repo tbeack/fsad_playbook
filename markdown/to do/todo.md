@@ -752,3 +752,7 @@
 - [x] `CBP-732` [Claude] Document PreCompact hook output limit of 10,000 characters (v2.1.314) → [task-cbp-732.md](task-cbp-732.md)
 - [x] `CBP-733` [Codex] Update `codex queue` row with `--resume` option (rust-v0.166.0) → [task-cbp-733.md](task-cbp-733.md)
 - [x] `CBP-734` [Codex] Update `codex doctor` row with `--network-only` option (rust-v0.166.0) → [task-cbp-734.md](task-cbp-734.md)
+
+- [x] `CBP-735` [Claude] Add `CLAUDE_CODE_SUBAGENT_EFFORT` env var (v2.1.316) → [task-cbp-735.md](task-cbp-735.md)
+- [x] `CBP-736` [Claude] Add `CLAUDE_CODE_DISABLE_ULTRATHINK` env var (v2.1.316) → [task-cbp-736.md](task-cbp-736.md)
+- [x] `CBP-737` [Claude] Document Opus 4.8 fast mode deprecation — removal Nov 30, 2026 (v2.1.316) → [task-cbp-737.md](task-cbp-737.md)
