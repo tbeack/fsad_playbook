@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.73 — 2026-10-31
+
+**Claude Code v2.1.316 updates (CBP-735 to CBP-737)**
+
+- **CBP-735 — [Claude] `CLAUDE_CODE_SUBAGENT_EFFORT`.** Added a new row to the env var reference table and updated the Cost Optimization Checklist's Agent-tool-effort bullet: this var sets the default effort subagents run at when nothing else names one, overridden by an agent's own frontmatter or an explicit per-spawn effort (v2.1.316).
+- **CBP-736 — [Claude] `CLAUDE_CODE_DISABLE_ULTRATHINK`.** Added a note under the `ultrathink` keyword example and a new env var table row: set this to `1` to turn the `ultrathink` keyword shortcut off entirely — typing it no longer raises effort or shows the rainbow highlight (v2.1.316).
+- **CBP-737 — [Claude] Opus 4.8 fast mode deprecation.** Added a new top entry to the Key Dates callout and a note on the `/fast` cheat-sheet row: fast mode on Opus 4.8 is deprecated as of October 30, 2026 and will be removed November 30, 2026 with no fallback to standard Opus 4.8 — migrate to Opus 5.5 (v2.1.316).
+
 ### v4.1.72 — 2026-10-30
 
 **Claude Code v2.1.314 and Codex rust-v0.166.0 updates (CBP-730 to CBP-734)**
