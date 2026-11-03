@@ -1694,7 +1694,7 @@ ultrathink, then refactor this module
       <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
         <li>Default to <code>opusplan</code> for coding — ~40% cheaper than pure Opus.</li>
         <li>Route sub-agents to Haiku via <code>CLAUDE_CODE_SUBAGENT_MODEL=haiku</code> — sets the default only; an agent's own <code>model:</code> frontmatter or an explicit per-spawn model takes precedence (v2.1.251). Set <code>CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1</code> to force it onto every subagent when strict cost enforcement matters more than per-agent overrides (v2.1.257).</li>
-        <li>The Agent tool accepts an <code>effort</code> parameter, so Claude can run a sub-agent at the effort level you ask for (e.g. <code>low</code> for lookups, <code>high</code> for review) without changing the session effort (v2.1.292). Set <code>CLAUDE_CODE_SUBAGENT_EFFORT</code> to change the default a subagent falls back to when nothing else names an effort — it's overridden by an agent's own frontmatter or an explicit per-spawn <code>effort</code> (v2.1.316).</li>
+        <li>The Agent tool accepts an <code>effort</code> parameter, so Claude can run a sub-agent at the effort level you ask for (e.g. <code>low</code> for lookups, <code>high</code> for review) without changing the session effort (v2.1.292). Set <code>CLAUDE_CODE_SUBAGENT_EFFORT</code> to change the default a subagent falls back to when nothing else names an effort — it's overridden by an agent's own frontmatter or an explicit per-spawn <code>effort</code> (v2.1.316). As of v2.1.317, a subagent or teammate running on a different model than the main conversation uses that model's own saved <code>/effort</code> level (or its default) instead of inheriting the session's effort — each model's effort setting (saved per-model since v2.1.251) now follows its own model wherever that model runs.</li>
         <li>Enable prompt caching — cache hits are 10% of base input (up to 90% off on repeated system prompts, CLAUDE.md, large docs).</li>
         <li>Use the Batch API for any non-interactive job — 50% off input and output; stacks with caching.</li>
         <li>Pin effort to <code>medium</code> on cost-sensitive Sonnet workflows; raise only where needed.</li>
@@ -1838,7 +1838,7 @@ ultrathink, then refactor this module
         <thead><tr><th>Command</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>/loop</code> <code>[interval] &lt;prompt&gt;</code></td><td>Run prompt on recurring interval (e.g. <code>/loop 5m check tests</code>). Alias: <code>/proactive</code></td></tr>
-          <tr><td><code>/schedule</code></td><td>Create / manage cloud scheduled tasks</td></tr>
+          <tr><td><code>/schedule</code></td><td>Create / manage cloud scheduled tasks. As of v2.1.317, warns when a new scheduled task would get connectors you did not ask for, and tells you how to remove them before the task starts running unattended.</td></tr>
           <tr><td><code>/batch</code> <code>&lt;instruction&gt;</code></td><td>Orchestrate large-scale changes (5–30 parallel agents)</td></tr>
           <tr><td><code>/tasks</code></td><td>List and manage background tasks (alias: <code>/bashes</code>). As of v2.1.243, each subagent's row and its detail dialog show the model (and effort level) it ran on.</td></tr>
           <tr><td><code>/agents</code></td><td>Browse agent library and manage live subagents (Running + Library tabs)</td></tr>
@@ -2817,6 +2817,7 @@ ultrathink, then refactor this module
               <tr><td><code>CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES</code></td><td>Caps how many times a timed-out non-streaming fallback request is re-sent. Set to an integer to bound retry time on flaky connections to the non-streaming endpoint (v2.1.285).</td></tr>
               <tr><td><code>CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS=1</code></td><td>Turns off structured output formatting for session-title generation, memory recall, and prompt-hook requests. Use when running behind Mantle or a gateway that rejects structured outputs and those features are failing (v2.1.288).</td></tr>
               <tr><td><code>CLAUDE_CODE_DISABLE_FILE_MENTIONS=1</code></td><td>When set, Claude receives only the file paths of @-mentioned files rather than their contents — Claude then reads each file with its file tools on its own terms. Use when @-mentioning large or sensitive files where automatic content injection is undesirable (v2.1.299).</td></tr>
+              <tr><td><code>CLAUDE_CODE_DISABLE_NESTED_SESSION_ID=1</code></td><td>On a self-hosted runner, makes a <code>claude -p</code> run started from inside a session reuse that session's ID and transcript, matching behavior from before v2.1.317. By default as of v2.1.317, such a nested run gets its own session ID and transcript instead, so a restart can no longer resume into the wrong conversation.</td></tr>
             </tbody>
           </table>
         </div>
@@ -3936,6 +3937,7 @@ claude</code></pre>
         </div>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">All metrics carry standard attributes: <code>session.id</code>, <code>organization.id</code>, <code>user.account_uuid</code>, and <code>terminal.type</code>. Token and cost metrics also include <code>model</code>.</p>
         <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);">Set <code>OTEL_METRICS_INCLUDE_REPOSITORY=1</code> to also tag metrics events with <code>vcs.*</code> repository attributes; the commit-count metric additionally gets <code>vcs.ref.head.*</code> (v2.1.269).</p>
+        <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);">As of v2.1.317, metrics, events, and trace spans also carry <code>anthropic.plan</code>, <code>anthropic.seat_type</code>, <code>anthropic.provider</code>, and <code>anthropic.custom_base_url</code> — segment any OTel view by plan tier, seat type, model provider, or custom base URL without a secondary join.</p>
       </div></div>
     </div>
 
@@ -4055,6 +4057,7 @@ claude</code></pre>
           <li><strong>Tool inputs redacted</strong> &mdash; tool parameters excluded unless <code>OTEL_LOG_TOOL_DETAILS=1</code> is set</li>
           <li><strong>Trace content redacted</strong> &mdash; span I/O excluded unless <code>OTEL_LOG_TOOL_CONTENT=1</code> (truncated at 60 KB)</li>
           <li><strong>Email included with OAuth</strong> &mdash; <code>user.email</code> is sent when authenticated via OAuth; configure your backend to filter if needed</li>
+          <li><strong>Network email check (v2.1.317)</strong> &mdash; Claude Code now asks before a web or shell tool call would send your account email address to the network (e.g. in a URL, header, or request body), so an automated client identifying itself with your address needs a conscious approval instead of happening silently</li>
         </ul>
       </div></div>
     </div>
