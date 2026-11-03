@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.74 — 2026-11-03
+
+**Claude Code v2.1.317 updates (CBP-738 to CBP-742)**
+
+- **CBP-738 — [Claude] OTel account attributes.** Added a note to the Metrics collapsible: metrics, events, and trace spans now also carry `anthropic.plan`, `anthropic.seat_type`, `anthropic.provider`, and `anthropic.custom_base_url` — segment any OTel view by plan tier, seat type, model provider, or custom base URL without a secondary join (v2.1.317).
+- **CBP-739 — [Claude] `CLAUDE_CODE_DISABLE_NESTED_SESSION_ID`.** Added a new env var table row: a nested `claude -p` run on a self-hosted runner now gets its own session ID and transcript by default; set this var to `1` to restore reusing the parent session's, matching behavior from before v2.1.317.
+- **CBP-740 — [Claude] `/schedule` connector warning.** Updated the `/schedule` cheat-sheet row: it now warns when a new scheduled task would get connectors you did not ask for, and tells you how to remove them before the task starts running unattended (v2.1.317).
+- **CBP-741 — [Claude] Network email check.** Added a bullet to the Privacy & Security list, next to the existing OAuth-email bullet: Claude Code now asks before a web or shell tool call would send your account email address to the network (v2.1.317).
+- **CBP-742 — [Claude] Per-model subagent effort.** Updated the Agent-tool-effort bullet in the Cost Optimization Checklist: a subagent or teammate running on a different model than the main conversation now uses that model's own saved `/effort` level instead of inheriting the session's effort (v2.1.317).
+
 ### v4.1.73 — 2026-10-31
 
 **Claude Code v2.1.316 updates (CBP-735 to CBP-737)**

@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.74 <span class="changelog-date">· 2026-11-03</span></h3>
+        <p><strong>Claude Code v2.1.317 updates (CBP-738 to CBP-742).</strong></p>
+        <ul>
+          <li><strong>CBP-738 — [Claude] OTel account attributes.</strong> Added a note to the Metrics collapsible: metrics, events, and trace spans now also carry <code>anthropic.plan</code>, <code>anthropic.seat_type</code>, <code>anthropic.provider</code>, and <code>anthropic.custom_base_url</code> (v2.1.317).</li>
+          <li><strong>CBP-739 — [Claude] <code>CLAUDE_CODE_DISABLE_NESTED_SESSION_ID</code>.</strong> Added a new env var table row: a nested <code>claude -p</code> run on a self-hosted runner now gets its own session ID and transcript by default; set this var to <code>1</code> to restore reusing the parent session's (v2.1.317).</li>
+          <li><strong>CBP-740 — [Claude] <code>/schedule</code> connector warning.</strong> Updated the <code>/schedule</code> cheat-sheet row: it now warns when a new scheduled task would get connectors you did not ask for, and how to remove them (v2.1.317).</li>
+          <li><strong>CBP-741 — [Claude] Network email check.</strong> Added a bullet to the Privacy &amp; Security list: Claude Code now asks before a web or shell tool call would send your account email address to the network (v2.1.317).</li>
+          <li><strong>CBP-742 — [Claude] Per-model subagent effort.</strong> Updated the Agent-tool-effort bullet: a subagent or teammate on a different model than the main conversation now uses that model's own saved <code>/effort</code> level instead of inheriting the session's effort (v2.1.317).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.73 <span class="changelog-date">· 2026-10-31</span></h3>
         <p><strong>Claude Code v2.1.316 updates (CBP-735 to CBP-737).</strong></p>
         <ul>
