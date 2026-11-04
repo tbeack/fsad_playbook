@@ -762,3 +762,7 @@
 - [x] `CBP-740` [Claude] Update `/schedule` row — warns on unexpected connectors (v2.1.317) → [task-cbp-740.md](task-cbp-740.md)
 - [x] `CBP-741` [Claude] Add network email-exfil check to Privacy & Security list (v2.1.317) → [task-cbp-741.md](task-cbp-741.md)
 - [x] `CBP-742` [Claude] Subagents/teammates on a different model use that model's saved effort (v2.1.317) → [task-cbp-742.md](task-cbp-742.md)
+
+- [x] `CBP-743` [Claude] Extend `deniedMcpServers` note — also blocks matching Anthropic servers and connectors (v2.1.318) → [task-cbp-743.md](task-cbp-743.md)
+- [x] `CBP-744` [Claude] Document auto-backgrounded subagent shell commands protecting prompt cache (v2.1.318) → [task-cbp-744.md](task-cbp-744.md)
+- [x] `CBP-745` [Claude] Update `/claude-api managed-agents-onboard` row — default `auto` permission policy (v2.1.318) → [task-cbp-745.md](task-cbp-745.md)

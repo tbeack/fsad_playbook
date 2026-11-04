@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.75 <span class="changelog-date">· 2026-11-04</span></h3>
+        <p><strong>Claude Code v2.1.318 updates (CBP-743 to CBP-745).</strong></p>
+        <ul>
+          <li><strong>CBP-743 — [Claude] <code>deniedMcpServers</code> URL matching.</strong> Extended the <code>managedMcpServers</code>/<code>deniedMcpServers</code> bullet: a <code>deniedMcpServers</code> URL entry now also blocks a matching Anthropic-provided server and connectors in cloud sessions and on self-hosted runners; deny a connector by name when you don't have its URL (v2.1.318).</li>
+          <li><strong>CBP-744 — [Claude] Auto-backgrounded subagent shell commands.</strong> Added a row to the Prompt Caching TTL configuration table: a background subagent's long shell command now moves to the background after 3 minutes on all providers, so the wait doesn't expire the subagent's own prompt cache (v2.1.318).</li>
+          <li><strong>CBP-745 — [Claude] <code>managed-agents-onboard</code> default permission policy.</strong> Updated the <code>/claude-api managed-agents-onboard</code> cheat-sheet row: a new agent's built-in tools and a quickstart template's MCP tools now default to the <code>auto</code> permission policy ("Judge risky actions"), matching the Claude Console (v2.1.318).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.74 <span class="changelog-date">· 2026-11-03</span></h3>
         <p><strong>Claude Code v2.1.317 updates (CBP-738 to CBP-742).</strong></p>
         <ul>

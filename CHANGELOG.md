@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.75 — 2026-11-04
+
+**Claude Code v2.1.318 updates (CBP-743 to CBP-745)**
+
+- **CBP-743 — [Claude] `deniedMcpServers` URL matching.** Extended the `managedMcpServers`/`deniedMcpServers` bullet in the enterprise managed settings list: a `deniedMcpServers` URL entry now also blocks any Anthropic-provided server whose upstream URL matches it, plus connectors in cloud sessions and on self-hosted runners (where the session is given the connector's own URL) — deny a connector by name instead when you don't have its URL (v2.1.318).
+- **CBP-744 — [Claude] Auto-backgrounded subagent shell commands.** Added a new row to the Prompt Caching & KV Cache TTL configuration table: a background subagent's long-running shell command now moves to the background after 3 minutes on all providers, so the wait doesn't let the subagent's own prompt cache expire mid-command (v2.1.318).
+- **CBP-745 — [Claude] `managed-agents-onboard` default permission policy.** Updated the `/claude-api managed-agents-onboard` cheat-sheet row: a new agent's built-in tools, and a quickstart template's MCP tools, now default to the `auto` permission policy ("Judge risky actions"), matching the Claude Console; say "run without asking" to opt out (v2.1.318).
+
 ### v4.1.74 — 2026-11-03
 
 **Claude Code v2.1.317 updates (CBP-738 to CBP-742)**
