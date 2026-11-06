@@ -772,3 +772,6 @@
 - [x] `CBP-748` [Codex] Update GCP Vertex AI provider row — setup wizard under "Sign in another way" (rust-v0.167.0) → [task-cbp-748.md](task-cbp-748.md)
 - [x] `CBP-749` [Codex] Add cross-backend session switching note to Session Management section (rust-v0.167.0) → [task-cbp-749.md](task-cbp-749.md)
 - [x] `CBP-750` [Codex] Add local image attachment preview tip to keyboard shortcuts table (rust-v0.167.0) → [task-cbp-750.md](task-cbp-750.md)
+
+- [x] `CBP-751` [Codex] Add system proxy opt-in note via `/experimental` panel (rust-v0.167.0) → [task-cbp-751.md](task-cbp-751.md)
+- [x] `CBP-752` [Codex] Add expand patch details during approval prompt callout (rust-v0.167.0) → [task-cbp-752.md](task-cbp-752.md)

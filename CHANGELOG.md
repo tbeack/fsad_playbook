@@ -1,5 +1,12 @@
 ## Changes in This Version
 
+### v4.1.77 — 2026-11-06
+
+**Codex CLI rust-v0.167.0 updates continued (CBP-751 to CBP-752)**
+
+- **CBP-751 — [Codex] System proxy opt-in via `/experimental`.** Added a note after the environment variables table: macOS and Windows users can opt into native OS proxy settings from the `/experimental` panel inside the TUI (rust-v0.167.0).
+- **CBP-752 — [Codex] Expand patch details during approval.** Added a callout to the Permission Profiles collapsible: users can now expand patch details in the transcript while an approval prompt is open, reviewing the exact diff before approving or denying (rust-v0.167.0).
+
 ### v4.1.76 — 2026-11-06
 
 **Codex rust-v0.167.0 updates (CBP-746 to CBP-750)**

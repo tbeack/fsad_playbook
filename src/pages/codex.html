@@ -1108,6 +1108,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
         </tbody>
       </table>
     </div>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem;"><strong>System proxy (macOS/Windows, rust-v0.167.0):</strong> Enable native OS proxy settings from the <code>/experimental</code> panel inside the TUI — Codex uses the system-level proxy configured in macOS or Windows instead of requiring manual env var overrides.</p>
   </section>
 
 <hr class="divider">
@@ -1427,6 +1428,10 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
         <div class="callout callout-tip" style="margin-top:1rem;">
           <div class="callout-title">Terminal input approval by default (rust-v0.158.0)</div>
           <p>Terminal input approval is now enabled by default for commands running with elevated permissions — Codex prompts before sending stdin to a command that has been granted elevated access. Runtime-only permission grants no longer trigger unnecessary approval prompts.</p>
+        </div>
+        <div class="callout callout-tip" style="margin-top:1rem;">
+          <div class="callout-title">Expand patch details during approval (rust-v0.167.0)</div>
+          <p>While an approval prompt is open, expand patch details directly in the transcript to review the exact diff before approving or denying. No need to close the prompt to inspect changes.</p>
         </div>
         <div class="callout callout-tip" style="margin-top:1rem;">
           <div class="callout-title">Enterprise: requirements.toml</div>
