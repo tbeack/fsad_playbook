@@ -766,3 +766,9 @@
 - [x] `CBP-743` [Claude] Extend `deniedMcpServers` note — also blocks matching Anthropic servers and connectors (v2.1.318) → [task-cbp-743.md](task-cbp-743.md)
 - [x] `CBP-744` [Claude] Document auto-backgrounded subagent shell commands protecting prompt cache (v2.1.318) → [task-cbp-744.md](task-cbp-744.md)
 - [x] `CBP-745` [Claude] Update `/claude-api managed-agents-onboard` row — default `auto` permission policy (v2.1.318) → [task-cbp-745.md](task-cbp-745.md)
+
+- [x] `CBP-746` [Codex] Update `Ctrl+L` keyboard shortcut row — clears terminal display, earlier history via `Ctrl+T` (rust-v0.167.0) → [task-cbp-746.md](task-cbp-746.md)
+- [x] `CBP-747` [Codex] Update `codex agents` row and agent management paragraph — `--no-daemon` flag and unread results marking (rust-v0.167.0) → [task-cbp-747.md](task-cbp-747.md)
+- [x] `CBP-748` [Codex] Update GCP Vertex AI provider row — setup wizard under "Sign in another way" (rust-v0.167.0) → [task-cbp-748.md](task-cbp-748.md)
+- [x] `CBP-749` [Codex] Add cross-backend session switching note to Session Management section (rust-v0.167.0) → [task-cbp-749.md](task-cbp-749.md)
+- [x] `CBP-750` [Codex] Add local image attachment preview tip to keyboard shortcuts table (rust-v0.167.0) → [task-cbp-750.md](task-cbp-750.md)
