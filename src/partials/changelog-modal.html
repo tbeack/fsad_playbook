@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.76 <span class="changelog-date">· 2026-11-06</span></h3>
+        <p><strong>Codex rust-v0.167.0 updates (CBP-746 to CBP-750).</strong></p>
+        <ul>
+          <li><strong>CBP-746 — [Codex] <code>Ctrl+L</code> behavior update.</strong> Updated the <code>Ctrl+L</code> keyboard shortcut row: it now clears the terminal display while keeping earlier messages accessible via <code>Ctrl+T</code>. Added a new <code>Ctrl+T</code> row to the shortcuts table (rust-v0.167.0).</li>
+          <li><strong>CBP-747 — [Codex] <code>codex agents --no-daemon</code> and unread results.</strong> Updated the <code>codex agents</code> CLI row and the agent management paragraph: pass <code>--no-daemon</code> to open the command center without starting a background daemon; both the command center and session picker now mark unread results (rust-v0.167.0).</li>
+          <li><strong>CBP-748 — [Codex] GCP Vertex AI setup wizard.</strong> Updated the Google Cloud Vertex AI provider row: enable <code>gcp_setup_wizard</code> to run a guided setup from the TUI under "Sign in another way" — supports Application Default Credentials or a credential file (rust-v0.167.0).</li>
+          <li><strong>CBP-749 — [Codex] Cross-backend session switching.</strong> Added a note to the Session Management collapsible: as of rust-v0.167.0, you can switch between connected backends from the terminal session picker without losing drafts (rust-v0.167.0).</li>
+          <li><strong>CBP-750 — [Codex] Local image attachment preview.</strong> Added a new row to the keyboard shortcuts table: paste or drag a local image into the composer to preview it inline on supported terminals; viewed image paths appear as clickable links in the transcript (rust-v0.167.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.75 <span class="changelog-date">· 2026-11-04</span></h3>
         <p><strong>Claude Code v2.1.318 updates (CBP-743 to CBP-745).</strong></p>
         <ul>

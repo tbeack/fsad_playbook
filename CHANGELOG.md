@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.76 — 2026-11-06
+
+**Codex rust-v0.167.0 updates (CBP-746 to CBP-750)**
+
+- **CBP-746 — [Codex] `Ctrl+L` behavior update.** Updated the `Ctrl+L` keyboard shortcut row to describe the new behavior: it clears the terminal display while keeping earlier messages accessible via `Ctrl+T`. Added a new `Ctrl+T` row immediately below (rust-v0.167.0).
+- **CBP-747 — [Codex] `codex agents --no-daemon` and unread results.** Updated the `codex agents` CLI table row and the agent management paragraph: pass `--no-daemon` to open the command center without starting a background daemon; both the command center and the session picker now mark unread results so you can spot new activity at a glance (rust-v0.167.0).
+- **CBP-748 — [Codex] GCP Vertex AI setup wizard.** Updated the Google Cloud Vertex AI row in the Multi-Provider Models table: enable `gcp_setup_wizard` to run a guided setup from the TUI under "Sign in another way" — supports Application Default Credentials or a credential file (rust-v0.167.0).
+- **CBP-749 — [Codex] Cross-backend session switching.** Added a sentence to the Session Management collapsible: as of rust-v0.167.0, you can switch between connected backends from the terminal session picker without losing drafts (rust-v0.167.0).
+- **CBP-750 — [Codex] Local image attachment preview.** Added a new "Image attach" row to the keyboard shortcuts table: paste or drag a local image into the composer to preview it inline on supported terminals; viewed image paths appear as clickable links in the transcript (rust-v0.167.0).
+
 ### v4.1.75 — 2026-11-04
 
 **Claude Code v2.1.318 updates (CBP-743 to CBP-745)**
