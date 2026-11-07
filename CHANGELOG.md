@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.78 — 2026-11-07
+
+**Claude Code v2.1.319 updates (CBP-753 to CBP-757)**
+
+- **CBP-753 — [Claude] `permissions.denyInsteadOfPrompting` setting.** Added a bullet to the Notable `settings.json` Keys callout: a tool call that would otherwise wait on a permission prompt is denied outright and the turn continues, in terminal sessions, subagents, and teammates (v2.1.319).
+- **CBP-754 — [Claude] `CLAUDE_CODE_DISABLE_FEATURE_FLAGS` env var.** Added a row to the environment variables table: stops feature-flag fetching without turning off telemetry, so every flag falls back to its built-in default (v2.1.319).
+- **CBP-755 — [Claude] MCP tasks move to the background immediately.** Added a row to the environment variables table next to `CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS`: when an MCP server runs a tool call as a task, Claude Code now backgrounds it right away instead of waiting on the elapsed-time timeout; `CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND` opts out (v2.1.319).
+- **CBP-756 — [Claude] Self-paced `/loop` ends when idle.** Added a callout to the `/loop` collapsible: a self-paced (dynamic) loop now ends when a turn finishes without rescheduling itself, instead of always scheduling a fallback wakeup; `CLAUDE_CODE_LOOP_KEEPALIVE=1` restores the previous behavior (v2.1.319).
+- **CBP-757 — [Claude] `/tasks` "Earlier in this session" row.** Updated the `/tasks` cheat-sheet row: an "Earlier in this session" row now lists finished subagents, reopenable even after they leave the main list or the session restarts (v2.1.319).
+
 ### v4.1.77 — 2026-11-06
 
 **Codex CLI rust-v0.167.0 updates continued (CBP-751 to CBP-752)**

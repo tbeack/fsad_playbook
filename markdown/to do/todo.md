@@ -775,3 +775,9 @@
 
 - [x] `CBP-751` [Codex] Add system proxy opt-in note via `/experimental` panel (rust-v0.167.0) → [task-cbp-751.md](task-cbp-751.md)
 - [x] `CBP-752` [Codex] Add expand patch details during approval prompt callout (rust-v0.167.0) → [task-cbp-752.md](task-cbp-752.md)
+
+- [x] `CBP-753` [Claude] Add `permissions.denyInsteadOfPrompting` setting (v2.1.319) → [task-cbp-753.md](task-cbp-753.md)
+- [x] `CBP-754` [Claude] Add `CLAUDE_CODE_DISABLE_FEATURE_FLAGS` env var (v2.1.319) → [task-cbp-754.md](task-cbp-754.md)
+- [x] `CBP-755` [Claude] Document MCP tasks background support + `CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND` env var (v2.1.319) → [task-cbp-755.md](task-cbp-755.md)
+- [x] `CBP-756` [Claude] Update `/loop` — self-paced loop ends by default instead of rescheduling (v2.1.319) → [task-cbp-756.md](task-cbp-756.md)
+- [x] `CBP-757` [Claude] Update `/tasks` row — "Earlier in this session" row for finished subagents (v2.1.319) → [task-cbp-757.md](task-cbp-757.md)
