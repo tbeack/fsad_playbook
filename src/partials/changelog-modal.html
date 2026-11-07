@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.78 <span class="changelog-date">· 2026-11-07</span></h3>
+        <p><strong>Claude Code v2.1.319 updates (CBP-753 to CBP-757).</strong></p>
+        <ul>
+          <li><strong>CBP-753 — [Claude] <code>permissions.denyInsteadOfPrompting</code> setting.</strong> Added a bullet to the Notable <code>settings.json</code> Keys callout: a tool call that would otherwise wait on a permission prompt is denied outright and the turn continues, in terminal sessions, subagents, and teammates (v2.1.319).</li>
+          <li><strong>CBP-754 — [Claude] <code>CLAUDE_CODE_DISABLE_FEATURE_FLAGS</code> env var.</strong> Added a row to the environment variables table: stops feature-flag fetching without turning off telemetry, so every flag falls back to its built-in default (v2.1.319).</li>
+          <li><strong>CBP-755 — [Claude] MCP tasks move to the background immediately.</strong> Added a row to the environment variables table next to <code>CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS</code>: when an MCP server runs a tool call as a task, Claude Code now backgrounds it right away instead of waiting on the elapsed-time timeout; <code>CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND</code> opts out (v2.1.319).</li>
+          <li><strong>CBP-756 — [Claude] Self-paced <code>/loop</code> ends when idle.</strong> Added a callout to the <code>/loop</code> collapsible: a self-paced (dynamic) loop now ends when a turn finishes without rescheduling itself, instead of always scheduling a fallback wakeup; <code>CLAUDE_CODE_LOOP_KEEPALIVE=1</code> restores the previous behavior (v2.1.319).</li>
+          <li><strong>CBP-757 — [Claude] <code>/tasks</code> "Earlier in this session" row.</strong> Updated the <code>/tasks</code> cheat-sheet row: an "Earlier in this session" row now lists finished subagents, reopenable even after they leave the main list or the session restarts (v2.1.319).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.77 <span class="changelog-date">· 2026-11-06</span></h3>
         <p><strong>Codex CLI rust-v0.167.0 updates continued (CBP-751 to CBP-752).</strong> Two additional Codex features: system proxy opt-in via the TUI and inline patch review during approval prompts.</p>
         <ul>
