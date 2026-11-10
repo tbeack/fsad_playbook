@@ -1593,7 +1593,7 @@ smoke tests against the staging URL."</code></pre>
         <thead>
           <tr>
             <th>Capability</th>
-            <th>Fable 5.1 <span style="font-size:0.7em; font-weight:500; color:var(--accent); vertical-align:middle;">New</span></th>
+            <th>Fable 5.2 <span style="font-size:0.7em; font-weight:500; color:var(--accent); vertical-align:middle;">New</span></th>
             <th>Opus 5.5 <span style="font-size:0.7em; font-weight:500; color:var(--accent); vertical-align:middle;">New</span></th>
             <th>Opus 5</th>
             <th>Opus 4.8</th>
@@ -1604,14 +1604,14 @@ smoke tests against the staging URL."</code></pre>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Positioning</td><td>Mythos-class — most capable model ever made generally available; 5.1 is now the default Fable model (v2.1.257)</td><td>New default Opus model — 1M context; now default <code>opus</code> alias (v2.1.280)</td><td>Previous default Opus — superseded by Opus 5.5 (v2.1.280)</td><td>Frontier reasoning, agentic coding, long-horizon autonomy</td><td>New default Sonnet model on the Anthropic API — 1M context (v2.1.284)</td><td>Previous default Sonnet on the API — superseded by Sonnet 5.5 (v2.1.284)</td><td>Fast, near-frontier</td></tr>
-          <tr><td>API ID</td><td><code>claude-fable-5-1</code></td><td><code>claude-opus-5-5</code></td><td><code>claude-opus-5</code></td><td><code>claude-opus-4-8</code></td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-5-5</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5</code></td></tr>
-          <tr><td>Input / Output (per MTok)</td><td>$10 / $50, $0.25/Mtok cache reads</td><td>$4 / $20, $0.20/Mtok cache reads</td><td>$10 / $50 (fast mode)</td><td>$5 / $25</td><td>$5 / $25</td><td>$2 / $10, $0.10/Mtok cache reads</td><td>$3 / $15</td><td>$1 / $5</td></tr>
+          <tr><td>Positioning</td><td>Mythos-class — most capable model ever made generally available; 5.2 is now the default Fable model, superseding Fable 5.1 (v2.1.321)</td><td>New default Opus model — 1M context; now default <code>opus</code> alias (v2.1.280)</td><td>Previous default Opus — superseded by Opus 5.5 (v2.1.280)</td><td>Frontier reasoning, agentic coding, long-horizon autonomy</td><td>New default Sonnet model on the Anthropic API — 1M context (v2.1.284)</td><td>Previous default Sonnet on the API — superseded by Sonnet 5.5 (v2.1.284)</td><td>Fast, near-frontier</td></tr>
+          <tr><td>API ID</td><td><code>claude-fable-5-2</code></td><td><code>claude-opus-5-5</code></td><td><code>claude-opus-5</code></td><td><code>claude-opus-4-8</code></td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-5-5</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5</code></td></tr>
+          <tr><td>Input / Output (per MTok)</td><td>$8 / $40, $0.20/Mtok cache reads</td><td>$4 / $20, $0.20/Mtok cache reads</td><td>$10 / $50 (fast mode)</td><td>$5 / $25</td><td>$5 / $25</td><td>$2 / $10, $0.10/Mtok cache reads</td><td>$3 / $15</td><td>$1 / $5</td></tr>
           <tr><td>Context window</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>200K tokens</td></tr>
           <tr><td>Max output</td><td>See docs</td><td>See docs</td><td>See docs</td><td>128K</td><td>128K</td><td>See docs</td><td>64K</td><td>64K</td></tr>
           <tr><td>Adaptive thinking</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes (default <code>high</code>)</td><td>Yes (default <code>xhigh</code>)</td><td>Yes</td><td>Yes</td><td>No (extended thinking only)</td></tr>
           <tr><td>Relative latency</td><td>See docs</td><td>See docs</td><td>See docs</td><td>Moderate</td><td>Moderate</td><td>See docs</td><td>Fast</td><td>Fastest</td></tr>
-          <tr><td>Best for</td><td>Highest-stakes reasoning, frontier capability tasks, architecture, RCA</td><td>Complex reasoning, architecture, gnarly bugs — when Fable 5.1 is over-budget</td><td>Complex reasoning, architecture, gnarly bugs — when Opus 5.5 is unavailable</td><td>Long-horizon agentic coding, multi-day projects, computer-use, architecture</td><td>Long-horizon agentic coding, large refactors, architecture, RCA</td><td>80%+ of day-to-day coding, tests, tool use</td><td>80%+ of day-to-day coding, tests, tool use — when Sonnet 5.5 is unavailable</td><td>Sub-agent work, batch reviews, mechanical edits</td></tr>
+          <tr><td>Best for</td><td>Highest-stakes reasoning, frontier capability tasks, architecture, RCA</td><td>Complex reasoning, architecture, gnarly bugs — when Fable 5.2 is over-budget</td><td>Complex reasoning, architecture, gnarly bugs — when Opus 5.5 is unavailable</td><td>Long-horizon agentic coding, multi-day projects, computer-use, architecture</td><td>Long-horizon agentic coding, large refactors, architecture, RCA</td><td>80%+ of day-to-day coding, tests, tool use</td><td>80%+ of day-to-day coding, tests, tool use — when Sonnet 5.5 is unavailable</td><td>Sub-agent work, batch reviews, mechanical edits</td></tr>
         </tbody>
       </table>
     </div>
@@ -1622,7 +1622,7 @@ smoke tests against the staging URL."</code></pre>
         <thead><tr><th>Alias</th><th>Resolves to</th><th>When to use</th></tr></thead>
         <tbody>
           <tr><td><code>default</code></td><td>Tier-dependent — Opus on Max, Team Premium, Pro, Team Std, and Enterprise (changed in v2.1.280: Pro and Team Std moved from Sonnet 5 to Opus, matching Max, Team Premium, and Enterprise); API → Sonnet 5.5 (changed in v2.1.284, was Sonnet 5); Bedrock / Vertex / Foundry → Opus 4.8</td><td>Daily driver if unsure</td></tr>
-          <tr><td><code>fable</code></td><td>Claude Fable 5.1 (<code>claude-fable-5-1</code>) — Mythos-class frontier model, now the default Fable model as of v2.1.257 (supersedes Fable 5, v2.1.170+). Includes 1M context by default — <code>fable[1m]</code> suffix is redundant and stripped automatically (v2.1.173)</td><td>Highest-stakes reasoning, frontier capability tasks</td></tr>
+          <tr><td><code>fable</code></td><td>Claude Fable 5.2 (<code>claude-fable-5-2</code>) — Mythos-class frontier model, now the default Fable model as of v2.1.321 (supersedes Fable 5.1, v2.1.257+). $8/$40 per MTok, $0.20/Mtok cache reads. Includes 1M context by default — <code>fable[1m]</code> suffix is redundant and stripped automatically (v2.1.173). As of v2.1.321, a saved Fable 5.1 pick moves to <code>fable</code> automatically — on Pro and Max plans at once, on Team and Enterprise plans once your organization allows it; use <code>/model claude-fable-5-1</code> to switch back</td><td>Highest-stakes reasoning, frontier capability tasks</td></tr>
           <tr><td><code>best</code> / <code>opus</code></td><td>Claude Opus 5.5 (<code>claude-opus-5-5</code>) — now the default Opus model (v2.1.280). 1M context window; $4/$20 per MTok, $0.20/Mtok cache reads. Previously resolved to Opus 5 (<code>claude-opus-5</code>).</td><td>Complex reasoning, architecture, gnarly bugs</td></tr>
           <tr><td><code>sonnet</code></td><td>Claude Sonnet 5.5 (<code>claude-sonnet-5-5</code>) — now the default Sonnet model on the Anthropic API (v2.1.284). 1M context window; $2/$10 per MTok, $0.10/Mtok cache reads (reduced from $0.20 in v2.1.296). Previously resolved to Sonnet 5. (4.5 on Bedrock / Vertex / Foundry)</td><td>80%+ of coding tasks; daily driver</td></tr>
           <tr><td><code>haiku</code></td><td>Claude Haiku 5.5 (<code>claude-haiku-5-5</code>) &mdash; now the default Haiku model on the Anthropic API (v2.1.293). 1M context window; $0.10/$0.50 per MTok</td><td>Cheap sub-agent / background work</td></tr>
@@ -1661,7 +1661,7 @@ smoke tests against the staging URL."</code></pre>
 <span class="kw">claude</span> <span class="val">--effort</span> max   <span class="cm"># Set via CLI flag</span>
 
 <span class="cm"># Type "ultrathink" directly in a prompt to run that turn at xhigh effort — on Opus 5.5, Sonnet 5.5,</span>
-<span class="cm"># Haiku 5.5, and Fable 5.1 via Anthropic's API. Typed while Claude is already working, it raises the</span>
+<span class="cm"># Haiku 5.5, and Fable 5.2 via Anthropic's API. Typed while Claude is already working, it raises the</span>
 <span class="cm"># rest of the current turn's effort instead of waiting for the next turn (v2.1.311)</span>
 ultrathink, then refactor this module
 
@@ -1706,6 +1706,7 @@ ultrathink, then refactor this module
     <div class="callout callout-warning" style="margin-top:0.75rem;">
       <div class="callout-title">Key Dates (Apr–Jul 2026)</div>
       <ul style="padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.8;">
+        <li><strong>November 10, 2026</strong> — <strong>Claude Fable 5.2 released</strong> (<code>claude-fable-5-2</code>). Now the default Fable model, superseding Fable 5.1. 1M context; $8/$40 per MTok, $0.20/Mtok cache reads. Requires Claude Code v2.1.321+.</li>
         <li><strong>October 30, 2026</strong> — <strong>Fast mode deprecated for Opus 4.8</strong>; scheduled for removal November 30, 2026. After removal, fast-mode requests on Opus 4.8 return an error instead of falling back to standard Opus 4.8 — migrate to Opus 5.5 to keep the speedup.</li>
         <li><strong>September 29, 2026</strong> — <strong>Claude Sonnet 5.5 released</strong> (<code>claude-sonnet-5-5</code>). Now the default Sonnet model on the Anthropic API. 1M context; $2/$10 per MTok, $0.10/Mtok cache reads (reduced from $0.20 in v2.1.296). Requires Claude Code v2.1.284+.</li>
         <li><strong>September 22, 2026</strong> — <strong>Claude Opus 5.5 released</strong> (<code>claude-opus-5-5</code>). Now the default <code>opus</code> alias target. 1M context; $4/$20 per MTok, $0.20/Mtok cache reads. Requires Claude Code v2.1.280+.</li>
@@ -1823,7 +1824,7 @@ ultrathink, then refactor this module
           <tr><td><code>/model</code></td><td>Select or change AI model — selection is saved as the default for new sessions. Press <code>s</code> in the picker to switch models for the current session only. Startup header shows when the active model comes from a project or managed-settings pin. When <code>ANTHROPIC_BASE_URL</code> points at a compatible gateway, set <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> to list gateway models in the picker (opt-in as of v2.1.129). Set <code>CLAUDE_CODE_GATEWAY_MODEL_DISCOVERY_TIMEOUT_MS</code> to extend the gateway's <code>/v1/models</code> discovery timeout beyond the 3-second default, for slower gateways (v2.1.269). As of v2.1.243, the picker no longer silently ignores an Ultracode selection — picking it now applies to the current session. On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/model</code> also now applies immediately instead of queueing until the turn ends.</td></tr>
           <tr><td><code>/advisor</code> <code>[model|off]</code></td><td>Choose an advisor model — a second model Claude consults for guidance during a task. With no args opens the picker dialog (also openable mid-turn in the fullscreen TUI, v2.1.234). As of v2.1.260, the text form <code>/advisor &lt;model&gt;</code> / <code>/advisor off</code> works in the desktop app, Remote Control and headless (<code>-p</code> / Agent SDK) sessions. As of v2.1.300, available on Claude Platform on AWS — no advisor runs until you pick one with <code>/advisor</code>, <code>advisorModel</code>, or <code>--advisor</code>; set <code>CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1</code> to disable the advisor tool entirely.</td></tr>
           <tr><td><code>/effort</code> <code>[level]</code></td><td>Set effort level: <code>low</code> | <code>medium</code> | <code>high</code> | <code>xhigh</code> (Opus 4.7 / 4.8) | <code>max</code>. Call with no args for interactive slider. Default: <code>high</code> for Opus 4.8 (all surfaces) and Pro/Max on Sonnet 4.6 / Opus 4.7 / 4.6; <code>medium</code> for all other tiers/models. Confirms when the chosen level will persist as the default for new sessions (v2.1.162). On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/effort</code> now applies immediately instead of queueing until the turn ends (v2.1.243). As of v2.1.251, <code>/effort</code> saves your default effort level per model, so each model keeps its own setting when you switch. As of v2.1.257, press <code>s</code> in the picker to change effort for the current session only, matching <code>/model</code>. As of v2.1.260, changing effort mid-session on Claude Fable 5.1 no longer invalidates the prompt cache.</td></tr>
-          <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output). On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/fast</code> now applies immediately instead of queueing until the turn ends (v2.1.243). Fast mode on Opus 4.8 is deprecated as of v2.1.316 and will be removed November 30, 2026, with no fallback to standard Opus 4.8 — migrate to Opus 5.5.</td></tr>
+          <tr><td><code>/fast</code> <code>[on|off]</code></td><td>Toggle fast mode (same model, faster output). On Bedrock, Vertex, Foundry, or with telemetry disabled, <code>/fast</code> now applies immediately instead of queueing until the turn ends (v2.1.243). Fast mode on Opus 4.8 is deprecated as of v2.1.316 and will be removed November 30, 2026, with no fallback to standard Opus 4.8 — migrate to Opus 5.5. As of v2.1.322, fast mode is also available on Google Vertex AI in the global, us, and eu regions, falling back to standard speed if Vertex refuses the fast-mode request.</td></tr>
           <tr><td><code>/plan</code> <code>[desc]</code></td><td>Enter plan mode with optional starting description</td></tr>
           <tr><td><code>/focus</code></td><td>Toggle focus view (hides system status lines for a cleaner reading experience)</td></tr>
           <tr><td><code>/permissions</code></td><td>View &amp; edit tool permissions (alias: <code>/allowed-tools</code>). As of v2.1.234 it can be opened while Claude is working — rule changes apply to the rest of the current turn, so you can widen or tighten a rule without interrupting a long run (v2.1.234). As of v2.1.246, an Auto mode tab lets you view and edit auto mode classifier rules from the same dialog, instead of editing them only via <code>settings.json</code>.</td></tr>
@@ -1889,6 +1890,7 @@ ultrathink, then refactor this module
         <tbody>
           <tr><td><code>/remote-control</code></td><td>Enable remote control from claude.ai (alias: <code>/rc</code>)</td></tr>
           <tr><td><code>claude remote-control --continue</code></td><td>Resume the most recent Remote Control session from the CLI (v2.1.229)</td></tr>
+          <tr><td><code>claude remote-control --settings &lt;file&gt;</code></td><td>Apply a settings file to every session <code>claude remote-control</code> starts; if the file changes, no new session starts until you restart <code>claude remote-control</code> (v2.1.321)</td></tr>
           <tr><td><code>/teleport</code></td><td>Pull web session into terminal (alias: <code>/tp</code>)</td></tr>
           <tr><td><code>/desktop</code></td><td>Continue in Claude Code Desktop app</td></tr>
           <tr><td><code>/mobile</code></td><td>Show QR code for mobile app (aliases: <code>/ios</code>, <code>/android</code>)</td></tr>
@@ -2478,6 +2480,7 @@ ultrathink, then refactor this module
           <li>[VS Code] Sessions inactive for a configurable period are automatically archived — the default is 14 days. Adjust via the "Archive inactive sessions" setting in the VS Code extension (v2.1.265)</li>
           <li>Fast mode now works in Claude Code Remote sessions (cloud and self-hosted runners): the host's fast-mode setting, or <code>/fast</code> typed in the session, applies where your organization allows it (v2.1.271)</li>
           <li>Sessions started with <code>claude --remote-control</code> or <code>/remote-control</code> can now be forked from the Claude app — the fork runs as a background session on your local machine, letting you branch off a parallel investigation without interrupting the main session (v2.1.273)</li>
+          <li>Pass <code>--settings &lt;file&gt;</code> to <code>claude remote-control</code> to apply that settings file to every session it starts; if the file changes, no new session starts until you restart <code>claude remote-control</code> (v2.1.321)</li>
         </ul>
       </div></div>
     </div>
@@ -3790,6 +3793,11 @@ export function register(on) {
         <div class="callout callout-warning" style="margin-top:0;">
           <div class="callout-title">Mods Are Not Sandboxed</div>
           <p>Install mods only from authors and marketplaces you trust. A mod runs with your permissions. It can read and write your files, read your secrets, see and rewrite your prompts and tool calls, approve a tool call before you are asked, and spend your usage. Processes a mod starts run outside the Bash sandbox. A mod cannot restyle the permission prompt.</p>
+        </div>
+
+        <div class="callout callout-warning" style="margin-top:0.75rem;">
+          <div class="callout-title">Mods Get Fewer Permission Prompts (v2.1.321)</div>
+          <p>As of v2.1.321, a mod Claude writes itself turns on without asking in auto and bypass permission modes — even under a managed <code>allowUnsandboxedCommands: false</code> or <code>allowManagedDomainsOnly</code> policy — and a mod's own tool calls (<code>$.tool.call</code>, <code>$.mcp.call</code>) raise no permission prompt at all, even under your own ask rules or in <code>dontAsk</code> and <code>-p</code> runs. Deny rules and organization policy still apply, and no mod loads automatically in <code>dontAsk</code> mode. Review a mod's <code>calls:</code> lines (see below) before trusting it with less friction than other tools get.</p>
         </div>
 
         <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0.5rem;"><strong>1. Review a mod before you install it:</strong></p>

@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.79 — 2026-11-10
+
+**Claude Code v2.1.321 / v2.1.322 updates (CBP-758 to CBP-761)**
+
+- **CBP-758 — [Claude] Claude Fable 5.2 released.** Updated the model lineup table, model aliases table, Key Dates callout, and the `ultrathink` comment: Fable 5.2 (`claude-fable-5-2`) is now the default Fable model, superseding Fable 5.1 — 1M context, $8/$40 per MTok, $0.20/Mtok cache reads. A saved Fable 5.1 pick moves to `fable` automatically (v2.1.321).
+- **CBP-759 — [Claude] `claude remote-control --settings`.** Added a cheat-sheet row and a Remote Control & Cross-Device bullet: `--settings <file>` applies a settings file to every session `claude remote-control` starts; changing the file takes effect on the next restart (v2.1.321).
+- **CBP-760 — [Claude] Fast mode on Vertex AI.** Updated the `/fast` cheat-sheet row: fast mode is now available on Google Vertex AI in the global, us, and eu regions, falling back to standard speed if Vertex refuses the request (v2.1.322).
+- **CBP-761 — [Claude] Mods get fewer permission prompts.** Added a callout to the Mods — Install, Trust, and Turn Off section: a mod Claude writes now turns on without asking in auto and bypass modes, and a mod's own tool calls raise no permission prompt, even under ask rules, `dontAsk`, or `-p` runs — deny rules and organization policy still apply (v2.1.321).
+
 ### v4.1.78 — 2026-11-07
 
 **Claude Code v2.1.319 updates (CBP-753 to CBP-757)**

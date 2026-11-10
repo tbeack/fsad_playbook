@@ -781,3 +781,8 @@
 - [x] `CBP-755` [Claude] Document MCP tasks background support + `CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND` env var (v2.1.319) → [task-cbp-755.md](task-cbp-755.md)
 - [x] `CBP-756` [Claude] Update `/loop` — self-paced loop ends by default instead of rescheduling (v2.1.319) → [task-cbp-756.md](task-cbp-756.md)
 - [x] `CBP-757` [Claude] Update `/tasks` row — "Earlier in this session" row for finished subagents (v2.1.319) → [task-cbp-757.md](task-cbp-757.md)
+
+- [x] `CBP-758` [Claude] Add Claude Fable 5.2 to the model catalog (v2.1.321) → [task-cbp-758.md](task-cbp-758.md)
+- [x] `CBP-759` [Claude] Add `claude remote-control --settings <file>` (v2.1.321) → [task-cbp-759.md](task-cbp-759.md)
+- [x] `CBP-760` [Claude] Fast mode now available on Google Vertex AI (v2.1.322) → [task-cbp-760.md](task-cbp-760.md)
+- [x] `CBP-761` [Claude] Mods get fewer permission prompts (v2.1.321) → [task-cbp-761.md](task-cbp-761.md)
