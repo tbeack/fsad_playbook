@@ -1,5 +1,11 @@
 ## Changes in This Version
 
+### v4.1.80 — 2026-11-12
+
+**Codex CLI rust-v0.167.2 update (CBP-762)**
+
+- **CBP-762 — [Codex] Incremental tool updates on Vertex AI.** Updated the Google Cloud Vertex AI row in the Multi-Provider Models table: Codex now sends tool updates incrementally by default on Vertex AI; set `incremental_tools_legacy_gcp = false` under `[features]` in `config.toml` to opt out (rust-v0.167.2).
+
 ### v4.1.79 — 2026-11-10
 
 **Claude Code v2.1.321 / v2.1.322 updates (CBP-758 to CBP-761)**
