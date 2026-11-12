@@ -786,3 +786,5 @@
 - [x] `CBP-759` [Claude] Add `claude remote-control --settings <file>` (v2.1.321) → [task-cbp-759.md](task-cbp-759.md)
 - [x] `CBP-760` [Claude] Fast mode now available on Google Vertex AI (v2.1.322) → [task-cbp-760.md](task-cbp-760.md)
 - [x] `CBP-761` [Claude] Mods get fewer permission prompts (v2.1.321) → [task-cbp-761.md](task-cbp-761.md)
+
+- [x] `CBP-762` [Codex] Update Google Cloud Vertex AI row — incremental tool updates on by default, opt out via `incremental_tools_legacy_gcp = false` (rust-v0.167.2) → [task-cbp-762.md](task-cbp-762.md)
