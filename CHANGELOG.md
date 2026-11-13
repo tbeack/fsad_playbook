@@ -1,5 +1,15 @@
 ## Changes in This Version
 
+### v4.1.82 — 2026-11-13
+
+**Codex CLI rust-v0.168.0 + rust-v0.169.0 updates (CBP-766 to CBP-770)**
+
+- **CBP-766 — [Codex] Terminal Workspace.** Added a new Terminal Workspace collapsible to Power Usage: enable `features.tui_workspace = true` in config.toml for a persistent side pane beside the main chat; use `leader z` to zoom the focused pane. As of rust-v0.169.0, the workspace supports multiple side-chat tabs with keyboard/mouse navigation and local tab persistence (rust-v0.168.0 + rust-v0.169.0).
+- **CBP-767 — [Codex] Agent command center task search.** Updated the `codex agents` table row and the Interactive dashboard paragraph: search older tasks by name, prompt preview, or working directory from the command center (rust-v0.169.0).
+- **CBP-768 — [Codex] Model provider browser and custom provider editing from TUI + `tui.notification_method`.** Added a note to the Multi-Provider Models section: browse providers and set the default under Sessions → Model providers (rust-v0.168.0); add or edit custom providers from the terminal with device-code gateway sign-in for SSH/headless environments (rust-v0.169.0). Added `tui.notification_method` to the config.toml table: set to `"osc777"` for OSC 777 terminal notifications (rust-v0.168.0).
+- **CBP-769 — [Codex] `codex exec / codex review --trust` in untrusted dirs.** Added a note to the CI/CD Integration section: in untrusted directories, project config and MCP servers stay disabled even with `--sandbox workspace-write`; add `--trust` to save project trust for the directory (rust-v0.169.0).
+- **CBP-770 — [Codex] Audio recording attachment.** Added a note to the Voice Conversations section: attach audio recordings when using an audio-capable model; Codex skips rejected recordings and uses clip duration to keep more short recordings in context (rust-v0.168.0).
+
 ### v4.1.81 — 2026-11-13
 
 **Claude Code v2.1.323 updates (CBP-763 to CBP-765)**
