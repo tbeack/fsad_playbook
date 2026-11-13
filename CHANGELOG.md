@@ -1,5 +1,13 @@
 ## Changes in This Version
 
+### v4.1.81 — 2026-11-13
+
+**Claude Code v2.1.323 updates (CBP-763 to CBP-765)**
+
+- **CBP-763 — [Claude] Code Mode.** Added a new collapsible to the Power Usage section: Code Mode is an experimental, opt-in execution mode in which Claude writes JavaScript to call its tools instead of making one tool call per turn; off by default, with an org-wide off switch (v2.1.323).
+- **CBP-764 — [Claude] `plugin.json` `engines["claude-code"]`.** Added a bullet to the Plugins collapsible: a plugin can declare a Claude Code semver version range it supports — outside that range it is not installed, updated, or loaded, and install/update now pick the newest version that fits (v2.1.323).
+- **CBP-765 — [Claude] Bash allow-rule wildcard-in-variable-value warning.** Added a bullet to the Notable `settings.json` Keys callout, next to the existing wildcard-before-subcommand warning: Claude Code now also warns at startup on a Bash allow rule with a wildcard inside a variable's value, such as `Bash(PORT=* npm run dev)` (v2.1.323).
+
 ### v4.1.80 — 2026-11-12
 
 **Codex CLI rust-v0.167.2 update (CBP-762)**
