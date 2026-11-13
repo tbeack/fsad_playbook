@@ -6,6 +6,17 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.82 <span class="changelog-date">· 2026-11-13</span></h3>
+        <p><strong>Codex CLI rust-v0.168.0 + rust-v0.169.0 updates (CBP-766 to CBP-770).</strong></p>
+        <ul>
+          <li><strong>CBP-766 — [Codex] Terminal Workspace.</strong> Added a new Terminal Workspace collapsible to Power Usage: enable <code>features.tui_workspace = true</code> in config.toml to get a persistent side pane beside the main chat. Use <code>leader z</code> to zoom the focused pane. As of rust-v0.169.0, the workspace supports multiple side-chat tabs with keyboard/mouse navigation and local tab persistence (rust-v0.168.0 + rust-v0.169.0).</li>
+          <li><strong>CBP-767 — [Codex] Agent command center task search.</strong> Updated the <code>codex agents</code> table row and the Interactive dashboard paragraph: as of rust-v0.169.0, search older tasks by name, prompt preview, or working directory from the command center.</li>
+          <li><strong>CBP-768 — [Codex] Model provider browser and custom provider editing from TUI.</strong> Added a note to the Multi-Provider Models section: browse providers and set the default for new chats under Sessions → Model providers (rust-v0.168.0); add or edit custom providers from the terminal with device-code gateway sign-in for SSH/headless environments (rust-v0.169.0). Added <code>tui.notification_method</code> row to the config.toml table: set to <code>"osc777"</code> for OSC 777 terminal notifications with longer approval previews (rust-v0.168.0).</li>
+          <li><strong>CBP-769 — [Codex] <code>codex exec / codex review --trust</code> in untrusted dirs.</strong> Added a note to the CI/CD Integration section: in untrusted directories, <code>codex exec</code> and <code>codex review</code> keep project configuration and MCP servers disabled even with <code>--sandbox workspace-write</code>; add <code>--trust</code> to save project trust for the directory (rust-v0.169.0).</li>
+          <li><strong>CBP-770 — [Codex] Audio recording attachment.</strong> Added a note to the Voice Conversations section: as of rust-v0.168.0, you can attach audio recordings when using an audio-capable model; Codex skips rejected recordings and uses clip duration to keep more short recordings in context.</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.81 <span class="changelog-date">· 2026-11-13</span></h3>
         <p><strong>Claude Code v2.1.323 updates (CBP-763 to CBP-765).</strong></p>
         <ul>

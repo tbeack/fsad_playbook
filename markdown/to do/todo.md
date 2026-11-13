@@ -792,3 +792,9 @@
 - [x] `CBP-763` [Claude] Add Code Mode collapsible to Power Usage (v2.1.323) → [task-cbp-763.md](task-cbp-763.md)
 - [x] `CBP-764` [Claude] Document `plugin.json` `engines["claude-code"]` version range (v2.1.323) → [task-cbp-764.md](task-cbp-764.md)
 - [x] `CBP-765` [Claude] Add Bash allow-rule wildcard-in-variable-value warning (v2.1.323) → [task-cbp-765.md](task-cbp-765.md)
+
+- [x] `CBP-766` [Codex] Add terminal workspace collapsible — `features.tui_workspace`, side pane, `leader z` zoom, multiple tabs (rust-v0.168.0 + rust-v0.169.0) → [task-cbp-766.md](task-cbp-766.md)
+- [x] `CBP-767` [Codex] Update `codex agents` row and Interactive dashboard paragraph — task search by name, prompt preview, working directory (rust-v0.169.0) → [task-cbp-767.md](task-cbp-767.md)
+- [x] `CBP-768` [Codex] Add model provider browser and custom provider editing from TUI, plus `tui.notification_method` config entry (rust-v0.168.0 + rust-v0.169.0) → [task-cbp-768.md](task-cbp-768.md)
+- [x] `CBP-769` [Codex] Add `codex exec / codex review --trust` note — untrusted dirs keep project config disabled even with `--sandbox workspace-write` (rust-v0.169.0) → [task-cbp-769.md](task-cbp-769.md)
+- [x] `CBP-770` [Codex] Add audio recording attachment note to Voice Conversations section (rust-v0.168.0) → [task-cbp-770.md](task-cbp-770.md)

@@ -1057,7 +1057,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>codex exec --cyber-access-program</code></td><td>Select a Cyber access program for one turn. The TypeScript SDK equivalent is the <code>cyberAccessProgram</code> option. The override works even with <code>cli_daybreak</code> disabled and leaves the saved choice unchanged (rust-v0.161.0).</td></tr>
           <tr><td><code>codex exec fork</code></td><td>Fork an existing session non-interactively from the CLI — branch a thread for scripted or automated follow-up work without opening the TUI (rust-v0.148.0).</td></tr>
           <tr><td><code>codex doctor</code></td><td>Run support-ready diagnostics across runtime, auth, terminal, network, config, storage, and local state. Added in v0.131.0; storage diagnostics added in rust-v0.148.0. Pass <code>--network-only</code> for focused configuration, connectivity, and WebSocket diagnostics (rust-v0.166.0).</td></tr>
-          <tr><td><code>codex agents</code></td><td>Open an interactive dashboard to search, start, open, rename, and stop tasks, with configurable shortcuts (rust-v0.149.0). As of rust-v0.167.0, pass <code>--no-daemon</code> to open the command center without starting a background daemon; the command center and session picker now mark unread results.</td></tr>
+          <tr><td><code>codex agents</code></td><td>Open an interactive dashboard to search, start, open, rename, and stop tasks, with configurable shortcuts (rust-v0.149.0). As of rust-v0.167.0, pass <code>--no-daemon</code> to open the command center without starting a background daemon; the command center and session picker now mark unread results. As of rust-v0.169.0, search older tasks by name, prompt preview, or working directory.</td></tr>
           <tr><td><code>codex queue</code></td><td>Send a message to an existing local or remote session without switching into it; reliably wakes idle sessions and resolves duplicate session names (rust-v0.149.0). Pass <code>--resume</code> to also resume an unloaded thread after queueing the message (rust-v0.166.0).</td></tr>
         </tbody>
       </table>
@@ -1085,6 +1085,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><code>[features].codex_hooks</code></td><td>Enable the hooks system</td><td><code>true</code></td></tr>
           <tr><td><code>tools.update_plan.enabled</code></td><td>Enable the model's internal planning tool (tracks/updates its own step-by-step plan during a task — distinct from the <code>/plan</code> slash command). Disabled by default as of rust-v0.152.0.</td><td><code>false</code></td></tr>
           <tr><td><code>tui.auto_recap</code></td><td>Set to <code>false</code> to disable automatic recaps between turns — the manual <code>/recap</code> command remains available regardless of this setting (rust-v0.153.0)</td><td><code>true</code></td></tr>
+          <tr><td><code>tui.notification_method</code></td><td>Terminal notification method. Set to <code>"osc777"</code> for OSC 777 notifications; approval notifications include longer command previews and distinguish terminal input from network access requests (rust-v0.168.0)</td><td>—</td></tr>
           <tr><td><code>instant_interrupt</code></td><td>Opt-in: new user input immediately steers Codex during model responses or long-running code-mode calls instead of waiting for the current turn to complete (rust-v0.159.0)</td><td><code>false</code></td></tr>
           <tr><td><code>features.cli_daybreak</code></td><td>Daybreak is enabled by default for eligible accounts as of rust-v0.163.0. Eligible accounts need a ChatGPT sign-in, the OpenAI provider, and model/program support. Set <code>features.cli_daybreak=false</code> to opt out. <code>codex exec</code> can also select Daybreak with an OpenAI API key when the server offers access. When disabled, controls and indicators are hidden, <code>/daybreak</code> is unavailable, and automatic Cyber routing is omitted even for saved Daybreak threads (rust-v0.161.0, default-on rust-v0.163.0)</td><td><code>true</code> (eligible accounts)</td></tr>
           <tr><td><code>[otel]</code></td><td>OpenTelemetry export config (exporter, endpoint, metrics)</td><td>—</td></tr>
@@ -1160,7 +1161,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
 <span class="val">rollout_token_budget</span> = 100000     <span class="cm"># abort turn when budget exceeded</span>
 <span class="val">rollout_budget_reminder_threshold</span> = 0.8  <span class="cm"># warn at 80% consumed</span></code></pre>
         </div>
-        <p style="margin-top:1rem;"><strong>Interactive dashboard (rust-v0.149.0):</strong> Run <code>codex agents</code> to open an interactive dashboard for day-to-day management of running agent tasks — search, start, open, rename, and stop tasks, with configurable keyboard shortcuts. This is distinct from the <code>[agents]</code> config.toml settings above, which govern concurrency and per-role behavior rather than task management. As of rust-v0.155.0, tasks in the dashboard can also be hidden, archived, and deleted. As of rust-v0.167.0, run <code>codex agents --no-daemon</code> to open the command center without starting a background daemon; both the command center and the session picker now mark unread results so you can spot new activity at a glance.</p>
+        <p style="margin-top:1rem;"><strong>Interactive dashboard (rust-v0.149.0):</strong> Run <code>codex agents</code> to open an interactive dashboard for day-to-day management of running agent tasks — search, start, open, rename, and stop tasks, with configurable keyboard shortcuts. This is distinct from the <code>[agents]</code> config.toml settings above, which govern concurrency and per-role behavior rather than task management. As of rust-v0.155.0, tasks in the dashboard can also be hidden, archived, and deleted. As of rust-v0.167.0, run <code>codex agents --no-daemon</code> to open the command center without starting a background daemon; both the command center and the session picker now mark unread results so you can spot new activity at a glance. As of rust-v0.169.0, search older tasks by name, prompt preview, or working directory.</p>
         <p style="margin-top:1rem;"><strong>Guardian review (opt-in, rust-v0.160.0):</strong> Enable Guardian to give Codex persistent review context across multi-agent sessions. When active, Codex retrieves your earlier instructions and includes context from agent handoffs, so sub-agents stay aligned with the original intent even after the conversation spans many turns or role transitions. Guardian is opt-in — enable it from session settings or via the config.</p>
       </div></div>
     </div>
@@ -1220,6 +1221,24 @@ codex --worktree
         </div>
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Press <kbd>F8</kbd> from any session to toggle voice without opening a new session.</p>
         <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);">As of rust-v0.161.0, you can also choose your microphone, speaker, and microphone input channels for voice conversations. Preferences are saved locally.</p>
+        <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);">As of rust-v0.168.0, you can attach audio recordings when using an audio-capable model. Codex skips recordings you have already rejected and uses clip duration to keep more short recordings in context.</p>
+      </div></div>
+    </div>
+
+    <!-- Terminal Workspace -->
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <h3>Terminal Workspace</h3>
+        <span class="collapsible-chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body"><div class="collapsible-content">
+        <p>As of rust-v0.168.0, you can enable an opt-in terminal workspace that places a persistent side pane beside the main chat. Enable it in <code>config.toml</code> with <code>features.tui_workspace = true</code>. Drag the divider to resize the panes, or press <kbd>leader z</kbd> to zoom the focused pane. As of rust-v0.169.0, the workspace supports multiple side-chat tabs. Switch between tabs with the keyboard or mouse, and saved local side chats reopen after a restart.</p>
+        <div class="code-block" style="margin-top:0.75rem;">
+          <pre><code><span class="cm"># ~/.codex/config.toml — enable the terminal workspace</span>
+<span class="kw">[features]</span>
+<span class="val">tui_workspace</span> = <span class="val">true</span></code></pre>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Use <kbd>leader z</kbd> to zoom the focused pane and hide the other. Press <kbd>leader z</kbd> again to restore the split view.</p>
       </div></div>
     </div>
 
@@ -1304,6 +1323,7 @@ codex queue &lt;session&gt; "message"
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
         <p>Use <code>codex exec</code> for headless execution in pipelines. Combine with <code>--json</code> for machine-readable output.</p>
+        <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);"><strong>Untrusted directories (rust-v0.169.0):</strong> In directories Codex does not trust, <code>codex exec</code> and <code>codex review</code> keep project configuration and MCP servers disabled, even when you pass <code>--sandbox workspace-write</code>. Add <code>--trust</code> to explicitly save project trust for that directory before running.</p>
         <div class="code-block" style="margin-top:1rem;">
           <pre><code><span class="cm"># Headless execution — no TUI, streams to stderr</span>
 codex exec "fix all lint errors and run tests"
@@ -1385,6 +1405,7 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
           <div class="callout-title">Profiles</div>
           <p>Use <code>--profile</code> to switch between configurations. Example: <code>codex --profile local</code> for Ollama, <code>codex --profile cloud</code> for OpenAI.</p>
         </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">As of rust-v0.168.0, browse all configured providers and set the default for new chats from the TUI under Sessions → Model providers. As of rust-v0.169.0, you can also add or edit custom model providers directly from the terminal. Gateway sign-in supports device-code authorization for SSH and headless environments where a local browser is not available.</p>
       </div></div>
     </div>
 
