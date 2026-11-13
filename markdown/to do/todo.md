@@ -788,3 +788,7 @@
 - [x] `CBP-761` [Claude] Mods get fewer permission prompts (v2.1.321) → [task-cbp-761.md](task-cbp-761.md)
 
 - [x] `CBP-762` [Codex] Update Google Cloud Vertex AI row — incremental tool updates on by default, opt out via `incremental_tools_legacy_gcp = false` (rust-v0.167.2) → [task-cbp-762.md](task-cbp-762.md)
+
+- [x] `CBP-763` [Claude] Add Code Mode collapsible to Power Usage (v2.1.323) → [task-cbp-763.md](task-cbp-763.md)
+- [x] `CBP-764` [Claude] Document `plugin.json` `engines["claude-code"]` version range (v2.1.323) → [task-cbp-764.md](task-cbp-764.md)
+- [x] `CBP-765` [Claude] Add Bash allow-rule wildcard-in-variable-value warning (v2.1.323) → [task-cbp-765.md](task-cbp-765.md)

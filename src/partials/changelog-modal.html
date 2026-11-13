@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.81 <span class="changelog-date">· 2026-11-13</span></h3>
+        <p><strong>Claude Code v2.1.323 updates (CBP-763 to CBP-765).</strong></p>
+        <ul>
+          <li><strong>CBP-763 — [Claude] Code Mode.</strong> Added a new collapsible to the Power Usage section: Code Mode is an experimental, opt-in execution mode in which Claude writes JavaScript to call its tools instead of making one tool call per turn; off by default, with an org-wide off switch (v2.1.323).</li>
+          <li><strong>CBP-764 — [Claude] <code>plugin.json</code> <code>engines["claude-code"]</code>.</strong> Added a bullet to the Plugins collapsible: a plugin can declare a Claude Code semver version range it supports — outside that range it is not installed, updated, or loaded, and install/update now pick the newest version that fits (v2.1.323).</li>
+          <li><strong>CBP-765 — [Claude] Bash allow-rule wildcard-in-variable-value warning.</strong> Added a bullet to the Notable <code>settings.json</code> Keys callout, next to the existing wildcard-before-subcommand warning: Claude Code now also warns at startup on a Bash allow rule with a wildcard inside a variable's value, such as <code>Bash(PORT=* npm run dev)</code> (v2.1.323).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.80 <span class="changelog-date">· 2026-11-12</span></h3>
         <p><strong>Codex CLI rust-v0.167.2 update (CBP-762).</strong></p>
         <ul>
