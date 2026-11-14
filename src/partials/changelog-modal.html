@@ -6,6 +6,15 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.83 <span class="changelog-date">· 2026-11-14</span></h3>
+        <p><strong>Claude Code v2.1.325 updates (CBP-771 to CBP-773).</strong></p>
+        <ul>
+          <li><strong>CBP-771 — [Claude] <code>sandbox.autoAllowBashIfSandboxed</code> setting.</strong> Updated the Subprocess Sandboxing collapsible: sandboxed Bash commands now follow the normal permission flow by default instead of running without prompts; set <code>sandbox.autoAllowBashIfSandboxed: true</code> to keep the previous no-prompt behavior, including in managed settings that turn the sandbox on (v2.1.325).</li>
+          <li><strong>CBP-772 — [Claude] Unattended skills need explicit permission.</strong> Added a callout to the <code>/loop</code> collapsible and a note to the <code>/schedule</code> cheat-sheet row: scheduled tasks and <code>/loop</code> now ask before running a skill that declares <code>allowed-tools</code> or hooks; add <code>Skill(name)</code> to <code>permissions.allow</code> to run it unattended (v2.1.325).</li>
+          <li><strong>CBP-773 — [Claude] MCP task awaiting-input hint.</strong> Updated the <code>/tasks</code> cheat-sheet row: Claude is now told when an MCP task is waiting on your answer and can point you to <code>/tasks</code> to answer it (v2.1.325).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.82 <span class="changelog-date">· 2026-11-13</span></h3>
         <p><strong>Codex CLI rust-v0.168.0 + rust-v0.169.0 updates (CBP-766 to CBP-770).</strong></p>
         <ul>
