@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.84 — 2026-11-17
+
+**Claude Code v2.1.326 updates (CBP-774 to CBP-777)**
+
+- **CBP-774 — [Claude] Code Mode + agent teams.** Updated the Code Mode collapsible: Code Mode can now be turned on while agent teams are enabled, and sessions with teams on start in Code Mode automatically if you'd already turned it on (v2.1.326).
+- **CBP-775 — [Claude] `/status` provider/env var feature-off row.** Updated the `/status` cheat-sheet row: a new row shows when your provider or an environment variable such as `DISABLE_TELEMETRY` has turned a feature off (v2.1.326).
+- **CBP-776 — [Claude] `Ctrl+O` hidden startup notices.** Updated the `Ctrl+O` keyboard shortcut row: as of v2.1.326, `Ctrl+O` also shows hidden startup notices.
+- **CBP-777 — [Claude] `plugin.json` malformed-field warning.** Added a bullet to the Plugins collapsible's `plugin.json` warnings list: `/plugin` and `claude plugin list` now note when a malformed field such as `author` or `homepage` is ignored (v2.1.326).
+
 ### v4.1.83 — 2026-11-14
 
 **Claude Code v2.1.325 updates (CBP-771 to CBP-773)**

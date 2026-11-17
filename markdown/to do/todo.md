@@ -802,3 +802,8 @@
 - [x] `CBP-771` [Claude] Add `sandbox.autoAllowBashIfSandboxed` setting — sandboxed Bash now asks permission by default (v2.1.325) → [task-cbp-771.md](task-cbp-771.md)
 - [x] `CBP-772` [Claude] Scheduled tasks and `/loop` now ask before running a skill with `allowed-tools` or hooks (v2.1.325) → [task-cbp-772.md](task-cbp-772.md)
 - [x] `CBP-773` [Claude] Claude now says when an MCP task is waiting on your answer, pointing to `/tasks` (v2.1.325) → [task-cbp-773.md](task-cbp-773.md)
+
+- [x] `CBP-774` [Claude] Code Mode now works with agent teams enabled (v2.1.326) → [task-cbp-774.md](task-cbp-774.md)
+- [x] `CBP-775` [Claude] Update `/status` row — new row for provider/env var disabled features (v2.1.326) → [task-cbp-775.md](task-cbp-775.md)
+- [x] `CBP-776` [Claude] `Ctrl+O` now also shows hidden startup notices (v2.1.326) → [task-cbp-776.md](task-cbp-776.md)
+- [x] `CBP-777` [Claude] Add `plugin.json` malformed-field warning note (v2.1.326) → [task-cbp-777.md](task-cbp-777.md)
