@@ -1,5 +1,17 @@
 ## Changes in This Version
 
+### v4.1.85 — 2026-11-18
+
+**Claude Code v2.1.327 + Codex CLI rust-v0.170.0 updates (CBP-778 to CBP-784)**
+
+- **CBP-778 — [Claude] `/status` diagnostics list.** Updated the `/status` cheat-sheet row: it now also lists broken agent, skill, command, and output style files, keybinding errors, an unavailable sandbox, ignored permission settings, and hook matchers that never match (v2.1.327).
+- **CBP-779 — [Claude] `/tui classic` alias.** Updated the `/tui` cheat-sheet row: the non-fullscreen renderer can now also be named explicitly with `/tui classic`; `/tui default` still works too (v2.1.327).
+- **CBP-780 — [Claude] `/install-github-app` confirmation.** Updated the `/install-github-app` cheat-sheet row: it now asks for confirmation before changing a repository (v2.1.327).
+- **CBP-781 — [Claude] `claude mcp add-json <name> -`.** Updated the `/mcp` cheat-sheet row: a new stdin form reads a server's JSON config without putting tokens on the command line; not available inside a running session (v2.1.327).
+- **CBP-782 — [Claude] `ExitWorktree` confirmation.** Updated the worktree lifecycle paragraph: `ExitWorktree` now asks before removing a worktree that may hold unsaved work, refused outright in don't-ask mode or with nobody to answer (v2.1.327).
+- **CBP-783 — [Codex] WebRTC voice calls.** Updated the Voice Conversations collapsible: voice calls now negotiate over WebRTC in the TUI for lower-latency realtime audio (rust-v0.170.0).
+- **CBP-784 — [Codex] Identically named MCP servers.** Added a note to the MCP section: Codex experimentally keeps same-named MCP server entries from different environments separate instead of one silently overriding the other (rust-v0.170.0).
+
 ### v4.1.84 — 2026-11-17
 
 **Claude Code v2.1.326 updates (CBP-774 to CBP-777)**
