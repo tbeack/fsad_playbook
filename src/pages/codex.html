@@ -366,6 +366,8 @@ orders, and payments.
 
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Pre-registered OAuth client secrets (rust-v0.158.0):</strong> Use <code>codex mcp add --oauth-client-secret &lt;value&gt;</code> to register MCP servers that require a pre-registered OAuth client secret. Codex stores the secret alongside the server entry. This supports servers that issue a client ID and secret at registration rather than using a standard public OAuth flow.</p>
 
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Identically named MCP servers across environments (rust-v0.170.0, experimental):</strong> Codex now keeps same-named MCP server entries separate when they come from different environments (e.g. a project config and a managed config), instead of one silently overriding the other.</p>
+
     <div class="step-card">
       <span class="step-number">1</span>
       <h3>Add an MCP Server</h3>
@@ -1222,6 +1224,7 @@ codex --worktree
         <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--text-secondary);">Press <kbd>F8</kbd> from any session to toggle voice without opening a new session.</p>
         <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);">As of rust-v0.161.0, you can also choose your microphone, speaker, and microphone input channels for voice conversations. Preferences are saved locally.</p>
         <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);">As of rust-v0.168.0, you can attach audio recordings when using an audio-capable model. Codex skips recordings you have already rejected and uses clip duration to keep more short recordings in context.</p>
+        <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);">As of rust-v0.170.0, voice calls negotiate over WebRTC in the TUI, instead of the previous transport, for lower-latency realtime audio.</p>
       </div></div>
     </div>
 

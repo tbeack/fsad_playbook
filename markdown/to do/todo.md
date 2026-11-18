@@ -807,3 +807,12 @@
 - [x] `CBP-775` [Claude] Update `/status` row — new row for provider/env var disabled features (v2.1.326) → [task-cbp-775.md](task-cbp-775.md)
 - [x] `CBP-776` [Claude] `Ctrl+O` now also shows hidden startup notices (v2.1.326) → [task-cbp-776.md](task-cbp-776.md)
 - [x] `CBP-777` [Claude] Add `plugin.json` malformed-field warning note (v2.1.326) → [task-cbp-777.md](task-cbp-777.md)
+
+- [x] `CBP-778` [Claude] Update `/status` row — new diagnostics list (v2.1.327) → [task-cbp-778.md](task-cbp-778.md)
+- [x] `CBP-779` [Claude] Update `/tui` row — `/tui classic` alias (v2.1.327) → [task-cbp-779.md](task-cbp-779.md)
+- [x] `CBP-780` [Claude] Update `/install-github-app` row — confirmation before repo change (v2.1.327) → [task-cbp-780.md](task-cbp-780.md)
+- [x] `CBP-781` [Claude] Add `claude mcp add-json <name> -` stdin note (v2.1.327) → [task-cbp-781.md](task-cbp-781.md)
+- [x] `CBP-782` [Claude] Update worktree paragraph — `ExitWorktree` confirms before removal (v2.1.327) → [task-cbp-782.md](task-cbp-782.md)
+
+- [x] `CBP-783` [Codex] Add WebRTC voice call note to Voice Conversations (rust-v0.170.0) → [task-cbp-783.md](task-cbp-783.md)
+- [x] `CBP-784` [Codex] Add identically-named MCP servers note (rust-v0.170.0, experimental) → [task-cbp-784.md](task-cbp-784.md)

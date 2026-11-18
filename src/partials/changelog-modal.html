@@ -6,6 +6,19 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.85 <span class="changelog-date">· 2026-11-18</span></h3>
+        <p><strong>Claude Code v2.1.327 + Codex CLI rust-v0.170.0 updates (CBP-778 to CBP-784).</strong></p>
+        <ul>
+          <li><strong>CBP-778 — [Claude] <code>/status</code> diagnostics list.</strong> Updated the <code>/status</code> cheat-sheet row: it now also lists broken agent, skill, command, and output style files, keybinding errors, an unavailable sandbox, ignored permission settings, and hook matchers that never match (v2.1.327).</li>
+          <li><strong>CBP-779 — [Claude] <code>/tui classic</code> alias.</strong> Updated the <code>/tui</code> cheat-sheet row: the non-fullscreen renderer can now also be named explicitly with <code>/tui classic</code>; <code>/tui default</code> still works too (v2.1.327).</li>
+          <li><strong>CBP-780 — [Claude] <code>/install-github-app</code> confirmation.</strong> Updated the <code>/install-github-app</code> cheat-sheet row: it now asks for confirmation before changing a repository (v2.1.327).</li>
+          <li><strong>CBP-781 — [Claude] <code>claude mcp add-json &lt;name&gt; -</code>.</strong> Updated the <code>/mcp</code> cheat-sheet row: a new stdin form reads a server's JSON config without putting tokens on the command line; not available inside a running session (v2.1.327).</li>
+          <li><strong>CBP-782 — [Claude] <code>ExitWorktree</code> confirmation.</strong> Updated the worktree lifecycle paragraph: <code>ExitWorktree</code> now asks before removing a worktree that may hold unsaved work, refused outright in don't-ask mode or with nobody to answer (v2.1.327).</li>
+          <li><strong>CBP-783 — [Codex] WebRTC voice calls.</strong> Updated the Voice Conversations collapsible: voice calls now negotiate over WebRTC in the TUI for lower-latency realtime audio (rust-v0.170.0).</li>
+          <li><strong>CBP-784 — [Codex] Identically named MCP servers.</strong> Added a note to the MCP section: Codex experimentally keeps same-named MCP server entries from different environments separate instead of one silently overriding the other (rust-v0.170.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.84 <span class="changelog-date">· 2026-11-17</span></h3>
         <p><strong>Claude Code v2.1.326 updates (CBP-774 to CBP-777).</strong></p>
         <ul>
