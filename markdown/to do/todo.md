@@ -816,3 +816,8 @@
 
 - [x] `CBP-783` [Codex] Add WebRTC voice call note to Voice Conversations (rust-v0.170.0) → [task-cbp-783.md](task-cbp-783.md)
 - [x] `CBP-784` [Codex] Add identically-named MCP servers note (rust-v0.170.0, experimental) → [task-cbp-784.md](task-cbp-784.md)
+
+- [x] `CBP-785` [Claude] Update auto-mode callout — Opus 4.6/Sonnet 4.6 on Bedrock/Agent Platform/Foundry/gateway (v2.1.328) → [task-cbp-785.md](task-cbp-785.md)
+- [x] `CBP-786` [Claude] Update `/code-review` row — scope narrowed to bugs/CLAUDE.md, severity labels, suggested fix (v2.1.328) → [task-cbp-786.md](task-cbp-786.md)
+- [x] `CBP-787` [Claude] Add `mcp_tool` hooks `onFailure: "block"` support (v2.1.328) → [task-cbp-787.md](task-cbp-787.md)
+- [x] `CBP-788` [Claude] `/list-agents` now private to you; Claude lists sessions itself (v2.1.328) → [task-cbp-788.md](task-cbp-788.md)
