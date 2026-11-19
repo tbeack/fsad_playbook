@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.86 — 2026-11-19
+
+**Claude Code v2.1.328 updates (CBP-785 to CBP-788)**
+
+- **CBP-785 — [Claude] Auto mode for Opus 4.6/Sonnet 4.6 on more platforms.** Updated the "Auto Mode Is Now the Default Starting Mode" callout: auto mode is now available for Claude Opus 4.6 and Sonnet 4.6 on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and the Claude apps gateway; interactive sessions with no permission mode configured start in it there too (v2.1.328).
+- **CBP-786 — [Claude] `/code-review` scope + severity labels.** Updated the `/code-review` cheat-sheet row: on most models it now reports only bugs and CLAUDE.md violations — reuse, simplification, and efficiency cleanups are exclusive to `/simplify` — and marks each finding `Important`, `Pre-existing`, or `Nit`, ending every summary with a suggested fix; a clean review's list now reads "Code review found no issues." (v2.1.328).
+- **CBP-787 — [Claude] `mcp_tool` hooks support `onFailure: "block"`.** Updated the hooks reference's `onFailure: "block"` note: `mcp_tool` hooks now fail closed too, matching `command` and `http` hooks (v2.1.328).
+- **CBP-788 — [Claude] `/list-agents` is private.** Updated the cross-session messaging paragraph: `/list-agents` now shows its list to you alone — Claude lists reachable sessions itself via `ListAgents` when it needs to (v2.1.328).
+
 ### v4.1.85 — 2026-11-18
 
 **Claude Code v2.1.327 + Codex CLI rust-v0.170.0 updates (CBP-778 to CBP-784)**

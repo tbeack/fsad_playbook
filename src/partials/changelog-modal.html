@@ -6,6 +6,16 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.86 <span class="changelog-date">· 2026-11-19</span></h3>
+        <p><strong>Claude Code v2.1.328 updates (CBP-785 to CBP-788).</strong></p>
+        <ul>
+          <li><strong>CBP-785 — [Claude] Auto mode for Opus 4.6/Sonnet 4.6 on more platforms.</strong> Updated the "Auto Mode Is Now the Default Starting Mode" callout: auto mode is now available for Claude Opus 4.6 and Sonnet 4.6 on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and the Claude apps gateway; interactive sessions with no permission mode configured start in it there too (v2.1.328).</li>
+          <li><strong>CBP-786 — [Claude] <code>/code-review</code> scope + severity labels.</strong> Updated the <code>/code-review</code> cheat-sheet row: on most models it now reports only bugs and CLAUDE.md violations — reuse, simplification, and efficiency cleanups are exclusive to <code>/simplify</code> — and marks each finding <code>Important</code>, <code>Pre-existing</code>, or <code>Nit</code>, ending every summary with a suggested fix; a clean review's list now reads "Code review found no issues." (v2.1.328).</li>
+          <li><strong>CBP-787 — [Claude] <code>mcp_tool</code> hooks support <code>onFailure: "block"</code>.</strong> Updated the hooks reference's <code>onFailure: "block"</code> note: <code>mcp_tool</code> hooks now fail closed too, matching <code>command</code> and <code>http</code> hooks (v2.1.328).</li>
+          <li><strong>CBP-788 — [Claude] <code>/list-agents</code> is private.</strong> Updated the cross-session messaging paragraph: <code>/list-agents</code> now shows its list to you alone — Claude lists reachable sessions itself via <code>ListAgents</code> when it needs to (v2.1.328).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.85 <span class="changelog-date">· 2026-11-18</span></h3>
         <p><strong>Claude Code v2.1.327 + Codex CLI rust-v0.170.0 updates (CBP-778 to CBP-784).</strong></p>
         <ul>
