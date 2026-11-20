@@ -6,6 +6,21 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.87 <span class="changelog-date">· 2026-11-20</span></h3>
+        <p><strong>Claude Code v2.1.329 + Codex CLI rust-v0.171.0 updates (CBP-789 to CBP-797).</strong></p>
+        <ul>
+          <li><strong>CBP-789 — [Claude] Scheduled tasks exit/resume lifecycle.</strong> Updated the <code>/schedule</code> cheat-sheet row: "Exit and stop tasks" now ends the session's scheduled tasks so they don't run again on resume, unless you exit while Claude is still responding; most scheduled tasks saved by earlier versions need to be scheduled again in a new signed-in session, though <code>--resume</code> of their own session still runs them (v2.1.329).</li>
+          <li><strong>CBP-790 — [Claude] <code>/tasks</code> now lists scheduled tasks, <code>/loop</code> wakeups, goal, and forks.</strong> Updated the <code>/tasks</code> cheat-sheet row: it also lists this session's scheduled tasks, <code>/loop</code> wakeups, the active <code>/goal</code>, and this conversation's forks; pressing <code>x</code> on one stops it after asking (v2.1.329).</li>
+          <li><strong>CBP-791 — [Claude] <code>/code-review</code> default scope widened.</strong> Updated the <code>/code-review</code> cheat-sheet row: with no target, on most models it now reviews the whole branch against the default branch instead of just the current diff, and no longer loses the diff on multi-commit branches (v2.1.329).</li>
+          <li><strong>CBP-792 — [Claude] Auto mode <code>git status</code> frequency.</strong> Updated the "Auto Mode Is Now the Default Starting Mode" callout: auto mode now runs <code>git status</code> less often so most requests wait less in large repositories; a git command that would discard changes may still be blocked until the working tree is checked (v2.1.329).</li>
+          <li><strong>CBP-793 — [Claude] Code Mode + OpenTelemetry.</strong> Updated the Code Mode collapsible: Code Mode can now be turned on while OpenTelemetry events and metrics are enabled — each tool call the code makes sends its events; tracing still keeps Code Mode off (v2.1.329).</li>
+          <li><strong>CBP-794 — [Codex] GPT-6.2 Sol and Astra models.</strong> Updated the OpenAI provider row: GPT-6.2 Sol and GPT-6.2 Astra were added to the bundled model catalog, with GPT-6.2 Sol as the new default model (rust-v0.171.0).</li>
+          <li><strong>CBP-795 — [Codex] Terminal workspace stable and on by default.</strong> Updated the Terminal Workspace section: the workspace is now stable and enabled by default, with no config needed, and adds searchable document previews, image previews, and subagent transcripts alongside the main conversation (rust-v0.171.0).</li>
+          <li><strong>CBP-796 — [Codex] Non-Vim composer undo/redo.</strong> Added a keyboard shortcuts table row: undo and redo now work in the non-Vim prompt composer too, including restoring attachments and large pastes, with shortcuts configurable via <code>/keymap</code> (rust-v0.171.0).</li>
+          <li><strong>CBP-797 — [Codex] <code>/rc</code>/<code>/remote</code> and <code>codex exec --remote</code>.</strong> Updated the <code>codex remote-control</code> cheat-sheet row: <code>/rc</code> and <code>/remote</code> manage local remote control and show device pairing codes from inside the TUI, and <code>codex exec --remote &lt;ADDR&gt;</code> starts or resumes a noninteractive session on an existing app server (rust-v0.171.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.86 <span class="changelog-date">· 2026-11-19</span></h3>
         <p><strong>Claude Code v2.1.328 updates (CBP-785 to CBP-788).</strong></p>
         <ul>

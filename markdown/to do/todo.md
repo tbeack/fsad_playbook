@@ -821,3 +821,14 @@
 - [x] `CBP-786` [Claude] Update `/code-review` row — scope narrowed to bugs/CLAUDE.md, severity labels, suggested fix (v2.1.328) → [task-cbp-786.md](task-cbp-786.md)
 - [x] `CBP-787` [Claude] Add `mcp_tool` hooks `onFailure: "block"` support (v2.1.328) → [task-cbp-787.md](task-cbp-787.md)
 - [x] `CBP-788` [Claude] `/list-agents` now private to you; Claude lists sessions itself (v2.1.328) → [task-cbp-788.md](task-cbp-788.md)
+
+- [x] `CBP-789` [Claude] Update `/schedule` row — "Exit and stop tasks" ends scheduled tasks, rescheduling-on-sign-in note (v2.1.329) → [task-cbp-789.md](task-cbp-789.md)
+- [x] `CBP-790` [Claude] Update `/tasks` row — scheduled tasks, `/loop` wakeups, goal, and forks now listed; `x` stops one after asking (v2.1.329) → [task-cbp-790.md](task-cbp-790.md)
+- [x] `CBP-791` [Claude] Update `/code-review` row — default scope now whole branch vs. default branch (v2.1.329) → [task-cbp-791.md](task-cbp-791.md)
+- [x] `CBP-792` [Claude] Update Auto Mode callout — `git status` runs less often, blocked until working tree is checked (v2.1.329) → [task-cbp-792.md](task-cbp-792.md)
+- [x] `CBP-793` [Claude] Add Code Mode + OpenTelemetry note to Power Usage collapsible (v2.1.329) → [task-cbp-793.md](task-cbp-793.md)
+
+- [x] `CBP-794` [Codex] Add GPT-6.2 Sol and Astra to bundled model catalog (rust-v0.171.0) → [task-cbp-794.md](task-cbp-794.md)
+- [x] `CBP-795` [Codex] Terminal workspace now stable and on by default, with doc/image previews + subagent transcripts (rust-v0.171.0) → [task-cbp-795.md](task-cbp-795.md)
+- [x] `CBP-796` [Codex] Add non-Vim composer undo/redo keyboard shortcut (rust-v0.171.0) → [task-cbp-796.md](task-cbp-796.md)
+- [x] `CBP-797` [Codex] Add `/rc`/`/remote` TUI commands and `codex exec --remote` (rust-v0.171.0) → [task-cbp-797.md](task-cbp-797.md)
