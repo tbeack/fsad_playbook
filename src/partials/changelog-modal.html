@@ -6,6 +6,18 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.88 <span class="changelog-date">· 2026-11-21</span></h3>
+        <p><strong>Claude Code v2.1.330 updates (CBP-798 to CBP-803).</strong></p>
+        <ul>
+          <li><strong>CBP-798 — [Claude] <code>easel</code> built-in chart mod.</strong> Added a Built-in Mods table row: <code>easel</code> draws charts when asked, and under MCP metrics results, on Pro, Max, and — where available — Team and Enterprise, on macOS and Linux; turn off automatic charts in <code>/config</code> (v2.1.330).</li>
+          <li><strong>CBP-799 — [Claude] Scheduled tasks and <code>/loop</code> run up to 30 days.</strong> Updated the <code>/schedule</code> cheat-sheet row and added a Loop callout: recurring scheduled tasks and <code>/loop</code> now run for up to 30 days while their session keeps running instead of 7, and say when they end; tasks made before this release still end at 7 days (v2.1.330).</li>
+          <li><strong>CBP-800 — [Claude] Wider dangerous-<code>rm</code> coverage.</strong> Updated the Subprocess Sandboxing paragraph: more <code>rm</code> commands aimed at the root, home, a top-level folder, or the working folder now ask for approval; where nobody can answer, they're refused (v2.1.330).</li>
+          <li><strong>CBP-801 — [Claude] Subagent fallback model carries to forks.</strong> Updated the <code>fallbackModel</code> bullet: an agent with no <code>model:</code> override, and any fork it then starts, now run on the fallback model too, using its Bedrock region (v2.1.330).</li>
+          <li><strong>CBP-802 — [Claude] Skill <code>model</code> override scope narrowed.</strong> Updated the skill frontmatter reference's <code>model</code> row: for skills other than <code>context: fork</code> skills, the override no longer changes the model subagents, forks, compaction, or <code>/recap</code> run on — those stay on the session's own model (v2.1.330).</li>
+          <li><strong>CBP-803 — [Claude] Shorter sign-in link.</strong> Updated the <code>/login</code> cheat-sheet row: the sign-in link shown by <code>/login</code>, <code>claude auth login</code>, and <code>claude setup-token</code> is now much shorter; set <code>CLAUDE_CODE_FULL_SIGN_IN_LINK=1</code> to print the full link instead (v2.1.330).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.87 <span class="changelog-date">· 2026-11-20</span></h3>
         <p><strong>Claude Code v2.1.329 + Codex CLI rust-v0.171.0 updates (CBP-789 to CBP-797).</strong></p>
         <ul>

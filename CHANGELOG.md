@@ -1,5 +1,16 @@
 ## Changes in This Version
 
+### v4.1.88 — 2026-11-21
+
+**Claude Code v2.1.330 updates (CBP-798 to CBP-803)**
+
+- **CBP-798 — [Claude] `easel` built-in chart mod.** Added a Built-in Mods table row: `easel` draws charts when asked, and under MCP metrics results, on Pro, Max, and — where available — Team and Enterprise, on macOS and Linux; turn off automatic charts in `/config` (v2.1.330).
+- **CBP-799 — [Claude] Scheduled tasks and `/loop` run up to 30 days.** Updated the `/schedule` cheat-sheet row and added a Loop callout: recurring scheduled tasks and `/loop` now run for up to 30 days while their session keeps running instead of 7, and say when they end; tasks made before this release still end at 7 days (v2.1.330).
+- **CBP-800 — [Claude] Wider dangerous-`rm` coverage.** Updated the Subprocess Sandboxing paragraph: more `rm` commands aimed at the root, home, a top-level folder, or the working folder now ask for approval; where nobody can answer, they're refused (v2.1.330).
+- **CBP-801 — [Claude] Subagent fallback model carries to forks.** Updated the `fallbackModel` bullet: an agent with no `model:` override, and any fork it then starts, now run on the fallback model too, using its Bedrock region (v2.1.330).
+- **CBP-802 — [Claude] Skill `model` override scope narrowed.** Updated the skill frontmatter reference's `model` row: for skills other than `context: fork` skills, the override no longer changes the model subagents, forks, compaction, or `/recap` run on — those stay on the session's own model (v2.1.330).
+- **CBP-803 — [Claude] Shorter sign-in link.** Updated the `/login` cheat-sheet row: the sign-in link shown by `/login`, `claude auth login`, and `claude setup-token` is now much shorter; set `CLAUDE_CODE_FULL_SIGN_IN_LINK=1` to print the full link instead (v2.1.330).
+
 ### v4.1.87 — 2026-11-20
 
 **Claude Code v2.1.329 + Codex CLI rust-v0.171.0 updates (CBP-789 to CBP-797)**
