@@ -6,6 +6,22 @@
     </header>
     <div class="changelog-body">
       <section>
+        <h3>v4.1.89 <span class="changelog-date">· 2026-11-24</span></h3>
+        <p><strong>Claude Code v2.1.331 + Codex CLI rust-v0.172.0 updates (CBP-804 to CBP-813).</strong></p>
+        <ul>
+          <li><strong>CBP-804 — [Claude] Code Mode on more platforms + richer tool search.</strong> Updated the Code Mode collapsible: Code Mode now also works in terminal sessions on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and the Claude Platform on AWS, and its tool search shows more of each MCP tool's description, including limits, formats, and defaults (v2.1.331).</li>
+          <li><strong>CBP-805 — [Claude] <code>/doctor</code> API connectivity section.</strong> Updated the <code>/doctor</code> cheat-sheet row: it now also reports whether the API can be reached — the HTTP status or error, or why it wasn't tested (v2.1.331).</li>
+          <li><strong>CBP-806 — [Claude] Plugin <code>optionalDependencies</code>.</strong> Updated the Dependency enforcement bullet: a plugin manifest can now also list <code>optionalDependencies</code> — plugins that install alongside it but can be disabled or uninstalled on their own (v2.1.331).</li>
+          <li><strong>CBP-807 — [Claude] Shorter Console sign-in link.</strong> Updated the <code>/login</code> cheat-sheet row: the Console sign-in link shown by <code>/login</code> and <code>claude auth login --console</code> is now also much shorter (v2.1.331).</li>
+          <li><strong>CBP-808 — [Claude] Managed marketplaces auto-update by default.</strong> Added a Plugins bullet: starting November 30, 2026, plugin marketplaces registered via managed <code>extraKnownMarketplaces</code> auto-update by default; set <code>"autoUpdate": false</code> on an entry to opt it out (v2.1.331).</li>
+          <li><strong>CBP-809 — [Codex] Tab-completes slash command arguments.</strong> Added a keyboard shortcuts table row: <kbd>Tab</kbd> now completes arguments for supported slash commands, e.g. <code>/mcp lo</code> &rarr; <code>/mcp login</code> (rust-v0.172.0).</li>
+          <li><strong>CBP-810 — [Codex] Command center task-group navigation.</strong> Updated the Interactive dashboard paragraph: <kbd>Shift+Up</kbd> / <kbd>Shift+Down</kbd> jump between task groups in the agent command center (rust-v0.172.0).</li>
+          <li><strong>CBP-811 — [Codex] Lazy startup for optional stdio MCP servers.</strong> Added an MCP section note: an optional stdio MCP server with a cached tool list now starts on its first tool call by default instead of at session start (rust-v0.172.0).</li>
+          <li><strong>CBP-812 — [Codex] Per-tool approval reviewers.</strong> Updated the Permission Profiles paragraph: you can now set a dedicated approval reviewer for individual connected app tools in <code>config.toml</code>, independent of the profile's overall approval mode (rust-v0.172.0).</li>
+          <li><strong>CBP-813 — [Codex] <code>codex exec resume</code> restores sandbox + workspace.</strong> Updated the CI/CD Integration section: resuming headlessly now restores the saved sandbox permissions, working directory, and workspace roots from the original session unless explicitly overridden (rust-v0.172.0).</li>
+        </ul>
+      </section>
+      <section>
         <h3>v4.1.88 <span class="changelog-date">· 2026-11-21</span></h3>
         <p><strong>Claude Code v2.1.330 updates (CBP-798 to CBP-803).</strong></p>
         <ul>

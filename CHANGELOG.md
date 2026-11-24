@@ -1,5 +1,20 @@
 ## Changes in This Version
 
+### v4.1.89 — 2026-11-24
+
+**Claude Code v2.1.331 + Codex CLI rust-v0.172.0 updates (CBP-804 to CBP-813)**
+
+- **CBP-804 — [Claude] Code Mode on more platforms + richer tool search.** Updated the Code Mode collapsible: Code Mode now also works in terminal sessions on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and the Claude Platform on AWS, and its tool search shows more of each MCP tool's description, including limits, formats, and defaults (v2.1.331).
+- **CBP-805 — [Claude] `/doctor` API connectivity section.** Updated the `/doctor` cheat-sheet row: it now also reports whether the API can be reached — the HTTP status or error, or why it wasn't tested (v2.1.331).
+- **CBP-806 — [Claude] Plugin `optionalDependencies`.** Updated the Dependency enforcement bullet: a plugin manifest can now also list `optionalDependencies` — plugins that install alongside it but can be disabled or uninstalled on their own (v2.1.331).
+- **CBP-807 — [Claude] Shorter Console sign-in link.** Updated the `/login` cheat-sheet row: the Console sign-in link shown by `/login` and `claude auth login --console` is now also much shorter (v2.1.331).
+- **CBP-808 — [Claude] Managed marketplaces auto-update by default.** Added a Plugins bullet: starting November 30, 2026, plugin marketplaces registered via managed `extraKnownMarketplaces` auto-update by default; set `"autoUpdate": false` on an entry to opt it out (v2.1.331).
+- **CBP-809 — [Codex] Tab-completes slash command arguments.** Added a keyboard shortcuts table row: `Tab` now completes arguments for supported slash commands, e.g. `/mcp lo` → `/mcp login` (rust-v0.172.0).
+- **CBP-810 — [Codex] Command center task-group navigation.** Updated the Interactive dashboard paragraph: `Shift+Up` / `Shift+Down` jump between task groups in the agent command center (rust-v0.172.0).
+- **CBP-811 — [Codex] Lazy startup for optional stdio MCP servers.** Added an MCP section note: an optional stdio MCP server with a cached tool list now starts on its first tool call by default instead of at session start (rust-v0.172.0).
+- **CBP-812 — [Codex] Per-tool approval reviewers.** Updated the Permission Profiles paragraph: you can now set a dedicated approval reviewer for individual connected app tools in `config.toml`, independent of the profile's overall approval mode (rust-v0.172.0).
+- **CBP-813 — [Codex] `codex exec resume` restores sandbox + workspace.** Updated the CI/CD Integration section: resuming headlessly now restores the saved sandbox permissions, working directory, and workspace roots from the original session unless explicitly overridden (rust-v0.172.0).
+
 ### v4.1.88 — 2026-11-21
 
 **Claude Code v2.1.330 updates (CBP-798 to CBP-803)**

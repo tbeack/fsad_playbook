@@ -368,6 +368,8 @@ orders, and payments.
 
     <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Identically named MCP servers across environments (rust-v0.170.0, experimental):</strong> Codex now keeps same-named MCP server entries separate when they come from different environments (e.g. a project config and a managed config), instead of one silently overriding the other.</p>
 
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;"><strong>Lazy startup for optional stdio servers (rust-v0.172.0):</strong> an optional stdio MCP server with a cached tool list now starts on its first tool call by default, rather than at session start — pairs with <code>startup_grace_sec</code> above for servers that are slow to start but rarely used.</p>
+
     <div class="step-card">
       <span class="step-number">1</span>
       <h3>Add an MCP Server</h3>
@@ -979,6 +981,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
           <tr><td><kbd>k</kbd></td><td>Keep a warning for later review in the warnings viewer — prevents the warning from being dismissed when the viewer closes (rust-v0.159.0)</td></tr>
           <tr><td>Image attach</td><td>Paste or drag a local image into the composer to preview it inline (supported terminals only); viewed image paths appear as clickable links in the transcript (rust-v0.167.0)</td></tr>
           <tr><td>Undo / Redo (composer)</td><td>Undo and redo changes in the non-Vim prompt composer, including restoring attachments and large pastes; shortcuts are configurable via <code>/keymap</code> (rust-v0.171.0)</td></tr>
+          <tr><td><kbd>Tab</kbd></td><td>Complete arguments for supported slash commands, e.g. <code>/mcp lo</code> &rarr; <code>/mcp login</code> (rust-v0.172.0)</td></tr>
         </tbody>
       </table>
     </div>
@@ -1164,7 +1167,7 @@ log_path = pathlib.Path.home() / <span class="str">".codex"</span> / <span class
 <span class="val">rollout_token_budget</span> = 100000     <span class="cm"># abort turn when budget exceeded</span>
 <span class="val">rollout_budget_reminder_threshold</span> = 0.8  <span class="cm"># warn at 80% consumed</span></code></pre>
         </div>
-        <p style="margin-top:1rem;"><strong>Interactive dashboard (rust-v0.149.0):</strong> Run <code>codex agents</code> to open an interactive dashboard for day-to-day management of running agent tasks — search, start, open, rename, and stop tasks, with configurable keyboard shortcuts. This is distinct from the <code>[agents]</code> config.toml settings above, which govern concurrency and per-role behavior rather than task management. As of rust-v0.155.0, tasks in the dashboard can also be hidden, archived, and deleted. As of rust-v0.167.0, run <code>codex agents --no-daemon</code> to open the command center without starting a background daemon; both the command center and the session picker now mark unread results so you can spot new activity at a glance. As of rust-v0.169.0, search older tasks by name, prompt preview, or working directory.</p>
+        <p style="margin-top:1rem;"><strong>Interactive dashboard (rust-v0.149.0):</strong> Run <code>codex agents</code> to open an interactive dashboard for day-to-day management of running agent tasks — search, start, open, rename, and stop tasks, with configurable keyboard shortcuts. This is distinct from the <code>[agents]</code> config.toml settings above, which govern concurrency and per-role behavior rather than task management. As of rust-v0.155.0, tasks in the dashboard can also be hidden, archived, and deleted. As of rust-v0.167.0, run <code>codex agents --no-daemon</code> to open the command center without starting a background daemon; both the command center and the session picker now mark unread results so you can spot new activity at a glance. As of rust-v0.169.0, search older tasks by name, prompt preview, or working directory. As of rust-v0.172.0, press <kbd>Shift+Up</kbd> / <kbd>Shift+Down</kbd> to jump between task groups in the command center.</p>
         <p style="margin-top:1rem;"><strong>Guardian review (opt-in, rust-v0.160.0):</strong> Enable Guardian to give Codex persistent review context across multi-agent sessions. When active, Codex retrieves your earlier instructions and includes context from agent handoffs, so sub-agents stay aligned with the original intent even after the conversation spans many turns or role transitions. Guardian is opt-in — enable it from session settings or via the config.</p>
       </div></div>
     </div>
@@ -1328,6 +1331,7 @@ codex queue &lt;session&gt; "message"
       <div class="collapsible-body"><div class="collapsible-content">
         <p>Use <code>codex exec</code> for headless execution in pipelines. Combine with <code>--json</code> for machine-readable output.</p>
         <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);"><strong>Untrusted directories (rust-v0.169.0):</strong> In directories Codex does not trust, <code>codex exec</code> and <code>codex review</code> keep project configuration and MCP servers disabled, even when you pass <code>--sandbox workspace-write</code>. Add <code>--trust</code> to explicitly save project trust for that directory before running.</p>
+        <p style="margin-top:0.5rem; font-size:0.88rem; color:var(--text-secondary);"><strong>Resume restores sandbox + workspace (rust-v0.172.0):</strong> <code>codex exec resume</code> now restores the saved sandbox permissions, working directory, and workspace roots from the original session, unless you explicitly override them.</p>
         <div class="code-block" style="margin-top:1rem;">
           <pre><code><span class="cm"># Headless execution — no TUI, streams to stderr</span>
 codex exec "fix all lint errors and run tests"
@@ -1420,7 +1424,7 @@ codex exec --approval-mode never <span class="str">"run all tests and report fai
         <span class="collapsible-chevron">&#9660;</span>
       </div>
       <div class="collapsible-body"><div class="collapsible-content">
-        <p>Permission profiles replace the old binary sandbox flags with named, reusable policies for filesystem and network access. Define them in <code>~/.codex/config.toml</code> and apply with <code>--approval-mode</code> or <code>default_permissions</code>. As of rust-v0.146.1, cyber-capable models get safer automatic-review defaults out of the box, and the terminal interface explains permission changes as they happen instead of applying them silently.</p>
+        <p>Permission profiles replace the old binary sandbox flags with named, reusable policies for filesystem and network access. Define them in <code>~/.codex/config.toml</code> and apply with <code>--approval-mode</code> or <code>default_permissions</code>. As of rust-v0.146.1, cyber-capable models get safer automatic-review defaults out of the box, and the terminal interface explains permission changes as they happen instead of applying them silently. As of rust-v0.172.0, you can also set a dedicated approval reviewer for individual connected app tools directly in <code>config.toml</code>, independent of the profile's overall approval mode.</p>
         <div class="table-wrap" style="margin-top:1rem;">
           <table class="styled-table">
             <thead><tr><th>Built-in Profile</th><th>Filesystem</th><th>Network</th></tr></thead>
