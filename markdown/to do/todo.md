@@ -838,3 +838,15 @@
 - [x] `CBP-801` [Claude] Update `fallbackModel` bullet — fallback now carries to forks and their Bedrock region (v2.1.330) → [task-cbp-801.md](task-cbp-801.md)
 - [x] `CBP-802` [Claude] Update skill `model` frontmatter row — no longer affects subagents/forks/compaction/`/recap` (v2.1.330) → [task-cbp-802.md](task-cbp-802.md)
 - [x] `CBP-803` [Claude] Update `/login` row — shorter sign-in link + `CLAUDE_CODE_FULL_SIGN_IN_LINK` (v2.1.330) → [task-cbp-803.md](task-cbp-803.md)
+
+- [x] `CBP-804` [Claude] Code Mode on more platforms + richer MCP tool search (v2.1.331) → [task-cbp-804.md](task-cbp-804.md)
+- [x] `CBP-805` [Claude] Update `/doctor` row — API connectivity section (v2.1.331) → [task-cbp-805.md](task-cbp-805.md)
+- [x] `CBP-806` [Claude] Add plugin `optionalDependencies` note (v2.1.331) → [task-cbp-806.md](task-cbp-806.md)
+- [x] `CBP-807` [Claude] Update `/login` row — shorter Console sign-in link (v2.1.331) → [task-cbp-807.md](task-cbp-807.md)
+- [x] `CBP-808` [Claude] Add managed marketplace auto-update default note, effective 2026-11-30 (v2.1.331) → [task-cbp-808.md](task-cbp-808.md)
+
+- [x] `CBP-809` [Codex] Add Tab-complete for slash command arguments (rust-v0.172.0) → [task-cbp-809.md](task-cbp-809.md)
+- [x] `CBP-810` [Codex] Command center task-group navigation — Shift+Up/Shift+Down (rust-v0.172.0) → [task-cbp-810.md](task-cbp-810.md)
+- [x] `CBP-811` [Codex] Lazy startup for optional stdio MCP servers (rust-v0.172.0) → [task-cbp-811.md](task-cbp-811.md)
+- [x] `CBP-812` [Codex] Per-tool approval reviewers for connected app tools (rust-v0.172.0) → [task-cbp-812.md](task-cbp-812.md)
+- [x] `CBP-813` [Codex] `codex exec resume` restores sandbox + workspace (rust-v0.172.0) → [task-cbp-813.md](task-cbp-813.md)
