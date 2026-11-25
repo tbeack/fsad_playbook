@@ -1,5 +1,14 @@
 ## Changes in This Version
 
+### v4.1.90 — 2026-11-25
+
+**Claude Code v2.1.332 updates (CBP-814 to CBP-817)**
+
+- **CBP-814 — [Claude] `PreSkillShellCommand` hook.** Added a Tool & permission hooks table row: this new hook fires before a skill or command's inline shell commands run as it loads and can refuse them; a settings file naming it on v2.1.331 and older opens a compatibility dialog at start (v2.1.332).
+- **CBP-815 — [Claude] Skills from MCP servers (beta).** Added a skills note: an MCP server can now expose skills directly, shown as `server:skill` in the `/` menu, the same namespacing pattern as plugin skills (v2.1.332).
+- **CBP-816 — [Claude] Code Mode worktree/artifact safety.** Updated the Code Mode collapsible: Code Mode now confirms before discarding worktree changes, reads an artifact's file before publishing it, and updates an existing artifact instead of creating a second one (v2.1.332).
+- **CBP-817 — [Claude] "Always deliver" for held cross-session messages.** Updated the cross-session `SendMessage` paragraph: the held-message approval dialog now offers "Always deliver" to stop asking for further messages from that sender (v2.1.332).
+
 ### v4.1.89 — 2026-11-24
 
 **Claude Code v2.1.331 + Codex CLI rust-v0.172.0 updates (CBP-804 to CBP-813)**
