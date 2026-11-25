@@ -850,3 +850,8 @@
 - [x] `CBP-811` [Codex] Lazy startup for optional stdio MCP servers (rust-v0.172.0) → [task-cbp-811.md](task-cbp-811.md)
 - [x] `CBP-812` [Codex] Per-tool approval reviewers for connected app tools (rust-v0.172.0) → [task-cbp-812.md](task-cbp-812.md)
 - [x] `CBP-813` [Codex] `codex exec resume` restores sandbox + workspace (rust-v0.172.0) → [task-cbp-813.md](task-cbp-813.md)
+
+- [x] `CBP-814` [Claude] Add `PreSkillShellCommand` hook event (v2.1.332) → [task-cbp-814.md](task-cbp-814.md)
+- [x] `CBP-815` [Claude] Add skills from MCP servers (beta) note — `server:skill` naming (v2.1.332) → [task-cbp-815.md](task-cbp-815.md)
+- [x] `CBP-816` [Claude] Update Code Mode collapsible — worktree/artifact safety (v2.1.332) → [task-cbp-816.md](task-cbp-816.md)
+- [x] `CBP-817` [Claude] Add "Always deliver" note for held cross-session messages (v2.1.332) → [task-cbp-817.md](task-cbp-817.md)
